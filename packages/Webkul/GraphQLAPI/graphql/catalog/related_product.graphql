@@ -1,0 +1,5 @@
+#Catalog\RelatedProduct Related API
+type RelatedProduct {
+    parentId: ID @rename(attribute: "parent_id")
+    childId: ID @rename(attribute: "child_id")
+}

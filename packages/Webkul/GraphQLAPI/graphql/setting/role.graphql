@@ -1,0 +1,39 @@
+# Setting\User\Role Related APIs
+extend type Query {
+    roles(input: FilterRoleInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterRole")): [Role!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\User\\Models\\Role")
+    role(id: ID @eq): Role! @find(model: "Webkul\\User\\Models\\Role")
+}
+
+extend type Mutation {
+    createRole(
+        input: CreateRoleInput!
+    ): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@store")
+    updateRole(
+        id: ID!,
+        input: CreateRoleInput!
+    ): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@update")
+    deleteRole(id: ID!): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@delete")
+}
+
+input CreateRoleInput {
+    name: String!
+    description: String
+    permissionType: String! @rename(attribute: "permission_type")
+    permissions: [String!]
+}
+
+input FilterRoleInput {
+    name: String
+    permissionType: String @rename(attribute: "permission_type")
+}
+
+type Role {
+    id: ID!
+    name: String!
+    description: String!
+    permissionType: String! @rename(attribute: "permission_type")
+    permissions: [String!]
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    success: String
+}

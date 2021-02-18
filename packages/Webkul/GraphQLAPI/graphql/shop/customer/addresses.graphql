@@ -1,0 +1,51 @@
+#Shop\Customer\Address Related APIs
+extend type Query {
+   addresses: [CustomerAddress] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@addresses")
+
+    address(id: ID @eq): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@address")
+}
+
+extend type Mutation {
+    createAddress(
+        input: CreateAddressInput!
+    ): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
+  
+    updateAddress(
+        id: ID!,
+        input: UpdateAddressInput!
+    ): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
+  
+    deleteAddress(id: ID!): DeleteAddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
+}
+
+input CreateAddressInput {
+    companyName: String @rename(attribute: "company_name")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    address1: String!
+    address2: String
+    country: String!
+    state: String!
+    city: String!
+    postcode: String!
+    phone: String!
+    vatId: String @rename(attribute: "vat_id")
+}
+
+input UpdateAddressInput {
+    companyName: String @rename(attribute: "company_name")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    address1: String!
+    address2: String
+    country: String!
+    state: String!
+    city: String!
+    postcode: String!
+    phone: String!
+    vatId: String @rename(attribute: "vat_id")
+}
+
+type DeleteAddressResponse {
+    success: String
+}

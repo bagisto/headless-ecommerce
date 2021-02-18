@@ -1,0 +1,96 @@
+# Sales\Refund Related APIs
+extend type Query {
+    refunds(input: FilterRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterRefund")): [Refund!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
+    refund(id: ID @eq): Refund! @find(model: "Webkul\\Sales\\Models\\Refund")
+
+    refundItems: [RefundItem!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\RefundItem")
+    refundItem(id: ID @eq): RefundItem! @find(model: "Webkul\\Sales\\Models\\RefundItem")
+}
+
+extend type Mutation {
+    createRefund(
+        input: CreateRefundInput!
+    ): Refund  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\RefundMutation@store")
+}
+
+input CreateRefundInput {
+    orderId: Int! @rename(attribute: "order_id")
+    refundShipping: Int! @rename(attribute: "refund_shipping")
+    adjustmentRefund: Int! @rename(attribute: "adjustment_refund")
+    adjustmentFee: Int! @rename(attribute: "adjustment_fee")
+    refundData: [RefundDataInput!] @rename(attribute: "refund_data")
+}
+
+input RefundDataInput {
+    orderItemId: Int! @rename(attribute: "order_item_id")
+    quantity: Int!
+}
+
+input FilterRefundInput {
+    id: Int
+    orderId: Int @rename(attribute: "order_id")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    refundDate: String @rename(attribute: "refund_date")
+    refunded: Float
+    billedTo: String @rename(attribute: "billed_to")
+}
+
+type Refund {
+    id: Int!
+    incrementId: String @rename(attribute: "increment_id")
+    state: String
+    emailSent: Int @rename(attribute: "email_sent")
+    totalQty: Int @rename(attribute: "total_qty")
+    baseCurrencyCode: String @rename(attribute: "base_currency_code")
+    channelCurrencyCode: String @rename(attribute: "channel_currency_code")
+    orderCurrencyCode: String @rename(attribute: "order_currency_code")
+    adjustmentRefund: Float @rename(attribute: "adjustment_refund")
+    baseAdjustmentRefund: Float @rename(attribute: "base_adjustment_refund")
+    adjustmentFee: Float @rename(attribute: "adjustment_fee")
+    baseAdjustmentFee: Float @rename(attribute: "base_adjustment_fee")
+    subTotal: Float @rename(attribute: "sub_total")
+    baseSubTotal: Float @rename(attribute: "base_sub_total")
+    grandTotal: Float @rename(attribute: "grand_total")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    shippingAmount: Float @rename(attribute: "shipping_amount")
+    baseShippingAmount: Float @rename(attribute: "base_shipping_amount")
+    taxAmount: Float @rename(attribute: "tax_amount")
+    baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    discountPercent: Float @rename(attribute: "discount_percent")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    orderId: Int @rename(attribute: "order_id")
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+    items: [RefundItem!]! @hasMany
+    order: Order! @belongsTo(relation: "order")
+    success: String
+}
+
+type RefundItem {
+    id: Int
+    name: String
+    description: String
+    sku: String
+    qty: Int
+    price: Float
+    basePrice: Float @rename(attribute: "base_price")
+    total: Float
+    baseTotal: Float @rename(attribute: "base_total")
+    taxAmount: Float @rename(attribute: "tax_amount")
+    baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    discountPercent: Float @rename(attribute: "discount_percent")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    productId: Int @rename(attribute: "product_id")
+    productType: String @rename(attribute: "product_type")
+    orderItemId: Int @rename(attribute: "order_item_id")
+    refundId: Int @rename(attribute: "refund_id")
+    parentId: Int @rename(attribute: "parent_id")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    refund: Refund! @belongsTo(relation: "refund")
+    orderItem: OrderItem! @belongsTo(relation: "order_item")
+    product: Product! @belongsTo(relation: "product")
+}

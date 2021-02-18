@@ -1,0 +1,42 @@
+# Shop\CartItem Related APIs
+extend type Query {
+    cartItems: [CartItem!]! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cartItems")
+
+    cartItem(id: ID @eq): CartItem! @find(model: "Webkul\\Checkout\\Models\\CartItem")
+}
+
+type CartItem {
+    id: ID!
+    quantity: Int!
+    sku: String
+    type: String
+    name: String
+    couponCode: String @rename(attribute: "coupon_code")
+    weight: Float!
+    totalWeight: Float! @rename(attribute: "total_weight")
+    baseTotalWeight:Float! @rename(attribute: "base_total_weight")
+    price: Float!
+    basePrice: Float! @rename(attribute: "base_price")
+    total: Float!
+    baseTotal: Float! @rename(attribute: "base_total")
+    taxPercent:Float @rename(attribute: "tax_percent")
+    taxAmount:Float @rename(attribute: "tax_amount")
+    baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    discountPercent: Float! @rename(attribute: "discount_percent")
+    discountAmount:Float! @rename(attribute: "discount_amount")
+    baseDiscountAmount:Float! @rename(attribute: "base_discount_amount")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    parentId: ID @rename(attribute: "parent_id")
+    productId: ID! @rename(attribute: "product_id")
+    cartId: ID! @rename(attribute: "cart_id")
+    taxCategoryId: ID @rename(attribute: "tax_category_id")
+    customPrice: Float @rename(attribute: "custom_price")
+    appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    product: Product! @hasOne
+    productFlat: ProductFlat @rename(attribute: "product_flat")
+    cart: Cart @hasOne
+    children: CartItem @hasMany
+    parent: CartItem @belongsTo(relation: "parent")
+}

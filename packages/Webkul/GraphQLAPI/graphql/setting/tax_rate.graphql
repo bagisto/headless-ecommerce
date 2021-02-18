@@ -1,0 +1,53 @@
+# Setting\TaxRate Related APIs
+extend type Query {
+    taxRates(input: FilterTaxRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTaxRate")): [TaxRate!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxRate")
+    taxRate(id: ID @eq): TaxRate! @find(model: "Webkul\\Tax\\Models\\TaxRate")
+}
+
+extend type Mutation {
+    createTaxRate(
+        input: createTaxRateInput!
+    ): TaxRate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\TaxRateMutation@store")
+    updateTaxRate(
+        id: ID!,
+        input: createTaxRateInput!
+    ): TaxRate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\TaxRateMutation@update")
+    deleteTaxRate(id: ID!): TaxRate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\TaxRateMutation@delete")
+}
+
+input createTaxRateInput {
+    identifier: String!
+    isZip: Int @rename(attribute: "is_zip")
+    zipCode: String @rename(attribute: "zip_code")
+    zipFrom: String @rename(attribute: "zip_from")
+    zipTo: String @rename(attribute: "zip_to")
+    state: String!
+    country: String!
+    taxRate: Float! @rename(attribute: "tax_rate")
+}
+
+input FilterTaxRateInput {
+    id: Int
+    identifier: String
+    isZip: Int @rename(attribute: "is_zip")
+    zipCode: String @rename(attribute: "zip_code")
+    zipFrom: String @rename(attribute: "zip_from")
+    zipTo: String @rename(attribute: "zip_to")
+    state: String
+    country: String
+    taxRate: Float @rename(attribute: "tax_rate")
+}
+
+type TaxRate {
+    id: ID!
+    identifier: String!
+    isZip: Int @rename(attribute: "is_zip")
+    zipCode: String @rename(attribute: "zip_code")
+    zipFrom: String @rename(attribute: "zip_from")
+    zipTo: String @rename(attribute: "zip_to")
+    state: String!
+    country: String!
+    taxRate: Float! @rename(attribute: "tax_rate")
+    taxCategories: [TaxCategory] @belongsToMany(relation: "tax_categories")
+    success: String
+}

@@ -1,0 +1,52 @@
+#Shop\Customer\CompareProduct Related APIs
+extend type Query {
+    compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
+
+    compareProduct(id: ID @eq): CustomerCompareProduct! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
+}
+
+extend type Mutation {
+    addToCompare(
+        input: AddToCompareInput!
+    ): AddToCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@store")
+  
+    removeFromCompareProduct(
+        input: AddToCompareInput!
+    ): RemoveCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@delete")
+  
+    removeAllCompareProducts: RemoveCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@deleteAll")
+}
+
+input AddToCompareInput {
+    productFlatId: ID! @rename(attribute: "product_flat_id")
+}
+
+type AddToCompareResponse {
+    success: String
+    compareProduct: CustomerCompareProduct
+}
+
+type RemoveCompareResponse {
+    status: Boolean
+    success: String
+}
+
+input FilterCompareProductsInput {
+    page: Int
+    limit: Int
+    id: Int
+    productFlatId: Int @rename(attribute: "product_flat_id")
+    productName: String @rename(attribute: "product_name")
+    price: Float
+}
+
+type CustomerCompareProduct {
+    id: ID!
+    productFlatId: ID! @rename(attribute: "product_flat_id")
+    customerId: ID! @rename(attribute: "customer_id")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+    product: Product! @belongsTo(relation: "product")
+    productFlat: ProductFlat! @belongsTo(relation: "product_flat")
+    customer: Customer! @belongsTo(relation: "customer")
+}

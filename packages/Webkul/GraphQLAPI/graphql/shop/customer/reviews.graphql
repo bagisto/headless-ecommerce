@@ -1,0 +1,37 @@
+#Shop\Customer\Reviews Related APIs
+extend type Query {
+    reviewsList(input: CustomerReviewInput): [Review!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
+
+    reviewDetail(id: ID @eq): Review! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
+}
+
+extend type Mutation {
+    createReview(
+        input: CreateReviewInput!
+    ): CreateReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@store")
+}
+
+input CreateReviewInput {
+    name: String
+    title: String!
+    rating: Int!
+    comment: String!
+    productId: ID! @rename(attribute: "product_id")
+}
+
+type CreateReviewResponse {
+    success: String
+    review: Review
+}
+
+input CustomerReviewInput {
+    page: Int
+    limit: Int
+    id: Int
+    title: String
+    rating: Int
+    customerName: String @rename(attribute: "customer_name")
+    productName: String @rename(attribute: "product_name")
+    productId: Int @rename(attribute: "product_id")
+    status: String
+}

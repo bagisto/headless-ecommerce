@@ -1,0 +1,54 @@
+#Velocity\MetaData Related APIs
+extend type Query {
+    velocitymetadata: [MetaData!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\VelocityMetadata")
+    metadata(id: ID @eq): MetaData! @find(model: "Webkul\\Velocity\\Models\\VelocityMetadata")
+}
+
+extend type Mutation {
+    updateMetaData(
+        id: ID!,
+        input: CreateMetaDataInput!
+    ): MetaData  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Velocity\\MetaDataMutation@update")
+}
+
+input CreateMetaDataInput {
+    locale: String!
+    channel: String!
+    slides: String
+    sidebarCategoryCount: Int @rename(attribute: "sidebar_category_count")
+    headerContentCount: Int @rename(attribute: "header_content_count")
+    featuredProductCount: Int @rename(attribute: "featured_product_count")
+    newProductsCount: Int @rename(attribute: "new_products_count")
+    homePageContent: String @rename(attribute: "home_page_content")
+    productPolicy: String @rename(attribute: "product_policy")
+    images: AdvertismentInput
+    subscriptionBarContent: String @rename(attribute: "subscription_bar_content")
+    footerLeftContent: String @rename(attribute: "footer_left_content")
+    footerMiddleContent: String @rename(attribute: "footer_middle_content")
+}
+
+input AdvertismentInput {
+    advertisementFour: [String] @rename(attribute: "advertisement_four")
+    advertisementThree: [String] @rename(attribute: "advertisement_three")
+    advertisementTwo: [String] @rename(attribute: "advertisement_two")
+}
+
+type MetaData {
+    id: ID!
+    homePageContent: String @rename(attribute: "home_page_content")
+    footerLeftContent: String @rename(attribute: "footer_left_content")
+    footerMiddleContent: String @rename(attribute: "footer_middle_content")
+    slider: Boolean
+    advertisement: String
+    sidebarCategoryCount: Int @rename(attribute: "sidebar_category_count")
+    featuredProductCount: Int @rename(attribute: "featured_product_count")
+    newProductsCount: Int @rename(attribute: "new_products_count")
+    subscriptionBarContent: String @rename(attribute: "subscription_bar_content")
+    productViewImages: [String] @rename(attribute: "product_view_images")
+    productPolicy: String @rename(attribute: "product_policy")
+    locale: String
+    channel: String
+    headerContentCount: String @rename(attribute: "header_content_count")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+}

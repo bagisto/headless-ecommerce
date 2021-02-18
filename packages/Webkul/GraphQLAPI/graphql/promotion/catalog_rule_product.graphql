@@ -1,0 +1,39 @@
+#Promition\CatalogRuleProduct Related APIs
+extend type Query {
+    catalogRuleProducts: [CatalogRuleProduct!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
+    catalogRuleProduct(id: ID @eq): CatalogRuleProduct! @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
+
+    catalogRuleProductPrices: [CatalogRuleProductPrice!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
+    catalogRuleProductPrice(id: ID @eq): CatalogRuleProductPrice! @find(model: "Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
+
+}
+
+type CatalogRuleProduct {
+    id: ID!
+    startsFrom: DateTime @rename(attribute: "starts_from")
+    endsTill: DateTime @rename(attribute: "ends_till")
+    discountAmount: Int! @rename(attribute: "discount_amount")
+    actionType: String @rename(attribute: "action_type")
+    endOtherRules: Boolean! @rename(attribute: "end_other_rules")
+    sortOrder: Int! @rename(attribute: "sort_order")
+    catalogRuleId: ID! @rename(attribute: "catalog_rule_id")
+    channelId: ID! @rename(attribute: "channel_id")
+    customerGroupId: ID! @rename(attribute: "customer_group_id")
+    productId: ID! @rename(attribute: "product_id")
+    catalogRule: CatalogRule! @belongsTo(relation: "catalog_rule")
+    customerGroup: CustomerGroup! @belongsTo(relation: "customer_group")
+    channel: Channel! @belongsTo(relation: "channel")
+    product: Product! @belongsTo(relation: "product")
+}
+
+type CatalogRuleProductPrice {
+    id: ID!
+    price: Float!
+    ruleDate: Date! @rename(attribute: "rule_date")
+    startsFrom: DateTime @rename(attribute: "starts_from")
+    endsTill: DateTime @rename(attribute: "ends_till")
+    productId: ID! @rename(attribute: "product_id")
+    catalogRuleId: ID! @rename(attribute: "catalog_rule_id")
+    channelId: ID! @rename(attribute: "channel_id")
+    customerGroupId: ID! @rename(attribute: "customer_group_id")
+}

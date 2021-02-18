@@ -1,0 +1,14 @@
+# Shop\Product\CategoryListing Related APIs
+extend type Query { 
+    getCatagoryProducts(input: FilterCategoryProductInput  @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\CategoryListingQuery@getListingProduct")): [ProductFlat!]! @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Product\\Models\\ProductFlat")
+}
+
+input FilterCategoryProductInput {
+    categoryname: String!
+    sort: String
+    order: String
+    price: String
+    color: String
+    size: String
+}
+

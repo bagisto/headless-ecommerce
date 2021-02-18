@@ -1,0 +1,36 @@
+# Customer\NewsletterSubscribers Related APIs
+extend type Query {
+    newsletterSubscribers(input: FilterSubscriberInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterSubscriber")): [Subscriber!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\SubscribersList")
+    newsletterSubscriber(id: ID @eq, email: String): Subscriber! @find(model: "Webkul\\Core\\Models\\SubscribersList")
+}
+
+extend type Mutation {
+    subscribe(
+        input: SubscriberInput!
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\NewsletterSubscriberMutation@subscribe")
+    unSubscribe(
+        token: String!
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\NewsletterSubscriberMutation@unsubscribe")
+    deleteSubscriber(email: String!): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\NewsletterSubscriberMutation@delete")
+}
+
+input SubscriberInput {
+    email: String!
+}
+
+input FilterSubscriberInput {
+    id: ID
+    email: String
+    isSubscribed: Boolean @rename(attribute: "is_subscribed")
+}
+
+type Subscriber {
+    id: ID!
+    email: String!
+    isSubscribed: Boolean @rename(attribute: "is_subscribed")
+    token: String
+    channelId: Int! @rename(attribute: "channel_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    success: String
+}

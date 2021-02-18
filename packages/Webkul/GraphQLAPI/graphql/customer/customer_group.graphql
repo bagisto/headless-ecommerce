@@ -1,0 +1,38 @@
+# Customer\CustomerGroup Related APIs
+extend type Query {
+    customerGroups(input: FilterCustomerGroupInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerGroup")): [CustomerGroup!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerGroup")
+    customerGroup(id: ID @eq): CustomerGroup! @find(model: "Webkul\\Customer\\Models\\CustomerGroup")
+}
+
+extend type Mutation {
+    createCustomerGroup(
+        input: CreateCustomerGroupInput!
+    ): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerGroupMutation@store")
+    updateCustomerGroup(
+        id: ID!,
+        input: CreateCustomerGroupInput!
+    ): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerGroupMutation@update")
+    deleteCustomerGroup(id: ID!): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerGroupMutation@delete")
+}
+
+input CreateCustomerGroupInput {
+    name: String!
+    code: String!
+    isUserDefined: Boolean @rename(attribute: "is_user_defined")
+}
+
+input FilterCustomerGroupInput {
+    id: Int
+    name: String
+    code: String
+}
+
+type CustomerGroup {
+    id: ID!
+    name: String!
+    code: String!
+    isUserDefined: Boolean! @rename(attribute: "is_user_defined")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    success: String
+}

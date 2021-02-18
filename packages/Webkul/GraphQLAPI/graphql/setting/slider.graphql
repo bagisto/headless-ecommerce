@@ -1,0 +1,25 @@
+# Setting\Slider Related APIs
+extend type Query {
+    sliders(input: FilterSliderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterSlider")): [Slider!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Setting\\Slider")
+    slider(id: ID! @eq): Slider! @find(model: "Webkul\\GraphQLAPI\\Models\\Setting\\Slider")
+}
+
+input FilterSliderInput {
+    id: ID
+    title: String
+    locale: String
+    channel: String
+}
+
+
+type Slider {
+    id: ID!
+    title: String!
+    path: String!
+    content: String
+    channelId: ID! @rename(attribute: "channel_id")
+    locale: String!
+    sliderPath: String @rename(attribute: "slider_path")
+    imgPath: String @rename(attribute: "img_path")
+    channel: Channel! @belongsTo
+}

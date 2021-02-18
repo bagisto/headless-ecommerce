@@ -1,0 +1,88 @@
+# Catalog\Category Related APIs
+type Query {
+    categories(input: FilterCategoryInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+    category(id: ID @eq): Category! @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+}
+
+extend type Mutation {
+    createCategory(
+        input: CreateCategoryInput!
+    ): Category  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\CategoryMutation@store")
+    updateCategory(
+        id: ID!,
+        input: CreateCategoryInput!
+    ): Category  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\CategoryMutation@update")
+    deleteCategory(id: ID!): Category @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\CategoryMutation@delete")
+}
+
+input CreateCategoryInput {
+    locale: String!
+    name: String!
+    slug: String!
+    description: String!
+    status: Boolean!
+    position: Int!
+    displayMode: String! @rename(attribute: "display_mode")
+    image: String
+    parentId: ID @rename(attribute: "parent_id")
+    metaTitle: String! @rename(attribute: "meta_title")
+    metaDescription: String! @rename(attribute: "meta_description")
+    metaKeywords: String! @rename(attribute: "meta_keywords")
+    attributes: [Int]
+}
+
+input FilterCategoryInput {
+    id: Int
+    name: String
+    status: Boolean
+    position: Int
+}
+
+type FilterableAttribute {
+    id: ID!
+    code: String!
+    adminName: String! @rename(attribute: "admin_name")
+    type: String!
+    validation: String
+    position: Int!
+    isFilterable: Int! @rename(attribute: "is_filterable")
+    category: Category! @belongsTo(relation: "category")
+}
+
+type Translation {
+    id: ID!
+    name: String!
+    slug: String!
+    description: String!
+    metaTitle: String @rename(attribute: "meta_title")
+    metaDescription: String @rename(attribute: "meta_description")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    category_id: ID! @rename(attribute: "category_id")
+    locale: String!
+    localeId: ID @rename(attribute: "locale_id")
+    urlPath: String! @rename(attribute: "url_path")
+}
+
+type Category {
+    id: ID!
+    name: String!
+    description: String!
+    slug: String!
+    urlPath: String! @rename(attribute: "url_path")
+    image: String
+    imageUrl: String @rename(attribute: "image_url")
+    metaTitle: String @rename(attribute: "meta_title")
+    metaDescription: String @rename(attribute: "meta_description")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    position: Int!
+    status: Boolean!
+    displayMode: String! @rename(attribute: "display_mode")
+    parentId: ID @rename(attribute: "parent_id")
+    additional: String
+    filterableAttributes: [FilterableAttribute!]! @hasMany
+    translations: [Translation!]! @hasMany
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+    count: Int
+    success: String
+}

@@ -1,0 +1,35 @@
+#Shop\Customer\Account Related APIs
+extend type Query {
+    accountInfo: Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
+}
+
+extend type Mutation {
+    updateAccount(
+        input: UpdateAccountInput!
+    ): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
+
+    deleteAccount(
+        input: DeleteAccountInput!
+    ): AccountDeleteResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@delete")
+}
+
+input UpdateAccountInput {
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    gender: String!
+    email: String!
+    dateOfBirth: String! @rename(attribute: "date_of_birth")
+    phone: String
+    oldpassword: String
+    password: String
+    passwordConfirmation: String @rename(attribute: "password_confirmation")
+}
+
+input DeleteAccountInput {
+    password: String!
+}
+
+type AccountDeleteResponse {
+    status: Boolean
+    success: String
+}

@@ -1,0 +1,56 @@
+# Sales\OrderItem Related APIs
+extend type Query {
+    orderItems: [OrderItem!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\OrderItem")
+    orderItem(id: ID @eq): OrderItem! @find(model: "Webkul\\Sales\\Models\\OrderItem")
+}
+
+type OrderItem {
+    id: ID!
+    sku: String!
+    type: String
+    name: String
+    couponCode: String @rename(attribute: "coupon_code")
+    weight: Float!
+    totalWeight: Float  @rename(attribute: "total_weight")
+    qtyOrdered: Int  @rename(attribute: "qty_ordered")
+    qtyShipped: Int  @rename(attribute: "qty_shipped")
+    qtyInvoiced: Int  @rename(attribute: "qty_invoiced")
+    qtyCanceled: Int  @rename(attribute: "qty_canceled")
+    qtyRefunded: Int  @rename(attribute: "qty_refunded")
+    price: Float!
+    basePrice: Float!  @rename(attribute: "base_price")
+    total: Float!
+    baseTotal: Float!  @rename(attribute: "base_total")
+    totalInvoiced: Float!  @rename(attribute: "total_invoiced")
+    baseTotalInvoiced: Float!  @rename(attribute: "base_total_invoiced")
+    amountRefunded: Float!  @rename(attribute: "amount_refunded")
+    baseAmountRefunded: Float!  @rename(attribute: "base_amount_refunded")
+    discountPercent: Float  @rename(attribute: "discount_percent")
+    discountAmount: Float  @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float  @rename(attribute: "base_discount_amount")
+    discountInvoiced: Float  @rename(attribute: "discount_invoiced")
+    baseDiscountInvoiced: Float  @rename(attribute: "base_discount_invoiced")
+    discountRefunded: Float  @rename(attribute: "discount_refunded")
+    baseDiscountRefunded: Float  @rename(attribute: "base_discount_refunded")
+    taxPercent: Float  @rename(attribute: "tax_percent")
+    taxAmount: Float  @rename(attribute: "tax_amount")
+    baseTaxAmount: Float  @rename(attribute: "base_tax_amount")
+    taxAmountInvoiced: Float  @rename(attribute: "tax_amount_invoiced")
+    baseTaxAmountInvoiced: Float  @rename(attribute: "base_tax_amount_invoiced")
+    taxAmountRefunded: Float  @rename(attribute: "tax_amount_refunded")
+    baseTaxAmountRefunded: Float  @rename(attribute: "base_tax_amount_refunded")
+    productId: ID!  @rename(attribute: "product_id")
+    productType: String  @rename(attribute: "product_type")
+    orderId: ID!  @rename(attribute: "order_id")
+    parentId: ID  @rename(attribute: "parent_id")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    createdAt: DateTime  @rename(attribute: "created_at")
+    updatedAt: DateTime  @rename(attribute: "updated_at")
+    order: Order! @belongsTo(relation: "order")
+    product: Product! @belongsTo(relation: "product")
+    child: OrderItem @hasOne
+    parent: OrderItem @belongsTo(relation: "parent")
+    invoiceItems: [InvoiceItem] @hasMany(relation: "invoice_items")
+    shipmentItems: [ShipmentItem] @hasMany(relation: "shipment_items")
+    refundItems: [RefundItem] @hasMany(relation: "refund_items")
+}

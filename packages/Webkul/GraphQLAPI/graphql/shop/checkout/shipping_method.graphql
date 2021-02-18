@@ -1,0 +1,54 @@
+
+# Shop\Checkout\ShippingMethod Related API
+extend type Mutation {
+    shippingMethods(
+        input: SaveAddressesInput!
+    ): ShippingMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@shippingMethods")
+}
+
+input SaveAddressesInput {
+    currency: String
+    billingAddressId: Int! @rename(attribute: "billing_address_id")
+    shippingAddressId: Int! @rename(attribute: "shipping_address_id")
+    billing: NewAddressInput
+    shipping: NewAddressInput
+}
+
+input NewAddressInput {
+    companyName: String @rename(attribute: "company_name")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    email: String!
+    address1: String!
+    address2: String
+    city: String!
+    country: String!
+    state: String!
+    postcode: String!
+    phone: String!
+    saveAsAddress: Boolean @rename(attribute: "save_as_address")
+    useForShipping: Boolean @rename(attribute: "use_for_shipping")
+}
+
+type ShippingMethodsResponse {
+    success: String
+    cartTotal: String! @rename(attribute: "cart_total")
+    cartCount: Int! @rename(attribute: "cart_count")
+    shippingMethods: [RatesResponse!] @rename(attribute: "shipping_methods")
+    paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
+    jumpToSection: String @rename(attribute: "jump_to_section")
+}
+
+type RatesResponse {
+    title: String!
+    methods: MethodResponse!
+}
+
+type MethodResponse {
+    code: String!
+    label: String!
+    price: Float!
+    formattedPrice: String! @rename(attribute: "formatted_price")
+    basePrice: Float! @rename(attribute: "base_price")
+    formattedBasePrice: String! @rename(attribute: "formatted_base_price")
+}

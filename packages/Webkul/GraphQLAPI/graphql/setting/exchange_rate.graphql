@@ -1,0 +1,37 @@
+# Setting\ExchangeRate Related APIs
+extend type Query {
+    exchangeRates(input: FilterExchangeRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterExchangeRate")): [ExchangeRate!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Setting\\CurrencyExchangeRate")
+    exchangeRate(id: ID @eq): ExchangeRate! @find(model: "Webkul\\GraphQLAPI\\Models\\Setting\\CurrencyExchangeRate")
+}
+
+extend type Mutation {
+    createExchangeRate(
+        input: CreateExchangeRateInput!
+    ): ExchangeRate @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ExchangeRateMutation@store")
+    updateExchangeRate(
+        id: ID!,
+        input: CreateExchangeRateInput!
+    ): ExchangeRate @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ExchangeRateMutation@update")
+    deleteExchangeRate(id: ID!): ExchangeRate @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ExchangeRateMutation@delete")
+}
+
+input CreateExchangeRateInput {
+    targetCurrency: Int! @rename(attribute: "target_currency")
+    rate: Float! @rules(apply: ["numeric"])
+}
+
+input FilterExchangeRateInput {
+    id: Int
+    currency: String
+    rate: Float @rules(apply: ["numeric"])
+}
+
+type ExchangeRate {
+    id: ID!
+    targetCurrency: Int! @rename(attribute: "target_currency")
+    rate: Float!
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    currency: Currency! @belongsTo
+    success: String
+}

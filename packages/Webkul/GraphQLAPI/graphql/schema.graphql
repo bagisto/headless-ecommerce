@@ -1,0 +1,18 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+#import /catalog/*.graphql
+#import /customer/*.graphql
+#import /setting/*.graphql
+#import /sales/*.graphql
+#import /velocity/*.graphql
+#import /cms/*.graphql
+#import /promotion/*.graphql
+#import /shop/common/*.graphql
+#import /shop/customer/*.graphql
+#import /shop/cart/*.graphql
+#import /shop/checkout/*.graphql
+#import /shop/product/*.graphql

@@ -1,0 +1,14 @@
+# Shop\Cart\CartPayment Related APIs
+extend type Query {
+    cartPayments: [CartPayment!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartPayment")
+    cartPayment(id: ID @eq): CartPayment! @find(model: "Webkul\\Checkout\\Models\\CartPayment")
+}
+
+type CartPayment {
+    id: ID!
+    method: String!
+    methodTitle: String @rename(attribute: "method_title")
+    cartId: ID! @rename(attribute: "cart_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+}

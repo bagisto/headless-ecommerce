@@ -1,0 +1,8 @@
+#Catalog\Image Related API
+type Image{
+    id: ID!
+    type: String
+    path: String!
+    productId: ID! @rename(attribute: "product_id")
+    product: Product! @belongsTo(relation: "product")
+}

@@ -1,0 +1,19 @@
+#Shop\Customer\Registration Related APIs
+extend type Mutation {
+    customerRegister(
+        input: CreateRegisterInput!
+    ): CustomerRegisterResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@register")
+}
+
+input CreateRegisterInput {
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    email: String! @rules(apply: ["email"])
+    password: String! @rules(apply: ["min:6"])
+    passwordConfirmation: String! @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
+}
+
+type CustomerRegisterResponse {
+    status: Boolean
+    success: String
+}

@@ -1,0 +1,19 @@
+# Shop\Checkout\Addresses Related API
+extend type Query {
+    checkoutAddresses: CheckoutAddressesResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@addresses")
+}
+
+type CheckoutAddressesResponse {
+    success: String
+    isGuest: Boolean @rename(attribute: "is_guest")
+    customer: Customer
+    addresses: [FormattedAddresses]
+    addressList: [CustomerAddress] @rename(attribute: "address_list")
+    cartCount: Int @rename(attribute: "cart_count")
+    defaultCountry: String @rename(attribute: "default_country")
+}
+
+type FormattedAddresses {
+    id: Int
+    address: String
+}
