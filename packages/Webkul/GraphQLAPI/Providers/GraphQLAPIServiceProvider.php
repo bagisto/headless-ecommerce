@@ -38,7 +38,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->app->concord->registerModel(\Webkul\User\Contracts\Admin::class, \Webkul\GraphQLAPI\Models\User\Admin::class);
 
         // CurrencyExchangeRate Models
-        $this->app->concord->registerModel(\Webkul\Core\Models\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);
+        $this->app->concord->registerModel(\Webkul\Core\Contracts\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);
 
         // Slider Models
         $this->app->concord->registerModel(\Webkul\Core\Models\Slider::class, \Webkul\GraphQLAPI\Models\Setting\Slider::class);
@@ -90,6 +90,20 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the console commands of this package
+     *
+     * @return void
+     */
+    protected function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class
+            ]);
+        }
+    }
+
+    /**
      * Register Bouncer as a singleton.
      *
      * @return void
@@ -110,19 +124,5 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('cart', 'Webkul\GraphQLAPI\Cart');
-    }
-
-    /**
-     * Register the console commands of this package
-     *
-     * @return void
-     */
-    protected function registerCommands(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Install::class
-            ]);
-        }
     }
 }

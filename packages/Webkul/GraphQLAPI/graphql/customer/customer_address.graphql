@@ -1,17 +1,20 @@
 # Customer\CustomerAddress Related APIs
 extend type Query {
-    customerAddresses(input: FilterCustomerAddressInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerAddress")): [CustomerAddress!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
-    customerAddress(id: ID @eq): CustomerAddress! @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+    customerAddresses(input: FilterCustomerAddressInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerAddress")): [CustomerAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+
+    customerAddress(id: ID @eq): CustomerAddress @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
 extend type Mutation {
     createCustomerAddress(
         input: CreateCustomerAddressInput!
     ): CustomerAddress  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerAddressMutation@store")
+
     updateCustomerAddress(
         id: ID!,
         input: CreateCustomerAddressInput!
     ): CustomerAddress  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerAddressMutation@update")
+    
     deleteCustomerAddress(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerAddressMutation@delete")
 }
 

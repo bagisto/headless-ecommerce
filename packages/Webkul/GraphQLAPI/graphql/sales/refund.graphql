@@ -1,10 +1,15 @@
 # Sales\Refund Related APIs
 extend type Query {
-    refunds(input: FilterRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterRefund")): [Refund!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
-    refund(id: ID @eq): Refund! @find(model: "Webkul\\Sales\\Models\\Refund")
+    refunds(input: FilterRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterRefund")): [Refund!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
 
-    refundItems: [RefundItem!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\RefundItem")
-    refundItem(id: ID @eq): RefundItem! @find(model: "Webkul\\Sales\\Models\\RefundItem")
+    refund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
+
+    refundItems(input: FilterRefundItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterRefundItem")): [RefundItem!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\RefundItem")
+
+    refundItem(
+        id: ID @eq,
+        input: FilterRefundItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterRefundItem")
+    ): RefundItem @find(model: "Webkul\\Sales\\Models\\RefundItem")
 }
 
 extend type Mutation {
@@ -35,6 +40,16 @@ input FilterRefundInput {
     billedTo: String @rename(attribute: "billed_to")
 }
 
+input FilterRefundItemInput {
+    refundId: ID! @rename(attribute: "refund_id")
+    id: Int
+    name: String
+    sku: String
+    qty: Int
+    price: Float
+    orderItemId: Int @rename(attribute: "order_id")
+}
+
 type Refund {
     id: Int!
     incrementId: String @rename(attribute: "increment_id")
@@ -62,7 +77,7 @@ type Refund {
     orderId: Int @rename(attribute: "order_id")
     createdAt: String @rename(attribute: "created_at")
     updatedAt: String @rename(attribute: "updated_at")
-    items: [RefundItem!]! @hasMany
+    items: [RefundItem!] @hasMany
     order: Order! @belongsTo(relation: "order")
     success: String
 }

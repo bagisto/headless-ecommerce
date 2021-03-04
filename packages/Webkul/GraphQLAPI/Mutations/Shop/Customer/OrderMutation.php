@@ -184,7 +184,7 @@ class OrderMutation extends Controller
                 $shipments = $shipments->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($shipments->first()->id) || isset($shipments->id) ) {
+            if ( ($shipments && isset($shipments->first()->id)) || isset($shipments->id) ) {
                 return $shipments;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Shipment']));
@@ -256,7 +256,7 @@ class OrderMutation extends Controller
                 $invoices = $invoices->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($invoices->first()->id) || isset($invoices->id) ) {
+            if ( ($invoices && isset($invoices->first()->id)) || isset($invoices->id) ) {
                 return $invoices;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Invoice']));
@@ -348,7 +348,7 @@ class OrderMutation extends Controller
                 $invoices = $invoices->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($invoices->first()->id) || isset($invoices->id) ) {
+            if ( ($invoices && isset($invoices->first()->id)) || isset($invoices->id) ) {
                 return $invoices;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Invoice']));

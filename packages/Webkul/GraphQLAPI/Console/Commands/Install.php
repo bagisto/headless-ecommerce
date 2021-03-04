@@ -18,7 +18,8 @@ class Install extends Command
      */
     protected $description = 'Installing Bagisto GraphQL API Extension';
 
-    public function __construct()   {
+    public function __construct()
+    {
         parent::__construct();
     }
 

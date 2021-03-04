@@ -2,7 +2,7 @@
 extend type Query {
     wishlists(input: FilterWislistInput): [Wishlist!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@wishlists")
 
-    wishlist(id: ID @eq): Wishlist! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@wishlists")
+    wishlist(id: ID @eq): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@wishlists")
 }
 
 extend type Mutation {

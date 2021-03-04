@@ -1,7 +1,7 @@
 #Promition\CartRule Related APIs
 extend type Query {
-    cartRules(input : FilterCartRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCartRules")): [CartRule!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CartRule\\Models\\CartRule")
-    cartRule(id: ID @eq): CartRule! @find(model: "Webkul\\CartRule\\Models\\CartRule")
+    cartRules(input : FilterCartRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCartRules")): [CartRule!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CartRule\\Models\\CartRule")
+    cartRule(id: ID @eq): CartRule @find(model: "Webkul\\CartRule\\Models\\CartRule")
 }
 
 extend type Mutation {
@@ -124,8 +124,8 @@ type CartRule {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
 
-    cartRuleChannels: [Channel!]! @belongsToMany(relation: "cart_rule_channels")
-    cartRuleCustomerGroups: [CustomerGroup!]! @belongsToMany(relation: "cart_rule_customer_groups")
+    cartRuleChannels: [Channel!] @belongsToMany(relation: "cart_rule_channels")
+    cartRuleCustomerGroups: [CustomerGroup!] @belongsToMany(relation: "cart_rule_customer_groups")
     cartRuleCoupon: CartRuleCoupon @hasOne(relation: "cart_rule_coupon")
     success: String
 }

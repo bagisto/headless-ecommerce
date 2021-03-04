@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "1f070334-187d-49a5-9b43-849ebe750261",
+		"name": "Promotions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CartRule",
+			"item": [
+				{
+					"name": "Get All Cart Rule List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query cartRules {\n    cartRules {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            couponType\n            useAutoGeneration\n            usagePerCustomer\n            usesPerCoupon\n            timesUsed\n            conditionType\n            conditions\n            actions\n            endOtherRules\n            usesAttributeConditions\n            actionType\n            discountAmount\n            discountQuantity\n            discountStep\n            applyToShipping\n            freeShipping\n            sortOrder\n            createdAt\n            updatedAt\n            cartRuleChannels {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n            cartRuleCustomerGroups {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            cartRuleCoupon {\n                id\n                code\n                usageLimit\n                usagePerCustomer\n                isPrimary\n                timesUsed\n                expiredAt\n                type\n                cartRuleId\n                createdAt\n                updatedAt\n                couponUsage {\n                    id\n                    timesUsed\n                    cartRuleCouponId\n                }\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CartRule Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query cartRule {\n    cartRule(id: 1) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        actions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        cartRuleChannels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        cartRuleCustomerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        cartRuleCoupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            isPrimary\n            timesUsed\n            expiredAt\n            type\n            cartRuleId\n            createdAt\n            updatedAt\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CatalogRule",
+			"item": [
+				{
+					"name": "Get All Catalog Rule List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query catalogRules {\n    catalogRules {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            conditionType\n            conditions\n            endOtherRules\n            actionType\n            discountAmount\n            sortOrder\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n            customerGroups {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            catalogRuleProducts {\n                id\n                startsFrom\n                endsTill\n                discountAmount\n                actionType\n                endOtherRules\n                sortOrder\n                catalogRuleId\n                channelId\n                customerGroupId\n                productId\n                product {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                    variants {\n                        id\n                        type\n                        attributeFamilyId\n                        sku\n                        parentId\n                    }\n                }\n            }\n            catalogRuleProductPrices {\n                id\n                price\n                ruleDate\n                startsFrom\n                endsTill\n                productId\n                catalogRuleId\n                channelId\n                customerGroupId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Catalog Rule Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query catalogRule {\n    catalogRule(id: 1) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        customerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        catalogRuleProducts {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n        }\n        catalogRuleProductPrices {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CatalogRule Product List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query catalogRuleProducts {\n    catalogRuleProducts(input: {\n        catalogRuleId: 1\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CatalogRule Product Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query catalogRuleProduct {\n    catalogRuleProduct(\n        id: 1,\n        input: {\n            catalogRuleId: 1\n        }\n    ) {\n        id\n        startsFrom\n        endsTill\n        discountAmount\n        actionType\n        endOtherRules\n        sortOrder\n        catalogRuleId\n        channelId\n        customerGroupId\n        productId\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            variants {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CatalogRule Product Price List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query catalogRuleProductPrices {\n    catalogRuleProductPrices(input: {\n        catalogRuleId: 1,\n        productId: 1,\n        customerGroupId: 1,\n        channelId: 1\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CatalogRule Product Price Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query catalogRuleProductPrice {\n    catalogRuleProductPrice(\n        id: 1,\n        input: {\n            catalogRuleId: 1,\n            productId: 1,\n            customerGroupId: 1,\n            channelId: 1\n        }\n    ) {\n        id\n        price\n        ruleDate\n        startsFrom\n        endsTill\n        productId\n        catalogRuleId\n        channelId\n        customerGroupId\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,10 +1,10 @@
 #Catalog\Bookings Related API
 extend type Query {
-    bookingProducts: [BookingProduct!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
-    bookingProduct(id: ID @eq): BookingProduct! @find(model: "Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
+    bookingProducts: [BookingProduct!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
+    bookingProduct(id: ID @eq): BookingProduct @find(model: "Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
 
-    bookings: [Booking!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\BookingProduct\\Models\\Booking")
-    booking(id: ID @eq): Booking! @find(model: "Webkul\\BookingProduct\\Models\\Booking")
+    bookings: [Booking!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\BookingProduct\\Models\\Booking")
+    booking(id: ID @eq): Booking @find(model: "Webkul\\BookingProduct\\Models\\Booking")
 }
 
 input UpdateBookingInput {
@@ -97,7 +97,7 @@ type DefaultBookingProductSlots {
     bookingType: String! @rename(attribute: "booking_type")
     duration: Int
     breakTime: Int @rename(attribute: "break_time")
-    slots: [DefaultSlots!]!
+    slots: [DefaultSlots!]
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }
 
@@ -163,6 +163,6 @@ type TableBookingProductSlots {
     breakTime: Int @rename(attribute: "break_time")
     preventSchedulingBefore: Boolean! @rename(attribute: "prevent_scheduling_before")
     sameSlotAllDays: Boolean! @rename(attribute: "same_slot_all_days")
-    slots: [BookingDaySlots!]!
+    slots: [BookingDaySlots!]
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }

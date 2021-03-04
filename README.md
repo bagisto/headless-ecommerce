@@ -5,7 +5,7 @@ Bagisto GraphQL APIs
 
 ### 1. Requirements:
 
-* **Bagisto**: v1.2.0
+* **Bagisto**: v1.2.0, v1.3.x
 
 
 ### 2. Installation:
@@ -20,7 +20,7 @@ Bagisto GraphQL APIs
 
 #### Find a file auth.php present inside config folder from root and do the following changes:
 
-* change the *token* driver to *jwt* in **'guards'** array like below mentioned:
+* change the *token* driver to *jwt* in **'guards'** array like below mentioned (for Bagisto v1.2.0):
 
 ~~~
     'admin-api' => [

@@ -1,17 +1,20 @@
 # Setting\Channel Related APIs
 extend type Query {
-    channels(input: FilterChannelInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterChannel")) : [Channel!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\Channel")
-    channel(id: ID @eq): Channel! @find(model: "Webkul\\Core\\Models\\Channel")
+    channels(input: FilterChannelInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterChannel")) : [Channel!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\Channel")
+
+    channel(id: ID @eq): Channel @find(model: "Webkul\\Core\\Models\\Channel")
 }
 
 extend type Mutation {
     createChannel(
         input: CreateChannelInput!
-    ): Channel  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@store")
+    ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@store")
+
     updateChannel(
         id: ID!,
         input: CreateChannelInput!
-    ): Channel  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@update")
+    ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@update")
+    
     deleteChannel(id: ID!): Channel  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@delete")
 }
 
@@ -28,7 +31,7 @@ input CreateChannelInput {
     rootCategoryId: Int! @rename(attribute: "root_category_id")
     locales: [Int!]!
     currencies: [Int!]!
-    inventorySources: [Int!]! @rename(attribute: "inventory_sources")
+    inventorySources: [Int!] @rename(attribute: "inventory_sources")
     logo: String
     favicon: String
     seoTitle: String! @rename(attribute: "seo_title")
@@ -56,10 +59,10 @@ type Channel {
     baseCurrencyId: Int! @rename(attribute: "base_currency_id")
     rootCategoryId: Int! @rename(attribute: "root_category_id")
     homeSeo: String! @rename(attribute: "home_seo")
-    locales: [Locale!]! @belongsTo(relation: "locales")
+    locales: [Locale!] @belongsTo(relation: "locales")
     defaultLocale: String! @rename(attribute: "default_locale")
-    currencies: [Currency!]! @belongsTo(relation: "currencies")
-    inventorySources: [InventorySource!]! @belongsTo(relation: "inventory_sources")
+    currencies: [Currency!] @belongsTo(relation: "currencies")
+    inventorySources: [InventorySource!] @belongsTo(relation: "inventory_sources")
     baseCurrency: String! @rename(attribute: "base_currency")
     rootCategory: String! @rename(attribute: "root_category")
     logoUrl: String @rename(attribute: "logo_url")

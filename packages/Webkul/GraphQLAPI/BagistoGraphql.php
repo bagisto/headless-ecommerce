@@ -363,6 +363,34 @@ class BagistoGraphql
     }
 
     /**
+     * to manage the translation the multilocal fields
+     *
+     * @param array $data
+     * @param array $fields
+     * @return array|null
+    */
+    public function manageLocaleFields($data, $fields)
+    {
+        $result = [];
+
+        foreach ($data as $localeArray) {
+            if ( isset($localeArray['code']) && $localeArray['code'] ) {
+
+                foreach ($fields as $field) {
+                    if ( isset($localeArray[$field]) && $localeArray[$field] ) {
+                        
+                        if (! isset($result[$localeArray['code']][$field])) {
+                            $result[$localeArray['code']][$field] = $localeArray[$field];
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $result;
+    }
+
+    /**
      * format the request data for Configurable product
      *
      * @param array $data

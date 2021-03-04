@@ -1,17 +1,20 @@
 # Catalog\Category Related APIs
 type Query {
-    categories(input: FilterCategoryInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
-    category(id: ID @eq): Category! @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+    categories(input: FilterCategoryInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+
+    category(id: ID @eq): Category @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
 }
 
 extend type Mutation {
     createCategory(
         input: CreateCategoryInput!
     ): Category  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\CategoryMutation@store")
+
     updateCategory(
         id: ID!,
         input: CreateCategoryInput!
     ): Category  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\CategoryMutation@update")
+
     deleteCategory(id: ID!): Category @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\CategoryMutation@delete")
 }
 
@@ -60,7 +63,7 @@ type Translation {
     category_id: ID! @rename(attribute: "category_id")
     locale: String!
     localeId: ID @rename(attribute: "locale_id")
-    urlPath: String! @rename(attribute: "url_path")
+    urlPath: String @rename(attribute: "url_path")
 }
 
 type Category {
@@ -68,7 +71,7 @@ type Category {
     name: String!
     description: String!
     slug: String!
-    urlPath: String! @rename(attribute: "url_path")
+    urlPath: String @rename(attribute: "url_path")
     image: String
     imageUrl: String @rename(attribute: "image_url")
     metaTitle: String @rename(attribute: "meta_title")
@@ -79,8 +82,8 @@ type Category {
     displayMode: String! @rename(attribute: "display_mode")
     parentId: ID @rename(attribute: "parent_id")
     additional: String
-    filterableAttributes: [FilterableAttribute!]! @hasMany
-    translations: [Translation!]! @hasMany
+    filterableAttributes: [FilterableAttribute!] @hasMany
+    translations: [Translation!] @hasMany
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     count: Int

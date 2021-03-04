@@ -1,12 +1,12 @@
 #Catalog\Product Related API
 extend type Query {
-    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterProducts")): [Product!]! @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterProducts")): [Product!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 
-    product(id: ID @eq): Product! @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    product(id: ID @eq): Product @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 
-    productFlats: [ProductFlat!]! @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Product\\Models\\ProductFlat")
+    productFlats: [ProductFlat!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Product\\Models\\ProductFlat")
 
-    productFlat(id: ID @eq): Product! @find(model: "Webkul\\Product\\Models\\ProductFlat")
+    productFlat(id: ID @eq): ProductFlat @find(model: "Webkul\\Product\\Models\\ProductFlat")
 }
 
 extend type Mutation {
@@ -32,7 +32,7 @@ input CreateProductInput {
 
 input SuperAttributesInput {
     attributeCode: String! @rename(attribute: "attribute_code")
-    values: [Int!]!
+    values: [Int!]
 }
 
 input UpdateProductInput {
@@ -65,8 +65,8 @@ input UpdateProductInput {
     weight: Float
     customerGroupPrices: [CustomerGroupPriceInput] @rename(attribute: "customer_group_prices")
     inventories: [InventoriesInput!]
-    categories: [Int!]!
-    channels: [Int!]!
+    categories: [Int!]
+    channels: [Int!]
     relatedProducts: [Int] @rename(attribute: "related_products")
     upSell: [Int] @rename(attribute: "up_sell")
     crossSells: [Int] @rename(attribute: "cross_sells")
@@ -85,7 +85,7 @@ input UpdateVariantInput {
     name: String!
     color: Int
     size:Int
-    inventories: [VariantInventoryInput!]!
+    inventories: [VariantInventoryInput!]
     price: Float!
     weight: Float!
     status: Boolean!
@@ -113,16 +113,16 @@ type Product {
     parentId: ID @rename(attribute: "parent_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    productFlats: [ProductFlat!]! @hasMany(relation: "product_flats")
+    productFlats: [ProductFlat!] @hasMany(relation: "product_flats")
     variants: [Product] @hasMany
     parent: Product @belongsTo(relation: "parent")
     attributeFamily: AttributeFamily! @belongsTo(relation: "attribute_family")
-    attributeValues: [ProductAttributeValue!]! @hasMany(relation: "attribute_values")
-    superAttributes: [Attribute!]! @belongsToMany(relation: "super_attributes")
-    categories: [Category!]! @belongsToMany(relation: "categories")
-    inventories: [Inventory!]! @hasMany
-    images: [Image!]! @hasMany
-    orderedInventories: [OrderInventory!]! @hasMany(relation: "ordered_inventories")
+    attributeValues: [ProductAttributeValue!] @hasMany(relation: "attribute_values")
+    superAttributes: [Attribute!] @belongsToMany(relation: "super_attributes")
+    categories: [Category!] @belongsToMany(relation: "categories")
+    inventories: [Inventory!] @hasMany
+    images: [Image!] @hasMany
+    orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
     reviews: [Review] @hasMany
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
     downloadableSamples: [ProductDownloadableSample] @hasMany(relation: "downloadable_samples")

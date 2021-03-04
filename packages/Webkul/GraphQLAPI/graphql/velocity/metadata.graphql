@@ -1,7 +1,8 @@
 #Velocity\MetaData Related APIs
 extend type Query {
-    velocitymetadata: [MetaData!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\VelocityMetadata")
-    metadata(id: ID @eq): MetaData! @find(model: "Webkul\\Velocity\\Models\\VelocityMetadata")
+    velocityMetaData: [MetaData!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\VelocityMetadata")
+    
+    metaData(id: ID @eq): MetaData @find(model: "Webkul\\Velocity\\Models\\VelocityMetadata")
 }
 
 extend type Mutation {
@@ -14,7 +15,7 @@ extend type Mutation {
 input CreateMetaDataInput {
     locale: String!
     channel: String!
-    slides: String
+    slider: Boolean!
     sidebarCategoryCount: Int @rename(attribute: "sidebar_category_count")
     headerContentCount: Int @rename(attribute: "header_content_count")
     featuredProductCount: Int @rename(attribute: "featured_product_count")
@@ -39,7 +40,7 @@ type MetaData {
     footerLeftContent: String @rename(attribute: "footer_left_content")
     footerMiddleContent: String @rename(attribute: "footer_middle_content")
     slider: Boolean
-    advertisement: String
+    advertisement: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     sidebarCategoryCount: Int @rename(attribute: "sidebar_category_count")
     featuredProductCount: Int @rename(attribute: "featured_product_count")
     newProductsCount: Int @rename(attribute: "new_products_count")

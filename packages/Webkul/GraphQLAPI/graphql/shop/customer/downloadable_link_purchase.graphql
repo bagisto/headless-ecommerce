@@ -2,7 +2,7 @@
 extend type Query {
     downloadableLinkPurchases(input: FilterDownloadablePurchaseInput): [DownloadableLinkPurchased!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
 
-    downloadableLinkPurchase(id: ID @eq): DownloadableLinkPurchased! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+    downloadableLinkPurchase(id: ID @eq): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
 }
 
 input FilterDownloadablePurchaseInput {

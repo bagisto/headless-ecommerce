@@ -2,7 +2,7 @@
 extend type Query {
     compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 
-    compareProduct(id: ID @eq): CustomerCompareProduct! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
+    compareProduct(id: ID @eq): CustomerCompareProduct @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 }
 
 extend type Mutation {

@@ -2,7 +2,7 @@
 extend type Query {
     reviewsList(input: CustomerReviewInput): [Review!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
 
-    reviewDetail(id: ID @eq): Review! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
+    reviewDetail(id: ID @eq): Review @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
 }
 
 extend type Mutation {

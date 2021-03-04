@@ -1,7 +1,8 @@
 #Velocity\MetaData Related APIs
 extend type Query {
-    orderbrands(input: FilterOrderBrandInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Velocity\\FilterOrderBrand")): [OrderBrand!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\OrderBrand")
-    orderbrand(id: ID @eq): OrderBrand! @find(model: "Webkul\\Velocity\\Models\\OrderBrand")
+    orderbrands(input: FilterOrderBrandInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Velocity\\FilterOrderBrand")): [OrderBrand!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\OrderBrand")
+    
+    orderbrand(id: ID @eq): OrderBrand @find(model: "Webkul\\Velocity\\Models\\OrderBrand")
 }
 
 type OrderBrand {
@@ -11,7 +12,7 @@ type OrderBrand {
     productId: ID! @rename(attribute: "product_id")
     brand: ID
     getBrands: AttributeOption @belongsTo(relation: "getBrands")
-    categories: [Category!]! @belongsToMany
+    categories: [Category!] @belongsToMany
 }
 
 input FilterOrderBrandInput {

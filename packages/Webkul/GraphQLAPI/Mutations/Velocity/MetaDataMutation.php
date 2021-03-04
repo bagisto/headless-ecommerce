@@ -64,24 +64,11 @@ class MetaDataMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
-        $data = $args['input'];
+        $params = $args['input'];
         $id = $args['id'];
 
         $this->locale = $args['input']['locale'] ?: app()->getLocale();
         $this->channel = $args['input']['channel'] ?: 'default';
-
-        // check if radio button value
-        if (isset($data['slides']) && $data['slides'] == "on") {
-            $params = $data + [
-                'slider' => 1,
-            ];
-        } else {
-            $params = $data + [
-                'slider' => 0,
-            ];
-        }
-
-        unset($params['slides']);
 
         $params['locale'] = $this->locale;
         $params['channel'] =$this->channel;

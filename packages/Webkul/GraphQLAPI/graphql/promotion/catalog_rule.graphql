@@ -1,7 +1,7 @@
 #Promition\CatalogRule Related APIs
 extend type Query {
-    catalogRules(input : FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRules")): [CatalogRule!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
-    catalogRule(id: ID @eq): CatalogRule! @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+    catalogRules(input : FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+    catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
 
 }
 
@@ -56,16 +56,16 @@ type CatalogRule {
     endsTill: Date @rename(attribute: "ends_till")
     status: Boolean!
     conditionType: Boolean! @rename(attribute: "condition_type")
-    conditions: String
+    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     endOtherRules: Boolean! @rename(attribute: "end_other_rules")
     actionType: String @rename(attribute: "action_type")
     discountAmount: Int! @rename(attribute: "discount_amount")
     sortOrder: Int! @rename(attribute: "sort_order")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
-    channels: [Channel!]! @belongsToMany
-    customerGroups: [CustomerGroup!]! @belongsToMany(relation: "customer_groups")
-    catalogRuleProducts: [CatalogRuleProduct!]! @hasMany(relation: "catalog_rule_products")
-    catalogRuleProductPrices: [CatalogRuleProductPrice!]! @hasMany(relation: "catalog_rule_product_prices")
+    channels: [Channel!] @belongsToMany
+    customerGroups: [CustomerGroup!] @belongsToMany(relation: "customer_groups")
+    catalogRuleProducts: [CatalogRuleProduct!] @hasMany(relation: "catalog_rule_products")
+    catalogRuleProductPrices: [CatalogRuleProductPrice!] @hasMany(relation: "catalog_rule_product_prices")
     success: String
 }

@@ -78,7 +78,7 @@ class CompareMutation extends Controller
                 return $currentPage;
             });
 
-            $compareProducts = app(VelocityCustomerCompareProductRepository::class)->scopeQuery(function ($query) use ($params) {
+            $compareProducts = app(CompareProductsRepository::class)->scopeQuery(function ($query) use ($params) {
                 $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
 
                 $locale = isset($params['locale']) ?: app()->getLocale();
@@ -120,7 +120,7 @@ class CompareMutation extends Controller
                 $compareProducts = $compareProducts->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($compareProducts->first()->id) || isset($compareProducts->id) ) {
+            if ( ($compareProducts && isset($compareProducts->first()->id)) || isset($compareProducts->id) ) {
                 return $compareProducts;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Compare Product']));

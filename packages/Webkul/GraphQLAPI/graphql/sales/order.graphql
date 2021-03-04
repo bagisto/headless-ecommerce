@@ -1,16 +1,20 @@
 # Sales\Order Related APIs
 extend type Query {
-    orders(input: FilterOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrder")): [Order!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Order")
-    order(id: ID @eq): Order! @find(model: "Webkul\\Sales\\Models\\Order")
+    orders(input: FilterOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrder")): [Order!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Order")
 
-    orderInvoices(input: FilterOrderInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderInvoice")): [Invoice!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
-    orderInvoice(id: ID @eq): Invoice! @find(model: "Webkul\\Sales\\Models\\Invoice")
+    order(id: ID @eq): Order @find(model: "Webkul\\Sales\\Models\\Order")
 
-    orderShipments(input: FilterOrderShipmentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderShipment")): [Shipment!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Shipment")
-    orderShipment(id: ID @eq): Shipment! @find(model: "Webkul\\Sales\\Models\\Shipment")
+    orderInvoices(input: FilterOrderInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderInvoice")): [Invoice!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
 
-    orderRefunds(input: FilterOrderRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderRefund")): [Refund!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
-    orderRefunds(id: ID @eq): Refund! @find(model: "Webkul\\Sales\\Models\\Refund")
+    orderInvoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
+
+    orderShipments(input: FilterOrderShipmentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderShipment")): [Shipment!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Shipment")
+
+    orderShipment(id: ID @eq): Shipment @find(model: "Webkul\\Sales\\Models\\Shipment")
+
+    orderRefunds(input: FilterOrderRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderRefund")): [Refund!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
+
+    orderRefund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
 }
 
 extend type Mutation {
@@ -123,8 +127,8 @@ type Order {
     billingAddress: OrderAddress! @rename(attribute: "billing_address")
     shippingAddress: OrderAddress! @rename(attribute: "shipping_address")
     refunds: [Refund!] @hasMany (relation: "refunds")
-    addresses: [OrderAddress!]! @hasMany (relation: "addresses")
-    items: [OrderItem!]! @hasMany
+    addresses: [OrderAddress!] @hasMany (relation: "addresses")
+    items: [OrderItem!] @hasMany
     comments: [OrderComment] @hasMany
     shipments: [Shipment] @hasMany
     invoices: [Invoice] @hasMany

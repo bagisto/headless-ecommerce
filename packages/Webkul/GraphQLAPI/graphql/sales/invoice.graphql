@@ -1,10 +1,15 @@
 # Seles\Invoice Related APIs
 extend type Query {
-    invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoice")): [Invoice!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
-    invoice(id: ID @eq): Invoice! @find(model: "Webkul\\Sales\\Models\\Invoice")
+    invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoice")): [Invoice!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
 
-    invoiceItems: [InvoiceItem!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\InvoiceItem")
-    invoiceItem(id: ID @eq): InvoiceItem! @find(model: "Webkul\\Sales\\Models\\InvoiceItem")
+    invoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
+
+    invoiceItems(input: FilterInvoiceItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoiceItem")): [InvoiceItem!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\InvoiceItem")
+
+    invoiceItem(
+        id: ID @eq,
+        input: FilterInvoiceItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoiceItem")
+    ): InvoiceItem @find(model: "Webkul\\Sales\\Models\\InvoiceItem")
 }
 
 
@@ -31,6 +36,16 @@ input FilterInvoiceInput {
     invoiceDate: String @rename(attribute: "invoice_date")
 }
 
+input FilterInvoiceItemInput {
+    invoiceId: Int! @rename(attribute: "invoice_id")
+    id: Int
+    name: String
+    sku: String
+    qty: Int
+    price: Float
+    orderItemId: Int @rename(attribute: "order_item_id")
+}
+
 type Invoice {
     id: Int!
     incrementId: String @rename(attribute: "increment_id")
@@ -55,7 +70,7 @@ type Invoice {
     createdAt: String @rename(attribute: "created_at")
     updatedAt: String @rename(attribute: "updated_at")
     transactionId: String @rename(attribute: "transaction_id")
-    items: [InvoiceItem!]! @hasMany
+    items: [InvoiceItem!] @hasMany
     order: Order! @belongsTo
 }
 

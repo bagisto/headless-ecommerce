@@ -1,7 +1,8 @@
 # Setting\Config Related APIs
 extend type Query {
-    coreConfigs(input: FilterCoreConfigInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterCoreConfigs")): [CoreConfig!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\CoreConfig")
-    coreConfig(code: String! @eq): CoreConfig! @find(model: "Webkul\\Core\\Models\\CoreConfig")
+    coreConfigs(input: FilterCoreConfigInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterCoreConfigs")): [CoreConfig!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\CoreConfig")
+
+    coreConfig(code: String! @eq): CoreConfig @find(model: "Webkul\\Core\\Models\\CoreConfig")
 }
 
 type CoreConfig {

@@ -1,8 +1,8 @@
 # Shop\CartItem Related APIs
 extend type Query {
-    cartItems: [CartItem!]! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cartItems")
+    cartItems: [CartItem!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cartItems")
 
-    cartItem(id: ID @eq): CartItem! @find(model: "Webkul\\Checkout\\Models\\CartItem")
+    cartItem(id: ID @eq): CartItem @find(model: "Webkul\\Checkout\\Models\\CartItem")
 }
 
 type CartItem {

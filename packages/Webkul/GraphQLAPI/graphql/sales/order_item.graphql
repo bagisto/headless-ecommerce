@@ -1,7 +1,27 @@
 # Sales\OrderItem Related APIs
 extend type Query {
-    orderItems: [OrderItem!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\OrderItem")
-    orderItem(id: ID @eq): OrderItem! @find(model: "Webkul\\Sales\\Models\\OrderItem")
+    orderItems(input: FilterOrderItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderItem")): [OrderItem!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\OrderItem")
+
+    orderItem(
+        id: ID @eq,
+        input: FilterOrderItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderItem")
+    ): OrderItem @find(model: "Webkul\\Sales\\Models\\OrderItem")
+}
+
+input FilterOrderItemInput {
+    orderId: Int! @rename(attribute: "order_id")
+    id: Int
+    sku: String
+    type: String
+    name: String
+    weight: Float
+    totalWeight: Float @rename(attribute: "total_weight")
+    qtyOrdered: Float @rename(attribute: "qty_ordered")
+    qtyShipped: Float @rename(attribute: "qty_shipped")
+    qtyInvoiced: Float @rename(attribute: "qty_invoiced")
+    qtyCanceled: Float @rename(attribute: "qty_canceled")
+    qtyRefunded: Float @rename(attribute: "qty_refunded")
+    price: Float
 }
 
 type OrderItem {

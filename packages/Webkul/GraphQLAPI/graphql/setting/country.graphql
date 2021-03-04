@@ -1,17 +1,19 @@
 # Setting\Country Related APIs
 extend type Query {
-    countries: [Country!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
-    country(id: ID! @eq): Country! @find(model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
+    countries: [Country!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
 
-    countrieStates: [CountryState!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\CountryState")
-    countrieState(id: ID! @eq): CountryState! @find(model: "Webkul\\Core\\Models\\CountryState")
+    country(id: ID! @eq): Country @find(model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
+
+    countrieStates: [CountryState!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\CountryState")
+
+    countrieState(id: ID! @eq): CountryState @find(model: "Webkul\\Core\\Models\\CountryState")
 }
 
 type Country {
     id: ID!
     code: String!
     name: String!
-    translations: [CountryTranslation!]! @hasMany
+    translations: [CountryTranslation!] @hasMany
     states: [CountryState] @hasMany
 }
 
@@ -28,7 +30,7 @@ type CountryState {
     code: String!
     defaultName: String @rename(attribute: "default_name")
     countryId: ID! @rename(attribute: "country_id")
-    translations: [CountryStateTranslation!]! @hasMany
+    translations: [CountryStateTranslation!] @hasMany
 }
 
 type CountryStateTranslation {

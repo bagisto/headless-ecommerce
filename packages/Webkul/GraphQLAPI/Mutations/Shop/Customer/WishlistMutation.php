@@ -121,10 +121,10 @@ class WishlistMutation extends Controller
                 $wishlists = $wishlists->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($wishlists->first()->id) || isset($wishlists->id) ) {
+            if ( ($wishlists && isset($wishlists->first()->id)) || isset($wishlists->id) ) {
                 return $wishlists;
             } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review']));
+                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Wishlist Item']));
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

@@ -1,7 +1,8 @@
 # Setting\Slider Related APIs
 extend type Query {
-    sliders(input: FilterSliderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterSlider")): [Slider!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Setting\\Slider")
-    slider(id: ID! @eq): Slider! @find(model: "Webkul\\GraphQLAPI\\Models\\Setting\\Slider")
+    sliders(input: FilterSliderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterSlider")): [Slider!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Setting\\Slider")
+
+    slider(id: ID! @eq): Slider @find(model: "Webkul\\GraphQLAPI\\Models\\Setting\\Slider")
 }
 
 input FilterSliderInput {
@@ -10,7 +11,6 @@ input FilterSliderInput {
     locale: String
     channel: String
 }
-
 
 type Slider {
     id: ID!

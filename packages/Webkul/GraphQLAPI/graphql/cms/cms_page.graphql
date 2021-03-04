@@ -1,21 +1,28 @@
 #Velocity\CMSPage Related APIs
 extend type Query {
-    cmsPages(input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage")): [CmsPage!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPage")
-    cmsPage(id: ID @eq): CmsPage! @find(model: "Webkul\\CMS\\Models\\CmsPage")
+    cmsPages(input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage")): [CmsPage!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPage")
 
-    cmsPageTranslations: [CmsTranslation!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
-    cmsPageTranslation(id: ID @eq): CmsTranslation! @find(model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
+    cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")
+
+    cmsPageTranslations(input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")): [CmsTranslation!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
+
+    cmsPageTranslation(
+        id: ID @eq,
+        input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")
+    ): CmsTranslation @find(model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
 }
 
 extend type Mutation {
     createCmsPage(
         input: CreateCmsPageInput!
     ): CmsPage  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\CMS\\CmsPageMutation@store")
+
      updateCmsPage(
         id: ID!,
         input: CreateCmsPageInput!
     ): CmsPage  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\CMS\\CmsPageMutation@update")
-    deleteCmsPage(id: ID!): CmsPage  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\CMS\\CmsPageMutation@delete")
+
+    deleteCmsPage(id: ID!): CmsPage @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\CMS\\CmsPageMutation@delete")
 }
 
 input FilterCmsPageInput {
@@ -24,10 +31,20 @@ input FilterCmsPageInput {
     urlKey: String @rename(attribute: "url_key")
 }
 
+input FilterCmsPageTranslationInput {
+    cmsPageId: Int! @rename(attribute: "cms_page_id")
+    id: Int
+    pageTitle: String @rename(attribute: "page_title")
+    urlKey: String @rename(attribute: "url_key")
+    metaTitle: String @rename(attribute: "meta_title")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    locale: String
+}
+
 input CreateCmsPageInput {
     layout: String
     pageTitle: String! @rename(attribute: "page_title")
-    channels: [Int!]!
+    channels: [Int!]
     htmlContent: String @rename(attribute: "html_content")
     metaTitle: String @rename(attribute: "meta_title")
     urlKey: String! @rename(attribute: "url_key")
@@ -41,8 +58,8 @@ type CmsPage {
     layout: String
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    translations: [CmsTranslation!]! @hasMany
-    channels: [Channel!]! @belongsToMany
+    translations: [CmsTranslation!] @hasMany
+    channels: [Channel!] @belongsToMany
     success: String
 }
 

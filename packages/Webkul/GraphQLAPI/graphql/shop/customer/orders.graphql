@@ -1,20 +1,20 @@
 #Shop\Customer\Orders Related APIs
 extend type Query {
-    ordersList(input: FilterCustomerOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery")):[Order!]! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@orders")
+    ordersList(input: FilterCustomerOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery")):[Order!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@orders")
 
     orderDetail(id: ID @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
 
     viewShipments(input: OrderShipmentInput): [Shipment!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
 
-    viewShipment(id: ID @eq): Shipment! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
+    viewShipment(id: ID @eq): Shipment @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
 
     viewInvoices(input: OrderInvoiceInput): [Invoice!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
 
-    viewInvoice(id: ID @eq): Invoice! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
+    viewInvoice(id: ID @eq): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
 
     viewRefunds(input: OrderRefundInput): [Refund!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
 
-    viewRefund(id: ID @eq): Refund! @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
+    viewRefund(id: ID @eq): Refund @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
 }
 
 input FilterCustomerOrderInput {

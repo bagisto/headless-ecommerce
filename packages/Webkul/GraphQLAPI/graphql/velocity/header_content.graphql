@@ -1,10 +1,10 @@
 #Velocity\HeaderContent Related APIs
 extend type Query {
-    headerContents(input: FilterContentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Velocity\\FilterContent")): [HeaderContent!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\Content")
-    headerContent(id: ID @eq): HeaderContent! @find(model: "Webkul\\Velocity\\Models\\Content")
+    headerContents(input: FilterContentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Velocity\\FilterContent")): [HeaderContent!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\Content")
+    headerContent(id: ID @eq): HeaderContent @find(model: "Webkul\\Velocity\\Models\\Content")
 
-    contentTranslations: [ContentTranslation!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\ContentTranslation")
-    contentTranslation(id: ID @eq): ContentTranslation! @find(model: "Webkul\\Velocity\\Models\\ContentTranslation")
+    contentTranslations: [ContentTranslation!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\ContentTranslation")
+    contentTranslation(id: ID @eq): ContentTranslation @find(model: "Webkul\\Velocity\\Models\\ContentTranslation")
 }
 
 extend type Mutation {
@@ -41,7 +41,7 @@ type HeaderContent {
     contentType: String! @rename(attribute: "content_type")
     position: Int!
     status: Boolean!
-    translations: [ContentTranslation!]! @hasMany
+    translations: [ContentTranslation!] @hasMany
     success: String
 }
 

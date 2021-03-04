@@ -112,7 +112,7 @@ class DownloadableMutation extends Controller
                 $downloads = $downloads->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($downloads->first()->id) || isset($downloads->id) ) {
+            if ( ($downloads && isset($downloads->first()->id)) || isset($downloads->id) ) {
                 return $downloads;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Downloadable Purchase Link']));

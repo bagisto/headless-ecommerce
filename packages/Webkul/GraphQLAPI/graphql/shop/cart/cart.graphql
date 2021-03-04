@@ -2,8 +2,8 @@
 extend type Query {
     cartDetail: Cart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cart")
 
-    # cartAddresses: [CartAddress!]! @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartAddress")
-    # cartAddress(id: ID @eq): CartAddress! @find(model: "Webkul\\Checkout\\Models\\CartAddress")
+    # cartAddresses: [CartAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartAddress")
+    # cartAddress(id: ID @eq): CartAddress @find(model: "Webkul\\Checkout\\Models\\CartAddress")
 }
 
 extend type Mutation {
@@ -122,9 +122,9 @@ type Cart {
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    items: [CartItem!]! @hasMany
-    allItems: [CartItem!]! @hasMany(relation: "all_items")
-    addresses: [CartAddress!]! @hasMany
+    items: [CartItem!] @hasMany
+    allItems: [CartItem!] @hasMany(relation: "all_items")
+    addresses: [CartAddress!] @hasMany
     payment: CartPayment @hasOne
 }
 

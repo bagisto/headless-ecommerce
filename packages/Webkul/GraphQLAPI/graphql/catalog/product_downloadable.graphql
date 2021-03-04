@@ -10,7 +10,7 @@ type ProductDownloadableSample {
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     product: Product! @belongsTo(relation: "product")
-    translations: [SampleTranslation!]! @hasMany
+    translations: [SampleTranslation!] @hasMany
 }
 
 type SampleTranslation {
@@ -26,7 +26,7 @@ type ProductDownloadableLink {
     price: Int!
     url: String!
     file: String
-    file_name: String @rename(attribute: "file_name")
+    fileName: String @rename(attribute: "file_name")
     type: String
     sampleUrl: String @rename(attribute: "sample_url")
     sampleFile: String @rename(attribute: "sample_file")
@@ -36,7 +36,7 @@ type ProductDownloadableLink {
     productId: ID! @rename(attribute: "product_id")
     downloads: Int!
     product: Product! @belongsTo(relation: "product")
-    translations: [LinkTranslation!]! @hasMany
+    translations: [LinkTranslation!] @hasMany
 }
 
 type LinkTranslation {
@@ -48,7 +48,7 @@ type LinkTranslation {
 
 input UpdateDownloadableLinksInput {
     linkProductId: ID @rename(attribute: "link_product_id")
-    locales: [DownloadableLocaleInput!]!
+    locales: [DownloadableLocaleInput!]
     price: Float!
     type: String!
     file: String
@@ -64,7 +64,7 @@ input UpdateDownloadableLinksInput {
 
 input UpdateDownloadableSamplesInput {
     sampleProductId: ID @rename(attribute: "sample_product_id")
-    locales: [DownloadableLocaleInput!]!
+    locales: [DownloadableLocaleInput!]
     type: String!
     file: String
     fileName: String @rename(attribute: "file_name")

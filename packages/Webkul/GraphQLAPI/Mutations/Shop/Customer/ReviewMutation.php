@@ -115,7 +115,7 @@ class ReviewMutation extends Controller
                 $reviews = $reviews->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( isset($reviews->first()->id) || isset($reviews->id) ) {
+            if ( ($reviews && isset($reviews->first()->id)) || isset($reviews->id) ) {
                 return $reviews;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review']));

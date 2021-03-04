@@ -1,11 +1,39 @@
 #Promition\CatalogRuleProduct Related APIs
 extend type Query {
-    catalogRuleProducts: [CatalogRuleProduct!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
-    catalogRuleProduct(id: ID @eq): CatalogRuleProduct! @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
+    catalogRuleProducts(input: FilterCatalogRuleProductInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRuleProduct")): [CatalogRuleProduct!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
 
-    catalogRuleProductPrices: [CatalogRuleProductPrice!]! @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
-    catalogRuleProductPrice(id: ID @eq): CatalogRuleProductPrice! @find(model: "Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
+    catalogRuleProduct(
+        id: ID @eq,
+        input: FilterCatalogRuleProductInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRuleProduct")
+    ): CatalogRuleProduct @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
 
+    catalogRuleProductPrices(input: FilterCatalogRuleProductPriceInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRuleProductPrice")):[CatalogRuleProductPrice!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
+
+    catalogRuleProductPrice(
+        id: ID @eq,
+        input: FilterCatalogRuleProductPriceInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRuleProductPrice")
+    ): CatalogRuleProductPrice @find(model: "Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
+
+}
+
+input FilterCatalogRuleProductInput {
+    catalogRuleId: Int! @rename(attribute: "catalog_rule_id")
+    id: ID
+    discountAmount: Float
+    endOtherRules: Boolean
+    productId: ID @rename(attribute: "product_id")
+    customerGroupId: ID @rename(attribute: "customer_group_id")
+    channelId: ID @rename(attribute: "channel_id")
+    sortOrder: Int
+    actionType: String @rename(attribute: "action_type")
+}
+
+input FilterCatalogRuleProductPriceInput {
+    catalogRuleId: Int! @rename(attribute: "catalog_rule_id")
+    id: ID
+    productId: ID! @rename(attribute: "product_id")
+    customerGroupId: ID! @rename(attribute: "customer_group_id")
+    channelId: ID! @rename(attribute: "channel_id")
 }
 
 type CatalogRuleProduct {

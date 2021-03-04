@@ -1,0 +1,1471 @@
+{
+	"info": {
+		"_postman_id": "6a7bf1c1-1dcc-4da3-9b85-6601bc719eaa",
+		"name": "Settings",
+		"description": "This will contain all the admin section APIs which comes under Settings menu. ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query users {\n    users(input: {\n        # id: 1\n        # name: \"Tom Martin\"\n        # email: \"tom_martin@example.com\"\n        # role: \"Administrator\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n            status\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query user {\n    user(id: 1) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get User Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createUser {\n    createUser(input: {\n        name: \"Tom Martin\"\n        email: \"admin1@example.com\"\n    \tpassword: \"admin123\"\n    \tpasswordConfirmation: \"admin123\"\n    \troleId: 1\n    \tstatus: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New User"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateUser {\n    updateUser(id: 2, input: {\n        name: \"Admin User\"\n        email: \"admin1@example.com\"\n        password: \"admin123\"\n        passwordConfirmation: \"admin123\"\n        roleId: 1\n        status: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update User"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteUser {\n    deleteUser(id: 2) {\n        success\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove User"
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation userLogin {\n    userLogin(input: {\n        email: \"admin@example.com\"\n        password: \"admin123\"\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        user {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n            status\n        }\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "User Login"
+					},
+					"response": []
+				},
+				{
+					"name": "User Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation userLogout {\n    userLogout {\n        status\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "User Logout"
+					},
+					"response": []
+				}
+			],
+			"description": "Admin User"
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Get All Roles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query roles {\n    roles {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            permissionType\n            permissions\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query role {\n    role(id:1) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Role Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createRole {\n    createRole(input: {\n        name: \"Custom Role\"\n        description: \"Custom Role Description\"\n        permissionType: \"custom\"\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New Role"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateRole {\n    updateRole(id: 2, input: {\n        name: \"Custom\"\n        description: \"Custom Description\"\n        permissionType: \"custom\"\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update Role"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteRole {\n    deleteRole(id: 2) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove Role"
+					},
+					"response": []
+				}
+			],
+			"description": "User's Roles"
+		},
+		{
+			"name": "Locales",
+			"item": [
+				{
+					"name": "Get All Locales",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query locales {\n    locales {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            direction\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Locales"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Locale Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query locale {\n    locale(id: 4) {\n        id\n        name\n        code\n        direction\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Locale Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Locale",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"arb\"\n        name: \"Arabic Locale\"\n        direction: \"ltr\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Create Locale"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Locale Details",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateLocale {\n    updateLocale(id: 6, input: {\n    \tcode: \"ar\"\n        name: \"Arabic\"\n        direction: \"rtl\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update Locale Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Locale",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteLocale {\n    deleteLocale(id: 5) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove Locale"
+					},
+					"response": []
+				}
+			],
+			"description": "Admin Locales"
+		},
+		{
+			"name": "Currencies",
+			"item": [
+				{
+					"name": "Get All Currencies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query currencies {\n    currencies {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            symbol\n            exchangeRate {\n                id\n                rate\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Currencies"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Currency Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\nquery currency {\n    currency(id: 3) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            targetCurrency\n            rate\n            currency {\n                id\n                name\n                code\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Locale Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Currency",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create Currency"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Currency",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\nmutation updateCurrency {\n    updateCurrency(id: 3, input: {\n    \tcode:\"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update Currency"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Currency",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteCurrency {\n    deleteCurrency(id: 3) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove Currency"
+					},
+					"response": []
+				}
+			],
+			"description": "Currencies"
+		},
+		{
+			"name": "Exchange Rates",
+			"item": [
+				{
+					"name": "Get All Exchange Rates",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query exchangeRates {\n    exchangeRates {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            targetCurrency\n            rate\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Exchange Rates"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Exchange Rate Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query exchangeRate {\n    exchangeRate(\n        id: 1\n    ) {\n\t    id\n        targetCurrency\n        rate\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Exchange Rate Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Exchange Rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createExchangeRate {\n    createExchangeRate(input: {\n    \ttargetCurrency: 3\n        rate: 75.10\n    }) {\n        id\n        rate\n    \ttargetCurrency\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New Exchange Rate"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Exchange Rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateExchangeRate {\n    updateExchangeRate(id: 1, input: {\n    \ttargetCurrency: 3\n        rate: 75.00\n    }) {\n        id\n        rate\n    \ttargetCurrency\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update Exchange Rate"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Exchange Rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteExchangeRate {\n    deleteExchangeRate(id: 1) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Remove Exchange Rate"
+					},
+					"response": []
+				}
+			],
+			"description": "Exchange Rates"
+		},
+		{
+			"name": "Inventory Sources",
+			"item": [
+				{
+					"name": "Get All Inventory Sources",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query inventorySources {\n    inventorySources {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Inventory Sources"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inventory Source Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query inventorySource {\n    inventorySource(id: 1) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Inventory Source Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Inventory Source",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createInventorySource {\n    createInventorySource(input: {\n        code: \"ncr\",\n        name: \"NCRStore\",\n        contactName: \"TomMartin\",\n        contactEmail: \"tom_martin@example.com\",\n        contactNumber: \"4792645441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 3,\n        latitude: \"123.123.123.123\",\n        longitude: \"444.444.444.444\",\n        status: false\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New Inventory Source"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Inventory Source",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateInventorySource {\n    updateInventorySource(id: 2, input: {\n        code: \"ncr\",\n        name: \"NCR Store\",\n        contactName: \"Tom Martin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"479-264-5441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 2,\n        latitude: \"444.444.444.444\",\n        longitude: \"123.123.123.123\",\n        status: true\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update Inventory Source"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Inventory Source",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteInventorySource {\n    deleteInventorySource(id: 2) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove Inventory Source"
+					},
+					"response": []
+				}
+			],
+			"description": "Inventory Sources"
+		},
+		{
+			"name": "Tax Rates",
+			"item": [
+				{
+					"name": "Get All TaxRates",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query taxRates {\n    taxRates {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            identifier\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            state\n            country\n            taxRate\n            taxCategories {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All TaxRates"
+					},
+					"response": []
+				},
+				{
+					"name": "Get TaxRate Detail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query taxRate {\n    taxRate(id: 1) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get TaxRate Detail"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New TaxRate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createTaxRate {\n    createTaxRate(input: {\n        identifier: \"demo tax\",\n        country: \"IN\",\n        state: \"\",\n        isZip: 1,\n        zipFrom: \"555555\",\n        zipTo: \"600000\",\n        taxRate: 4.33,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New TaxRate"
+					},
+					"response": []
+				},
+				{
+					"name": "Update TaxRate Details",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateTaxRate {\n    updateTaxRate(id: 1, input: {\n        identifier: \"demo tax\",\n        isZip: 1,\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update TaxRate Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove TaxRate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteTaxRate {\n    deleteTaxRate(id: 1) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove TaxRate"
+					},
+					"response": []
+				}
+			],
+			"description": "Tax Rates"
+		},
+		{
+			"name": "Tax Categories",
+			"item": [
+				{
+					"name": "Get All TaxCategories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query taxCategories {\n    taxCategories {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            taxRates {\n                id\n                identifier\n                country\n                state\n                isZip\n                zipCode\n                zipFrom\n                zipTo\n                taxRate\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All TaxCategories"
+					},
+					"response": []
+				},
+				{
+					"name": "Get TaxCategory Detail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query taxCategory {\n    taxCategory(id: 1) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get TaxCategory Detail"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New TaxCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createTaxCategory {\n    createTaxCategory(input: {\n        code: \"servicetax\"\n        name: \"Service Tax\"\n        description: \"Service Tax Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New TaxCategory"
+					},
+					"response": []
+				},
+				{
+					"name": "Update TaxCategory Details",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\nmutation updateTaxCategory {\n    updateTaxCategory(id: 1, input: {\n        code: \"servicetax\"\n        name: \"Service Tax\"\n        description: \"Service Tax Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update TaxCategory Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove TaxCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteTaxCategory {\n    deleteTaxCategory(id: 1) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove TaxCategory"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Channels",
+			"item": [
+				{
+					"name": "Get All Channels",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query channels {\n    channels {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Channels"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Channel Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query channel {\n    channel(id: 1) {\n        id\n        code\n        name\n        description\n        theme\n        homePageContent\n        footerContent\n        hostname\n        defaultLocaleId\n        baseCurrencyId\n        rootCategoryId\n        homeSeo\n        locales {\n            id\n            name\n            code\n            direction\n        }\n        defaultLocale\n        currencies {\n            id\n            name\n            code\n            symbol\n        }\n        inventorySources {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n        baseCurrency\n        rootCategory\n        logoUrl\n        faviconUrl\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Channel Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createChannel {\n    createChannel(input: {\n        code: \"velocity\"\n        name: \"Velocity Store\"\n        description: \"E-Comm velocity clothing house\"\n        inventorySources: [1]\n        rootCategoryId: 1\n        hostname: \"velocity.com\"\n        locales: [1, 3, 4, 5]\n        defaultLocaleId: 5\n        currencies: [1, 2, 3]\n        baseCurrencyId: 3\n        theme: \"default\"\n        homePageContent: \"<p>@include(\\\"shop::home.slider\\\") @include(\\\"shop::home.featured-products\\\") @include(\\\"shop::home.new-products\\\")</p>\\r\\n<div class=\\\"banner-container\\\">\\r\\n<div class=\\\"left-banner\\\"><img src=\\\"https://s3-ap-southeast-1.amazonaws.com/cdn.uvdesk.com/website/1/201902045c581f9494b8a1.png\\\" /></div>\\r\\n<div class=\\\"right-banner\\\"><img src=\\\"https://s3-ap-southeast-1.amazonaws.com/cdn.uvdesk.com/website/1/201902045c581fb045cf02.png\\\" /> <img src=\\\"https://s3-ap-southeast-1.amazonaws.com/cdn.uvdesk.com/website/1/201902045c581fc352d803.png\\\" /></div>\\r\\n</div>\"\n        footerContent: \"<div class=\\\"list-container\\\"><span class=\\\"list-heading\\\">Quick Links</span>\\r\\n<ul class=\\\"list-group\\\">\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'about-us') @endphp\\\">About Us</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'return-policy') @endphp\\\">Return Policy</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'refund-policy') @endphp\\\">Refund Policy</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'terms-conditions') @endphp\\\">Terms and conditions</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'terms-of-use') @endphp\\\">Terms of Use</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'contact-us') @endphp\\\">Contact Us</a></li>\\r\\n</ul>\\r\\n</div>\\r\\n<div class=\\\"list-container\\\"><span class=\\\"list-heading\\\">Connect With Us</span>\\r\\n<ul class=\\\"list-group\\\">\\r\\n<li><a href=\\\"#\\\"><span class=\\\"icon icon-facebook\\\"></span>Facebook </a></li>\\r\\n<li><a href=\\\"#\\\"><span class=\\\"icon icon-twitter\\\"></span> Twitter </a></li>\\r\\n<li><a href=\\\"#\\\"><span class=\\\"icon icon-instagram\\\"></span> Instagram </a></li>\\r\\n<li><a href=\\\"#\\\"> <span class=\\\"icon icon-google-plus\\\"></span>Google+ </a></li>\\r\\n<li><a href=\\\"#\\\"> <span class=\\\"icon icon-linkedin\\\"></span>LinkedIn </a></li>\\r\\n</ul>\\r\\n</div>\"\n        logo: \"http://graphqlnew.com/storage/channel/1/gdNLcKZrc3PbGXMThHygPFBijLXa1z0sEaBi7LFj.jpg\"\n        favicon: \"http://graphqlnew.com/storage/channel/1/YZBH5Ow7whEivfmMHLTjqaObTgb5behn01fsaYzB.jpg\"\n        seoTitle: \"sdfsdf\"\n        seoDescription: \"sfsdfdsx\"\n        seoKeywords: \"sdfsdfsdf\"\n    }) {\n        id\n        code\n        name\n        description\n        theme\n        homePageContent\n        footerContent\n        hostname\n        defaultLocaleId\n        baseCurrencyId\n        rootCategoryId\n        homeSeo\n        locales {\n            id\n            name\n            code\n            direction\n        }\n        defaultLocale\n        currencies {\n            id\n            name\n            code\n            symbol\n        }\n        inventorySources {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n        baseCurrency\n        rootCategory\n        logoUrl\n        faviconUrl\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Create New Channel"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Channel Details",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\nmutation updateChannel {\n    updateChannel(id: 2, input: {\n        code: \"fashion\"\n        name: \"Today's Fashion\"\n        description: \"E-Comm clothing house\"\n        inventorySources: [1]\n        rootCategoryId: 1\n        hostname: \"velocity.com\"\n        locales: [3, 4, 5]\n        defaultLocaleId: 3\n        currencies: [3]\n        baseCurrencyId: 3\n        theme: \"default\"\n        homePageContent: \"<p>@include(\\\"shop::home.slider\\\") @include(\\\"shop::home.featured-products\\\") @include(\\\"shop::home.new-products\\\")</p>\\r\\n<div class=\\\"banner-container\\\">\\r\\n<div class=\\\"left-banner\\\"><img src=\\\"https://s3-ap-southeast-1.amazonaws.com/cdn.uvdesk.com/website/1/201902045c581f9494b8a1.png\\\" /></div>\\r\\n<div class=\\\"right-banner\\\"><img src=\\\"https://s3-ap-southeast-1.amazonaws.com/cdn.uvdesk.com/website/1/201902045c581fb045cf02.png\\\" /> <img src=\\\"https://s3-ap-southeast-1.amazonaws.com/cdn.uvdesk.com/website/1/201902045c581fc352d803.png\\\" /></div>\\r\\n</div>\"\n        footerContent: \"<div class=\\\"list-container\\\"><span class=\\\"list-heading\\\">Quick Links</span>\\r\\n<ul class=\\\"list-group\\\">\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'about-us') @endphp\\\">About Us</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'return-policy') @endphp\\\">Return Policy</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'refund-policy') @endphp\\\">Refund Policy</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'terms-conditions') @endphp\\\">Terms and conditions</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'terms-of-use') @endphp\\\">Terms of Use</a></li>\\r\\n<li><a href=\\\"@php echo route('shop.cms.page', 'contact-us') @endphp\\\">Contact Us</a></li>\\r\\n</ul>\\r\\n</div>\\r\\n<div class=\\\"list-container\\\"><span class=\\\"list-heading\\\">Connect With Us</span>\\r\\n<ul class=\\\"list-group\\\">\\r\\n<li><a href=\\\"#\\\"><span class=\\\"icon icon-facebook\\\"></span>Facebook </a></li>\\r\\n<li><a href=\\\"#\\\"><span class=\\\"icon icon-twitter\\\"></span> Twitter </a></li>\\r\\n<li><a href=\\\"#\\\"><span class=\\\"icon icon-instagram\\\"></span> Instagram </a></li>\\r\\n<li><a href=\\\"#\\\"> <span class=\\\"icon icon-google-plus\\\"></span>Google+ </a></li>\\r\\n<li><a href=\\\"#\\\"> <span class=\\\"icon icon-linkedin\\\"></span>LinkedIn </a></li>\\r\\n</ul>\\r\\n</div>\"\n        logo: \"http://graphqlnew.com/storage/channel/1/gdNLcKZrc3PbGXMThHygPFBijLXa1z0sEaBi7LFj.jpg\"\n        favicon: \"http://graphqlnew.com/storage/channel/1/YZBH5Ow7whEivfmMHLTjqaObTgb5behn01fsaYzB.jpg\"\n        seoTitle: \"sdfsdf\"\n        seoDescription: \"sfsdfdsx\"\n        seoKeywords: \"sdfsdfsdf\"\n    }) {\n        id\n        code\n        name\n        description\n        theme\n        homePageContent\n        footerContent\n        hostname\n        defaultLocaleId\n        baseCurrencyId\n        rootCategoryId\n        homeSeo\n        locales {\n            id\n            name\n            code\n            direction\n        }\n        defaultLocale\n        currencies {\n            id\n            name\n            code\n            symbol\n        }\n        inventorySources {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n        baseCurrency\n        rootCategory\n        logoUrl\n        faviconUrl\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Update Channel Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteChannel {\n    deleteChannel(id: 2) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Remove Channel"
+					},
+					"response": []
+				}
+			],
+			"description": "Channels"
+		},
+		{
+			"name": "Core Config",
+			"item": [
+				{
+					"name": "Get All Config",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query coreConfigs {\n    coreConfigs {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            value\n            channelCode\n            localeCode\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get All Config"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Config",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query coreConfig {\n    coreConfig(\n        code: \"emails.general.notifications.emails.general.notifications.verification\"\n    ) {\n        id\n        code\n        value\n        channelCode\n        localeCode\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Get Config"
+					},
+					"response": []
+				}
+			],
+			"description": "Core Config"
+		},
+		{
+			"name": "Contories",
+			"item": [
+				{
+					"name": "Get All Country List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query countries {\n    countries {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            translations {\n                id\n                locale\n                name\n                countryId\n            }\n            states {\n                id\n                countryCode\n                code\n                defaultName\n                countryId\n                translations {\n                    id\n                    locale\n                    defaultName\n                    countryStateId\n                }\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Country Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query country {\n    country(id: 3) {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CountryStates List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query countrieStates {\n    countrieStates {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CountryState Details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query countrieState {\n    countrieState(id: 3) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Slider",
+			"item": [
+				{
+					"name": "Get All Slider List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query sliders {\n    sliders {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Slider Detail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query slider {\n    slider(id: 1) {\n        id\n        title\n        path\n        content\n        channelId\n        locale\n        sliderPath\n        imgPath\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
