@@ -20,7 +20,8 @@
                 'password-invalid'          => 'Warning: Please enter the correct password.',
                 'password-match'            => 'Warning: Password doesn\'t matched.',
                 'success-registered'        => 'Success: User created successfuly.',
-                'cancel-error'              => 'Order can not be canceled.'
+                'cancel-error'              => 'Order can not be canceled.',
+                'creation-error'            => 'Refund can not be created for this order.',
             ]
         ],
 

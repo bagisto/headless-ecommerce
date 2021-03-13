@@ -87,7 +87,7 @@ class RefundMutation extends Controller
         $order = $this->orderRepository->findOrFail($orderId);
 
         if (! $order->canRefund()) {
-            throw new Exception(trans('admin::app.sales.refunds.creation-error'));
+            throw new Exception(trans('bagisto_graphql::app.admin.response.creation-error'));
         }
 
         try {
