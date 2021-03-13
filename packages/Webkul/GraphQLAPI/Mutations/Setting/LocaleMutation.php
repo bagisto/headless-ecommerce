@@ -59,7 +59,7 @@ class LocaleMutation extends Controller
         $validator = \Validator::make($data, [
             'code'      => ['required', 'unique:locales,code', new \Webkul\Core\Contracts\Validations\Code],
             'name'      => 'required',
-            'direction' => 'in:ltr,rtl',
+            'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
         
         if ($validator->fails()) {
@@ -111,7 +111,7 @@ class LocaleMutation extends Controller
         $validator = \Validator::make($data, [
             'code'      => ['required', 'unique:locales,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
             'name'      => 'required',
-            'direction' => 'in:ltr,rtl',
+            'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
         
         if ($validator->fails()) {
