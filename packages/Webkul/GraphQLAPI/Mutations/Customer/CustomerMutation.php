@@ -10,6 +10,7 @@ use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Mail;
+use Carbon\Carbon;
 use Webkul\Admin\Mail\NewCustomerNotification;
 
 class CustomerMutation extends Controller
@@ -75,7 +76,7 @@ class CustomerMutation extends Controller
             'last_name'         => 'string|required',
             'gender'            => 'required',
             'email'             => 'required|unique:customers,email',
-            'date_of_birth'     => 'date|before:today',
+            'date_of_birth'     => 'string|before:today',
             'customer_group_id' => 'required|numeric',
         ]);
         
@@ -88,6 +89,8 @@ class CustomerMutation extends Controller
         $data['password'] = bcrypt($password);
 
         $data['is_verified'] = 1;
+
+        $data['date_of_birth'] = (isset($data['date_of_birth']) && $data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
 
         try {
             Event::dispatch('customer.registration.before');

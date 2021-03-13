@@ -5,6 +5,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use Hash;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -95,7 +96,7 @@ class AccountMutation extends Controller
             'first_name'            => 'string|required',
             'last_name'             => 'string|required',
             'gender'                => 'required',
-            'date_of_birth'         => 'date|before:today',
+            'date_of_birth'         => 'string|before:today',
             'email'                 => 'email|unique:customers,email,' . $customer->id,
             'oldpassword'           => 'required_with:password',
             'password'              => 'confirmed|min:6|required_with:oldpassword',
@@ -110,6 +111,8 @@ class AccountMutation extends Controller
             if (isset ($data['date_of_birth']) && $data['date_of_birth'] == "") {
                 unset($data['date_of_birth']);
             }
+
+            $data['date_of_birth'] = (isset($data['date_of_birth']) && $data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
 
             if (isset ($data['oldpassword'])) {
                 if ( $data['oldpassword'] != "" || $data['oldpassword'] != null) {
