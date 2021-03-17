@@ -562,6 +562,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Refund",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createRefund {\n    createRefund(input: {\n    \torderId: 3\n        refundShipping: 0\n        adjustmentRefund: 0\n        adjustmentFee: 0\n        refundData: [{\n            orderItemId: 3\n            quantity: 1  \n        }]\n    }) {\n        id\n        incrementId\n        state\n        emailSent\n        totalQty\n        baseCurrencyCode\n        channelCurrencyCode\n        orderCurrencyCode\n        adjustmentRefund\n        baseAdjustmentRefund\n        adjustmentFee\n        baseAdjustmentFee\n        subTotal\n        baseSubTotal\n        grandTotal\n        baseGrandTotal\n        shippingAmount\n        baseShippingAmount\n        taxAmount\n        baseTaxAmount\n        discountPercent\n        discountAmount\n        baseDiscountAmount\n        orderId\n        createdAt\n        updatedAt\n        items {\n            id\n            name\n            description\n            sku\n            qty\n            price\n            basePrice\n            total\n            baseTotal\n            taxAmount\n            baseTaxAmount\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            productId\n            productType\n            orderItemId\n            refundId\n            parentId\n            additional\n            createdAt\n            updatedAt\n        }\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
