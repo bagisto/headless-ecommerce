@@ -138,9 +138,13 @@ class RefundMutation extends Controller
 
                 $refundedData = $this->refundRepository->create(array_merge($refund, ['order_id' => $orderId]));
 
-                return ['success' => trans('admin::app.response.create-success', ['name' => 'Refund'])];
+                if ( isset($refundedData->id) ) {
+                    $refundedData->success = trans('admin::app.response.create-success', ['name' => 'Refund']);
 
-                return $refundedData;
+                    return $refundedData;
+                } else {
+                    throw new Exception(trans('admin::app.sales.refunds.creation-error'));
+                }
             } else {
                 throw new Exception(trans('admin::app.sales.refunds.creation-error'));
             }
