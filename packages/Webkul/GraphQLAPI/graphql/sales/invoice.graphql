@@ -16,7 +16,7 @@ extend type Query {
 extend type Mutation {
     createInvoice(
         input: CreateInvoiceInput!
-    ): Invoice  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\InvoiceMutation@store")
+    ): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\InvoiceMutation@store")
 }
 
 input CreateInvoiceInput {

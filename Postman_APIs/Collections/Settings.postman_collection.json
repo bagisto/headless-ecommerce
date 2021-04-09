@@ -426,7 +426,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateLocale {\n    updateLocale(id: 6, input: {\n    \tcode: \"ar\"\n        name: \"Arabic\"\n        direction: \"rtl\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation updateLocale {\n    updateLocale(id: 5, input: {\n    \tcode: \"ar\"\n        name: \"Arabic\"\n        direction: \"RTL\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
