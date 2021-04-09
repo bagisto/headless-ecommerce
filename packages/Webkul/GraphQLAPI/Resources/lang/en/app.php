@@ -42,6 +42,7 @@
                 'not-found'                 => 'Wanring: No :name found.',
                 'no-address-found'          => 'Wanring: No address found.',
                 'no-order-found'            => 'Wanring: No order found.',
+                'warning-empty-cart'        => 'Warning: There is no product added to the cart.',
                 'success-add-to-cart'       => 'Success: Product added to cart successfully.',
                 'success-update-to-cart'    => 'Success: Cart item has been updated successfully.',
                 'success-delete-cart-item'  => 'Success: Cart item has been removed successfully.',
@@ -59,6 +60,10 @@
                 'invalid-product'           => 'Warning: You are requesting for invalid product.',
                 'already-exist-inwishlist'  => 'Information: This product is already exist in wishlist.',
                 'error-move-to-cart'        => 'Warning: This product might have some required options, not able to move to cart.',
+                'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
+                'no-shipping-address-found'  => 'Warning: No shipping address record found with :address_id shipping id.',
+                'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
+                'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.'
             ]
         ]
     ];

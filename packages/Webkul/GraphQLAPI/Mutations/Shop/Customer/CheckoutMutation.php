@@ -149,6 +149,12 @@ class CheckoutMutation extends Controller
             throw new Exception($validator->messages());
         }
 
+        $cart = Cart::getCart();
+
+        if ( ! $cart ) {
+            throw new Exception(trans('bagisto_graphql::app.shop.response.warning-empty-cart'));
+        }
+
         $billingAddressId = $params['billing_address_id'];
         $shippingAddressId = $params['shipping_address_id'];
 
@@ -177,8 +183,7 @@ class CheckoutMutation extends Controller
                 if (! bagisto_graphql()->guard($this->guard)->check() && ! Cart::getCart()->hasGuestCheckoutItems()) {
                     throw new Exception(trans('bagisto_graphql::app.shop.response.wrong-error'));
                 }
-
-                $cart = Cart::getCart();
+                
                 $data = [
                     'billing'   => [
                         'address1'          => '',
@@ -215,6 +220,8 @@ class CheckoutMutation extends Controller
                         } else {
                             $data['billing']['use_for_shipping'] = false;
                         }
+                    } else {
+                        throw new Exception(trans('bagisto_graphql::app.shop.response.no-billing-address-found', ['address_id' => $billingAddressId]));
                     }
                 } else {
                     $address_flag = true; 
@@ -228,6 +235,8 @@ class CheckoutMutation extends Controller
 
                     if ( isset($shippingAddress->id)) {
                         $data['shipping']['address1'] = $shippingAddress->address1;
+                    } else {
+                        throw new Exception(trans('bagisto_graphql::app.shop.response.no-shipping-address-found', ['address_id' => $shippingAddressId]));
                     }
                 } else {
                     $address_flag = true; 
@@ -304,6 +313,12 @@ class CheckoutMutation extends Controller
                             'jump_to_section'   => 'payment',
                         ];
                     }
+                }
+            } elseif ($token && isset($validateUser['success']) && !$validateUser['success']) {
+                if ( $billingAddressId || $shippingAddressId) {
+                    throw new Exception(trans('bagisto_graphql::app.shop.response.invalid-guest-access'));
+                } else {
+                    throw new Exception(trans('bagisto_graphql::app.shop.response.guest-address-warning'));
                 }
             }
         } catch (Exception $e) {
