@@ -1,12 +1,11 @@
 # graphql-api
 
-Bagisto GraphQL APIs
+Laravel eCommerce headless APIs allow you to experience seamless and easily scalable storefront performance. An open-source and GraphQL based Rest API Laravel platform delivering ultra-fast, dynamic, and personalized shopping experiences.
 
 
 ### 1. Requirements:
 
 * **Bagisto**: v1.2.0, v1.3.x
-
 
 ### 2. Installation:
 
@@ -84,16 +83,16 @@ Bagisto GraphQL APIs
     JWT_TTL=525600
 ~~~
 
-#### To check the customer's API (front APIs), you have to put all the shop schemas at the end in the schema file (i.e. packages/Webkul/GraphQLAPI/graphql/schema.graphql).
-
-~~~
-    put all shop schemas #import /shop/*/*.graphql after #import /promotion/*.graphql this line.
-~~~
-
 #### Now to use the graphql-playground for testing the APIs:
 
 ~~~
     http://example.com/graphql-playground
+~~~
+
+#### To check the customer's API (front APIs), you have to put all the shop schemas at the end in the schema file (i.e. packages/Webkul/GraphQLAPI/graphql/schema.graphql).
+
+~~~
+    put all shop schemas #import /shop/*/*.graphql after #import /promotion/*.graphql this line.
 ~~~
 
 #### Or you can also use the Postmen for testing the APIs:
