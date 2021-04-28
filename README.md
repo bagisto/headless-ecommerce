@@ -101,3 +101,13 @@ Laravel eCommerce headless APIs allow you to experience seamless and easily scal
     http://example.com/graphql
 ~~~
 > That's it, now just execute the project on your specified domain.
+
+#### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+
+<kbd>
+    <a href="https://www.ucraft.com/" target="_blank">
+        <img src="https://static.ucraft.net/fs/ucraft/userFiles/version6/images/logo.png" height="75">
+    </a>
+</kbd>
