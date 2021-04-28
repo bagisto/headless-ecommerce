@@ -108,6 +108,6 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 <kbd>
     <a href="https://www.ucraft.com/" target="_blank">
-        <img src="https://static.ucraft.net/fs/ucraft/userFiles/version6/images/logo.png" height="75">
+        <img src="https://bagisto.com/wp-content/uploads/2021/03/ucraft-bagisto.png" height="50">
     </a>
 </kbd>
