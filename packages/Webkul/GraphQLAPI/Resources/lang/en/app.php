@@ -22,6 +22,8 @@
                 'success-registered'        => 'Success: User created successfuly.',
                 'cancel-error'              => 'Order can not be canceled.',
                 'creation-error'            => 'Refund can not be created for this order.',
+                'channel-failure'           => 'Channel Not Found.',
+                'script-delete-success'     => 'Script deleted successfuly.'
             ]
         ],
 

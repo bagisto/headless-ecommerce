@@ -1,0 +1,41 @@
+# Setting\Custom Script Related APIs
+extend type Mutation {
+    createCustomScript(
+        input: CreateCustomScriptInput!
+    ): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\CustomScriptMutation@store")
+
+    updateCustomCSSScript(
+        input: UpdateCustomCSSInput!
+    ): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\CustomScriptMutation@update")
+
+    updateCustomJSScript(
+        input: UpdateCustomJSInput!
+    ): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\CustomScriptMutation@update")
+
+    deleteCustomScript(id: ID!): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\CustomScriptMutation@delete")
+}
+
+input UpdateCustomCSSInput {
+    channel: Int!
+    customCSS: String!
+}
+
+input UpdateCustomJSInput {
+    channel: Int!
+    customJS: String!
+}
+
+input CreateCustomScriptInput {
+    channel: Int!
+    customCSS: String
+    customJS: String
+}
+
+type CustomScript {
+    id: ID!
+    code: String!
+    value: String!
+    channelCode: String @rename(attribute: "channel_code")
+    localeCode: String @rename(attribute: "locale_code")
+    success: String
+}
