@@ -16,8 +16,9 @@ class Product extends BaseModel
      * Retrieve type instance
      *
      * @return AbstractType
+	 * @throws \Exception
      */
-    public function getTypeInstance()
+    public function getTypeInstance(): AbstractType
     {
         if ($this->typeInstance) {
             return $this->typeInstance;
