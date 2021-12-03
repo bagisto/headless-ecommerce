@@ -6,6 +6,7 @@ use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Product\Repositories\ProductImageRepository;
+use Webkul\Product\Repositories\ProductVideoRepository;
 use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
 use Webkul\Product\Repositories\ProductGroupedProductRepository;
 use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
@@ -21,6 +22,13 @@ class BagistoGraphql
      * @var \Webkul\Product\Repositories\ProductImageRepository
      */
     protected $productImageRepository;
+
+    /**
+     * ProductVideoRepository object
+     *
+     * @var \Webkul\Product\Repositories\ProductVideoRepository
+     */
+    protected $productVideoRepository;
 
     /**
      * ProductCustomerGroupPriceRepository object
@@ -65,9 +73,26 @@ class BagistoGraphql
     protected $productBundleOptionProductRepository;
 
     /**
+     * allowedImageMimeTypes array
+     *
+     */
+    protected $allowedImageMimeTypes = [
+        'png'   => 'image/png',
+        'jpe'   => 'image/jpeg',
+        'jpeg'  => 'image/jpeg',
+        'jpg'   => 'image/jpeg',
+        'bmp'   => 'image/bmp',
+    ];
+
+    protected $allowedVideoMimeTypes = [
+        'mp4'   => 'video/mp4',
+    ];
+
+    /**
      * Create a new instance.
      *
      * @param  \Webkul\Product\Repositories\ProductImageRepository  $productImageRepository
+     * @param  \Webkul\Product\Repositories\ProductVideoRepository  $productVideoRepository
      * @param  \Webkul\Product\Repositories\ProductCustomerGroupPriceRepository  $productCustomerGroupPriceRepository
      * @param  \Webkul\Product\Repositories\ProductGroupedProductRepository $productGroupedProductRepository
      * @param  \Webkul\Product\Repositories\ProductDownloadableLinkRepository $productDownloadableLinkRepository
@@ -84,7 +109,8 @@ class BagistoGraphql
         ProductDownloadableSampleRepository $productDownloadableSampleRepository,
         ProductBundleOptionRepository $productBundleOptionRepository,
         ProductBundleOptionProductRepository $productBundleOptionProductRepository,
-        ProductImageRepository $productImageRepository
+        ProductImageRepository $productImageRepository,
+        ProductVideoRepository $productVideoRepository
     )   {
         $this->productCustomerGroupPriceRepository = $productCustomerGroupPriceRepository;
 
@@ -99,6 +125,8 @@ class BagistoGraphql
         $this->productBundleOptionProductRepository = $productBundleOptionProductRepository;
 
         $this->productImageRepository = $productImageRepository;
+
+        $this->productVideoRepository = $productVideoRepository;
     }
 
     /**
@@ -203,7 +231,7 @@ class BagistoGraphql
         }
         
         if ( isset($image_url) && $image_url) {
-            $valoidateImg = $this->validateImagePath($image_url);
+            $valoidateImg = $this->validatePath($image_url, 'image');
 
             if ( $valoidateImg ) {
                 $img_name = basename($image_url);
@@ -225,9 +253,12 @@ class BagistoGraphql
     /**
      * @param  array  $data
      * @param  \Webkul\Product\Contracts\Product  $product
+     * @param Array $image_urls
+     * @param String $path
+     * @param String $type
      * @return void
      */
-    public function uploadProductImages($product, $image_urls, $path)
+    public function uploadProductImages($product, $image_urls, $path, $type = 'image')
     {
         $model_path = $path . $product->id . '/';
         $image_dir_path = storage_path('app/public/' . $model_path);
@@ -235,7 +266,10 @@ class BagistoGraphql
             mkdir(storage_path('app/public/' . $model_path), 0777, true);
         }
 
-        $previousImageIds = $productImageArray = $product->images()->pluck('id');
+        if ( $type == 'video')
+            $previousImageIds = $productImageArray = $product->videos()->pluck('id');
+        else
+            $previousImageIds = $productImageArray = $product->images()->pluck('id');
 
         if (isset($image_urls) && $image_urls) {
 
@@ -243,12 +277,18 @@ class BagistoGraphql
                 if (is_numeric($index = $previousImageIds->search($productImageId))) {
                     $previousImageIds->forget($index);
                 }
-
-                $this->productImageRepository->delete($productImageId);
+                if ( $type == 'video')
+                    $this->productVideoRepository->delete($productImageId);
+                else
+                    $this->productImageRepository->delete($productImageId);
             }
 
             foreach ($image_urls as $imageId => $image_url) {
-                $valoidateImg = $this->validateImagePath($image_url);
+                if ( $type == 'video') {
+                    $valoidateImg = $this->validatePath($image_url, 'video');
+                } else {
+                    $valoidateImg = $this->validatePath($image_url, 'image');
+                }
 
                 if ( $valoidateImg ) {
                     $img_name = basename($image_url);
@@ -260,18 +300,30 @@ class BagistoGraphql
 
                     file_put_contents($savePath, file_get_contents($image_url));
 
-                    $this->productImageRepository->create([
-                        'path'       => $model_path . $img_name,
-                        'product_id' => $product->id,
-                    ]);
+                    if ( $type == 'video') {
+                        $this->productVideoRepository->create([
+                            'type'       => $type,
+                            'path'       => $model_path . $img_name,
+                            'product_id' => $product->id,
+                        ]);
+                    } else {
+                        $this->productImageRepository->create([
+                            'type'       => $type,
+                            'path'       => $model_path . $img_name,
+                            'product_id' => $product->id,
+                        ]);
+                    }
                 }
             }
         } else {
             foreach ($previousImageIds as $imageId) {
                 if ($imageModel = $this->productImageRepository->find($imageId)) {
                     Storage::delete($imageModel->path);
-    
-                    $this->productImageRepository->delete($imageId);
+                    
+                    if ( $type == 'video')
+                        $this->productImageRepository->delete($imageId);
+                    else
+                        $this->productVideoRepository->delete($imageId);
                 }
             }
         }
@@ -281,16 +333,17 @@ class BagistoGraphql
      * To validate the image url
      *
      * @param String|null $imageURL
+     * @param String|null $type
      * @return boolean
     */
-    public function validateImagePath(string $imageURL) {
+    public function validatePath(string $imageURL, $type = 'image') {
         if ($imageURL) {
             $chkURL = curl_init();
 			curl_setopt($chkURL, CURLOPT_URL, $imageURL);
 			curl_setopt($chkURL, CURLOPT_NOBODY, 1);
 			curl_setopt($chkURL, CURLOPT_FAILONERROR, 1);
 			curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
-			if (curl_exec($chkURL) !== FALSE && $this->getImageMIMEType($imageURL)) {
+			if (curl_exec($chkURL) !== FALSE && $this->getImageMIMEType($imageURL, $type)) {
 					return true;
 			} else {
 					return false;
@@ -304,22 +357,17 @@ class BagistoGraphql
      * To validate the image's mime type
      *
      * @param String|null $imageURL
+     * @param String|null $type
      * @return boolean
     */
-    public function getImageMIMEType($filename)
+    public function getImageMIMEType($filename, $type = 'image')
     {
-        $mime_types = [
-            // images
-            'png' => 'image/png',
-            'jpe' => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'jpg' => 'image/jpeg',
-            'bmp' => 'image/bmp',
-        ];
         $explodeURL = explode('.', $filename);
         $ext = strtolower(array_pop($explodeURL));
+
+        $mimeTypes = $type == 'image' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
         
-        if (array_key_exists($ext, $mime_types)) {
+        if (array_key_exists($ext, $mimeTypes)) {
             return true;
         } elseif (function_exists('finfo_open')) {
             $finfo = finfo_open(FILEINFO_MIME);

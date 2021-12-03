@@ -8,7 +8,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 1. Requirements:
 
-* **Bagisto**: v1.2.0, v1.3.x
+* **Bagisto**: v1.3.3
 
 ### 2. Installation:
 
@@ -21,15 +21,6 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 ~~~
 
 #### Find a file auth.php present inside config folder from root and do the following changes:
-
-* change the *token* driver to *jwt* in **'guards'** array like below mentioned (for Bagisto v1.2.0):
-
-~~~
-    'admin-api' => [
-        'driver'    => 'jwt',
-        'provider'  => 'admins',
-    ]
-~~~
 
 * replace the *admins* array index with the below-mentioned value in **'providers'** array:
 
@@ -46,15 +37,13 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
     "Webkul\\GraphQLAPI\\": "packages/Webkul/GraphQLAPI"
 ~~~
 
-#### Goto packages/Webkul/Checkout/src/Http/helpers.php file and replace the Cart::class to
-
-* replace **Cart::class** to **'cart'** keyword.
-
-
 #### Run the below mentioned commands from the root directory in terminal:
 
 ~~~
     composer dump-autoload
+~~~
+~~~
+    php artisan optimize
 ~~~
 ~~~
     php artisan bagisto_graphql:install

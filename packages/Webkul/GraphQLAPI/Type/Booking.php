@@ -9,9 +9,9 @@ use Webkul\BookingProduct\Helpers\Booking as BookingHelper;
 use Webkul\BookingProduct\Repositories\BookingProductRepository;
 use Webkul\Checkout\Models\CartItem;
 use Webkul\Product\Datatypes\CartItemValidationResult;
-use Webkul\Product\Helpers\ProductImage;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
 use Webkul\Product\Repositories\ProductImageRepository;
+use Webkul\Product\Repositories\ProductVideoRepository;
 use Webkul\Product\Repositories\ProductInventoryRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Type\Virtual;
@@ -44,6 +44,7 @@ class Booking extends Virtual
         'admin::catalog.products.accordians.channels',
         'bookingproduct::admin.catalog.products.accordians.booking',
         'admin::catalog.products.accordians.product-links',
+        'admin::catalog.products.accordians.videos',
     ];
 
     /**
@@ -54,9 +55,9 @@ class Booking extends Virtual
      * @param  \Webkul\Product\Repositories\ProductAttributeValueRepository $attributeValueRepository
      * @param  \Webkul\Product\Repositories\ProductInventoryRepository      $productInventoryRepository
      * @param  \Webkul\Product\Repositories\ProductImageRepository          $productImageRepository
-     * @param  \Webkul\Product\Helpers\ProductImage $productImageHelper
      * @param  \Webkul\BookingProduct\Repositories\BookingProductRepository  $bookingProductRepository
-     * @param  \Webkul\BookingProduct\Helpers\BookingHelper  $bookingHelper
+     * @param  \Webkul\BookingProduct\Helpers\BookingHelper                  $bookingHelper
+     * @param \Webkul\Product\Repositories\ProductVideoRepository            $productVideoRepository
      * @return void
      */
     public function __construct(
@@ -65,9 +66,9 @@ class Booking extends Virtual
         ProductAttributeValueRepository $attributeValueRepository,
         ProductInventoryRepository $productInventoryRepository,
         ProductImageRepository $productImageRepository,
-        ProductImage $productImageHelper,
         BookingProductRepository $bookingProductRepository,
-        BookingHelper $bookingHelper
+        BookingHelper $bookingHelper,
+        ProductVideoRepository $productVideoRepository
     )
     {
         parent::__construct(
@@ -76,7 +77,7 @@ class Booking extends Virtual
             $attributeValueRepository,
             $productInventoryRepository,
             $productImageRepository,
-            $productImageHelper
+            $productVideoRepository
         );
 
         $this->bookingProductRepository = $bookingProductRepository;

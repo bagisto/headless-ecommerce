@@ -132,7 +132,7 @@ class ProductMutation extends Controller
         $id = $args['id'];
     
         $product = $this->productRepository->findOrFail($id);
-
+        
         // Only in case of configurable product type
         if ( isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
             $data['variants'] = bagisto_graphql()->manageConfigurableRequest($data);
@@ -197,10 +197,14 @@ class ProductMutation extends Controller
             }
         }
 
-        $image_urls = [];
+        $image_urls = $video_urls = [];
         if ( isset($data['images'])) {
             $image_urls = $data['images'];
             unset($data['images']);
+        }
+        if ( isset($data['videos'])) {
+            $video_urls = $data['videos'];
+            unset($data['videos']);
         }
 
         $inventories = [];
@@ -217,7 +221,8 @@ class ProductMutation extends Controller
             $product = $this->productRepository->update($data, $id);
 
             if ( isset($product->id)) {
-                bagisto_graphql()->uploadProductImages($product, $image_urls, 'product/');
+                bagisto_graphql()->uploadProductImages($product, $image_urls, 'product/', 'image');
+                bagisto_graphql()->uploadProductImages($product, $video_urls, 'product/', 'video');
 
                 if ( $product->type == 'booking' ) {
                     $allow_types = ['appointment', 'rental', 'table'];

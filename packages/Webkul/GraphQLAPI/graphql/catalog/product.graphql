@@ -71,6 +71,7 @@ input UpdateProductInput {
     upSell: [Int] @rename(attribute: "up_sell")
     crossSells: [Int] @rename(attribute: "cross_sells")
     images: [String]
+    videos: [String]
     variants: [UpdateVariantInput!]
     links: [UpdateGroupedProductInput!]
     downloadableLinks: [UpdateDownloadableLinksInput!] @rename(attribute: "downloadable_links")
@@ -122,6 +123,7 @@ type Product {
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
     images: [Image!] @hasMany
+    videos: [Video!] @hasMany
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
     reviews: [Review] @hasMany
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
@@ -141,6 +143,7 @@ type Product {
 type ProductFlat {
     id: ID!
     sku: String!
+    productNumber: String @rename(attribute: "product_number")
     name: String
     description: String
     shortDescription: String @rename(attribute: "short_description")

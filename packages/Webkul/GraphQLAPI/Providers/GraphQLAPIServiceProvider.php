@@ -34,8 +34,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      */
     public function overrideModels()
     {
-        // Admin Models
-        $this->app->concord->registerModel(\Webkul\User\Contracts\Admin::class, \Webkul\GraphQLAPI\Models\User\Admin::class);
+        // // Admin Models
+        // $this->app->concord->registerModel(\Webkul\User\Contracts\Admin::class, \Webkul\GraphQLAPI\Models\User\Admin::class);
 
         // CurrencyExchangeRate Models
         $this->app->concord->registerModel(\Webkul\Core\Contracts\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);

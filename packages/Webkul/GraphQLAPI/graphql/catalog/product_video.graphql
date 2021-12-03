@@ -1,5 +1,5 @@
-#Catalog\Image Related API
-type Image{
+#Catalog\Video Related API
+type Video {
     id: ID!
     type: String
     path: String!

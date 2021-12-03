@@ -124,9 +124,14 @@ class RegistrationMutation extends Controller
                     }
                 } else {
                     try {
-                        $configKey = 'emails.general.notifications.emails.general.notifications.registration';
-                        if (core()->getConfigData($configKey)) {
-                            Mail::queue(new RegistrationEmail($data));
+                        $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
+                        if (core()->getConfigData($configCustomerKey)) {
+                            Mail::queue(new RegistrationEmail($data, 'customer'));
+                        }
+
+                        $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
+                        if (core()->getConfigData($configAdminKey)) {
+                            Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
                         }
 
                         return [

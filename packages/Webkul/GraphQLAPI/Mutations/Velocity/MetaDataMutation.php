@@ -145,7 +145,7 @@ class MetaDataMutation extends Controller
         }
 
         if ( isset($image_url) && $image_url) {
-            $valoidateImg = bagisto_graphql()->validateImagePath($image_url);
+            $valoidateImg = bagisto_graphql()->validatePath($image_url, 'image');
 
             if ( $valoidateImg ) {
                 $img_name = basename($image_url);
