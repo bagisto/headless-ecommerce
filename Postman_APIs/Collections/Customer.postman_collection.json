@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ce8850ec-03e7-4a7b-a35e-cd670d209592",
+		"_postman_id": "c74eeb27-e474-4d84-8c93-c67c75b7c69d",
 		"name": "Customer",
 		"description": "Customer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -95,7 +95,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(id: 4, input: {\n        name: \"VIP Customers\"\n        code: \"vip\"\n        isUserDefined: false\n    }) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(id: 4, input: {\n        name: \"VIP Customers\"\n        code: \"vip\"\n        isUserDefined: true\n    }) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -151,7 +151,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customers {\n    customers {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            firstName\n            lastName\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            addresses {\n                id\n                customerId\n                companyName\n                firstName\n                lastName\n                address1\n                address2\n                country\n                state\n                city\n                postcode\n                phone\n                vatId\n                addressType\n                defaultAddress\n            }\n            defaultAddress {\n                id\n                companyName\n                address1\n                address2\n                country\n                state\n                city\n                postcode\n                phone\n            }\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"query": "query customers {\n    customers {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            firstName\n            lastName\n            gender\n            dateOfBirth\n            email\n            phone\n            notes\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            addresses {\n                id\n                customerId\n                companyName\n                firstName\n                lastName\n                address1\n                address2\n                country\n                state\n                city\n                postcode\n                phone\n                vatId\n                addressType\n                defaultAddress\n            }\n            defaultAddress {\n                id\n                companyName\n                address1\n                address2\n                country\n                state\n                city\n                postcode\n                phone\n            }\n            createdAt\n            updatedAt\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -173,7 +173,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customer {\n    customer(id: 1) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "query customer {\n    customer(id: 7) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        notes\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -201,7 +201,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCustomer {\n    createCustomer(input: {\n        firstName: \"Peter\"\n        lastName: \"Doe\"\n        email: \"peter@example.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"17/04/1994\"\n        customerGroupId: 2\n        phone: \"987654321\"\n        status: false\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation createCustomer {\n    createCustomer(input: {\n        firstName: \"Peter\"\n        lastName: \"Doe\"\n        email: \"peter@example.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"17/04/1994\"\n        customerGroupId: 2\n        phone: \"987654321\"\n        notes: \"This is dummy note, for newly created customer.\"\n        status: false\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -229,7 +229,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateCustomer {\n    updateCustomer(id: 3, input: {\n        firstName: \"Kim\"\n        lastName: \"Thomson\"\n        email: \"peter@example.com\"\n      \tgender: \"Female\"\n      \tdateOfBirth: \"2019-10-30\"\n        customerGroupId: 4\n        phone: \"6543213456\"\n        status: true\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "\nmutation updateCustomer {\n    updateCustomer(id: 2, input: {\n        firstName: \"Kim\"\n        lastName: \"Thomson\"\n        email: \"peter@example.com\"\n      \tgender: \"Female\"\n      \tdateOfBirth: \"2019-10-30\"\n        customerGroupId: 3\n        phone: \"6543213456\"\n        status: true\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        notes\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -257,7 +257,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation deleteCustomer {\n    deleteCustomer(id: 4) {\n        success\n    }\n}\n",
+								"query": "\nmutation deleteCustomer {\n    deleteCustomer(id: 2) {\n        success\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -333,7 +333,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCustomerAddress {\n    createCustomerAddress(input: {\n        customerId: 1\n        companyName: \"Webkul\"\n        firstName: \"Tom Demo\"\n        lastName: \"Martin Demo\"\n        address1: \"3180  Bluff\"\n        address2: \"Street\"\n        country: \"US\"\n        state: \"PA\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"15742\"\n        phone: \"234343544\"\n        vatId: \"INV12345678902\"\n        defaultAddress: false\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation createCustomerAddress {\n    createCustomerAddress(input: {\n        customerId: 1\n        companyName: \"Webkul\"\n        firstName: \"Tom Demo\"\n        lastName: \"Martin Demo\"\n        gender: \"Male\"\n        email: \"martin@example.com\"\n        address1: \"3180  Bluff\"\n        address2: \"Street\"\n        country: \"US\"\n        state: \"PA\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"15742\"\n        phone: \"234343544\"\n        vatId: \"INV12345678902\"\n        defaultAddress: true\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        gender\n        email\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -360,7 +360,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(id: 6, input: {\n        customerId: 1\n        companyName: \"Velocity\"\n        firstName: \"Tom\"\n        lastName: \"Martin\"\n        address1: \"3180 Bluff Street\"\n        address2: \"\"\n        country: \"IN\"\n        state: \"UP\"\n        city: \"Noida\"\n        postcode: \"201301\"\n        phone: \"1234123455\"\n        vatId: \"INV12342278902\"\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(id: 1, input: {\n        customerId: 1\n        companyName: \"Velocity\"\n        firstName: \"Tom\"\n        lastName: \"Martin\"\n        gender: \"Male\"\n        email: \"martin@example.com\"\n        address1: \"3180 Bluff Street\"\n        address2: \"\"\n        country: \"IN\"\n        state: \"UP\"\n        city: \"Noida\"\n        postcode: \"201301\"\n        phone: \"1234123455\"\n        vatId: \"INV12342278902\"\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        gender\n        email\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -488,7 +488,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation unSubscribe {\n    unSubscribe(token: \"6040b63dd9b8f\") {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation unSubscribe {\n    unSubscribe(token: \"61ac7596e91aa\") {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},

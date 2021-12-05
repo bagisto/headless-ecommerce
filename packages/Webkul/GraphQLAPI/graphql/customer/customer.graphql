@@ -26,6 +26,7 @@ input CreateCustomerInput {
     dateOfBirth: String @rename(attribute: "date_of_birth")
     customerGroupId: Int! @rename(attribute: "customer_group_id")
     phone: String
+    notes: String
     status: Boolean
 }
 
@@ -49,6 +50,7 @@ type Customer {
     dateOfBirth: String @rename(attribute: "date_of_birth")
     email: String!
     phone: String
+    notes: String
     password: String!
     apiToken: String @rename(attribute: "api_token")
     customerGroupId: Int @rename(attribute: "customer_group_id")

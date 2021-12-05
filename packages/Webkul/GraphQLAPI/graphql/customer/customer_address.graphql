@@ -23,6 +23,8 @@ input CreateCustomerAddressInput {
     companyName: String @rename(attribute: "company_name")
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
+    email: String
+    gender: String
     address1: String!
     address2: String
     country: String!
@@ -57,6 +59,8 @@ type CustomerAddress {
     companyName: String @rename(attribute: "company_name")
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
+    email: String
+    gender: String
     address1: String!
     address2: String
     country: String!

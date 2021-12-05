@@ -84,7 +84,7 @@ input ConditionInput {
     attribute: String!
     operator: String!
     attributeType: String! @rename(attribute: "attribute_type")
-    value: String!
+    value: [String!]
 }
 
 input FilterCartRulesInput {
@@ -110,7 +110,7 @@ type CartRule {
     usesPerCoupon: Int! @rename(attribute: "uses_per_coupon")
     timesUsed: Int! @rename(attribute: "times_used")
     conditionType: String! @rename(attribute: "condition_type")
-    conditions: [String]
+    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional" args: "conditions")
     actions: String
     endOtherRules: Boolean! @rename(attribute: "end_other_rules")
     usesAttributeConditions: Boolean! @rename(attribute: "uses_attribute_conditions")

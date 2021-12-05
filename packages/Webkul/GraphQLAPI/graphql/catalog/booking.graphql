@@ -1,7 +1,7 @@
 #Catalog\Bookings Related API
 extend type Query {
-    bookingProducts: [BookingProduct!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
-    bookingProduct(id: ID @eq): BookingProduct @find(model: "Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
+    bookingProducts: [BookingProduct!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\BookingProduct\\Models\\BookingProduct")
+    bookingProduct(id: ID @eq): BookingProduct @find(model: "Webkul\\BookingProduct\\Models\\BookingProduct")
 
     bookings: [Booking!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\BookingProduct\\Models\\Booking")
     booking(id: ID @eq): Booking @find(model: "Webkul\\BookingProduct\\Models\\Booking")

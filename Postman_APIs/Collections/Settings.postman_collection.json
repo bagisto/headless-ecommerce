@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6a7bf1c1-1dcc-4da3-9b85-6601bc719eaa",
+		"_postman_id": "faec1338-f327-4670-95f5-08e17a8ac262",
 		"name": "Settings",
 		"description": "This will contain all the admin section APIs which comes under Settings menu. ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"

@@ -16,7 +16,7 @@ class Category extends BaseModel
     //implement the attribute
     public function getCountAttribute()
     {
-        $data = DB::table('product_categories')->where("category_id",$this->id)->get();
+        $data = DB::table('product_categories')->where("category_id", $this->id)->get();
         return count($data);
     }  
 }

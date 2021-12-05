@@ -1,7 +1,7 @@
 #Promition\CatalogRule Related APIs
 extend type Query {
-    catalogRules(input : FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
-    catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+    catalogRules(input : FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRule")
+    catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\CatalogRule\\Models\\CatalogRule")
 
 }
 
@@ -18,7 +18,7 @@ extend type Mutation {
 
 input CreateCatalogRuleInput {
     name: String!
-    status: Boolean!
+    status: Boolean
     description: String
     channels: [Int!]
     customerGroups: [Int!] @rename(attribute: "customer_groups")
@@ -36,7 +36,7 @@ input CatalogRuleConditionInput {
     attribute: String!
     operator: String!
     attributeType: String! @rename(attribute: "attribute_type")
-    value: String!
+    value: [String]
 }
 
 input FilterCatalogRulesInput {
@@ -56,10 +56,10 @@ type CatalogRule {
     endsTill: Date @rename(attribute: "ends_till")
     status: Boolean!
     conditionType: Boolean! @rename(attribute: "condition_type")
-    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional" args: "conditions")
     endOtherRules: Boolean! @rename(attribute: "end_other_rules")
     actionType: String @rename(attribute: "action_type")
-    discountAmount: Int! @rename(attribute: "discount_amount")
+    discountAmount: Float! @rename(attribute: "discount_amount")
     sortOrder: Int! @rename(attribute: "sort_order")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")

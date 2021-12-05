@@ -145,7 +145,7 @@ class CustomerGroupMutation extends Controller
 
         if ($customerGroup->is_user_defined == 0) {
             throw new Exception(trans('admin::app.customers.customers.group-default'));
-        } elseif (count($customerGroup->customer) > 0) {
+        } elseif ($customerGroup->customers && count($customerGroup->customers) > 0) {
             throw new Exception(trans('admin::app.response.customer-associate', ['name' => 'Customer Group']));
         } else {
             try {

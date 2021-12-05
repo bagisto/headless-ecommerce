@@ -35,8 +35,10 @@ class FilterCart extends BaseFilter
         return $query->where($arguments); 
     }
 
-    public function additional($data)
+    public function additional($data, $type)
     {
-        return json_encode($data->additional);
+        $param = (isset($type['directive']) && $type['directive'] == 'conditions') ? 'conditions' : 'additional';
+        
+        return json_encode($data->{$param});
     }
 }

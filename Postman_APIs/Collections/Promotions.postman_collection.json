@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1f070334-187d-49a5-9b43-849ebe750261",
+		"_postman_id": "ef2be5d4-69e9-4ee2-bd1b-57c8eada7bab",
 		"name": "Promotions",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -61,6 +61,87 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Cart Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createCartRule {\n    createCartRule(input: {\n        name: \"First Cart Rule (10%)\"\n        description: \"You can avail 10% off by using this cart rule.\"\n        channels: [1]\n        customerGroups: [1, 2]\n        status: false\n        couponType: 1\n        useAutoGeneration: false\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 2\n        usagePerCustomer: 3\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n        sortOrder: 1\n        timesUsed: 2\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"3\"]\n        }]\n        usesAttributeConditions: true\n        actionType: \"by_percent\"\n        discountAmount: 5\n        discountQuantity: 1\n        discountStep: 2\n        applyToShipping: false\n        freeShipping: false\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        actions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        cartRuleChannels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        cartRuleCustomerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        cartRuleCoupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            isPrimary\n            timesUsed\n            expiredAt\n            type\n            cartRuleId\n            createdAt\n            updatedAt\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateCartRule {\n    updateCartRule(id: 1, input: {\n        name: \"First Cart Rule (5%)\"\n        description: \"You can avail 5% off by using this cart rule.\"\n        channels: [1]\n        customerGroups: [1, 2, 3]\n        status: true\n        couponType: 1\n        useAutoGeneration: true\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 1\n        usagePerCustomer: 1\n        startsFrom: \"2021-11-19 13:43:32\"\n        endsTill: \"2021-12-25 13:43:32\"\n        sortOrder: 0\n        timesUsed: 1\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"5\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"cart|payment_method\",\n            operator: \"==\",\n            attributeType: \"select\",\n            value: \"cashondelivery\"\n        },\t{\n            attribute: \"cart|items_qty\",\n            operator: \"==\",\n            attributeType: \"integer\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|children::sku\",\n            operator: \"!{}\",\n            attributeType: \"text\",\n            value: \"home-decor\"\n        }]\n        usesAttributeConditions: true\n        actionType: \"by_percent\"\n        discountAmount: 5\n        discountQuantity: 2\n        discountStep: 1\n        applyToShipping: true\n        freeShipping: true\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        actions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        cartRuleChannels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        cartRuleCustomerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        cartRuleCoupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            isPrimary\n            timesUsed\n            expiredAt\n            type\n            cartRuleId\n            createdAt\n            updatedAt\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Cart Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteCartRule {\n    deleteCartRule(id: 16) {\n        success\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -109,6 +190,87 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query catalogRule {\n    catalogRule(id: 1) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        customerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        catalogRuleProducts {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n        }\n        catalogRuleProductPrices {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Catalog Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createCatalogRule {\n    createCatalogRule(input: {\n        name: \"First Catalog Rule\"\n        status: false\n        description: \"First Catalog Rule 10% off\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n        conditionType: 1\n        conditions: [{\n                    attribute: \"product|category_ids\",\n                    operator: \"{}\",\n                    attributeType: \"multiselect\",\n                    value: [\"1\", \"3\"]\n                },\t{\n                    attribute: \"product|sku\",\n                    operator: \"==\",\n                    attributeType: \"text\",\n                    value: [\"phone\"]\n                }]\n        sortOrder: 1\n        actionType: \"by_percent\"\n        discountAmount: 10.5\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        customerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        catalogRuleProducts {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n        }\n        catalogRuleProductPrices {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Catalog Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateCatalogRule {\n    updateCatalogRule(id: 2, input: {\n        name: \"First Catalog Rule Update\"\n        status: false\n        description: \"First Catalog Rule 10% off update\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-25 13:43:32\"\n        endsTill: \"2021-12-30 13:43:32\"\n        conditionType: 1\n        conditions: [{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"product|sku\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"phone\"]\n        },\t{\n            attribute: \"product|weight\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"1.5\"]\n        }]\n        sortOrder: 0\n        actionType: \"by_percent\"\n        discountAmount: 5.8\n        endOtherRules: false\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n        customerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        catalogRuleProducts {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n        }\n        catalogRuleProductPrices {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Catalog Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteCatalogRule {\n    deleteCatalogRule(id: 2) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},

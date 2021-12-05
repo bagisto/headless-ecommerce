@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "48ba7d92-beeb-435c-8b33-ce41c534d367",
+		"_postman_id": "198b17c3-3c65-43fc-878e-2862ee6e69ba",
 		"name": "Shop",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -16,7 +16,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation customerRegister {\n    customerRegister(input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"john@example.com\"\n    \tpassword: \"demo12345\"\n    \tpasswordConfirmation: \"demo12345\"\n    }) {\n        status\n        success\n    }\n}",
+								"query": "\nmutation customerRegister {\n    customerRegister(input: {\n        firstName: \"Kim\"\n        lastName: \"Thomson\"\n        email: \"kim@example.com\"\n    \tpassword: \"demo123\"\n    \tpasswordConfirmation: \"demo123\"\n    }) {\n        status\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -43,7 +43,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation customerLogin {\n    customerLogin(input: {\n        email: \"tom@example.com\"\n    \tpassword: \"demo123\"\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"query": "\nmutation customerLogin {\n    customerLogin(input: {\n        email: \"john@example.com\"\n    \tpassword: \"demo123\"\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -291,7 +291,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateAddress {\n    updateAddress(id: 11, input: {\n        companyName: \"Velocity\"\n        firstName: \"Tom\"\n        lastName: \"Martin\"\n        address1: \"3180 Bluff Street\"\n        address2: \"\"\n        country: \"IN\"\n        state: \"UP\"\n        city: \"Noida\"\n        postcode: \"201301\"\n        phone: \"1234123455\"\n        vatId: \"INV12342278902\"\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation updateAddress {\n    updateAddress(id: 28, input: {\n        companyName: \"Velocity\"\n        firstName: \"Tom\"\n        lastName: \"Martin\"\n        address1: \"3180 Bluff Street\"\n        address2: \"\"\n        country: \"IN\"\n        state: \"UP\"\n        city: \"Noida\"\n        postcode: \"201301\"\n        phone: \"1234123455\"\n        vatId: \"INV12342278902\"\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -318,7 +318,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteAddress {\n    deleteAddress(id: 11) {\n        success\n    }\n}",
+								"query": "mutation deleteAddress {\n    deleteAddress(id: 28) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1104,7 +1104,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateItemToCart {\n    updateItemToCart(input: {\n        qty: [{\n            cartItemId: 29\n            quantity: 3\n        }]\n    }) {\n        success\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt \n        }\n    }\n}",
+								"query": "mutation updateItemToCart {\n    updateItemToCart(input: {\n        qty: [{\n            cartItemId: 5\n            quantity: 3\n        }]\n    }) {\n        success\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt \n        }\n    }\n}",
 								"variables": ""
 							}
 						},
