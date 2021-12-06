@@ -20,17 +20,6 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
     Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider::class
 ~~~
 
-#### Find a file auth.php present inside config folder from root and do the following changes:
-
-* replace the *admins* array index with the below-mentioned value in **'providers'** array:
-
-~~~
-    'admins' => [
-        'driver'    => 'eloquent',
-        'model'     => Webkul\GraphQLAPI\Models\User\Admin::class,
-    ]
-~~~
-
 #### Goto composer.json file and add following line under 'psr-4'
 
 ~~~
@@ -54,19 +43,31 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 * change the **guard** index value from **api** to **admin-api** like below mentioned:
 
 ~~~
-    https://prnt.sc/y03ye5
+    'guard' => 'admin-api',
 ~~~
 
 * change the path from *'graphql/schema.graphql'* to **'packages/Webkul/GraphQLAPI/graphql/schema.graphql'** for the **register** index under **schema** array index like below mentioned:
 
 ~~~
-    https://prnt.sc/y03vxl
+    'schema' => [
+        'register' => base_path('packages/Webkul/GraphQLAPI/graphql/schema.graphql'),
+    ],
 ~~~
 
 * change the *App\\GraphQL\\* path to **Webkul\\GraphQLAPI\\** in all the indexes of **namespace** index:
 
 ~~~
-    https://prnt.sc/y03tnh
+    'namespaces' => [
+        'models' => ['App', 'Webkul\\GraphQLAPI\\Models'],
+        'queries' => 'Webkul\\GraphQLAPI\\Queries',
+        'mutations' => 'Webkul\\GraphQLAPI\\Mutations',
+        'subscriptions' => 'Webkul\\GraphQLAPI\\Subscriptions',
+        'interfaces' => 'Webkul\\GraphQLAPI\\Interfaces',
+        'unions' => 'Webkul\\GraphQLAPI\\Unions',
+        'scalars' => 'Webkul\\GraphQLAPI\\Scalars',
+        'directives' => ['Webkul\\GraphQLAPI\\Directives'],
+        'validators' => ['Webkul\\GraphQLAPI\\Validators'],
+    ],
 ~~~
 
 * Add the **JWT_TTL** (JWT time to live) entry in the **.env** file under the **JWT_SECRET** key:
