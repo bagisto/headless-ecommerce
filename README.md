@@ -10,23 +10,11 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 1. Requirements:
 
-* **Bagisto**: v1.3.3
+* **Bagisto**: v1.3.x
 
 ### 2. Installation:
 
-* Unzip the respective extension zip and then merge "packages" folder into project root directory.
-
-#### Goto config/app.php file and add following line under 'providers'
-
-~~~
-    Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider::class
-~~~
-
-#### Goto composer.json file and add following line under 'psr-4'
-
-~~~
-    "Webkul\\GraphQLAPI\\": "packages/Webkul/GraphQLAPI/src"
-~~~
+- Run `composer require bagisto/graphql-api`.
 
 #### Find a file config/auth.php and do the following changes:
 
@@ -63,7 +51,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ~~~
     'schema' => [
-        'register' => base_path('packages/Webkul/GraphQLAPI/src/graphql/schema.graphql'),
+        'register' => base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
     ],
 ~~~
 
@@ -107,13 +95,3 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
     http://example.com/graphql
 ~~~
 > That's it, now just execute the project on your specified domain.
-
-#### Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
-
-<kbd>
-    <a href="https://www.ucraft.com/" target="_blank">
-        <img src="https://bagisto.com/wp-content/uploads/2021/03/ucraft-bagisto.png" height="75">
-    </a>
-</kbd>
