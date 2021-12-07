@@ -14,9 +14,17 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 2. Installation:
 
-- Run `composer require bagisto/graphql-api`.
+##### To install Bagisto GraphQL from your console:
 
-#### Find a file config/auth.php and do the following changes:
+~~~
+1. composer require bagisto/graphql-api
+~~~
+
+~~~
+2. php artisan bagisto_graphql:install
+~~~
+
+##### Find a file config/auth.php and do the following changes:
 
 * replace the *admins* array index with the below-mentioned value in **'providers'** array:
 
@@ -27,19 +35,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
     ]
 ~~~
 
-#### Run the below mentioned commands from the root directory in terminal:
-
-~~~
-    composer dump-autoload
-~~~
-~~~
-    php artisan optimize
-~~~
-~~~
-    php artisan bagisto_graphql:install
-~~~
-
-#### Find a file config/lighthouse.php from root and do the following changes:
+##### Find a file config/lighthouse.php from root and do the following changes:
 
 * change the **guard** index value from **api** to **admin-api** like below mentioned:
 
@@ -71,10 +67,20 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
     ],
 ~~~
 
-* Add the **JWT_TTL** (JWT time to live) entry in the **.env** file under the **JWT_SECRET** key:
+##### Add the JWT_TTL (JWT time to live) entry in the .env file under the JWT_SECRET key:
 
 ~~~
     JWT_TTL=525600
+~~~
+
+##### Run the below mentioned commands from the root directory in terminal:
+
+~~~
+1. composer dump-autoload
+~~~
+
+~~~
+2. php artisan optimize
 ~~~
 
 #### Now to use the graphql-playground for testing the APIs:
