@@ -17,11 +17,11 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 ##### To install Bagisto GraphQL from your console:
 
 ~~~
-1. composer require bagisto/graphql-api
+composer require bagisto/graphql-api
 ~~~
 
 ~~~
-2. php artisan bagisto_graphql:install
+php artisan bagisto_graphql:install
 ~~~
 
 ##### Find a file config/auth.php and do the following changes:
@@ -76,11 +76,11 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 ##### Run the below mentioned commands from the root directory in terminal:
 
 ~~~
-1. composer dump-autoload
+composer dump-autoload
 ~~~
 
 ~~~
-2. php artisan optimize
+php artisan optimize
 ~~~
 
 #### Now to use the graphql-playground for testing the APIs:
