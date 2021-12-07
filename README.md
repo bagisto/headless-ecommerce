@@ -28,6 +28,17 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
     "Webkul\\GraphQLAPI\\": "packages/Webkul/GraphQLAPI"
 ~~~
 
+#### Find a file config/auth.php and do the following changes:
+
+* replace the *admins* array index with the below-mentioned value in **'providers'** array:
+
+~~~
+    'admins' => [
+        'driver'    => 'eloquent',
+        'model'     => Webkul\GraphQLAPI\Models\User\Admin::class,
+    ]
+~~~
+
 #### Run the below mentioned commands from the root directory in terminal:
 
 ~~~

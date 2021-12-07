@@ -34,11 +34,44 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      */
     public function overrideModels()
     {
+        // Admin Models
+        $this->app->concord->registerModel(\Webkul\User\Contracts\Admin::class, \Webkul\GraphQLAPI\Models\User\Admin::class);
+
+        // CurrencyExchangeRate Models
+        $this->app->concord->registerModel(\Webkul\Core\Contracts\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);
+
+        // Slider Models
+        $this->app->concord->registerModel(\Webkul\Core\Models\Slider::class, \Webkul\GraphQLAPI\Models\Setting\Slider::class);
+
         // Category Model
         $this->app->concord->registerModel(\Webkul\Category\Models\Category::class, \Webkul\GraphQLAPI\Models\Catalog\Category::class);
 
         // CategoryTranslation Model
         $this->app->concord->registerModel(\Webkul\Category\Models\CategoryTranslation::class, \Webkul\GraphQLAPI\Models\Catalog\CategoryTranslation::class);
+
+        // CatalogRule Models
+        $this->app->concord->registerModel(\Webkul\CatalogRule\Contracts\CatalogRule::class, \Webkul\GraphQLAPI\Models\CatalogRule\CatalogRule::class);
+
+        // CatalogRuleProduct Models
+        $this->app->concord->registerModel(\Webkul\CatalogRule\Contracts\CatalogRuleProduct::class, \Webkul\GraphQLAPI\Models\CatalogRule\CatalogRuleProduct::class);
+
+        // Country Models
+        $this->app->concord->registerModel(\Webkul\Core\Contracts\Country::class, \Webkul\GraphQLAPI\Models\Core\Country::class);
+
+        // CountryState Models
+        $this->app->concord->registerModel(\Webkul\Core\Contracts\CountryTranslation::class, \Webkul\GraphQLAPI\Models\Core\CountryTranslation::class);
+
+        // CartRule Coupon Models
+        $this->app->concord->registerModel(\Webkul\CartRule\Contracts\CartRuleCoupon::class, \Webkul\GraphQLAPI\Models\CartRule\CartRuleCoupon::class);
+
+        // BookingProduct Coupon Models
+        $this->app->concord->registerModel(\Webkul\BookingProduct\Contracts\BookingProduct::class, \Webkul\GraphQLAPI\Models\BookingProduct\BookingProduct::class);
+
+        // Compare Product Models
+        $this->app->concord->registerModel(\Webkul\Velocity\Contracts\VelocityCustomerCompareProduct::class, \Webkul\GraphQLAPI\Models\Velocity\VelocityCustomerCompareProduct::class);
+
+        // Compare Product Models
+        $this->app->concord->registerModel(\Webkul\Customer\Contracts\Wishlist::class, \Webkul\GraphQLAPI\Models\Customer\Wishlist::class);
 
         // Catalog Product Models
         $this->app->concord->registerModel(\Webkul\Product\Contracts\Product::class, \Webkul\GraphQLAPI\Models\Catalog\Product::class);

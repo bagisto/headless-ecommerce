@@ -1,8 +1,8 @@
 # Setting\User Related APIs
 extend type Query {
-    users(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterUser")): [User!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\User\\Models\\Admin")
+    users(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterUser")): [User!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\User\\Admin")
 
-    user(id: ID @eq): User @find(model: "Webkul\\User\\Models\\Admin")
+    user(id: ID @eq): User @find(model: "Webkul\\GraphQLAPI\\Models\\User\\Admin")
 }
 
 extend type Mutation {
