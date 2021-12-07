@@ -29,11 +29,6 @@ class Install extends Command
      */
     public function handle()
     {
-        // running `composer require nuwave/lighthouse`
-        $this->warn('Step: Adding lighthouse dependency nuwave/lighthouse...');
-        $lighthouse = shell_exec('composer require nuwave/lighthouse');
-        $this->info($lighthouse);
-
         // running `php artisan jwt:secret`
         $this->warn('Step: Generating JWT Secret token...');
         $jwt_secret = shell_exec('php artisan jwt:secret');
@@ -43,11 +38,6 @@ class Install extends Command
         $this->warn('Step: Clearing the cache...');
         $cache_clear = shell_exec('php artisan cache:clear');
         $this->info($cache_clear);
-
-        // running `composer require mll-lab/laravel-graphql-playground`
-        $this->warn('Step: Installing GraphQL DevTool...');
-        $playground = shell_exec('composer require mll-lab/laravel-graphql-playground');
-        $this->info($playground);
         
         // running `php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config`
         $this->warn('Step: Publishing Lighthouse Configuration File...');
