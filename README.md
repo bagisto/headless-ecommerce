@@ -25,7 +25,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 #### Goto composer.json file and add following line under 'psr-4'
 
 ~~~
-    "Webkul\\GraphQLAPI\\": "packages/Webkul/GraphQLAPI"
+    "Webkul\\GraphQLAPI\\": "packages/Webkul/GraphQLAPI/src"
 ~~~
 
 #### Find a file config/auth.php and do the following changes:
@@ -63,7 +63,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ~~~
     'schema' => [
-        'register' => base_path('packages/Webkul/GraphQLAPI/graphql/schema.graphql'),
+        'register' => base_path('packages/Webkul/GraphQLAPI/src/graphql/schema.graphql'),
     ],
 ~~~
 
