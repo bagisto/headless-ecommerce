@@ -18,6 +18,8 @@ This changelog consists of the bug & security fixes and new features included in
 
 * #40 [fixed] - No commands defined in the "bagisto_graphql" namespace.
 
+* #38 [fixed] - composer support.
+
 * #37 [fixed] - Implemented API for adding JS on storefront.
 
 ## **v1.0.0 (27th of April 2021)** - *First Release*
