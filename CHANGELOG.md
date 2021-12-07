@@ -4,6 +4,16 @@ This changelog consists of the bug & security fixes and new features included in
 
 ## **v1.1.0 (07th of December, 2021)** - *Release*
 
+* [enhancement] - Product Number Attribute added to Product Schema.
+
+* [enhancement] - Product Videos support added to Product Schema.
+
+* [enhancement] - Email and Gender fields support added to Customer's address Schema.
+
+* [enhancement] - Note field support added to Customer Schema.
+
+* [enhancement] - New Postman APIs sample added to the package.
+
 * #47 [fixed] - Issues with GraphQL API in a fresh bagisto installation.
 
 * #46 [fixed] - RegistrationEmail Missing second parameters.
