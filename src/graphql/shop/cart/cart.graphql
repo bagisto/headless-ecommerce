@@ -86,7 +86,8 @@ input UpdateItemsQty {
 }
 
 type CartItemResponse {
-    success: String
+    status: Boolean
+    message: String
     cart: Cart
 }
 
@@ -99,7 +100,7 @@ type Cart {
     couponCode: String @rename(attribute: "coupon_code")
     isGift: Boolean! @rename(attribute: "is_gift")
     itemsCount: Int @rename(attribute: "items_count")
-    itemsQty: Float @rename(attribute: "items_qty")
+    itemsQty: Int @rename(attribute: "items_qty")
     exchangeRate: Float @rename(attribute: "exchange_rate")
     globalCurrencyCode: String @rename(attribute: "global_currency_code")
     baseCurrencyCode: String @rename(attribute: "base_currency_code")
@@ -124,6 +125,9 @@ type Cart {
     updatedAt: DateTime @rename(attribute: "updated_at")
     items: [CartItem!] @hasMany
     allItems: [CartItem!] @hasMany(relation: "all_items")
+    shippingAddress: CartAddress @rename(attribute: "shipping_address")
+    billingAddress: CartAddress @rename(attribute: "billing_address")
+    selectedShippingRate: CartShippingRate @rename(attribute: "selected_shipping_rate")
     addresses: [CartAddress!] @hasMany
     payment: CartPayment @hasOne
 }
@@ -148,7 +152,7 @@ type CartAddress {
     phone: String
     defaultAddress: Boolean! @rename(attribute: "default_address")
     vatId: String @rename(attribute: "vat_id")
-    additional: [String]
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     cart: Cart @belongsTo(relation: "cart")

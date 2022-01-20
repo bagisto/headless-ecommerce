@@ -168,11 +168,17 @@ type OrderComment {
     order: Order! @belongsTo(relation: "order")
 }
 
+type OrderPaymentAdditional {
+    title: String
+    value: String
+}
+
 type OrderPayment {
     id: ID!
     method: String!
-    methodTitile: String @rename(attribute: "method_titile")
+    methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentTitle")
     orderId: ID @rename(attribute: "order_id")
+    additional: OrderPaymentAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentAdditional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
 }

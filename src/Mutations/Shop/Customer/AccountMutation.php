@@ -4,7 +4,8 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Hash;
-use Illuminate\Http\JsonResponse;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Http\Controllers\Controller;
@@ -55,18 +56,26 @@ class AccountMutation extends Controller
     public function get($rootValue, array $args , GraphQLContext $context)
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.invalid-header'),
+                'Invalid request header parameter.'
+            );
         }
         
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
 
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
-            $customer->success = trans('bagisto_graphql::app.shop.response.customer-details');
-            return $customer;
+            return [
+                'status'    => $customer ? true : false,
+                'customer'  => $customer,
+                'message'   => trans('bagisto_graphql::app.shop.response.customer-details')
+            ];
         } else {
             return [
-                'success'   => trans('bagisto_graphql::app.shop.customer.no-login-customer')
+                'status'    => false,
+                'customer'  => null,
+                'message'   => trans('bagisto_graphql::app.shop.customer.no-login-customer')
             ];
         }
     }
@@ -80,11 +89,17 @@ class AccountMutation extends Controller
     public function update($rootValue, array $args, GraphQLContext $context)
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.invalid-header'),
+                'Invalid request header parameter.'
+            );
         }
 
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'No Login Customer Found.'
+            );
         }
 
         $customer = bagisto_graphql()->guard($this->guard)->user();
@@ -104,7 +119,15 @@ class AccountMutation extends Controller
         ]);
         
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            $errorMessage = [];
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            }
+            
+            throw new CustomException(
+                implode(" ,", $errorMessage),
+                'Invalid Update Customer Details.'
+            );
         }
 
         try {
@@ -121,7 +144,10 @@ class AccountMutation extends Controller
                         $isPasswordChanged = true;
                         $data['password'] = bcrypt($data['password']);
                     } else {
-                        throw new Exception(trans('shop::app.customer.account.profile.unmatch'));
+                        throw new CustomException(
+                            trans('shop::app.customer.account.profile.unmatch'),
+                            'Wrong Customer Password.'
+                        );
                     }
                 } else {
                     unset($data['password']);
@@ -137,15 +163,23 @@ class AccountMutation extends Controller
                 }
     
                 Event::dispatch('customer.update.after', $customer);
-    
-                $customer->success = trans('shop::app.customer.account.profile.edit-success');
-    
-                return $customer;
+
+                return [
+                    'status'    => $customer ? true : false,
+                    'customer'  => $customer,
+                    'message'   => trans('shop::app.customer.account.profile.edit-success')
+                ];
             } else {
-                throw new Exception(trans('shop::app.customer.account.profile.edit-fail'));
+                throw new CustomException(
+                    trans('shop::app.customer.account.profile.edit-fail'),
+                    'Customer Profile Update Failed.'
+                );
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Customer Update Failed.'
+            );
         }
     }
 

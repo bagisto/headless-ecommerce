@@ -7,6 +7,8 @@ extend type Query {
     productFlats: [ProductFlat!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Product\\Models\\ProductFlat")
 
     productFlat(id: ID @eq): ProductFlat @find(model: "Webkul\\Product\\Models\\ProductFlat")
+
+    relatedProducts(productId: Int!): [RelatedProductList] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getRelatedProducts")
 }
 
 extend type Mutation {
@@ -120,10 +122,13 @@ type Product {
     attributeFamily: AttributeFamily! @belongsTo(relation: "attribute_family")
     attributeValues: [ProductAttributeValue!] @hasMany(relation: "attribute_values")
     superAttributes: [Attribute!] @belongsToMany(relation: "super_attributes")
+    additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
     images: [Image!] @hasMany
     videos: [Video!] @hasMany
+    isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInWishlist")
+    priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
     reviews: [Review] @hasMany
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
@@ -131,13 +136,31 @@ type Product {
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
     groupedProducts: [ProductGroupedProduct] @hasMany(relation: "grouped_products")
     bundleOptions: [ProductBundleOption] @hasMany(relation: "bundle_options")
-    booking: BookingProduct @belongsTo(relation: "booking_product")
+    booking: BookingProduct @hasOne(relation: "booking_product")
     sameDaySlots: [BookingDaySlots!] @rename(attribute: "same_day_slots")
     differentDaySlots: [BookingDaySlots!] @rename(attribute: "different_day_slots")
-    # related_products: [RelatedProduct] @belongsToMany(relation: "related_products")
+    relatedProducts: [Product!] @belongsToMany(relation: "related_products")
     # up_sells: [Product] @belongsToMany
     # cross_sells: [Product] @belongsToMany
     success: String
+}
+
+type RelatedProductList {
+    id: ID!
+    type: String!
+    attributeFamilyId: Int! @rename(attribute: "attribute_family_id")
+    sku: String!
+    parentId: ID @rename(attribute: "parent_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    productFlats: [ProductFlat!] @hasMany(relation: "product_flats")
+    variants: [Product] @hasMany
+    inventories: [Inventory!] @hasMany
+    images: [Image!] @hasMany
+    videos: [Video!] @hasMany
+    isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInWishlist")
+    priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
+    reviews: [Review] @hasMany
 }
 
 type ProductFlat {
@@ -197,4 +220,21 @@ type ProductAttributeValue {
     jsonValue: String @rename(attribute: "json_value")
     attribute: Attribute! @belongsTo(relation: "attribute")
     product: Product! @belongsTo(relation: "product")
+}
+
+type ProductAdditionalData {
+    id: ID
+    code: String
+    label: String
+    value: String
+    admin_name: String
+    type: String
+}
+
+type ProductPriceHtml {
+    id: ID!
+    type: String
+    html: String
+    regular: String
+    special: String
 }

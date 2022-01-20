@@ -4,7 +4,7 @@ type Review {
     title: String
     rating: Int!
     comment: String
-    status: Boolean
+    status: String
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     productId: ID! @rename(attribute: "product_id")

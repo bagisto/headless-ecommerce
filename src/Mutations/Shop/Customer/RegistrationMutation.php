@@ -3,7 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -68,7 +68,10 @@ class RegistrationMutation extends Controller
     public function register($rootValue, array $args , GraphQLContext $context)
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameters.'
+            );
         }
     
         $data = $args['input'];
@@ -82,7 +85,15 @@ class RegistrationMutation extends Controller
         ]);
                 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            $errorMessage = [];
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            }
+            
+            throw new CustomException(
+                implode(" ,", $errorMessage),
+                'Invalid Register Details.'
+            );
         }
         
         try {
@@ -139,7 +150,10 @@ class RegistrationMutation extends Controller
                             'success'   => trans('shop::app.customer.signup-form.success')
                         ];
                     } catch (Exception $e) {
-                        throw new Exception($e->getMessage());
+                        throw new CustomException(
+                            $e->getMessage(),
+                            'Customer Registration Email Failed.'
+                        );
                     }
                 }
             } else {
@@ -149,7 +163,10 @@ class RegistrationMutation extends Controller
                 ]; 
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Customer Registration Failed.'
+            );
         }
     }
 }

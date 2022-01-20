@@ -1,12 +1,12 @@
 #Shop\Customer\Account Related APIs
 extend type Query {
-    accountInfo: Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
+    accountInfo: AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
 }
 
 extend type Mutation {
     updateAccount(
         input: UpdateAccountInput!
-    ): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
+    ): AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
 
     deleteAccount(
         input: DeleteAccountInput!
@@ -18,7 +18,7 @@ input UpdateAccountInput {
     lastName: String! @rename(attribute: "last_name")
     gender: String!
     email: String!
-    dateOfBirth: String! @rename(attribute: "date_of_birth")
+    dateOfBirth: String @rename(attribute: "date_of_birth")
     phone: String
     oldpassword: String
     password: String
@@ -27,6 +27,12 @@ input UpdateAccountInput {
 
 input DeleteAccountInput {
     password: String!
+}
+
+type AccountInfoResult {
+    status: Boolean
+    message: String
+    customer: Customer
 }
 
 type AccountDeleteResponse {

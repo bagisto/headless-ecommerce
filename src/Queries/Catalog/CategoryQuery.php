@@ -2,9 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Queries\Catalog;
 
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
+use Illuminate\Support\Facades\DB;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class CategoryQuery
+class CategoryQuery extends BaseFilter
 {
     /**
      * CategoryRepository object
@@ -33,8 +36,52 @@ class CategoryQuery
      *
      * @return \Illuminate\View\View
      */
-    public function categoryTree()
+    public function getProductCount($rootValue, array $args, GraphQLContext $context)
     {
-        return $this->categoryRepository->getVisibleCategoryTree();
+        $categoryId = isset($rootValue->id) ? $rootValue->id : core()->getCurrentChannel()->root_category_id;
+
+        $queryBuilder = DB::table('product_categories as pc')
+            ->select(DB::raw('COUNT(DISTINCT ' . DB::getTablePrefix() . 'pc.product_id) as count'))
+            ->leftJoin('product_flat as pf', 'pc.product_id', '=', 'pf.product_id')
+            ->where('pf.channel', core()->getRequestedChannelCode())
+            ->where('pf.locale', core()->getRequestedLocaleCode())
+            ->where('pf.status', 1)
+            ->where('pf.visible_individually', 1)
+            ->where('pc.category_id', $categoryId);
+            
+        $result = $queryBuilder->first();
+        
+        return isset($result->count) ? $result->count : 0;
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getbreadcrumbs($rootValue, array $args, GraphQLContext $context)
+    {
+        $breadcrumbs = $categorySlug = [];
+
+        if ($rootValue->url_path) {
+            $categorySlug = explode("/", $rootValue->url_path);
+        } else {
+            $categorySlug[] = $rootValue->slug;
+        }
+
+        if (!empty($categorySlug)) {
+            foreach ($categorySlug as $slug) {
+                $category = $this->categoryRepository->findBySlugOrFail($slug);
+                if ($category) {
+                    array_push($breadcrumbs, [
+                        'name'      => $category->name,
+                        'slug'      => $category->slug,
+                        'url_path'  => $category->url_path,
+                    ]);
+                }
+            }
+        }
+        
+        return $breadcrumbs;
     }
 }

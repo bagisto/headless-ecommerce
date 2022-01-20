@@ -1,6 +1,6 @@
 # Catalog\Category Related APIs
 type Query {
-    categories(input: FilterCategoryInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+    categories(input: FilterCategoryListInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
 
     category(id: ID @eq): Category @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
 }
@@ -34,8 +34,9 @@ input CreateCategoryInput {
     attributes: [Int]
 }
 
-input FilterCategoryInput {
+input FilterCategoryListInput {
     id: Int
+    slug: String
     name: String
     status: Boolean
     position: Int
@@ -66,6 +67,12 @@ type Translation {
     urlPath: String @rename(attribute: "url_path")
 }
 
+type CategoryBreadcrumbs {
+    name: String
+    slug: String
+    urlPath: String @rename(attribute: "url_path")
+}
+
 type Category {
     id: ID!
     name: String!
@@ -79,11 +86,14 @@ type Category {
     metaKeywords: String @rename(attribute: "meta_keywords")
     position: Int!
     status: Boolean!
+    productCount: Int @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getProductCount")
+    breadcrumbs: [CategoryBreadcrumbs] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getbreadcrumbs")
     displayMode: String! @rename(attribute: "display_mode")
     parentId: ID @rename(attribute: "parent_id")
     additional: String
     filterableAttributes: [FilterableAttribute!] @hasMany
     translations: [Translation!] @hasMany
+    children: [Category!] @hasMany
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     count: Int

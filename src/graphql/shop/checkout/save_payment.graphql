@@ -1,11 +1,11 @@
 # Shop\Checkout\SavePayment Related API
 extend type Mutation {
     savePayment(
-        input: SavePaymentInput!
+        input: SavePaymentMethodInput!
     ): ReviewOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@savePayment")
 }
 
-input SavePaymentInput {
+input SavePaymentMethodInput {
     payment: PaymentMethodInput!
 }
 

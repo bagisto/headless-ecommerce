@@ -5,6 +5,8 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Webkul\Checkout\Facades\Cart;
+use Illuminate\Support\Facades\Log;
+use Cookie;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
@@ -95,6 +97,7 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
+        Log::error('Cart Header: ' . json_encode(getallheaders()));
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -111,10 +114,11 @@ class CartMutation extends Controller
             $data = bagisto_graphql()->manageInputForCart($product, $data);
             
             $cart = Cart::addProduct($data['product_id'], $data);
-            
+        
             if ( isset($cart->id)) {
                 return [
-                    'success'   => trans('bagisto_graphql::app.shop.response.success-add-to-cart'),
+                    'status'    => true,
+                    'message'   => trans('bagisto_graphql::app.shop.response.success-add-to-cart'),
                     'cart'      => $cart,
                 ];
             } else {
@@ -156,7 +160,8 @@ class CartMutation extends Controller
             
             if ( $cart == true) {
                 return [
-                    'success'   => trans('bagisto_graphql::app.shop.response.success-update-to-cart'),
+                    'status'    => true,
+                    'message'   => trans('bagisto_graphql::app.shop.response.success-update-to-cart'),
                     'cart'      => Cart::getCart(),
                 ];
             } else {
@@ -186,7 +191,8 @@ class CartMutation extends Controller
             
             if ( $cart == true) {
                 return [
-                    'success'   => trans('bagisto_graphql::app.shop.response.success-delete-cart-item'),
+                    'status'    => true,
+                    'message'   => trans('bagisto_graphql::app.shop.response.success-delete-cart-item'),
                     'cart'      => Cart::getCart(),
                 ];
             } else {
@@ -216,7 +222,8 @@ class CartMutation extends Controller
             
             if ( $cart == true) {
                 return [
-                    'success'   => trans('bagisto_graphql::app.shop.response.success-moved-cart-item'),
+                    'status'    => true,
+                    'message'   => trans('bagisto_graphql::app.shop.response.success-moved-cart-item'),
                     'cart'      => Cart::getCart(),
                 ];
             } else {

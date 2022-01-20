@@ -161,16 +161,16 @@ class WishlistMutation extends Controller
         }
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
+            $data['channel_id'] = core()->getCurrentChannel()->id;
+            if (bagisto_graphql()->guard($this->guard)->check()) {
+                $data['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
+            }
 
             $product = $this->productRepository->findOrFail($data['product_id']);
-    
             if (! $product->status) {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.invalid-product'));
             }
-
-            $data['channel_id'] = core()->getCurrentChannel()->id;
-            $data['customer_id'] = $customer->id;
+            
             if ( $product->parent_id != null ) {
                 $product = $this->productRepository->findOrFail($product->parent_id);
                 $data['product_id'] = $product->id;
@@ -179,17 +179,19 @@ class WishlistMutation extends Controller
             $wishlist = $this->wishlistRepository->findOneWhere($data);
 
             if ( isset($wishlist->id) && $wishlist->id) {
+                unset($data['product_id']);
 
                 return [
                     'success'   => trans('bagisto_graphql::app.shop.response.already-exist-inwishlist'),
-                    'wishlist'  => $wishlist
+                    'wishlist'  => $this->wishlistRepository->findWhere($data)
                 ];
             } else {
                 $wishlist = $this->wishlistRepository->create($data);
+                unset($data['product_id']);
 
                 return [
                     'success'   => trans('customer::app.wishlist.success'),
-                    'wishlist'  => $wishlist
+                    'wishlist'  => $this->wishlistRepository->findWhere($data)
                 ];
             }
         } catch (Exception $e) {
@@ -228,29 +230,31 @@ class WishlistMutation extends Controller
         }
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-    
             $data['channel_id'] = core()->getCurrentChannel()->id;
-            $data['customer_id'] = $customer->id;
+            if (bagisto_graphql()->guard($this->guard)->check()) {
+                $data['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
+            }
             
             $product = $this->productRepository->findOrFail($data['product_id']);
+            
             if ( $product->parent_id != null ) {
                 $product = $this->productRepository->findOrFail($product->parent_id);
                 $data['product_id'] = $product->id;
             }
-
             $wishlist = $this->wishlistRepository->findOneWhere($data);
-
+            
             if ( isset($wishlist->id) && $wishlist->id) {
                 $this->wishlistRepository->delete($wishlist->id);
                 return [
                     'status'    => true,
                     'success'   => trans('customer::app.wishlist.removed'),
+                    'wishlist'  => $this->wishlistRepository->findWhere($data)
                 ];
             } else {
                 return [
                     'status'    => false,
                     'success'   => trans('bagisto_graphql::app.shop.response.not-found', ['name'    => 'Wishlist Product']),
+                    'wishlist'  => $this->wishlistRepository->findWhere($data)
                 ];
             }
         } catch (Exception $e) {

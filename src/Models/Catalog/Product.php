@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Models\Catalog;
 
 use Exception;
 use Webkul\Product\Type\AbstractType;
-use Webkul\Product\Models\ProductProxy;
 use Webkul\BookingProduct\Models\BookingProductProxy;
 use Webkul\Product\Models\Product as BaseModel;
 

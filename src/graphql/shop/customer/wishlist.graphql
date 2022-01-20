@@ -1,6 +1,10 @@
 #Shop\Customer\Wishlist Related APIs
 extend type Query {
-    wishlists(input: FilterWislistInput): [Wishlist!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@wishlists")
+    wishlists(
+        input: FilterWislistInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists"),
+        first: Int,
+        page: Int
+    ): [Wishlist!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")
 
     wishlist(id: ID @eq): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@wishlists")
 }
@@ -22,23 +26,21 @@ extend type Mutation {
 type Wishlist {
     id: ID!
     channelId: ID! @rename(attribute: "channel_id")
-    productId: ID!  @rename(attribute: "product_id")
-    customerId: ID!  @rename(attribute: "customer_id")
-    itemOptions: [String]  @rename(attribute: "item_options")
+    productId: ID! @rename(attribute: "product_id")
+    customerId: ID @rename(attribute: "customer_id")
+    itemOptions: [String] @rename(attribute: "item_options")
     additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
-    movedToCart: Boolean  @rename(attribute: "moved_to_cart")
+    movedToCart: Boolean @rename(attribute: "moved_to_cart")
     shared: Boolean
-    timeOfMoving: Date  @rename(attribute: "time_of_moving")
-    createdAt: DateTime  @rename(attribute: "created_at")
-    updatedAt: DateTime  @rename(attribute: "updated_at")
-    customer: Customer! @belongsTo(relation: "customer")
+    timeOfMoving: Date @rename(attribute: "time_of_moving")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    customer: Customer @belongsTo(relation: "customer")
     product: Product! @belongsTo(relation: "product")
     channel: Channel! @belongsTo(relation: "channel")
 }
 
 input FilterWislistInput {
-    page: Int
-    limit: Int
     id: Int
     productId: Int @rename(attribute: "product_id")
     productName: String @rename(attribute: "product_name")
@@ -51,12 +53,13 @@ input AddToWishlistInput {
 
 type AddToWishlistResponse {
     success: String
-    wishlist: Wishlist
+    wishlist: [Wishlist]
 }
 
 type RemoveWishlistResponse {
     status: Boolean
     success: String
+    wishlist: [Wishlist]
 }
 
 type MoveToCartResponse {

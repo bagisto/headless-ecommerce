@@ -16,6 +16,7 @@ type Slider {
     id: ID!
     title: String!
     path: String!
+    imageUrl: String @rename(attribute: "image_url")
     content: String
     channelId: ID! @rename(attribute: "channel_id")
     locale: String!

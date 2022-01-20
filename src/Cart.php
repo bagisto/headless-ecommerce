@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI;
 
-
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Checkout\Cart as BaseCart;
@@ -127,8 +126,8 @@ class Cart extends BaseCart
     public function getCurrentCustomer()
     {
         $token = 0;
-        if ( isset(getallheaders()['Authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['Authorization']);
+        if ( isset(getallheaders()['authorization'])) {
+            $headerValue = explode("Bearer ", getallheaders()['authorization']);
             if ( isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
             }

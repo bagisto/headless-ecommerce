@@ -24,7 +24,7 @@ type ProductDownloadableLink {
     id: ID!
     title: String
     price: Int!
-    url: String!
+    url: String
     file: String
     fileName: String @rename(attribute: "file_name")
     type: String

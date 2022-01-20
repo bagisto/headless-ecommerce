@@ -17,18 +17,23 @@ class FilterCategory extends BaseFilter
     {
         $arguments = $this->getFilterParams($input);
 
-        $translation = "";
+        $qb_conditions = [];
+        foreach ($arguments as $key => $argument) {
+            if (! $argument ) {
+                unset($arguments[$key]);
+            }
+            
+            if ( in_array($key, ['name', 'slug']) && $argument) {
+                $qb_conditions[$key] = $argument;
 
-        // filter the relationship Translation
-        if ( isset($arguments['name'])) {
-
-            $translation = $input['name'];
-
-            unset($arguments['name']);
+                unset($arguments[$key]);
+            }
         }
         
-        return $query->whereHas('translation', function ($q) use ($translation) {
-            $q->where('name', $translation);
+        return $query->whereHas('translation', function ($q) use ($qb_conditions) {
+            foreach ($qb_conditions as $column => $condition) {
+                $q->where($column, 'like', '%' . urldecode($condition) . '%');
+            }
         })->where($arguments);
     }
 }

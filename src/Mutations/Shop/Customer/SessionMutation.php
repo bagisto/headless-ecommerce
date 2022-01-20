@@ -4,8 +4,9 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use JWTAuth;
-use Illuminate\Http\JsonResponse;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Webkul\Customer\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -40,7 +41,10 @@ class SessionMutation extends Controller
     public function login($rootValue, array $args , GraphQLContext $context)
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameters.'
+            );
         }
 
         $data = $args['input'];
@@ -51,7 +55,10 @@ class SessionMutation extends Controller
         ]);
         
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new CustomException(
+                $validator->messages(),
+                'Invalid Login Details.'
+            );
         }
 
         $remember = isset($data['remember']) ? $data['remember'] : 0;
@@ -60,26 +67,29 @@ class SessionMutation extends Controller
             'email'     => $data['email'],
             'password'  => $data['password'],
         ], $remember)) {
-            throw new Exception(trans('shop::app.customer.login-form.invalid-creds'));
+            throw new CustomException(
+                trans('shop::app.customer.login-form.invalid-creds'),
+                'Invalid Email and Password.'
+            );
         }
         
         try {
             if (bagisto_graphql()->guard($this->guard)->user()->status == 0) {
                 bagisto_graphql()->guard($this->guard)->logout();
     
-                return [
-                    'status'    => false,
-                    'success'   => trans('shop::app.customer.login-form.not-activated'),
-                ];
+                throw new CustomException(
+                    trans('shop::app.customer.login-form.not-activated'),
+                    'Account Not Activated.'
+                );
             }
     
             if (bagisto_graphql()->guard($this->guard)->user()->is_verified == 0) {
                 bagisto_graphql()->guard($this->guard)->logout();
-    
-                return [
-                    'status'    => false,
-                    'success'   => trans('shop::app.customer.login-form.verify-first'),
-                ];
+                
+                throw new CustomException(
+                    trans('shop::app.customer.login-form.verify-first'),
+                    'Need email varification.'
+                );
             }
             
             //Event passed to prepare cart after login
@@ -94,7 +104,10 @@ class SessionMutation extends Controller
                 'customer'      => bagisto_graphql()->guard($this->guard)->user()
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Customer Login Failed.'
+            );
         }
     }
 
@@ -106,7 +119,10 @@ class SessionMutation extends Controller
     public function logout()
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.invalid-header'),
+                'Invalid request header parameters.'
+            );
         }
 
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
@@ -120,10 +136,10 @@ class SessionMutation extends Controller
                 'success'   => trans('bagisto_graphql::app.shop.customer.success-logout'),
             ]; 
         } else {
-            return [
-                'status'    => false,
-                'success'   => trans('bagisto_graphql::app.shop.customer.no-login-user'),
-            ];
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-user'),
+                'Customer Login Failed.'
+            );
         }
     }
 }

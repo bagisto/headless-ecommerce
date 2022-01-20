@@ -1,6 +1,10 @@
 #Shop\Customer\Orders Related APIs
 extend type Query {
-    ordersList(input: FilterCustomerOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery")):[Order!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@orders")
+    ordersList(
+        input: FilterCustomerOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders"),
+        first: Int,
+        page: Int
+        ):[Order!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Sales\\Models\\Order")
 
     orderDetail(id: ID @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
 
@@ -18,10 +22,9 @@ extend type Query {
 }
 
 input FilterCustomerOrderInput {
-    page: Int
-    limit: Int
     id: Int
     incrementId: String @rename(attribute: "increment_id")
+    customerId: Int @rename(attribute: "customer_id")
     baseSubTotal: Float @rename(attribute: "base_sub_total")
     baseGrandTotal: Float @rename(attribute: "base_grand_total")
     orderDate: String @rename(attribute: "order_date")

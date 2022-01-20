@@ -1,6 +1,6 @@
 #Shop\Customer\Address Related APIs
 extend type Query {
-   addresses: [CustomerAddress] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@addresses")
+   addresses: AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@addresses")
 
     address(id: ID @eq): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@address")
 }
@@ -8,14 +8,14 @@ extend type Query {
 extend type Mutation {
     createAddress(
         input: CreateAddressInput!
-    ): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
+    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
   
     updateAddress(
         id: ID!,
         input: UpdateAddressInput!
-    ): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
+    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
   
-    deleteAddress(id: ID!): DeleteAddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
+    deleteAddress(id: ID!): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
 }
 
 input CreateAddressInput {
@@ -30,6 +30,7 @@ input CreateAddressInput {
     postcode: String!
     phone: String!
     vatId: String @rename(attribute: "vat_id")
+    defaultAddress: Boolean @rename(attribute: "default_address")
 }
 
 input UpdateAddressInput {
@@ -44,8 +45,11 @@ input UpdateAddressInput {
     postcode: String!
     phone: String!
     vatId: String @rename(attribute: "vat_id")
+    defaultAddress: Boolean @rename(attribute: "default_address")
 }
 
-type DeleteAddressResponse {
-    success: String
+type AddressListResult {
+    status: Boolean
+    message: String
+    addresses: [CustomerAddress]
 }

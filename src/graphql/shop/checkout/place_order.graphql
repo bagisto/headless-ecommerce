@@ -6,4 +6,6 @@ extend type Mutation {
 type PlacedOrderResponse {
     success: String
     redirectUrl: String @rename(attribute: "redirect_url")
+    selectedMethod: String @rename(attribute: "selected_method")
+    order: Order
 }

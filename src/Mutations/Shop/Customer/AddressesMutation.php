@@ -3,13 +3,14 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Rules\VatIdRule;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\DB;
 
 class AddressesMutation extends Controller
 {
@@ -104,21 +105,36 @@ class AddressesMutation extends Controller
     public function addresses($rootValue, array $args , GraphQLContext $context)
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.invalid-header'),
+                'Invalid request header parameter.'
+            );
         }
         
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
-            
-            $addresses = $customer->addresses;
 
-            if ( count($addresses) ) {
-                return $addresses;
-            } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address']));
-            }
+            $addresses = DB::table('addresses as ca')
+            ->select('ca.*')
+            ->leftJoin('countries', 'ca.country', '=', 'countries.code')
+            ->leftJoin('customers as c', 'ca.customer_id', '=', 'c.id')
+            ->addSelect(DB::raw('' . DB::getTablePrefix() . 'countries.name as country_name'))
+            ->where('c.id', $customer->id)->get();
+
+            // $addresses = $this->customerAddressRepository->findWhere([
+            //     'customer_id'   => $customer->id,
+            // ]);
+            
+            return [
+                'status'    => (count($addresses) > 0) ? true : false,
+                'addresses' => $addresses,
+                'message'   => (count($addresses) > 0) ? 'Success: Customer\'s addresses fetched successfully.' : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address'])
+            ];
         } else {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer Not Login.'
+            );
         }
     }
 
@@ -130,15 +146,24 @@ class AddressesMutation extends Controller
     public function store($rootValue, array $args, GraphQLContext $context)
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
         }
 
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
         }
 
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer Not Login.'
+            );
         }
 
         $data = $args['input'];
@@ -159,21 +184,39 @@ class AddressesMutation extends Controller
         ]);
         
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            $errorMessage = [];
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            }
+            
+            throw new CustomException(
+                implode(" ,", $errorMessage),
+                'Invalid Create Address Details.'
+            );
         }
 
-        $data['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
+        $customer = bagisto_graphql()->guard($this->guard)->user();
 
         try {
             Event::dispatch('customer.address.create.before');
-    
+            
+            $data['customer_id'] = $customer->id;
             $customerAddress = $this->customerAddressRepository->create($data);
     
             Event::dispatch('customer.address.create.after', $customerAddress);
 
-            return $customerAddress;
+            $addresses = $customer->addresses;
+            
+            return [
+                'status'    => (isset($customerAddress->id)) ? true : false,
+                'addresses' => $addresses,
+                'message'   => ($customerAddress->id) ? 'Success: Customer\'s addresses saved successfully.' : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address'])
+            ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Address Create Failed.'
+            );
         }
     }
 
@@ -186,15 +229,24 @@ class AddressesMutation extends Controller
     public function update($rootValue, array $args, GraphQLContext $context)
     {
         if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
         }
 
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
         }
 
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer Not Login.'
+            );
         }
 
         $data = $args['input'];
@@ -216,16 +268,27 @@ class AddressesMutation extends Controller
         ]);
         
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            $errorMessage = [];
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            }
+            
+            throw new CustomException(
+                implode(" ,", $errorMessage),
+                'Invalid Update Address Details.'
+            );
         }
 
         try {
-            $customer_id = bagisto_graphql()->guard($this->guard)->user()->id;
+            $customer = bagisto_graphql()->guard($this->guard)->user();
 
             $customerAddress = $this->customerAddressRepository->findOrFail($id);
 
-            if ( isset($customerAddress->customer_id) && $customerAddress->customer_id !== $customer_id ) {
-                throw new Exception(trans('bagisto_graphql::app.shop.customer.not-authorized'));
+            if ( isset($customerAddress->customer_id) && $customerAddress->customer_id !== $customer->id ) {
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.customer.not-authorized'),
+                    'You are not authorized to perform this action.'
+                );
             }
 
             Event::dispatch('customer.address.update.before');
@@ -233,10 +296,17 @@ class AddressesMutation extends Controller
             $customerAddress = $this->customerAddressRepository->update($data, $id);
 
             Event::dispatch('customer.address.update.after', $customerAddress);
-
-            return $customerAddress;
+            
+            return [
+                'status'    => (isset($customerAddress->id)) ? true : false,
+                'addresses' => $customer->addresses,
+                'message'   => ($customerAddress->id) ? 'Success: Customer\'s address updated successfully.' : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address'])
+            ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Address Update Failed.'
+            );
         }
     }
 
@@ -249,26 +319,38 @@ class AddressesMutation extends Controller
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
         }
 
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
         }
 
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer Not Login.'
+            );
         }
 
         $id = $args['id'];
         
         try {
-            $customer_id = bagisto_graphql()->guard($this->guard)->user()->id;
+            $customer = bagisto_graphql()->guard($this->guard)->user();
 
             $customerAddress = $this->customerAddressRepository->findOrFail($id);
 
-            if ( isset($customerAddress->customer_id) && $customerAddress->customer_id !== $customer_id ) {
-                throw new Exception(trans('bagisto_graphql::app.shop.customer.not-authorized'));
+            if ( isset($customerAddress->customer_id) && $customerAddress->customer_id !== $customer->id ) {
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.customer.not-authorized'),
+                    'You are not authorized to perform this action.'
+                );
             }
         
             Event::dispatch('customer.address.delete.before', $id);
@@ -276,10 +358,17 @@ class AddressesMutation extends Controller
             $this->customerAddressRepository->delete($id);
 
             Event::dispatch('customer.address.delete.after', $id);
-
-            return ['success' => trans('admin::app.response.delete-success', ['name' => 'Customer\'s Address'])];
-        } catch(\Exception $e) {
-            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Customer\'s Address']));
+            
+            return [
+                'status'    => (isset($customerAddress->id)) ? true : false,
+                'addresses' => $customer->addresses,
+                'message'   => ($customerAddress->id) ? trans('admin::app.response.delete-success', ['name' => 'Customer\'s Address']) : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address'])
+            ];
+        } catch (Exception $e) {
+            throw new CustomException(
+                $e->getMessage(),
+                'Address remove Failed.'
+            );
         }
     }
 }

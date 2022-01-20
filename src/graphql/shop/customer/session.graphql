@@ -2,7 +2,7 @@
 extend type Mutation {
     customerLogin(
         input: LoginInput!
-    ): CustomerLoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@login")
+    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@login")
 
     customerLogout: CustomerLogoutResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@logout")
 }
@@ -13,7 +13,7 @@ input LoginInput {
     remember: Boolean
 }
 
-type CustomerLoginResponse {
+type CustomerLoginResult {
     status: Boolean
     success: String
     accessToken: String @rename(attribute: "access_token")

@@ -148,8 +148,8 @@ class BagistoGraphql
     public function validateAPIUser($guard)
     {
         $token = 0;
-        if ( isset(getallheaders()['Authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['Authorization']);
+        if ( isset(getallheaders()['authorization'])) {
+            $headerValue = explode("Bearer ", getallheaders()['authorization']);
             if ( isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
             }

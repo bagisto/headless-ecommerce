@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Core\Repositories\SliderRepository;
 use Webkul\Velocity\Repositories\VelocityMetadataRepository;
@@ -15,14 +16,21 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter
 {
-     /**
+    /**
+     * ProductRepository object
+     *
+     * @var \Webkul\Product\Repositories\ProductRepository
+     */
+    protected $productRepository;
+
+    /**
      * ProductFlatRepository object
      *
      * @var \Webkul\Product\Repositories\ProductFlatRepository
      */
     protected $productFlatRepository;
 
-     /**
+    /**
      * ProductFlatRepository object
      *
      * @var \Webkul\Core\Repositories\SliderRepository
@@ -60,6 +68,7 @@ class HomePageQuery extends BaseFilter
     /**
      * Create a new controller instance.
      *
+     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
      * @param  \Webkul\Core\Repositories\SliderRepository $sliderRepository
      * @param  \Webkul\Velocity\Repositories\VelocityMetadataRepository $velocityMetadataRepository
@@ -69,6 +78,7 @@ class HomePageQuery extends BaseFilter
     * @return void
      */
     public function __construct(
+        ProductRepository $productRepository,
         ProductFlatRepository $productFlatRepository,
         SliderRepository $sliderRepository,
         VelocityMetadataRepository $velocityMetadataRepository,
@@ -77,6 +87,8 @@ class HomePageQuery extends BaseFilter
         WishlistRepository $wishlistRepository
     )
     {
+        $this->productRepository = $productRepository;
+
         $this->productFlatRepository = $productFlatRepository;
 
         $this->sliderRepository = $sliderRepository;
@@ -94,16 +106,18 @@ class HomePageQuery extends BaseFilter
 
         $count = isset($args['count']) ? $args['count'] : 4;
 
-        $results = app(ProductFlatRepository::class)->scopeQuery(function ($query) {
+        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
             $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
 
             $locale = request()->get('locale') ?: app()->getLocale();
 
             return $query->distinct()
-                ->addSelect('product_flat.*')
+                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
+                ->addSelect('products.*')
                 ->where('product_flat.status', 1)
                 ->where('product_flat.visible_individually', 1)
                 ->where('product_flat.new', 1)
+                ->where('products.type', 'simple')
                 ->where('product_flat.channel', $channel)
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
@@ -116,16 +130,18 @@ class HomePageQuery extends BaseFilter
 
         $count = isset($args['count']) ? $args['count'] : 4;
 
-        $results = app(ProductFlatRepository::class)->scopeQuery(function ($query) {
+        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
             $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
 
             $locale = request()->get('locale') ?: app()->getLocale();
 
             return $query->distinct()
-                ->addSelect('product_flat.*')
+                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
+                ->addSelect('products.*')
                 ->where('product_flat.status', 1)
                 ->where('product_flat.visible_individually', 1)
                 ->where('product_flat.featured', 1)
+                ->where('products.type', 'simple')
                 ->where('product_flat.channel', $channel)
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
@@ -157,8 +173,23 @@ class HomePageQuery extends BaseFilter
        return $data;
     }
 
-    public function getCategories($rootValue, array $args, GraphQLContext $context) {
-        return $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
+    public function getCategories($rootValue, array $args, GraphQLContext $context)
+    {
+        $categoryId = isset($args['categoryId']) ? $args['categoryId'] : core()->getCurrentChannel()->root_category_id;
+
+        $categorySlug = isset($args['categorySlug']) ? $args['categorySlug'] : '';
+
+        if ($categorySlug) {
+            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($categorySlug) {
+                $q->where('slug', 'like', '%' . urldecode($categorySlug) . '%');
+            })->first();
+
+            if (isset($category->id))
+                $categoryId = $category->id;
+                
+        }
+
+        return $this->categoryRepository->getVisibleCategoryTree($categoryId);
     }
 
     public function getvelocityMetaData($rootValue, array $args, GraphQLContext $context) {
