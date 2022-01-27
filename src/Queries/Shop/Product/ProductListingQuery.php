@@ -80,14 +80,14 @@ class ProductListingQuery extends BaseFilter
         
         $qb = $query->distinct()
             ->select('products.*')
-            ->leftJoin('product_flat', 'product_flat.product_id', '=', 'products.id')
-            ->join('product_flat as variants', 'product_flat.id', '=', DB::raw('COALESCE(' . DB::getTablePrefix() . 'variants.parent_id, ' . DB::getTablePrefix() . 'variants.id)'))
-            ->leftJoin('product_categories', 'product_categories.product_id', '=', 'product_flat.product_id')
+            ->leftJoin('product_flat as pf', 'pf.product_id', '=', 'products.id')
+            ->join('product_flat as variants', 'pf.id', '=', DB::raw('COALESCE(' . DB::getTablePrefix() . 'variants.parent_id, ' . DB::getTablePrefix() . 'variants.id)'))
+            ->leftJoin('product_categories', 'product_categories.product_id', '=', 'pf.product_id')
             ->leftJoin('product_attribute_values', 'product_attribute_values.product_id', '=', 'variants.product_id')
-            ->where('products.type', 'simple')
-            ->where('product_flat.channel', $channel)
-            ->where('product_flat.locale', $locale)
-            ->whereNotNull('product_flat.url_key');
+            ->whereIn('products.type', ['simple', 'configurable'])
+            ->where('pf.channel', $channel)
+            ->where('pf.locale', $locale)
+            ->whereNotNull('pf.url_key');
 
         if (isset($params['categorySlug']) && $params['categorySlug']) {
             $categoryId = $this->categoryRepository->whereHas('translation', function ($q) use ($params) {
@@ -104,25 +104,25 @@ class ProductListingQuery extends BaseFilter
         }
 
         if (is_null(request()->input('status'))) {
-            $qb->where('product_flat.status', 1);
+            $qb->where('pf.status', 1);
         }
 
         if (is_null(request()->input('visible_individually'))) {
-            $qb->where('product_flat.visible_individually', 1);
+            $qb->where('pf.visible_individually', 1);
         }
 
         if (isset($params['search']) && $params['search']) {
-            $qb->where('product_flat.name', 'like', '%' . urldecode($params['search']) . '%');
+            $qb->where('pf.name', 'like', '%' . urldecode($params['search']) . '%');
         }
 
         /* added for api as per the documentation */
         if (isset($params['name']) && $params['name']) {
-            $qb->where('product_flat.name', 'like', '%' . urldecode($params['name']) . '%');
+            $qb->where('pf.name', 'like', '%' . urldecode($params['name']) . '%');
         }
 
         /* added for api as per the documentation */
         if (isset($params['url_key']) && $params['url_key']) {
-            $qb->where('product_flat.url_key', 'like', '%' . urldecode($params['url_key']) . '%');
+            $qb->where('pf.url_key', 'like', '%' . urldecode($params['url_key']) . '%');
         }
 
         # sort direction
@@ -228,7 +228,7 @@ class ProductListingQuery extends BaseFilter
             $qb->havingRaw('COUNT(*) = ' . count($attributeFilters));
         }
 
-        return $qb->groupBy('product_flat.id');
+        return $qb->groupBy('pf.id');
     }
 
     /**
@@ -240,7 +240,7 @@ class ProductListingQuery extends BaseFilter
     {
         $value = core()->getConfigData('catalog.products.storefront.sort_by');
 
-        $config = $value ? 'product_flat.' . $value : 'product_flat.name-desc';
+        $config = $value ? $value : 'name-desc';
 
         return explode('-', $config);
     }
@@ -260,10 +260,13 @@ class ProductListingQuery extends BaseFilter
 
         if ($attribute) {
             if ($attribute->code === 'price') {
-                $query->orderBy('min_price', $direction);
+                $query->orderBy('pf.min_price', $direction);
             } else {
-                $query->orderBy($sort === 'created_at' ? 'created_at' : $attribute->code, $direction);
+                $query->orderBy('pf.' . $attribute->code, $direction);
             }
+        } else {
+            /* `created_at` is not an attribute so it will be in else case */
+            $query->orderBy('pf.created_at', $direction);
         }
 
         return $query;

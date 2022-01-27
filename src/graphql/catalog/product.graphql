@@ -116,17 +116,18 @@ type Product {
     parentId: ID @rename(attribute: "parent_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    configutableData: ConfigutableProductData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getConfigurableData")
     productFlats: [ProductFlat!] @hasMany(relation: "product_flats")
     variants: [Product] @hasMany
     parent: Product @belongsTo(relation: "parent")
     attributeFamily: AttributeFamily! @belongsTo(relation: "attribute_family")
     attributeValues: [ProductAttributeValue!] @hasMany(relation: "attribute_values")
     superAttributes: [Attribute!] @belongsToMany(relation: "super_attributes")
-    additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
     images: [Image!] @hasMany
     videos: [Video!] @hasMany
+    additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")
     isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInWishlist")
     priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")

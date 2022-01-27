@@ -6,6 +6,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Helpers\View as ProductViewHelper;
+use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ProductContent extends BaseFilter
@@ -32,17 +33,26 @@ class ProductContent extends BaseFilter
     protected $productViewHelper;
 
     /**
+     * ProductConfigurableHelper object
+     *
+     * @var \Webkul\Product\Helpers\ConfigurableOption
+     */
+    protected $productConfigurableHelper;
+
+    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @param  \Webkul\Customer\Repositories\WishlistRepository  $wishlistRepository
      * @param  \Webkul\Product\Helpers\View  $productViewHelper
+     * @param  \Webkul\Product\Helpers\ConfigurableOption  $productConfigurableHelper
      * @return void
      */
     public function __construct(
         ProductRepository $productRepository,
         WishlistRepository $wishlistRepository,
-        ProductViewHelper $productViewHelper
+        ProductViewHelper $productViewHelper,
+        ProductConfigurableHelper $productConfigurableHelper
     )
     {
         $this->productRepository = $productRepository;
@@ -50,6 +60,8 @@ class ProductContent extends BaseFilter
         $this->wishlistRepository = $wishlistRepository;
 
         $this->productViewHelper = $productViewHelper;
+
+        $this->productConfigurableHelper = $productConfigurableHelper;
 
         $this->_config = request('_config');
     }
@@ -137,5 +149,66 @@ class ProductContent extends BaseFilter
         }
 
         return false;
+    }
+
+    public function getConfigurableData($rootValue, array $args, GraphQLContext $context)
+    {
+        $data = $this->productConfigurableHelper->getConfigurationConfig($this->productRepository->find($rootValue->id));
+
+        $index = [];
+        foreach ($data['index'] as $key => $attributeOptionsIds) {
+            if (!isset($index[$key])) {
+                $index[$key] = [
+                    'id'                    => $key,
+                    'attributeOptionIds'    => [],
+                ];
+            }
+
+            foreach ($attributeOptionsIds as $attributeId => $optionId) {
+                $index[$key]['attributeOptionIds'][] = [
+                    'attributeId'       => $attributeId,
+                    'attributeOptionId' => $optionId
+                ];
+            }
+        }
+        $data['index'] = $index;
+
+        $variant_prices = [];
+        foreach ($data['variant_prices'] as $key => $prices) {
+            $variant_prices[$key] = [
+                'id'            => $key,
+                'regular_price' => $prices['regular_price'],
+                'final_price'   => $prices['final_price'],
+            ];
+        }
+        $data['variant_prices'] = $variant_prices;
+
+        $variant_images = [];
+        foreach ($data['variant_images'] as $key => $imgs) {
+            $variant_images[$key] = [
+                'id'        => $key,
+                'images'    => []
+            ];
+
+            foreach ($imgs as $img_index => $urls) {
+                $variant_images[$key]['images'][$img_index] = $urls;
+            }
+        }
+        $data['variant_images'] = $variant_images;
+
+        $variant_videos = [];
+        foreach ($data['variant_videos'] as $key => $imgs) {
+            $variant_videos[$key] = [
+                'id'        => $key,
+                'videos'    => []
+            ];
+
+            foreach ($imgs as $img_index => $urls) {
+                $variant_videos[$key]['videos'][$img_index] = $urls;
+            }
+        }
+        $data['variant_videos'] = $variant_videos;
+        
+        return $data;
     }
 }

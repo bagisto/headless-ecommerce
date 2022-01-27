@@ -295,11 +295,11 @@ class CheckoutMutation extends Controller
                         $data['billing']['customer_id'] = $data['shipping']['customer_id'] = null;
                     }
                 }
-                
+
                 if (Cart::hasError() || ! Cart::saveCustomerAddress($data)) {
                     throw new CustomException(
                         trans('bagisto_graphql::app.shop.response.wrong-error'),
-                        'Error in saving address.'
+                        'Cart have some item(s), which are not allowed for guest checkout.'
                     );
                 } else {
                     $coreCurrency = config('app.currency');

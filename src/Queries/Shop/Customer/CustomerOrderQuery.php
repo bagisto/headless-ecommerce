@@ -78,7 +78,7 @@ class CustomerOrderQuery extends Controller
             $qb->where('orders.status', $params['status']);
         }
 
-        return $qb;
+        return $qb->orderBy('orders.id', 'desc');
     }
 
     public function getOrderPaymentAdditional($rootValue, array $args, GraphQLContext $context)
