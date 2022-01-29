@@ -2,6 +2,10 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Added category filters and sorting.
+
+* [enhancement] - made APIs compatible for VueStoreFront.
+
 ## **v1.1.0 (07th of December, 2021)** - *Release*
 
 * [enhancement] - Product Number Attribute added to Product Schema.

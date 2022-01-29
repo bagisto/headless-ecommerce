@@ -49,6 +49,7 @@ type FilterableAttribute {
     type: String!
     validation: String
     position: Int!
+    options: [AttributeOption!] @hasMany
     isFilterable: Int! @rename(attribute: "is_filterable")
     category: Category! @belongsTo(relation: "category")
 }
@@ -91,6 +92,7 @@ type Category {
     displayMode: String! @rename(attribute: "display_mode")
     parentId: ID @rename(attribute: "parent_id")
     additional: String
+    categoryProductMaxPrice: Float @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getCategoryProductMaxPrice")
     filterableAttributes: [FilterableAttribute!] @hasMany
     translations: [Translation!] @hasMany
     children: [Category!] @hasMany

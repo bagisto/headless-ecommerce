@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Queries\Catalog;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Product\Repositories\ProductFlatRepository;
 use Illuminate\Support\Facades\DB;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
@@ -17,16 +18,27 @@ class CategoryQuery extends BaseFilter
     protected $categoryRepository;
 
     /**
+     * ProductFlatRepository object
+     *
+     * @var \Webkul\Product\Repositories\ProductFlatRepository
+     */
+    protected $productFlatRepository;
+
+    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
+     * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
      * @return void
      */
     public function __construct(
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        ProductFlatRepository $productFlatRepository
     )
     {
         $this->categoryRepository = $categoryRepository;
+
+        $this->productFlatRepository = $productFlatRepository;
 
         $this->_config = request('_config');
     }
@@ -83,5 +95,15 @@ class CategoryQuery extends BaseFilter
         }
         
         return $breadcrumbs;
+    }
+    
+    /**
+     * Get product maximum price based on category.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getCategoryProductMaxPrice($rootValue, array $args, GraphQLContext $context)
+    {
+        return core()->convertPrice($this->productFlatRepository->getCategoryProductMaximumPrice($rootValue));
     }
 }

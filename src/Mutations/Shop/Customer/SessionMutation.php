@@ -6,7 +6,6 @@ use Exception;
 use JWTAuth;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
 use Webkul\Customer\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
