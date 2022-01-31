@@ -56,9 +56,9 @@ type FilterableAttribute {
 
 type Translation {
     id: ID!
-    name: String
+    name: String!
     slug: String!
-    description: String
+    description: String!
     metaTitle: String @rename(attribute: "meta_title")
     metaDescription: String @rename(attribute: "meta_description")
     metaKeywords: String @rename(attribute: "meta_keywords")

@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
 use Webkul\Customer\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\Log;
 
 class CustomerOrderQuery extends Controller
 {
@@ -40,6 +41,7 @@ class CustomerOrderQuery extends Controller
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
             $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
         }
+        Log::error('Order Params: ' . json_encode($params));
         
         $qb = $query->distinct()
             ->addSelect('orders.*');

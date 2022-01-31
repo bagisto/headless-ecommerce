@@ -211,4 +211,14 @@ class ProductContent extends BaseFilter
         
         return $data;
     }
+
+    public function getCacheGalleryImages($rootValue, array $args, GraphQLContext $context)
+    {
+        return productimage()->getGalleryImages($rootValue);
+    }
+
+    public function getProductBaseImage($rootValue, array $args, GraphQLContext $context)
+    {
+        return productimage()->getProductBaseImage($rootValue);
+    }
 }

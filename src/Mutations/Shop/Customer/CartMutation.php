@@ -3,7 +3,10 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Webkul\Checkout\Facades\Cart;
+use Illuminate\Support\Facades\Log;
+use Cookie;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
@@ -90,10 +93,11 @@ class CartMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
+        Log::error('Cart Header: ' . json_encode(getallheaders()));
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }

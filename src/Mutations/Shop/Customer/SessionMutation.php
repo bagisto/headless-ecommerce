@@ -92,7 +92,7 @@ class SessionMutation extends Controller
             }
             
             //Event passed to prepare cart after login
-            Event::dispatch('customer.after.login', $data['email']);
+            // Event::dispatch('customer.after.login', $data['email']);
             
             return [
                 'status'        => true,

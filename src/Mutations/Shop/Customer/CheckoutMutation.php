@@ -145,7 +145,7 @@ class CheckoutMutation extends Controller
         }
 
         $params = $args['input'];
-       
+
         $validator = \Validator::make($params, [
             'billing_address_id'    => 'numeric|required',
             'shipping_address_id'   => 'numeric|required',

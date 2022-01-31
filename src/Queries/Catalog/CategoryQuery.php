@@ -105,5 +105,5 @@ class CategoryQuery extends BaseFilter
     public function getCategoryProductMaxPrice($rootValue, array $args, GraphQLContext $context)
     {
         return core()->convertPrice($this->productFlatRepository->getCategoryProductMaximumPrice($rootValue));
-    }
+    }    
 }

@@ -1,4 +1,4 @@
-# Shop\Checkout\SavePayment Related API
+# Shop\Checkout\SavePaymentMethod Related API
 extend type Mutation {
     savePayment(
         input: SavePaymentMethodInput!
