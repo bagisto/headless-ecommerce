@@ -84,7 +84,7 @@ class ProductListingQuery extends BaseFilter
             ->join('product_flat as variants', 'pf.id', '=', DB::raw('COALESCE(' . DB::getTablePrefix() . 'variants.parent_id, ' . DB::getTablePrefix() . 'variants.id)'))
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'pf.product_id')
             ->leftJoin('product_attribute_values', 'product_attribute_values.product_id', '=', 'variants.product_id')
-            ->whereIn('products.type', ['simple', 'configurable'])
+            ->whereIn('products.type', ['simple', 'virtual'])
             ->where('pf.channel', $channel)
             ->where('pf.locale', $locale)
             ->whereNotNull('pf.url_key');
