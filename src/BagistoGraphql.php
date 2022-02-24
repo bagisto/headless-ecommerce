@@ -140,7 +140,7 @@ class BagistoGraphql
     }
 
     /**
-     * Validate header in Post APIs 
+     * Validate header in Post APIs
      *
      * @param guard $value
      * @return boolean
@@ -148,20 +148,20 @@ class BagistoGraphql
     public function validateAPIUser($guard)
     {
         $token = 0;
-        if ( isset(getallheaders()['authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['authorization']);
-            if ( isset($headerValue[1]) && $headerValue[1]) {
+
+        if (request()->hasHeader('authorization')) {
+            $headerValue = explode("Bearer ", request()->header('authorization'));
+
+            if (isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
             }
         }
-        
+
         $validateUser = $this->apiAuth($token, $guard);
-        
-        if (! $token || (! isset($validateUser['success']) || (isset($validateUser['success']) && !$validateUser['success'])) ) {
-            return false;
-        } else {
-            return true;
-        }
+
+        return (! $token || (! isset($validateUser['success']) || (isset($validateUser['success']) && ! $validateUser['success'])))
+            ? false
+            : true;
     }
 
     /**
@@ -173,7 +173,7 @@ class BagistoGraphql
     public function apiAuth($token, $guard)
     {
         $loggedAdmin = auth($guard)->user();
-        
+
         try {
             $setToken =  JWTAuth::setToken($token)->authenticate();
             $customerFromToken = JWTAuth::toUser($setToken);
@@ -229,22 +229,22 @@ class BagistoGraphql
         if (! file_exists($image_dir_path)) {
             mkdir(storage_path('app/public/' . $model_path), 0777, true);
         }
-        
+
         if ( isset($image_url) && $image_url) {
             $valoidateImg = $this->validatePath($image_url, 'image');
 
             if ( $valoidateImg ) {
                 $img_name = basename($image_url);
-                $savePath = $image_dir_path . $img_name; 
+                $savePath = $image_dir_path . $img_name;
 
                 if ( file_exists($savePath) ) {
                     Storage::delete('/' . $model_path . $img_name);
                 }
 
                 file_put_contents($savePath, file_get_contents($image_url));
-                
+
                 $model->{$type} = $model_path . $img_name;
-                
+
                 $model->save();
             }
         }
@@ -292,7 +292,7 @@ class BagistoGraphql
 
                 if ( $valoidateImg ) {
                     $img_name = basename($image_url);
-                    $savePath = $image_dir_path . $img_name; 
+                    $savePath = $image_dir_path . $img_name;
 
                     if ( file_exists($savePath) ) {
                         Storage::delete('/' . $model_path . $img_name);
@@ -319,7 +319,7 @@ class BagistoGraphql
             foreach ($previousImageIds as $imageId) {
                 if ($imageModel = $this->productImageRepository->find($imageId)) {
                     Storage::delete($imageModel->path);
-                    
+
                     if ( $type == 'video')
                         $this->productImageRepository->delete($imageId);
                     else
@@ -366,7 +366,7 @@ class BagistoGraphql
         $ext = strtolower(array_pop($explodeURL));
 
         $mimeTypes = $type == 'image' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
-        
+
         if (array_key_exists($ext, $mimeTypes)) {
             return true;
         } elseif (function_exists('finfo_open')) {
@@ -389,7 +389,7 @@ class BagistoGraphql
     public function manageCustomerGroupPrices($product, $data)
     {
         $customer_group_prices = [];
-        
+
         $previousCustomerGroupPriceIds = $customerGroupPriceArray = $product->customer_group_prices()->pluck('id');
 
         foreach ($customerGroupPriceArray->toArray() as $key => $customerGroupPriceId) {
@@ -400,13 +400,13 @@ class BagistoGraphql
 
             $this->productCustomerGroupPriceRepository->delete($customerGroupPriceId);
         }
-        
+
         foreach ($data['customer_group_prices'] as $key => $row) {
             $row['customer_group_id'] = $row['customer_group_id'] == '' ? null : $row['customer_group_id'];
             $index = 'customer_group_price_' . $key;
             $customer_group_prices[$index] = $row;
         }
-        
+
         return $customer_group_prices;
     }
 
@@ -426,7 +426,7 @@ class BagistoGraphql
 
                 foreach ($fields as $field) {
                     if ( isset($localeArray[$field]) && $localeArray[$field] ) {
-                        
+
                         if (! isset($result[$localeArray['code']][$field])) {
                             $result[$localeArray['code']][$field] = $localeArray[$field];
                         }
@@ -434,7 +434,7 @@ class BagistoGraphql
                 }
             }
         }
-        
+
         return $result;
     }
 
@@ -450,7 +450,7 @@ class BagistoGraphql
         foreach ($data['variants'] as $key => $variant) {
             if ( isset($variant['variant_id']) && $variant['variant_id']) {
                 if ( isset($variant['inventories']) && $variant['inventories'] ) {
-                    
+
                     $inventories = [];
                     foreach ($variant['inventories'] as $key => $inventory) {
                         if ( isset($inventory['inventory_source_id']) && isset($inventory['qty']) ) {
@@ -501,7 +501,7 @@ class BagistoGraphql
                 }
             }
         }
-        
+
         return $links;
     }
 
@@ -515,7 +515,7 @@ class BagistoGraphql
     {
         $downloadable_links = [];
         foreach ($data['downloadable_links'] as $key => $link) {
-            
+
             if (isset($link['locales'])) {
                 foreach ($link['locales'] as $locale) {
                     if ( isset($locale['code']) && isset($locale['title'])) {
@@ -524,7 +524,7 @@ class BagistoGraphql
                 }
                 unset($link['locales']);
             }
-            
+
             if ( isset($link['link_product_id']) && $link['link_product_id']) {
                 $link_product_id = $link['link_product_id'];
                 unset($link['link_product_id']);
@@ -550,7 +550,7 @@ class BagistoGraphql
                 }
             }
         }
-        
+
         return $downloadable_links;
     }
 
@@ -564,7 +564,7 @@ class BagistoGraphql
     {
         $downloadable_samples = [];
         foreach ($data['downloadable_samples'] as $key => $sample) {
-            
+
             if (isset($sample['locales'])) {
                 foreach ($sample['locales'] as $locale) {
                     if ( isset($locale['code']) && isset($locale['title'])) {
@@ -573,7 +573,7 @@ class BagistoGraphql
                 }
                 unset($sample['locales']);
             }
-            
+
             if ( isset($sample['sample_product_id']) && $sample['sample_product_id']) {
                 $sample_product_id = $sample['sample_product_id'];
                 unset($sample['sample_product_id']);
@@ -598,7 +598,7 @@ class BagistoGraphql
                 }
             }
         }
-        
+
         return $downloadable_samples;
     }
 
@@ -613,7 +613,7 @@ class BagistoGraphql
         $bundle_options = [];
         foreach ($data['bundle_options'] as $key => $option) {
             $products = [];
-            
+
             if (isset($option['locales'])) {
                 foreach ($option['locales'] as $locale) {
                     if ( isset($locale['code']) && isset($locale['label'])) {
@@ -622,7 +622,7 @@ class BagistoGraphql
                 }
                 unset($option['locales']);
             }
-            
+
             if ( isset($option['bundle_option_id']) && $option['bundle_option_id']) {
                 $bundle_option_id = $option['bundle_option_id'];
                 unset($option['bundle_option_id']);
@@ -634,13 +634,13 @@ class BagistoGraphql
 
                             $bundle_option_product_id = $prod['bundle_option_product_id'];
                             unset($prod['bundle_option_product_id']);
-    
+
                             $products[$bundle_option_product_id] = $prod;
                         } else {
                             $productBundleOption = $this->productBundleOptionRepository->findOrFail($bundle_option_id);
 
                             $previousBundleOptionProductIds = $bundleOptionProductArray = $productBundleOption->bundle_option_products()->pluck('id');
-    
+
                             foreach ($bundleOptionProductArray->toArray() as $key => $bundleOptionProductId) {
                                 if (is_numeric($index = $previousBundleOptionProductIds->search($bundleOptionProductId))) {
                                     if (! isset($bundle_options[$bundleOptionProductId])) {
@@ -651,13 +651,13 @@ class BagistoGraphql
                                     $this->productBundleOptionProductRepository->delete($bundleOptionProductId);
                                 }
                             }
-                        
+
                             if ( isset($prod['product_id']) && $prod['product_id']) {
                                 $products['product_' . $index] = $prod;
                             }
                         }
                     }
-                    
+
                     $option['products'] = $products;
                 }
 
@@ -690,7 +690,7 @@ class BagistoGraphql
                 }
             }
         }
-        
+
         return $bundle_options;
     }
 
@@ -718,10 +718,10 @@ class BagistoGraphql
                         }
 
                         $data['slots'] = $slots;
-                        $booking = $data; 
+                        $booking = $data;
                     }
                 } else {
-                    $booking = $data;    
+                    $booking = $data;
                 }
                 break;
 
@@ -737,14 +737,14 @@ class BagistoGraphql
                                 unset($locale['locale']);
                                 $ticket[$locale_code] = $locale;
                             }
-    
+
                             unset($ticket['locales']);
                         }
                         $tickets['ticket_' . $key] = $ticket;
                     }
                     $data['tickets'] = $tickets;
                 }
-                
+
                 $booking = $data;
                 break;
             case 'rental':
@@ -762,16 +762,16 @@ class BagistoGraphql
                                 if ( isset($slot['day'])) {
                                     $day_index = $slot['day'];
                                     unset($slot['day']);
-    
+
                                     $slots[$day_index][] = $slot;
                                 }
                             }
-    
+
                             $data['slots'] = $slots;
-                            $booking = $data; 
+                            $booking = $data;
                         }
                     } else {
-                        $booking = $data;    
+                        $booking = $data;
                     }
                 }
                 break;
@@ -790,25 +790,25 @@ class BagistoGraphql
                                 if ( isset($slot['day'])) {
                                     $day_index = $slot['day'];
                                     unset($slot['day']);
-    
+
                                     $slots[$day_index][] = $slot;
                                 }
                             }
-    
+
                             $data['slots'] = $slots;
-                            $booking = $data; 
+                            $booking = $data;
                         }
                     } else {
-                        $booking = $data;    
+                        $booking = $data;
                     }
                 }
                 break;
-            
+
             default:
                 $booking = $data;
                 break;
         }
-        
+
         return $booking;
     }
 
@@ -871,7 +871,7 @@ class BagistoGraphql
                 //Case: In case of booking product added
                 if ( isset($data['booking']) && $data['booking']) {
                     $booking = $product->booking_product;
-                    
+
                     if ( isset($booking->type) && $booking->type) {
                         if ( $booking->type == 'default' || $booking->type == 'appointment' || $booking->type == 'table' ) {
                             if ( isset($data['booking']['slot']) && is_array($data['booking']['slot']) ) {
@@ -883,18 +883,18 @@ class BagistoGraphql
                             foreach ($events as $key => $ticket) {
                                 if ( isset($ticket['ticket_id']) && isset($ticket['quantity']) ) {
                                     $tickets[$ticket['ticket_id']] = $ticket['quantity'];
-                                }    
+                                }
                             }
                             $data['booking']['qty'] = $tickets;
                         }
                     }
                 }
                 break;
-            
+
             default:
                 break;
         }
-        
+
         return $data;
     }
 }
