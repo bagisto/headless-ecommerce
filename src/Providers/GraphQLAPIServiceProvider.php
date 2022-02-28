@@ -2,12 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
-use Webkul\Checkout\Facades\Cart;
+use Illuminate\Support\ServiceProvider;
 use Webkul\GraphQLAPI\BagistoGraphql;
-use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 use Webkul\GraphQLAPI\Console\Commands\Install;
+use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -25,12 +24,13 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'bagisto_graphql');
 
-        //model observer for admin user of Bagisto
+        // Model observer for admin user of Bagisto.
         $this->overrideModels();
 
-        if ( isset(getallheaders()['authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['authorization']);
-            if ( isset($headerValue[1]) && $headerValue[1]) {
+        if (request()->hasHeader('authorization')) {
+            $headerValue = explode('Bearer ', request()->header('authorization'));
+
+            if (isset($headerValue[1]) && $headerValue[1]) {
                 request()->merge(['token' => $headerValue[1]]);
             }
         }
@@ -77,10 +77,10 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         // BookingProduct Coupon Models
         $this->app->concord->registerModel(\Webkul\BookingProduct\Contracts\BookingProduct::class, \Webkul\GraphQLAPI\Models\BookingProduct\BookingProduct::class);
 
-        // Compare CompareProduct Models
+        // CompareProduct Models
         $this->app->concord->registerModel(\Webkul\Velocity\Contracts\VelocityCustomerCompareProduct::class, \Webkul\GraphQLAPI\Models\Velocity\VelocityCustomerCompareProduct::class);
 
-        // Compare Wishlist Models
+        // Wishlist Models
         $this->app->concord->registerModel(\Webkul\Customer\Contracts\Wishlist::class, \Webkul\GraphQLAPI\Models\Customer\Wishlist::class);
     }
 
@@ -97,7 +97,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the console commands of this package
+     * Register the console commands of this package.
      *
      * @return void
      */
@@ -105,7 +105,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Install::class
+                Install::class,
             ]);
         }
     }
@@ -118,18 +118,15 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     protected function registerFacades()
     {
         $loader = AliasLoader::getInstance();
+
         $loader->alias('bagisto_graphql', BagistoGraphqlFacade::class);
 
         $this->app->singleton('bagisto_graphql', function () {
             return app()->make(BagistoGraphql::class);
         });
-        
-        $loader->alias('cart', Cart::class);
-
-        $this->app->singleton('cart', function () {
-            return new cart();
-        });
 
         $this->app->bind('cart', 'Webkul\GraphQLAPI\Cart');
+
+        $this->app->bind(\Webkul\Checkout\Cart::class, \Webkul\GraphQLAPI\Cart::class);
     }
 }
