@@ -2,70 +2,61 @@
 
 namespace Webkul\GraphQLAPI;
 
-use Exception;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Checkout\Cart as BaseCart;
-use Illuminate\Support\Arr;
-use Webkul\Tax\Helpers\Tax;
-use Illuminate\Support\Facades\Event;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\Checkout\Models\CartAddress;
-use Webkul\Checkout\Models\CartPayment;
-use Webkul\Checkout\Models\Cart as CartModel;
+use Webkul\Checkout\Repositories\CartAddressRepository;
+use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartRepository;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
-use Webkul\Checkout\Repositories\CartItemRepository;
-use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\Checkout\Repositories\CartAddressRepository;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class Cart extends BaseCart
 {
     /**
-     * CartRepository instance
+     * Cart repository instance.
      *
      * @var \Webkul\Checkout\Repositories\CartRepository
      */
     protected $cartRepository;
 
     /**
-     * CartItemRepository instance
+     * Cart item repository instance.
      *
      * @var \Webkul\Checkout\Repositories\CartItemRepository
      */
     protected $cartItemRepository;
 
     /**
-     * CartAddressRepository instance
+     * Cart address repository instance.
      *
      * @var \Webkul\Checkout\Repositories\CartAddressRepository
      */
     protected $cartAddressRepository;
 
     /**
-     * ProductRepository instance
+     * Product repository instance.
      *
      * @var \Webkul\Checkout\Repositories\ProductRepository
      */
     protected $productRepository;
 
     /**
-     * TaxCategoryRepository instance
+     * Tax category repository instance.
      *
      * @var \Webkul\Tax\Repositories\TaxCategoryRepository
      */
     protected $taxCategoryRepository;
 
     /**
-     * WishlistRepository instance
+     * Wishlist repository instance.
      *
      * @var \Webkul\Customer\Repositories\WishlistRepository
      */
     protected $wishlistRepository;
 
     /**
-     * CustomerAddressRepository instance
+     * Customer address repository instance.
      *
      * @var \Webkul\Customer\Repositories\CustomerAddressRepository
      */
@@ -91,8 +82,7 @@ class Cart extends BaseCart
         TaxCategoryRepository $taxCategoryRepository,
         WishlistRepository $wishlistRepository,
         CustomerAddressRepository $customerAddressRepository
-    )
-    {
+    ) {
         $this->cartRepository = $cartRepository;
 
         $this->cartItemRepository = $cartItemRepository;
@@ -126,15 +116,17 @@ class Cart extends BaseCart
     public function getCurrentCustomer()
     {
         $token = 0;
-        if ( isset(getallheaders()['authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['authorization']);
-            if ( isset($headerValue[1]) && $headerValue[1]) {
+
+        if (request()->hasHeader('authorization')) {
+            $headerValue = explode('Bearer ', request()->header('authorization'));
+
+            if (isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
             }
         }
 
         $guard = ($token || request()->has('token')) ? 'api' : 'customer';
-        
+
         return auth()->guard($guard);
     }
 }
