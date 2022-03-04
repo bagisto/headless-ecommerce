@@ -1,10 +1,10 @@
 #Catalog\Product Related API
 extend type Query {
-    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterProducts")): [Product!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterProducts")): [Product!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 
     product(id: ID @eq): Product @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 
-    productFlats: [ProductFlat!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Product\\Models\\ProductFlat")
+    productFlats: [ProductFlat!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\Product\\Models\\ProductFlat")
 
     productFlat(id: ID @eq): ProductFlat @find(model: "Webkul\\Product\\Models\\ProductFlat")
 
@@ -12,14 +12,9 @@ extend type Query {
 }
 
 extend type Mutation {
-    createProduct(
-        input: CreateProductInput!
-    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@store")
+    createProduct(input: CreateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@store")
 
-    updateProduct(
-        id: ID!,
-        input: UpdateProductInput!
-    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@update")
+    updateProduct(id: ID!, input: UpdateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@update")
 
     deleteProduct(id: ID!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@delete")
 }
@@ -87,7 +82,7 @@ input UpdateVariantInput {
     sku: String!
     name: String!
     color: Int
-    size:Int
+    size: Int
     inventories: [VariantInventoryInput!]
     price: Float!
     weight: Float!
@@ -221,5 +216,8 @@ type ProductPriceHtml {
     type: String
     html: String
     regular: String
+    regularWithoutCurrencyCode: String
     special: String
+    specialWithoutCurrencyCode: String
+    currencyCode: String
 }
