@@ -2,13 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Product;
 
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Product\Models\ProductAttributeValueProxy;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
-use Illuminate\Support\Facades\DB;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Product\Models\ProductAttributeValueProxy;
+use Webkul\Product\Repositories\ProductFlatRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductListingQuery extends BaseFilter
 {
@@ -62,7 +63,34 @@ class ProductListingQuery extends BaseFilter
 
         $this->attributeRepository = $attributeRepository;
     }
-    
+
+    /**
+     * Retrive product from slug
+     *
+     * @param string $slug
+     * @param string $columns
+     *
+     * @return \Webkul\Product\Contracts\Product
+     */
+    public function findBySlugOrFail($query, $input)
+    {
+        $slug = $input['slug'] ?? '';
+        
+        $product = app(ProductFlatRepository::class)->findOneWhere([
+            'url_key' => $slug,
+            'locale'  => app()->getLocale(),
+            'channel' => core()->getCurrentChannelCode(),
+        ]);
+
+        if (! $product) {
+            throw (new ModelNotFoundException)->setModel(
+                get_class($this->model), $slug
+            );
+        }
+
+        return $product;
+    }
+
     /**
      * filter the data .
      *
@@ -77,7 +105,7 @@ class ProductListingQuery extends BaseFilter
         $channel = core()->getRequestedChannelCode();
 
         $locale = core()->getRequestedLocaleCode();
-        
+
         $qb = $query->distinct()
             ->select('products.*')
             ->leftJoin('product_flat as pf', 'pf.product_id', '=', 'products.id')
@@ -93,7 +121,7 @@ class ProductListingQuery extends BaseFilter
             $categoryId = $this->categoryRepository->whereHas('translation', function ($q) use ($params) {
                 $q->where('slug', 'like', '%' . urldecode($params['categorySlug']) . '%');
             })->pluck('id')->first();
-            
+
             if ($categoryId) {
                 $qb->where('product_categories.category_id', $categoryId);
             }
@@ -160,28 +188,28 @@ class ProductListingQuery extends BaseFilter
                     ->leftJoin('catalog_rule_product_prices', 'catalog_rule_product_prices.product_id', '=', 'variants.product_id')
                     ->leftJoin('product_customer_group_prices', 'product_customer_group_prices.product_id', '=', 'variants.product_id')
                     ->where(function ($qb) use ($priceRange, $customerGroupId) {
-                        $qb->where(function ($qb) use ($priceRange){
+                        $qb->where(function ($qb) use ($priceRange) {
                             $qb
-                                ->where('variants.min_price', '>=',  core()->convertToBasePrice($priceRange[0]))
-                                ->where('variants.min_price', '<=',  core()->convertToBasePrice(end($priceRange)));
+                                ->where('variants.min_price', '>=', core()->convertToBasePrice($priceRange[0]))
+                                ->where('variants.min_price', '<=', core()->convertToBasePrice(end($priceRange)));
                         })
-                        ->orWhere(function ($qb) use ($priceRange) {
-                            $qb
-                                ->where('catalog_rule_product_prices.price', '>=',  core()->convertToBasePrice($priceRange[0]))
-                                ->where('catalog_rule_product_prices.price', '<=',  core()->convertToBasePrice(end($priceRange)));
-                        })
-                        ->orWhere(function ($qb) use ($priceRange, $customerGroupId) {
-                            $qb
-                                ->where('product_customer_group_prices.value', '>=',  core()->convertToBasePrice($priceRange[0]))
-                                ->where('product_customer_group_prices.value', '<=',  core()->convertToBasePrice(end($priceRange)))
-                                ->where('product_customer_group_prices.customer_group_id', '=', $customerGroupId);
-                        });
+                            ->orWhere(function ($qb) use ($priceRange) {
+                                $qb
+                                    ->where('catalog_rule_product_prices.price', '>=', core()->convertToBasePrice($priceRange[0]))
+                                    ->where('catalog_rule_product_prices.price', '<=', core()->convertToBasePrice(end($priceRange)));
+                            })
+                            ->orWhere(function ($qb) use ($priceRange, $customerGroupId) {
+                                $qb
+                                    ->where('product_customer_group_prices.value', '>=', core()->convertToBasePrice($priceRange[0]))
+                                    ->where('product_customer_group_prices.value', '<=', core()->convertToBasePrice(end($priceRange)))
+                                    ->where('product_customer_group_prices.customer_group_id', '=', $customerGroupId);
+                            });
                     });
             }
         }
 
         $attributeFilterParams = $params;
-        if ( isset($params['price'])) {
+        if (isset($params['price'])) {
             unset($attributeFilterParams['price']);
         };
 
