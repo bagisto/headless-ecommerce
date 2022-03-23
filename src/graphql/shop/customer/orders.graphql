@@ -1,10 +1,6 @@
-#Shop\Customer\Orders Related APIs
+# `Shop\Customer\Orders` related APIs.
 extend type Query {
-    ordersList(
-        input: FilterCustomerOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders"),
-        first: Int,
-        page: Int
-        ):[Order!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\Sales\\Models\\Order")
+    ordersList(input: FilterCustomerOrderInput, first: Int, page: Int): [Order!] @paginate(type: "paginator", builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders", defaultCount: 10, model: "Webkul\\Sales\\Models\\Order")
 
     orderDetail(id: ID @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
 
