@@ -106,12 +106,12 @@ class ProductListingQuery extends BaseFilter
         $locale = core()->getRequestedLocaleCode();
 
         $qb = $query->distinct()
-            ->select('products.*', 'pf.new', 'pf.featured')
+            ->select('products.*')
             ->leftJoin('product_flat as pf', 'pf.product_id', '=', 'products.id')
             ->join('product_flat as variants', 'pf.id', '=', DB::raw('COALESCE(' . DB::getTablePrefix() . 'variants.parent_id, ' . DB::getTablePrefix() . 'variants.id)'))
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'pf.product_id')
             ->leftJoin('product_attribute_values', 'product_attribute_values.product_id', '=', 'variants.product_id')
-            ->whereIn('products.type', ['simple', 'virtual'])
+            ->whereIn('products.type', ['simple', 'configurable', 'virtual'])
             ->where('pf.channel', $channel)
             ->where('pf.locale', $locale)
             ->whereNotNull('pf.url_key');

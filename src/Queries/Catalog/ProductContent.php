@@ -220,10 +220,12 @@ class ProductContent extends BaseFilter
             }
 
             foreach ($attributeOptionsIds as $attributeId => $optionId) {
-                $index[$key]['attributeOptionIds'][] = [
-                    'attributeId'       => $attributeId,
-                    'attributeOptionId' => $optionId,
-                ];
+                if ($optionId) {
+                    $index[$key]['attributeOptionIds'][] = [
+                        'attributeId'       => $attributeId,
+                        'attributeOptionId' => $optionId,
+                    ];
+                }
             }
         }
         $data['index'] = $index;
