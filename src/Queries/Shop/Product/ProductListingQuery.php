@@ -14,28 +14,28 @@ use Webkul\Product\Repositories\ProductRepository;
 class ProductListingQuery extends BaseFilter
 {
     /**
-     * ProductFlatRepository object
+     * Product flat repository instance.
      *
      * @var \Webkul\Product\Repositories\ProductFlatRepository
      */
     protected $productFlatRepository;
 
     /**
-     * ProductRepository object
+     * Product repository instance.
      *
      * @var \Webkul\Product\Repositories\ProductRepository
      */
     protected $productRepository;
 
     /**
-     * CategoryRepository object
+     * Category repository instance.
      *
      * @var \Webkul\Category\Repositories\CategoryRepository
      */
     protected $categoryRepository;
 
     /**
-     * AttributeRepository object
+     * Attribute repository instance.
      *
      * @var \Webkul\Attribute\Repositories\AttributeRepository
      */
@@ -65,17 +65,16 @@ class ProductListingQuery extends BaseFilter
     }
 
     /**
-     * Retrive product from slug
+     * Retrive product from slug.
      *
-     * @param string $slug
-     * @param string $columns
-     *
+     * @param  string  $slug
+     * @param  string  $columns
      * @return \Webkul\Product\Contracts\Product
      */
     public function findBySlugOrFail($query, $input)
     {
         $slug = $input['slug'] ?? '';
-        
+
         $product = app(ProductFlatRepository::class)->findOneWhere([
             'url_key' => $slug,
             'locale'  => app()->getLocale(),
@@ -92,10 +91,10 @@ class ProductListingQuery extends BaseFilter
     }
 
     /**
-     * filter the data .
+     * Get all products.
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function getAll($query, $input)
@@ -107,7 +106,7 @@ class ProductListingQuery extends BaseFilter
         $locale = core()->getRequestedLocaleCode();
 
         $qb = $query->distinct()
-            ->select('products.*')
+            ->select('products.*', 'pf.new', 'pf.featured')
             ->leftJoin('product_flat as pf', 'pf.product_id', '=', 'products.id')
             ->join('product_flat as variants', 'pf.id', '=', DB::raw('COALESCE(' . DB::getTablePrefix() . 'variants.parent_id, ' . DB::getTablePrefix() . 'variants.id)'))
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'pf.product_id')
@@ -125,6 +124,14 @@ class ProductListingQuery extends BaseFilter
             if ($categoryId) {
                 $qb->where('product_categories.category_id', $categoryId);
             }
+        }
+
+        if (request()->has('new')) {
+            $qb->where('pf.new', 1);
+        }
+
+        if (request()->has('featured')) {
+            $qb->where('pf.featured', 1);
         }
 
         if (! core()->getConfigData('catalog.products.homepage.out_of_stock_items')) {
@@ -174,8 +181,8 @@ class ProductListingQuery extends BaseFilter
         if (isset($params['price']) && $params['price']) {
             $priceFilter = $params['price'];
             $priceRange = explode(',', $priceFilter);
-            if (count($priceRange) > 0) {
 
+            if (count($priceRange) > 0) {
                 $customerGroupId = null;
 
                 $customerGuestGroup = app('Webkul\Customer\Repositories\CustomerGroupRepository')->getCustomerGuestGroup();
@@ -209,6 +216,7 @@ class ProductListingQuery extends BaseFilter
         }
 
         $attributeFilterParams = $params;
+
         if (isset($params['price'])) {
             unset($attributeFilterParams['price']);
         };
@@ -221,7 +229,6 @@ class ProductListingQuery extends BaseFilter
 
                 foreach ($attributeFilters as $attribute) {
                     $filterQuery->orWhere(function ($attributeQuery) use ($attribute, $attributeFilterParams) {
-
                         $column = DB::getTablePrefix() . 'product_attribute_values.' . ProductAttributeValueProxy::modelClass()::$attributeTypeFields[$attribute->type];
 
                         $filterInputValues = explode(',', $attributeFilterParams[$attribute->code]);
@@ -240,14 +247,12 @@ class ProductListingQuery extends BaseFilter
                                     $attributeValueQuery->orWhereRaw("find_in_set(?, {$column})", [$filterValue]);
                                 }
                             });
-
                         } else {
                             $attributeQuery->where($column, '>=', core()->convertToBasePrice(current($filterInputValues)))
                                 ->where($column, '<=', core()->convertToBasePrice(end($filterInputValues)));
                         }
                     });
                 }
-
             });
 
             # this is key! if a product has been filtered down to the same number of attributes that we filtered on,
@@ -260,7 +265,7 @@ class ProductListingQuery extends BaseFilter
     }
 
     /**
-     * Get default sort by option
+     * Get default sort by option.
      *
      * @return array
      */
@@ -274,12 +279,11 @@ class ProductListingQuery extends BaseFilter
     }
 
     /**
-     * Check sort attribute and generate query
+     * Check sort attribute and generate query.
      *
-     * @param object $query
-     * @param string $sort
-     * @param string $direction
-     *
+     * @param  object  $query
+     * @param  string  $sort
+     * @param  string  $direction
      * @return object
      */
     private function checkSortAttributeAndGenerateQuery($query, $sort, $direction)
