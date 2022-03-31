@@ -1,6 +1,6 @@
 # Bagisto GraphQL API
 
-Laravel eCommerce headless APIs allow you to experience seamless and easily scalable storefront performance. An open-source and GraphQL based Rest API Laravel platform delivering ultra-fast, dynamic, and personalized shopping experiences.
+Laravel eCommerce headless APIs allow you to experience seamless and easily scalable storefront performance. The open-source headless laravel platform built on GraphQL based Rest API delivers ultra-fast, dynamic, and personalized shopping experiences.
 
 **Read our documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/1.x/graphql-admin-api/)**
 
