@@ -91,7 +91,7 @@ class ProductContent extends BaseFilter
         $product = $this->productRepository->find($args['productId']);
 
         if ($product) {
-            return $product->related_products()->where('type', 'simple')->get();
+            return $product->related_products()->whereIn('products.type', ['simple', 'virtual', 'configurable'])->get();
         }
 
         return null;

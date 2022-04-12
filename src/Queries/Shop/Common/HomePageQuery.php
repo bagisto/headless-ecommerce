@@ -117,7 +117,7 @@ class HomePageQuery extends BaseFilter
                 ->where('product_flat.status', 1)
                 ->where('product_flat.visible_individually', 1)
                 ->where('product_flat.new', 1)
-                ->where('products.type', 'simple')
+                ->whereIn('products.type', ['simple', 'virtual', 'configurable'])
                 ->where('product_flat.channel', $channel)
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
@@ -141,7 +141,7 @@ class HomePageQuery extends BaseFilter
                 ->where('product_flat.status', 1)
                 ->where('product_flat.visible_individually', 1)
                 ->where('product_flat.featured', 1)
-                ->where('products.type', 'simple')
+                ->whereIn('products.type', ['simple', 'virtual', 'configurable'])
                 ->where('product_flat.channel', $channel)
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
