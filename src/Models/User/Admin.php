@@ -50,7 +50,7 @@ class Admin extends BaseModel implements UserContract, JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims() :Array
     {
         return [];
     }

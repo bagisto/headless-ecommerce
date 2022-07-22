@@ -2,6 +2,12 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+## **v1.4.x (22nd of July, 2022)** - *Release*
+
+* [compatible] - compatible with v1.4.3.
+
+* [Fix] - Fixed type Hinting initial push for compatibility.
+
 * [enhancement] - Added category filters and sorting.
 
 * [enhancement] - made APIs compatible for VueStoreFront.
