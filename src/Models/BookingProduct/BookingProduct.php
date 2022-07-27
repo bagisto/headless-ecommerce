@@ -29,7 +29,7 @@ class BookingProduct extends BaseModel
     /**
      * The Product belong to the product booking.
      */
-    public function product() :BelongsTo
+    public function product() : BelongsTo
     {
         return $this->belongsTo(ProductProxy::modelClass());
     }
