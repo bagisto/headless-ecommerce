@@ -34,8 +34,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
                 request()->merge(['token' => $headerValue[1]]);
             }
         }
-
-        $this->publishes([__DIR__.'/../graphql/schema.graphql' => base_path('graphql/schema.graphql')]);
     }
 
     /**
