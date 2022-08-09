@@ -5,7 +5,7 @@ namespace Webkul\GraphQLAPI\Models\User;
 use Illuminate\Notifications\Notifiable;
 use Webkul\User\Models\Admin as BaseModel;
 use Webkul\User\Contracts\Admin as UserContract;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class Admin extends BaseModel implements UserContract, JWTSubject
 {
@@ -50,7 +50,7 @@ class Admin extends BaseModel implements UserContract, JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }

@@ -10,7 +10,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 1. Requirements:
 
-* **Bagisto**: v1.3.x
+* **Bagisto**: v1.4.3
 
 ### 2. Installation:
 

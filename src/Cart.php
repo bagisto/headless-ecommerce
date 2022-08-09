@@ -14,55 +14,6 @@ use Webkul\Tax\Repositories\TaxCategoryRepository;
 class Cart extends BaseCart
 {
     /**
-     * Cart repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\CartRepository
-     */
-    protected $cartRepository;
-
-    /**
-     * Cart item repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\CartItemRepository
-     */
-    protected $cartItemRepository;
-
-    /**
-     * Cart address repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\CartAddressRepository
-     */
-    protected $cartAddressRepository;
-
-    /**
-     * Product repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
-     * Tax category repository instance.
-     *
-     * @var \Webkul\Tax\Repositories\TaxCategoryRepository
-     */
-    protected $taxCategoryRepository;
-
-    /**
-     * Wishlist repository instance.
-     *
-     * @var \Webkul\Customer\Repositories\WishlistRepository
-     */
-    protected $wishlistRepository;
-
-    /**
-     * Customer address repository instance.
-     *
-     * @var \Webkul\Customer\Repositories\CustomerAddressRepository
-     */
-    protected $customerAddressRepository;
-
-    /**
      * Create a new class instance.
      *
      * @param  \Webkul\Checkout\Repositories\CartRepository             $cartRepository
@@ -75,28 +26,14 @@ class Cart extends BaseCart
      * @return void
      */
     public function __construct(
-        CartRepository $cartRepository,
-        CartItemRepository $cartItemRepository,
-        CartAddressRepository $cartAddressRepository,
-        ProductRepository $productRepository,
-        TaxCategoryRepository $taxCategoryRepository,
-        WishlistRepository $wishlistRepository,
-        CustomerAddressRepository $customerAddressRepository
+        protected CartRepository $cartRepository,
+        protected CartItemRepository $cartItemRepository,
+        protected CartAddressRepository $cartAddressRepository,
+        protected ProductRepository $productRepository,
+        protected TaxCategoryRepository $taxCategoryRepository,
+        protected WishlistRepository $wishlistRepository,
+        protected CustomerAddressRepository $customerAddressRepository
     ) {
-        $this->cartRepository = $cartRepository;
-
-        $this->cartItemRepository = $cartItemRepository;
-
-        $this->cartAddressRepository = $cartAddressRepository;
-
-        $this->productRepository = $productRepository;
-
-        $this->taxCategoryRepository = $taxCategoryRepository;
-
-        $this->wishlistRepository = $wishlistRepository;
-
-        $this->customerAddressRepository = $customerAddressRepository;
-
         parent::__construct(
             $cartRepository,
             $cartItemRepository,

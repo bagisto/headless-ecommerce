@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Models\BookingProduct;
 
-use Webkul\BookingProduct\Models\BookingProduct as BaseModel;
 use Webkul\Product\Models\ProductProxy;
+use Webkul\BookingProduct\Models\BookingProduct as BaseModel;
 
 class BookingProduct extends BaseModel
 {
@@ -28,7 +28,7 @@ class BookingProduct extends BaseModel
     /**
      * The Product belong to the product booking.
      */
-    public function product()
+    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ProductProxy::modelClass());
     }
