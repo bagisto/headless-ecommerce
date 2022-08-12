@@ -21,8 +21,8 @@ class BaseFilter
         return $arguments;
     }
 
-     // Name Splitter
-     public function nameSplitter($name){
+    // Name Splitter
+    public function nameSplitter($name){
         
         $nameChanger = explode(" ",$name);
 
