@@ -22,20 +22,6 @@ class UserMutation extends Controller
     protected $guard;
 
     /**
-     * AdminRepository object
-     *
-     * @var \Webkul\User\Repositories\AdminRepository
-     */
-    protected $adminRepository;
-
-    /**
-     * RoleRepository object
-     *
-     * @var \Webkul\User\Repositories\RoleRepository
-     */
-    protected $roleRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\User\Repositories\AdminRepository  $adminRepository
@@ -43,16 +29,12 @@ class UserMutation extends Controller
      * @return void
      */
     public function __construct(
-        AdminRepository $adminRepository,
-        RoleRepository $roleRepository
+       protected AdminRepository $adminRepository,
+       protected RoleRepository $roleRepository
     ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-
-        $this->adminRepository = $adminRepository;
-
-        $this->roleRepository = $roleRepository;
     }
 
     /**
