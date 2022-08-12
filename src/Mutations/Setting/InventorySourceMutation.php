@@ -12,29 +12,17 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class InventorySourceMutation extends Controller
 {
     /**
-     * InventorySourceRepository object
-     *
-     * @var \Webkul\Inventory\Repositories\InventorySourceRepository
-     */
-    protected $inventorySourceRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Inventory\Repositories\InventorySourceRepository  $inventorySourceRepository
      * @return void
      */
     public function __construct(
-        InventorySourceRepository $inventorySourceRepository
-    )
-    {
+        protected InventorySourceRepository $inventorySourceRepository
+    ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard);
-        
-        $this->inventorySourceRepository = $inventorySourceRepository;
 
         $this->_config = request('_config');
     }
@@ -46,12 +34,8 @@ class InventorySourceMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -68,7 +52,7 @@ class InventorySourceMutation extends Controller
             'city'           => 'required',
             'postcode'       => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -81,7 +65,7 @@ class InventorySourceMutation extends Controller
             $inventorySource = $this->inventorySourceRepository->create($data);
 
             Event::dispatch('inventory.inventory_source.create.after', $inventorySource);
-            
+
             return $inventorySource;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -96,17 +80,13 @@ class InventorySourceMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-        
+
         $validator = \Validator::make($data, [
             'code'           => ['required', 'unique:inventory_sources,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
             'name'           => 'required',
@@ -119,18 +99,18 @@ class InventorySourceMutation extends Controller
             'city'           => 'required',
             'postcode'       => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
             $data['status'] = !isset($data['status']) ? 0 : 1;
-    
+
             Event::dispatch('inventory.inventory_source.update.before', $id);
-    
+
             $inventorySource = $this->inventorySourceRepository->update($data, $id);
-    
+
             Event::dispatch('inventory.inventory_source.update.after', $inventorySource);
 
             return $inventorySource;
@@ -147,12 +127,8 @@ class InventorySourceMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
@@ -170,7 +146,7 @@ class InventorySourceMutation extends Controller
                 Event::dispatch('inventory.inventory_source.delete.after', $id);
 
                 return ['success' => trans('admin::app.settings.inventory_sources.delete-success')];
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Inventory source']));
             }
         }
