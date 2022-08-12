@@ -2,9 +2,21 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
-* [enhancement] - Added category filters and sorting.
+## **v1.3.3 (12th of August, 2022)** - *Release*
 
-* [enhancement] - made APIs compatible for VueStoreFront.
+* [enhancement] - APIs support for the [VueStoreFront](https://github.com/bagisto/vuestorefront).
+
+* [enhancement] - APIs support for the [Next.js Commerce](https://github.com/bagisto/nextjs-commerce).
+
+* [enhancement] - APIs created for the Shop content (i.e. product by slug, new and featured product, order authentication, etc..).
+
+* [enhancement] - APIs added for the PayPal Standard Payment gateway.
+
+* [enhancement] - CacheImage schema added.
+
+* [enhancement] - Sorting product list and filter options added for the category.
+
+* [enhancement] - Added category filters and sorting.
 
 ## **v1.1.0 (07th of December, 2021)** - *Release*
 
