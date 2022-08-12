@@ -1,11 +1,11 @@
 # Setting\Currency Related APIs
-extend type Query {
+extend type Query @guard {
     currencies(input: FilterCurrencyInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterCurrency")): [Currency!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\Currency")
 
     currency(id: ID @eq): Currency @find(model: "Webkul\\Core\\Models\\Currency")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createCurrency(
         input: CreateCurrencyInput!
     ): Currency  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\CurrencyMutation@store")

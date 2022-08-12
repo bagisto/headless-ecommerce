@@ -12,30 +12,19 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class CurrencyMutation extends Controller
 {
     /**
-     * CurrencyRepository object
-     *
-     * @var \Webkul\Core\Repositories\CurrencyRepository
-     */
-    protected $currencyRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Core\Repositories\CurrencyRepository  $currencyRepository
      * @return void
      */
     public function __construct(
-        CurrencyRepository $currencyRepository
+       protected CurrencyRepository $currencyRepository
     )
     {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
         
-        $this->middleware('auth:' . $this->guard);
-
-        $this->currencyRepository = $currencyRepository;
-
         $this->_config = request('_config');
     }
 
@@ -48,10 +37,6 @@ class CurrencyMutation extends Controller
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -91,10 +76,6 @@ class CurrencyMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         $data = $args['input'];
         $id = $args['id'];
         
@@ -130,10 +111,6 @@ class CurrencyMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
