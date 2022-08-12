@@ -5,15 +5,15 @@ extend type Query @guard {
     role(id: ID @eq): Role @find(model: "Webkul\\User\\Models\\Role")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createRole(
         input: CreateRoleInput!
-    ): Role @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@store")
+    ): Role  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@store")
     updateRole(
         id: ID!,
         input: CreateRoleInput!
-    ): Role @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@update")
-    deleteRole(id: ID!): Role @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@delete")
+    ): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@update")
+    deleteRole(id: ID!): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\RoleMutation@delete")
 }
 
 input CreateRoleInput {

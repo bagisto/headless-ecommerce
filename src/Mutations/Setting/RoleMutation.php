@@ -19,20 +19,13 @@ class RoleMutation extends Controller
     protected $guard;
 
     /**
-     * RoleRepository object
-     *
-     * @var \Webkul\User\Repositories\RoleRepository
-     */
-    protected $roleRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(
-        RoleRepository $roleRepository
+       protected RoleRepository $roleRepository
     )
     {
         $this->guard = 'admin-api';
@@ -40,8 +33,6 @@ class RoleMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-        
-        $this->roleRepository = $roleRepository;
     }
 
     /**
