@@ -55,10 +55,6 @@ class RoleMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         $data = $args['input'];
         
         $validator = \Validator::make($data, [
@@ -96,10 +92,6 @@ class RoleMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         $data = $args['input'];
         $id = $args['id'];
         
@@ -135,10 +127,6 @@ class RoleMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
