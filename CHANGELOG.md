@@ -2,9 +2,45 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+## **v1.4.x (12th of Aug, 2022)** - *Release*
+
+* [compatible] - compatible with v1.4.3.
+
+* [Fix] - Fixed type Hinting initial push for compatibility.
+
 * [enhancement] - Added category filters and sorting.
 
-* [enhancement] - made APIs compatible for VueStoreFront.
+## **v1.3.3 (12th of August, 2022)** - *Release*
+
+* [enhancement] - APIs support for the [VueStoreFront](https://github.com/bagisto/vuestorefront).
+
+* [enhancement] - APIs support for the [Next.js Commerce](https://github.com/bagisto/nextjs-commerce).
+
+* [enhancement] - APIs created for the Shop content (i.e. product by slug, new and featured product, order authentication, etc..).
+
+* [enhancement] - APIs added for the PayPal Standard Payment gateway.
+
+* [enhancement] - CacheImage schema added.
+
+* [enhancement] - Sorting product list and filter options added for the category.
+
+* [enhancement] - Added category filters and sorting.
+
+## **v1.3.3 (12th of August, 2022)** - *Release*
+
+* [enhancement] - APIs support for the [VueStoreFront](https://github.com/bagisto/vuestorefront).
+
+* [enhancement] - APIs support for the [Next.js Commerce](https://github.com/bagisto/nextjs-commerce).
+
+* [enhancement] - APIs created for the Shop content (i.e. product by slug, new and featured product, order authentication, etc..).
+
+* [enhancement] - APIs added for the PayPal Standard Payment gateway.
+
+* [enhancement] - CacheImage schema added.
+
+* [enhancement] - Sorting product list and filter options added for the category.
+
+* [enhancement] - Added category filters and sorting.
 
 ## **v1.1.0 (07th of December, 2021)** - *Release*
 
