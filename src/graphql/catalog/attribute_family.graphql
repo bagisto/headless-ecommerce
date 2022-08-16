@@ -1,5 +1,5 @@
 # Catalog\AttributeFamily Related APIs
-extend type Query {
+extend type Query @guard {
     attributeGroups: [AttributeGroup!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeGroup")
 
     attributeGroup(id: ID @eq): AttributeGroup @find(model: "Webkul\\Attribute\\Models\\AttributeGroup")
@@ -9,7 +9,7 @@ extend type Query {
     attributeFamily(id: ID @eq): AttributeFamily @find(model: "Webkul\\Attribute\\Models\\AttributeFamily")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createAttributeGroup(
         input: CreateAttributeGroupInput!
     ): AttributeGroup @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\AttributeGroupMutation@store")

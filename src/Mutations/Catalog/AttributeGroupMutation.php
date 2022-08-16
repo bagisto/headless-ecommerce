@@ -13,20 +13,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class AttributeGroupMutation extends Controller
 {
     /**
-     * AttributeGroupRepository object
-     *
-     * @var \Webkul\Attribute\Repositories\AttributeGroupRepository
-     */
-    protected $attributeGroupRepository;
-
-    /**
-     * AttributeFamilyRepository object
-     *
-     * @var \Webkul\Attribute\Repositories\AttributeFamilyRepository
-     */
-    protected $attributeFamilyRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
@@ -34,8 +20,8 @@ class AttributeGroupMutation extends Controller
      * @return void
      */
     public function __construct(
-        AttributeGroupRepository $attributeGroupRepository,
-        AttributeFamilyRepository $attributeFamilyRepository
+        protected AttributeGroupRepository $attributeGroupRepository,
+        protected AttributeFamilyRepository $attributeFamilyRepository
     )
     {
         $this->guard = 'admin-api';
@@ -43,10 +29,6 @@ class AttributeGroupMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-
-        $this->attributeGroupRepository = $attributeGroupRepository;
-
-        $this->attributeFamilyRepository = $attributeFamilyRepository;
 
         $this->_config = request('_config');
     }
@@ -60,10 +42,6 @@ class AttributeGroupMutation extends Controller
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -105,10 +83,6 @@ class AttributeGroupMutation extends Controller
     {
         if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -158,10 +132,6 @@ class AttributeGroupMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
