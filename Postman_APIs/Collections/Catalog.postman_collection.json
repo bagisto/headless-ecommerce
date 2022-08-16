@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "e33653c6-f8de-43d8-baa1-66e3c159f85f",
+		"_postman_id": "e7166cb6-fa0c-4025-8479-20cd0121c00b",
 		"name": "Catalog",
 		"description": "Catalog",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21542229"
 	},
 	"item": [
 		{
@@ -13,7 +14,13 @@
 					"name": "Get All Categories",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -22,9 +29,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						},
 						"description": "Get All Categories"
@@ -35,7 +50,13 @@
 					"name": "Get Category Details",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -44,9 +65,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						},
 						"description": "Get Category Details"
@@ -60,7 +89,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text"
 							}
 						],
@@ -72,9 +101,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						},
 						"description": "Create New Category"
@@ -88,21 +125,29 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateCategory {\n    updateCategory(id: 3, input: {\n        name:\"Collection Femme\"\n        locale: \"fr\"\n        slug: \"women-cloths\"\n        description: \"Description of the Women Collection\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Meta title of Women Collection\"\n        metaDescription: \"Meta description of Women Collection\"\n        metaKeywords: \"Méta-mots-clés Women Collection\"\n        image: \"https://cdn.pixabay.com/photo/2017/03/09/02/03/girl-2128284_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation updateCategory {\n    updateCategory(id: 2, input: {\n        name:\"Collection Femme\"\n        locale: \"en\"\n        slug: \"women-cloths\"\n        description: \"Description of the Women Collection\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Meta title of Women Collection\"\n        metaDescription: \"Meta description of Women Collection\"\n        metaKeywords: \"Méta-mots-clés Women Collection\"\n        image: \"https://cdn.pixabay.com/photo/2017/03/09/02/03/girl-2128284_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						},
 						"description": "Update Category Details"
@@ -116,7 +161,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text"
 							}
 						],
@@ -128,9 +173,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						},
 						"description": "Remove Category"
@@ -150,9 +203,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						},
 						"description": "Filterable Attributes Details"
@@ -168,7 +229,13 @@
 					"name": "Get All Attributes",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -177,9 +244,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},
@@ -191,8 +266,8 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "",
-								"value": "",
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text",
 								"disabled": true
 							}
@@ -205,9 +280,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},
@@ -220,7 +303,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text"
 							}
 						],
@@ -232,9 +315,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},
@@ -247,21 +338,29 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateAttribute {\n    updateAttribute(id: 28, input: {\n        code: \"multi\"\n        type: \"select\"\n        adminName: \"Multi Option Attr\"\n        translations: [{\n            code: \"en\"\n            name: \"Age Validation\"\n        }, {\n            code: \"fr\"\n            name: \"Validation de l'âge\"\n        }, {\n            code: \"nl\"\n            name: \"Leeftijd validatie\"\n        }, {\n            code: \"tr\"\n            name: \"Yaş Doğrulaması\"\n        }]\n        isRequired: true\n        isUnique: false\n        validation: \"\"\n        valuePerLocale: true\n        valuePerChannel: true\n        isFilterable: true\n        isConfigurable: false\n        isVisibleOnFront: true\n        useInFlat: false\n        isComparable: true\n        swatchType: \"image\"\n        options: [{\n            adminName: \"Option 1\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/572/SpKvqowiHC2dkmvRweIsTXiiqmVZAv7UamsmLl6G.jpeg\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 1\"\n            }, {\n                code: \"fr\"\n                label: \"Option 1\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 1\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 1\"\n            }]\n        },  {\n            adminName: \"Option 2\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/571/xFs7waxcd6MSOO8mWwBX3topPN9r8bWeHOvHz4Zq.jpeg\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 2\"\n            }, {\n                code: \"fr\"\n                label: \"Option 2\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 2\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 2\"\n            }]\n        },  {\n            adminName: \"Option 3\"\n            swatchValue: \"http://super.saascust.com/cache/medium/product/447/85Nd2GkelYxn68czxM4gW8QsBpVNcwrN9JVQsLzp.jpeg\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 3\"\n            }, {\n                code: \"fr\"\n                label: \"Option 3\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 3\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 3\"\n            }]\n        }]\n    }) {\n        id\n        code\n        adminName\n        type\n        position\n        isRequired\n        isUnique\n        validation\n        valuePerLocale\n        valuePerChannel\n        isFilterable\n        isConfigurable\n        isVisibleOnFront\n        isUserDefined\n        swatchType\n        useInFlat\n        isComparable\n        options {\n            id\n            adminName\n            swatchValue\n            sortOrder\n            attributeId\n            attribute {\n                id\n                adminName\n            }\n            translations {\n                id\n                locale\n                label\n                attributeOptionId\n            }\n        }\n        translations {\n            id\n            locale\n            name\n            attributeId\n        }\n    }\n}",
+								"query": "\nmutation updateAttribute {\n    updateAttribute(id: 28, input: {\n        code: \"multi\"\n        type: \"select\"\n        adminName: \"Multi Option Attr\"\n        translations: [{\n            code: \"en\"\n            name: \"Age Validation\"\n        }, {\n            code: \"fr\"\n            name: \"Validation de l'âge\"\n        }, {\n            code: \"nl\"\n            name: \"Leeftijd validatie\"\n        }, {\n            code: \"tr\"\n            name: \"Yaş Doğrulaması\"\n        }]\n        isRequired: true\n        isUnique: false\n        validation: \"\"\n        valuePerLocale: true\n        valuePerChannel: true\n        isFilterable: true\n        isConfigurable: false\n        isVisibleOnFront: true\n        useInFlat: false\n        isComparable: true\n        swatchType: \"image\"\n        options: [{\n            adminName: \"Option 1\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/572/SpKvqowiHC2dkmvRweIsTXiiqmVZAv7UamsmLl6G.jpeg\"\n            isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 1\"\n            }, {\n                code: \"fr\"\n                label: \"Option 1\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 1\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 1\"\n            }]\n        },  {\n            adminName: \"Option 2\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/571/xFs7waxcd6MSOO8mWwBX3topPN9r8bWeHOvHz4Zq.jpeg\"\n             isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 2\"\n            }, {\n                code: \"fr\"\n                label: \"Option 2\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 2\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 2\"\n            }]\n        },  {\n            adminName: \"Option 3\"\n            swatchValue: \"http://super.saascust.com/cache/medium/product/447/85Nd2GkelYxn68czxM4gW8QsBpVNcwrN9JVQsLzp.jpeg\"\n            isNew: \"true\" \n            translations: [{\n                code: \"en\"\n                label: \"Option 3\"\n            }, {\n                code: \"fr\"\n                label: \"Option 3\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 3\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 3\"\n            }]\n        }]\n    }) {\n        id\n        code\n        adminName\n        type\n        position\n        isRequired\n        isUnique\n        validation\n        valuePerLocale\n        valuePerChannel\n        isFilterable\n        isConfigurable\n        isVisibleOnFront\n        isUserDefined\n        swatchType\n        useInFlat\n        isComparable\n        options {\n            id\n            adminName\n            swatchValue\n            sortOrder\n            attributeId\n            attribute {\n                id\n                adminName\n            }\n            translations {\n                id\n                locale\n                label\n                attributeOptionId\n            }\n        }\n        translations {\n            id\n            locale\n            name\n            attributeId\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},
@@ -274,7 +373,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
 								"type": "text"
 							}
 						],
@@ -286,9 +385,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},
@@ -303,7 +410,14 @@
 					"name": "Get Attribute's Options",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -312,9 +426,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},
@@ -324,7 +446,13 @@
 					"name": "Get Attribute Option Details",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -333,9 +461,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}",
+							"raw": "http://127.0.0.1:8000/graphql",
+							"protocol": "http",
 							"host": [
-								"{{url}}"
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"graphql"
 							]
 						}
 					},

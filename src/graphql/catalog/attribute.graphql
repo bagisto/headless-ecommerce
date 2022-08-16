@@ -1,5 +1,5 @@
 # Catalog\Attribute Related APIs
-extend type Query {
+extend type Query @guard {
     attributes(input: FilterAttributesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterableAttributesQuery")): [Attribute!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Attribute\\Models\\Attribute")
     
     attribute(id: ID @eq): Attribute @find(model: "Webkul\\Attribute\\Models\\Attribute")
@@ -19,7 +19,7 @@ extend type Query {
     filterableAttributes: [Attribute!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterableAttributesQuery@getFilterableAttributes")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createAttribute(
         input: CreateAttributeInput!
     ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\AttributeMutation@store")
@@ -64,6 +64,8 @@ input OptionTranslationInput {
 input OptionInput {
     swatchValue: String @rename(attribute: "swatch_value")
     adminName: String! @rename(attribute: "admin_name")
+    isNew: String
+    isDelete: String
     translations: [OptionTranslationInput]
 }
 
@@ -108,6 +110,7 @@ type AttributeOption {
     sortOrder: Int! @rename(attribute: "sort_order")
     attributeId: ID! @rename(attribute: "attribute_id")
     attribute: Attribute! @belongsTo(relation: "attribute")
+    isNew: Boolean
     translations: [AttributeOptionTranslation!] @hasMany
 }
 
