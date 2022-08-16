@@ -4,9 +4,11 @@ namespace Webkul\GraphQLAPI\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Webkul\BookingProduct\Type\Booking as BaseBookingType;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
+use Webkul\GraphQLAPI\Type\Booking as GraphQLAPIBookingType;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -128,5 +130,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->app->bind('cart', 'Webkul\GraphQLAPI\Cart');
 
         $this->app->bind(\Webkul\Checkout\Cart::class, \Webkul\GraphQLAPI\Cart::class);
+
+        $this->app->bind(BaseBookingType::class, GraphQLAPIBookingType::class);
     }
 }
