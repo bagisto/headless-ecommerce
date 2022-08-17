@@ -1,5 +1,5 @@
 #Velocity\HeaderContent Related APIs
-extend type Query {
+extend type Query @guard {
     headerContents(input: FilterContentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Velocity\\FilterContent")): [HeaderContent!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\Content")
     headerContent(id: ID @eq): HeaderContent @find(model: "Webkul\\Velocity\\Models\\Content")
 
@@ -7,7 +7,7 @@ extend type Query {
     contentTranslation(id: ID @eq): ContentTranslation @find(model: "Webkul\\Velocity\\Models\\ContentTranslation")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createHeaderContent(
         input: CreateHeaderContentInput!
     ): HeaderContent  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Velocity\\HeaderContentMutation@store")
