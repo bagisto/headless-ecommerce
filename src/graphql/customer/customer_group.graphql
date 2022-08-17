@@ -1,11 +1,11 @@
 # Customer\CustomerGroup Related APIs
-extend type Query {
+extend type Query @guard {
     customerGroups(input: FilterCustomerGroupInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerGroup")): [CustomerGroup!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerGroup")
 
     customerGroup(id: ID @eq): CustomerGroup @find(model: "Webkul\\Customer\\Models\\CustomerGroup")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createCustomerGroup(
         input: CreateCustomerGroupInput!
     ): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerGroupMutation@store")

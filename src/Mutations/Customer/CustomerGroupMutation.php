@@ -12,30 +12,19 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class CustomerGroupMutation extends Controller
 {
     /**
-     * CustomerGroupRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerGroupRepository
-     */
-    protected $customerGroupRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\CustomerGroupRepository  $customerGroupRepository
      * @return void
      */
     public function __construct(
-        CustomerGroupRepository $customerGroupRepository
+       protected CustomerGroupRepository $customerGroupRepository
     )
     {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard);
-        
-        $this->customerGroupRepository = $customerGroupRepository;
-
+    
         $this->_config = request('_config');
     }
 
@@ -48,10 +37,6 @@ class CustomerGroupMutation extends Controller
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -92,10 +77,6 @@ class CustomerGroupMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         $data = $args['input'];
         $id = $args['id'];
         
@@ -114,6 +95,8 @@ class CustomerGroupMutation extends Controller
             Event::dispatch('customer.customer_group.update.before', $id);
     
             $customerGroup = $this->customerGroupRepository->update($data, $id);
+
+            $customerGroup = $this->customerGroupRepository->find($id);
     
             Event::dispatch('customer.customer_group.update.after', $customerGroup);
 
@@ -133,10 +116,6 @@ class CustomerGroupMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
