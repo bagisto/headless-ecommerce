@@ -19,20 +19,6 @@ class CartRuleMutation extends Controller
     protected $_config;
 
     /**
-     * To hold Cart repository instance
-     *
-     * @var \Webkul\CartRule\Repositories\CartRuleRepository
-     */
-    protected $cartRuleRepository;
-
-    /**
-     * To hold CartRuleCouponRepository repository instance
-     *
-     * @var \Webkul\CartRule\Repositories\CartRuleCouponRepository
-     */
-    protected $cartRuleCouponRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\CartRule\Repositories\CartRuleRepository       $cartRuleRepository
@@ -40,20 +26,14 @@ class CartRuleMutation extends Controller
      * @return void
      */
     public function __construct(
-        CartRuleRepository $cartRuleRepository,
-        CartRuleCouponRepository $cartRuleCouponRepository
+        protected CartRuleRepository $cartRuleRepository,
+        protected CartRuleCouponRepository $cartRuleCouponRepository
     ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
-
         $this->_config = request('_config');
-
-        $this->cartRuleRepository = $cartRuleRepository;
-
-        $this->cartRuleCouponRepository = $cartRuleCouponRepository;
     }
 
     /**
@@ -63,17 +43,13 @@ class CartRuleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
 
-        if ( $params['use_auto_generation'] == true) {
+        if ($params['use_auto_generation'] == true) {
             $params['use_auto_generation'] = 1;
         } else {
             $params['use_auto_generation'] = 0;
@@ -104,7 +80,7 @@ class CartRuleMutation extends Controller
             Event::dispatch('promotions.cart_rule.create.after', $cartRule);
 
             return $cartRule;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -117,18 +93,14 @@ class CartRuleMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
 
-        if ( $params['use_auto_generation'] == true) {
+        if ($params['use_auto_generation'] == true) {
             $params['use_auto_generation'] = 1;
         } else {
             $params['use_auto_generation'] = 0;
@@ -169,7 +141,7 @@ class CartRuleMutation extends Controller
             Event::dispatch('promotions.cart_rule.update.after', $cartRule);
 
             return $cartRule;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -182,12 +154,8 @@ class CartRuleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
@@ -229,17 +197,15 @@ class CartRuleMutation extends Controller
 
         try {
 
-            if (! $id) {
+            if (!$id) {
                 throw new Exception(trans('admin::app.promotions.cart-rules.cart-rule-not-defind-error'));
             }
 
             $coupon = $this->cartRuleCouponRepository->generateCoupons($params, $id);
 
             return $coupon;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-
     }
 }
-
