@@ -14,20 +14,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class CustomerAddressMutation extends Controller
 {
     /**
-     * Customer Repository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository
-     */
-    protected $customerRepository;
-
-    /**
-     * CustomerAddress Repository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerAddressRepository
-     */
-    protected $customerAddressRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\CustomerRepository         $customerRepository
@@ -35,19 +21,13 @@ class CustomerAddressMutation extends Controller
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository,
-        CustomerAddressRepository $customerAddressRepository
+        protected CustomerRepository $customerRepository,
+        protected CustomerAddressRepository $customerAddressRepository
     )
     {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard);
-
-        $this->customerRepository = $customerRepository;
-
-        $this->customerAddressRepository = $customerAddressRepository;
 
         $this->_config = request('_config');
     }
@@ -61,10 +41,6 @@ class CustomerAddressMutation extends Controller
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -120,10 +96,6 @@ class CustomerAddressMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         $data = $args['input'];
         $id = $args['id'];
 
@@ -172,10 +144,6 @@ class CustomerAddressMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
