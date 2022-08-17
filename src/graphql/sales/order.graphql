@@ -1,5 +1,5 @@
 # Sales\Order Related APIs
-extend type Query {
+extend type Query @guard {
     orders(input: FilterOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrder")): [Order!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Order")
 
     order(id: ID @eq): Order @find(model: "Webkul\\Sales\\Models\\Order")
@@ -17,7 +17,7 @@ extend type Query {
     orderRefund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     cancelOrder(
         id: ID!
     ): Order  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\OrderMutation@cancel")
