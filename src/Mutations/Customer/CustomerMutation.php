@@ -16,20 +16,6 @@ use Webkul\Admin\Mail\NewCustomerNotification;
 class CustomerMutation extends Controller
 {
     /**
-     * CustomerRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository
-     */
-    protected $customerRepository;
-
-    /**
-     * CustomerGroupRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerGroupRepository
-     */
-    protected $customerGroupRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
@@ -37,19 +23,13 @@ class CustomerMutation extends Controller
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository,
-        CustomerGroupRepository $customerGroupRepository
+        protected CustomerRepository $customerRepository,
+        protected CustomerGroupRepository $customerGroupRepository
     )
     {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard);
-        
-        $this->customerRepository = $customerRepository;
-        
-        $this->customerGroupRepository = $customerGroupRepository;
 
         $this->_config = request('_config');
     }
@@ -63,10 +43,6 @@ class CustomerMutation extends Controller
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -122,10 +98,6 @@ class CustomerMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         $data = $args['input'];
         $id = $args['id'];
         
@@ -167,10 +139,6 @@ class CustomerMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
