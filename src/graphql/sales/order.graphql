@@ -125,7 +125,7 @@ type Order {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     billingAddress: OrderAddress! @rename(attribute: "billing_address")
-    shippingAddress: OrderAddress! @rename(attribute: "shipping_address")
+    shippingAddress: OrderAddress @rename(attribute: "shipping_address")
     refunds: [Refund!] @hasMany (relation: "refunds")
     addresses: [OrderAddress!] @hasMany (relation: "addresses")
     items: [OrderItem!] @hasMany
