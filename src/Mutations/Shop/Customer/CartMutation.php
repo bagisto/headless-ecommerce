@@ -19,20 +19,6 @@ class CartMutation extends Controller
     protected $guard;
 
     /**
-     * CartRepository object
-     *
-     * @var \Webkul\Checkout\Repositories\CartRepository;
-     */
-    protected $cartRepository;
-
-    /**
-     * ProductRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository;
-     */
-    protected $productRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Checkout\Repositories\CartRepository  $cartRepository
@@ -40,8 +26,8 @@ class CartMutation extends Controller
      * @return void
      */
     public function __construct(
-        CartRepository $cartRepository,
-        ProductRepository $productRepository
+       protected CartRepository $cartRepository,
+       protected ProductRepository $productRepository
     )
     {
         $this->guard = 'api';
@@ -49,10 +35,6 @@ class CartMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-        
-        $this->cartRepository = $cartRepository;
-        
-        $this->productRepository = $productRepository;
     }
 
     /**
@@ -81,7 +63,7 @@ class CartMutation extends Controller
         try {
             $cart = Cart::getCart();
 
-            return $cart->items;
+            return isset($cart) ? $cart->items : [];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
