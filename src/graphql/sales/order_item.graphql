@@ -1,5 +1,5 @@
 # Sales\OrderItem Related APIs
-extend type Query {
+extend type Query @guard {
     orderItems(input: FilterOrderItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterOrderItem")): [OrderItem!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\OrderItem")
 
     orderItem(
