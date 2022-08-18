@@ -1,11 +1,11 @@
 # Customer\Customer Related APIs
-extend type Query {
+extend type Query @guard {
     customers(input: FilterCustomerInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomer")): [Customer!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
 
     customer(id: ID @eq): Customer @find(model: "Webkul\\Customer\\Models\\Customer")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createCustomer(
         input: CreateCustomerInput!
     ): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerMutation@store")

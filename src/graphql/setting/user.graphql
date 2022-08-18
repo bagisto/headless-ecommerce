@@ -1,5 +1,5 @@
 # Setting\User Related APIs
-extend type Query {
+extend type Query @guard{
     users(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterUser")): [User!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\User\\Admin")
 
     user(id: ID @eq): User @find(model: "Webkul\\GraphQLAPI\\Models\\User\\Admin")
@@ -8,20 +8,20 @@ extend type Query {
 extend type Mutation {
     createUser(
         input: CreateUserInput!
-    ): User @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@store")
+    ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@store")
 
     updateUser(
         id: ID!,
         input: CreateUserInput!
-    ): User @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@update")
+    ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@update")
     
-    deleteUser(id: ID!): User @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
+    deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
 
     userLogin(
         input: CreateUserLoginInput!
     ): LoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@login")
 
-    userLogout: LogoutResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@logout")
+    userLogout: LogoutResponse @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@logout")
 }
 
 input CreateUserInput {

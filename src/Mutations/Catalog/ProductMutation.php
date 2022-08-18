@@ -16,20 +16,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class ProductMutation extends Controller
 {
     /**
-     * ProductRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
-     * ProductAttributeValueRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductAttributeValueRepository
-     */
-    protected $productAttributeValueRepository;
-
-    /**
      * @var int
      */
     protected $id;
@@ -42,19 +28,12 @@ class ProductMutation extends Controller
      * @return void
      */
     public function __construct(
-        ProductRepository $productRepository,
-        ProductAttributeValueRepository $productAttributeValueRepository
-    )
-    {
+        protected ProductRepository $productRepository,
+        protected ProductAttributeValueRepository $productAttributeValueRepository
+    ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard);
-
-        $this->productRepository = $productRepository;
-
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
 
         $this->_config = request('_config');
     }
@@ -66,27 +45,24 @@ class ProductMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
 
-        if (ProductType::hasVariants($data['type'])
-            && (! isset($data['super_attributes'])
-                || ! count($data['super_attributes']))
+        if (
+            ProductType::hasVariants($data['type'])
+            && (!isset($data['super_attributes'])
+                || !count($data['super_attributes']))
         ) {
             throw new Exception(trans('admin::app.catalog.products.configurable-error'));
         }
 
-        if ( isset($data['super_attributes']) && $data['super_attributes']) {
+        if (isset($data['super_attributes']) && $data['super_attributes']) {
             $super_attributes = [];
             foreach ($data['super_attributes'] as $key => $super_attribute) {
-                if ( isset($super_attribute['attribute_code']) && isset($super_attribute['values']) && is_array($super_attribute['values'])) {
+                if (isset($super_attribute['attribute_code']) && isset($super_attribute['values']) && is_array($super_attribute['values'])) {
                     $super_attributes[$super_attribute['attribute_code']] = $super_attribute['values'];
                 }
             }
@@ -98,7 +74,7 @@ class ProductMutation extends Controller
             'attribute_family_id' => 'required',
             'sku'                 => ['required', 'unique:products,sku', new Slug],
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -120,55 +96,51 @@ class ProductMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-    
+
         $product = $this->productRepository->findOrFail($id);
-        
+
         // Only in case of configurable product type
-        if ( isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
+        if (isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
             $data['variants'] = bagisto_graphql()->manageConfigurableRequest($data);
         }
 
         // Only in case of grouped product type
-        if ( isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
+        if (isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
             $data['links'] = bagisto_graphql()->manageGroupedRequest($product, $data);
         }
-        
+
         // Only in case of downloadable product type
-        if ( isset($product->type) && $product->type == 'downloadable' ) {
-            if ( isset($data['downloadable_links']) && $data['downloadable_links'] ) {
+        if (isset($product->type) && $product->type == 'downloadable') {
+            if (isset($data['downloadable_links']) && $data['downloadable_links']) {
                 $data['downloadable_links'] = bagisto_graphql()->manageDownloadableLinksRequest($product, $data);
             }
 
-            if ( isset($data['downloadable_samples']) && $data['downloadable_samples'] ) {
+            if (isset($data['downloadable_samples']) && $data['downloadable_samples']) {
                 $data['downloadable_samples'] = bagisto_graphql()->manageDownloadableSamplesRequest($product, $data);
             }
         }
 
         // Only in case of bundle product type
-        if ( isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
+        if (isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
             $data['bundle_options'] = bagisto_graphql()->manageBundleRequest($product, $data);
         }
 
         // Only in case of booking product type
-        if ( isset($product->type) && $product->type == 'booking' && isset($data['booking']) && $data['booking']) {
+        if (isset($product->type) && $product->type == 'booking' && isset($data['booking']) && $data['booking']) {
             $data['booking'] = bagisto_graphql()->manageBookingRequest($data['booking']);
         }
 
         // Only in case of customer group price
-        if ( isset($data['customer_group_prices']) && $data['customer_group_prices']) {
+        if (isset($data['customer_group_prices']) && $data['customer_group_prices']) {
             $data['customer_group_prices'] = bagisto_graphql()->manageCustomerGroupPrices($product, $data);
         }
-        
+
         $validator = $this->validateFormData($id, $data);
 
         if ($validator->fails()) {
@@ -191,48 +163,48 @@ class ProductMutation extends Controller
 
         if (count($multiselectAttributeCodes)) {
             foreach ($multiselectAttributeCodes as $multiselectAttributeCode) {
-                if (! isset($data[$multiselectAttributeCode])) {
+                if (!isset($data[$multiselectAttributeCode])) {
                     $data[$multiselectAttributeCode] = array();
                 }
             }
         }
 
         $image_urls = $video_urls = [];
-        if ( isset($data['images'])) {
+        if (isset($data['images'])) {
             $image_urls = $data['images'];
             unset($data['images']);
         }
-        if ( isset($data['videos'])) {
+        if (isset($data['videos'])) {
             $video_urls = $data['videos'];
             unset($data['videos']);
         }
 
         $inventories = [];
-        if ( isset($data['inventories'])) {
+        if (isset($data['inventories'])) {
             foreach ($data['inventories'] as $key => $inventory) {
-                if ( isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
+                if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
                     $inventories[$inventory['inventory_source_id']] = $inventory['qty'];
                 }
             }
             $data['inventories'] = $inventories;
         }
-        
+
         try {
             $product = $this->productRepository->update($data, $id);
 
-            if ( isset($product->id)) {
+            if (isset($product->id)) {
                 bagisto_graphql()->uploadProductImages($product, $image_urls, 'product/', 'image');
                 bagisto_graphql()->uploadProductImages($product, $video_urls, 'product/', 'video');
 
-                if ( $product->type == 'booking' ) {
+                if ($product->type == 'booking') {
                     $allow_types = ['appointment', 'rental', 'table'];
                     $booking = $product->booking_product()->first();
-                    
-                    if ( isset($booking->type) && in_array($booking->type, $allow_types) ) {
+
+                    if (isset($booking->type) && in_array($booking->type, $allow_types)) {
                         $same_slots = [];
                         $different_slots = [];
                         $booking_slots = [];
-                        
+
                         switch ($booking->type) {
                             case 'appointment':
                                 $booking_slots = $booking->appointment_slot()->first();
@@ -243,15 +215,15 @@ class ProductMutation extends Controller
                             case 'table':
                                 $booking_slots = $booking->table_slot()->first();
                                 break;
-                            
+
                             default:
                                 $booking_slots = [];
                                 break;
                         }
-                        
+
                         foreach ($booking_slots->slots as $day => $slot) {
                             if ($booking_slots->same_slot_all_days == 0) {
-                                foreach($slot as $timing) {
+                                foreach ($slot as $timing) {
                                     $timing['day']  = $day;
                                     $different_slots[] = $timing;
                                 }
@@ -259,7 +231,7 @@ class ProductMutation extends Controller
                                 $same_slots[] = $slot;
                             }
                         }
-                    
+
                         $product->same_day_slots  = $same_slots;
                         $product->different_day_slots = $different_slots;
                     }
@@ -277,14 +249,14 @@ class ProductMutation extends Controller
         $this->id = $id;
         $product = $this->productRepository->findOrFail($this->id);
 
-        $validateRules = 
-        array_merge($product->getTypeInstance()->getTypeValidationRules(), [
-            'sku'                => ['required', 'unique:products,sku,' . $this->id, new \Webkul\Core\Contracts\Validations\Slug],
-            // 'images.*'           => 'nullable|mimes:jpeg,jpg,bmp,png',
-            'special_price_from' => 'nullable|date',
-            'special_price_to'   => 'nullable|date|after_or_equal:special_price_from',
-            'special_price'      => ['nullable', new \Webkul\Core\Contracts\Validations\Decimal, 'lt:price'],
-        ]);
+        $validateRules =
+            array_merge($product->getTypeInstance()->getTypeValidationRules(), [
+                'sku'                => ['required', 'unique:products,sku,' . $this->id, new \Webkul\Core\Contracts\Validations\Slug],
+                // 'images.*'           => 'nullable|mimes:jpeg,jpg,bmp,png',
+                'special_price_from' => 'nullable|date',
+                'special_price_to'   => 'nullable|date|after_or_equal:special_price_from',
+                'special_price'      => ['nullable', new \Webkul\Core\Contracts\Validations\Decimal, 'lt:price'],
+            ]);
 
         foreach ($product->getEditableAttributes() as $attribute) {
             if ($attribute->code == 'sku' || $attribute->type == 'boolean') {
@@ -293,17 +265,18 @@ class ProductMutation extends Controller
 
             $validations = [];
 
-            if (! isset($validateRules[$attribute->code])) {
+            if (!isset($validateRules[$attribute->code])) {
                 array_push($validations, $attribute->is_required ? 'required' : 'nullable');
             } else {
                 $validations = $validateRules[$attribute->code];
             }
 
             if ($attribute->type == 'text' && $attribute->validation) {
-                array_push($validations, 
+                array_push(
+                    $validations,
                     $attribute->validation == 'decimal'
-                    ? new \Webkul\Core\Contracts\Validations\Decimal
-                    : $attribute->validation
+                        ? new \Webkul\Core\Contracts\Validations\Decimal
+                        : $attribute->validation
                 );
             }
 
@@ -315,7 +288,7 @@ class ProductMutation extends Controller
                 array_push($validations, function ($field, $value, $fail) use ($attribute) {
                     $column = ProductAttributeValue::$attributeTypeFields[$attribute->type];
 
-                    if (! $this->productAttributeValueRepository->isValueUnique($this->id, $attribute->id, $column, request($attribute->code))) {
+                    if (!$this->productAttributeValueRepository->isValueUnique($this->id, $attribute->id, $column, request($attribute->code))) {
                         $fail('The :attribute has already been taken.');
                     }
                 });
@@ -335,23 +308,19 @@ class ProductMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
 
         $product = $this->productRepository->findOrFail($id);
-        
+
         try {
             $this->productRepository->delete($id);
 
             return ['success' => trans('admin::app.response.delete-success', ['name' => 'Product'])];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Product']));
         }
     }

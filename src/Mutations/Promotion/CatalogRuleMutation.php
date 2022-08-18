@@ -19,20 +19,6 @@ class CatalogRuleMutation extends Controller
     protected $_config;
 
     /**
-     * To hold Catalog repository instance
-     *
-     * @var \Webkul\CatalogRule\Repositories\CatalogRuleRepository
-     */
-    protected $catalogRuleRepository;
-
-    /**
-     * CatalogRuleIndex
-     *
-     * @var \Webkul\CatalogRule\Helpers\CatalogRuleIndex
-     */
-    protected $catalogRuleIndexHelper;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\CatalogRule\Repositories\CatalogRuleRepository  $catalogRuleRepository
@@ -40,20 +26,14 @@ class CatalogRuleMutation extends Controller
      * @return void
      */
     public function __construct(
-        CatalogRuleRepository $catalogRuleRepository,
-        CatalogRuleIndex $catalogRuleIndexHelper
+        protected CatalogRuleRepository $catalogRuleRepository,
+        protected CatalogRuleIndex $catalogRuleIndexHelper
     ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
-
         $this->_config = request('_config');
-
-        $this->catalogRuleRepository = $catalogRuleRepository;
-
-        $this->catalogRuleIndexHelper = $catalogRuleIndexHelper;
     }
 
     /**
@@ -65,10 +45,6 @@ class CatalogRuleMutation extends Controller
     {
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -114,10 +90,6 @@ class CatalogRuleMutation extends Controller
     {
         if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -166,10 +138,6 @@ class CatalogRuleMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];

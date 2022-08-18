@@ -39,10 +39,6 @@ class DownloadableMutation extends Controller
      */
     public function downloadLinks($rootValue, array $args , GraphQLContext $context)
     {
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }

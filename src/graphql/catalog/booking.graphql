@@ -34,7 +34,7 @@ input BookingSlotsInput {
 
 input BookingTicketsInput {
     locales: [BookingTicketsTranslationsInput!]
-    special_price: Float @rename(attribute: "special_price")
+    specialPrice: Float @rename(attribute: "special_price")
     price: Float!
     qty: Int!
     specialPriceFrom: String @rename(attribute: "special_price_from")

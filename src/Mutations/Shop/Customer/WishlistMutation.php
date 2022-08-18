@@ -21,20 +21,6 @@ class WishlistMutation extends Controller
     protected $guard;
 
     /**
-     * WishlistRepository object
-     *
-     * @var \Webkul\Customer\Repositories\WishlistRepository
-     */
-    protected $wishlistRepository;
-
-    /**
-     * ProductRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\WishlistRepository  $wishlistRepository
@@ -42,8 +28,8 @@ class WishlistMutation extends Controller
      * @return void
      */
     public function __construct(
-        WishlistRepository $wishlistRepository,
-        ProductRepository $productRepository
+       protected WishlistRepository $wishlistRepository,
+       protected ProductRepository $productRepository
     )
     {
         $this->guard = 'api';
@@ -51,10 +37,6 @@ class WishlistMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-        
-        $this->wishlistRepository = $wishlistRepository;
-        
-        $this->productRepository = $productRepository;
     }
 
     /**
@@ -64,10 +46,6 @@ class WishlistMutation extends Controller
      */
     public function wishlists($rootValue, array $args , GraphQLContext $context)
     {
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
@@ -142,10 +120,6 @@ class WishlistMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
@@ -211,10 +185,6 @@ class WishlistMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
@@ -273,10 +243,6 @@ class WishlistMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
@@ -324,10 +290,6 @@ class WishlistMutation extends Controller
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }

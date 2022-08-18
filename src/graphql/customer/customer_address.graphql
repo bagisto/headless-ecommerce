@@ -1,11 +1,11 @@
 # Customer\CustomerAddress Related APIs
-extend type Query {
+extend type Query @guard {
     customerAddresses(input: FilterCustomerAddressInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerAddress")): [CustomerAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
 
     customerAddress(id: ID @eq): CustomerAddress @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createCustomerAddress(
         input: CreateCustomerAddressInput!
     ): CustomerAddress  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerAddressMutation@store")

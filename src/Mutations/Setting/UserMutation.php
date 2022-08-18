@@ -22,20 +22,6 @@ class UserMutation extends Controller
     protected $guard;
 
     /**
-     * AdminRepository object
-     *
-     * @var \Webkul\User\Repositories\AdminRepository
-     */
-    protected $adminRepository;
-
-    /**
-     * RoleRepository object
-     *
-     * @var \Webkul\User\Repositories\RoleRepository
-     */
-    protected $roleRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\User\Repositories\AdminRepository  $adminRepository
@@ -43,19 +29,12 @@ class UserMutation extends Controller
      * @return void
      */
     public function __construct(
-        AdminRepository $adminRepository,
-        RoleRepository $roleRepository
-    )
-    {
+       protected AdminRepository $adminRepository,
+       protected RoleRepository $roleRepository
+    ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard, ['except' => ['login']]);
-        
-        $this->adminRepository = $adminRepository;
-
-        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -65,12 +44,8 @@ class UserMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if ( ! isset($args['input']) || (isset($args['input']) && !$args['input']) ) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -83,25 +58,24 @@ class UserMutation extends Controller
             'status'   => 'sometimes',
             'role_id'  => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
-        
+
         try {
             if (isset($data['password']) && $data['password']) {
                 $data['password'] = bcrypt($data['password']);
                 $data['api_token'] = Str::random(80);
             }
-    
+
             Event::dispatch('user.admin.create.before');
-    
+
             $admin = $this->adminRepository->create($data);
-    
+
             Event::dispatch('user.admin.create.after', $admin);
 
             return $admin;
-
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -115,17 +89,13 @@ class UserMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-        
+
         $validator = \Validator::make($data, [
             'name'     => 'required',
             'email'    => 'email|unique:admins,email,' . $id,
@@ -134,35 +104,35 @@ class UserMutation extends Controller
             'status'   => 'sometimes',
             'role_id'  => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
-            if (! $data['password']) {
+            if (!$data['password']) {
                 unset($data['password']);
             } else {
                 $isPasswordChanged = true;
                 $data['password'] = bcrypt($data['password']);
             }
-    
+
             if (isset($data['status'])) {
                 $data['status'] = 1;
             } else {
                 $data['status'] = 0;
             }
-    
+
             Event::dispatch('user.admin.update.before', $id);
-    
+
             $admin = $this->adminRepository->update($data, $id);
-    
+
             if ($isPasswordChanged) {
                 Event::dispatch('user.admin.update-password', $admin);
             }
-    
+
             Event::dispatch('user.admin.update.after', $admin);
-            
+
             return $admin;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -177,12 +147,8 @@ class UserMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
@@ -200,7 +166,7 @@ class UserMutation extends Controller
                 Event::dispatch('user.admin.delete.after', $id);
 
                 return ['success' => trans('admin::app.response.delete-success', ['name' => 'Admin'])];
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Admin']));
             }
         }
@@ -213,7 +179,7 @@ class UserMutation extends Controller
      */
     public function login($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -223,30 +189,30 @@ class UserMutation extends Controller
             'email'     => 'required|email',
             'password'  => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         $remember = isset($data['remember']) ? $data['remember'] : 0;
-        
-        if (! $jwtToken = JWTAuth::attempt([
+
+        if (!$jwtToken = JWTAuth::attempt([
             'email'     => $data['email'],
             'password'  => $data['password'],
         ], $remember)) {
             throw new Exception(trans('admin::app.users.users.login-error'));
         }
-        
+
         try {
             if (bagisto_graphql()->guard($this->guard)->user()->status == 0) {
                 bagisto_graphql()->guard($this->guard)->logout();
 
                 return [
-                        'status'    => false,
-                        'success'   => trans('admin::app.users.users.activate-warning'),
-                    ];
+                    'status'    => false,
+                    'success'   => trans('admin::app.users.users.activate-warning'),
+                ];
             }
-            
+
             return [
                 'status'        => true,
                 'success'       => trans('bagisto_graphql::app.admin.response.success-login'),
@@ -267,19 +233,15 @@ class UserMutation extends Controller
      */
     public function logout()
     {
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
-        if ( auth()->guard($this->guard)->check() ) {
+        if (auth()->guard($this->guard)->check()) {
             auth()->guard($this->guard)->logout();
-            
+
             return [
                 'status'    => true,
                 'success'   => trans('bagisto_graphql::app.admin.response.success-logout'),
-            ]; 
+            ];
         }
-            
+
         return [
             'status'    => false,
             'success'   => trans('bagisto_graphql::app.admin.response.no-login-user'),

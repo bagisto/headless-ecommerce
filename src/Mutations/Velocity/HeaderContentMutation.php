@@ -10,26 +10,16 @@ use \Webkul\Velocity\Repositories\ContentRepository;
 class HeaderContentMutation extends Controller
 {
     /**
-     * ContentRepository object
-     *
-     * @var \Webkul\Velocity\Repositories\ContentRepository
-    */
-    protected $contentRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Velocity\Repositories\ContentRepository  $contentRepository
      * @return void
      */
-    public function __construct(ContentRepository $contentRepository) {
-        $this->contentRepository = $contentRepository;
-
+    public function __construct(protected ContentRepository $contentRepository)
+    {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:' . $this->guard);
 
         $this->_config = request('_config');
     }
@@ -41,12 +31,8 @@ class HeaderContentMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -89,7 +75,7 @@ class HeaderContentMutation extends Controller
             $content = $this->contentRepository->create($params);
 
             return $content;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -102,12 +88,8 @@ class HeaderContentMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -151,7 +133,7 @@ class HeaderContentMutation extends Controller
             $content = $this->contentRepository->update($params, $id);
 
             return $content;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -164,12 +146,8 @@ class HeaderContentMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];

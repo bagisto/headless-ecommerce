@@ -1,5 +1,5 @@
 #Velocity\CMSPage Related APIs
-extend type Query {
+extend type Query @guard {
     cmsPages(input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage")): [CmsPage!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPage")
 
     cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")
@@ -12,7 +12,7 @@ extend type Query {
     ): CmsTranslation @find(model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createCmsPage(
         input: CreateCmsPageInput!
     ): CmsPage  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\CMS\\CmsPageMutation@store")

@@ -1,11 +1,11 @@
 #Shop\Customer\CompareProduct Related APIs
-extend type Query {
+extend type Query @guard(with: ["api"]){
     compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 
     compareProduct(id: ID @eq): CustomerCompareProduct @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 }
 
-extend type Mutation {
+extend type Mutation @guard(with: ["api"]) {
     addToCompare(
         input: AddToCompareInput!
     ): AddToCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@store")

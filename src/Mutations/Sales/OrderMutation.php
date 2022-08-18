@@ -17,30 +17,19 @@ class OrderMutation extends Controller
     protected $_config;
 
     /**
-     * OrderRepository object
-     *
-     * @var \Webkul\Sales\Repositories\OrderRepository
-     */
-    protected $orderRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
      * @return void
      */
     public function __construct(
-        OrderRepository $orderRepository
+        protected OrderRepository $orderRepository
     ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
-
         $this->_config = request('_config');
-
-        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -50,19 +39,15 @@ class OrderMutation extends Controller
      */
     public function cancel($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $orderId = $args['id'];
 
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if (! $order->canCancel() || !$order->canInvoice()) {
+        if (!$order->canCancel() || !$order->canInvoice()) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.cancel-error'));
         }
 
@@ -73,14 +58,11 @@ class OrderMutation extends Controller
             if ($result) {
 
                 return ['success' => trans('admin::app.response.cancel-success', ['name' => 'Order'])];
-
             } else {
                 throw new Exception(trans('bagisto_graphql::app.admin.response.cancel-error'));
             }
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 }
-

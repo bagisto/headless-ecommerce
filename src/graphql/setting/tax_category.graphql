@@ -1,11 +1,11 @@
 # Setting\TaxCategory Related APIs
-extend type Query {
+extend type Query @guard {
     taxCategories(input: FilterTaxCategoryInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTaxCategory")): [TaxCategory!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxCategory")
 
     taxCategory(id: ID @eq): TaxCategory @find(model: "Webkul\\Tax\\Models\\TaxCategory")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     createTaxCategory(
         input: createTaxCategoryInput!
     ): TaxCategory  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\TaxCategoryMutation@store")

@@ -12,13 +12,6 @@ use Webkul\Velocity\Repositories\VelocityMetadataRepository;
 class MetaDataMutation extends Controller
 {
     /**
-     * VelocityMetadataRepository object
-     *
-     * @var \Webkul\Velocity\Repositories\VelocityMetadataRepository
-     */
-    protected $velocityMetaDataRepository;
-
-    /**
      * Locale
      */
     protected $locale;
@@ -31,21 +24,17 @@ class MetaDataMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\CMS\Repositories\CmsRepository  $CmsRepository
+     * @param \Webkul\Velocity\Repositories\VelocityMetadataRepository  $velocityMetadataRepository
      * @return void
      */
-    public function __construct(VelocityMetadataRepository $velocityMetadataRepository)
-    {
+    public function __construct(
+        protected VelocityMetadataRepository $velocityMetadataRepository
+    ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
-
         $this->_config = request('_config');
-
-        $this->velocityMetaDataRepository = $velocityMetadataRepository;
-
     }
 
     /**
@@ -56,12 +45,8 @@ class MetaDataMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -71,10 +56,10 @@ class MetaDataMutation extends Controller
         $this->channel = $args['input']['channel'] ?: 'default';
 
         $params['locale'] = $this->locale;
-        $params['channel'] =$this->channel;
+        $params['channel'] = $this->channel;
 
         $imageData = '';
-        if( isset($params['images'])) {
+        if (isset($params['images'])) {
             $imageData = $params['images'];
             unset($params['images']);
         } else {
@@ -82,13 +67,13 @@ class MetaDataMutation extends Controller
         }
 
         try {
-            $metaData = $this->velocityMetaDataRepository->update($params, $id);
+            $metaData = $this->velocityMetadataRepository->update($params, $id);
 
-            if ( isset($metaData->id)) {
-                if ( $imageData != Null) {
+            if (isset($metaData->id)) {
+                if ($imageData != Null) {
 
                     $jsonData = [];
-                    foreach($imageData as $key => $advertisement) {
+                    foreach ($imageData as $key => $advertisement) {
                         if ($advertisement != Null) {
                             if ($key == 'advertisement_four') {
                                 $key = 4;
@@ -122,7 +107,7 @@ class MetaDataMutation extends Controller
 
                 return $metaData;
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -134,24 +119,24 @@ class MetaDataMutation extends Controller
      * @param String|null $image_url
      * @param String $path
      * @return mixed
-    */
+     */
     public function uploadImage($image_url, $path)
     {
         $model_path = $path . 'images/';
         $image_dir_path = storage_path('app/public/' . $model_path);
 
-        if (! file_exists($image_dir_path)) {
+        if (!file_exists($image_dir_path)) {
             mkdir(storage_path('app/public/' . $model_path), 0777, true);
         }
 
-        if ( isset($image_url) && $image_url) {
+        if (isset($image_url) && $image_url) {
             $valoidateImg = bagisto_graphql()->validatePath($image_url, 'image');
 
-            if ( $valoidateImg ) {
+            if ($valoidateImg) {
                 $img_name = basename($image_url);
                 $savePath = $image_dir_path . $img_name;
 
-                if ( file_exists($savePath) ) {
+                if (file_exists($savePath)) {
                     Storage::delete('/' . $model_path . $img_name);
                 }
 

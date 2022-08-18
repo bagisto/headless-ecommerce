@@ -1,11 +1,11 @@
 # Customer\NewsletterSubscribers Related APIs
-extend type Query {
+extend type Query @guard {
     newsletterSubscribers(input: FilterSubscriberInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterSubscriber")): [Subscriber!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\SubscribersList")
 
     newsletterSubscriber(id: ID @eq, email: String): Subscriber @find(model: "Webkul\\Core\\Models\\SubscribersList")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     subscribe(
         input: SubscriberInput!
     ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\NewsletterSubscriberMutation@subscribe")

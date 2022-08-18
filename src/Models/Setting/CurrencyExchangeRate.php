@@ -22,7 +22,7 @@ class CurrencyExchangeRate extends BaseModel
     /**
      * Get the exchange rate associated with the currency.
      */
-    public function currency() : BelongsTo
+    public function currency(): BelongsTo
     {
         return $this->belongsTo(CurrencyProxy::modelClass(), 'target_currency');
     }

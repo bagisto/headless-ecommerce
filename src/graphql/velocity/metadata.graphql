@@ -1,11 +1,11 @@
 #Velocity\MetaData Related APIs
-extend type Query {
+extend type Query @guard {
     velocityMetaData: [MetaData!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Velocity\\Models\\VelocityMetadata")
     
     metaData(id: ID @eq): MetaData @find(model: "Webkul\\Velocity\\Models\\VelocityMetadata")
 }
 
-extend type Mutation {
+extend type Mutation @guard {
     updateMetaData(
         id: ID!,
         input: CreateMetaDataInput!

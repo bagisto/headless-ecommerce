@@ -10,29 +10,17 @@ use Webkul\CMS\Repositories\CmsRepository;
 class CmsPageMutation extends Controller
 {
     /**
-     * CmsRepository object
-     *
-     * @var \Webkul\CMS\Repositories\CmsRepository
-     */
-    protected $CmsRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\CMS\Repositories\CmsRepository  $CmsRepository
      * @return void
      */
     public function __construct(
-        CmsRepository $cmsRepository
-    )
-    {
+        protected CmsRepository $cmsRepository
+    ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:' . $this->guard);
-
-        $this->cmsRepository = $cmsRepository;
 
         $this->_config = request('_config');
     }
@@ -44,12 +32,8 @@ class CmsPageMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $data = $args['input'];
@@ -69,7 +53,7 @@ class CmsPageMutation extends Controller
             $page = $this->cmsRepository->create($data);
 
             return $page;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -82,19 +66,14 @@ class CmsPageMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
-        }
-
-
         $locale = $args['input']['locale'] ?: app()->getLocale();
         $data[$locale] = $args['input'];
-        $data['channels'] =$args['input']['channels'];
-        $data['locale'] =$args['input']['locale'];
+        $data['channels'] = $args['input']['channels'];
+        $data['locale'] = $args['input']['locale'];
         $id = $args['id'];
 
         unset($data[$locale]['channels']);
@@ -102,7 +81,7 @@ class CmsPageMutation extends Controller
 
         $validator = \Validator::make($data, [
             $locale . '.url_key'      => ['required', new \Webkul\Core\Contracts\Validations\Slug, function ($attribute, $value, $fail) use ($id) {
-                if (! $this->cmsRepository->isUrlKeyUnique($id, $value)) {
+                if (!$this->cmsRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Page']));
                 }
             }],
@@ -119,7 +98,7 @@ class CmsPageMutation extends Controller
             $page = $this->cmsRepository->update($data, $id);
 
             return $page;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -132,12 +111,8 @@ class CmsPageMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];

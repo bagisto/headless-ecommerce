@@ -1,5 +1,5 @@
 # Seles\Shipment Related APIs
-extend type Query {
+extend type Query @guard {
     shipments(input: FilterShipmentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterShipment")): [Shipment!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Shipment")
 
     shipment(id: ID @eq): Shipment @find(model: "Webkul\\Sales\\Models\\Shipment")
@@ -12,7 +12,7 @@ extend type Query {
     ): ShipmentItem @find(model: "Webkul\\Sales\\Models\\ShipmentItem")
 }
 
-extend type Mutation {
+extend type Mutation  @guard {
     createShipment(
         input: CreateShipmentInput!
     ): Shipment  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\ShipmentMutation@store")
