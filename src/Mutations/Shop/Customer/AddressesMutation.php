@@ -22,20 +22,6 @@ class AddressesMutation extends Controller
     protected $guard;
 
     /**
-     * CustomerRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository
-     */
-    protected $customerRepository;
-
-    /**
-     * CustomerAddressRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerAddressRepository
-     */
-    protected $customerAddressRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
@@ -43,8 +29,8 @@ class AddressesMutation extends Controller
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository,
-        CustomerAddressRepository $customerAddressRepository
+       protected CustomerRepository $customerRepository,
+       protected CustomerAddressRepository $customerAddressRepository
     )
     {
         $this->guard = 'api';
@@ -52,10 +38,6 @@ class AddressesMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-        
-        $this->customerRepository = $customerRepository;
-        
-        $this->customerAddressRepository = $customerAddressRepository;
     }
 
     /**
@@ -68,10 +50,6 @@ class AddressesMutation extends Controller
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $id = $args['id'];
@@ -103,14 +81,7 @@ class AddressesMutation extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addresses($rootValue, array $args , GraphQLContext $context)
-    {
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.invalid-header'),
-                'Invalid request header parameter.'
-            );
-        }
-        
+    {        
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
@@ -145,13 +116,6 @@ class AddressesMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                'Invalid request parameter.'
-            );
-        }
-
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
@@ -235,13 +199,6 @@ class AddressesMutation extends Controller
             );
         }
 
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                'Invalid request parameter.'
-            );
-        }
-
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
@@ -319,13 +276,6 @@ class AddressesMutation extends Controller
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
         if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                'Invalid request parameter.'
-            );
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameter.'
