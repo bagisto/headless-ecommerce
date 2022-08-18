@@ -19,27 +19,6 @@ class ShipmentMutation extends Controller
     protected $_config;
 
     /**
-     * OrderRepository object
-     *
-     * @var \Webkul\Sales\Repositories\OrderRepository
-     */
-    protected $orderRepository;
-
-    /**
-     * OrderItemRepository object
-     *
-     * @var \Webkul\Sales\Repositories\OrderItemRepository
-     */
-    protected $orderItemRepository;
-
-    /**
-     * ShipmentRepository object
-     *
-     * @var \Webkul\Sales\Repositories\ShipmentRepository
-     */
-    protected $shipmentRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Sales\Repositories\ShipmentRepository   $shipmentRepository
@@ -48,23 +27,15 @@ class ShipmentMutation extends Controller
      * @return void
      */
     public function __construct(
-        ShipmentRepository $shipmentRepository,
-        OrderRepository $orderRepository,
-        OrderItemRepository $orderItemRepository
+        protected ShipmentRepository $shipmentRepository,
+        protected OrderRepository $orderRepository,
+        protected OrderItemRepository $orderItemRepository
     ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
-
         $this->_config = request('_config');
-
-        $this->orderRepository = $orderRepository;
-
-        $this->orderItemRepository = $orderItemRepository;
-
-        $this->shipmentRepository = $shipmentRepository;
     }
 
     /**
@@ -74,12 +45,8 @@ class ShipmentMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -87,13 +54,13 @@ class ShipmentMutation extends Controller
 
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if (! $order->canShip()) {
+        if (!$order->canShip()) {
             throw new Exception(trans('admin::app.sales.shipments.order-error'));
         }
 
         try {
 
-            $shipmentData= [];
+            $shipmentData = [];
 
             if (isset($params['shipment_data'])) {
                 foreach ($params['shipment_data'] as $data) {
@@ -103,7 +70,7 @@ class ShipmentMutation extends Controller
                     ];
                 }
 
-                $shipment['shipment']['items']=  $shipmentData;
+                $shipment['shipment']['items'] =  $shipmentData;
 
                 $shipment['shipment']['carrier_title'] = $params['carrier_title'];
                 $shipment['shipment']['track_number']  = $params['track_number'];
@@ -118,7 +85,7 @@ class ShipmentMutation extends Controller
                     throw new Exception($validator->messages());
                 }
 
-                if (! $this->isInventoryValidate($shipment)) {
+                if (!$this->isInventoryValidate($shipment)) {
                     throw new Exception(trans('admin::app.sales.shipments.quantity-invalid'));
                 }
 
@@ -128,7 +95,7 @@ class ShipmentMutation extends Controller
             } else {
                 throw new Exception(trans('admin::app.sales.invoices.product-error'));
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -141,8 +108,8 @@ class ShipmentMutation extends Controller
      */
     public function isInventoryValidate(&$data)
     {
-        if (! isset($data['shipment']['items'])) {
-            return ;
+        if (!isset($data['shipment']['items'])) {
+            return;
         }
 
         $valid = false;
@@ -159,7 +126,7 @@ class ShipmentMutation extends Controller
 
                 if ($orderItem->getTypeInstance()->isComposite()) {
                     foreach ($orderItem->children as $child) {
-                        if (! $child->qty_ordered) {
+                        if (!$child->qty_ordered) {
                             continue;
                         }
 
@@ -175,8 +142,8 @@ class ShipmentMutation extends Controller
                     }
                 } else {
                     $availableQty = $orderItem->product->inventories()
-                            ->where('inventory_source_id', $inventorySourceId)
-                            ->sum('qty');
+                        ->where('inventory_source_id', $inventorySourceId)
+                        ->sum('qty');
 
                     if ($orderItem->qty_to_ship < $qty || $availableQty < $qty) {
                         return false;
@@ -192,4 +159,3 @@ class ShipmentMutation extends Controller
         return $valid;
     }
 }
-
