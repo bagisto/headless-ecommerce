@@ -23,27 +23,6 @@ class CheckoutMutation extends Controller
     protected $guard;
 
     /**
-     * CustomerRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository;
-     */
-    protected $customerRepository;
-
-    /**
-     * CustomerAddressRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerAddressRepository;
-     */
-    protected $customerAddressRepository;
-
-    /**
-     * OrderRepository object
-     *
-     * @var \Webkul\Sales\Repositories\OrderRepository;
-     */
-    protected $orderRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
@@ -52,9 +31,9 @@ class CheckoutMutation extends Controller
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository,
-        CustomerAddressRepository $customerAddressRepository,
-        OrderRepository $orderRepository
+        protected CustomerRepository $customerRepository,
+        protected CustomerAddressRepository $customerAddressRepository,
+        protected OrderRepository $orderRepository
     )
     {
         $this->guard = 'api';
@@ -62,12 +41,6 @@ class CheckoutMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-        
-        $this->customerRepository = $customerRepository;
-        
-        $this->customerAddressRepository = $customerAddressRepository;
-        
-        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -77,13 +50,7 @@ class CheckoutMutation extends Controller
      */
     public function addresses($rootValue, array $args , GraphQLContext $context)
     {
-        $token = 0;
-        if ( isset(getallheaders()['authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['authorization']);
-            if ( isset($headerValue[1]) && $headerValue[1]) {
-                $token = $headerValue[1];
-            }
-        }
+        $token = request()->bearerToken();
         
         try {
             $validateUser = bagisto_graphql()->apiAuth($token, $this->guard);
@@ -393,13 +360,7 @@ class CheckoutMutation extends Controller
         }
         
         try {
-            $token = 0;
-            if ( isset(getallheaders()['authorization'])) {
-                $headerValue = explode("Bearer ", getallheaders()['authorization']);
-                if ( isset($headerValue[1]) && $headerValue[1]) {
-                    $token = $headerValue[1];
-                }
-            }
+            $token = request()->bearerToken();
 
             $validateUser = bagisto_graphql()->apiAuth($token, $this->guard);
             
@@ -659,6 +620,7 @@ class CheckoutMutation extends Controller
     public function saveOrder($rootValue, array $args, GraphQLContext $context)
     {
         try {
+
             if (Cart::hasError()) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.response.error-placing-order'),
