@@ -20,20 +20,13 @@ class ReviewMutation extends Controller
     protected $guard;
 
     /**
-     * ProductReviewRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductReviewRepository
-     */
-    protected $productReviewRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Product\Repositories\ProductReviewRepository  $productReviewRepository
      * @return void
      */
     public function __construct(
-        ProductReviewRepository $productReviewRepository
+       protected ProductReviewRepository $productReviewRepository
     )
     {
         $this->guard = 'api';
@@ -41,8 +34,6 @@ class ReviewMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard);
-        
-        $this->productReviewRepository = $productReviewRepository;
     }
 
     /**
@@ -182,13 +173,6 @@ class ReviewMutation extends Controller
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameter.'
-            );
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                'Invalid request header parameter.'
             );
         }
 
