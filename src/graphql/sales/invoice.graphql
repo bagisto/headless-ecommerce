@@ -1,5 +1,5 @@
 # Seles\Invoice Related APIs
-extend type Query {
+extend type Query @guard {
     invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoice")): [Invoice!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
 
     invoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
@@ -13,7 +13,7 @@ extend type Query {
 }
 
 
-extend type Mutation {
+extend type Mutation @guard {
     createInvoice(
         input: CreateInvoiceInput!
     ): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\InvoiceMutation@store")

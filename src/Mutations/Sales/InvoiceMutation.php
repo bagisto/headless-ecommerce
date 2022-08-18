@@ -19,20 +19,6 @@ class InvoiceMutation extends Controller
     protected $_config;
 
     /**
-     * OrderRepository object
-     *
-     * @var \Webkul\Sales\Repositories\OrderRepository
-     */
-    protected $orderRepository;
-
-    /**
-     * InvoiceRepository object
-     *
-     * @var \Webkul\Sales\Repositories\InvoiceRepository
-     */
-    protected $invoiceRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
@@ -40,20 +26,14 @@ class InvoiceMutation extends Controller
      * @return void
      */
     public function __construct(
-        OrderRepository $orderRepository,
-        InvoiceRepository $invoiceRepository
+        protected OrderRepository $orderRepository,
+        protected InvoiceRepository $invoiceRepository
     ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
-
         $this->_config = request('_config');
-
-        $this->orderRepository = $orderRepository;
-
-        $this->invoiceRepository = $invoiceRepository;
     }
 
     /**
@@ -63,12 +43,8 @@ class InvoiceMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
 
         $params = $args['input'];
@@ -76,13 +52,13 @@ class InvoiceMutation extends Controller
 
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if (! $order->canInvoice()) {
+        if (!$order->canInvoice()) {
             throw new Exception(trans('admin::app.sales.invoices.creation-error'));
         }
 
         try {
 
-            $invoiceData= [];
+            $invoiceData = [];
 
             if (isset($params['invoice_data'])) {
                 foreach ($params['invoice_data'] as $data) {
@@ -92,7 +68,7 @@ class InvoiceMutation extends Controller
                     ];
                 }
 
-                $invoice['invoice']['items']=  $invoiceData;
+                $invoice['invoice']['items'] =  $invoiceData;
 
                 $haveProductToInvoice = false;
 
@@ -103,7 +79,7 @@ class InvoiceMutation extends Controller
                     }
                 }
 
-                if (! $haveProductToInvoice) {
+                if (!$haveProductToInvoice) {
                     throw new Exception(trans('admin::app.sales.invoices.product-error'));
                 }
 
@@ -113,9 +89,8 @@ class InvoiceMutation extends Controller
             } else {
                 throw new Exception(trans('admin::app.sales.invoices.product-error'));
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 }
-
