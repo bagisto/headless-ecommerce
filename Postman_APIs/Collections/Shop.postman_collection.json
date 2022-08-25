@@ -92,7 +92,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query accountInfo {\n    accountInfo {\n        message\n        status\n        customer{\n            firstName\n        }\n     \n    }\n}",
+								"query": "query accountInfo {\n    accountInfo {\n        message\n        status\n        customer{\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }     \n    }\n}",
 								"variables": ""
 							}
 						},
@@ -119,7 +119,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateAccount {\n    updateAccount(input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"customer@customer.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"2019-10-30\"\n        phone: \"345789876\"\n        oldpassword: \"demo12345\"\n        password: \"123456789\"\n        passwordConfirmation: \"123456789\"\n    }) {\n        status\n        message\n        customer{\n            firstName\n        }\n    }\n}",
+								"query": "mutation updateAccount {\n    updateAccount(input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"customer@customer.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"2019-10-30\"\n        phone: \"345789876\"\n        oldpassword: \"demo12345\"\n        password: \"123456789\"\n        passwordConfirmation: \"123456789\"\n    }) {\n        status\n        message\n        customer{\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
