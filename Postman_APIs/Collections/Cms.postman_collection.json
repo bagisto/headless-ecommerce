@@ -175,7 +175,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDI5MDMzNSwiZXhwIjoxNjkxODI2MzM1LCJuYmYiOjE2NjAyOTAzMzUsImp0aSI6IktpRkVxa09GMnFRdFp6d0kiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.7yk_rAyBr0f6-aTs5ZZmLNxL3DXM7EqfBK5A3BhhdEs",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
@@ -187,17 +187,9 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/graphql",
-					"protocol": "http",
+					"raw": "{{url}}",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"graphql"
+						"{{url}}"
 					]
 				}
 			},
