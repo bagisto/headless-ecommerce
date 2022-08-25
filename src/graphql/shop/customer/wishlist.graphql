@@ -6,7 +6,7 @@ extend type Query @guard(with: ["api"]) {
         page: Int
     ): [Wishlist!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")
 
-    wishlist(id: ID @eq): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@wishlists")
+    wishlist(id: ID @eq): Wishlist @find(model: "Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist") 
 }
 
 extend type Mutation @guard(with: ["api"]) {
