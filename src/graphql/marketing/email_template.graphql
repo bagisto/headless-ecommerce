@@ -1,0 +1,40 @@
+#Marketing\EmailTemplate Related APIs
+extend type Query @guard {
+    
+    emailTemplates(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEmailTemplate")): [EmailTemplate!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Template")
+    
+    emailTemplate(id: ID @eq): EmailTemplate @find(model: "Webkul\\Marketing\\Models\\Template")
+}
+
+extend type Mutation @guard {
+
+    createEmailTemplate(
+        input: CreateEmailTemplateInput!
+    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EmailTemplateMutation@store")
+    
+    updateEmailTemplate(
+        id: ID!,
+        input: CreateEmailTemplateInput!
+    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EmailTemplateMutation@update")
+    
+    deleteEmailTemplate (id: ID!): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EmailTemplateMutation@delete")
+}
+
+input FilterEmailTemplateInput {
+    id: ID
+    name: String
+    status: String
+}
+
+input CreateEmailTemplateInput {
+    content: String!
+    name: String!
+    status: String!
+}
+
+type EmailTemplate {
+    id: ID!
+    content: String!
+    name: String!
+    status: String!
+}

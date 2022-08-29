@@ -1,0 +1,41 @@
+#Marketing\Event Related APIs
+extend type Query @guard {
+    
+    events(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Event!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Event")
+    
+    event(id: ID @eq): EmailTemplate @find(model: "Webkul\\Marketing\\Models\\Event")
+}
+
+extend type Mutation @guard {
+
+    createEvent(
+        input: CreateEventInput!
+    ): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EventMutation@store")
+    
+    updateEvent(
+        id: ID!,
+        input: CreateEventInput!
+    ): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EventMutation@update")
+    
+    deleteEvent (id: ID!): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EventMutation@delete")
+}
+
+
+input FilterEventInput {
+    id: ID
+    name: String
+    description: String
+}
+
+input CreateEventInput {
+    name: String
+    description: String
+    status: String!
+}
+
+type Event {
+    id: ID!
+    name: String!
+    description: String!
+    status: String!
+}
