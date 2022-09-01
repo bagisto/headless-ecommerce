@@ -32,6 +32,7 @@ input CreateCategoryInput {
     metaDescription: String! @rename(attribute: "meta_description")
     metaKeywords: String! @rename(attribute: "meta_keywords")
     attributes: [Int]
+    categoryIconPath: String! @rename(attribute: "category_icon_path")
 }
 
 input FilterCategoryListInput {
@@ -82,6 +83,7 @@ type Category {
     urlPath: String @rename(attribute: "url_path")
     image: String
     imageUrl: String @rename(attribute: "image_url")
+    categoryIconUrl: String @rename(attribute: "category_icon_url")
     metaTitle: String @rename(attribute: "meta_title")
     metaDescription: String @rename(attribute: "meta_description")
     metaKeywords: String @rename(attribute: "meta_keywords")
@@ -99,5 +101,5 @@ type Category {
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     count: Int
-    success: String
+    success: String   
 }

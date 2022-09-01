@@ -33,8 +33,7 @@ class CategoryMutation extends Controller
      */
     public function __construct(
         protected CategoryRepository $categoryRepository
-    )
-    {
+    ) {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
@@ -49,7 +48,7 @@ class CategoryMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -61,22 +60,30 @@ class CategoryMutation extends Controller
             'image.*'     => 'mimes:jpeg,jpg,bmp,png',
             'description' => 'required_if:display_mode,==,description_only,products_and_description',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
             $image_url = '';
-            if ( isset($data['image'])) {
+            if (isset($data['image'])) {
                 $image_url = $data['image'];
                 unset($data['image']);
             }
 
+            $category_icon_path = '';
+            if (isset($data['category_icon_path'])) {
+                $category_icon_path = $data['category_icon_path'];
+                unset($data['category_icon_path']);
+            }
+
             $category = $this->categoryRepository->create($data);
 
-            if ( isset($category->id)) {
+            if (isset($category->id)) {
                 bagisto_graphql()->uploadImage($category, $image_url, 'category/', 'image');
+
+                bagisto_graphql()->uploadImage($category, $category_icon_path, 'velocity/category_icon_path/', 'category_icon_path');
 
                 return $category;
             }
@@ -93,7 +100,7 @@ class CategoryMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -104,37 +111,45 @@ class CategoryMutation extends Controller
 
         $data[$locale] = [];
         foreach ($this->localeFields as $field) {
-            if ( isset($data[$field])) {
+            if (isset($data[$field])) {
                 $data[$locale][$field] = $data[$field];
                 unset($data[$field]);
             }
         }
-        
+
         $validator = \Validator::make($data, [
             $locale . '.slug' => ['required', new \Webkul\Core\Contracts\Validations\Slug, function ($attribute, $value, $fail) use ($id) {
-                if (! $this->categoryRepository->isSlugUnique($id, $value)) {
+                if (!$this->categoryRepository->isSlugUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Category']));
                 }
             }],
             $locale . '.name' => 'required',
             'image.*'         => 'mimes:jpeg,jpg,bmp,png',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
             $image_url = '';
-            if ( isset($data['image'])) {
+            if (isset($data['image'])) {
                 $image_url = $data['image'];
                 unset($data['image']);
             }
 
+            $category_icon_path = '';
+            if (isset($data['category_icon_path'])) {
+                $category_icon_path = $data['category_icon_path'];
+                unset($data['category_icon_path']);
+            }
+
             $category = $this->categoryRepository->update($data, $id);
 
-            if ( isset($category->id)) {
+            if (isset($category->id)) {
                 bagisto_graphql()->uploadImage($category, $image_url, 'category/', 'image');
+
+                bagisto_graphql()->uploadImage($category, $category_icon_path, 'velocity/category_icon_path/', 'category_icon_path');
 
                 return $category;
             }
@@ -151,7 +166,7 @@ class CategoryMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -159,18 +174,18 @@ class CategoryMutation extends Controller
 
         $category = $this->categoryRepository->findOrFail($id);
 
-        if( strtolower($category->name) == "root" ) {
+        if (strtolower($category->name) == "root") {
             throw new Exception(trans('admin::app.response.delete-category-root', ['name' => 'Category']));
         } else {
             try {
                 Event::dispatch('catalog.category.delete.before', $id);
 
                 $this->categoryRepository->delete($id);
-                
+
                 Event::dispatch('catalog.category.delete.after', $id);
 
                 return ['success' => trans('admin::app.response.delete-success', ['name' => 'Category'])];
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Category']));
             }
         }
