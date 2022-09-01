@@ -1,34 +1,33 @@
 #Marketing\Campaign Related APIs
 extend type Query @guard {
     
-    campaigns(input: FilterCampaignInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterCampaign")): [Event!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Campaign")
+    campaigns(input: FilterCampaignInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterCampaign")): [Campaign!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Campaign")
     
     campaign(id: ID @eq): Campaign @find(model: "Webkul\\Marketing\\Models\\Campaign")
 }
 
 extend type Mutation @guard {
 
-    createEvent(
+    createCampaign (
         input: CreateCampaignInput!
-    ): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\CampaignMutation@store")
+    ): Campaign  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\CampaignMutation@store")
     
-    updateEvent(
+    updateCampaign (
         id: ID!,
         input: CreateCampaignInput!
-    ): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\CampaignMutation@update")
+    ): Campaign  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\CampaignMutation@update")
     
-    deleteEvent (id: ID!): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\CampaignMutation@delete")
+    deleteCampaign (id: ID!): DeleteCampaignResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\CampaignMutation@delete")
 }
-
 
 input FilterCampaignInput {
     id: ID
     name: String
     subject: String
-    event: String
-    emailTemplate: String
-    channel: Int
-    customerGroup: String
+    eventId: Int
+    emailTemplateId: Int
+    channelId: Int
+    customerGroupId: Int
 }
 
 input CreateCampaignInput {
@@ -38,6 +37,7 @@ input CreateCampaignInput {
     customerGroupId: Int  @rename(attribute: "customer_group_id")
     eventId: Int @rename(attribute: "marketing_event_id")
     emailTemplateId: Int  @rename(attribute: "marketing_template_id")
+    status: Boolean
 }
 
 type Campaign {
@@ -49,4 +49,9 @@ type Campaign {
     customerGroup: CustomerGroup @belongsTo(relation: "customer_group")
     emailTemplate: EmailTemplate @belongsTo(relation: "email_template")
     event: Event @belongsTo(relation: "event")
+}
+
+type DeleteCampaignResponse{
+    status: String
+    message: String
 }

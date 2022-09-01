@@ -125,9 +125,15 @@ class EmailTemplateMutation extends Controller
 
                 $template->delete();
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Email Template'])];
+                return [
+                    'status' => true,
+                    'message' => trans('admin::app.response.delete-success', ['name' => 'Email Template'])
+                ];
             } else {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Email Template']));
+                return [
+                    'status' => false,
+                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Email Template'])
+                ];
             }
         } catch (Exception $e) {
 

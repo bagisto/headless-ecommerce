@@ -4,7 +4,7 @@ namespace Webkul\GraphQLAPI\Queries\Marketing;
 
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class FilterEvent extends BaseFilter
+class FilterSiteMap extends BaseFilter
 {
     /**
      * filter the data .

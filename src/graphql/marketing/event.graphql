@@ -1,9 +1,9 @@
 #Marketing\Event Related APIs
 extend type Query @guard {
     
-    events(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Event!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Event")
+    events(input: FilterEventInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Event!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Event")
     
-    event(id: ID @eq): EmailTemplate @find(model: "Webkul\\Marketing\\Models\\Event")
+    event(id: ID @eq): Event @find(model: "Webkul\\Marketing\\Models\\Event")
 }
 
 extend type Mutation @guard {
@@ -17,25 +17,30 @@ extend type Mutation @guard {
         input: CreateEventInput!
     ): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EventMutation@update")
     
-    deleteEvent (id: ID!): Event  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EventMutation@delete")
+    deleteEvent (id: ID!): DeleteEventResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EventMutation@delete")
 }
-
 
 input FilterEventInput {
     id: ID
     name: String
     description: String
+    date: String
 }
 
 input CreateEventInput {
-    name: String
-    description: String
-    status: String!
+    name: String!
+    description: String!
+    date: String
 }
 
 type Event {
     id: ID!
     name: String!
     description: String!
-    status: String!
+    date: String
+}
+
+type DeleteEventResponse{
+    status: String
+    message: String
 }

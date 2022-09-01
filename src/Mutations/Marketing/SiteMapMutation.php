@@ -5,10 +5,10 @@ namespace Webkul\GraphQLAPI\Mutations\Marketing;
 use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Marketing\Repositories\EventRepository;
+use Webkul\Sitemap\Repositories\SitemapRepository;
 use Illuminate\Support\Facades\Event;
 
-class EventMutation extends Controller
+class SiteMapMutation extends Controller
 {
     /**
      * Initialize _config, a default request parameter with route
@@ -20,11 +20,11 @@ class EventMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Marketing\Repositories\EventRepository $eventRepository
+     * @param \Webkul\Sitemap\Repositories\SitemapRepository $sitemapRepository
      * @return void
      */
     public function __construct(
-        protected EventRepository $eventRepository
+        protected SitemapRepository $sitemapRepository
     ) {
         $this->guard = 'admin-api';
 
@@ -47,9 +47,8 @@ class EventMutation extends Controller
         $params = $args['input'];
 
         $validator = \Validator::make($params, [
-            'name'          => 'required',
-            'description'   => 'required',
-            'date'         => 'required',
+            'file_name'   => 'required',
+            'path'        => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -58,11 +57,9 @@ class EventMutation extends Controller
 
         try {
 
-            $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
+            $sitemap = $this->sitemapRepository->create($params);
 
-            $event = $this->eventRepository->create($params);
-
-            return $event;
+            return $sitemap;
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -84,9 +81,8 @@ class EventMutation extends Controller
         $id = $args['id'];
 
         $validator = \Validator::make($params, [
-            'name'           => 'required',
-            'description'    => 'required',
-            'date'         => 'required',
+            'file_name'   => 'required',
+            'path'        => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -95,13 +91,11 @@ class EventMutation extends Controller
 
         try {
 
-            $event = $this->eventRepository->findOrFail($id);
+            $sitemap = $this->sitemapRepository->update($params, $id);
 
-            $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
+            $sitemap = $this->sitemapRepository->find($id);
 
-            $event = $this->eventRepository->update($params, $id);
-
-            return $event;
+            return $sitemap;
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -121,23 +115,22 @@ class EventMutation extends Controller
 
         $id = $args['id'];
 
-        $event = $this->eventRepository->find($id);
+        $sitemap = $this->sitemapRepository->find($id);
 
         try {
+            if ($sitemap != Null) {
 
-            if ($event != Null) {
-
-                $event->delete();
+                $sitemap->delete();
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'Event'])
+                    'message' => trans('admin::app.response.delete-success', ['name' => 'SiteMap'])
                 ];
             } else {
 
                 return [
                     'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Event'])
+                    'message' => trans('admin::app.response.delete-failed', ['name' => 'SiteMap'])
                 ];
             }
         } catch (Exception $e) {

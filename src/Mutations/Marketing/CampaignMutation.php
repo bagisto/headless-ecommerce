@@ -131,9 +131,15 @@ class CampaignMutation extends Controller
 
                 $campaign->delete();
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Campaign'])];
+                return [
+                    'status' => true,
+                    'message' => trans('admin::app.response.delete-success', ['name' => 'Campaign'])
+                ];
             } else {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Campaign']));
+                return [
+                    'status' => false,
+                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Campaign'])
+                ];
             }
         } catch (Exception $e) {
 
