@@ -69,8 +69,7 @@ class Booking extends Virtual
         BookingProductRepository $bookingProductRepository,
         BookingHelper $bookingHelper,
         ProductVideoRepository $productVideoRepository
-    )
-    {
+    ) {
         parent::__construct(
             $attributeRepository,
             $productRepository,
@@ -108,5 +107,16 @@ class Booking extends Virtual
         }
 
         return $product;
+    }
+
+    /**
+     * Have sufficient quantity.
+     *
+     * @param  int  $qty
+     * @return bool
+     */
+    public function haveSufficientQuantity(int $qty): bool
+    {
+        return true;
     }
 }
