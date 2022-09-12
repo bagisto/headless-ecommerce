@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e7166cb6-fa0c-4025-8479-20cd0121c00b",
+		"_postman_id": "b6fb95cb-8e79-4a10-9a42-24686c493d74",
 		"name": "Catalog",
 		"description": "Catalog",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -17,7 +17,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -29,17 +29,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						},
 						"description": "Get All Categories"
@@ -53,7 +45,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -65,17 +57,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						},
 						"description": "Get Category Details"
@@ -89,29 +73,21 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCategory {\n    createCategory(input: {\n    \tname:\"Home Decor\"\n        locale: \"all\"\n        slug: \"home-decor\"\n        description: \"Home decor is inclusive of physical items and objects (furniture, art, and accessories), placement of physical items and objects, and room colors and materials (flooring, wall coverings, window coverings, and ceilings).\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Home Decor\"\n        metaDescription: \"Home Decor (Furniture, Accessories)\"\n        metaKeywords: \"Home Decor, Furniture, Accessories\"\n    \timage: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation createCategory {\n    createCategory(input: {\n    \tname:\"Home Decor\"\n        locale: \"all\"\n        slug: \"home-decor\"\n        description: \"Home decor is inclusive of physical items and objects (furniture, art, and accessories), placement of physical items and objects, and room colors and materials (flooring, wall coverings, window coverings, and ceilings).\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Home Decor\"\n        metaDescription: \"Home Decor (Furniture, Accessories)\"\n        metaKeywords: \"Home Decor, Furniture, Accessories\"\n    \timage: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n        categoryIconPath: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						},
 						"description": "Create New Category"
@@ -125,29 +101,21 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateCategory {\n    updateCategory(id: 2, input: {\n        name:\"Collection Femme\"\n        locale: \"en\"\n        slug: \"women-cloths\"\n        description: \"Description of the Women Collection\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Meta title of Women Collection\"\n        metaDescription: \"Meta description of Women Collection\"\n        metaKeywords: \"Méta-mots-clés Women Collection\"\n        image: \"https://cdn.pixabay.com/photo/2017/03/09/02/03/girl-2128284_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation updateCategory {\n    updateCategory(id: 9, input: {\n        name:\"Collection Femme\"\n        locale: \"en\"\n        slug: \"women-cloths\"\n        description: \"Description of the Women Collection\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Meta title of Women Collection\"\n        metaDescription: \"Meta description of Women Collection\"\n        metaKeywords: \"Méta-mots-clés Women Collection\"\n        image: \"https://cdn.pixabay.com/photo/2017/03/09/02/03/girl-2128284_960_720.jpg\"\n        categoryIconPath: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						},
 						"description": "Update Category Details"
@@ -161,7 +129,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -173,17 +141,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						},
 						"description": "Remove Category"
@@ -197,7 +157,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -209,17 +169,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						},
 						"description": "Filterable Attributes Details"
@@ -238,7 +190,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -250,17 +202,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -273,7 +217,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text",
 								"disabled": true
 							}
@@ -286,17 +230,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -309,7 +245,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -321,17 +257,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -344,29 +272,21 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateAttribute {\n    updateAttribute(id: 28, input: {\n        code: \"multi\"\n        type: \"select\"\n        adminName: \"Multi Option Attr\"\n        translations: [{\n            code: \"en\"\n            name: \"Age Validation\"\n        }, {\n            code: \"fr\"\n            name: \"Validation de l'âge\"\n        }, {\n            code: \"nl\"\n            name: \"Leeftijd validatie\"\n        }, {\n            code: \"tr\"\n            name: \"Yaş Doğrulaması\"\n        }]\n        isRequired: true\n        isUnique: false\n        validation: \"\"\n        valuePerLocale: true\n        valuePerChannel: true\n        isFilterable: true\n        isConfigurable: false\n        isVisibleOnFront: true\n        useInFlat: false\n        isComparable: true\n        swatchType: \"image\"\n        options: [{\n            adminName: \"Option 1\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/572/SpKvqowiHC2dkmvRweIsTXiiqmVZAv7UamsmLl6G.jpeg\"\n            isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 1\"\n            }, {\n                code: \"fr\"\n                label: \"Option 1\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 1\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 1\"\n            }]\n        },  {\n            adminName: \"Option 2\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/571/xFs7waxcd6MSOO8mWwBX3topPN9r8bWeHOvHz4Zq.jpeg\"\n             isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 2\"\n            }, {\n                code: \"fr\"\n                label: \"Option 2\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 2\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 2\"\n            }]\n        },  {\n            adminName: \"Option 3\"\n            swatchValue: \"http://super.saascust.com/cache/medium/product/447/85Nd2GkelYxn68czxM4gW8QsBpVNcwrN9JVQsLzp.jpeg\"\n            isNew: \"true\" \n            translations: [{\n                code: \"en\"\n                label: \"Option 3\"\n            }, {\n                code: \"fr\"\n                label: \"Option 3\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 3\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 3\"\n            }]\n        }]\n    }) {\n        id\n        code\n        adminName\n        type\n        position\n        isRequired\n        isUnique\n        validation\n        valuePerLocale\n        valuePerChannel\n        isFilterable\n        isConfigurable\n        isVisibleOnFront\n        isUserDefined\n        swatchType\n        useInFlat\n        isComparable\n        options {\n            id\n            adminName\n            swatchValue\n            sortOrder\n            attributeId\n            attribute {\n                id\n                adminName\n            }\n            translations {\n                id\n                locale\n                label\n                attributeOptionId\n            }\n        }\n        translations {\n            id\n            locale\n            name\n            attributeId\n        }\n    }\n}",
+								"query": "\nmutation updateAttribute {\n    updateAttribute(id: 29, input: {\n        code: \"multi\"\n        type: \"select\"\n        adminName: \"Multi Option Attr\"\n        translations: [{\n            code: \"en\"\n            name: \"Age Validation\"\n        }, {\n            code: \"fr\"\n            name: \"Validation de l'âge\"\n        }, {\n            code: \"nl\"\n            name: \"Leeftijd validatie\"\n        }, {\n            code: \"tr\"\n            name: \"Yaş Doğrulaması\"\n        }]\n        isRequired: true\n        isUnique: false\n        validation: \"\"\n        valuePerLocale: true\n        valuePerChannel: true\n        isFilterable: true\n        isConfigurable: false\n        isVisibleOnFront: true\n        useInFlat: false\n        isComparable: true\n        swatchType: \"image\"\n        options: [{\n            adminName: \"Option 1\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/572/SpKvqowiHC2dkmvRweIsTXiiqmVZAv7UamsmLl6G.jpeg\"\n            isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 1\"\n            }, {\n                code: \"fr\"\n                label: \"Option 1\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 1\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 1\"\n            }]\n        },  {\n            adminName: \"Option 2\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/571/xFs7waxcd6MSOO8mWwBX3topPN9r8bWeHOvHz4Zq.jpeg\"\n             isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 2\"\n            }, {\n                code: \"fr\"\n                label: \"Option 2\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 2\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 2\"\n            }]\n        },  {\n            adminName: \"Option 3\"\n            swatchValue: \"http://super.saascust.com/cache/medium/product/447/85Nd2GkelYxn68czxM4gW8QsBpVNcwrN9JVQsLzp.jpeg\"\n            isNew: \"true\" \n            translations: [{\n                code: \"en\"\n                label: \"Option 3\"\n            }, {\n                code: \"fr\"\n                label: \"Option 3\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 3\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 3\"\n            }]\n        }]\n    }) {\n        id\n        code\n        adminName\n        type\n        position\n        isRequired\n        isUnique\n        validation\n        valuePerLocale\n        valuePerChannel\n        isFilterable\n        isConfigurable\n        isVisibleOnFront\n        isUserDefined\n        swatchType\n        useInFlat\n        isComparable\n        options {\n            id\n            adminName\n            swatchValue\n            sortOrder\n            attributeId\n            attribute {\n                id\n                adminName\n            }\n            translations {\n                id\n                locale\n                label\n                attributeOptionId\n            }\n        }\n        translations {\n            id\n            locale\n            name\n            attributeId\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -379,7 +299,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -391,17 +311,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -419,7 +331,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text",
 								"disabled": true
 							}
@@ -432,17 +344,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -455,7 +359,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -467,17 +371,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -495,7 +391,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -507,17 +403,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -530,7 +418,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text",
 								"disabled": true
 							}
@@ -543,17 +431,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -566,7 +446,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -578,17 +458,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -601,7 +473,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -613,17 +485,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -636,7 +500,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text",
 								"disabled": true
 							}
@@ -649,17 +513,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -677,7 +533,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -689,17 +545,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -712,7 +560,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text",
 								"disabled": true
 							}
@@ -725,17 +573,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -748,7 +588,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -760,17 +600,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -783,7 +615,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -795,17 +627,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -818,7 +642,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -830,17 +654,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -858,7 +674,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -870,17 +686,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -893,7 +701,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -905,17 +713,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -928,7 +728,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -940,17 +740,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -963,7 +755,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -975,17 +767,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -998,7 +782,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1010,17 +794,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1033,7 +809,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1045,17 +821,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1068,7 +836,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1080,17 +848,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1103,7 +863,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1115,17 +875,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1141,7 +893,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1153,17 +905,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1176,7 +920,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1188,17 +932,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1211,7 +947,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1223,17 +959,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1246,7 +974,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1258,17 +986,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1281,7 +1001,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1293,17 +1013,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1316,7 +1028,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1328,17 +1040,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1351,29 +1055,21 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"booking\"\n        attributeFamilyId: 1\n        sku: \"appointment-booking\"\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            qty\n            location\n            showLocation\n            availableEveryWeek\n            availableFrom\n            availableTo\n            productId\n            defaultSlot {\n                id\n                bookingType\n                duration\n                breakTime\n                slots {\n                    to\n                    toDay\n                    from\n                    fromDay\n                }\n                bookingProductId\n            }\n        }\n    }\n}",
+								"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"booking\"\n        attributeFamilyId: 1\n        sku: \"appointment-bookinfdsafasf\"\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            qty\n            location\n            showLocation\n            availableEveryWeek\n            availableFrom\n            availableTo\n            productId\n            defaultSlot {\n                id\n                bookingType\n                duration\n                breakTime\n                slots {\n                    to\n                    toDay\n                    from\n                    fromDay\n                }\n                bookingProductId\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1386,7 +1082,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDYyNDk1NCwiZXhwIjoxNjkyMTYwOTU0LCJuYmYiOjE2NjA2MjQ5NTQsImp0aSI6InNIcEZXcTFDU1Qxak1jREkiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.Cl3Skl6osdr1WLb0_8Tu8iMyAl7brP9wMAmJ1KsGPMY",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1398,17 +1094,9 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/graphql",
-							"protocol": "http",
+							"raw": "{{url}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"graphql"
+								"{{url}}"
 							]
 						}
 					},
@@ -1421,14 +1109,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateProduct {\n    updateProduct(id: 31, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"appointment-booking\"\n        name: \"Dr. Appointment\"\n        urlKey: \"dr-appointment\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 2\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        },\t{\n            customerGroupId: 3\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        categories: [1, 3]\n        channels: [1]\n        upSell: [2]\n        images: [\n          \t\"https://cdn.pixabay.com/photo/2015/11/03/08/58/meeting-1019875_960_720.jpg\"\n        ]\n        booking: {\n            type: \"appointment\"\n            location: \"Dehradun\"\n            qty: 14\n            availableEveryWeek: false\n            availableFrom: \"2021-12-02 12:00:00\"\n            availableTo: \"2021-12-30 12:00:00\"\n            duration: 45\n            breakTime: 15\n\n            # # In case same_slot_all_days: set to true\n            # same_slot_all_days: true\n            # slots: [{\n            #     from: \"09:00\"\n            #     to: \"09:45\"\n            # },  {\n            #     from: \"10:00\"\n            #     to: \"10:45\"\n            # },  {\n            #     from: \"11:00\"\n            #     to: \"11:45\"\n            # },  {\n            #     from: \"14:00\"\n            #     to: \"14:45\"\n            # }]\n            \n            # In case same_slot_all_days: set to false \n            sameSlotAllDays: false\n            slots: [{\n                day: 0\n                from: \"09:00\"\n                to: \"09:45\"\n            },  {\n                day: 0\n                from: \"10:00\"\n                to: \"10:45\"\n            },  {\n                day: 1\n                from: \"11:00\"\n                to: \"11:45\"\n            },  {\n                day: 5\n                from: \"09:00\"\n                to: \"09:45\"\n            },  {\n                day: 5\n                from: \"11:00\"\n                to: \"11:45\"\n            },  {\n                day: 5\n                from: \"12:00\"\n                to: \"12:45\"\n            }]\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            qty\n            location\n            showLocation\n            availableEveryWeek\n            availableFrom\n            availableTo\n            productId\n            appointmentSlot {\n                id\n                duration\n                breakTime\n                sameSlotAllDays\n                slots {\n                    id\n                    from\n                    to\n                }\n                bookingProductId\n            }\n        }\n        sameDaySlots {\n            id\n            day\n            from\n            to\n        }\n        differentDaySlots {\n            id\n            day\n            from\n            to\n        }\n    }\n}",
+								"query": "mutation updateProduct {\n    updateProduct(id: 11, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"appointment-booking\"\n        name: \"Dr. Appointment\"\n        urlKey: \"dr-appointment\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 2\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        },\t{\n            customerGroupId: 3\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        categories: [1, 3]\n        channels: [1]\n        upSell: [2]\n        images: [\n          \t\"https://cdn.pixabay.com/photo/2015/11/03/08/58/meeting-1019875_960_720.jpg\"\n        ]\n        booking: {\n            type: \"appointment\"\n            location: \"Dehradun\"\n            qty: 14\n            availableEveryWeek: false\n            availableFrom: \"2021-12-02 12:00:00\"\n            availableTo: \"2021-12-30 12:00:00\"\n            duration: 45\n            breakTime: 15\n\n            # # In case same_slot_all_days: set to true\n            # same_slot_all_days: true\n            # slots: [{\n            #     from: \"09:00\"\n            #     to: \"09:45\"\n            # },  {\n            #     from: \"10:00\"\n            #     to: \"10:45\"\n            # },  {\n            #     from: \"11:00\"\n            #     to: \"11:45\"\n            # },  {\n            #     from: \"14:00\"\n            #     to: \"14:45\"\n            # }]\n            \n            # In case same_slot_all_days: set to false \n            sameSlotAllDays: false\n            slots: [{\n                day: 0\n                from: \"09:00\"\n                to: \"09:45\"\n            },  {\n                day: 0\n                from: \"10:00\"\n                to: \"10:45\"\n            },  {\n                day: 1\n                from: \"11:00\"\n                to: \"11:45\"\n            },  {\n                day: 5\n                from: \"09:00\"\n                to: \"09:45\"\n            },  {\n                day: 5\n                from: \"11:00\"\n                to: \"11:45\"\n            },  {\n                day: 5\n                from: \"12:00\"\n                to: \"12:45\"\n            }]\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            qty\n            location\n            showLocation\n            availableEveryWeek\n            availableFrom\n            availableTo\n            productId\n            appointmentSlot {\n                id\n                duration\n                breakTime\n                sameSlotAllDays\n                slots {\n                    id\n                    from\n                    to\n                }\n                bookingProductId\n            }\n        }\n        sameDaySlots {\n            id\n            day\n            from\n            to\n        }\n        differentDaySlots {\n            id\n            day\n            from\n            to\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1448,14 +1136,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"booking\"\n        attributeFamilyId: 1\n        sku: \"event-booking\"\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            qty\n            location\n            showLocation\n            availableEveryWeek\n            availableFrom\n            availableTo\n            productId\n            defaultSlot {\n                id\n                bookingType\n                duration\n                breakTime\n                slots {\n                    to\n                    toDay\n                    from\n                    fromDay\n                }\n                bookingProductId\n            }\n            appointmentSlot {\n                id\n                duration\n                breakTime\n                sameSlotAllDays\n                slots {\n                    from\n                    to\n                }\n                bookingProductId\n            }\n        }\n        appointmentSameDaySlots {\n            id\n            from\n            to\n        }\n        appointmentDifferentDaySlots {\n            id\n            from\n            to\n        }\n    }\n}",
+								"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"booking\"\n        attributeFamilyId: 1\n        sku: \"event-booking212121\"\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            qty\n            location\n            showLocation\n            availableEveryWeek\n            availableFrom\n            availableTo\n            productId\n            defaultSlot {\n                id\n                bookingType\n                duration\n                breakTime\n                slots {\n                    to\n                    toDay\n                    from\n                    fromDay\n                }\n                bookingProductId\n            }\n            appointmentSlot {\n                id\n                duration\n                breakTime\n                sameSlotAllDays\n                slots {\n                    from\n                    to\n                }\n                bookingProductId\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1475,14 +1163,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateProduct {\n    updateProduct(id: 16, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"event-booking\"\n        name: \"Music Show\"\n        url_Key: \"music-show\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 2\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        },\t{\n            customerGroupId: 6\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        categories: [1, 2]\n        channels: [1]\n        upSell: [1, 2]\n        images: [\n          \t\"https://cdn.pixabay.com/photo/2015/11/03/08/58/meeting-1019875_960_720.jpg\"\n        ]\n        booking: {\n            type: \"event\"\n            location: \"Meerut\"\n            availableFrom: \"2021-02-10 12:00:00\"\n            availableTo: \"2021-02-28 12:00:00\"\n            tickets: [{\n                locales: {\n                    locale: \"en\"\n                    name: \"First Show\"\n                    description: \"First Music Show \"\n                }\n                specialPrice: null\n                price: 4\n                qty: 50\n                specialPriceFrom: null\n                specialPriceTo: null\n            },  {\n                locales: {\n                    locale: \"en\"\n                    name: \"Evening Show\"\n                    description: \"Evening Music Show\"\n                }\n                specialPrice: 5\n                price: 7\n                qty: 40\n                specialPriceFrom: \"2021-02-10 12:00:00\"\n                specialPriceTo: \"2021-02-12 12:00:00\"\n            }]\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            location\n            showLocation\n            availableFrom\n            availableTo\n            productId\n            eventTickets {\n                id\n                price\n                qty\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                translations {\n                    locale\n                    name\n                    description\n                }\n                bookingProductId\n            }\n        }\n    }\n}",
+								"query": "mutation updateProduct {\n    updateProduct(id: 16, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"event-bookingdfghfhd\"\n        name: \"Music Show\"\n        urlKey: \"music-show\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 1\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        },\t{\n            customerGroupId: 2\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        categories: [1]\n        channels: [1]\n        upSell: [1, 2]\n        images: [\n          \t\"https://cdn.pixabay.com/photo/2015/11/03/08/58/meeting-1019875_960_720.jpg\"\n        ]\n        booking: {\n            type: \"event\"\n            location: \"Meerut\"\n            availableFrom: \"2021-02-10 12:00:00\"\n            availableTo: \"2021-02-28 12:00:00\"\n            tickets: [{\n                locales: {\n                    locale: \"en\"\n                    name: \"First Show\"\n                    description: \"First Music Show \"\n                }\n                specialPrice: null\n                price: 4\n                qty: 50\n                specialPriceFrom: null\n                specialPriceTo: null\n            },  {\n                locales: {\n                    locale: \"en\"\n                    name: \"Evening Show\"\n                    description: \"Evening Music Show\"\n                }\n                specialPrice: 5\n                price: 7\n                qty: 40\n                specialPriceFrom: \"2021-02-10 12:00:00\"\n                specialPriceTo: \"2021-02-12 12:00:00\"\n            }]\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            id\n            type\n            location\n            showLocation\n            availableFrom\n            availableTo\n            productId\n            eventTickets {\n                id\n                price\n                qty\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                translations {\n                    locale\n                    name\n                    description\n                }\n                bookingProductId\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1502,7 +1190,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1529,14 +1217,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateProduct {\n    updateProduct(id: 17, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"ac-on-rent\"\n        name: \"AC On Rent\"\n        urlKey: \"ac-on-rent\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        inventories: [{\n        \tinventorySourceId: 1\n          \tqty: 111\n        },\t{\n        \tinventorySourceId: 5\n          \tqty: 222\n        }]\n        categories: [1, 2]\n        channels: [1]\n        upSell: [1, 2]\n        images: [\n          \t\"http://graphqlnew.com/themes/velocity/assets/images/kids.png\",\n        ]\n        booking: {\n            type: \"rental\"\n            location: \"UK\"\n            qty: 23\n            availableEveryWeek: false\n            availableFrom: \"2021-02-10 12:00:00\"\n            availableTo: \"2021-02-28 12:00:00\"\n            sameSlotAllDays: false\n            rentalSlot: {\n                rentingType: \"hourly\"\n                dailyPrice: null\n                hourlyPrice: 4.20\n                slots: [{\n                    day: 0\n                    from: \"09:00\"\n                    to: \"09:45\"\n                },  {\n                    day: 0\n                    from: \"10:00\"\n                    to: \"10:45\"\n                },  {\n                    day: 2\n                    from: \"11:00\"\n                    to: \"11:45\"\n                },  {\n                    day: 2\n                    from: \"12:00\"\n                    to: \"12:45\"\n                }]\n            }\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        booking {\n            type\n            location\n            qty\n            availableEveryWeek\n            availableFrom\n            availableTo\n            rentalSlot {\n                rentingType\n                dailyPrice\n                hourlyPrice\n                slots {\n                    from\n                    to\n                }\n            }\n        }\n        sameDaySlots {\n            id\n            day\n            from\n            to\n        }\n        differentDaySlots {\n            id\n            day\n            from\n            to\n        }\n    }\n}",
+								"query": "mutation updateProduct {\n    updateProduct(id: 14, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"ac-on-rent\"\n        name: \"AC On Rent\"\n        urlKey: \"ac-on-rent\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        inventories: [{\n        \tinventorySourceId: 1\n          \tqty: 111\n        }]\n        categories: [1]\n        channels: [1]\n        upSell: [1]\n        images: [\n          \t\"http://graphqlnew.com/themes/velocity/assets/images/kids.png\",\n        ]\n        booking: {\n            type: \"rental\"\n            location: \"UK\"\n            qty: 23\n            availableEveryWeek: false\n            availableFrom: \"2021-02-10 12:00:00\"\n            availableTo: \"2021-02-28 12:00:00\"\n            sameSlotAllDays: false\n            rentalSlot: {\n                rentingType: \"hourly\"\n                dailyPrice: null\n                hourlyPrice: 4.20\n                slots: [{\n                    day: 0\n                    from: \"09:00\"\n                    to: \"09:45\"\n                },  {\n                    day: 0\n                    from: \"10:00\"\n                    to: \"10:45\"\n                },  {\n                    day: 2\n                    from: \"11:00\"\n                    to: \"11:45\"\n                },  {\n                    day: 2\n                    from: \"12:00\"\n                    to: \"12:45\"\n                }]\n            }\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        booking {\n            type\n            location\n            qty\n            availableEveryWeek\n            availableFrom\n            availableTo\n            rentalSlot {\n                rentingType\n                dailyPrice\n                hourlyPrice\n                slots {\n                    from\n                    to\n                }\n            }\n        }\n        sameDaySlots {\n            id\n            day\n            from\n            to\n        }\n        differentDaySlots {\n            id\n            day\n            from\n            to\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1556,7 +1244,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
@@ -1583,14 +1271,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateProduct {\n    updateProduct(id: 18, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"hotel-table\"\n        name: \"Hotel Table\"\n        urlKey: \"hotel-table\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 2\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        },\t{\n            customerGroupId: 6\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        inventories: [{\n        \tinventorySourceId: 1\n          \tqty: 111\n        },\t{\n        \tinventorySourceId: 2\n          \tqty: 222\n        }]\n        categories: [1, 2]\n        channels: [1]\n        upSell: [1, 2]\n        images: [\n           \t\"http://graphqlnew.com/themes/velocity/assets/images/headphones.png\"\n        ]\n        booking: {\n            type: \"table\"\n            location: \"Hisar\"\n            qty: 5\n            duration: 45\n            breakTime: 15\n            availableEveryWeek: true\n            availableFrom: \"2021-02-11 12:00:00\"\n            availableTo: \"2021-02-18 12:00:00\"\n            sameSlotAllDays: true\n            tableSlot: {\n                priceType: \"guest\"\n                guestLimit: 5\n                preventSchedulingBefore: 3\n                slots: [{\n                    day: 0\n                    from: \"09:00\"\n                    to: \"09:45\"\n                },  {\n                    day: 1\n                    from: \"10:00\"\n                    to: \"10:45\"\n                },  {\n                    day: 2\n                    from: \"11:00\"\n                    to: \"11:45\"\n                },  {\n                    day: 3\n                    from: \"12:00\"\n                    to: \"12:45\"\n                }]\n            }\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            type\n            location\n            qty\n            availableEveryWeek\n            availableFrom\n            availableTo\n            tableSlot {\n                priceType\n                guestLimit\n                duration\n                breakTime\n                sameSlotAllDays\n                preventSchedulingBefore\n                slots {\n                    from\n                    to\n                }\n            }\n        }\n        sameDaySlots {\n            id\n            day\n            from\n            to\n        }\n        differentDaySlots {\n            id\n            day\n            from\n            to\n        }\n    }\n}",
+								"query": "mutation updateProduct {\n    updateProduct(id: 15, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"hotel-table\"\n        name: \"Hotel Table\"\n        urlKey: \"hotel-table\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2021-02-28\"\n        width: 30\n        height: 24\n        depth: 11\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 1\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        },\t{\n            customerGroupId: 2\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        inventories: [{\n        \tinventorySourceId: 1\n          \tqty: 111\n        }]\n        categories: [1]\n        channels: [1]\n        upSell: [1]\n        images: [\n           \t\"http://graphqlnew.com/themes/velocity/assets/images/headphones.png\"\n        ]\n        booking: {\n            type: \"table\"\n            location: \"Hisar\"\n            qty: 5\n            duration: 45\n            breakTime: 15\n            availableEveryWeek: true\n            availableFrom: \"2021-02-11 12:00:00\"\n            availableTo: \"2021-02-18 12:00:00\"\n            sameSlotAllDays: true\n            tableSlot: {\n                priceType: \"guest\"\n                guestLimit: 5\n                preventSchedulingBefore: 3\n                slots: [{\n                    day: 0\n                    from: \"09:00\"\n                    to: \"09:45\"\n                },  {\n                    day: 1\n                    from: \"10:00\"\n                    to: \"10:45\"\n                },  {\n                    day: 2\n                    from: \"11:00\"\n                    to: \"11:45\"\n                },  {\n                    day: 3\n                    from: \"12:00\"\n                    to: \"12:45\"\n                }]\n            }\n        }\n    }) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        booking {\n            type\n            location\n            qty\n            availableEveryWeek\n            availableFrom\n            availableTo\n            tableSlot {\n                priceType\n                guestLimit\n                duration\n                breakTime\n                sameSlotAllDays\n                preventSchedulingBefore\n                slots {\n                    from\n                    to\n                }\n            }\n        }\n        sameDaySlots {\n            id\n            day\n            from\n            to\n        }\n        differentDaySlots {\n            id\n            day\n            from\n            to\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1610,14 +1298,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{admin_token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteProduct {\n    deleteProduct(id: 31) {\n        success\n    }\n}\n",
+								"query": "mutation deleteProduct {\n    deleteProduct(id: 15) {\n        success\n    }\n}\n",
 								"variables": ""
 							}
 						},

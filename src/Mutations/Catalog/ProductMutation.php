@@ -59,7 +59,7 @@ class ProductMutation extends Controller
             throw new Exception(trans('admin::app.catalog.products.configurable-error'));
         }
 
-        if (isset($data['super_attributes']) && $data['super_attributes']) {
+        if ( isset($data['super_attributes']) && $data['super_attributes']) {
             $super_attributes = [];
             foreach ($data['super_attributes'] as $key => $super_attribute) {
                 if (isset($super_attribute['attribute_code']) && isset($super_attribute['values']) && is_array($super_attribute['values'])) {
@@ -106,17 +106,27 @@ class ProductMutation extends Controller
         $product = $this->productRepository->findOrFail($id);
 
         // Only in case of configurable product type
-        if (isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
+        if ( isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
             $data['variants'] = bagisto_graphql()->manageConfigurableRequest($data);
         }
 
         // Only in case of grouped product type
-        if (isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
+        if ( isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
+
+            if (isset($data['links'])) {
+                foreach ($data['links'] as $linkProduct) {
+                    $productLink = $this->productRepository->findOrFail($linkProduct['associated_product_id']);
+                    if ($productLink && $productLink->type != 'simple') {
+                        throw new Exception("$productLink->type is not a added to Grouped product");
+                    }
+                }
+            }
+
             $data['links'] = bagisto_graphql()->manageGroupedRequest($product, $data);
         }
 
         // Only in case of downloadable product type
-        if (isset($product->type) && $product->type == 'downloadable') {
+        if ( isset($product->type) && $product->type == 'downloadable') {
             if (isset($data['downloadable_links']) && $data['downloadable_links']) {
                 $data['downloadable_links'] = bagisto_graphql()->manageDownloadableLinksRequest($product, $data);
             }
@@ -127,17 +137,29 @@ class ProductMutation extends Controller
         }
 
         // Only in case of bundle product type
-        if (isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
+        if ( isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
+
+            if (isset($data['bundle_options'])) {
+                foreach ($data['bundle_options'] as $bundleProduct) {
+                    foreach ($bundleProduct['products'] as $prod) {
+                        $productLink = $this->productRepository->findOrFail($prod['product_id']);
+                        if ($productLink && $productLink->type != 'simple') {
+                            throw new Exception("$productLink->type is not a added to Bundle product");
+                        }
+                    }
+                }
+            }
+
             $data['bundle_options'] = bagisto_graphql()->manageBundleRequest($product, $data);
         }
 
         // Only in case of booking product type
-        if (isset($product->type) && $product->type == 'booking' && isset($data['booking']) && $data['booking']) {
+        if ( isset($product->type) && $product->type == 'booking' && isset($data['booking']) && $data['booking']) {
             $data['booking'] = bagisto_graphql()->manageBookingRequest($data['booking']);
         }
 
         // Only in case of customer group price
-        if (isset($data['customer_group_prices']) && $data['customer_group_prices']) {
+        if ( isset($data['customer_group_prices']) && $data['customer_group_prices']) {
             $data['customer_group_prices'] = bagisto_graphql()->manageCustomerGroupPrices($product, $data);
         }
 
@@ -308,7 +330,7 @@ class ProductMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || ( isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

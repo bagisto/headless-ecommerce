@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "c7443446-9137-4b00-b717-a8486f65353f",
+		"name": "Marketing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21542229"
+	},
+	"item": [
+		{
+			"name": "Email Templates",
+			"item": [
+				{
+					"name": "Get All Email Templates",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query emailTemplates{\n    emailTemplates(input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data{\n            id\n            name\n            content\n            status\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Email Template Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query emailTemplates{\n    emailTemplate(id: 1){\n            id\n            name\n            content\n            status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Email Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createEmailTemplate{\n    createEmailTemplate(input: {\n        name: \"fdasfafs\"\n        content: \"fdasfadsf\"\n        status: true\n    }){\n        id\n        name\n        content\n        status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Email Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createEmailTemplate{\n    updateEmailTemplate(id: 2, input: {\n        name: \"fdasfafs\"\n        content: \"fdasfadsf\"\n        status: true\n    }){\n        id\n        name\n        content\n        status\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Email Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteEmailTemplate{\n    deleteEmailTemplate(id: 2){\n        status\n        message\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Get All Events",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query events{\n    events(input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data{\n            id\n            name\n            description\n            date\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query events{\n    event(id: 1){\n            id\n            name\n            description\n            date\n        \n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createEvent{\n    createEvent(input: {\n        name: \"fdasfafs\"\n        description: \"fdasfadsf\"\n        date: \"20-10-1996\"\n    }){\n        id\n        name\n        description\n        date\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateEvent{\n    updateEvent(id: 2, input: {\n        name: \"event\"\n        description: \"event\"\n        date: \"20-10-1996\"\n    }){\n        id\n        name\n        description\n        date\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteEvent{\n    deleteEvent(id: 2){\n        status\n        message\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Campaign",
+			"item": [
+				{
+					"name": "Get All Campaign",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query campaigns{\n    campaigns(input: {\n        # id: 1\n        # name: \"test\"\n        # subject: \"test\"\n        # event: 1\n        # emailTemplate: 1 \n        # channel: 1\n        # customerGroup: 1\n    }){\n        data{\n            id\n            name\n            subject \n            status\n            channel{\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales{\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies{\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources{\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl            \n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n                success \n            }\n            emailTemplate{\n                id\n                name\n                content\n                status\n            }\n            event{\n                 id\n                name\n                description\n                date\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Campaign Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query campaigns{\n    campaign(id: 1){\n        id\n        name\n        subject \n        status\n        channel{\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales{\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies{\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources{\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl            \n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Campaign",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createCampaign{\n    createCampaign(input: {\n        name: \"testasfdasf\"\n        subject: \"testfasdfaf\"\n        eventId: 1\n        emailTemplateId: 1 \n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }){\n        id\n        name\n        subject \n        status\n        channel{\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales{\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies{\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources{\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl            \n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n    \n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Campaign",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createCampaign{\n    updateCampaign(id: 2,input: {\n        name: \"test1\"\n        subject: \"test\"\n        eventId: 1\n        emailTemplateId: 1 \n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }){\n        id\n        name\n        subject \n        status\n        channel{\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales{\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies{\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources{\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl            \n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Campaign",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteCampaign{\n    deleteCampaign(id: 2){\n        status\n        message\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SiteMap",
+			"item": [
+				{
+					"name": "Get All SiteMaps",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query sitemaps{\n    sitemaps(input: {\n        # id: 1\n        # fileName: \"test\"\n        # path: \"test\"\n    }){\n        data{\n            id\n            fileName\n            path\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get SiteMap Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query sitemap{\n    sitemap(id: 1){\n        id\n        fileName\n        path\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create SiteMap",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createSiteMap{\n    createSiteMap(input: {\n        fileName: \"test\"\n        path: \"test\"\n    }){\n        id\n        fileName\n        path\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update SiteMap",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{admin_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateSiteMap{\n    updateSiteMap(id: 2, input: {\n        fileName: \"test\"\n        path: \"test\"\n    }){\n        id\n        fileName\n        path\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove SiteMap",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{customer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteEmailTemplate{\n    deleteEmailTemplate(id: 2){\n        status\n        message\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

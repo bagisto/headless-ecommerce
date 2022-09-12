@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "be166ff0-ce9e-49dd-9fad-ebd8f5b6c062",
+		"_postman_id": "96ff4165-2f2d-4278-88ff-fee25b27b146",
 		"name": "Cms",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21542229"
 	},
 	"item": [
 		{
@@ -12,7 +13,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
@@ -39,7 +40,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
@@ -66,7 +67,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
@@ -93,7 +94,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
@@ -120,7 +121,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
@@ -147,14 +148,14 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation updateCmsPage {\n    updateCmsPage(id: 13, input: {\n    \tpageTitle: \"Term & Condition\"\n        channels: [1]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n        layout: \"\"\n        locale: \"\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}\n",
+						"query": "mutation updateCmsPage {\n    updateCmsPage(id: 13 , input: {\n    \tpageTitle: \"Term & Condition\"\n        channels: [1]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n        layout: \"\"\n        locale: \"\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}\n",
 						"variables": ""
 					}
 				},
@@ -174,14 +175,14 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{admin_token}}",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation deleteCmsPage {\n    deleteCmsPage(id: 13) {\n        success\n    }\n}",
+						"query": "mutation deleteCmsPage {\n    deleteCmsPage(id: 12) {\n        success\n    }\n}",
 						"variables": ""
 					}
 				},
