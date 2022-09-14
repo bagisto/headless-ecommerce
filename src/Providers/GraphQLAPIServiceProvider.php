@@ -31,7 +31,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         if (request()->hasHeader('authorization')) {
             $headerValue = explode('Bearer ', request()->header('authorization'));
-
+            
             if (isset($headerValue[1]) && $headerValue[1]) {
                 request()->merge(['token' => $headerValue[1]]);
             }
@@ -43,9 +43,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      */
     public function overrideModels()
     {
-        // Admin Models
-        $this->app->concord->registerModel(\Webkul\User\Contracts\Admin::class, \Webkul\GraphQLAPI\Models\User\Admin::class);
-
         // CurrencyExchangeRate Models
         $this->app->concord->registerModel(\Webkul\Core\Contracts\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);
 

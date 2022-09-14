@@ -24,17 +24,6 @@ composer require bagisto/graphql-api
 php artisan bagisto_graphql:install
 ~~~
 
-##### Find a file config/auth.php and do the following changes:
-
-* replace the *admins* array index with the below-mentioned value in **'providers'** array:
-
-~~~
-    'admins' => [
-        'driver'    => 'eloquent',
-        'model'     => Webkul\GraphQLAPI\Models\User\Admin::class,
-    ]
-~~~
-
 ##### Find a file config/lighthouse.php from root and do the following changes:
 
 * change the **guard** index value from **api** to **admin-api** like below mentioned:
@@ -67,10 +56,11 @@ php artisan bagisto_graphql:install
     ],
 ~~~
 
-##### Add the JWT_TTL (JWT time to live) entry in the .env file under the JWT_SECRET key:
+##### Add the JWT_TTL (JWT time to live) & JWT_SHOW_BLACKLIST_EXCEPTION entries in the .env file under the JWT_SECRET key:
 
 ~~~
     JWT_TTL=525600
+    JWT_SHOW_BLACKLIST_EXCEPTION=true
 ~~~
 
 ##### Run the below mentioned commands from the root directory in terminal:

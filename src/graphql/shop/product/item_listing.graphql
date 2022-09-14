@@ -1,6 +1,6 @@
 # Shop\Product\ItemListing related APIs.
 extend type Query {
-    getProductListing(input: FilterProductListingInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll"), first: Int, page: Int): [Product!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    getProductListing(input: FilterProductListingInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll"), locale: String, first: Int, page: Int): [Product!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 }
 
 input FilterProductListingInput {
@@ -15,5 +15,6 @@ input FilterProductListingInput {
     price: String
     color: String
     size: String
-    brand: String
+    brand: String,
+    locale: String,
 }
