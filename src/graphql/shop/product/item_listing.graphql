@@ -15,6 +15,5 @@ input FilterProductListingInput {
     price: String
     color: String
     size: String
-    brand: String,
-    locale: String,
+    brand: String
 }
