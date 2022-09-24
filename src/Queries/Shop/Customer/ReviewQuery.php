@@ -32,14 +32,14 @@ class ReviewQuery extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getReviews($query, $input, $test)
+    public function getReviews($query, $input)
     {
         $params = $input;
         
         $channel = core()->getRequestedChannelCode();
         $locale = core()->getRequestedLocaleCode();
 
-        if ( bagisto_graphql()->guard($this->guard)->check() && isset($params['customer_id']) ) {
+        if (bagisto_graphql()->guard($this->guard)->check()) {
             $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
         }
         
@@ -50,35 +50,37 @@ class ReviewQuery extends Controller
             ->where('product_flat.channel', $channel)
             ->where('product_flat.locale', $locale);
 
-        if ( isset($params['id']) && $params['id']) {
+        if (! empty($params['id'])) {
             $qb->where('product_reviews.id', $params['id']);
         }
 
-        if ( isset($params['title']) && $params['title']) {
+        if (! empty($params['title'])) {
             $qb->where('product_reviews.title', 'like', '%' . urldecode($params['title']) . '%');
         }
         
-        if ( isset($params['rating']) && $params['rating']) {
+        if (! empty($params['rating'])) {
             $qb->where('product_reviews.rating', $params['rating']);
         }
         
-        if ( isset($params['customer_id']) && $params['customer_id']) {
+        if (! empty($params['customer_id'])) {
             $qb->where('product_reviews.customer_id', $params['customer_id']);
+        } else {
+            $qb->whereNull('product_reviews.customer_id');
         }
 
-        if ( isset($params['customer_name']) && $params['customer_name']) {
+        if (! empty($params['customer_name'])) {
             $qb->where('product_reviews.name', 'like', '%' . urldecode($params['customer_name']) . '%');
         }
 
-        if ( isset($params['product_name']) && $params['product_name']) {
+        if (! empty($params['product_name'])) {
             $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
         }
         
-        if ( isset($params['product_id']) && $params['product_id']) {
+        if (! empty($params['product_id'])) {
             $qb->where('product_reviews.product_id', $params['product_id']);
         }
 
-        if ( isset($params['status']) && $params['status']) {
+        if (! empty($params['status'])) {
             $qb->where('product_reviews.status', $params['status']);
         }
 

@@ -45,76 +45,72 @@ class ReviewMutation extends Controller
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
-        try {
-            $params['customer_id'] = null;
-            if ( bagisto_graphql()->guard($this->guard)->check() ) {
-                $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
-            }
-
-            $currentPage = isset($params['page']) ? $params['page'] : 1;
-            
-            Paginator::currentPageResolver(function () use ($currentPage) {
-                return $currentPage;
-            });
-
-            $reviews = app(ProductReviewRepository::class)->scopeQuery(function ($query) use ($params) {
-                $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-                $locale = isset($params['locale']) ?: app()->getLocale();
-                    
-                $qb = $query->distinct()
-                    ->addSelect('product_reviews.*')
-                    ->addSelect('product_flat.name as product_name')
-                    ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
-                    ->where('product_flat.channel', $channel)
-                    ->where('product_flat.locale', $locale)
-                    ->where('product_reviews.customer_id', $params['customer_id']);
-
-                if ( isset($params['id']) && $params['id']) {
-                    $qb->where('product_reviews.id', $params['id']);
-                }
-
-                if ( isset($params['title']) && $params['title']) {
-                    $qb->where('product_reviews.title', 'like', '%' . urldecode($params['title']) . '%');
-                }
-                
-                if ( isset($params['rating']) && $params['rating']) {
-                    $qb->where('product_reviews.rating', $params['rating']);
-                }
-
-                if ( isset($params['customer_name']) && $params['customer_name']) {
-                    $qb->where('product_reviews.name', 'like', '%' . urldecode($params['customer_name']) . '%');
-                }
-
-                if ( isset($params['product_name']) && $params['product_name']) {
-                    $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
-                }
-                
-                if ( isset($params['product_id']) && $params['product_id']) {
-                    $qb->where('product_reviews.product_id', $params['product_id']);
-                }
-
-                if ( isset($params['status']) && $params['status']) {
-                    $qb->where('product_reviews.status', 'like', '%' . urldecode($params['status']) . '%');
-                }
-
-                return $qb;
-            });
-
-            if ( isset($args['id'])) {
-                $reviews = $reviews->first();
-            } else {
-                $reviews = $reviews->paginate( isset($params['limit']) ? $params['limit'] : 10);
-            }
-            
-            if ( ($reviews && isset($reviews->first()->id)) || isset($reviews->id) ) {
-                return $reviews;
-            } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review']));
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        if (bagisto_graphql()->guard($this->guard)->check()) {
+            $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
         }
+
+        $currentPage = isset($params['page']) ? $params['page'] : 1;
+        
+        Paginator::currentPageResolver(function () use ($currentPage) {
+            return $currentPage;
+        });
+
+        $reviews = app(ProductReviewRepository::class)->scopeQuery(function ($query) use ($params) {
+            $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
+
+            $locale = isset($params['locale']) ?: app()->getLocale();
+                
+            $qb = $query->distinct()
+                ->addSelect('product_reviews.*')
+                ->addSelect('product_flat.name as product_name')
+                ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
+                ->where('product_flat.channel', $channel)
+                ->where('product_flat.locale', $locale);
+
+            if (! empty($params['id'])) {
+                $qb->where('product_reviews.id', $params['id']);
+            }
+
+            if (! empty($params['title'])) {
+                $qb->where('product_reviews.title', 'like', '%' . urldecode($params['title']) . '%');
+            }
+            
+            if (! empty($params['rating'])) {
+                $qb->where('product_reviews.rating', $params['rating']);
+            }
+    
+            if (! empty($params['customer_id'])) {
+                $qb->where('product_reviews.customer_id', $params['customer_id']);
+            } else {
+                $qb->whereNull('product_reviews.customer_id');
+            }
+
+            if (! empty($params['customer_name'])) {
+                $qb->where('product_reviews.name', 'like', '%' . urldecode($params['customer_name']) . '%');
+            }
+
+            if (! empty($params['product_name'])) {
+                $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
+            }
+            
+            if (! empty($params['product_id'])) {
+                $qb->where('product_reviews.product_id', $params['product_id']);
+            }
+
+            if (! empty($params['status'])) {
+                $qb->where('product_reviews.status', 'like', '%' . urldecode($params['status']) . '%');
+            }
+
+            return $qb;
+        });
+
+        if ( isset($args['id'])) {
+            $reviews = $reviews->first();
+        } else {
+            $reviews = $reviews->paginate( isset($params['limit']) ? $params['limit'] : 10);
+        }
+
+        return $reviews;
     }
 
     /**
@@ -124,10 +120,6 @@ class ReviewMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
         $data = $args['input'];
         
         $validator = \Validator::make($data, [
@@ -145,7 +137,7 @@ class ReviewMutation extends Controller
             if (bagisto_graphql()->guard($this->guard)->check()) {
                 $customer = bagisto_graphql()->guard($this->guard)->user();
                 $data['customer_id']    = $customer->id;
-                $data['name']    = $customer->first_name . ' ' . $customer->last_name;;
+                $data['name']    = $customer->name;
             }
     
             $data['status'] = 'pending';

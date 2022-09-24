@@ -1,5 +1,5 @@
 #Shop\Customer\Reviews Related APIs
-extend type Query @guard(with : ["api"]) {
+extend type Query {
     reviewsList(
         input: CustomerReviewInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\ReviewQuery@getReviews"),
         first: Int,
@@ -9,7 +9,7 @@ extend type Query @guard(with : ["api"]) {
     reviewDetail(id: ID @eq): Review @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
 }
 
-extend type Mutation @guard(with : ["api"]) {
+extend type Mutation {
     createReview(
         input: CreateReviewInput!
     ): CreateReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@store")
@@ -36,7 +36,6 @@ input CustomerReviewInput {
     order: String
     title: String
     rating: Int
-    customerId: Int @rename(attribute: "customer_id")
     customerName: String @rename(attribute: "customer_name")
     productName: String @rename(attribute: "product_name")
     productId: Int @rename(attribute: "product_id")
