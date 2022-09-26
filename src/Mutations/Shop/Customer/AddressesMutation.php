@@ -48,30 +48,30 @@ class AddressesMutation extends Controller
      */
     public function address($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        $id = $args['id'];
-        
-        if ( bagisto_graphql()->guard($this->guard)->check() ) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
-            $address = $this->customerAddressRepository->findOneWhere([
-                'id'            => $id,
-                'address_type'  => 'customer',
-                'customer_id'   => $customer->id,
-            ]);
-
-            if ( isset($address->id) && $address->id ) {
-
-                return $address;
-            } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address']));
-            }
-        } else {
+        if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
+        
+        $address = DB::table('addresses')
+        ->select('addresses.*')
+        ->addSelect('countries.name as country_name', 'country_states.default_name as state_name')
+        ->leftJoin('countries', 'addresses.country', '=', 'countries.code')
+        ->leftJoin('country_states', 'addresses.state', '=', 'country_states.code')
+        ->leftJoin('customers', 'addresses.customer_id', '=', 'customers.id')
+        ->where('addresses.address_type', 'customer')
+        ->where('addresses.id', $args['id'])
+        ->where('customers.id', bagisto_graphql()->guard($this->guard)->user()->id)
+        ->first();
+
+        if (empty($address)) {
+            throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address']));
+        }
+
+        return $address;
     }
 
     /**
@@ -82,31 +82,27 @@ class AddressesMutation extends Controller
      */
     public function addresses($rootValue, array $args , GraphQLContext $context)
     {        
-        if ( bagisto_graphql()->guard($this->guard)->check() ) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
-            $addresses = DB::table('addresses as ca')
-            ->select('ca.*')
-            ->leftJoin('countries', 'ca.country', '=', 'countries.code')
-            ->leftJoin('customers as c', 'ca.customer_id', '=', 'c.id')
-            ->addSelect(DB::raw('' . DB::getTablePrefix() . 'countries.name as country_name'))
-            ->where('c.id', $customer->id)->get();
-
-            // $addresses = $this->customerAddressRepository->findWhere([
-            //     'customer_id'   => $customer->id,
-            // ]);
-            
-            return [
-                'status'    => (count($addresses) > 0) ? true : false,
-                'addresses' => $addresses,
-                'message'   => (count($addresses) > 0) ? 'Success: Customer\'s addresses fetched successfully.' : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address'])
-            ];
-        } else {
+        if (! bagisto_graphql()->guard($this->guard)->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 'Customer Not Login.'
             );
         }
+        
+        $addresses = DB::table('addresses')
+        ->select('addresses.*')
+        ->addSelect('countries.name as country_name', 'country_states.default_name as state_name')
+        ->leftJoin('countries', 'addresses.country', '=', 'countries.code')
+        ->leftJoin('country_states', 'addresses.state', '=', 'country_states.code')
+        ->leftJoin('customers', 'addresses.customer_id', '=', 'customers.id')
+        ->where('addresses.address_type', 'customer')
+        ->where('customers.id', bagisto_graphql()->guard($this->guard)->user()->id)->get();
+        
+        return [
+            'status'    => (count($addresses) > 0) ? true : false,
+            'addresses' => $addresses,
+            'message'   => (count($addresses) > 0) ? 'Success: Customer\'s addresses fetched successfully.' : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address'])
+        ];
     }
 
     /**

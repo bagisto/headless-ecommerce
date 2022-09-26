@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "cb749b6b-7512-4203-a534-cc72aa7c8021",
+		"_postman_id": "0f55018f-c6d3-4d8b-a8ac-17d2197a0389",
 		"name": "Shop",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21542229"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -17,7 +16,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation customerRegister {\n    customerRegister(input: {\n        firstName: \"Kim\"\n        lastName: \"Thomson\"\n        email: \"kim@example.com\"\n    \tpassword: \"demo123\"\n    \tpasswordConfirmation: \"demo123\"\n    }) {\n        status\n        success\n    }\n}",
+								"query": "\nmutation customerRegister {\n    customerRegister(input: {\n        firstName: \"Vivek\"\n        lastName: \"Sharma\"\n        email: \"viveksh047@webkul.in\"\n    \tpassword: \"demo123\"\n    \tpasswordConfirmation: \"demo123\"\n    }) {\n        status\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -38,8 +37,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation customerLogin {\n    customerLogin(input: {\n        email: \"customer@customer.com\"\n    \tpassword: \"123456789\"\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
-								"variables": ""
+								"query": "\nmutation customerLogin($email: String!, $password: String!, $remember: Boolean) {\n    customerLogin(input: {\n        email: $email\n    \tpassword: $password\n        remember: $remember\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"variables": "{\n    \"email\": \"viveksh047@webkul.in\",\n    \"password\": \"demo123\",\n    \"remember\": true\n}"
 							}
 						},
 						"url": {
@@ -85,7 +84,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -108,18 +107,21 @@
 				{
 					"name": "Update Account Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateAccount {\n    updateAccount(input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"customer@customer.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"2019-10-30\"\n        phone: \"345789876\"\n        oldpassword: \"demo12345\"\n        password: \"123456789\"\n        passwordConfirmation: \"123456789\"\n    }) {\n        status\n        message\n        customer{\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"query": "mutation updateAccount {\n    updateAccount(input: {\n        firstName: \"Vivek\"\n        lastName: \"Sharma\"\n        email: \"viveksh047@webkul.in\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"2019-10-30\"\n        phone: \"345789876\"\n        oldpassword: \"demo12345\"\n        password: \"demo123\"\n        passwordConfirmation: \"demo123\"\n    }) {\n        status\n        message\n        customer{\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -139,7 +141,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -194,18 +196,21 @@
 				{
 					"name": "Get Addresses List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query addresses {\n    addresses {\n        status\n        message\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"query": "query addresses {\n    addresses {\n        status\n        message\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            countryName\n            country\n            stateName\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -224,18 +229,21 @@
 						"disabledSystemHeaders": {}
 					},
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query address {\n    address(id: 5) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "query address {\n    address(id: 46) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        countryName\n        country\n        stateName\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -251,6 +259,16 @@
 				{
 					"name": "Create New Address",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2Mjk4MTI3MywiZXhwIjoxNjk0NTE3MjczLCJuYmYiOjE2NjI5ODEyNzMsImp0aSI6IkoyQkdHTUtRY3NIZGJkQUQiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.BInduPB0PT1LbD0S1saZkLUA1lhkT--Yt4ho6z085pc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -278,6 +296,16 @@
 				{
 					"name": "Update Address",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2Mjk4MTE4OSwiZXhwIjoxNjk0NTE3MTg5LCJuYmYiOjE2NjI5ODExODksImp0aSI6IkFIb1R3Um5ZTTFXYlZ5Q2EiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.XFWn31xV6pSD-KI70SGCScCw_6LCiw1c9n1C1lCTl6E",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -289,7 +317,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateAddress {\n    updateAddress(id: 5, input: {\n        companyName: \"Velocity\"\n        firstName: \"Tom\"\n        lastName: \"Martin\"\n        address1: \"3180 Bluff Street\"\n        address2: \"\"\n        country: \"IN\"\n        state: \"UP\"\n        city: \"Noida\"\n        postcode: \"201301\"\n        phone: \"1234123455\"\n        vatId: \"INV12342278902\"\n    }) {\n       status\n       message\n       addresses {\n             id\n        customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n       }\n    }\n}",
+								"query": "mutation updateAddress {\n    updateAddress(id: 4, input: {\n        companyName: \"Test Company\"\n        firstName: \"Tom\"\n        lastName: \"Martin\"\n        address1: \"3180 Bluff Street\"\n        address2: \"\"\n        country: \"IN\"\n        state: \"UP\"\n        city: \"Noida\"\n        postcode: \"201301\"\n        phone: \"1234123455\"\n        vatId: \"INV12342278902\"\n    }) {\n       status\n       message\n       addresses {\n             id\n        customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n       }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -305,6 +333,16 @@
 				{
 					"name": "Remove Address",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjczMDAyNSwiZXhwIjoxNjk0MjY2MDI1LCJuYmYiOjE2NjI3MzAwMjUsImp0aSI6IlBMNDRRR1cwZ1JlZTdaY2QiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.dcC3mzMeWPqqsLTp2DDajo1ZDIjTJMjgM7g20QzzPYA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -329,6 +367,36 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcyOTY0NCwiZXhwIjoxNjk0MjY1NjQ0LCJuYmYiOjE2NjI3Mjk2NDQsImp0aSI6Im0zUDdwelJ5bE1ZMk41THAiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.1KLeAcLZ0pdTIaAAemqb2DXcAL_RD6PPG-xvbS38Bew",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -341,14 +409,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query ordersList {\n    ordersList(input: {\n        # page: 1\n        # limit: 10\n    }) {\n        data{\n            id\n        incrementId\n        status\n        channelName\n        isGuest\n        customerEmail\n        customerFirstName\n        customerLastName\n        customerCompanyName\n        customerVatId\n        shippingMethod\n        shippingTitle\n        shippingDescription\n        couponCode\n        isGift\n        totalItemCount\n        totalQtyOrdered\n        baseCurrencyCode\n        channelCurrencyCode\n        orderCurrencyCode\n        grandTotal\n        baseGrandTotal\n        grandTotalInvoiced\n        baseGrandTotalInvoiced\n        grandTotalRefunded\n        baseGrandTotalRefunded\n        subTotal\n        baseSubTotal\n        subTotalInvoiced\n        baseSubTotalInvoiced\n        subTotalRefunded\n        baseSubTotalRefunded\n        discountPercent\n        discountAmount\n        baseDiscountAmount\n        discountInvoiced\n        baseDiscountInvoiced\n        discountRefunded\n        baseDiscountRefunded\n        taxAmount\n        baseTaxAmount\n        taxAmountInvoiced\n        baseTaxAmountInvoiced\n        taxAmountRefunded\n        baseTaxAmountRefunded\n        shippingAmount\n        baseShippingAmount\n        shippingInvoiced\n        baseShippingInvoiced\n        shippingRefunded\n        baseShippingRefunded\n        customerId\n        customerType\n        channelId\n        channelType\n        cartId\n        appliedCartRuleIds\n        shippingDiscountAmount\n        baseShippingDiscountAmount\n        createdAt\n        updatedAt\n        billingAddress {\n            id\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address1\n            address2\n            postcode\n            city\n            state\n            country\n            email\n            phone\n            vatId\n            defaultAddress\n        }\n        shippingAddress {\n            id\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address1\n            address2\n            postcode\n            city\n            state\n            country\n            email\n            phone\n            vatId\n            defaultAddress\n        }\n        items {\n            id\n            sku\n            type\n            name\n            couponCode\n            weight\n            totalWeight\n            qtyOrdered\n            qtyShipped\n            qtyInvoiced\n            qtyCanceled\n            qtyRefunded\n            price\n            basePrice\n            total\n            baseTotal\n            totalInvoiced\n            baseTotalInvoiced\n            amountRefunded\n            baseAmountRefunded\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            discountInvoiced\n            baseDiscountInvoiced\n            discountRefunded\n            baseDiscountRefunded\n            taxPercent\n            taxAmount\n            baseTaxAmount\n            taxAmountInvoiced\n            baseTaxAmountInvoiced\n            taxAmountRefunded\n            baseTaxAmountRefunded\n            productId\n            productType\n            orderId\n            parentId\n            additional\n            createdAt\n            updatedAt\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                createdAt\n                updatedAt\n            }\n            child {\n                id\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                qtyOrdered\n                qtyShipped\n                qtyInvoiced\n                qtyCanceled\n                qtyRefunded\n                price\n                basePrice\n                total\n                baseTotal\n                totalInvoiced\n                baseTotalInvoiced\n            }\n            invoiceItems {\n                id\n                sku\n                type\n                name\n                description\n                qty\n                price\n                basePrice\n                total\n                baseTotal\n                taxAmount\n                baseTaxAmount\n                productId\n                productType\n                orderItemId\n                invoiceId\n                parentId\n            }\n            shipmentItems {\n                id\n                name\n                description\n                sku\n                qty\n                weight\n                price\n                basePrice\n                total\n                baseTotal\n                productId\n                productType\n                orderItemId\n                shipmentId\n            }\n            refundItems {\n                id\n                name\n                description\n                sku\n                qty\n                price\n                basePrice\n                total\n                baseTotal\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                productId\n                productType\n                orderItemId\n                refundId\n                parentId\n            }\n        }\n        shipments {\n            id\n            status\n            totalQty\n            totalWeight\n            carrierCode\n            carrierTitle\n            trackNumber\n            emailSent\n            customerId\n            customerType\n            orderId\n            orderAddressId\n            createdAt\n            updatedAt\n        }\n    }\n        }\n        \n}",
+								"query": "query ordersList {\n    ordersList(\n        input: {},\n        first: 10,\n        page: 1,\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            incrementId\n            status\n            channelName\n            isGuest\n            customerEmail\n            customerFirstName\n            customerLastName\n            customerCompanyName\n            customerVatId\n            shippingMethod\n            shippingTitle\n            shippingDescription\n            couponCode\n            isGift\n            totalItemCount\n            totalQtyOrdered\n            baseCurrencyCode\n            channelCurrencyCode\n            orderCurrencyCode\n            grandTotal\n            baseGrandTotal\n            grandTotalInvoiced\n            baseGrandTotalInvoiced\n            grandTotalRefunded\n            baseGrandTotalRefunded\n            subTotal\n            baseSubTotal\n            subTotalInvoiced\n            baseSubTotalInvoiced\n            subTotalRefunded\n            baseSubTotalRefunded\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            discountInvoiced\n            baseDiscountInvoiced\n            discountRefunded\n            baseDiscountRefunded\n            taxAmount\n            baseTaxAmount\n            taxAmountInvoiced\n            baseTaxAmountInvoiced\n            taxAmountRefunded\n            baseTaxAmountRefunded\n            shippingAmount\n            baseShippingAmount\n            shippingInvoiced\n            baseShippingInvoiced\n            shippingRefunded\n            baseShippingRefunded\n            customerId\n            customerType\n            channelId\n            channelType\n            cartId\n            appliedCartRuleIds\n            shippingDiscountAmount\n            baseShippingDiscountAmount\n            createdAt\n            updatedAt\n            billingAddress {\n                id\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                vatId\n                defaultAddress\n            }\n            shippingAddress {\n                id\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                vatId\n                defaultAddress\n            }\n            items {\n                id\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                qtyOrdered\n                qtyShipped\n                qtyInvoiced\n                qtyCanceled\n                qtyRefunded\n                price\n                basePrice\n                total\n                baseTotal\n                totalInvoiced\n                baseTotalInvoiced\n                amountRefunded\n                baseAmountRefunded\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                discountInvoiced\n                baseDiscountInvoiced\n                discountRefunded\n                baseDiscountRefunded\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                taxAmountInvoiced\n                baseTaxAmountInvoiced\n                taxAmountRefunded\n                baseTaxAmountRefunded\n                productId\n                productType\n                orderId\n                parentId\n                additional\n                createdAt\n                updatedAt\n                product {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                    createdAt\n                    updatedAt\n                }\n                child {\n                    id\n                    sku\n                    type\n                    name\n                    couponCode\n                    weight\n                    totalWeight\n                    qtyOrdered\n                    qtyShipped\n                    qtyInvoiced\n                    qtyCanceled\n                    qtyRefunded\n                    price\n                    basePrice\n                    total\n                    baseTotal\n                    totalInvoiced\n                    baseTotalInvoiced\n                }\n                invoiceItems {\n                    id\n                    sku\n                    type\n                    name\n                    description\n                    qty\n                    price\n                    basePrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    productId\n                    productType\n                    orderItemId\n                    invoiceId\n                    parentId\n                }\n                shipmentItems {\n                    id\n                    name\n                    description\n                    sku\n                    qty\n                    weight\n                    price\n                    basePrice\n                    total\n                    baseTotal\n                    productId\n                    productType\n                    orderItemId\n                    shipmentId\n                }\n                refundItems {\n                    id\n                    name\n                    description\n                    sku\n                    qty\n                    price\n                    basePrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountPercent\n                    discountAmount\n                    baseDiscountAmount\n                    productId\n                    productType\n                    orderItemId\n                    refundId\n                    parentId\n                }\n            }\n            shipments {\n                id\n                status\n                totalQty\n                totalWeight\n                carrierCode\n                carrierTitle\n                trackNumber\n                emailSent\n                customerId\n                customerType\n                orderId\n                orderAddressId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -566,18 +634,21 @@
 				{
 					"name": "Get Customer's Review List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query reviewsList {\n    reviewsList(input: {\n        # page: 1\n        # limit: 10\n        # id: 3\n        # title: \"Why do we use it?\"\n        # rating: 3\n        # customerName: \"Anna Gole\"\n        # productName: \"e-book\"\n        # productId: 9\n        # status: \"approved\"\n    }) {\n       data{ id\n        title\n        rating\n        comment\n        status\n        createdAt\n        updatedAt\n        productId\n        customerId\n        customerName\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            createdAt\n            updatedAt\n            productFlats {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n                color\n                colorLabel\n                size\n                sizeLabel\n                locale\n                channel\n                productId\n                parentId\n                minPrice\n                maxPrice\n                metaTitle\n                metaKeywords\n                metaDescription\n                width\n                height\n                depth\n                createdAt\n                updatedAt\n            }\n        }\n       }\n    }\n}",
+								"query": "query reviewsList {\n    reviewsList(input: {\n        # page: 1\n        # limit: 10\n        # id: 3\n        # title: \"Why do we use it?\"\n        # rating: 3\n        # customerName: \"Anna Gole\"\n        # productName: \"e-book\"\n        productId: 23\n        # status: \"approved\"\n    }) {\n        data{\n           id\n            title\n            rating\n            comment\n            status\n            createdAt\n            updatedAt\n            productId\n            customerId\n            customerName\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                createdAt\n                updatedAt\n                productFlats {\n                    id\n                    sku\n                    name\n                    description\n                    shortDescription\n                    urlKey\n                    new\n                    featured\n                    status\n                    visibleIndividually\n                    thumbnail\n                    price\n                    cost\n                    specialPrice\n                    specialPriceFrom\n                    specialPriceTo\n                    weight\n                    color\n                    colorLabel\n                    size\n                    sizeLabel\n                    locale\n                    channel\n                    productId\n                    parentId\n                    minPrice\n                    maxPrice\n                    metaTitle\n                    metaKeywords\n                    metaDescription\n                    width\n                    height\n                    depth\n                    createdAt\n                    updatedAt\n                }\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -597,14 +668,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query reviewDetail {\n    reviewDetail(id: 1) {\n        id\n        title\n        rating\n        comment\n        status\n        createdAt\n        updatedAt\n        productId\n        customerId\n        customerName\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            createdAt\n            updatedAt\n            productFlats {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n                color\n                colorLabel\n                size\n                sizeLabel\n                locale\n                channel\n                productId\n                parentId\n                minPrice\n                maxPrice\n                metaTitle\n                metaKeywords\n                metaDescription\n                width\n                height\n                depth\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+								"query": "query reviewDetail {\n    reviewDetail(id: 2) {\n        id\n        title\n        rating\n        comment\n        status\n        createdAt\n        updatedAt\n        productId\n        customerId\n        customerName\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            createdAt\n            updatedAt\n            productFlats {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n                color\n                colorLabel\n                size\n                sizeLabel\n                locale\n                channel\n                productId\n                parentId\n                minPrice\n                maxPrice\n                metaTitle\n                metaKeywords\n                metaDescription\n                width\n                height\n                depth\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -624,14 +695,14 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createReview {\n    createReview(input: {\n        name: \"Ruby J So\"\n        title: \"Where does it come from?\"\n        rating: 4\n        comment: \"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.\"\n        productId: 1\n    }) {\n        success\n        review {\n            id\n            title\n            rating\n            comment\n            status\n            createdAt\n            updatedAt\n            productId\n            customerId\n            customerName\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                createdAt\n                updatedAt\n                productFlats {\n                    id\n                    sku\n                    name\n                    description\n                    shortDescription\n                    urlKey\n                    new\n                    featured\n                    status\n                    visibleIndividually\n                    thumbnail\n                    price\n                    cost\n                    specialPrice\n                    specialPriceFrom\n                    specialPriceTo\n                    weight\n                    color\n                    colorLabel\n                    size\n                    sizeLabel\n                    locale\n                    channel\n                    productId\n                    parentId\n                    minPrice\n                    maxPrice\n                    metaTitle\n                    metaKeywords\n                    metaDescription\n                    width\n                    height\n                    depth\n                    createdAt\n                    updatedAt\n                }\n            }\n        }\n    }\n}",
+								"query": "mutation createReview {\n    createReview(input: {\n        name: \"Ruby J So\"\n        title: \"Where does it come from?\"\n        rating: 4\n        comment: \"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.\"\n        productId: 22\n    }) {\n        success\n        review {\n            id\n            title\n            rating\n            comment\n            status\n            createdAt\n            updatedAt\n            productId\n            customerId\n            customerName\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                createdAt\n                updatedAt\n                productFlats {\n                    id\n                    sku\n                    name\n                    description\n                    shortDescription\n                    urlKey\n                    new\n                    featured\n                    status\n                    visibleIndividually\n                    thumbnail\n                    price\n                    cost\n                    specialPrice\n                    specialPriceFrom\n                    specialPriceTo\n                    weight\n                    color\n                    colorLabel\n                    size\n                    sizeLabel\n                    locale\n                    channel\n                    productId\n                    parentId\n                    minPrice\n                    maxPrice\n                    metaTitle\n                    metaKeywords\n                    metaDescription\n                    width\n                    height\n                    depth\n                    createdAt\n                    updatedAt\n                }\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -652,6 +723,16 @@
 				{
 					"name": "Get Wishlist List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcyODYyOSwiZXhwIjoxNjk0MjY0NjI5LCJuYmYiOjE2NjI3Mjg2MjksImp0aSI6Ilc1amRkY2hrUGpBTDZBMFYiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.MltV-aJ_nfHYjCnljY8GbSWR2bTIIHM88KtFw_pdhFA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -679,6 +760,16 @@
 				{
 					"name": "Get Wishlist Detail",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcyNTY4MCwiZXhwIjoxNjk0MjYxNjgwLCJuYmYiOjE2NjI3MjU2ODAsImp0aSI6IlZjMjVOb0VQVXRoV0FaYVkiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.xyIB_tNA0_wlYoxwLDBHID3BbPB97Jb4STsPwp21LIA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -690,7 +781,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query wishlist {\n    wishlist(id: 8) {\n        id\n        channelId\n        productId\n        customerId\n        itemOptions\n        additional\n        movedToCart\n        shared\n        timeOfMoving\n        createdAt\n        updatedAt\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            createdAt\n            updatedAt\n        }\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            defaultLocale\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n            success\n        }\n    }\n}",
+								"query": "query wishlist {\n    wishlist(id: 6) {\n        id\n        channelId\n        productId\n        customerId\n        itemOptions\n        additional\n        movedToCart\n        shared\n        timeOfMoving\n        createdAt\n        updatedAt\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            createdAt\n            updatedAt\n        }\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            defaultLocale\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n            success\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -810,6 +901,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcxMTU0OSwiZXhwIjoxNjk0MjQ3NTQ5LCJuYmYiOjE2NjI3MTE1NDksImp0aSI6IjA5cnRDVVBIM0FyWE1UTTUiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.PMzGtnzqA_hRyzX_Bna2Gbu036k3PZHGRE0vWoDS_WY",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -1399,6 +1520,121 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "New Product List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query newProducts {\n\tnewProducts(count: 10) {\n        id\n        type\n        attributeFamilyId\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            productNumber\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            url\n            productId\n        }\n        videos {\n            id\n            type\n            path\n            url\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        # booking {\n        #     id\n        #     type\n        #     qty\n        #     location\n        #     showLocation\n        #     availableEveryWeek\n        #     availableFrom\n        #     availableTo\n        #     productId\n        #     defaultSlot {\n        #         id\n        #         bookingType\n        #         duration\n        #         breakTime\n        #         slots {\n        #             to\n        #             toDay\n        #             from\n        #             fromDay\n        #         }\n        #         bookingProductId\n        #     }\n        #     appointmentSlot {\n        #         id\n        #         duration\n        #         breakTime\n        #         sameSlotAllDays\n        #         slots {\n        #             from\n        #             to\n        #         }\n        #         bookingProductId\n        #     }\n        # }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Featured Product List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query featuredProducts {\n\tfeaturedProducts(count: 10) {\n        id\n        type\n        isInWishlist\n        attributeFamilyId\n        additionalData {\n            id\n            code\n            label\n            value\n            admin_name\n            type\n        }\n        priceHtml {\n            id\n            type\n            html\n            regular\n            special\n        }\n        sku\n        parentId\n        productFlats {\n            id\n            sku\n            productNumber\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            variants {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                locale\n                channel\n                productId\n                parentId\n            }\n            parent {\n                id\n                sku\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n            }\n            createdAt\n            updatedAt\n        }\n        variants {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        parent {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n        }\n        attributeFamily {\n            id\n            code\n            name\n            status\n            isUserDefined\n        }\n        attributeValues {\n            id\n            productId\n            attributeId\n            locale\n            channel\n            textValue\n            booleanValue\n            integerValue\n            floatValue\n            dateTimeValue\n            dateValue\n            jsonValue\n            attribute {\n                id\n                code\n                adminName\n                type\n            }\n        }\n        superAttributes {\n            id\n            code\n            adminName\n            type\n            position\n        }\n        categories {\n            id\n            name\n            description\n            slug\n            urlPath\n            imageUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n            filterableAttributes {\n                id\n                adminName\n                code\n                type\n                position\n            }\n            translations {\n                id\n                name\n                description\n                localeId\n                locale\n            }\n            createdAt\n            updatedAt\n        }\n        inventories {\n            id\n            qty\n            productId\n            inventorySourceId\n            vendorId\n            inventorySource {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n        }\n        images {\n            id\n            type\n            path\n            url\n            productId\n        }\n        videos {\n            id\n            type\n            path\n            url\n            productId\n        }\n        orderedInventories {\n            id\n            qty\n            productId\n            channelId\n        }\n        reviews {\n            id\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            customerName\n            createdAt\n            updatedAt\n        }\n        groupedProducts {\n            id\n            qty\n            sortOrder\n            productId\n            associatedProductId\n            associatedProduct {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        downloadableSamples {\n            id\n            url\n            file\n            fileName\n            type\n            sortOrder\n            productId\n            createdAt\n            updatedAt\n            translations {\n                id\n                locale\n                title\n                productDownloadableSampleId\n            }\n        }\n        downloadableLinks {\n            id\n            title\n            price\n            url\n            file\n            fileName\n            type\n            sampleUrl\n            sampleFile\n            sampleFileName\n            sampleType\n            sortOrder\n            productId\n            downloads\n            translations {\n                id\n                locale\n                title\n                productDownloadableLinkId\n            }\n        }\n        bundleOptions {\n            id\n            type\n            isRequired\n            sortOrder\n            productId\n            bundleOptionProducts {\n                id\n                qty\n                isUserDefined\n                sortOrder\n                isDefault\n                productBundleOptionId\n                productId\n            }\n            translations {\n                id\n                locale\n                label\n                productBundleOptionId\n            }\n        }\n        customerGroupPrices {\n            id\n            qty\n            valueType\n            value\n            productId\n            customerGroupId\n            createdAt\n            updatedAt\n        }\n        # booking {\n        #     id\n        #     type\n        #     qty\n        #     location\n        #     showLocation\n        #     availableEveryWeek\n        #     availableFrom\n        #     availableTo\n        #     productId\n        #     defaultSlot {\n        #         id\n        #         bookingType\n        #         duration\n        #         breakTime\n        #         slots {\n        #             to\n        #             toDay\n        #             from\n        #             fromDay\n        #         }\n        #         bookingProductId\n        #     }\n        #     appointmentSlot {\n        #         id\n        #         duration\n        #         breakTime\n        #         sameSlotAllDays\n        #         slots {\n        #             from\n        #             to\n        #         }\n        #         bookingProductId\n        #     }\n        # }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category Tree",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query homeCategories ($categoryId: Int, $categorySlug: String) {\n    homeCategories(categoryId: $categoryId, categorySlug: $categorySlug) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        productCount\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        children {\n            id\n            name\n            description\n            slug\n            children {\n                id\n                name\n                description\n                slug\n            }\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"variables": "{\n    \"categorySlug\": \"root\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get Product Listing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getProductListing {\n\tgetProductListing(\n        input: {\n            # categorySlug: \"women\",\n            # search: \"si\",\n            # price: \"200,500\",\n            # color: \"1\",\n            # brand: \"61\",\n            order: \"asc\",\n            sort: \"name\",\n        },\n        first: 10,\n        page: 1,\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            type\n            attributeFamilyId\n            additionalData {\n                id\n                code\n                label\n                value\n                admin_name\n                type\n            }\n            priceHtml {\n                id\n                type\n                html\n                regular\n                special\n            }\n            sku\n            parentId\n            productFlats {\n                id\n                sku\n                productNumber\n                name\n                description\n                shortDescription\n                urlKey\n                new\n                featured\n                status\n                visibleIndividually\n                thumbnail\n                price\n                cost\n                specialPrice\n                specialPriceFrom\n                specialPriceTo\n                weight\n                color\n                colorLabel\n                size\n                sizeLabel\n                locale\n                channel\n                productId\n                parentId\n                minPrice\n                maxPrice\n                metaTitle\n                metaKeywords\n                metaDescription\n                width\n                height\n                depth\n                variants {\n                    id\n                    sku\n                    name\n                    description\n                    shortDescription\n                    urlKey\n                    new\n                    featured\n                    status\n                    visibleIndividually\n                    thumbnail\n                    price\n                    locale\n                    channel\n                    productId\n                    parentId\n                }\n                parent {\n                    id\n                    sku\n                    name\n                    description\n                    shortDescription\n                    urlKey\n                    new\n                    featured\n                    status\n                    visibleIndividually\n                    thumbnail\n                    price\n                    cost\n                    specialPrice\n                    specialPriceFrom\n                    specialPriceTo\n                    weight\n                }\n                createdAt\n                updatedAt\n            }\n            variants {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n            parent {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n            attributeFamily {\n                id\n                code\n                name\n                status\n                isUserDefined\n            }\n            attributeValues {\n                id\n                productId\n                attributeId\n                locale\n                channel\n                textValue\n                booleanValue\n                integerValue\n                floatValue\n                dateTimeValue\n                dateValue\n                jsonValue\n                attribute {\n                    id\n                    code\n                    adminName\n                    type\n                }\n            }\n            superAttributes {\n                id\n                code\n                adminName\n                type\n                position\n            }\n            categories {\n                id\n                name\n                description\n                slug\n                urlPath\n                imageUrl\n                metaTitle\n                metaDescription\n                metaKeywords\n                position\n                status\n                displayMode\n                parentId\n                filterableAttributes {\n                    id\n                    adminName\n                    code\n                    type\n                    position\n                }\n                translations {\n                    id\n                    name\n                    description\n                    localeId\n                    locale\n                }\n                createdAt\n                updatedAt\n            }\n            inventories {\n                id\n                qty\n                productId\n                inventorySourceId\n                vendorId\n                inventorySource {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n            }\n            cacheBaseImage {\n                smallImageUrl\n                mediumImageUrl\n                largeImageUrl\n                originalImageUrl\n            }\n            cacheGalleryImages {\n                smallImageUrl\n                mediumImageUrl\n                largeImageUrl\n                originalImageUrl\n            }\n            images {\n                id\n                type\n                path\n                url\n                productId\n            }\n            videos {\n                id\n                type\n                path\n                url\n                productId\n            }\n            orderedInventories {\n                id\n                qty\n                productId\n                channelId\n            }\n            reviews {\n                id\n                title\n                rating\n                comment\n                status\n                productId\n                customerId\n                customerName\n                createdAt\n                updatedAt\n            }\n            groupedProducts {\n                id\n                qty\n                sortOrder\n                productId\n                associatedProductId\n                associatedProduct {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            downloadableSamples {\n                id\n                url\n                file\n                fileName\n                type\n                sortOrder\n                productId\n                createdAt\n                updatedAt\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableSampleId\n                }\n            }\n            downloadableLinks {\n                id\n                title\n                price\n                url\n                file\n                fileName\n                type\n                sampleUrl\n                sampleFile\n                sampleFileName\n                sampleType\n                sortOrder\n                productId\n                downloads\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableLinkId\n                }\n            }\n            bundleOptions {\n                id\n                type\n                isRequired\n                sortOrder\n                productId\n                bundleOptionProducts {\n                    id\n                    qty\n                    isUserDefined\n                    sortOrder\n                    isDefault\n                    productBundleOptionId\n                    productId\n                }\n                translations {\n                    id\n                    locale\n                    label\n                    productBundleOptionId\n                }\n            }\n            customerGroupPrices {\n                id\n                qty\n                valueType\n                value\n                productId\n                customerGroupId\n                createdAt\n                updatedAt\n            }\n            booking {\n                id\n                type\n                qty\n                location\n                showLocation\n                availableEveryWeek\n                availableFrom\n                availableTo\n                productId\n                defaultSlot {\n                    id\n                    bookingType\n                    duration\n                    breakTime\n                    slots {\n                        to\n                        toDay\n                        from\n                        fromDay\n                    }\n                    bookingProductId\n                }\n                appointmentSlot {\n                    id\n                    duration\n                    breakTime\n                    sameSlotAllDays\n                    slots {\n                        from\n                        to\n                    }\n                    bookingProductId\n                }\n            }\n            relatedProducts {\n                id\n                sku\n                attributeFamilyId\n                parentId\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Slider Detail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query slider {\n    slider(id: 1) {\n        id\n        title\n        path\n        content\n        channelId\n        locale\n        sliderPath\n        imgPath\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

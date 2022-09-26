@@ -81,8 +81,6 @@ class ReviewMutation extends Controller
     
             if (! empty($params['customer_id'])) {
                 $qb->where('product_reviews.customer_id', $params['customer_id']);
-            } else {
-                $qb->whereNull('product_reviews.customer_id');
             }
 
             if (! empty($params['customer_name'])) {

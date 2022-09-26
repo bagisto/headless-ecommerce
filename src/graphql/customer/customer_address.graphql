@@ -64,7 +64,9 @@ type CustomerAddress {
     address1: String!
     address2: String
     country: String!
+    countryName: String! @rename(attribute: "country_name")
     state: String!
+    stateName: String! @rename(attribute: "state_name")
     city: String!
     postcode: String!
     phone: String!

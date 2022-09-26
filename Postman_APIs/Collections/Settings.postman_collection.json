@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "9515b4e0-b8a9-4140-a4a3-284c5392ffb2",
+		"_postman_id": "aae6cd45-4d7d-409b-918c-7ff8ba24484b",
 		"name": "Settings",
 		"description": "This will contain all the admin section APIs which comes under Settings menu. ",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21542229"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -45,7 +44,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -185,7 +184,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -514,11 +513,14 @@
 				{
 					"name": "Get All Currencies",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1447,17 +1449,20 @@
 			"description": "Core Config"
 		},
 		{
-			"name": "Contories",
+			"name": "Countries",
 			"item": [
 				{
 					"name": "Get All Country List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query countries {\n    countries {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            translations {\n                id\n                locale\n                name\n                countryId\n            }\n            states {\n                id\n                countryCode\n                code\n                defaultName\n                countryId\n                translations {\n                    id\n                    locale\n                    defaultName\n                    countryStateId\n                }\n            }\n        }\n    }\n}",
+								"query": "query countries {\n    countries {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1499,7 +1504,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query countrieStates {\n    countrieStates {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
+								"query": "query countrieStates {\n    countrieStates(input: {\n        # countryCode: \"US\"\n        # countryId: \"244\"\n        # id: 65\n        # code: \"WY\"\n        # defaultName: \"Wyoming\"\n    }) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1624,6 +1629,13 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation updateSlider {\n    updateSlider(id: 28,input: {\n        title: \"fdasasf\"\n        channelId: 1\n        expiredAt: \"2022-08-31\"\n        locale: \"ar,arb,nl,en,fr\"\n        image:\n            \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    \n        sortOrder: 1\n        content: \"fasdfasfas\"\n        sliderPath: \"fdasfasfasf\"\n    }){\n        id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n    }\n}",
+								"variables": ""
+							}
+						},
 						"url": {
 							"raw": "{{url}}",
 							"host": [
@@ -1661,6 +1673,26 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
