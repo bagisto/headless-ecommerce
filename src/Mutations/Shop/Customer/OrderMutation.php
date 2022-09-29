@@ -49,17 +49,15 @@ class OrderMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        $id = $args['id'];
-
         if (bagisto_graphql()->guard($this->guard)->check()) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
             $order = $this->orderRepository->findOneWhere([
-                'id'            => $id,
+                'id'            => $args['id'],
                 'customer_id'   => $customer->id,
             ]);
 
-            if (isset($order->id) && $order->id) {
+            if (! empty($order->id)) {
                 return $order;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.no-order-found'));

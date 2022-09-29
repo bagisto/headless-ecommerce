@@ -5,6 +5,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\Paginator;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Velocity\Repositories\VelocityCustomerCompareProductRepository as CompareProductsRepository;
@@ -44,7 +45,10 @@ class CompareMutation extends Controller
     public function compareProducts($rootValue, array $args, GraphQLContext $context)
     {
         if (! bagisto_graphql()->guard($this->guard)->check()) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Invalid request header parameter.'
+            );
         }
 
         try {
@@ -70,19 +74,19 @@ class CompareMutation extends Controller
                     ->where('product_flat.locale', $locale)
                     ->where('velocity_customer_compare_products.customer_id', $customer->id);
 
-                if (isset($params['id']) && $params['id']) {
+                if (! empty($params['id'])) {
                     $qb->where('velocity_customer_compare_products.id', $params['id']);
                 }
 
-                if (isset($params['product_flat_id']) && $params['product_flat_id']) {
+                if (! empty($params['product_flat_id'])) {
                     $qb->where('velocity_customer_compare_products.product_flat_id', $params['product_flat_id']);
                 }
 
-                if (isset($params['product_name']) && $params['product_name']) {
+                if (! empty($params['product_name'])) {
                     $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
                 }
 
-                if (isset($params['price']) && $params['price']) {
+                if (! empty($params['price'])) {
                     $qb->where([
                         ['product_flat.min_price', '>=', core()->convertToBasePrice($params['price'])],
                         ['product_flat.min_price', '<=', core()->convertToBasePrice($params['price'])]
@@ -91,8 +95,8 @@ class CompareMutation extends Controller
 
                 return $qb;
             });
-
-            if (isset($args['id'])) {
+            
+            if (! empty($args['id'])) {
                 $compareProducts = $compareProducts->first();
             } else {
                 $compareProducts = $compareProducts->paginate(isset($params['limit']) ? $params['limit'] : 10);
@@ -100,8 +104,6 @@ class CompareMutation extends Controller
 
             if (($compareProducts && isset($compareProducts->first()->id)) || isset($compareProducts->id)) {
                 return $compareProducts;
-            } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Compare Product']));
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
