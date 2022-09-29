@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2d4f784b-0436-4939-8d26-25cb1b550155",
+		"_postman_id": "3710807b-add3-4fc8-ac78-df3ae756f64d",
 		"name": "Velocity",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,11 +8,14 @@
 		{
 			"name": "Get Velocity Header Content List",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{url}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -35,11 +38,14 @@
 		{
 			"name": "Get Velocity Header Content Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -62,11 +68,14 @@
 		{
 			"name": "Create Header Content",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -89,11 +98,14 @@
 		{
 			"name": "Update Header Content Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -116,11 +128,14 @@
 		{
 			"name": "Remove Header Content",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -143,11 +158,14 @@
 		{
 			"name": "Get Velocity MetaData List",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -170,11 +188,14 @@
 		{
 			"name": "Get Velocity Meta Data Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -197,11 +218,14 @@
 		{
 			"name": "Update Meta Data Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{auth_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],

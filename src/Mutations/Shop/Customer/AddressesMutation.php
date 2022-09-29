@@ -57,15 +57,17 @@ class AddressesMutation extends Controller
         }
         
         $address = DB::table('addresses')
-        ->select('addresses.*')
-        ->addSelect('countries.name as country_name', 'country_states.default_name as state_name')
-        ->leftJoin('countries', 'addresses.country', '=', 'countries.code')
-        ->leftJoin('country_states', 'addresses.state', '=', 'country_states.code')
-        ->leftJoin('customers', 'addresses.customer_id', '=', 'customers.id')
-        ->where('addresses.address_type', 'customer')
-        ->where('addresses.id', $args['id'])
-        ->where('customers.id', bagisto_graphql()->guard($this->guard)->user()->id)
-        ->first();
+            ->distinct()
+            ->select('addresses.*')
+            ->addSelect('countries.name as country_name', 'country_states.default_name as state_name')
+            ->leftJoin('countries', 'addresses.country', '=', 'countries.code')
+            ->leftJoin('country_states', 'addresses.state', '=', 'country_states.code')
+            ->leftJoin('customers', 'addresses.customer_id', '=', 'customers.id')
+            ->where('addresses.address_type', 'customer')
+            ->where('addresses.id', $args['id'])
+            ->where('customers.id', bagisto_graphql()->guard($this->guard)->user()->id)
+            ->groupBy('addresses.id')
+            ->first();
 
         if (empty($address)) {
             throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Address']));
@@ -90,14 +92,17 @@ class AddressesMutation extends Controller
         }
         
         $addresses = DB::table('addresses')
-        ->select('addresses.*')
-        ->addSelect('countries.name as country_name', 'country_states.default_name as state_name')
-        ->leftJoin('countries', 'addresses.country', '=', 'countries.code')
-        ->leftJoin('country_states', 'addresses.state', '=', 'country_states.code')
-        ->leftJoin('customers', 'addresses.customer_id', '=', 'customers.id')
-        ->where('addresses.address_type', 'customer')
-        ->where('customers.id', bagisto_graphql()->guard($this->guard)->user()->id)->get();
-        
+            ->distinct()
+            ->select('addresses.*')
+            ->addSelect('countries.name as country_name', 'country_states.default_name as state_name')
+            ->leftJoin('countries', 'addresses.country', '=', 'countries.code')
+            ->leftJoin('country_states', 'addresses.state', '=', 'country_states.code')
+            ->leftJoin('customers', 'addresses.customer_id', '=', 'customers.id')
+            ->where('addresses.address_type', 'customer')
+            ->where('customers.id', bagisto_graphql()->guard($this->guard)->user()->id)
+            ->groupBy('addresses.id')
+            ->get();
+            
         return [
             'status'    => (count($addresses) > 0) ? true : false,
             'addresses' => $addresses,

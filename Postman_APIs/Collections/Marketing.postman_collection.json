@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "c7443446-9137-4b00-b717-a8486f65353f",
+		"_postman_id": "418b72ea-2fa0-4d9d-8d1f-3bd894970256",
 		"name": "Marketing",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21542229"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -12,11 +11,14 @@
 				{
 					"name": "Get All Email Templates",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -39,11 +41,14 @@
 				{
 					"name": "Get Email Template Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -66,11 +71,14 @@
 				{
 					"name": "Create Email Template",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -93,11 +101,14 @@
 				{
 					"name": "Update Email Template",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -120,11 +131,14 @@
 				{
 					"name": "Remove Email Template",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -144,6 +158,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -152,11 +189,14 @@
 				{
 					"name": "Get All Events",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -179,11 +219,14 @@
 				{
 					"name": "Get Event Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -206,11 +249,14 @@
 				{
 					"name": "Create Event",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -233,11 +279,14 @@
 				{
 					"name": "Update Event",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -260,11 +309,14 @@
 				{
 					"name": "Remove Event",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -284,6 +336,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -292,11 +367,14 @@
 				{
 					"name": "Get All Campaign",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -319,11 +397,14 @@
 				{
 					"name": "Get Campaign Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -346,11 +427,14 @@
 				{
 					"name": "Create Campaign",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -373,11 +457,14 @@
 				{
 					"name": "Update Campaign",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -400,11 +487,14 @@
 				{
 					"name": "Remove Campaign",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -424,6 +514,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -432,11 +545,14 @@
 				{
 					"name": "Get All SiteMaps",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -459,11 +575,14 @@
 				{
 					"name": "Get SiteMap Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -486,11 +605,14 @@
 				{
 					"name": "Create SiteMap",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -513,11 +635,14 @@
 				{
 					"name": "Update SiteMap",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -540,11 +665,14 @@
 				{
 					"name": "Remove SiteMap",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -563,6 +691,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

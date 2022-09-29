@@ -12,11 +12,14 @@
 				{
 					"name": "Get All Users",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -40,6 +43,9 @@
 				{
 					"name": "Get User Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -68,11 +74,14 @@
 				{
 					"name": "Create New User",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -96,11 +105,14 @@
 				{
 					"name": "Update User",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -124,11 +136,14 @@
 				{
 					"name": "Remove User",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -152,6 +167,9 @@
 				{
 					"name": "User Login",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -180,6 +198,9 @@
 				{
 					"name": "User Logout",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -206,7 +227,30 @@
 					"response": []
 				}
 			],
-			"description": "Admin User"
+			"description": "Admin User",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Roles",
@@ -214,11 +258,14 @@
 				{
 					"name": "Get All Roles",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -242,11 +289,14 @@
 				{
 					"name": "Get Role Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -270,11 +320,14 @@
 				{
 					"name": "Create New Role",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -298,11 +351,14 @@
 				{
 					"name": "Update Role",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -326,11 +382,14 @@
 				{
 					"name": "Remove Role",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -360,11 +419,14 @@
 				{
 					"name": "Get All Locales",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -388,11 +450,14 @@
 				{
 					"name": "Get Locale Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -416,11 +481,14 @@
 				{
 					"name": "Create Locale",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -451,11 +519,14 @@
 				{
 					"name": "Update Locale Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -479,11 +550,14 @@
 				{
 					"name": "Remove Locale",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -505,7 +579,30 @@
 					"response": []
 				}
 			],
-			"description": "Admin Locales"
+			"description": "Admin Locales",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Currencies",
@@ -544,11 +641,14 @@
 				{
 					"name": "Get Currency Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -572,11 +672,14 @@
 				{
 					"name": "Create Currency",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -600,11 +703,14 @@
 				{
 					"name": "Update Currency",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -628,11 +734,14 @@
 				{
 					"name": "Remove Currency",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -654,7 +763,30 @@
 					"response": []
 				}
 			],
-			"description": "Currencies"
+			"description": "Currencies",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Exchange Rates",
@@ -662,11 +794,14 @@
 				{
 					"name": "Get All Exchange Rates",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -690,11 +825,14 @@
 				{
 					"name": "Get Exchange Rate Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -718,11 +856,14 @@
 				{
 					"name": "Create New Exchange Rate",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -746,11 +887,14 @@
 				{
 					"name": "Update Exchange Rate",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -774,11 +918,14 @@
 				{
 					"name": "Remove Exchange Rate",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -807,7 +954,30 @@
 					"response": []
 				}
 			],
-			"description": "Exchange Rates"
+			"description": "Exchange Rates",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Inventory Sources",
@@ -815,11 +985,14 @@
 				{
 					"name": "Get All Inventory Sources",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -843,11 +1016,14 @@
 				{
 					"name": "Get Inventory Source Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -871,11 +1047,14 @@
 				{
 					"name": "Create New Inventory Source",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -899,11 +1078,14 @@
 				{
 					"name": "Update Inventory Source",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -927,11 +1109,14 @@
 				{
 					"name": "Remove Inventory Source",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -953,7 +1138,30 @@
 					"response": []
 				}
 			],
-			"description": "Inventory Sources"
+			"description": "Inventory Sources",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Tax Rates",
@@ -961,11 +1169,14 @@
 				{
 					"name": "Get All TaxRates",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -989,11 +1200,14 @@
 				{
 					"name": "Get TaxRate Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1017,11 +1231,14 @@
 				{
 					"name": "Create New TaxRate",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1045,11 +1262,14 @@
 				{
 					"name": "Update TaxRate Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1073,11 +1293,14 @@
 				{
 					"name": "Remove TaxRate",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1099,7 +1322,30 @@
 					"response": []
 				}
 			],
-			"description": "Tax Rates"
+			"description": "Tax Rates",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Tax Categories",
@@ -1107,11 +1353,14 @@
 				{
 					"name": "Get All TaxCategories",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1135,11 +1384,14 @@
 				{
 					"name": "Get TaxCategory Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1163,11 +1415,14 @@
 				{
 					"name": "Create New TaxCategory",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1191,11 +1446,14 @@
 				{
 					"name": "Update TaxCategory Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1219,11 +1477,14 @@
 				{
 					"name": "Remove TaxCategory",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1244,6 +1505,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1252,11 +1536,14 @@
 				{
 					"name": "Get All Channels",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1280,11 +1567,14 @@
 				{
 					"name": "Get Channel Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1308,11 +1598,14 @@
 				{
 					"name": "Create New Channel",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1336,11 +1629,14 @@
 				{
 					"name": "Update Channel Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1364,11 +1660,14 @@
 				{
 					"name": "Remove Channel",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1390,7 +1689,30 @@
 					"response": []
 				}
 			],
-			"description": "Channels"
+			"description": "Channels",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Core Config",
@@ -1398,11 +1720,14 @@
 				{
 					"name": "Get All Config",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1426,6 +1751,9 @@
 				{
 					"name": "Get Config",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1446,7 +1774,30 @@
 					"response": []
 				}
 			],
-			"description": "Core Config"
+			"description": "Core Config",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Countries",
@@ -1478,6 +1829,9 @@
 				{
 					"name": "Get Country Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1499,6 +1853,9 @@
 				{
 					"name": "Get CountryStates List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1520,6 +1877,9 @@
 				{
 					"name": "Get CountryState Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1546,12 +1906,15 @@
 				{
 					"name": "Get All Slider List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query sliders {\n    sliders {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n        }\n    }\n}",
+								"query": "query sliders {\n    sliders {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            title\n            path\n            imageUrl\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1567,11 +1930,14 @@
 				{
 					"name": "Get Slider Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1594,11 +1960,14 @@
 				{
 					"name": "Create Slider",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1621,11 +1990,14 @@
 				{
 					"name": "Update Slider",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1648,11 +2020,14 @@
 				{
 					"name": "Remove Slider",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -1671,6 +2046,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "ef7db657-4152-4753-b7f1-8ec08b721c15",
+		"_postman_id": "027b42ba-3b67-4be1-9b66-5ba2e5ba6a75",
 		"name": "Sales",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21542229"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -12,11 +11,14 @@
 				{
 					"name": "Get All Orders List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -39,11 +41,14 @@
 				{
 					"name": "Get Order Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -66,11 +71,14 @@
 				{
 					"name": "Get Order's Invoice List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -93,11 +101,14 @@
 				{
 					"name": "Get Order's Invoice Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -120,11 +131,14 @@
 				{
 					"name": "Get Order's Shipment List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -147,11 +161,14 @@
 				{
 					"name": "Get Order's Shipment Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -174,11 +191,14 @@
 				{
 					"name": "Get Order's Refund List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -201,11 +221,14 @@
 				{
 					"name": "Get Order's Refund Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -225,6 +248,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -233,11 +279,14 @@
 				{
 					"name": "Get All Invoice List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -260,11 +309,14 @@
 				{
 					"name": "Get Invoice Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -287,11 +339,14 @@
 				{
 					"name": "Get Invoice's Items",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -314,11 +369,14 @@
 				{
 					"name": "Get Invoice's Item Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -341,11 +399,14 @@
 				{
 					"name": "Create Order's Item Invoice",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -365,6 +426,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -373,11 +457,14 @@
 				{
 					"name": "Get All Shipment List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -400,11 +487,14 @@
 				{
 					"name": "Get Shipement Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -427,11 +517,14 @@
 				{
 					"name": "Get Shipment's Item List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDc5OTg5NCwiZXhwIjoxNjkyMzM1ODk0LCJuYmYiOjE2NjA3OTk4OTQsImp0aSI6Ijk0bjI3WWNiTnpUYnMzWDIiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.MaVEwwoJCBM_MEz5kWOJOZQ0J6g3cG2qnBx1XfQv0Ec",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -454,11 +547,14 @@
 				{
 					"name": "Get Shipment Item Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -481,11 +577,14 @@
 				{
 					"name": "Create Order's Item Shipment",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -505,6 +604,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -513,13 +635,15 @@
 				{
 					"name": "Get All Refund List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDc5OTg5NCwiZXhwIjoxNjkyMzM1ODk0LCJuYmYiOjE2NjA3OTk4OTQsImp0aSI6Ijk0bjI3WWNiTnpUYnMzWDIiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.MaVEwwoJCBM_MEz5kWOJOZQ0J6g3cG2qnBx1XfQv0Ec",
-								"type": "text",
-								"disabled": true
+								"value": "{{adminToken}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -541,11 +665,14 @@
 				{
 					"name": "Get Refund Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -568,11 +695,14 @@
 				{
 					"name": "Get Refund's Item List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDc5OTg5NCwiZXhwIjoxNjkyMzM1ODk0LCJuYmYiOjE2NjA3OTk4OTQsImp0aSI6Ijk0bjI3WWNiTnpUYnMzWDIiLCJzdWIiOiIxIiwicHJ2IjoiYmE0NzdjYTE2MGVjZmU1MGM1YWMwNDc5MDhlMDVlMzFlOGQ2MTczNCJ9.MaVEwwoJCBM_MEz5kWOJOZQ0J6g3cG2qnBx1XfQv0Ec",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -595,11 +725,14 @@
 				{
 					"name": "Get Refund's Item Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -629,7 +762,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -649,6 +782,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -657,11 +813,14 @@
 				{
 					"name": "Get Ordered Item List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -684,11 +843,14 @@
 				{
 					"name": "Get Order's Item Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{admin_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -707,6 +869,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

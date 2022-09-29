@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ef2be5d4-69e9-4ee2-bd1b-57c8eada7bab",
+		"_postman_id": "4f627e8a-3a6c-4612-a4f9-5d96511897a5",
 		"name": "Promotions",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,11 +11,14 @@
 				{
 					"name": "Get All Cart Rule List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -38,11 +41,14 @@
 				{
 					"name": "Get CartRule Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -65,11 +71,14 @@
 				{
 					"name": "Create Cart Rule",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -92,11 +101,14 @@
 				{
 					"name": "Update Cart Rule",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -119,11 +131,14 @@
 				{
 					"name": "Remove Cart Rule",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -143,6 +158,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -151,11 +189,14 @@
 				{
 					"name": "Get All Catalog Rule List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -178,11 +219,14 @@
 				{
 					"name": "Get Catalog Rule Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -205,11 +249,14 @@
 				{
 					"name": "Create Catalog Rule",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -232,11 +279,14 @@
 				{
 					"name": "Update Catalog Rule",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -259,11 +309,14 @@
 				{
 					"name": "Remove Catalog Rule",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -286,11 +339,14 @@
 				{
 					"name": "Get CatalogRule Product List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -313,11 +369,14 @@
 				{
 					"name": "Get CatalogRule Product Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -340,11 +399,14 @@
 				{
 					"name": "Get CatalogRule Product Price List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -367,11 +429,14 @@
 				{
 					"name": "Get CatalogRule Product Price Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -390,6 +455,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

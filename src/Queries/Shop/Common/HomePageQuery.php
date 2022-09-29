@@ -126,8 +126,8 @@ class HomePageQuery extends BaseFilter
         return $results;      
     }
 
-    public function getFeaturedProducts($rootValue, array $args, GraphQLContext $context){
-
+    public function getFeaturedProducts($rootValue, array $args, GraphQLContext $context)
+    {
         $count = isset($args['count']) ? $args['count'] : 4;
 
         $results = app(ProductRepository::class)->scopeQuery(function ($query) {
@@ -155,22 +155,17 @@ class HomePageQuery extends BaseFilter
         return $this->sliderRepository->latest()->get();      
     }
 
-    public function getAdvertisements($rootValue, array $args) {
-
-        $data= [];
-    
-       foreach($this->velocityMetadataRepository->latest()->get() as $keys => $metaData) {
-
+    public function getAdvertisements($rootValue, array $args)
+    {
+        $data = [];
+        foreach($this->velocityMetadataRepository->latest()->get() as $keys => $metaData) {
             $advertisement = json_decode($metaData->advertisement, true);
-
             $data[$keys]["advertisementFour"] = $this->advertisement(4, $advertisement);
-
             $data[$keys]["advertisementThree"] = $this->advertisement(3, $advertisement);
-
             $data[$keys]["advertisementTwo"] = $this->advertisement(2, $advertisement);
-       }
-      
-       return $data;
+        }
+
+        return $data;
     }
 
     public function getCategories($rootValue, array $args, GraphQLContext $context)
@@ -188,44 +183,60 @@ class HomePageQuery extends BaseFilter
                 $categoryId = $category->id;
                 
         }
-
+        
         return $this->categoryRepository->getVisibleCategoryTree($categoryId);
     }
 
     public function getvelocityMetaData($rootValue, array $args, GraphQLContext $context) {
+
         return $this->contentRepository->latest()->get();
     }
 
-    public function advertisement($type, $advertisement) {
-
+    public function advertisement($type, $advertisement)
+    {
         $results = [];
 
         if ($type == 4 && isset($advertisement[4]) && is_array($advertisement[4])) {
             $advertisementFour = array_values(array_filter($advertisement[4]));
-           foreach($advertisementFour as $key => $value) {
-               $results[$key]["path"] = $value;
-           }
-       }
+            foreach($advertisementFour as $key => $value) {
+                $results[$key] = $value;
+            }
 
-       if ($type == 3 &&  isset($advertisement[3]) && is_array($advertisement[3])) {
-           $advertisementThree = array_values(array_filter($advertisement[3]));
+            if (empty($results)) {
+                $results[0] = asset('/themes/velocity/assets/images/big-sale-banner.webp');
+                $results[1] = asset('/themes/velocity/assets/images/seasons.webp');
+                $results[2] = asset('/themes/velocity/assets/images/deals.webp');
+                $results[3] = asset('/themes/velocity/assets/images/kids.webp');
+            }
+        }
 
-           foreach($advertisementThree as $key => $value) {
-               $results[$key]["path"] = $value;
-           }
-       }
+        if ($type == 3 &&  isset($advertisement[3]) && is_array($advertisement[3])) {
+            $advertisementThree = array_values(array_filter($advertisement[3]));
 
-       if ($type == 2 &&  isset($advertisement[2]) && is_array($advertisement[2])) {
-           $advertisementTwo = array_values(array_filter($advertisement[2]));
+            foreach($advertisementThree as $key => $value) {
+                $results[$key] = $value;
+            }
 
-           foreach($advertisementTwo as $key => $value) {
-               $results[$key]["path"] = $value;
-           }
-       }
+            if (empty($results)) {
+               $results[0] = asset('/themes/velocity/assets/images/headphones.webp');
+               $results[1] = asset('/themes/velocity/assets/images/watch.webp');
+               $results[2] = asset('/themes/velocity/assets/images/kids-2.webp');
+            }
+        }
 
-       return $results;
+        if ($type == 2 &&  isset($advertisement[2]) && is_array($advertisement[2])) {
+            $advertisementTwo = array_values(array_filter($advertisement[2]));
+
+            foreach($advertisementTwo as $key => $value) {
+                $results[$key] = $value;
+            }
+
+            if (empty($results)) {
+                $results[0] = asset('/themes/velocity/assets/images/toster.webp');
+                $results[1] = asset('/themes/velocity/assets/images/trimmer.webp');
+            }
+        }
+       
+        return $results;
     }
 }
-
-
-

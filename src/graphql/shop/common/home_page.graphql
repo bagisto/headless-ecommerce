@@ -14,11 +14,7 @@ extend type Query {
 }
 
 type Advertise {
-    advertisementFour: [ImagePath]
-    advertisementThree: [ImagePath]
-    advertisementTwo: [ImagePath]
-}
-
-type ImagePath {
-    path: String
+    advertisementFour: [String]
+    advertisementThree: [String]
+    advertisementTwo: [String]
 }

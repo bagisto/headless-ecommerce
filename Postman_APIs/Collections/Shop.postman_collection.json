@@ -11,6 +11,9 @@
 				{
 					"name": "Register Customer",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -32,6 +35,9 @@
 				{
 					"name": "Login Customer",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -53,11 +59,14 @@
 				{
 					"name": "Forgot Password",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -80,6 +89,9 @@
 				{
 					"name": "Get Customer Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -137,6 +149,9 @@
 				{
 					"name": "Logout Customer",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -164,11 +179,14 @@
 				{
 					"name": "Remove Customer Account",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -187,6 +205,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -243,7 +284,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query address {\n    address(id: 46) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        countryName\n        country\n        stateName\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "query address {\n    address(id: 55) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address1\n        address2\n        countryName\n        country\n        stateName\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -260,20 +301,13 @@
 					"name": "Create New Address",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2Mjk4MTI3MywiZXhwIjoxNjk0NTE3MjczLCJuYmYiOjE2NjI5ODEyNzMsImp0aSI6IkoyQkdHTUtRY3NIZGJkQUQiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.BInduPB0PT1LbD0S1saZkLUA1lhkT--Yt4ho6z085pc",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -297,20 +331,13 @@
 					"name": "Update Address",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2Mjk4MTE4OSwiZXhwIjoxNjk0NTE3MTg5LCJuYmYiOjE2NjI5ODExODksImp0aSI6IkFIb1R3Um5ZTTFXYlZ5Q2EiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.XFWn31xV6pSD-KI70SGCScCw_6LCiw1c9n1C1lCTl6E",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -334,20 +361,13 @@
 					"name": "Remove Address",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjczMDAyNSwiZXhwIjoxNjk0MjY2MDI1LCJuYmYiOjE2NjI3MzAwMjUsImp0aSI6IlBMNDRRR1cwZ1JlZTdaY2QiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.dcC3mzMeWPqqsLTp2DDajo1ZDIjTJMjgM7g20QzzPYA",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -369,14 +389,7 @@
 				}
 			],
 			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcyOTY0NCwiZXhwIjoxNjk0MjY1NjQ0LCJuYmYiOjE2NjI3Mjk2NDQsImp0aSI6Im0zUDdwelJ5bE1ZMk41THAiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.1KLeAcLZ0pdTIaAAemqb2DXcAL_RD6PPG-xvbS38Bew",
-						"type": "string"
-					}
-				]
+				"type": "noauth"
 			},
 			"event": [
 				{
@@ -405,6 +418,9 @@
 				{
 					"name": "Get Orders List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -432,11 +448,14 @@
 				{
 					"name": "Get Order Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -459,11 +478,14 @@
 				{
 					"name": "Get Order's Shipment List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -486,11 +508,14 @@
 				{
 					"name": "Get Order's Shipment",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -513,11 +538,14 @@
 				{
 					"name": "Get Order's Invoice List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -540,11 +568,14 @@
 				{
 					"name": "Get Order's Invoice",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -567,11 +598,14 @@
 				{
 					"name": "Get Order's Refund List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -594,11 +628,14 @@
 				{
 					"name": "Get Order's Refund Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MDgwOTI0NiwiZXhwIjoxNjkyMzQ1MjQ2LCJuYmYiOjE2NjA4MDkyNDYsImp0aSI6ImtoZks1cjE5THc1dUcxWWIiLCJzdWIiOiI2IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.eCI0YaVV_apcAm68VkZ3n7Laa2u1y4dgsKLaSlp82cI",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -625,6 +662,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -664,6 +724,9 @@
 				{
 					"name": "Get Review Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -691,6 +754,9 @@
 				{
 					"name": "Create New Product Review",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -715,6 +781,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -724,20 +813,13 @@
 					"name": "Get Wishlist List",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcyODYyOSwiZXhwIjoxNjk0MjY0NjI5LCJuYmYiOjE2NjI3Mjg2MjksImp0aSI6Ilc1amRkY2hrUGpBTDZBMFYiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.MltV-aJ_nfHYjCnljY8GbSWR2bTIIHM88KtFw_pdhFA",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -761,20 +843,13 @@
 					"name": "Get Wishlist Detail",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcyNTY4MCwiZXhwIjoxNjk0MjYxNjgwLCJuYmYiOjE2NjI3MjU2ODAsImp0aSI6IlZjMjVOb0VQVXRoV0FaYVkiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.xyIB_tNA0_wlYoxwLDBHID3BbPB97Jb4STsPwp21LIA",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -797,11 +872,14 @@
 				{
 					"name": "Add To Wishlist",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -824,11 +902,14 @@
 				{
 					"name": "Remove From Wishlist",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -851,11 +932,14 @@
 				{
 					"name": "Move To Cart From Wishlist",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -878,11 +962,14 @@
 				{
 					"name": "Remove All Wishlist",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -904,14 +991,7 @@
 				}
 			],
 			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvZ3JhcGhxbCIsImlhdCI6MTY2MjcxMTU0OSwiZXhwIjoxNjk0MjQ3NTQ5LCJuYmYiOjE2NjI3MTE1NDksImp0aSI6IjA5cnRDVVBIM0FyWE1UTTUiLCJzdWIiOiI0IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.PMzGtnzqA_hRyzX_Bna2Gbu036k3PZHGRE0vWoDS_WY",
-						"type": "string"
-					}
-				]
+				"type": "noauth"
 			},
 			"event": [
 				{
@@ -940,11 +1020,14 @@
 				{
 					"name": "Get Compare List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -967,11 +1050,14 @@
 				{
 					"name": "Get Compare Product Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -994,11 +1080,14 @@
 				{
 					"name": "Add To Compare",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1021,11 +1110,14 @@
 				{
 					"name": "Remove From Compare",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1048,11 +1140,14 @@
 				{
 					"name": "Remove All Compare Products",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1072,6 +1167,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1080,11 +1198,14 @@
 				{
 					"name": "Downloadable Links",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1107,11 +1228,14 @@
 				{
 					"name": "Downloadable Link",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1131,6 +1255,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1139,11 +1286,14 @@
 				{
 					"name": "Cart Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1166,11 +1316,14 @@
 				{
 					"name": "Cart Items List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1193,11 +1346,14 @@
 				{
 					"name": "Add New Item To Cart",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1220,11 +1376,14 @@
 				{
 					"name": "Update Cart Items",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1247,11 +1406,14 @@
 				{
 					"name": "Remove Cart Item",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1274,11 +1436,14 @@
 				{
 					"name": "Move Cart Item To Wishlist",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1301,11 +1466,14 @@
 				{
 					"name": "Cart Item Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1325,6 +1493,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1333,11 +1524,14 @@
 				{
 					"name": "Checkout Addresses",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1360,11 +1554,14 @@
 				{
 					"name": "Shipping Methods",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1387,11 +1584,14 @@
 				{
 					"name": "Payment Methods",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1414,11 +1614,14 @@
 				{
 					"name": "Review & Save Payment",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1441,11 +1644,14 @@
 				{
 					"name": "Apply Coupon Code",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1468,11 +1674,14 @@
 				{
 					"name": "Place Order",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1495,11 +1704,14 @@
 				{
 					"name": "Get Shipping Methods",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customer_token}}",
+								"value": "{{customerToken}}",
 								"type": "text"
 							}
 						],
@@ -1519,6 +1731,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1527,6 +1762,9 @@
 				{
 					"name": "New Product List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1548,6 +1786,9 @@
 				{
 					"name": "Featured Product List",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1569,12 +1810,15 @@
 				{
 					"name": "Get Category Tree",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query homeCategories ($categoryId: Int, $categorySlug: String) {\n    homeCategories(categoryId: $categoryId, categorySlug: $categorySlug) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        productCount\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        children {\n            id\n            name\n            description\n            slug\n            children {\n                id\n                name\n                description\n                slug\n            }\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "query homeCategories ($categoryId: Int, $categorySlug: String) {\n    homeCategories(categoryId: $categoryId, categorySlug: $categorySlug) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        productCount\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        children {\n            id\n            name\n            description\n            slug\n            children {\n                id\n                name\n                description\n                slug\n            }\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": "{\n    \"categorySlug\": \"root\"\n}"
 							}
 						},
@@ -1586,6 +1830,77 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Home Slider",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query homeSliders {\n    homeSliders {\n        id\n        title\n        path\n        imageUrl\n        content\n        channelId\n        locale\n        sliderPath\n        imgPath\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales{\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies{\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources{\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Home Advertisements Banners",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query advertisements {\n    advertisements {\n        advertisementFour\n        advertisementThree\n        advertisementTwo\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -1595,6 +1910,9 @@
 				{
 					"name": "Get Product Listing",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1613,11 +1931,37 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
 			"name": "Get Slider Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c74eeb27-e474-4d84-8c93-c67c75b7c69d",
+		"_postman_id": "b2d8ef5a-4ff3-4e28-8193-88c80302589c",
 		"name": "Customer",
 		"description": "Customer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -12,8 +12,17 @@
 				{
 					"name": "Get All CustomerGroups",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -34,8 +43,17 @@
 				{
 					"name": "Get CustomerGroup Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -56,11 +74,14 @@
 				{
 					"name": "Create New CustomerGroup",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -84,11 +105,14 @@
 				{
 					"name": "Update CustomerGroup Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -112,11 +136,14 @@
 				{
 					"name": "Remove CustomerGroup",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -138,7 +165,30 @@
 					"response": []
 				}
 			],
-			"description": "CustomerGroups"
+			"description": "CustomerGroups",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Customers",
@@ -146,8 +196,17 @@
 				{
 					"name": "Get All Customers",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -168,12 +227,21 @@
 				{
 					"name": "Get Customer Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customer {\n    customer(id: 7) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        notes\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "query customer {\n    customer(id: 3) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        notes\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -190,18 +258,21 @@
 				{
 					"name": "Create New Customer",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCustomer {\n    createCustomer(input: {\n        firstName: \"Peter\"\n        lastName: \"Doe\"\n        email: \"peter@example.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"17/04/1994\"\n        customerGroupId: 2\n        phone: \"987654321\"\n        notes: \"This is dummy note, for newly created customer.\"\n        status: false\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation createCustomer {\n    createCustomer(input: {\n        firstName: \"Test\"\n        lastName: \"Customer\"\n        email: \"customertest@example.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"11/07/1993\"\n        customerGroupId: 1\n        phone: \"9785014423\"\n        notes: \"This is dummy note, for newly created customer.\"\n        status: true\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -218,18 +289,21 @@
 				{
 					"name": "Update Customer Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateCustomer {\n    updateCustomer(id: 2, input: {\n        firstName: \"Kim\"\n        lastName: \"Thomson\"\n        email: \"peter@example.com\"\n      \tgender: \"Female\"\n      \tdateOfBirth: \"2019-10-30\"\n        customerGroupId: 3\n        phone: \"6543213456\"\n        status: true\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        notes\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "\nmutation updateCustomer {\n    updateCustomer(id: 1, input: {\n        firstName: \"Tony\"\n        lastName: \"Stark\"\n        email: \"customer1@example.com\"\n      \tgender: \"Male\"\n      \tdateOfBirth: \"1992-10-30\"\n        customerGroupId: 5\n        phone: \"7001142256\"\n        status: true\n    }) {\n        id\n        firstName\n        lastName\n        gender\n        dateOfBirth\n        email\n        phone\n        notes\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        token\n        notes\n        status\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n        }\n        defaultAddress {\n            id\n            companyName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n        }\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -246,18 +320,21 @@
 				{
 					"name": "Remove Customer",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation deleteCustomer {\n    deleteCustomer(id: 2) {\n        success\n    }\n}\n",
+								"query": "\nmutation deleteCustomer {\n    deleteCustomer(id: 3) {\n        success\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -272,7 +349,30 @@
 					"response": []
 				}
 			],
-			"description": "Customer"
+			"description": "Customer",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Customer's Addresses",
@@ -280,8 +380,17 @@
 				{
 					"name": "Get All Customer's Addresses",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -301,8 +410,17 @@
 				{
 					"name": "Get Customer's Address Detail",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -322,18 +440,21 @@
 				{
 					"name": "Create Customer's Address",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCustomerAddress {\n    createCustomerAddress(input: {\n        customerId: 1\n        companyName: \"Webkul\"\n        firstName: \"Tom Demo\"\n        lastName: \"Martin Demo\"\n        gender: \"Male\"\n        email: \"martin@example.com\"\n        address1: \"3180  Bluff\"\n        address2: \"Street\"\n        country: \"US\"\n        state: \"PA\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"15742\"\n        phone: \"234343544\"\n        vatId: \"INV12345678902\"\n        defaultAddress: true\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        gender\n        email\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation createCustomerAddress {\n    createCustomerAddress(input: {\n        customerId: 1\n        companyName: \"Stark Industries\"\n        firstName: \"Tony\"\n        lastName: \"Stark\"\n        gender: \"Male\"\n        email: \"customer1@example.com\"\n        address1: \"3180  Bluff\"\n        address2: \"Street\"\n        country: \"US\"\n        state: \"PA\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"15742\"\n        phone: \"234343544\"\n        vatId: \"INV12345678902\"\n        defaultAddress: true\n    }) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        gender\n        email\n        address1\n        address2\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -349,11 +470,14 @@
 				{
 					"name": "Update Customer's Address Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -376,11 +500,14 @@
 				{
 					"name": "Remove Customer's Address",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -400,6 +527,29 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -408,8 +558,17 @@
 				{
 					"name": "Get All NewsletterSubscribers",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -429,8 +588,17 @@
 				{
 					"name": "Get Subscriber Details",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -450,11 +618,14 @@
 				{
 					"name": "Subscribe",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -477,11 +648,14 @@
 				{
 					"name": "UnSubscribe",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -504,11 +678,14 @@
 				{
 					"name": "Remove Subscriber",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{auth_token}}",
+								"value": "{{adminToken}}",
 								"type": "text"
 							}
 						],
@@ -527,6 +704,29 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

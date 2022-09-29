@@ -1,19 +1,21 @@
 {
 	"info": {
-		"_postman_id": "96ff4165-2f2d-4278-88ff-fee25b27b146",
+		"_postman_id": "85a3a96f-7235-485a-b53e-9f3b9f6a2619",
 		"name": "Cms",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21542229"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Get All Cms Page List",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -36,11 +38,14 @@
 		{
 			"name": "Get Cms Page Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -63,11 +68,14 @@
 		{
 			"name": "Get Cms Page Translation List",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -90,11 +98,14 @@
 		{
 			"name": "Get Cms Page Translation Detail",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -117,11 +128,14 @@
 		{
 			"name": "Create Cms Page",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -144,11 +158,14 @@
 		{
 			"name": "Update Cms Page",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
@@ -171,11 +188,14 @@
 		{
 			"name": "Remove Cms Page",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{admin_token}}",
+						"value": "{{adminToken}}",
 						"type": "text"
 					}
 				],
