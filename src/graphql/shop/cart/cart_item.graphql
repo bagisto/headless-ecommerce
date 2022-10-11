@@ -34,9 +34,22 @@ type CartItem {
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    formattedPrice: FormattedCartItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
     product: Product! @hasOne
     productFlat: ProductFlat @rename(attribute: "product_flat")
     cart: Cart @hasOne
     children: CartItem @hasMany
     parent: CartItem @belongsTo(relation: "parent")
+}
+
+type FormattedCartItemPriceData {
+    price: String @rename(attribute: "price")
+    basePrice: String @rename(attribute: "base_price")
+    customPrice: String @rename(attribute: "custom_price")
+    total: String @rename(attribute: "total")
+    baseTotal: String @rename(attribute: "base_total")
+    taxAmount: String @rename(attribute: "tax_amount")
+    baseTaxAmount: String @rename(attribute: "base_tax_amount")
+    discountAmount: String @rename(attribute: "discount_amount")
+    baseDiscountAmount: String @rename(attribute: "base_discount_amount")
 }

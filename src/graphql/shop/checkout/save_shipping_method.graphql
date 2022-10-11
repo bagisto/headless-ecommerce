@@ -12,9 +12,7 @@ input SaveShippingMethodInput {
 
 type PaymentMethodsResponse {
     success: String
-    cart: Cart!
-    cartTotal: String! @rename(attribute: "cart_total")
-    cartCount: Int! @rename(attribute: "cart_count")
+    cart: Cart
     paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
     jumpToSection: String @rename(attribute: "jump_to_section")
 }

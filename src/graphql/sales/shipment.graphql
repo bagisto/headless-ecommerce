@@ -93,7 +93,15 @@ type ShipmentItem {
     additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    formattedPrice: FormattedShipmentItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getShipmentItemPriceData")
     shipment: Shipment! @belongsTo(relation: "shipment")
     orderItem: OrderItem! @belongsTo(relation: "order_item")
     product: Product! @belongsTo(relation: "product")
+}
+
+type FormattedShipmentItemPriceData {
+    price: String @rename(attribute: "price")
+    basePrice: String @rename(attribute: "base_price")
+    total: String @rename(attribute: "total")
+    baseTotal: String @rename(attribute: "base_total")
 }

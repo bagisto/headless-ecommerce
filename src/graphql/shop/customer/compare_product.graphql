@@ -24,6 +24,8 @@ input AddToCompareInput {
 type AddToCompareResponse {
     success: String
     compareProduct: CustomerCompareProduct
+    cart: Cart
+    cartCount: Int @rename(attribute: "cart_count")
 }
 
 type RemoveCompareResponse {
@@ -49,4 +51,5 @@ type CustomerCompareProduct {
     product: Product! @belongsTo(relation: "product")
     productFlat: ProductFlat! @belongsTo(relation: "product_flat")
     customer: Customer! @belongsTo(relation: "customer")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }

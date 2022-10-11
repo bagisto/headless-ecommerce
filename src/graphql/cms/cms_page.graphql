@@ -1,5 +1,5 @@
 #Velocity\CMSPage Related APIs
-extend type Query @guard {
+extend type Query {
     cmsPages(input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage")): [CmsPage!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPage")
 
     cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")

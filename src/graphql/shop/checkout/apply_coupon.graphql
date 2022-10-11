@@ -12,4 +12,5 @@ input ApplyCouponInput {
 type CouponResponse {
     success: Boolean!
     message: String!
+    cart: Cart
 }

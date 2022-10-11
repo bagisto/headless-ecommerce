@@ -9,6 +9,7 @@ use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Velocity\Repositories\VelocityCustomerCompareProductRepository as CompareProductsRepository;
+
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CompareMutation extends Controller
@@ -93,7 +94,7 @@ class CompareMutation extends Controller
                     ]);
                 }
 
-                return $qb;
+                return $qb->groupBy('product_flat.product_id');
             });
             
             if (! empty($args['id'])) {
@@ -136,15 +137,13 @@ class CompareMutation extends Controller
         }
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
             $productFlat = $this->productFlatRepository->findOrFail($data['product_flat_id']);
 
-            if (!$productFlat->status) {
+            if (! $productFlat->status) {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.invalid-product'));
             }
 
-            $data['customer_id'] = $customer->id;
+            $data['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
 
             $compareProduct = $this->compareProductsRepository->findOneWhere($data);
 
@@ -152,14 +151,14 @@ class CompareMutation extends Controller
 
                 return [
                     'success'           => trans('velocity::app.customer.compare.already_added'),
-                    'compareProduct'  => $compareProduct
+                    'compareProduct'    => $compareProduct,
                 ];
             } else {
                 $compareProduct = $this->compareProductsRepository->create($data);
 
                 return [
                     'success'           => trans('velocity::app.customer.compare.added'),
-                    'compareProduct'    => $compareProduct
+                    'compareProduct'    => $compareProduct,
                 ];
             }
         } catch (Exception $e) {
@@ -202,6 +201,7 @@ class CompareMutation extends Controller
 
             if (isset($compareProduct->id) && $compareProduct->id) {
                 $this->compareProductsRepository->delete($compareProduct->id);
+                
                 return [
                     'status'    => true,
                     'success'   => trans('velocity::app.customer.compare.removed'),

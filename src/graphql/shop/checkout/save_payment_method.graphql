@@ -15,6 +15,6 @@ input PaymentMethodInput {
 
 type ReviewOrderResponse {
     success: String
+    cart: Cart
     jumpToSection: String @rename(attribute: "jump_to_section")
-    cart: Cart!
 }

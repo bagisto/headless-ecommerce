@@ -45,9 +45,8 @@ class CartMutation extends Controller
     public function cart($rootValue, array $args , GraphQLContext $context)
     {
         try {
-            $cart = Cart::getCart();
-
-            return $cart;
+            
+            return Cart::getCart();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -94,6 +93,7 @@ class CartMutation extends Controller
             $cart = Cart::addProduct($data['product_id'], $data);
         
             if ( isset($cart->id)) {
+
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-add-to-cart'),
@@ -134,16 +134,17 @@ class CartMutation extends Controller
             }
             $data['qty'] = $qty;
 
-            $cart = Cart::updateItems($data);
+            $result = Cart::updateItems($data);
             
-            if ( $cart == true) {
+            if ($result == true) {
+
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-update-to-cart'),
                     'cart'      => Cart::getCart(),
                 ];
             } else {
-                return $cart;
+                return $result;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -165,16 +166,17 @@ class CartMutation extends Controller
         $cartItemId = $args['id'];
         
         try {
-            $cart = Cart::removeItem($cartItemId);
+            $result = Cart::removeItem($cartItemId);
             
-            if ( $cart == true) {
+            if ($result == true) {
+
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-delete-cart-item'),
                     'cart'      => Cart::getCart(),
                 ];
             } else {
-                return $cart;
+                return $result;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -196,16 +198,17 @@ class CartMutation extends Controller
         $cartItemId = $args['id'];
         
         try {
-            $cart = Cart::moveToWishlist($cartItemId);
+            $result = Cart::moveToWishlist($cartItemId);
             
-            if ( $cart == true) {
+            if ( $result == true) {
+
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-moved-cart-item'),
                     'cart'      => Cart::getCart(),
                 ];
             } else {
-                return $cart;
+                return $result;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

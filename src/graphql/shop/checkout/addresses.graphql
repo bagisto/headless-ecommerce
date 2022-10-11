@@ -9,7 +9,7 @@ type CheckoutAddressesResponse {
     customer: Customer
     addresses: [FormattedAddresses]
     addressList: [CustomerAddress] @rename(attribute: "address_list")
-    cartCount: Int @rename(attribute: "cart_count")
+    cart: Cart
     defaultCountry: String @rename(attribute: "default_country")
 }
 
