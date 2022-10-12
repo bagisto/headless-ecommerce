@@ -31,6 +31,7 @@ type ProductDownloadableLink {
     type: String
     sampleUrl: String @rename(attribute: "sample_url")
     sampleFile: String @rename(attribute: "sample_file")
+    sampleFileUrl: String @rename(attribute: "sample_file_url")
     sampleFileName: String @rename(attribute: "sample_file_name")
     sampleType: String @rename(attribute: "sample_type")
     sortOrder: Int @rename(attribute: "sort_order")

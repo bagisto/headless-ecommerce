@@ -52,6 +52,12 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         // Catalog Product Models
         $this->app->concord->registerModel(\Webkul\Product\Contracts\Product::class, \Webkul\GraphQLAPI\Models\Catalog\Product::class);
 
+        // Catalog ProductDownloadableLink Models
+        $this->app->concord->registerModel(\Webkul\Product\Contracts\ProductDownloadableLink::class, \Webkul\GraphQLAPI\Models\Catalog\ProductDownloadableLink::class);
+
+        // Catalog ProductDownloadableSample Models
+        $this->app->concord->registerModel(\Webkul\Product\Contracts\ProductDownloadableSample::class, \Webkul\GraphQLAPI\Models\Catalog\ProductDownloadableSample::class);
+
         // Category Model
         $this->app->concord->registerModel(\Webkul\Category\Models\Category::class, \Webkul\GraphQLAPI\Models\Catalog\Category::class);
 
