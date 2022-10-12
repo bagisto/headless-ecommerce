@@ -38,6 +38,7 @@ type Wishlist {
     customer: Customer @belongsTo(relation: "customer")
     product: Product! @belongsTo(relation: "product")
     channel: Channel! @belongsTo(relation: "channel")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }
 
 input FilterWislistInput {

@@ -12,13 +12,7 @@
 					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
@@ -42,13 +36,7 @@
 					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
@@ -72,13 +60,7 @@
 					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
@@ -102,13 +84,7 @@
 					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {

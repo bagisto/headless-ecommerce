@@ -15,6 +15,7 @@ type ConfigutableProductAttributes {
 
 type attributeOptionIds {
     attributeId: ID!
+    attributeCode: String!
     attributeOptionId: ID!
 }
 

@@ -221,10 +221,18 @@ class ProductContent extends BaseFilter
 
             foreach ($attributeOptionsIds as $attributeId => $optionId) {
                 if ($optionId) {
-                    $index[$key]['attributeOptionIds'][] = [
+                    $optionData = [
                         'attributeId'       => $attributeId,
+                        'attributeCode'     => '',
                         'attributeOptionId' => $optionId,
                     ];
+                    
+                    foreach ($data['attributes'] as $attribute) {
+                        if ($attribute['id'] == $attributeId) {
+                            $optionData['attributeCode'] = $attribute['code'];
+                            break;
+                        }
+                    }
                 }
             }
         }
