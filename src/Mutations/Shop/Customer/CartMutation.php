@@ -45,7 +45,7 @@ class CartMutation extends Controller
     public function cart($rootValue, array $args , GraphQLContext $context)
     {
         try {
-            
+
             return Cart::getCart();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -61,8 +61,8 @@ class CartMutation extends Controller
     {
         try {
             $cart = Cart::getCart();
-
-            return isset($cart) ? $cart->items : [];
+            
+            return $cart ? $cart->items : [];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -93,11 +93,10 @@ class CartMutation extends Controller
             $cart = Cart::addProduct($data['product_id'], $data);
         
             if ( isset($cart->id)) {
-
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-add-to-cart'),
-                    'cart'      => $cart,
+                    'cart'      => Cart::getCart(),
                 ];
             } else {
                 return $cart;
