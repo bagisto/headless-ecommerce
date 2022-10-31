@@ -88,7 +88,7 @@ class Booking extends Virtual
     {
         $product = parent::update($data, $id, $attribute);
 
-        if (request()->route()->getName() != 'admin.catalog.products.mass_update') {
+        if (request()->route()->getName() != 'admin.catalog.products.massupdate') {
             $bookingProduct = $this->bookingProductRepository->findOneByField('product_id', $id);
 
             if ($bookingProduct) {

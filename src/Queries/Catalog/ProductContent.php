@@ -233,6 +233,8 @@ class ProductContent extends BaseFilter
                             break;
                         }
                     }
+
+                    $index[$key]['attributeOptionIds'][] = $optionData;
                 }
             }
         }
