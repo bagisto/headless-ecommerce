@@ -39,42 +39,34 @@ class Booking extends Virtual
     /**
      * Create a new product type instance.
      *
-     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
-     * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Product\Repositories\ProductAttributeValueRepository  $attributeValueRepository
-     * @param  \Webkul\Product\Repositories\ProductInventoryRepository  $productInventoryRepository
-     * @param  \Webkul\Product\Repositories\ProductImageRepository  $productImageRepository
-     * @param  \Webkul\Product\Repositories\ProductVideoRepository  $productVideoRepository
-     * @param  \Webkul\Product\Repositories\ProductCustomerGroupPriceRepository  $productCustomerGroupPriceRepository
-     * @param  \Webkul\Tax\Repositories\TaxCategoryRepository  $taxCategoryRepository
+     * @param  \Webkul\Attribute\Repositories\AttributeRepository           $attributeRepository
+     * @param  \Webkul\Product\Repositories\ProductRepository               $productRepository
+     * @param  \Webkul\Product\Repositories\ProductAttributeValueRepository $attributeValueRepository
+     * @param  \Webkul\Product\Repositories\ProductInventoryRepository      $productInventoryRepository
+     * @param  \Webkul\Product\Repositories\ProductImageRepository          $productImageRepository
      * @param  \Webkul\BookingProduct\Repositories\BookingProductRepository  $bookingProductRepository
-     * @param  \Webkul\BookingProduct\Helpers\BookingHelper  $bookingHelper
+     * @param  \Webkul\BookingProduct\Helpers\BookingHelper                  $bookingHelper
+     * @param \Webkul\Product\Repositories\ProductVideoRepository            $productVideoRepository
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository,
         AttributeRepository $attributeRepository,
         ProductRepository $productRepository,
         ProductAttributeValueRepository $attributeValueRepository,
         ProductInventoryRepository $productInventoryRepository,
         ProductImageRepository $productImageRepository,
         ProductVideoRepository $productVideoRepository,
-        ProductCustomerGroupPriceRepository $productCustomerGroupPriceRepository,
-        TaxCategoryRepository $taxCategoryRepository,
         protected BookingProductRepository $bookingProductRepository,
         protected BookingHelper $bookingHelper
-    ) {
+    )
+    {
         parent::__construct(
-            $customerRepository,
             $attributeRepository,
             $productRepository,
             $attributeValueRepository,
             $productInventoryRepository,
             $productImageRepository,
-            $productVideoRepository,
-            $productCustomerGroupPriceRepository,
-            $taxCategoryRepository
+            $productVideoRepository
         );
     }
 

@@ -29,6 +29,11 @@ class Install extends Command
      */
     public function handle()
     {
+        // running `composer dump-autoload`
+        $this->warn('Step: Composer autoload...');
+        $result = shell_exec('composer dump-autoload');
+        $this->info($result);
+
         // running `php artisan jwt:secret`
         $this->warn('Step: Generating JWT Secret token...');
         $jwt_secret = shell_exec('php artisan jwt:secret');
@@ -36,8 +41,13 @@ class Install extends Command
 
         // running `php artisan cache:clear`
         $this->warn('Step: Clearing the cache...');
-        $cache_clear = shell_exec('php artisan cache:clear');
+        $cache_clear = shell_exec('php artisan optimize:clear');
         $this->info($cache_clear);
+
+        // running `php artisan migrate`
+        $this->warn('Step: Migrating Notification tables into database...');
+        $migrate = shell_exec('php artisan migrate');
+        $this->info($migrate);
         
         // running `php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config`
         $this->warn('Step: Publishing Lighthouse Configuration File...');

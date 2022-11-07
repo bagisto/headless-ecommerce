@@ -60,8 +60,8 @@ class FormattedPrice extends BaseFilter
             'base_sub_total' => core()->formatBasePrice($cart->base_sub_total),
             'tax_total' => core()->formatPrice($cart->tax_total, $cart->cart_currency_code),
             'base_tax_total' => core()->formatBasePrice($cart->base_tax_total),
-            'discount' => core()->formatPrice($cart->discount, $cart->cart_currency_code),
-            'base_discount' => core()->formatBasePrice($cart->base_discount),
+            'discount' => core()->formatPrice($cart->discount_amount, $cart->cart_currency_code),
+            'base_discount' => core()->formatBasePrice($cart->base_discount_amount),
             'discounted_sub_total' => core()->formatPrice($cart->discounted_sub_total, $cart->cart_currency_code),
             'base_discounted_sub_total' => core()->formatBasePrice($cart->base_discounted_sub_total),
         ];
@@ -90,6 +90,25 @@ class FormattedPrice extends BaseFilter
             'base_tax_amount' => core()->formatBasePrice($cartItem->base_tax_amount),
             'discount_amount' => core()->formatPrice($cartItem->discount_amount, $cart->cart_currency_code),
             'base_discount_amount' => core()->formatBasePrice($cartItem->base_discount_amount),
+        ];
+    }
+
+    /**
+     * Get formatted price for Cart Shipping Rate data.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return mixed
+     */
+    public function getCartShippingRatePriceData($rootValue, array $args, GraphQLContext $context)
+    {
+        $shippingRate = $rootValue;
+        $cart = $shippingRate->shipping_address->cart;
+
+        return  [
+            'price' => core()->formatPrice($shippingRate->price, $cart->cart_currency_code),
+            'base_price' => core()->formatBasePrice($shippingRate->base_price)
         ];
     }
 }

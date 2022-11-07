@@ -11,7 +11,6 @@ use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Velocity\Repositories\ContentRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Cart;
-use Elasticsearch\Endpoints\Cluster\Reroute;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter
@@ -100,6 +99,11 @@ class HomePageQuery extends BaseFilter
         $this->contentRepository  = $contentRepository;
 
         $this->wishlistRepository = $wishlistRepository;
+    }
+
+    public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
+    {   
+        return core()->getDefaultChannel();
     }
 
     public function getNewProducts($rootValue, array $args, GraphQLContext $context){

@@ -21,6 +21,12 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     public function boot()
     {
         include __DIR__ . '/../Http/helpers.php';
+        
+        $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
+
+        // $this->app->register(ModuleServiceProvider::class);
+
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'bagisto_graphql');
 
@@ -99,6 +105,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->registerFacades();
+
+        $this->registerConfig();
     }
 
     /**
@@ -135,5 +143,28 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->app->bind(\Webkul\Checkout\Cart::class, \Webkul\GraphQLAPI\Cart::class);
 
         $this->app->bind(BaseBookingType::class, GraphQLAPIBookingType::class);
+    }
+
+    /**
+     * Register package config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/menu.php',
+            'menu.admin'
+        );
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/acl.php',
+            'acl'
+        );
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/system.php',
+            'core'
+        );
     }
 }

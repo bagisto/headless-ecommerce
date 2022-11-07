@@ -146,19 +146,20 @@ class CompareMutation extends Controller
             $data['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
 
             $compareProduct = $this->compareProductsRepository->findOneWhere($data);
+            $compareList = $this->compareProductsRepository->findWhere(['customer_id' => $data['customer_id']]);
 
             if (isset($compareProduct->id) && $compareProduct->id) {
 
                 return [
                     'success'           => trans('velocity::app.customer.compare.already_added'),
-                    'compareProduct'    => $compareProduct,
+                    'compareProduct'    => $compareList,
                 ];
             } else {
                 $compareProduct = $this->compareProductsRepository->create($data);
 
                 return [
                     'success'           => trans('velocity::app.customer.compare.added'),
-                    'compareProduct'    => $compareProduct,
+                    'compareProduct'    => $this->compareProductsRepository->findWhere(['customer_id' => $data['customer_id']]),
                 ];
             }
         } catch (Exception $e) {
@@ -203,8 +204,9 @@ class CompareMutation extends Controller
                 $this->compareProductsRepository->delete($compareProduct->id);
                 
                 return [
-                    'status'    => true,
-                    'success'   => trans('velocity::app.customer.compare.removed'),
+                    'status'            => true,
+                    'success'           => trans('velocity::app.customer.compare.removed'),
+                    'compareProduct'    => $this->compareProductsRepository->findWhere(['customer_id' => $data['customer_id']])
                 ];
             } else {
                 return [

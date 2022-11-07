@@ -176,6 +176,7 @@ type CartShippingRate {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     shippingAddress: CartAddress @belongsTo(relation: "shipping_address")
+    formattedPrice: FormattedCartShippingRatePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
 }
 
 type FormattedCartPriceData {
@@ -189,4 +190,9 @@ type FormattedCartPriceData {
     baseDiscount: String @rename(attribute: "base_discount")
     discountedSubTotal: String @rename(attribute: "discounted_sub_total")
     baseDiscountedSubTotal: String @rename(attribute: "base_discounted_sub_total")
+}
+
+type FormattedCartShippingRatePriceData {
+    price: String
+    basePrice: String @rename(attribute: "base_price")
 }

@@ -36,8 +36,8 @@ type Locale {
     id: ID!
     name: String!
     code: String!
-    direction: String!
-    createdAt: DateTime! @rename(attribute: "created_at")
-    updatedAt: DateTime! @rename(attribute: "updated_at")
+    direction: String
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
     success: String
 }

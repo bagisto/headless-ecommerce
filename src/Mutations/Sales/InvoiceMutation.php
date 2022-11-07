@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Sales;
 use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\API\Resources\Sales\Invoice;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
 

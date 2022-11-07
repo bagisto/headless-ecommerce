@@ -263,7 +263,8 @@ class WishlistMutation extends Controller
                 if ( $result ) {
                     return [
                         'status'    => true,
-                        'success'   => trans('shop::app.customer.account.wishlist.moved')
+                        'success'   => trans('shop::app.customer.account.wishlist.moved'),
+                        'wishlist'  => $this->wishlistRepository->findWhere(['customer_id' => $customer->id])
                     ];
                 } else {
                     return [

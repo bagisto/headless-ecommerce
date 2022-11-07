@@ -23,14 +23,15 @@ input AddToCompareInput {
 
 type AddToCompareResponse {
     success: String
-    compareProduct: CustomerCompareProduct
-    cart: Cart
-    cartCount: Int @rename(attribute: "cart_count")
+    compareProduct: [CustomerCompareProduct]
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }
 
 type RemoveCompareResponse {
     status: Boolean
     success: String
+    compareProduct: [CustomerCompareProduct]
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }
 
 input FilterCompareProductsInput {

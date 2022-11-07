@@ -55,15 +55,19 @@ input AddToWishlistInput {
 type AddToWishlistResponse {
     success: String
     wishlist: [Wishlist]
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }
 
 type RemoveWishlistResponse {
     status: Boolean
     success: String
     wishlist: [Wishlist]
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }
 
 type MoveToCartResponse {
     status: Boolean
     success: String
+    wishlist: [Wishlist]
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }

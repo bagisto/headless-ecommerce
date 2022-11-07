@@ -2,13 +2,15 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
-## **v1.4.x (12th of Aug, 2022)** - *Release*
+* [enhancement] - Push Notification List and Send APIs added.
 
-* [compatible] - compatible with v1.4.3.
-
-* [Fix] - Fixed type Hinting initial push for compatibility.
+* [enhancement] - Push Notification section added at the Bagisto admin.
 
 * [enhancement] - Added category filters and sorting.
+
+* [compatible] - Compatible with v1.4.3.
+
+* [Fix] - Fixed type Hinting initial push for compatibility.
 
 ## **v1.3.3 (12th of August, 2022)** - *Release*
 
