@@ -10,7 +10,6 @@ use Webkul\Velocity\Repositories\VelocityMetadataRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Velocity\Repositories\ContentRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Cart;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter
@@ -106,8 +105,8 @@ class HomePageQuery extends BaseFilter
         return core()->getDefaultChannel();
     }
 
-    public function getNewProducts($rootValue, array $args, GraphQLContext $context){
-
+    public function getNewProducts($rootValue, array $args, GraphQLContext $context)
+    {
         $count = isset($args['count']) ? $args['count'] : 4;
 
         $results = app(ProductRepository::class)->scopeQuery(function ($query) {
@@ -154,8 +153,8 @@ class HomePageQuery extends BaseFilter
         return $results;      
     }
 
-    public function getSliders($rootValue, array $args, GraphQLContext $context) {
-
+    public function getSliders($rootValue, array $args, GraphQLContext $context)
+    {
         return $this->sliderRepository->latest()->get();      
     }
 
@@ -191,8 +190,8 @@ class HomePageQuery extends BaseFilter
         return $this->categoryRepository->getVisibleCategoryTree($categoryId);
     }
 
-    public function getvelocityMetaData($rootValue, array $args, GraphQLContext $context) {
-
+    public function getvelocityMetaData($rootValue, array $args, GraphQLContext $context)
+    {
         return $this->contentRepository->latest()->get();
     }
 

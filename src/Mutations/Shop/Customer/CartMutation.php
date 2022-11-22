@@ -91,12 +91,12 @@ class CartMutation extends Controller
             $data = bagisto_graphql()->manageInputForCart($product, $data);
             
             $cart = Cart::addProduct($data['product_id'], $data);
-        
+            
             if ( isset($cart->id)) {
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-add-to-cart'),
-                    'cart'      => Cart::getCart(),
+                    'cart'      => $cart,
                 ];
             } else {
                 return $cart;

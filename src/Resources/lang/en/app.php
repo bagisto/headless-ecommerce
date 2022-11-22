@@ -106,6 +106,7 @@
                 'not-authorized'        => 'Warning: You are not authorized to update this address.',
                 'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
                 'no-address-list'       => 'Warning: No customer\'s address found.',
+                'text-password'         => 'Your Password is: :password',
             ],
             'response'  => [
                 'error-registration'        => 'Warning: customer registration failed.',

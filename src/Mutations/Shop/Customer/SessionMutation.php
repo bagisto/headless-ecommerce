@@ -91,9 +91,6 @@ class SessionMutation extends Controller
                 );
             }
             
-            //Event passed to prepare cart after login
-            // Event::dispatch('customer.after.login', $data['email']);
-            
             return [
                 'status'        => true,
                 'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),

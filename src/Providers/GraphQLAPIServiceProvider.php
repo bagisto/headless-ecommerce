@@ -24,8 +24,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         
         $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
 
-        // $this->app->register(ModuleServiceProvider::class);
-
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'bagisto_graphql');
@@ -34,6 +32,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         // Model observer for admin user of Bagisto.
         $this->overrideModels();
+
+        $this->publishesDefault();
 
         if (request()->hasHeader('authorization')) {
             $headerValue = explode('Bearer ', request()->header('authorization'));
@@ -93,6 +93,22 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         // Wishlist Models
         $this->app->concord->registerModel(\Webkul\Customer\Contracts\Wishlist::class, \Webkul\GraphQLAPI\Models\Customer\Wishlist::class);
+    }
+
+    /**
+     * Publish all Default theme page.
+     *
+     * @return void
+     */
+    protected function publishesDefault()
+    {
+        $this->publishes([
+            __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => resource_path('themes/default/views/emails/customer/registration.blade.php'),
+        ]);
+
+        $this->publishes([
+            __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => __DIR__ .'/../../../../../packages/Webkul/Shop/src/Resources/views/emails/customer/registration.blade.php',
+        ]);
     }
 
     /**

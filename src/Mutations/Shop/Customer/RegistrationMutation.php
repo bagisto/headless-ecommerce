@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
+use JWTAuth;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Event;
@@ -75,18 +76,28 @@ class RegistrationMutation extends Controller
         }
     
         $data = $args['input'];
-        
-        $validator = \Validator::make($data, [
+
+        $validationArray = [
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
             'email'      => 'email|required|unique:customers,email',
-            'password'   => 'min:6|required', 
+            'password'   => 'min:6|required',
             'password_confirmation' => 'required|required_with:password|same:password',
-        ]);
+        ];
+
+        if (isset($data['is_social_login']) && $data['is_social_login']) {
+            $data['password'] = $data['password_confirmation'] = rand(1,999999);
+
+            $validationArray = array_merge($validationArray, [
+                'phone' => 'string|required',
+            ]);
+        }
+        
+        $validator = \Validator::make($data, $validationArray);
                 
         if ($validator->fails()) {
             $errorMessage = [];
-            foreach ($validator->messages()->toArray() as $field => $message) {
+            foreach ($validator->messages()->toArray() as $message) {
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
             
@@ -145,9 +156,39 @@ class RegistrationMutation extends Controller
                             Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
                         }
 
+                        $remember = isset($data['remember']) ? $data['remember'] : 0;
+                    
+                        if (! $jwtToken = JWTAuth::attempt([
+                            'email'     => $data['email'],
+                            'password'  => $data['password_confirmation'],
+                        ], $remember)) {
+                            throw new CustomException(
+                                trans('shop::app.customer.login-form.invalid-creds'),
+                                'Invalid Email and Password.'
+                            );
+                        }
+
+                        $loginCustomer = bagisto_graphql()->guard($this->guard)->user();
+
+                        if (
+                            $loginCustomer->status == 0
+                            || $loginCustomer->is_verified == 0
+                            ) {
+                            bagisto_graphql()->guard($this->guard)->logout();
+                
+                            throw new CustomException(
+                                trans('shop::app.customer.login-form.not-activated'),
+                                'Account Not Activated.'
+                            );
+                        }
+
                         return [
-                            'status'    => true,
-                            'success'   => trans('shop::app.customer.signup-form.success')
+                            'status'        => true,
+                            'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),
+                            'access_token'  => 'Bearer ' . $jwtToken,
+                            'token_type'    => 'Bearer',
+                            'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
+                            'customer'      => $loginCustomer
                         ];
                     } catch (Exception $e) {
                         throw new CustomException(

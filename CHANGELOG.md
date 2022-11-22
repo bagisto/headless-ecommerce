@@ -2,6 +2,8 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Social Login sign up created for the TrueCaller.
+
 * [enhancement] - Push Notification List and Send APIs added.
 
 * [enhancement] - Push Notification section added at the Bagisto admin.
