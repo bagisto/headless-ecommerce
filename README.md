@@ -70,19 +70,13 @@ composer dump-autoload
 ~~~
 
 ~~~
-php artisan optimize
+php artisan optimize:clear
 ~~~
 
 #### Now to use the graphql-playground for testing the APIs:
 
 ~~~
     http://example.com/graphql-playground
-~~~
-
-#### To check the customer's API (front APIs), you have to put all the shop schemas at the end in the schema file (i.e. packages/Webkul/GraphQLAPI/graphql/schema.graphql).
-
-~~~
-    put all shop schemas #import /shop/*/*.graphql after #import /promotion/*.graphql this line.
 ~~~
 
 #### Or you can also use the Postmen for testing the APIs:
