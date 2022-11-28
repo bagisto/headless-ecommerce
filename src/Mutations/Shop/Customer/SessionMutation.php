@@ -90,6 +90,11 @@ class SessionMutation extends Controller
                     'Need email varification.'
                 );
             }
+
+            /**
+             * Event passed to prepare cart after login.
+             */
+            Event::dispatch('customer.after.login', $data['email']);
             
             return [
                 'status'        => true,
