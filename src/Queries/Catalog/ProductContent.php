@@ -12,6 +12,13 @@ use Webkul\Product\Repositories\ProductRepository;
 class ProductContent extends BaseFilter
 {
     /**
+     * Contains current guard
+     *
+     * @var array
+     */
+    protected $guard;
+
+    /**
      * Product repository instance.
      *
      * @var \Webkul\Product\Repositories\ProductRepository
@@ -54,6 +61,8 @@ class ProductContent extends BaseFilter
         ProductViewHelper $productViewHelper,
         ProductConfigurableHelper $productConfigurableHelper
     ) {
+        $this->guard = 'api';
+        
         $this->productRepository = $productRepository;
 
         $this->wishlistRepository = $wishlistRepository;
@@ -189,10 +198,17 @@ class ProductContent extends BaseFilter
      */
     public function checkIsInWishlist($rootValue, array $args, GraphQLContext $context)
     {
-        $wishlist = $this->wishlistRepository->findOneByField('product_id', $rootValue->id);
+        if ( bagisto_graphql()->guard($this->guard)->check() ) {
+            $customer = bagisto_graphql()->guard($this->guard)->user();
 
-        if ($wishlist) {
-            return true;
+            $wishlist = $this->wishlistRepository->findOneWhere([
+                'customer_id'   => $customer->id,
+                'product_id'    => $rootValue->id
+            ]);
+
+            if ($wishlist) {
+                return true;
+            }
         }
 
         return false;
