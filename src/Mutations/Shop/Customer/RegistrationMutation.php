@@ -76,24 +76,14 @@ class RegistrationMutation extends Controller
         }
     
         $data = $args['input'];
-
-        $validationArray = [
+        
+        $validator = \Validator::make($data, [
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
             'email'      => 'email|required|unique:customers,email',
             'password'   => 'min:6|required',
             'password_confirmation' => 'required|required_with:password|same:password',
-        ];
-
-        if (isset($data['is_social_login']) && $data['is_social_login']) {
-            $data['password'] = $data['password_confirmation'] = rand(1,999999);
-
-            $validationArray = array_merge($validationArray, [
-                'phone' => 'string|required',
-            ]);
-        }
-        
-        $validator = \Validator::make($data, $validationArray);
+        ]);
                 
         if ($validator->fails()) {
             $errorMessage = [];
@@ -116,7 +106,7 @@ class RegistrationMutation extends Controller
             } else {
                 $data['is_verified'] = 1;
             }
-    
+
             $data['customer_group_id'] = $this->customerGroupRepository->findOneWhere(['code' => 'general'])->id;
 
             $verificationData['email'] = $data['email'];
@@ -157,7 +147,7 @@ class RegistrationMutation extends Controller
                         }
 
                         $remember = isset($data['remember']) ? $data['remember'] : 0;
-                    
+                        
                         if (! $jwtToken = JWTAuth::attempt([
                             'email'     => $data['email'],
                             'password'  => $data['password_confirmation'],
@@ -209,5 +199,163 @@ class RegistrationMutation extends Controller
                 'Customer Registration Failed.'
             );
         }
+    }
+
+    /**
+     * Method to store user's sign up form data to DB.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function socialSignUp($rootValue, array $args , GraphQLContext $context)
+    {
+        if (
+            ! isset($args['input'])
+            || (isset($args['input']) && !$args['input'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameters.'
+            );
+        }
+    
+        $data = $args['input'];
+        
+        $validationArray = [
+            'phone' => 'string|required',
+        ];
+
+        if (! empty($data['email'])) {
+            $data['password'] = $data['password_confirmation'] = rand(1,999999);
+
+            $validationArray = array_merge($validationArray, [
+                'first_name'        => 'string|required',
+                'last_name'         => 'string|required',
+                'email'             => 'email|required|unique:customers,email',
+                'password'          => 'min:6|required',
+                'password_confirmation' => 'required|required_with:password|same:password',
+            ]);
+        }
+        
+        $validator = \Validator::make($data, $validationArray);
+        if ($validator->fails()) {
+            $errorMessage = [];
+            foreach ($validator->messages()->toArray() as $message) {
+                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            }
+            
+            throw new CustomException(
+                implode(" ,", $errorMessage),
+                'Invalid Social SignUp Details.'
+            );
+        }
+        
+        try {
+            if (empty($data['email'])) {
+                return $this->loginCustomer($data);
+            } else {
+                $customer = $this->customerRepository->findOneByField('phone', $data['phone']);
+                
+                if ($customer && ($customer->email != $data['email'])) {
+                    throw new CustomException(
+                        trans('bagisto_graphql::app.shop.response.warning-num-already-used', ['phone' => $data['phone']]),
+                        'Invalid request parameters.'
+                    );
+                }
+            }
+
+            $token  = md5(uniqid(rand(), true));
+            
+            $data   = array_merge($data, [
+                'password'          => bcrypt($data['password']),
+                'api_token'         => Str::random(80),
+                'is_verified'       => core()->getConfigData('customer.settings.email.verification') ? 0 : 1,
+                'customer_group_id' => $this->customerGroupRepository->findOneWhere(['code' => 'general'])->id,
+                'token'             => $token,
+            ]);
+
+            $verificationData['email'] = $data['email'];
+            $verificationData['token'] = $token;
+
+            Event::dispatch('customer.registration.before');
+    
+            $customer = $this->customerRepository->create($data);
+    
+            Event::dispatch('customer.registration.after', $customer);
+
+            if ($customer) {
+                try {
+                    $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
+                    if (core()->getConfigData($configCustomerKey)) {
+                        Mail::queue(new RegistrationEmail($data, 'customer'));
+                    }
+
+                    $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
+                    if (core()->getConfigData($configAdminKey)) {
+                        Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
+                    }
+
+                    return $this->loginCustomer($data);
+                } catch (Exception $e) {
+                    throw new CustomException(
+                        $e->getMessage(),
+                        'Customer Registration Email Failed.'
+                    );
+                }
+            }
+        } catch (Exception $e) {
+            throw new CustomException(
+                $e->getMessage(),
+                'Customer Registration Failed.'
+            );
+        }
+    }
+
+    public function loginCustomer($data)
+    {
+        $jwtToken = null;
+        if (empty($data['email'])) {
+            $customer = $this->customerRepository->findOneByField('phone', $data['phone']);
+            
+            if ($customer) {
+                $jwtToken = JWTAuth::fromUser($customer);
+
+                auth()->guard($this->guard)->login($customer, true);
+            }
+        } else {
+            $remember = isset($data['remember']) ? $data['remember'] : 0;
+
+            $jwtToken = JWTAuth::attempt([
+                'email'     => $data['email'],
+                'password'  => $data['password_confirmation'],
+            ], $remember);
+        }
+                    
+        if (! $jwtToken) {
+            throw new CustomException(
+                trans('shop::app.customer.login-form.invalid-creds'),
+                'Invalid Email and Password.'
+            );
+        }
+
+        $loginCustomer = bagisto_graphql()->guard($this->guard)->user();
+
+        if (
+            $loginCustomer->status == 0
+            || $loginCustomer->is_verified == 0) {
+            bagisto_graphql()->guard($this->guard)->logout();
+
+            throw new CustomException(
+                trans('shop::app.customer.login-form.not-activated'),
+                'Account Not Activated.'
+            );
+        }
+
+        return [
+            'status'        => true,
+            'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),
+            'access_token'  => 'Bearer ' . $jwtToken,
+            'token_type'    => 'Bearer',
+            'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
+            'customer'      => $loginCustomer
+        ];
     }
 }

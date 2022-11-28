@@ -3,15 +3,25 @@ extend type Mutation {
     customerRegister(
         input: CreateRegisterInput!
     ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@register")
+
+    customerSocialSignUp(
+        input: CreateSocialSignUpInput!
+    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@socialSignUp")
 }
 
 input CreateRegisterInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String! @rules(apply: ["email"])
-    phone: String
     password: String! @rules(apply: ["min:6"])
     passwordConfirmation: String! @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
-    isSocialLogin: Boolean @rename(attribute: "is_social_login")
-    countryCode: String @rename(attribute: "country_code")
+}
+
+input CreateSocialSignUpInput {
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    email: String @rules(apply: ["email"])
+    password: String @rules(apply: ["min:6"])
+    passwordConfirmation: String @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
+    phone: String!
 }

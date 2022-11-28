@@ -136,7 +136,8 @@
                 'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
                 'no-shipping-address-found'  => 'Warning: No shipping address record found with :address_id shipping id.',
                 'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
-                'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.'
+                'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
+                'warning-num-already-used'  => 'Warning: This :phone number is registered using different email address.',
             ]
         ]
     ];
