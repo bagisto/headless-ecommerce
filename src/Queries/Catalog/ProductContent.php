@@ -17,7 +17,7 @@ class ProductContent extends BaseFilter
      * @var array
      */
     protected $guard;
-
+    
     /**
      * Product repository instance.
      *
@@ -62,7 +62,7 @@ class ProductContent extends BaseFilter
         ProductConfigurableHelper $productConfigurableHelper
     ) {
         $this->guard = 'api';
-        
+
         $this->productRepository = $productRepository;
 
         $this->wishlistRepository = $wishlistRepository;

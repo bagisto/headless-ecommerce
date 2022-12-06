@@ -319,6 +319,11 @@ class RegistrationMutation extends Controller
                 $jwtToken = JWTAuth::fromUser($customer);
 
                 auth()->guard($this->guard)->login($customer, true);
+            } else {
+                return [
+                    'status'    => false,
+                    'success'   => trans('bagisto_graphql::app.shop.customer.not-exists'), 
+                ];
             }
         } else {
             $remember = isset($data['remember']) ? $data['remember'] : 0;

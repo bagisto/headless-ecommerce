@@ -107,6 +107,7 @@
                 'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
                 'no-address-list'       => 'Warning: No customer\'s address found.',
                 'text-password'         => 'Your Password is: :password',
+                'not-exists'            => 'Warning: No customer found for the provided data.',
             ],
             'response'  => [
                 'error-registration'        => 'Warning: customer registration failed.',
