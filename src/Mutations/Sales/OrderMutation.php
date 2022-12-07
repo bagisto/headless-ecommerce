@@ -33,7 +33,7 @@ class OrderMutation extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Remove a resource from storage.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -52,15 +52,13 @@ class OrderMutation extends Controller
         }
 
         try {
-
             $result = $this->orderRepository->cancel($orderId);
 
-            if ($result) {
-
-                return ['success' => trans('admin::app.response.cancel-success', ['name' => 'Order'])];
-            } else {
-                throw new Exception(trans('bagisto_graphql::app.admin.response.cancel-error'));
-            }
+            return [
+                'status'    => $result ? true : false,
+                'order'     => $this->orderRepository->find($orderId),
+                'message'   => $result ? trans('admin::app.response.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.admin.response.cancel-error')
+            ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

@@ -17,6 +17,12 @@ extend type Query @guard(with: ["api"]){
     viewRefund(id: ID @eq): Refund @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
 }
 
+extend type Mutation @guard(with: ["api"]) {
+    cancelCustomerOrder(
+        id: ID!
+    ): DeleteOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@cancel")
+}
+
 input FilterCustomerOrderInput {
     id: Int
     incrementId: String @rename(attribute: "increment_id")

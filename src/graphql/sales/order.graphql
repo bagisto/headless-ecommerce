@@ -20,7 +20,7 @@ extend type Query @guard {
 extend type Mutation @guard {
     cancelOrder(
         id: ID!
-    ): Order  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\OrderMutation@cancel")
+    ): DeleteOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Sales\\OrderMutation@cancel")
 }
 
 input FilterOrderInput {
@@ -213,4 +213,10 @@ type FormattedOrderPriceData {
     baseShippingInvoiced: String @rename(attribute: "base_shipping_invoiced")
     shippingRefunded: String @rename(attribute: "shipping_refunded")
     baseShippingRefunded: String @rename(attribute: "base_shipping_refunded")
+}
+
+type DeleteOrderResponse {
+    status: Boolean
+    message: String
+    order: Order
 }

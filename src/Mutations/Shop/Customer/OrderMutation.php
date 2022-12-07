@@ -103,6 +103,53 @@ class OrderMutation extends Controller
     }
 
     /**
+     * Remove a resource from storage.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cancel($rootValue, array $args, GraphQLContext $context)
+    {
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+            throw new Exception(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                'Invalid request parameter.'
+            );
+        }
+
+        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+            throw new Exception(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer Not Login.'
+            );
+        }
+
+        $orderId = $args['id'];
+
+        try {
+            $customer = bagisto_graphql()->guard($this->guard)->user();
+
+            $order = $this->orderRepository->findOneWhere([
+                'id'            => $orderId,
+                'customer_id'   => $customer->id,
+            ]);
+
+            if (! $order || ! $order->canCancel() || ! $order->canInvoice()) {
+                throw new Exception(trans('bagisto_graphql::app.admin.response.cancel-error'));
+            }
+            
+            $result = $this->orderRepository->cancel($orderId);
+
+            return [
+                'status'    => $result ? true : false,
+                'order'     => $this->orderRepository->find($orderId),
+                'message'   => $result ? trans('admin::app.response.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.admin.response.cancel-error')
+            ];
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
      * Returns a current customer's orders shipments data.
      *
      * @return \Illuminate\Http\Response

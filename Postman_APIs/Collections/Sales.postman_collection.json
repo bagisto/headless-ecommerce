@@ -247,6 +247,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation cancelOrder {\n    cancelOrder(id: 8) {\n        status\n        message\n        order {\n            id\n            incrementId\n            status\n            channelName\n            isGuest\n            customerEmail\n            customerFirstName\n            customerLastName\n            customerCompanyName\n            customerVatId\n            shippingMethod\n            shippingTitle\n            shippingDescription\n            couponCode\n            isGift\n            totalItemCount\n            totalQtyOrdered\n            baseCurrencyCode\n            channelCurrencyCode\n            orderCurrencyCode\n            grandTotal\n            baseGrandTotal\n            grandTotalInvoiced\n            baseGrandTotalInvoiced\n            grandTotalRefunded\n            baseGrandTotalRefunded\n            subTotal\n            baseSubTotal\n            subTotalInvoiced\n            baseSubTotalInvoiced\n            subTotalRefunded\n            baseSubTotalRefunded\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            discountInvoiced\n            baseDiscountInvoiced\n            discountRefunded\n            baseDiscountRefunded\n            taxAmount\n            baseTaxAmount\n            taxAmountInvoiced\n            baseTaxAmountInvoiced\n            taxAmountRefunded\n            baseTaxAmountRefunded\n            shippingAmount\n            baseShippingAmount\n            shippingInvoiced\n            baseShippingInvoiced\n            shippingRefunded\n            baseShippingRefunded\n            customerId\n            customerType\n            channelId\n            channelType\n            cartId\n            appliedCartRuleIds\n            shippingDiscountAmount\n            baseShippingDiscountAmount\n            createdAt\n            updatedAt\n            billingAddress {\n                id\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                vatId\n                defaultAddress\n            }\n            shippingAddress {\n                id\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                vatId\n                defaultAddress\n            }\n            items {\n                id\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                qtyOrdered\n                qtyShipped\n                qtyInvoiced\n                qtyCanceled\n                qtyRefunded\n                price\n                basePrice\n                total\n                baseTotal\n                totalInvoiced\n                baseTotalInvoiced\n                amountRefunded\n                baseAmountRefunded\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                discountInvoiced\n                baseDiscountInvoiced\n                discountRefunded\n                baseDiscountRefunded\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                taxAmountInvoiced\n                baseTaxAmountInvoiced\n                taxAmountRefunded\n                baseTaxAmountRefunded\n                productId\n                productType\n                orderId\n                parentId\n                additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    total\n                    baseTotal\n                    totalInvoiced\n                    baseTotalInvoiced\n                    amountRefunded\n                    baseAmountRefunded\n                    discountAmount\n                    baseDiscountAmount\n                    discountInvoiced\n                    baseDiscountInvoiced\n                    discountRefunded\n                    baseDiscountRefunded\n                    taxAmount\n                    baseTaxAmount\n                    taxAmountInvoiced\n                    baseTaxAmountInvoiced\n                    taxAmountRefunded\n                    baseTaxAmountRefunded\n                    grantTotal\n                    baseGrantTotal\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n            }\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                grandTotalInvoiced\n                baseGrandTotalInvoiced\n                grandTotalRefunded\n                baseGrandTotalRefunded\n                subTotal\n                baseSubTotal\n                subTotalInvoiced\n                baseSubTotalInvoiced\n                subTotalRefunded\n                discountAmount\n                baseDiscountAmount\n                discountInvoiced\n                baseDiscountInvoiced\n                discountRefunded\n                baseDiscountRefunded\n                taxAmount\n                baseTaxAmount\n                taxAmountInvoiced\n                baseTaxAmountInvoiced\n                taxAmountRefunded\n                baseTaxAmountRefunded\n                shippingAmount\n                baseShippingAmount\n                shippingInvoiced\n                baseShippingInvoiced\n                shippingRefunded\n                baseShippingRefunded\n            }\n        }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
