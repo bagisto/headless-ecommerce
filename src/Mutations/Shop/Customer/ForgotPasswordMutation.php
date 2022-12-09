@@ -3,7 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Customer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
@@ -52,7 +52,15 @@ class ForgotPasswordMutation extends Controller
         ]);
                 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            $errorMessage = [];
+            foreach ($validator->messages()->toArray() as $message) {
+                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            }
+            
+            throw new CustomException(
+                implode(" ,", $errorMessage),
+                'Invalid ForgotPassword Details.'
+            );
         }
         
         try {
@@ -64,12 +72,21 @@ class ForgotPasswordMutation extends Controller
                     'success'   => trans('customer::app.forget_password.reset_link_sent')
                 ];
             } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.password-reset-failed'));
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.response.password-reset-failed'),
+                    'Invalid ForgotPassword Email Details.'
+                );
             }
         } catch (\Swift_RfcComplianceException $e) {
-            throw new Exception(trans('customer::app.forget_password.reset_link_sent'));
+            throw new CustomException(
+                trans('customer::app.forget_password.reset_link_sent'),
+                'Swift_RfcComplianceException: Invalid ForgotPassword Details.'
+            );
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Exception: invalid forgot password email.'
+            );
         }
     }
 

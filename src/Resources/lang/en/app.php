@@ -111,7 +111,7 @@
             ],
             'response'  => [
                 'error-registration'        => 'Warning: customer registration failed.',
-                'password-reset-failed'     => 'Warning: there is some error in sending password reset email.',
+                'password-reset-failed'     => 'Warning: We already sent you password reset email, try after sometime.',
                 'customer-details'          => 'Success: Customer details fetched successfully.',
                 'not-found'                 => 'Wanring: No :name found.',
                 'no-address-found'          => 'Wanring: No address found.',
