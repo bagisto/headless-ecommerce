@@ -2,6 +2,8 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+## **v1.4.3 (12th of December, 2022)** - *Release*
+
 * [enhancement] - Order Cancellation API query added for log-in customer.
 
 * [enhancement] - Social Login sign up created for the TrueCaller.
