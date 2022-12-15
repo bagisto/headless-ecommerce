@@ -2,6 +2,12 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+## **v1.4.4 (15th of December, 2022)** - *Release*
+
+* [enhancement] - Currency and Locale converter functionality should be work, (use x-currency and x-locale in request header).
+
+* [Fix] - Getting issue in notifications (https://prnt.sc/c2Oj8RZQktCR).
+
 ## **v1.4.3 (12th of December, 2022)** - *Release*
 
 * [enhancement] - Order Cancellation API query added for log-in customer.

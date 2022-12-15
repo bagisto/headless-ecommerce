@@ -24,6 +24,12 @@ composer require bagisto/graphql-api
 php artisan bagisto_graphql:install
 ~~~
 
+* add the below-line inside the **modules** index in **config/concord.php** file:
+
+~~~
+\Webkul\GraphQLAPI\Providers\ModuleServiceProvider::class,
+~~~
+
 ##### Find a file config/lighthouse.php from root and do the following changes:
 
 * change the **guard** index value from **api** to **admin-api** like below mentioned:

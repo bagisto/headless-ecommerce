@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
+use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Webkul\BookingProduct\Type\Booking as BaseBookingType;
@@ -9,6 +10,8 @@ use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 use Webkul\GraphQLAPI\Type\Booking as GraphQLAPIBookingType;
+use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
+use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -18,7 +21,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      * @return void
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function boot()
+    public function boot(Router $router)
     {
         include __DIR__ . '/../Http/helpers.php';
         
@@ -34,6 +37,10 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->overrideModels();
 
         $this->publishesDefault();
+
+        /* aliases */
+        $router->aliasMiddleware('locale', LocaleMiddleware::class);
+        $router->aliasMiddleware('currency', CurrencyMiddleware::class);
 
         if (request()->hasHeader('authorization')) {
             $headerValue = explode('Bearer ', request()->header('authorization'));
