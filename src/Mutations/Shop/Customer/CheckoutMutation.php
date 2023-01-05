@@ -596,6 +596,35 @@ class CheckoutMutation extends Controller
     }
 
     /**
+     * Remove Coupon from cart
+     *
+     * @param  array  $args
+     * @return \Illuminate\Http\Response
+     */
+    public function removeCoupon($rootValue, array $args, GraphQLContext $context)
+    {
+        try {
+            if (Cart::getCart()->coupon_code) {
+                Cart::removeCouponCode()->collectTotals();
+                
+                return [
+                    'success'       => true,
+                    'message'       => trans('bagisto_graphql::app.shop.response.coupon-removed'),
+                    'cart'          => Cart::getCart(),
+                ];
+            }
+
+            return [
+                'success'       => false,
+                'message'       => trans('bagisto_graphql::app.shop.response.coupon-remove-failed'),
+                'cart'          => Cart::getCart(),
+            ];
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
      * Create order
      *
      * @param  array  $args

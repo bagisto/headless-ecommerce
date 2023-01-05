@@ -139,6 +139,8 @@
                 'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
                 'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
                 'warning-num-already-used'  => 'Warning: This :phone number is registered using different email address.',
+                'coupon-removed'            => 'Success: coupon removed from cart successfully.',
+                'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
             ]
         ]
     ];

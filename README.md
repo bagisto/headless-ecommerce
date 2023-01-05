@@ -10,7 +10,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 1. Requirements:
 
-* **Bagisto**: v1.4.3
+* **Bagisto**: v1.4.5
 
 ### 2. Installation:
 
@@ -31,6 +31,16 @@ php artisan bagisto_graphql:install
 ~~~
 
 ##### Find a file config/lighthouse.php from root and do the following changes:
+
+* add these two middlewares inside the **middleware** index for the support of multi-locale and multi-currency:
+
+~~~
+    // Validate Locale in request
+    \Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
+    
+    // Validate Currency in request
+    \Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware::class,
+~~~
 
 * change the **guard** index value from **api** to **admin-api** like below mentioned:
 
