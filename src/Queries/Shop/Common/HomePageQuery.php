@@ -161,13 +161,16 @@ class HomePageQuery extends BaseFilter
     public function getAdvertisements($rootValue, array $args)
     {
         $data = [];
-        foreach($this->velocityMetadataRepository->latest()->get() as $keys => $metaData) {
-            $advertisement = json_decode($metaData->advertisement, true);
-            $data[$keys]["advertisementFour"] = $this->advertisement(4, $advertisement);
-            $data[$keys]["advertisementThree"] = $this->advertisement(3, $advertisement);
-            $data[$keys]["advertisementTwo"] = $this->advertisement(2, $advertisement);
-        }
+        
+        $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
 
+        if ($advertisementRecord) {
+            $advertisement = json_decode($advertisementRecord->advertisement, true);
+            $data["advertisementFour"] = $this->advertisement(4, $advertisement);
+            $data["advertisementThree"] = $this->advertisement(3, $advertisement);
+            $data["advertisementTwo"] = $this->advertisement(2, $advertisement);
+        }
+        
         return $data;
     }
 
