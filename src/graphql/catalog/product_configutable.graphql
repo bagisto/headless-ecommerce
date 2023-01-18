@@ -2,6 +2,7 @@ type ConfigutableProductOptions {
     id: ID!
     label: String
     swatchType: String @rename(attribute: "swatch_type")
+    swatchValue: String @rename(attribute: "swatch_value")
     products: [Int]
 }
 

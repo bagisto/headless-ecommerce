@@ -49,9 +49,9 @@ type FilterableAttribute {
     adminName: String! @rename(attribute: "admin_name")
     type: String!
     validation: String
-    position: Int!
+    position: Int
     options: [AttributeOption!] @hasMany
-    isFilterable: Int! @rename(attribute: "is_filterable")
+    isFilterable: Int @rename(attribute: "is_filterable")
     category: Category! @belongsTo(relation: "category")
 }
 
