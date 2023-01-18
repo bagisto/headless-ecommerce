@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
@@ -227,7 +228,7 @@ class HomePageQuery extends BaseFilter
         if ($type == 4 && isset($advertisement[4]) && is_array($advertisement[4])) {
             $advertisementFour = array_values(array_filter($advertisement[4]));
             foreach($advertisementFour as $key => $value) {
-                $results[$key] = $value ? ['image' => $value] : '';
+                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
             }
 
             if (empty($results)) {
@@ -242,7 +243,7 @@ class HomePageQuery extends BaseFilter
             $advertisementThree = array_values(array_filter($advertisement[3]));
 
             foreach($advertisementThree as $key => $value) {
-                $results[$key] = $value ? ['image' => $value] : '';
+                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
             }
 
             if (empty($results)) {
@@ -256,7 +257,7 @@ class HomePageQuery extends BaseFilter
             $advertisementTwo = array_values(array_filter($advertisement[2]));
 
             foreach($advertisementTwo as $key => $value) {
-                $results[$key] = $value ? ['image' => $value] : '';
+                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
             }
 
             if (empty($results)) {
