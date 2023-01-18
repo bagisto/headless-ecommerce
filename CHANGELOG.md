@@ -2,6 +2,9 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+
+* [enhancement] - Added slug support in advertisement banners.
+
 ## **v1.4.4 (15th of December, 2022)** - *Release*
 
 * [enhancement] - Currency and Locale converter functionality should be work, (use x-currency and x-locale in request header).

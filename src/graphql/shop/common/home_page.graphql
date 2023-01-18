@@ -27,10 +27,15 @@ extend type Mutation {
 }
 
 type Advertise {
-    advertisementFour: [String]
-    advertisementThree: [String]
-    advertisementTwo: [String]
+    advertisementFour: [AdvertiseData]
+    advertisementThree: [AdvertiseData]
+    advertisementTwo: [AdvertiseData]
     cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+}
+
+type AdvertiseData {
+    image: String!
+    slug: String
 }
 
 type Notification {

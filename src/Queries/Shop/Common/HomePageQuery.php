@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
+use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
@@ -163,12 +164,33 @@ class HomePageQuery extends BaseFilter
         $data = [];
         
         $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
-
+        
         if ($advertisementRecord) {
             $advertisement = json_decode($advertisementRecord->advertisement, true);
-            $data["advertisementFour"] = $this->advertisement(4, $advertisement);
-            $data["advertisementThree"] = $this->advertisement(3, $advertisement);
-            $data["advertisementTwo"] = $this->advertisement(2, $advertisement);
+            
+            $advertisementFour = $this->advertisement(4, $advertisement);
+            $advertisementThree = $this->advertisement(3, $advertisement);
+            $advertisementTwo = $this->advertisement(2, $advertisement);
+
+            $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
+            
+            foreach (explode("@include", $homeContent) as $template) {
+                if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
+                ) {
+                    $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
+
+                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
+                    $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
+                    
+                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
+                    $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
+                }
+            }
+            
+            $data['advertisementFour'] = $advertisementFour;
+            $data['advertisementThree'] = $advertisementThree;
+            $data['advertisementTwo'] = $advertisementTwo;
+
         }
         
         return $data;
@@ -205,14 +227,14 @@ class HomePageQuery extends BaseFilter
         if ($type == 4 && isset($advertisement[4]) && is_array($advertisement[4])) {
             $advertisementFour = array_values(array_filter($advertisement[4]));
             foreach($advertisementFour as $key => $value) {
-                $results[$key] = $value;
+                $results[$key] = $value ? ['image' => $value] : '';
             }
 
             if (empty($results)) {
-                $results[0] = asset('/themes/velocity/assets/images/big-sale-banner.webp');
-                $results[1] = asset('/themes/velocity/assets/images/seasons.webp');
-                $results[2] = asset('/themes/velocity/assets/images/deals.webp');
-                $results[3] = asset('/themes/velocity/assets/images/kids.webp');
+                $results[0] = ['image' => asset('/themes/velocity/assets/images/big-sale-banner.webp')];
+                $results[1] = ['image' => asset('/themes/velocity/assets/images/seasons.webp')];
+                $results[2] = ['image' => asset('/themes/velocity/assets/images/deals.webp')];
+                $results[3] = ['image' => asset('/themes/velocity/assets/images/kids.webp')];
             }
         }
 
@@ -220,13 +242,13 @@ class HomePageQuery extends BaseFilter
             $advertisementThree = array_values(array_filter($advertisement[3]));
 
             foreach($advertisementThree as $key => $value) {
-                $results[$key] = $value;
+                $results[$key] = $value ? ['image' => $value] : '';
             }
 
             if (empty($results)) {
-               $results[0] = asset('/themes/velocity/assets/images/headphones.webp');
-               $results[1] = asset('/themes/velocity/assets/images/watch.webp');
-               $results[2] = asset('/themes/velocity/assets/images/kids-2.webp');
+               $results[0] = ['image' => asset('/themes/velocity/assets/images/headphones.webp')];
+               $results[1] = ['image' => asset('/themes/velocity/assets/images/watch.webp')];
+               $results[2] = ['image' => asset('/themes/velocity/assets/images/kids-2.webp')];
             }
         }
 
@@ -234,15 +256,44 @@ class HomePageQuery extends BaseFilter
             $advertisementTwo = array_values(array_filter($advertisement[2]));
 
             foreach($advertisementTwo as $key => $value) {
-                $results[$key] = $value;
+                $results[$key] = $value ? ['image' => $value] : '';
             }
 
             if (empty($results)) {
-                $results[0] = asset('/themes/velocity/assets/images/toster.webp');
-                $results[1] = asset('/themes/velocity/assets/images/trimmer.webp');
+                $results[0] = ['image' => asset('/themes/velocity/assets/images/toster.webp')];
+                $results[1] = ['image' => asset('/themes/velocity/assets/images/trimmer.webp')];
             }
         }
        
         return $results;
+    }
+
+    public function getAdvertisementSlug($tempString, $template, $advertisement)
+    {
+        $trimString = trim(preg_replace('/\(+/', '', $template), ')');
+        $findArray = explode($tempString, $trimString);
+
+        if (count($findArray) > 1) {
+            $indexArray = explode(",", str_replace(']', '', str_replace('[', '', $findArray[1])));
+
+            foreach ($indexArray as $slugString) {
+                $oneSlug = explode("'one'=>", $slugString); 
+                $twoSlug = explode("'two'=>", $slugString);
+                $threeSlug = explode("'three'=>", $slugString);
+                $fourSlug = explode("'four'=>", $slugString);
+
+                if (count($oneSlug) > 1)
+                    $advertisement[0]['slug'] = str_replace("'", '', $oneSlug[1]);
+                elseif (count($twoSlug) > 1)
+                    $advertisement[1]['slug'] = str_replace("'", '', $twoSlug[1]);
+                elseif (count($threeSlug) > 1)
+                    $advertisement[2]['slug'] = str_replace("'", '', $threeSlug[1]);
+                elseif (count($fourSlug) > 1)
+                    $advertisement[3]['slug'] = str_replace("'", '', $fourSlug[1]);
+
+            }
+        }
+
+        return $advertisement;
     }
 }
