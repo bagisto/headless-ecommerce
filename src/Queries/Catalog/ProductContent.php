@@ -7,10 +7,18 @@ use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
 use Webkul\Product\Helpers\View as ProductViewHelper;
+use Webkul\Product\Helpers\Review;
 use Webkul\Product\Repositories\ProductRepository;
 
 class ProductContent extends BaseFilter
 {
+    /**
+     * Contains route related configuration.
+     *
+     * @var array
+     */
+    protected $_config;
+
     /**
      * Contains current guard
      *
@@ -40,6 +48,13 @@ class ProductContent extends BaseFilter
     protected $productViewHelper;
 
     /**
+     * Product Review helper instance.
+     *
+     * @var \Webkul\Product\Helpers\Review
+     */
+    protected $review;
+
+    /**
      * Product configurable helper instance.
      *
      * @var \Webkul\Product\Helpers\ConfigurableOption
@@ -52,6 +67,7 @@ class ProductContent extends BaseFilter
      * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @param  \Webkul\Customer\Repositories\WishlistRepository  $wishlistRepository
      * @param  \Webkul\Product\Helpers\View  $productViewHelper
+     * @param  \Webkul\Product\Helpers\Review  $review
      * @param  \Webkul\Product\Helpers\ConfigurableOption  $productConfigurableHelper
      * @return void
      */
@@ -59,6 +75,7 @@ class ProductContent extends BaseFilter
         ProductRepository $productRepository,
         WishlistRepository $wishlistRepository,
         ProductViewHelper $productViewHelper,
+        Review $review,
         ProductConfigurableHelper $productConfigurableHelper
     ) {
         $this->guard = 'api';
@@ -68,6 +85,8 @@ class ProductContent extends BaseFilter
         $this->wishlistRepository = $wishlistRepository;
 
         $this->productViewHelper = $productViewHelper;
+
+        $this->review = $review;
 
         $this->productConfigurableHelper = $productConfigurableHelper;
 
@@ -319,5 +338,31 @@ class ProductContent extends BaseFilter
     public function getProductBaseImage($rootValue, array $args, GraphQLContext $context)
     {
         return productimage()->getProductBaseImage($rootValue);
+    }
+
+    /**
+     * Get product avarage rating.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return string
+     */
+    public function getAverageRating($rootValue, array $args, GraphQLContext $context)
+    {
+        return $this->review->getAverageRating($rootValue);
+    }
+
+    /**
+     * Get product percentage rating.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return array
+     */
+    public function getPercentageRating($rootValue, array $args, GraphQLContext $context)
+    {
+        return $this->review->getPercentageRating($rootValue);
     }
 }

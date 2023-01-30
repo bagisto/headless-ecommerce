@@ -30,6 +30,15 @@ php artisan bagisto_graphql:install
 \Webkul\GraphQLAPI\Providers\ModuleServiceProvider::class,
 ~~~
 
+##### Find a file app/Http/Kernel.php from root and do the following changes:
+
+* add these two middlewares inside the **$middleware** array for the support of guest's cart:
+
+~~~
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    \Illuminate\Session\Middleware\StartSession::class,
+~~~
+
 ##### Find a file config/lighthouse.php from root and do the following changes:
 
 * add these two middlewares inside the **middleware** index for the support of multi-locale and multi-currency:

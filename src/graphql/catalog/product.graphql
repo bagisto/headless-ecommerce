@@ -133,6 +133,8 @@ type Product {
     priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
     reviews: [Review] @hasMany
+    averageRating: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAverageRating")
+    percentageRating: [Int] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getPercentageRating")
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
     downloadableSamples: [ProductDownloadableSample] @hasMany(relation: "downloadable_samples")
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
