@@ -132,7 +132,7 @@ type Product {
     isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInWishlist")
     priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
-    reviews: [Review] @hasMany
+    reviews: [Review] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getReviews")
     averageRating: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAverageRating")
     percentageRating: [Int] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getPercentageRating")
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")

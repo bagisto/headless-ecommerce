@@ -328,6 +328,25 @@ class ProductContent extends BaseFilter
     }
 
     /**
+     * Get product's review list.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return mixed
+     */
+    public function getReviews($rootValue, array $args, GraphQLContext $context)
+    {
+        $product = $this->productRepository->find($rootValue->id);
+
+        if ($product) {
+            return $product->reviews->where('status', 'approved');
+        }
+
+        return [];
+    }
+
+    /**
      * Get product base image.
      *
      * @param  mixed  $rootValue
