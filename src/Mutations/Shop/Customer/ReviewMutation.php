@@ -143,7 +143,7 @@ class ReviewMutation extends Controller
             $review = $this->productReviewRepository->create($data);
 
             return [
-                'success'   => trans('shop::app.response.submit-success', ['name' => 'Product Review']),
+                'success'   => trans('bagisto_graphql::app.shop.response.review-create-success'),
                 'review'    => $review
             ];
         } catch (Exception $e) {

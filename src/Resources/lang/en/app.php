@@ -141,6 +141,7 @@
                 'warning-num-already-used'  => 'Warning: This :phone number is registered using different email address.',
                 'coupon-removed'            => 'Success: coupon removed from cart successfully.',
                 'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
+                'review-create-success'     => 'Success: Review is submitted successfully, please wait for the approval.',
             ]
         ]
     ];
