@@ -1,6 +1,8 @@
 # Shop\Product\ItemListing related APIs.
 extend type Query {
     getProductListing(input: FilterProductListingInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll"), locale: String, first: Int, page: Int): [Product!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+
+    getFilterAttribute(categorySlug: String): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getFilterAttributes")
 }
 
 input FilterProductListingInput {
@@ -16,4 +18,26 @@ input FilterProductListingInput {
     color: String
     size: String
     brand: String
+}
+
+input FilterAttributeInput {
+    categorySlug: String
+}
+
+type FilterAttribute {
+    minPrice: Float @rename(attribute: "min_price")
+    maxPrice: Float @rename(attribute: "max_price")
+    filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
+    sortOrders: [CatalogSortOrder!] @rename(attribute: "sort_orders")
+}
+
+type CatalogSortOrder {
+    key: String
+    label: String
+    value: CatalogSortOrderValue
+}
+
+type CatalogSortOrderValue {
+    sort: String
+    order: String
 }

@@ -2,6 +2,7 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Added fiter attributes API for catlog listing.
 
 * [enhancement] - Added slug support in advertisement banners.
 

@@ -2,14 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Product;
 
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Models\ProductAttributeValueProxy;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Product\Helpers\Toolbar;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ProductListingQuery extends BaseFilter
 {
@@ -42,6 +44,13 @@ class ProductListingQuery extends BaseFilter
     protected $attributeRepository;
 
     /**
+     * Toolbar helper instance.
+     *
+     * @var \Webkul\Product\Helpers\Toolbar
+     */
+    protected $productHelperToolbar;
+
+    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
@@ -53,7 +62,8 @@ class ProductListingQuery extends BaseFilter
         ProductFlatRepository $productFlatRepository,
         ProductRepository $productRepository,
         CategoryRepository $categoryRepository,
-        AttributeRepository $attributeRepository
+        AttributeRepository $attributeRepository,
+        Toolbar $productHelperToolbar
     ) {
         $this->productFlatRepository = $productFlatRepository;
 
@@ -62,6 +72,8 @@ class ProductListingQuery extends BaseFilter
         $this->categoryRepository = $categoryRepository;
 
         $this->attributeRepository = $attributeRepository;
+
+        $this->productHelperToolbar = $productHelperToolbar;
     }
 
     /**
@@ -262,6 +274,53 @@ class ProductListingQuery extends BaseFilter
         }
 
         return $qb->groupBy('product_flat.id');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getFilterAttributes($rootValue, array $args, GraphQLContext $context)
+    {
+        $category = $maxPrice = null;
+        $filterAttributes = null;
+
+        if (isset($args['categorySlug']) && $args['categorySlug']) {
+            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($args) {
+                $q->where('slug', 'like', '%' . urldecode($args['categorySlug']) . '%');
+            })->first();
+
+            if ($category) {
+                $maxPrice = $this->productFlatRepository->handleCategoryProductMaximumPrice($category);
+
+                if (empty($filterAttributes = $category->filterableAttributes)) {
+                    $filterAttributes = $this->attributeRepository->getFilterAttributes();
+                }
+            }
+        }
+
+        $availableSortOrders = [];
+
+        foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
+            $keys = explode('-', $key);
+
+            $availableSortOrders[$key] = [
+                'key'   => $key,
+                'label' => $label,
+                'value' => [
+                    'sort'  => current($keys),
+                    'order' => end($keys),
+                ]
+            ];
+        }
+        
+        return [
+            'min_price'         => 0,
+            'max_price'         => $maxPrice ?? 500,
+            'filter_attributes' => $filterAttributes,
+            'sort_orders'       => $availableSortOrders,
+        ];
     }
 
     /**
