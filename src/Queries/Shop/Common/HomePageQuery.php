@@ -164,34 +164,49 @@ class HomePageQuery extends BaseFilter
     {
         $data = [];
         
-        $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
-        
-        if ($advertisementRecord) {
-            $advertisement = json_decode($advertisementRecord->advertisement, true);
+        if (core()->getCurrentChannel()->theme == 'velocity') {
+            $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
             
-            $advertisementFour = $this->advertisement(4, $advertisement);
-            $advertisementThree = $this->advertisement(3, $advertisement);
-            $advertisementTwo = $this->advertisement(2, $advertisement);
+            if ($advertisementRecord) {
+                $advertisement = json_decode($advertisementRecord->advertisement, true);
+                
+                $advertisementFour = $this->advertisement(4, $advertisement);
+                $advertisementThree = $this->advertisement(3, $advertisement);
+                $advertisementTwo = $this->advertisement(2, $advertisement);
 
-            $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
-            
-            foreach (explode("@include", $homeContent) as $template) {
-                if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
-                ) {
-                    $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
+                $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
+                
+                foreach (explode("@include", $homeContent) as $template) {
+                    if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
+                    ) {
+                        $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
 
-                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
-                    $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
-                    
-                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
-                    $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
+                    } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
+                        $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
+                        
+                    } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
+                        $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
+                    }
                 }
+                
+                $data['advertisementFour'] = $advertisementFour;
+                $data['advertisementThree'] = $advertisementThree;
+                $data['advertisementTwo'] = $advertisementTwo;
             }
-            
-            $data['advertisementFour'] = $advertisementFour;
-            $data['advertisementThree'] = $advertisementThree;
-            $data['advertisementTwo'] = $advertisementTwo;
-
+        } else {
+            $data['advertisementFour'] = $data['advertisementTwo'] = [];
+            $data['advertisementThree'] = [
+                [
+                    'image' => asset("/themes/default/assets/images/1.webp"),
+                    'slug'  => null
+                ],  [
+                    'image' => asset("/themes/default/assets/images/2.webp"),
+                    'slug'  => null
+                ],  [
+                    'image' => asset("/themes/default/assets/images/3.webp"),
+                    'slug'  => null
+                ],
+            ];
         }
         
         return $data;

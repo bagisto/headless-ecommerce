@@ -23,6 +23,7 @@ input UpdateAccountInput {
     oldpassword: String
     password: String
     passwordConfirmation: String @rename(attribute: "password_confirmation")
+    image: Upload
 }
 
 input DeleteAccountInput {

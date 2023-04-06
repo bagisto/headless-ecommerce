@@ -4,12 +4,13 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Hash;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class AccountMutation extends Controller
 {
@@ -104,6 +105,7 @@ class AccountMutation extends Controller
         $customer = bagisto_graphql()->guard($this->guard)->user();
 
         $data = $args['input'];
+        
         $isPasswordChanged = false;
         
         $validator = \Validator::make($data, [
@@ -115,6 +117,7 @@ class AccountMutation extends Controller
             'oldpassword'           => 'required_with:password',
             'password'              => 'confirmed|min:6|required_with:oldpassword',
             'password_confirmation' => 'required_with:password',
+            'image.*'               => 'mimes:bmp,jpeg,jpg,png,webp',
         ]);
         
         if ($validator->fails()) {
@@ -130,7 +133,10 @@ class AccountMutation extends Controller
         }
 
         try {
-            if (isset ($data['date_of_birth']) && $data['date_of_birth'] == "") {
+            if (
+                isset ($data['date_of_birth']) 
+                && $data['date_of_birth'] == ""
+            ) {
                 unset($data['date_of_birth']);
             }
 
@@ -162,6 +168,21 @@ class AccountMutation extends Controller
                 }
     
                 Event::dispatch('customer.update.after', $customer);
+
+                if (
+                    core()->getCurrentChannel()->theme != 'default' 
+                    && ! empty($data['image'])
+                ) {
+                    $customer->image = $data['image']->storePublicly('customer/' . $customer->id);
+                    $customer->save();
+                } else {
+                    if ($customer->image) {
+                        Storage::delete($customer->image);
+                    }
+
+                    $customer->image = null;
+                    $customer->save();
+                }
 
                 return [
                     'status'    => $customer ? true : false,
