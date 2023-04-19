@@ -23,7 +23,7 @@ input CreateShipmentInput {
     carrierTitle: String! @rename(attribute: "carrier_title")
     trackNumber: String! @rename(attribute: "track_number")
     inventorySourceId: Int! @rename(attribute: "inventory_source_id")
-    shipmentData: [ShipmentDataInput!] @rename(attribute: "shipment_data")
+    shipmentData: [ShipmentDataInput!]! @rename(attribute: "shipment_data")
 }
 
 input ShipmentDataInput {

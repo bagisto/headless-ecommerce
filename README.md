@@ -65,14 +65,6 @@ php artisan bagisto_graphql:install
     ],
 ~~~
 
-* If you are using image (like for customer profile, etc...), then, you must add the Upload scalar to your **schema.graphql** file, more details [lighthouse-php](https://lighthouse-php.com/master/digging-deeper/file-uploads.html#setup):
-
-~~~
-"Can be used as an argument to upload files using https://github.com/jaydenseric/graphql-multipart-request-spec"
-scalar Upload
-  @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
-~~~
-
 * change the *App\\GraphQL\\* path to **Webkul\\GraphQLAPI\\** in all the indexes of **namespace** index:
 
 ~~~

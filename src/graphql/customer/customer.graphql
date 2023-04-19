@@ -51,12 +51,14 @@ type Customer {
     email: String!
     phone: String
     notes: String
+    image: String
     imageUrl: String @rename(attribute: "image_url")
     password: String!
     apiToken: String @rename(attribute: "api_token")
     customerGroupId: Int @rename(attribute: "customer_group_id")
     subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
     isVerified: Boolean @rename(attribute: "is_verified")
+    isSuspended: Boolean @rename(attribute: "is_suspended")
     token: String
     notes: String
     status: Boolean

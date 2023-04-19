@@ -3,7 +3,7 @@ extend type Query @guard(with: ["api"]) {
     accountInfo: AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
 }
 
-extend type Mutation @guard(with: ["api"])  {
+extend type Mutation @guard(with: ["api"]) {
     updateAccount(
         input: UpdateAccountInput!
     ): AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")

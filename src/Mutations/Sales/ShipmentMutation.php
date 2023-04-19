@@ -54,7 +54,7 @@ class ShipmentMutation extends Controller
 
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if (!$order->canShip()) {
+        if (! $order->canShip()) {
             throw new Exception(trans('admin::app.sales.shipments.order-error'));
         }
 

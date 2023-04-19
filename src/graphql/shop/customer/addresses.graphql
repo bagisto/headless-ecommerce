@@ -1,6 +1,6 @@
 #Shop\Customer\Address Related APIs
 extend type Query @guard(with: ["api"]){
-   addresses: AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@addresses")
+    addresses: AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@addresses")
 
     address(id: ID @eq): CustomerAddress @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@address")
 }

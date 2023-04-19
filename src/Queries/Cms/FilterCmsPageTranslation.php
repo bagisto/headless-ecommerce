@@ -18,5 +18,5 @@ class FilterCmsPageTranslation extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         return $query->where($arguments);
-    } 
+    }
 }  

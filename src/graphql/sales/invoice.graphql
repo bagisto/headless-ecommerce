@@ -21,7 +21,7 @@ extend type Mutation @guard {
 
 input CreateInvoiceInput {
     orderId: Int! @rename(attribute: "order_id")
-    invoiceData: [InvoiceDataInput!] @rename(attribute: "invoice_data")
+    invoiceData: [InvoiceDataInput!]! @rename(attribute: "invoice_data")
 }
 
 input InvoiceDataInput {
