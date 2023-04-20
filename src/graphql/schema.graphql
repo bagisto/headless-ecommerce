@@ -21,4 +21,3 @@ scalar Upload
 #import /cms/*.graphql
 #import /promotion/*.graphql
 #import /marketing/*.graphql
-#import /../../../../../packages/Webkul/MarketplaceGraphQLAPI/src/graphql/schema.graphql
