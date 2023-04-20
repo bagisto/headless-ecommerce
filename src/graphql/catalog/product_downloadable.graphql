@@ -3,6 +3,7 @@ type ProductDownloadableSample {
     id: ID!
     url: String
     file: String
+    fileUrl: String @rename(attribute: "file_url")
     fileName: String @rename(attribute: "file_name")
     type: String
     sortOrder: Int @rename(attribute: "sort_order")
@@ -23,7 +24,7 @@ type SampleTranslation {
 type ProductDownloadableLink {
     id: ID!
     title: String
-    price: Int!
+    price: Float!
     url: String
     file: String
     fileUrl: String @rename(attribute: "file_url")
