@@ -16,5 +16,5 @@ input CustomerGroupPriceInput {
     customerGroupId: ID @rename(attribute: "customer_group_id")
     qty: Int!
     valueType: String! @rename(attribute: "value_type")
-    value: Int!
+    value: Float!
 }

@@ -37,6 +37,7 @@ input UpdateProductInput {
     locale: String!
     sku: String!
     name: String!
+    productNumber: String @rename(attribute: "product_number")
     urlKey: String! @rename(attribute: "url_key")
     taxCategoryId: Int @rename(attribute: "tax_category_id")
     new: Boolean
@@ -56,10 +57,11 @@ input UpdateProductInput {
     specialPrice: Float @rename(attribute: "special_price")
     specialPriceFrom: String @rename(attribute: "special_price_from")
     specialPriceTo: String @rename(attribute: "special_price_to")
+    length: Float
     width: Float
     height: Float
     depth: Float
-    weight: Float
+    weight: Float!
     customerGroupPrices: [CustomerGroupPriceInput] @rename(attribute: "customer_group_prices")
     inventories: [InventoriesInput!]
     categories: [Int!]
@@ -69,6 +71,7 @@ input UpdateProductInput {
     crossSells: [Int] @rename(attribute: "cross_sells")
     images: [String]
     videos: [String]
+    defaultVariantId: ID @rename(attribute: "default_variant_id")
     variants: [UpdateVariantInput!]
     links: [UpdateGroupedProductInput!]
     downloadableLinks: [UpdateDownloadableLinksInput!] @rename(attribute: "downloadable_links")

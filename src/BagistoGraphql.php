@@ -261,19 +261,18 @@ class BagistoGraphql
     public function uploadProductImages($product, $image_urls, $path, $type = 'image')
     {
         $model_path = $path . $product->id . '/';
+
         $image_dir_path = storage_path('app/public/' . $model_path);
+
         if (! file_exists($image_dir_path)) {
             mkdir(storage_path('app/public/' . $model_path), 0777, true);
         }
 
-        if ( $type == 'video')
-            $previousImageIds = $productImageArray = $product->videos()->pluck('id');
-        else
-            $previousImageIds = $productImageArray = $product->images()->pluck('id');
+        $previousImageIds = $productImageArray = ($type == 'video') ? $product->videos()->pluck('id') : $product->images()->pluck('id');
 
-        if (isset($image_urls) && $image_urls) {
+        if ($image_urls) {
 
-            foreach ($productImageArray->toArray() as $key => $productImageId) {
+            foreach ($productImageArray->toArray() as $productImageId) {
                 if (is_numeric($index = $previousImageIds->search($productImageId))) {
                     $previousImageIds->forget($index);
                 }
@@ -284,35 +283,30 @@ class BagistoGraphql
             }
 
             foreach ($image_urls as $imageId => $image_url) {
-                if ( $type == 'video') {
-                    $valoidateImg = $this->validatePath($image_url, 'video');
-                } else {
-                    $valoidateImg = $this->validatePath($image_url, 'image');
+                if (! $this->validatePath($image_url, $type)) {
+                    continue;
+                }
+                
+                $img_name = basename($image_url);
+
+                $savePath = $image_dir_path . $img_name;
+
+                if ( file_exists($savePath) ) {
+                    Storage::delete('/' . $model_path . $img_name);
                 }
 
-                if ( $valoidateImg ) {
-                    $img_name = basename($image_url);
-                    $savePath = $image_dir_path . $img_name;
+                file_put_contents($savePath, file_get_contents($image_url));
 
-                    if ( file_exists($savePath) ) {
-                        Storage::delete('/' . $model_path . $img_name);
-                    }
+                $params =[
+                    'type'       => $type,
+                    'path'       => $model_path . $img_name,
+                    'product_id' => $product->id,
+                ];
 
-                    file_put_contents($savePath, file_get_contents($image_url));
-
-                    if ( $type == 'video') {
-                        $this->productVideoRepository->create([
-                            'type'       => $type,
-                            'path'       => $model_path . $img_name,
-                            'product_id' => $product->id,
-                        ]);
-                    } else {
-                        $this->productImageRepository->create([
-                            'type'       => $type,
-                            'path'       => $model_path . $img_name,
-                            'product_id' => $product->id,
-                        ]);
-                    }
+                if ( $type == 'video') {
+                    $this->productVideoRepository->create($params);
+                } else {
+                    $this->productImageRepository->create($params);
                 }
             }
         } else {
