@@ -205,4 +205,41 @@ class ReviewMutation extends Controller
             );
         }
     }
+
+    /**
+     * Remove all resource based on condition from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAll($rootValue, array $args, GraphQLContext $context)
+    {
+        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer Not Login.'
+            );
+        }
+        
+        try {
+            $customer = bagisto_graphql()->guard($this->guard)->user();
+            
+            $customerReviews = $customer->all_reviews;
+
+            foreach ($customerReviews as $review) {
+                
+                Event::dispatch('customer.review.delete.before', $review->id);
+                
+                $this->productReviewRepository->delete($review->id);
+
+                Event::dispatch('customer.review.delete.after', $review->id);
+            }
+            
+            return [
+                'status'    => $customerReviews->count() ? true : false,
+                'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
+            ];
+        } catch (Exception $e) {
+            throw new CustomException($e->getMessage(), 'All review remove Failed.');
+        }
+    }
 }

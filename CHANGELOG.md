@@ -2,6 +2,8 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Need to delete all option on the review section.
+
 * [enhancement] - Configurable products configuration is not displayed on the cart.
 
 * [enhancement] - Implemented Order place push notification.
