@@ -2,6 +2,8 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Configurable products configuration is not displayed on the cart.
+
 * [enhancement] - Implemented Order place push notification.
 
 ## **v1.4.5 (2nd of May, 2023)** - *Release*

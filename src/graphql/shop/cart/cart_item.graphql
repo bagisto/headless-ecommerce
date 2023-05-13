@@ -25,7 +25,7 @@ type CartItem {
     discountPercent: Float! @rename(attribute: "discount_percent")
     discountAmount:Float! @rename(attribute: "discount_amount")
     baseDiscountAmount:Float! @rename(attribute: "base_discount_amount")
-    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    additional: CartItemAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     parentId: ID @rename(attribute: "parent_id")
     productId: ID! @rename(attribute: "product_id")
     cartId: ID! @rename(attribute: "cart_id")
@@ -40,6 +40,27 @@ type CartItem {
     cart: Cart @hasOne
     children: CartItem @hasMany
     parent: CartItem @belongsTo(relation: "parent")
+}
+
+type CartItemAdditional {
+    isBuyNow: Boolean @rename(attribute: "is_buy_now")
+    productId: ID @rename(attribute: "product_id")
+    quantity: Int
+    selectedConfigurableOption: ID @rename(attribute: "selected_configurable_option")
+    superAttribute: [AdditionalSuperAttributes] @rename(attribute: "super_attribute")
+    attributes: [AdditionalAttributes]
+}
+
+type AdditionalSuperAttributes {
+    attributeId: ID @rename(attribute: "attribute_id")
+    optionId: ID @rename(attribute: "option_id")
+}
+
+type AdditionalAttributes {
+    optionId: ID @rename(attribute: "option_id")
+    optionLabel: String @rename(attribute: "option_label")
+    attributeCode: String @rename(attribute: "attribute_code")
+    attributeName: String @rename(attribute: "attribute_name")
 }
 
 type FormattedCartItemPriceData {
