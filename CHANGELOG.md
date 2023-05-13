@@ -2,17 +2,37 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
-* [enhancement] - Modified updateAccount mutation for customer's profile.
+* [enhancement] - Implemented Order place push notification.
 
-* [enhancement] - Added fiter attributes API for catlog listing.
+## **v1.4.5 (2nd of May, 2023)** - *Release*
 
-* [enhancement] - Added slug support in advertisement banners.
+* [enhancement] - Modified updateAccount mutation for customer's profile image.
+
+* [enhancement] - Added filter attributes API for catalog listing.
+
+* [enhancement] - Added avarageRating and percentageRating for the Product Query.
+
+* [enhancement] - Added slug support(redirection) in advertisement banners.
+
+* [enhancement] - Advertisement API modified, Now can also use for Bagisto default theme.
+
+* [enhancement] - Added removeCoupon Mutation and translations in coupon.graphql schema file.
+
+* [enhancement] - Improvement in query schema for @rename directive lighthouse and modified field data return type.
+
+* [fixed] - Changed translation for product's review create success message.
+
+* [fixed] - now getting only approved reviews for the product.
+
+* [fixed] - swatchValue and category filterableAttribute null issue.
+
+* [fixed] - Advertisement image's URL issue.
 
 ## **v1.4.4 (15th of December, 2022)** - *Release*
 
 * [enhancement] - Currency and Locale converter functionality should be work, (use x-currency and x-locale in request header).
 
-* [Fix] - Getting issue in notifications (https://prnt.sc/c2Oj8RZQktCR).
+* [fixed] - Getting issue in notifications (https://prnt.sc/c2Oj8RZQktCR).
 
 ## **v1.4.3 (12th of December, 2022)** - *Release*
 
@@ -28,7 +48,7 @@ This changelog consists of the bug & security fixes and new features included in
 
 * [compatible] - Compatible with v1.4.3.
 
-* [Fix] - Fixed type Hinting initial push for compatibility.
+* [fixed] - Fixed type Hinting initial push for compatibility.
 
 ## **v1.3.3 (12th of August, 2022)** - *Release*
 

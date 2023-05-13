@@ -2,10 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Repositories;
 
-use Webkul\Core\Eloquent\Repository;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Container\Container as App;
+use Webkul\Core\Eloquent\Repository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 
@@ -160,12 +161,12 @@ class NotificationRepository extends Repository
     }
 
     /**
-     * send push notification in device
+     * Prepare data for push notification in device.
      *
      * @param  \Webkul\GraphQLAPI\Contracts\Notification  $notification
      * @return Response
      */
-    public function sendGCM($notification)
+    public function prepareNotification($notification)
     {
         $notificationTranslations = $notification->translations()->where([
             ['channel', '=', core()->getRequestedChannelCode()],
@@ -176,12 +177,6 @@ class NotificationRepository extends Repository
             $notification->title = $notificationTranslations->title;
             $notification->content = $notificationTranslations->content;
         }
-
-        // for android device
-        $url        = "https://fcm.googleapis.com/fcm/send";
-        $authKey    = core()->getConfigData('general.api.pushnotification.server_key');
-        $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
-        $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
 
         $fieldData = [
             'banner_url'        => asset('storage/'.$notification->image),
@@ -221,39 +216,62 @@ class NotificationRepository extends Repository
             break;
         }
 
+        return $this->sendNotification($fieldData, $notification->toArray());
+    }
+
+    /**
+     * Send the notification to the device.
+     *
+     * @param  array  $fieldData
+     * @param  array  $data
+     * @return Response
+     */
+    public function sendNotification($fieldData, $data = [])
+    {
+        // for android device
+        $url        = "https://fcm.googleapis.com/fcm/send";
+        $authKey    = core()->getConfigData('general.api.pushnotification.server_key');
+        $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
+        $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
+
+        if (! $authKey) {
+            return  ['error' => 'Warning: Server key is missing.'];
+        }
+
         $fields = array(
             'to'    => '/topics/' . $androidTopic,
             'data'  => $fieldData,
             'notification' =>  [
-                'body'  => $notification->content,
-                'title' => $notification->title,
+                'body'  => $data['content'],
+                'title' => $data['title'],
             ],
         );
-
+        
         $headers = array(
             'Content-Type:application/json',
             'Authorization:key=' . $authKey,
         );
 
         try {
-            // Open connection
             $ch = curl_init();
 
             curl_setopt( $ch, CURLOPT_URL, $url );
             curl_setopt( $ch, CURLOPT_POST, true );
             curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            // Disabling SSL Certificate support temporarly
             curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, true );
             curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
-            // Execute post
+            
             $result = curl_exec( $ch );
             curl_close( $ch );
 
+            Log::info('sendNotification: ', ['response' => json_decode($result)]);
+        
+            return json_decode($result);
         } catch (\Exception $e) {
             session()->flash('error', $e);
+
+            Log::error('sendNotification Error: ', $e->getMessage());
         }
-        
-        return json_decode($result);
     }
 }

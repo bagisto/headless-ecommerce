@@ -36,7 +36,7 @@ class NotificationMutation extends Controller
         $data = $args['input'];
         
         $validator = \Validator::make($data, [
-            'id'       => 'required|numeric',
+            'id'    => 'required|numeric',
         ]);
         
         if ($validator->fails()) {
@@ -46,7 +46,7 @@ class NotificationMutation extends Controller
         try {
             $notification = $this->notificationRepository->findOrFail($data['id']);
 
-            $result = $this->notificationRepository->sendGCM($notification);
+            $result = $this->notificationRepository->prepareNotification($notification);
 
             if (isset($result->message_id)) {
                 return [
@@ -54,9 +54,16 @@ class NotificationMutation extends Controller
                     'status'        => true,
                     'message_id'    => $result->message_id
                 ];
-            } elseif (isset($result->error)) {
+            } else {
+                $message = $result;
+
+                if (gettype($result) == 'array' && !empty($result['error']))
+                    $message = $result['error'];
+                elseif (isset($result->error))
+                    $message = $result->error;
+
                 return [
-                    'success'       => $result->error,
+                    'success'       => $message,
                     'status'        => false,
                     'message_id'    => null
                 ];

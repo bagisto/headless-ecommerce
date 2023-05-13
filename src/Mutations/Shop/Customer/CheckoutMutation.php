@@ -12,6 +12,7 @@ use Webkul\Shipping\Facades\Shipping;
 use Webkul\Payment\Facades\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
 class CheckoutMutation extends Controller
 {
@@ -28,12 +29,14 @@ class CheckoutMutation extends Controller
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @param  \Webkul\Customer\Repositories\CustomerAddressRepository  $customerAddressRepository
      * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
+     * @param  \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
      * @return void
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
         protected CustomerAddressRepository $customerAddressRepository,
-        protected OrderRepository $orderRepository
+        protected OrderRepository $orderRepository,
+        protected NotificationRepository $notificationRepository
     )
     {
         $this->guard = 'api';
@@ -655,10 +658,10 @@ class CheckoutMutation extends Controller
             }
     
             $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+            
+            $this->prepareNotificationContent($order);
     
             Cart::deActivateCart();
-    
-            session()->flash('order', $order);
     
             return [
                 'success'       => true,
@@ -697,5 +700,31 @@ class CheckoutMutation extends Controller
         if (! $cart->payment) {
             throw new \Exception(trans('Please specify payment method.'));
         }
+    }
+
+    /**
+     * Prepare data for order push notification.
+     *
+     * @param  \Webkul\Sales\Contracts\Order  $order
+     * @return Response
+     */
+    public function prepareNotificationContent($order)
+    {
+        $data = [
+            'title'       => 'New Order Placed',
+            'body'        => 'Order ('.$order->id.') placed by '. $order->customerFullName .' successfully.',
+            'message'     => 'Order ('.$order->id.') placed by '. $order->customerFullName .' successfully.',
+            'sound'       => 'default',
+            'orderStatus' => $order->parcel_status,
+            'orderId'     => $order->id,
+            'type'        => 'order'
+        ];
+        
+        $notification   = [
+            'title'             => $data['title'],
+            'content'           => $data['body'],
+        ];
+
+        $this->notificationRepository->sendNotification($data, $notification);
     }
 }

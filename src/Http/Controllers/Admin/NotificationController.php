@@ -200,14 +200,21 @@ class NotificationController extends Controller
     {
         $notification = $this->notificationRepository->findOrFail($id);
 
-        $result = $this->notificationRepository->sendGCM($notification);
+        $result = $this->notificationRepository->prepareNotification($notification);
 
         if (isset($result->message_id)) {
 
             session()->flash('success', trans('bagisto_graphql::app.admin.alert.sended-successfully', ['name' => 'Notification']));
-        } elseif (isset($result->error)) {
+        } else {
+
+            $message = $result;
+
+            if (gettype($result) == 'array' && !empty($result['error']))
+                $message = $result['error'];
+            elseif (isset($result->error))
+                $message = $result->error;
             
-            session()->flash('error', $result->error);
+            session()->flash('error', $message);
         }
 
         return redirect()->back();
