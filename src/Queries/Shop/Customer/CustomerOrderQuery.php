@@ -47,38 +47,42 @@ class CustomerOrderQuery extends Controller
 
         $qb = app(OrderRepository::class)->query()->distinct()->addSelect('orders.*');
 
-        $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
+        $params['input']['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
 
-        if (isset($params['input']['id']) && $params['input']['id']) {
+        if (! empty($params['input']['id'])) {
             $qb->where('orders.id', $params['input']['id']);
         }
 
-        if (isset($params['incrementId']) && $params['incrementId']) {
-            $qb->where('orders.incrementId', $params['incrementId']);
+        if (! empty($params['input']['increment_id'])) {
+            $qb->where('orders.increment_id', $params['input']['increment_id']);
         }
 
-        if (isset($params['baseSubTotal']) && $params['baseSubTotal']) {
-            $qb->where('orders.baseSubTotal', $params['baseSubTotal']);
+        if (! empty($params['input']['base_sub_total'])) {
+            $qb->where('orders.base_sub_total', $params['input']['base_sub_total']);
         }
 
-        if (isset($params['baseGrandTotal']) && $params['baseGrandTotal']) {
-            $qb->where('orders.baseGrandTotal', $params['baseGrandTotal']);
+        if (! empty($params['input']['base_grand_total'])) {
+            $qb->where('orders.base_grand_total', $params['input']['base_grand_total']);
         }
 
-        if (isset($params['baseGrandTotal']) && $params['baseGrandTotal']) {
-            $qb->where('orders.baseGrandTotal', $params['baseGrandTotal']);
+        if (! empty($params['input']['channel_name'])) {
+            $qb->where('orders.channel_name', $params['input']['channel_name']);
         }
 
-        if (isset($params['orderDate']) && $params['orderDate']) {
-            $qb->where('orders.orderDate', 'like', '%' . urldecode($params['orderDate']) . '%');
+        if (! empty($params['input']['order_date'])) {
+            $qb->where('orders.created_at', 'like', '%' . urldecode($params['input']['order_date']) . '%');
         }
 
-        if (isset($params['customer_id']) && $params['customer_id']) {
-            $qb->where('orders.customer_id', $params['customer_id']);
+        if (! empty($params['input']['start_order_date']) && ! empty($params['input']['end_order_date'])) {
+            $qb->whereBetween('orders.created_at', [$params['input']['start_order_date'], $params['input']['end_order_date']]);
         }
 
-        if (isset($params['status']) && $params['status']) {
-            $qb->where('orders.status', $params['status']);
+        if (! empty($params['input']['customer_id'])) {
+            $qb->where('orders.customer_id', $params['input']['customer_id']);
+        }
+
+        if (! empty($params['input']['status'])) {
+            $qb->where('orders.status', $params['input']['status']);
         }
 
         return $qb->orderBy('orders.id', 'desc');

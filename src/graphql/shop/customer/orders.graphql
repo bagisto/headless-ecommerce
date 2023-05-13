@@ -26,10 +26,14 @@ extend type Mutation @guard(with: ["api"]) {
 input FilterCustomerOrderInput {
     id: Int
     incrementId: String @rename(attribute: "increment_id")
-    customerId: Int @rename(attribute: "customer_id")
+    customerId: ID @rename(attribute: "customer_id")
+    subTotal: Float @rename(attribute: "sub_total")
+    grandTotal: Float @rename(attribute: "grand_total")
     baseSubTotal: Float @rename(attribute: "base_sub_total")
     baseGrandTotal: Float @rename(attribute: "base_grand_total")
     orderDate: String @rename(attribute: "order_date")
+    startOrderDate: String @rename(attribute: "start_order_date")
+    endOrderDate: String @rename(attribute: "end_order_date")
     channelName: String @rename(attribute: "channel_name")
     status: String
 }
