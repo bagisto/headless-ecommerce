@@ -41,7 +41,10 @@ class FilterCart extends BaseFilter
 
         $addition = $data->{$param};
 
-        if (! isset($data->cart_id)) {
+        if (
+            ! isset($data->cart_id) 
+            || isset($data->address_type)
+        ) {
             return json_encode($addition);
         }
 
