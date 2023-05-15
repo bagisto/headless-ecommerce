@@ -46,7 +46,7 @@ class FilterCart extends BaseFilter
         }
 
         $additionalDate = [
-            'is_buy_now'    => $addition['is_buy_now'],
+            'is_buy_now'    => $addition['is_buy_now'] ?? false,
             'product_id'    => $addition['product_id'],
             'quantity'      => $addition['quantity'],
         ];
