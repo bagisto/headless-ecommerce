@@ -113,7 +113,7 @@ class CheckoutMutation extends Controller
                 'Invalid request parameters.'
             );
         }
-
+        
         $params = $args['input'];
         $rules = ['type' => 'required'];
 
@@ -154,7 +154,7 @@ class CheckoutMutation extends Controller
                 ]);
             }
         }
-        
+
         $validator = \Validator::make($params, $rules);
         
         if ($validator->fails()) {
@@ -171,7 +171,7 @@ class CheckoutMutation extends Controller
         }
 
         $cart = Cart::getCart();
-
+        
         if ( ! $cart ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.warning-empty-cart'),
@@ -198,25 +198,49 @@ class CheckoutMutation extends Controller
             }
         }
         
-        try {
-            $token = 0;
-            if ( isset(getallheaders()['authorization'])) {
-                $headerValue = explode("Bearer ", getallheaders()['authorization']);
-                if ( isset($headerValue[1]) && $headerValue[1]) {
-                    $token = $headerValue[1];
-                }
+        $token = 0;
+        if ( isset(getallheaders()['authorization'])) {
+            $headerValue = explode("Bearer ", getallheaders()['authorization']);
+            if ( isset($headerValue[1]) && $headerValue[1]) {
+                $token = $headerValue[1];
+            }
+        }
+
+        $validateUser = bagisto_graphql()->apiAuth($token, $this->guard);
+
+        if ($token && isset($validateUser['success']) && ! $validateUser['success']) {
+            if ( $billingAddressId || $shippingAddressId) {
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.response.invalid-guest-access'),
+                    'invalid-guest-access.'
+                );
+            } else {
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.response.guest-address-warning'),
+                    'guest-address-warning.'
+                );
+            }
+        }
+
+        if (
+            ! $token 
+            || (
+                $token 
+                && isset($validateUser['success']) 
+                && $validateUser['success']
+            )
+        ) {
+            if (
+                ! bagisto_graphql()->guard($this->guard)->check() 
+                && ! Cart::getCart()->hasGuestCheckoutItems()
+            ) {
+                throw new CustomException(
+                    'Cart have some item(s), which are not allowed for guest checkout.',
+                    trans('bagisto_graphql::app.shop.response.wrong-error')
+                );
             }
 
-            $validateUser = bagisto_graphql()->apiAuth($token, $this->guard);
-            
-            if (! $token || ($token && isset($validateUser['success']) && $validateUser['success']) ) {
-                if (! bagisto_graphql()->guard($this->guard)->check() && ! Cart::getCart()->hasGuestCheckoutItems()) {
-                    throw new CustomException(
-                        trans('bagisto_graphql::app.shop.response.wrong-error'),
-                        'Cart have some item(s), which are not allowed for guest checkout.'
-                    );
-                }
-                
+            try {
                 $data = [
                     'billing'   => [
                         'address1'          => '',
@@ -301,7 +325,7 @@ class CheckoutMutation extends Controller
                         $data['billing']['customer_id'] = $data['shipping']['customer_id'] = null;
                     }
                 }
-
+                
                 if (Cart::hasError() || ! Cart::saveCustomerAddress($data)) {
                     throw new CustomException(
                         trans('bagisto_graphql::app.shop.response.wrong-error'),
@@ -358,24 +382,12 @@ class CheckoutMutation extends Controller
                         ];
                     }
                 }
-            } elseif ($token && isset($validateUser['success']) && !$validateUser['success']) {
-                if ( $billingAddressId || $shippingAddressId) {
-                    throw new CustomException(
-                        trans('bagisto_graphql::app.shop.response.invalid-guest-access'),
-                        'invalid-guest-access.'
-                    );
-                } else {
-                    throw new CustomException(
-                        trans('bagisto_graphql::app.shop.response.guest-address-warning'),
-                        'guest-address-warning.'
-                    );
-                }
+            } catch (Exception $e) {
+                throw new CustomException(
+                    $e->getMessage(),
+                    'Error in saving shipping/billing address.'
+                );
             }
-        } catch (Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                'Error in saving shipping/billing address.'
-            );
         }
     }
 
