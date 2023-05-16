@@ -4,6 +4,8 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\Core\Contracts\Validations\AlphaNumericSpace;
+use Webkul\Core\Contracts\Validations\PhoneNumber;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -113,21 +115,57 @@ class CheckoutMutation extends Controller
         }
 
         $params = $args['input'];
+        $rules = ['type' => 'required'];
 
-        $validator = \Validator::make($params, [
-            'billing_address_id'    => 'numeric|required',
-            'shipping_address_id'   => 'numeric|required',
-            'type'                  => 'required',
-        ]);
+        if (! empty($params['billing_address_id'])) {
+            $rules = array_merge($rules, [
+                'billing_address_id'    => 'numeric|required'
+            ]);
+        } else {
+            $rules = array_merge($rules, [
+                "billing.first_name" => ['required', new AlphaNumericSpace],
+                "billing.last_name"  => ['required', new AlphaNumericSpace],
+                "billing.email"      => ['required'],
+                "billing.address1"   => ['required'],
+                "billing.city"       => ['required'],
+                "billing.country"    => [new AlphaNumericSpace],
+                "billing.state"      => [new AlphaNumericSpace],
+                "billing.postcode"   => ['numeric'],
+                "billing.phone"      => ['required', new PhoneNumber],
+            ]);
+        }
+
+        if (empty($params['billing']['use_for_shipping'])) {
+            if (! empty($params['shipping_address_id'])) {
+                $rules = array_merge($rules, [
+                    'shipping_address_id'   => 'numeric|required'
+                ]);
+            } else {
+                $rules = array_merge($rules, [
+                    "shipping.first_name" => ['required', new AlphaNumericSpace],
+                    "shipping.last_name"  => ['required', new AlphaNumericSpace],
+                    "shipping.email"      => ['required'],
+                    "shipping.address1"   => ['required'],
+                    "shipping.city"       => ['required'],
+                    "shipping.country"    => [new AlphaNumericSpace],
+                    "shipping.state"      => [new AlphaNumericSpace],
+                    "shipping.postcode"   => ['numeric'],
+                    "shipping.phone"      => ['required', new PhoneNumber],
+                ]);
+            }
+        }
+        
+        $validator = \Validator::make($params, $rules);
         
         if ($validator->fails()) {
             $errorMessage = [];
+            
             foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $message[0] : $message;
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
             }
             
             throw new CustomException(
-                implode(" ,", $errorMessage),
+                implode(", ", $errorMessage),
                 'Invalid Create Shipping/Billing Address Details.'
             );
         }

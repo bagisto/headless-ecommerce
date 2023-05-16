@@ -2,6 +2,8 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [fixed] - Billing & shipping address fields validation added at the checkout mutation in case of a guest.
+
 * [enhancement] - Need to Add a filter on the Order page.
 
 * [enhancement] - Need to delete all option on the review section.
