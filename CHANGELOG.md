@@ -2,6 +2,8 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Need to implement a Product share option on the Product detail page.
+
 * [enhancement] - Need to add the wishlist share option on wishlist page.
 
 * [enhancement] - Need to implement Remove all item option from the cart.

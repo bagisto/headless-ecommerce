@@ -119,6 +119,7 @@ type Product {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     configutableData: ConfigutableProductData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getConfigurableData")
+    shareURL: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductShareUrl")
     productFlats: [ProductFlat!] @hasMany(relation: "product_flats")
     variants: [Product] @hasMany
     parent: Product @belongsTo(relation: "parent")

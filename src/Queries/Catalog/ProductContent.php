@@ -384,4 +384,17 @@ class ProductContent extends BaseFilter
     {
         return $this->review->getPercentageRating($rootValue);
     }
+
+    /**
+     * Get product share URL.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return mixed
+     */
+    public function getProductShareUrl($rootValue, array $args, GraphQLContext $context)
+    {
+        return route('shop.productOrCategory.index', $rootValue->url_key);
+    }
 }
