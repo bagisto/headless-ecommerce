@@ -82,6 +82,7 @@ class BagistoGraphql
         'jpeg'  => 'image/jpeg',
         'jpg'   => 'image/jpeg',
         'bmp'   => 'image/bmp',
+        'webp'  => 'image/webp',
     ];
 
     protected $allowedVideoMimeTypes = [

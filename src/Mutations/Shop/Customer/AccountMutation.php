@@ -117,6 +117,7 @@ class AccountMutation extends Controller
             'oldpassword'           => 'required_with:password',
             'password'              => 'confirmed|min:6|required_with:oldpassword',
             'password_confirmation' => 'required_with:password',
+            'upload_type'           => 'in:file,path',
             'image.*'               => 'mimes:bmp,jpeg,jpg,png,webp',
         ]);
         
@@ -171,17 +172,48 @@ class AccountMutation extends Controller
 
                 if (
                     core()->getCurrentChannel()->theme != 'default' 
-                    && ! empty($data['image'])
+                    && ! empty($data['upload_type'])
                 ) {
-                    $customer->image = $data['image']->storePublicly('customer/' . $customer->id);
-                    $customer->save();
-                } else {
-                    if ($customer->image) {
-                        Storage::delete($customer->image);
+
+                    if ($data['upload_type'] == 'file') {
+
+                        if (! empty($data['image']))  {
+                            $customer->image = $data['image']->storePublicly('customer/' . $customer->id);
+                            $customer->save();
+                        } else {
+
+                            if ($customer->image) {
+                                Storage::delete($customer->image);
+                            }
+        
+                            $customer->image = null;
+                            $customer->save();
+                        }
                     }
 
-                    $customer->image = null;
-                    $customer->save();
+                    if (
+                        $data['upload_type'] == 'path' 
+                        && ! empty($data['image_url']) 
+                        && bagisto_graphql()->validatePath($data['image_url'], 'image')
+                    ) {
+
+                        if ($customer->image) {
+                            Storage::delete($customer->image);
+                        }
+    
+                        $customer->image = null;
+                        $customer->save();
+                    
+                        $path = 'customer/' . $customer->id . '/';
+                        $image_name = basename($data['image_url']);
+                        
+                        $contents = file_get_contents($data['image_url']);
+                        
+                        Storage::put($path . $image_name, $contents);
+                        
+                        $customer->image = $path . $image_name;
+                        $customer->save();
+                    }
                 }
 
                 return [
