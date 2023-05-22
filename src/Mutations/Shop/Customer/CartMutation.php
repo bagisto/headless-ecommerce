@@ -183,6 +183,36 @@ class CartMutation extends Controller
     }
 
     /**
+     * Remove all resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAll($rootValue, array $args, GraphQLContext $context)
+    {   
+        try {
+            $result = Cart::removeAllItems();
+
+            $cart = Cart::getCart();
+            
+            if ($result) {
+                return [
+                    'status'    => true,
+                    'message'   => trans('shop::app.checkout.cart.item.success-all-remove'),
+                    'cart'      => $cart,
+                ];
+            }
+            
+            return [
+                'status'    => false,
+                'message'   => trans('velocity::app.error.something_went_wrong'),
+                'cart'      => $cart,
+            ];
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
      * Move the specified resource to Wishlist.
      *
      * @param  int  $id

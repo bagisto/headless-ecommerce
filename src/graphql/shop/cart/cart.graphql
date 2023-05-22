@@ -17,6 +17,8 @@ extend type Mutation {
   
     removeCartItem(id: ID!): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@delete")
   
+    removeAllCartItem: CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
+  
     moveToWishlist(id: ID!): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@move")
 }
 
