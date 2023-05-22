@@ -96,98 +96,97 @@ class RegistrationMutation extends Controller
                 'Invalid Register Details.'
             );
         }
-        
-        try {
-            $data['password'] = bcrypt($data['password']);
-            $data['api_token'] = Str::random(80);
-            $data['is_verified'] = (int) core()->getConfigData('customer.settings.email.verification') ? 0 : 1;
-            $data['customer_group_id'] = $this->customerGroupRepository->findOneWhere(['code' => 'general'])->id;
 
-            $verificationData['email'] = $data['email'];
-            $verificationData['token'] = md5(uniqid(rand(), true));
-            $data['token'] = $verificationData['token'];
+        $verificationData['email'] = $data['email'];
+        $verificationData['token'] = md5(uniqid(rand(), true));
 
-            Event::dispatch('customer.registration.before');
-    
-            $customer = $this->customerRepository->create($data);
-    
-            Event::dispatch('customer.registration.after', $customer);
+        $data = array_merge($data, [
+            'password'      => bcrypt($data['password']),
+            'api_token'     => Str::random(80),
+            'is_verified'   => (int) core()->getConfigData('customer.settings.email.verification') ? 0 : 1,
+            'subscribed_to_news_letter' => ! empty($data['subscribed_to_news_letter']) ? 1 : 0,
+            'customer_group_id'         => $this->customerGroupRepository->findOneByField('code', 'general')->id,
+            'token'      => $verificationData['token'],
+        ]);
 
-            if (! $customer) {
-                return [
-                    'status'    => false,
-                    'success'   => trans('bagisto_graphql::app.shop.response.error-registration')
-                ]; 
-            }
+        Event::dispatch('customer.registration.before');
 
-            if (core()->getConfigData('customer.settings.email.verification')) {
-                
+        $customer = $this->customerRepository->create($data);
+
+        Event::dispatch('customer.registration.after', $customer);
+
+        if (! $customer) {
+            return [
+                'status'    => false,
+                'success'   => trans('bagisto_graphql::app.shop.response.error-registration')
+            ]; 
+        }
+
+        if (core()->getConfigData('customer.settings.email.verification')) {
+            
+            try {
                 $configKey = 'emails.general.notifications.emails.general.notifications.verification';
                 
                 if (core()->getConfigData($configKey)) {
                     Mail::queue(new VerificationEmail($verificationData));
                 }
+            } catch (Exception $e) {}
 
-                return [
-                    'status'    => true,
-                    'success'   => trans('shop::app.customer.signup-form.success-verify')
-                ];
-            } else {
-                
-                $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
-                
-                if (core()->getConfigData($configCustomerKey)) {
-                    Mail::queue(new RegistrationEmail($data, 'customer'));
-                }
-
-                $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
-                
-                if (core()->getConfigData($configAdminKey)) {
-                    Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
-                }
-
-                $remember = !empty($data['remember']) ? 1 : 0;
-
-                if (! $jwtToken = JWTAuth::attempt([
-                        'email'     => $data['email'],
-                        'password'  => $data['password_confirmation'],
-                    ], $remember)
-                ) {
-                    throw new CustomException(
-                        trans('shop::app.customer.login-form.invalid-creds'),
-                        'Invalid Email and Password.'
-                    );
-                }
-
-                $loginCustomer = bagisto_graphql()->guard($this->guard)->user();
-
-                if (
-                    $loginCustomer->status == 0
-                    || $loginCustomer->is_verified == 0
-                ) {
-                    bagisto_graphql()->guard($this->guard)->logout();
+            return [
+                'status'    => true,
+                'success'   => trans('shop::app.customer.signup-form.success-verify')
+            ];
+        }
         
-                    throw new CustomException(
-                        trans('shop::app.customer.login-form.not-activated'),
-                        'Account Not Activated.'
-                    );
-                }
+        try {
+            $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
 
-                return [
-                    'status'        => true,
-                    'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),
-                    'access_token'  => 'Bearer ' . $jwtToken,
-                    'token_type'    => 'Bearer',
-                    'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
-                    'customer'      => $loginCustomer
-                ];
+            if (core()->getConfigData($configCustomerKey)) {
+                Mail::queue(new RegistrationEmail($data, 'customer'));
             }
-        } catch (Exception $e) {
+
+            $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
+
+            if (core()->getConfigData($configAdminKey)) {
+                Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
+            }
+        } catch (Exception $e) {}
+
+        $remember = !empty($data['remember']) ? 1 : 0;
+
+        if (! $jwtToken = JWTAuth::attempt([
+                'email'     => $data['email'],
+                'password'  => $data['password_confirmation'],
+            ], $remember)
+        ) {
             throw new CustomException(
-                $e->getMessage(),
-                'Customer Registration Failed.'
+                trans('shop::app.customer.login-form.invalid-creds'),
+                'Invalid Email and Password.'
             );
         }
+
+        $loginCustomer = bagisto_graphql()->guard($this->guard)->user();
+
+        if (
+            $loginCustomer->status == 0
+            || $loginCustomer->is_verified == 0
+        ) {
+            bagisto_graphql()->guard($this->guard)->logout();
+
+            throw new CustomException(
+                trans('shop::app.customer.login-form.not-activated'),
+                'Account Not Activated.'
+            );
+        }
+
+        return [
+            'status'        => true,
+            'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),
+            'access_token'  => 'Bearer ' . $jwtToken,
+            'token_type'    => 'Bearer',
+            'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
+            'customer'      => $loginCustomer
+        ];
     }
 
     /**
