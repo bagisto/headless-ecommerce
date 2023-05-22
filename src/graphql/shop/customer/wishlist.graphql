@@ -21,6 +21,8 @@ extend type Mutation @guard(with: ["api"]) {
     moveToCart(id: ID @eq): MoveToCartResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
   
     removeAllWishlists: RemoveWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")
+
+    shareWishlist(shared: Boolean!): ShareWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@share")
 }
 
 type Wishlist {
@@ -70,4 +72,9 @@ type MoveToCartResponse {
     success: String
     wishlist: [Wishlist]
     cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+}
+
+type ShareWishlistResponse {
+    isWishlistShared: Boolean
+    wishlistSharedLink: String
 }

@@ -312,4 +312,31 @@ class WishlistMutation extends Controller
             throw new Exception($e->getMessage());
         }
     }
+
+    /**
+     * Share customer's wishlist.
+     *
+     * @param  array  $args
+     * @return \Illuminate\Http\Response
+     */
+    public function share($rootValue, array $args, GraphQLContext $context)
+    {   
+        try {
+            $customer = bagisto_graphql()->guard($this->guard)->user();
+
+            $updateCounts = $customer->wishlist_items()->update(['shared' => $args['shared']]);
+
+            if (
+                $updateCounts
+                && $updateCounts > 0
+            ) {
+                return [
+                    'isWishlistShared'   => $customer->isWishlistShared(),
+                    'wishlistSharedLink' => $customer->getWishlistSharedLink()
+                ];
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
 }

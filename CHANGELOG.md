@@ -2,6 +2,12 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+* [enhancement] - Need to add the wishlist share option on wishlist page.
+
+* [enhancement] - Need to implement Remove all item option from the cart.
+
+* [enhancement] - Support to upload the customer's avatar using image path.
+
 * [fixed] - Billing & shipping address fields validation added at the checkout mutation in case of a guest.
 
 * [enhancement] - Need to Add a filter on the Order page.
