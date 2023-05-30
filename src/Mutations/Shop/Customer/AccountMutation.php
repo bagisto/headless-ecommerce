@@ -117,7 +117,7 @@ class AccountMutation extends Controller
             'oldpassword'           => 'required_with:password',
             'password'              => 'confirmed|min:6|required_with:oldpassword',
             'password_confirmation' => 'required_with:password',
-            'upload_type'           => 'in:file,path',
+            'upload_type'           => 'in:file,path,base64',
             'image.*'               => 'mimes:bmp,jpeg,jpg,png,webp',
         ]);
         

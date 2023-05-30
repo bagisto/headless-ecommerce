@@ -36,18 +36,23 @@ class Install extends Command
 
         // running `php artisan jwt:secret`
         $this->warn('Step: Generating JWT Secret token...');
-        $jwt_secret = shell_exec('php artisan jwt:secret');
+        $jwt_secret = $this->call('jwt:secret');
         $this->info($jwt_secret);
 
         // running `php artisan cache:clear`
         $this->warn('Step: Clearing the cache...');
-        $cache_clear = shell_exec('php artisan optimize:clear');
+        $cache_clear = $this->call('optimize:clear');
         $this->info($cache_clear);
 
         // running `php artisan migrate`
         $this->warn('Step: Migrating Notification tables into database...');
-        $migrate = shell_exec('php artisan migrate');
+        $migrate = $this->call('migrate');
         $this->info($migrate);
+
+        // running `php artisan bagisto:publish`
+        $this->warn('Step: Publishing assets and configurations. Press the number before "Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider"');
+        $configuration = $this->call('vendor:publish');
+        $this->info($result);
         
         // running `php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config`
         $this->warn('Step: Publishing Lighthouse Configuration File...');
@@ -55,9 +60,9 @@ class Install extends Command
         $this->info($configuration);
 
         // running `php artisan vendor:publish --tag=lighthouse-config`
-        $this->warn('Step: Publishing Lighthouse Configuration File...');
-        $lighthouse_config = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
-        $this->info($lighthouse_config);
+        // $this->warn('Step: Publishing Lighthouse Configuration File...');
+        // $lighthouse_config = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
+        // $this->info($lighthouse_config);
         
         $this->comment('Success: Bagisto GraphQL API has been configured successfully.');
     }

@@ -39,48 +39,6 @@ php artisan bagisto_graphql:install
     \Illuminate\Session\Middleware\StartSession::class,
 ~~~
 
-##### Find a file config/lighthouse.php from root and do the following changes:
-
-* add these two middlewares inside the **middleware** index for the support of multi-locale and multi-currency:
-
-~~~
-    // Validate Locale in request
-    \Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
-    
-    // Validate Currency in request
-    \Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware::class,
-~~~
-
-* change the **guard** index value from **api** to **admin-api** like below mentioned:
-
-~~~
-    'guard' => 'admin-api',
-~~~
-
-* change the path from *'graphql/schema.graphql'* to **'packages/Webkul/GraphQLAPI/graphql/schema.graphql'** for the **register** index under **schema** array index like below mentioned:
-
-~~~
-    'schema' => [
-        'register' => base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
-    ],
-~~~
-
-* change the *App\\GraphQL\\* path to **Webkul\\GraphQLAPI\\** in all the indexes of **namespace** index:
-
-~~~
-    'namespaces' => [
-        'models' => ['App', 'Webkul\\GraphQLAPI\\Models'],
-        'queries' => 'Webkul\\GraphQLAPI\\Queries',
-        'mutations' => 'Webkul\\GraphQLAPI\\Mutations',
-        'subscriptions' => 'Webkul\\GraphQLAPI\\Subscriptions',
-        'interfaces' => 'Webkul\\GraphQLAPI\\Interfaces',
-        'unions' => 'Webkul\\GraphQLAPI\\Unions',
-        'scalars' => 'Webkul\\GraphQLAPI\\Scalars',
-        'directives' => ['Webkul\\GraphQLAPI\\Directives'],
-        'validators' => ['Webkul\\GraphQLAPI\\Validators'],
-    ],
-~~~
-
 ##### Add the JWT_TTL (JWT time to live) & JWT_SHOW_BLACKLIST_EXCEPTION entries in the .env file under the JWT_SECRET key:
 
 ~~~

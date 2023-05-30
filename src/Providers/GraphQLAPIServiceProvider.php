@@ -116,6 +116,10 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => __DIR__ .'/../../../../../packages/Webkul/Shop/src/Resources/views/emails/customer/registration.blade.php',
         ]);
+
+        $this->publishes([
+            __DIR__ . '/../lighthouse.php' => __DIR__ .'/../../../../../config/lighthouse.php',
+        ]);
     }
 
     /**
