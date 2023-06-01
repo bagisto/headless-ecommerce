@@ -14,45 +14,45 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 2. Installation:
 
-##### To install Bagisto GraphQL from your console:
+##### To clone Bagisto GraphQL run the below command from terminal:
 
 ~~~
 composer require bagisto/graphql-api dev-main
 ~~~
 
-* add the below-line inside the **modules** index in **config/concord.php** file:
+* Add the below-line inside the **modules** index in **config/concord.php** file:
 
 ~~~
 \Webkul\GraphQLAPI\Providers\ModuleServiceProvider::class,
 ~~~
 
-##### Find a file app/Http/Kernel.php from root and add these two middlewares inside the **$middleware** array:
+* Find a file **app/Http/Kernel.php** from root and add these two **middlewares** inside the **$middleware** array:
 
 ~~~
 \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 \Illuminate\Session\Middleware\StartSession::class,
 ~~~
 
-##### Add the JWT_TTL (JWT time to live) & JWT_SHOW_BLACKLIST_EXCEPTION entries in the .env file:
+* Add the **JWT_TTL (JWT time to live)** & **JWT_SHOW_BLACKLIST_EXCEPTION** entries in the **.env** file:
 
 ~~~
 JWT_TTL=525600
 JWT_SHOW_BLACKLIST_EXCEPTION=true
 ~~~
 
-##### Run the below command from the root directory in terminal:
+##### To install and publish the assests and configurations, run below command from the root in terminal:
 
 ~~~
 php artisan bagisto-graphql:install
 ~~~
 
-#### Now to use the graphql-playground for testing the APIs:
+* Now to use the **graphql-playground** for testing the APIs:
 
 ~~~
 http://your-domain.com/graphql-playground
 ~~~
 
-#### Or you can also use the Postmen for testing the APIs:
+* You can also use the **Postmen** for testing the APIs:
 
 ~~~
 http://your-domain.com/graphql
