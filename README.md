@@ -17,11 +17,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 ##### To install Bagisto GraphQL from your console:
 
 ~~~
-composer require bagisto/graphql-api
-~~~
-
-~~~
-php artisan bagisto_graphql:install
+composer require bagisto/graphql-api dev-main
 ~~~
 
 * add the below-line inside the **modules** index in **config/concord.php** file:
@@ -30,41 +26,36 @@ php artisan bagisto_graphql:install
 \Webkul\GraphQLAPI\Providers\ModuleServiceProvider::class,
 ~~~
 
-##### Find a file app/Http/Kernel.php from root and do the following changes:
-
-* add these two middlewares inside the **$middleware** array for the support of guest's cart:
+##### Find a file app/Http/Kernel.php from root and add these two middlewares inside the **$middleware** array:
 
 ~~~
-    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-    \Illuminate\Session\Middleware\StartSession::class,
+\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+\Illuminate\Session\Middleware\StartSession::class,
 ~~~
 
-##### Add the JWT_TTL (JWT time to live) & JWT_SHOW_BLACKLIST_EXCEPTION entries in the .env file under the JWT_SECRET key:
+##### Add the JWT_TTL (JWT time to live) & JWT_SHOW_BLACKLIST_EXCEPTION entries in the .env file:
 
 ~~~
-    JWT_TTL=525600
-    JWT_SHOW_BLACKLIST_EXCEPTION=true
+JWT_TTL=525600
+JWT_SHOW_BLACKLIST_EXCEPTION=true
 ~~~
 
-##### Run the below mentioned commands from the root directory in terminal:
+##### Run the below command from the root directory in terminal:
 
 ~~~
-composer dump-autoload
-~~~
-
-~~~
-php artisan optimize:clear
+php artisan bagisto-graphql:install
 ~~~
 
 #### Now to use the graphql-playground for testing the APIs:
 
 ~~~
-    http://example.com/graphql-playground
+http://your-domain.com/graphql-playground
 ~~~
 
 #### Or you can also use the Postmen for testing the APIs:
 
 ~~~
-    http://example.com/graphql
+http://your-domain.com/graphql
 ~~~
+
 > That's it, now just execute the project on your specified domain.
