@@ -14,7 +14,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 2. Installation:
 
-##### To clone Bagisto GraphQL run the below command from terminal:
+#### To clone Bagisto GraphQL run the below command from terminal:
 
 ~~~
 composer require bagisto/graphql-api dev-main
@@ -40,7 +40,7 @@ JWT_TTL=525600
 JWT_SHOW_BLACKLIST_EXCEPTION=true
 ~~~
 
-##### To install and publish the assests and configurations, run below command from the root in terminal:
+#### To install and publish the assests and configurations, run below command from the root in terminal:
 
 ~~~
 php artisan bagisto-graphql:install
