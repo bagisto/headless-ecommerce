@@ -80,7 +80,12 @@ class ProductMutation extends Controller
         }
 
         try {
+
+            Event::dispatch('catalog.product.create.before');
+
             $product = $this->productRepository->create($data);
+
+            Event::dispatch('catalog.product.create.after', $product);
 
             return $product;
         } catch (Exception $e) {
@@ -212,7 +217,11 @@ class ProductMutation extends Controller
         }
 
         try {
+            Event::dispatch('catalog.product.update.before', $id);
+
             $product = $this->productRepository->update($data, $id);
+
+            Event::dispatch('catalog.product.update.after', $product);
 
             if (isset($product->id)) {
                 bagisto_graphql()->uploadProductImages($product, $image_urls, 'product/', 'image');
