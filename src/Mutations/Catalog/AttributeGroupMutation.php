@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Http\Controllers\Controller;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
@@ -46,7 +47,7 @@ class AttributeGroupMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'name'                  => 'string|required',
             'position'              => 'numeric|required',
             'attribute_family_id'   => 'numeric|required',
@@ -88,7 +89,7 @@ class AttributeGroupMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'name'                  => 'string|required',
             'position'              => 'numeric|required',
             'attribute_family_id'   => 'numeric|required',

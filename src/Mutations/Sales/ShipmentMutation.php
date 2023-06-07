@@ -3,11 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Sales;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ShipmentMutation extends Controller
 {
@@ -76,7 +77,7 @@ class ShipmentMutation extends Controller
                 $shipment['shipment']['track_number']  = $params['track_number'];
                 $shipment['shipment']['source']        = $params['inventory_source_id'];
 
-                $validator = \Validator::make($shipment, [
+                $validator = Validator::make($shipment, [
                     'shipment.source'        => 'required',
                     'shipment.items.*.*'     => 'required|numeric|min:0',
                 ]);

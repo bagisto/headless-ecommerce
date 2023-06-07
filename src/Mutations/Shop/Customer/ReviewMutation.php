@@ -3,12 +3,13 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Webkul\Customer\Http\Controllers\Controller;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Pagination\Paginator;
+use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Product\Repositories\ProductReviewRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ReviewMutation extends Controller
 {
@@ -120,7 +121,7 @@ class ReviewMutation extends Controller
     {
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'comment'       => 'required',
             'rating'        => 'required|numeric|min:1|max:5',
             'title'         => 'required',

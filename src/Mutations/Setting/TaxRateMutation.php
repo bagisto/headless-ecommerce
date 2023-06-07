@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Tax\Http\Controllers\Controller;
 use Webkul\Tax\Repositories\TaxRateRepository;
@@ -40,7 +41,7 @@ class TaxRateMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
             'is_zip'     => 'sometimes',
             'zip_code'   => 'sometimes|required_without:is_zip',
@@ -88,7 +89,7 @@ class TaxRateMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier,' . $id,
             'is_zip'     => 'sometimes',
             'zip_from'   => 'nullable|required_with:is_zip',

@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Product\Helpers\ProductType;
 use Webkul\Core\Contracts\Validations\Slug;
@@ -69,7 +70,7 @@ class ProductMutation extends Controller
             $data['super_attributes'] = $super_attributes;
         }
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'type'                => 'required',
             'attribute_family_id' => 'required',
             'sku'                 => ['required', 'unique:products,sku', new Slug],
@@ -328,7 +329,7 @@ class ProductMutation extends Controller
             $validateRules[$attribute->code] = $validations;
         }
 
-        return \Validator::make($data, $validateRules);
+        return Validator::make($data, $validateRules);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Contracts\Validations\AlphaNumericSpace;
 use Webkul\Core\Contracts\Validations\PhoneNumber;
 use Webkul\Checkout\Facades\Cart;
@@ -14,6 +14,7 @@ use Webkul\Shipping\Facades\Shipping;
 use Webkul\Payment\Facades\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
 class CheckoutMutation extends Controller
@@ -155,7 +156,7 @@ class CheckoutMutation extends Controller
             }
         }
 
-        $validator = \Validator::make($params, $rules);
+        $validator = Validator::make($params, $rules);
         
         if ($validator->fails()) {
             $errorMessage = [];
@@ -506,7 +507,7 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'shipping_method'   => 'string|required',
         ]);
         
@@ -563,7 +564,7 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'payment'   => 'array|required',
         ]);
         
@@ -616,7 +617,7 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'   => 'string|required',
         ]);
         

@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -35,7 +36,7 @@ class NotificationMutation extends Controller
     {
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'id'    => 'required|numeric',
         ]);
         

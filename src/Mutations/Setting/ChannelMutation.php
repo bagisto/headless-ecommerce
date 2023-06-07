@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
@@ -40,7 +41,7 @@ class ChannelMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'              => ['required', 'unique:channels,code', new \Webkul\Core\Contracts\Validations\Code],
             'name'              => 'required',
             'locales'           => 'required|array|min:1',
@@ -117,7 +118,7 @@ class ChannelMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'              => ['required', 'unique:channels,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
             'name'              => 'required',
             'locales'           => 'required|array|min:1',

@@ -3,12 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\SliderRepository;
 use Webkul\Core\Repositories\ChannelRepository;
-
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class SliderMutation extends Controller
@@ -49,7 +48,7 @@ class SliderMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'title'      => 'required',
             'channel_id'    => 'required',
             'expired_at' => 'nullable|date',
@@ -103,7 +102,7 @@ class SliderMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'title'      => 'required',
             'channel_id'    => 'required',
             'expired_at' => 'nullable|date',

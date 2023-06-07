@@ -5,12 +5,13 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class AccountMutation extends Controller
 {
@@ -108,7 +109,7 @@ class AccountMutation extends Controller
         
         $isPasswordChanged = false;
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'first_name'            => 'string|required',
             'last_name'             => 'string|required',
             'gender'                => 'required',

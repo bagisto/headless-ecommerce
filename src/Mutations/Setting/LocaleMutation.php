@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\LocaleRepository;
@@ -40,7 +41,7 @@ class LocaleMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code', new \Webkul\Core\Contracts\Validations\Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
@@ -88,7 +89,7 @@ class LocaleMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',

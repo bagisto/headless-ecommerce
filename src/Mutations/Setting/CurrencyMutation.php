@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\CurrencyRepository;
@@ -41,7 +42,7 @@ class CurrencyMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code' => 'required|min:3|max:3|unique:currencies,code',
             'name' => 'required',
         ]);
@@ -79,7 +80,7 @@ class CurrencyMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code' => ['required', 'unique:currencies,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
             'name' => 'required',
         ]);

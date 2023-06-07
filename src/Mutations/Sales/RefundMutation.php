@@ -3,11 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Sales;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class RefundMutation extends Controller
 {
@@ -76,7 +77,7 @@ class RefundMutation extends Controller
                 $refund['refund']['adjustment_refund'] = $params['adjustment_refund'];
                 $refund['refund']['adjustment_fee']    = $params['adjustment_fee'];
 
-                $validator = \Validator::make($refund, [
+                $validator = Validator::make($refund, [
                     'refund.items.*' => 'required|numeric|min:0',
                 ]);
 

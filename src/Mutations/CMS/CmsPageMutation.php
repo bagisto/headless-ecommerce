@@ -3,9 +3,10 @@
 namespace Webkul\GraphQLAPI\Mutations\CMS;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CMS\Repositories\CmsRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CmsPageMutation extends Controller
 {
@@ -38,7 +39,7 @@ class CmsPageMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'url_key'      => ['required', 'unique:cms_page_translations,url_key', new \Webkul\Core\Contracts\Validations\Slug],
             'page_title'   => 'required',
             'channels'     => 'required',
@@ -79,7 +80,7 @@ class CmsPageMutation extends Controller
         unset($data[$locale]['channels']);
         unset($data[$locale]['locale']);
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             $locale . '.url_key'      => ['required', new \Webkul\Core\Contracts\Validations\Slug, function ($attribute, $value, $fail) use ($id) {
                 if (!$this->cmsRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Page']));

@@ -4,12 +4,13 @@ namespace Webkul\GraphQLAPI\Mutations\Customer;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\SubscribersListRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Illuminate\Support\Facades\Mail;
 use Webkul\Shop\Mail\SubscriptionEmail;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class NewsletterSubscriberMutation extends Controller
 {
@@ -41,7 +42,7 @@ class NewsletterSubscriberMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'email' => 'email|required',
         ]);
         
@@ -103,7 +104,7 @@ class NewsletterSubscriberMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
         }
         
-        $validator = \Validator::make($args, [
+        $validator = Validator::make($args, [
             'token' => 'string|required',
         ]);
         

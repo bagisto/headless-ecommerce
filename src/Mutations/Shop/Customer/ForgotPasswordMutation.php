@@ -3,11 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
-use Webkul\Customer\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Webkul\Customer\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ForgotPasswordMutation extends Controller
 {
@@ -47,7 +48,7 @@ class ForgotPasswordMutation extends Controller
     
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'email' => 'required|email',
         ]);
                 

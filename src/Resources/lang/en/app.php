@@ -143,5 +143,9 @@
                 'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
                 'review-create-success'     => 'Success: Review is submitted successfully, please wait for the approval.',
             ]
+        ],
+        
+        'validation' => [
+            'unique' => 'This email has already been taken.',
         ]
     ];

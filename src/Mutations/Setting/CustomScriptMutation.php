@@ -3,12 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\Core\Repositories\LocaleRepository;
-
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CustomScriptMutation extends Controller
 {
@@ -79,7 +79,7 @@ class CustomScriptMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.channel-failure'));
         }
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'customCSS' => 'string',
             'customJS'  => 'string'
         ]);
@@ -141,7 +141,7 @@ class CustomScriptMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.channel-failure'));
         }
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'customCSS' => 'string',
         ]);
 

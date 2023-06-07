@@ -3,9 +3,10 @@
 namespace Webkul\GraphQLAPI\Mutations\Velocity;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Velocity\Repositories\ContentRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use \Webkul\Velocity\Repositories\ContentRepository;
 
 class HeaderContentMutation extends Controller
 {
@@ -37,7 +38,7 @@ class HeaderContentMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'title'        => 'required',
             'position'     => 'required',
             'status'       => 'required',
@@ -95,7 +96,7 @@ class HeaderContentMutation extends Controller
         $params = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'title'        => 'required',
             'position'     => 'required',
             'status'       => 'required',

@@ -6,6 +6,7 @@ use Exception;
 use JWTAuth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\User\Repositories\RoleRepository;
@@ -50,7 +51,7 @@ class UserMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'name'     => 'required',
             'email'    => 'email|unique:admins,email',
             'password' => 'nullable',
@@ -96,7 +97,7 @@ class UserMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'name'     => 'required',
             'email'    => 'email|unique:admins,email,' . $id,
             'password' => 'nullable',
@@ -185,7 +186,7 @@ class UserMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'email'     => 'required|email',
             'password'  => 'required',
         ]);

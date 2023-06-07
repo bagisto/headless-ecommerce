@@ -4,11 +4,12 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Velocity\Repositories\VelocityCustomerCompareProductRepository as CompareProductsRepository;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -128,7 +129,7 @@ class CompareMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'product_flat_id'    => 'required',
         ]);
 
@@ -185,7 +186,7 @@ class CompareMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'product_flat_id'    => 'required',
         ]);
 

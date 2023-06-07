@@ -4,7 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use JWTAuth;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -14,6 +14,7 @@ use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class RegistrationMutation extends Controller
 {
@@ -37,6 +38,15 @@ class RegistrationMutation extends Controller
      * @var \Webkul\Customer\Repositories\CustomerGroupRepository
      */
     protected $customerGroupRepository;
+
+    /**
+     * Contains error codes
+     *
+     * @var array
+     */
+    protected $errorCode = [
+        'validation.unique',
+    ];
 
     /**
      * Create a new controller instance.
@@ -77,7 +87,7 @@ class RegistrationMutation extends Controller
     
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
             'email'      => 'email|required|unique:customers,email',
@@ -88,7 +98,9 @@ class RegistrationMutation extends Controller
         if ($validator->fails()) {
             $errorMessage = [];
             foreach ($validator->messages()->toArray() as $message) {
-                $errorMessage[] = is_array($message) ? $message[0] : $message;
+                $error = is_array($message) ? $message[0] : $message;
+                
+                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error) : $error;
             }
             
             throw new CustomException(
@@ -223,7 +235,7 @@ class RegistrationMutation extends Controller
             ]);
         }
         
-        $validator = \Validator::make($data, $validationArray);
+        $validator = Validator::make($data, $validationArray);
         if ($validator->fails()) {
             $errorMessage = [];
             foreach ($validator->messages()->toArray() as $message) {

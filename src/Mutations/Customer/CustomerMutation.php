@@ -3,15 +3,16 @@
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Admin\Mail\NewCustomerNotification;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Mail;
-use Carbon\Carbon;
-use Webkul\Admin\Mail\NewCustomerNotification;
 
 class CustomerMutation extends Controller
 {
@@ -47,7 +48,7 @@ class CustomerMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
             'gender'            => 'required',
@@ -101,7 +102,7 @@ class CustomerMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
             'gender'            => 'required',

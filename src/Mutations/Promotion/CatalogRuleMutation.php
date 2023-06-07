@@ -3,11 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Promotion;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
 use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
-use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CatalogRuleMutation extends Controller
 {
@@ -49,7 +50,7 @@ class CatalogRuleMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1',
             'customer_groups' => 'required|array|min:1',
@@ -95,7 +96,7 @@ class CatalogRuleMutation extends Controller
         $params = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1',
             'customer_groups' => 'required|array|min:1',
@@ -170,7 +171,7 @@ class CatalogRuleMutation extends Controller
      */
     public function generateCoupons($params, $id)
     {
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'coupon_qty'  => 'required|integer|min:1',
             'code_length' => 'required|integer|min:10',
             'code_format' => 'required',

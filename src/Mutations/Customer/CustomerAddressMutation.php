@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Customer;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Rules\VatIdRule;
 use Webkul\Admin\Http\Controllers\Controller;
@@ -49,7 +50,7 @@ class CustomerAddressMutation extends Controller
             'address1' => implode(PHP_EOL, array_filter([$data['address1']])),
         ]);
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'customer_id'   => 'numeric|required',
             'company_name'  => 'string',
             'address1'      => 'string|required',
@@ -103,7 +104,7 @@ class CustomerAddressMutation extends Controller
             'address1' => implode(PHP_EOL, array_filter([$data['address1']])),
         ]);
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'company_name' => 'string',
             'address1'     => 'string|required',
             'country'      => 'string|required',

@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Customer;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
@@ -41,7 +42,7 @@ class CustomerGroupMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code' => ['required', 'unique:customer_groups,code', new \Webkul\Core\Contracts\Validations\Code],
             'name' => 'required',
         ]);
@@ -80,7 +81,7 @@ class CustomerGroupMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code' => ['required', 'unique:customer_groups,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
             'name' => 'required',
         ]);

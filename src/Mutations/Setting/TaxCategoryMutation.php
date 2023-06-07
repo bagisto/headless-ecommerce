@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Tax\Http\Controllers\Controller;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
@@ -41,7 +42,7 @@ class TaxCategoryMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'        => 'required|string|unique:tax_categories,code',
             'name'        => 'required|string',
             'description' => 'required|string',
@@ -83,7 +84,7 @@ class TaxCategoryMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'code'        => 'required|string|unique:tax_categories,code,' . $id,
             'name'        => 'required|string',
             'description' => 'required|string',

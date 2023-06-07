@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\User\Repositories\RoleRepository;;
@@ -48,7 +49,7 @@ class RoleMutation extends Controller
 
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'name'            => 'required',
             'permission_type' => 'required',
         ]);
@@ -86,7 +87,7 @@ class RoleMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'name'            => 'required',
             'permission_type' => 'required',
         ]);

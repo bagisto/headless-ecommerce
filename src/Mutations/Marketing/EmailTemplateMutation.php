@@ -3,10 +3,10 @@
 namespace Webkul\GraphQLAPI\Mutations\Marketing;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Marketing\Repositories\TemplateRepository;
-use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class EmailTemplateMutation extends Controller
 {
@@ -46,7 +46,7 @@ class EmailTemplateMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'name'      => 'required',
             'content'   => 'required',
             'status'    => 'required',
@@ -81,7 +81,7 @@ class EmailTemplateMutation extends Controller
         $params = $args['input'];
         $id = $args['id'];
 
-        $validator = \Validator::make($params, [
+        $validator = Validator::make($params, [
             'name'      => 'required',
             'content'   => 'required',
             'status'    => 'required',

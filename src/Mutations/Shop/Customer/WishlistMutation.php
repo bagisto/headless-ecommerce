@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Http\Controllers\Controller;
@@ -126,7 +127,7 @@ class WishlistMutation extends Controller
 
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'product_id'    => 'required',
         ]);
         
@@ -191,7 +192,7 @@ class WishlistMutation extends Controller
 
         $data = $args['input'];
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'product_id'    => 'required',
         ]);
         

@@ -3,14 +3,15 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Rules\VatIdRule;
 use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Illuminate\Support\Facades\DB;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class AddressesMutation extends Controller
 {
@@ -137,7 +138,7 @@ class AddressesMutation extends Controller
             'address1' => implode(PHP_EOL, array_filter([$data['address1']])),
         ]);
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'company_name'  => 'string',
             'address1'      => 'string|required',
             'country'       => 'string|required',
@@ -214,7 +215,7 @@ class AddressesMutation extends Controller
             'address1' => implode(PHP_EOL, array_filter([$data['address1']])),
         ]);
         
-        $validator = \Validator::make($data, [
+        $validator = Validator::make($data, [
             'company_name' => 'string',
             'address1'     => 'string|required',
             'country'      => 'string|required',
