@@ -20,8 +20,16 @@ input CreateRegisterInput {
 input CreateSocialSignUpInput {
     firstName: String @rename(attribute: "first_name")
     lastName: String @rename(attribute: "last_name")
-    email: String @rules(apply: ["email"])
-    password: String @rules(apply: ["min:6"])
-    passwordConfirmation: String @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
-    phone: String!
+    email: String! @rules(apply: ["email"])
+    phone: String
+    signUpType: SocialSignUpType! @rename(attribute: "signup_type")
+}
+
+enum SocialSignUpType {
+    TRUECALLER @enum(value: "truecaller")
+    FACEBOOK @enum(value: "facebook")
+    TWITTER @enum(value: "twitter")
+    GOOGLE @enum(value: "google")
+    LINKEDIN @enum(value: "linkedin")
+    GITHUB @enum(value: "github")
 }
