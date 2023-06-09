@@ -28,7 +28,13 @@ type FilterAttribute {
     minPrice: Float @rename(attribute: "min_price")
     maxPrice: Float @rename(attribute: "max_price")
     filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
+    filterData: [FilterAttributeData] @rename(attribute: "filter_data")
     sortOrders: [CatalogSortOrder!] @rename(attribute: "sort_orders")
+}
+
+type FilterAttributeData {
+    key: String
+    value: [String]
 }
 
 type CatalogSortOrder {

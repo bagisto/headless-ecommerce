@@ -146,6 +146,8 @@
         ],
         
         'validation' => [
-            'unique' => 'This email has already been taken.',
+            'unique'    => 'This :field has already been taken.',
+            'required'  => 'The :field field is required.',
+            'same'      => 'The :field and password must match.'
         ]
     ];

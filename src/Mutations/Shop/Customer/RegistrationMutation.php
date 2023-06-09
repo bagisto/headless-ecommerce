@@ -46,6 +46,8 @@ class RegistrationMutation extends Controller
      */
     protected $errorCode = [
         'validation.unique',
+        'validation.required',
+        'validation.same'
     ];
 
     /**
@@ -96,15 +98,16 @@ class RegistrationMutation extends Controller
         ]);
                 
         if ($validator->fails()) {
+            
             $errorMessage = [];
-            foreach ($validator->messages()->toArray() as $message) {
+            foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
                 
-                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error) : $error;
+                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error, ['field' => $index]) : $error;
             }
             
             throw new CustomException(
-                implode(" ,", $errorMessage),
+                implode(", ", $errorMessage),
                 'Invalid Register Details.'
             );
         }
@@ -236,15 +239,19 @@ class RegistrationMutation extends Controller
         }
         
         $validator = Validator::make($data, $validationArray);
+                
         if ($validator->fails()) {
+            
             $errorMessage = [];
-            foreach ($validator->messages()->toArray() as $message) {
-                $errorMessage[] = is_array($message) ? $message[0] : $message;
+            foreach ($validator->messages()->toArray() as $index => $message) {
+                $error = is_array($message) ? $message[0] : $message;
+                
+                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error, ['field' => $index]) : $error;
             }
             
             throw new CustomException(
-                implode(" ,", $errorMessage),
-                'Invalid Social SignUp Details.'
+                implode(", ", $errorMessage),
+                'Invalid Register Details.'
             );
         }
         

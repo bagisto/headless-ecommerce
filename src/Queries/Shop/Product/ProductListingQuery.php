@@ -300,8 +300,19 @@ class ProductListingQuery extends BaseFilter
             }
         }
 
-        $availableSortOrders = [];
+        $filterData = [];
+        foreach ($filterAttributes as $key => $filterAttribute) {
+            if ($filterAttribute->code != 'price') {
+                $optionIds = $filterAttribute->options->pluck('id')->toArray();
+                
+                $filterData[$filterAttribute->code] = [
+                    'key' => $filterAttribute->code,
+                    'value'  => $optionIds,
+                ];
+            }
+        }
 
+        $availableSortOrders = [];
         foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
             $keys = explode('-', $key);
 
@@ -319,6 +330,7 @@ class ProductListingQuery extends BaseFilter
             'min_price'         => 0,
             'max_price'         => $maxPrice ?? 500,
             'filter_attributes' => $filterAttributes,
+            'filter_data'       => $filterData,
             'sort_orders'       => $availableSortOrders,
         ];
     }
