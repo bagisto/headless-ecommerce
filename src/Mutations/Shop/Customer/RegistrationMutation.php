@@ -26,20 +26,6 @@ class RegistrationMutation extends Controller
     protected $guard;
 
     /**
-     * CustomerRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository
-     */
-    protected $customerRepository;
-
-    /**
-     * CustomerGroupRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerGroupRepository
-     */
-    protected $customerGroupRepository;
-
-    /**
      * Contains error codes
      *
      * @var array
@@ -58,8 +44,8 @@ class RegistrationMutation extends Controller
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository,
-        CustomerGroupRepository $customerGroupRepository
+        protected CustomerRepository $customerRepository,
+        protected CustomerGroupRepository $customerGroupRepository
     )
     {
         $this->guard = 'api';
@@ -67,10 +53,6 @@ class RegistrationMutation extends Controller
         auth()->setDefaultDriver($this->guard);
         
         $this->middleware('auth:' . $this->guard, ['except' => ['register']]);
-        
-        $this->customerRepository = $customerRepository;
-
-        $this->customerGroupRepository = $customerGroupRepository;
     }
 
     /**
@@ -200,7 +182,7 @@ class RegistrationMutation extends Controller
             'access_token'  => 'Bearer ' . $jwtToken,
             'token_type'    => 'Bearer',
             'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
-            'customer'      => $loginCustomer
+            'customer'      => $this->customerRepository->find($loginCustomer->id)
         ];
     }
 
@@ -221,7 +203,9 @@ class RegistrationMutation extends Controller
         ]);
         
         $errorMessage = [];
+
         if ($validator->fails()) {
+
             foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
                 
@@ -343,7 +327,7 @@ class RegistrationMutation extends Controller
             'access_token'  => 'Bearer ' . $jwtToken,
             'token_type'    => 'Bearer',
             'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
-            'customer'      => $customer
+            'customer'      => $this->customerRepository->find($customer->id)
         ];
     }
 }

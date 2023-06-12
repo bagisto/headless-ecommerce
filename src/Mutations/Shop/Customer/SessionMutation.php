@@ -7,6 +7,7 @@ use JWTAuth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Http\Controllers\Controller;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
@@ -22,9 +23,12 @@ class SessionMutation extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(
+       protected CustomerRepository $customerRepository
+    )
     {
         $this->guard = 'api';
 
@@ -74,7 +78,9 @@ class SessionMutation extends Controller
         }
         
         try {
-            if (bagisto_graphql()->guard($this->guard)->user()->status == 0) {
+            $customer = bagisto_graphql()->guard($this->guard)->user();
+
+            if ($customer->status == 0) {
                 bagisto_graphql()->guard($this->guard)->logout();
     
                 throw new CustomException(
@@ -83,7 +89,7 @@ class SessionMutation extends Controller
                 );
             }
     
-            if (bagisto_graphql()->guard($this->guard)->user()->is_verified == 0) {
+            if ($customer->is_verified == 0) {
                 bagisto_graphql()->guard($this->guard)->logout();
                 
                 throw new CustomException(
@@ -103,7 +109,7 @@ class SessionMutation extends Controller
                 'access_token'  => 'Bearer ' . $jwtToken,
                 'token_type'    => 'Bearer',
                 'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
-                'customer'      => bagisto_graphql()->guard($this->guard)->user()
+                'customer'      => $this->customerRepository->find($customer->id),
             ];
         } catch (Exception $e) {
             throw new CustomException(
