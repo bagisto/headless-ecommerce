@@ -30,6 +30,19 @@ class AccountMutation extends Controller
     protected $customerRepository;
 
     /**
+     * allowedImageMimeTypes array
+     *
+     */
+    protected $allowedImageMimeTypes = [
+        'png'   => 'image/png',
+        'jpe'   => 'image/jpeg',
+        'jpeg'  => 'image/jpeg',
+        'jpg'   => 'image/jpeg',
+        'bmp'   => 'image/bmp',
+        'webp'  => 'image/webp',
+    ];
+
+    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
@@ -193,27 +206,12 @@ class AccountMutation extends Controller
                     }
 
                     if (
-                        $data['upload_type'] == 'path' 
-                        && ! empty($data['image_url']) 
-                        && bagisto_graphql()->validatePath($data['image_url'], 'image')
+                        in_array($data['upload_type'], ['path', 'base64']) 
+                        && ! empty($data['image_url'])
                     ) {
+                        $data['save_path'] = 'customer/' . $customer->id;
 
-                        if ($customer->image) {
-                            Storage::delete($customer->image);
-                        }
-    
-                        $customer->image = null;
-                        $customer->save();
-                    
-                        $path = 'customer/' . $customer->id . '/';
-                        $image_name = basename($data['image_url']);
-                        
-                        $contents = file_get_contents($data['image_url']);
-                        
-                        Storage::put($path . $image_name, $contents);
-                        
-                        $customer->image = $path . $image_name;
-                        $customer->save();
+                        bagisto_graphql()->saveImageByURL($customer, $data, 'image_url');
                     }
                 }
 

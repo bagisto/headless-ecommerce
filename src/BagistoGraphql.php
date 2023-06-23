@@ -892,4 +892,55 @@ class BagistoGraphql
 
         return $data;
     }
+
+    /**
+     * To save image using path/url/base64
+     *
+     * @param mixed $collection
+     * @param array $data
+     * @param string $field
+     * @return void
+    */
+    public function saveImageByURL($collection, $data = [], $field = 'image_url')
+    {
+        $getImgMime = null;
+        $base64Validate = $pathValidate = false;
+        $image_name = basename($data[$field]);
+        
+        if ($data['upload_type'] == 'base64') {
+            $getImgMime = mime_content_type($data[$field]);
+            
+            $extension = explode("/", $getImgMime)[1];
+        
+            $image_name = $field . '_avatar.' . $extension;
+            
+            $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
+        } else {
+            $pathValidate = $this->validatePath($data[$field], 'image');
+        }
+        
+        if ($base64Validate || $pathValidate) {
+            $keyIndex = explode("_", $field);
+
+            if (! isset($keyIndex[0])) {
+                return false;
+            }
+            
+            if ($collection->{$keyIndex[0]}) {
+                Storage::delete($collection->{$keyIndex[0]});
+            }
+
+            $collection->{$keyIndex[0]} = null;
+            $collection->save();
+        
+            $path = $data['save_path'] . '/';
+
+            $contents = file_get_contents($data[$field]);
+            
+            Storage::put($path . $image_name, $contents);
+            
+            $collection->{$keyIndex[0]} = $path . $image_name;
+            $collection->save();
+        }
+    }
 }

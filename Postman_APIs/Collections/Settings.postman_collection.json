@@ -3,7 +3,9 @@
 		"_postman_id": "0d222665-ed99-4996-9276-a20bcd380a6a",
 		"name": "Settings",
 		"description": "This will contain all the admin section APIs which comes under Settings menu. ",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1890198",
+		"_collection_link": "https://web.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-0d222665-ed99-4996-9276-a20bcd380a6a?action=share&creator=1890198&source=collection_link"
 	},
 	"item": [
 		{

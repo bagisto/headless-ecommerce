@@ -3,7 +3,9 @@
 		"_postman_id": "23239538-eb31-43d1-9402-df7bc31f88d3",
 		"name": "Customer",
 		"description": "Customer",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1890198",
+		"_collection_link": "https://web.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-23239538-eb31-43d1-9402-df7bc31f88d3?action=share&creator=1890198&source=collection_link"
 	},
 	"item": [
 		{
