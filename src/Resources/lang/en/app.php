@@ -149,5 +149,16 @@
             'unique'    => 'This :field has already been taken.',
             'required'  => 'The :field field is required.',
             'same'      => 'The :field and password must match.'
+        ],
+        
+        'mail' => [
+            'customer'  => [
+                'password' => [
+                    'heading'   => config('app.name') . ' - Password Reset',
+                    'reset'     => 'Password Reset Email',
+                    'summary' => 'This email related to your account password reset, Your password has been changed successfully.
+                    Kindly login to your account using below mentioned password.',
+                ]
+            ]
         ]
     ];

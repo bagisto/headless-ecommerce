@@ -15,6 +15,8 @@ use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Mail\SocialLoginPasswordResetEmail;
+
 
 class RegistrationMutation extends Controller
 {
@@ -241,10 +243,6 @@ class RegistrationMutation extends Controller
         } else {
             $customer = $this->customerRepository->findOneByField('email', $data['email']);
         }
-        
-        if (isset($data['password'])) {
-            unset($data['password']);
-        }
 
         if ($customer) {
 
@@ -258,7 +256,7 @@ class RegistrationMutation extends Controller
                 );
             }
 
-            return $this->loginCustomer($customer);
+            return $this->loginCustomer($customer, $data);
         }
 
         $token  = md5(uniqid(rand(), true));
@@ -291,30 +289,59 @@ class RegistrationMutation extends Controller
         try {
             $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
             if (core()->getConfigData($configCustomerKey)) {
+                
+                $data['is_social_login'] = true;
+
                 Mail::queue(new RegistrationEmail($data, 'customer'));
             }
 
             $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
             if (core()->getConfigData($configAdminKey)) {
-                Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
+                Mail::queue(new RegistrationEmail($data, 'admin'));
             }
         } catch (Exception $e) {}
 
-        return $this->loginCustomer($customer);
+        $data['password'] = $data['password_confirmation'];
+
+        return $this->loginCustomer($customer, $data);
     }
 
-    public function loginCustomer($customer)
+    /**
+     * Login the customer using socialSignUp API.
+     *
+     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customer
+     * @param  array  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function loginCustomer($customer, $data)
     {
         $jwtToken = null;
         
-        if (! $jwtToken = JWTAuth::fromUser($customer)) {
+        if (! isset($data['password'])) {
+            $data['password'] = $password = rand(1, 999999);
+            
+            $customer->password = bcrypt($password);
+            $customer->save();
+            
+            try {
+                Mail::queue(new SocialLoginPasswordResetEmail($data));
+            } catch(\Exception $e) {}
+            
+        }
+        
+        $remember = isset($data['remember']) ? $data['remember'] : 0;
+
+        if (! $jwtToken = JWTAuth::attempt([
+            'email'     => $customer->email,
+            'password'  => $data['password'],
+        ], $remember)) {
             throw new CustomException(
                 trans('shop::app.customer.login-form.invalid-creds'),
                 'Invalid Email and Password.'
             );
         }
-
-        auth()->guard($this->guard)->login($customer, true);
+        
+        $customer = bagisto_graphql()->guard($this->guard)->user();
 
         /**
          * Event passed to prepare cart after login.

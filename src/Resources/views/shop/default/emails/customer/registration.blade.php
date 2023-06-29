@@ -17,7 +17,7 @@
                     {!! __('shop::app.mail.customer.registration.greeting') !!}
                 </p>
 
-                @if (!empty($data['is_social_login']))
+                @if (! empty($data['is_social_login']))
                     <p style="font-size: 16px;color: #000000;line-height: 24px;">
                         <strong>{{ __('bagisto_graphql::app.shop.customer.text-password', ['password' => $data['password_confirmation']]) }}</strong>
                     </p>
