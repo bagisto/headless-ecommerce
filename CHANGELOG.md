@@ -2,6 +2,10 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+## **v1.4.6 (29th of Jun, 2023)** - *Release*
+
+* [fixed] - socialSignUp mutation issue with spead directive.
+
 * [enhancement] - Need to implement a Product share option on the Product detail page.
 
 * [enhancement] - Need to add the wishlist share option on wishlist page.
