@@ -113,24 +113,21 @@ class ProductListingQuery extends BaseFilter
     {
         $params = $input;
 
-        $channel = core()->getRequestedChannelCode();
-
-        $locale = core()->getRequestedLocaleCode();
-
-        $qb = $query->distinct()
+        $qb = app(ProductRepository::class)->distinct()
             ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
             ->addSelect('products.*')
             ->join('product_flat as variants', 'product_flat.id', '=', DB::raw('COALESCE(' . DB::getTablePrefix() . 'variants.parent_id, ' . DB::getTablePrefix() . 'variants.id)'))
             ->leftJoin('product_categories', 'product_categories.product_id', '=', 'product_flat.product_id')
             ->leftJoin('product_attribute_values', 'product_attribute_values.product_id', '=', 'variants.product_id')
             ->whereIn('products.type', ['simple', 'configurable', 'virtual'])
-            ->where('product_flat.channel', $channel)
-            ->where('product_flat.locale', $locale)
+            ->where('product_flat.channel', core()->getRequestedChannelCode())
+            ->where('product_flat.locale', core()->getRequestedLocaleCode())
             ->whereNotNull('product_flat.url_key');
             
-        if (isset($params['categorySlug']) && $params['categorySlug']) {
+        if (! empty($params['category_slug'])) {
+            
             $categoryId = $this->categoryRepository->whereHas('translation', function ($q) use ($params) {
-                $q->where('slug', 'like', '%' . urldecode($params['categorySlug']) . '%');
+                $q->where('slug', 'like', '%' . urldecode($params['category_slug']) . '%');
             })->pluck('id')->first();
 
             if ($categoryId) {
@@ -138,37 +135,37 @@ class ProductListingQuery extends BaseFilter
             }
         }
 
-        if (request()->has('new')) {
-            $qb->where('product_flat.new', 1);
-        }
-
-        if (request()->has('featured')) {
-            $qb->where('product_flat.featured', 1);
-        }
-
         if (! core()->getConfigData('catalog.products.homepage.out_of_stock_items')) {
             $qb = $this->productRepository->checkOutOfStockItem($qb);
         }
 
-        if (is_null(request()->input('status'))) {
+        if (! empty($params['status'])) {
             $qb->where('product_flat.status', 1);
         }
 
-        if (is_null(request()->input('visible_individually'))) {
+        if (! empty($params['visible_individually'])) {
             $qb->where('product_flat.visible_individually', 1);
         }
 
-        if (isset($params['search']) && $params['search']) {
+        if (! empty($params['new'])) {
+            $qb->where('product_flat.new', $params['new']);
+        }
+
+        if (! empty($params['featured'])) {
+            $qb->where('product_flat.featured', $params['featured']);
+        }
+
+        if (! empty($params['search'])) {
             $qb->where('product_flat.name', 'like', '%' . urldecode($params['search']) . '%');
         }
 
         /* added for api as per the documentation */
-        if (isset($params['name']) && $params['name']) {
+        if (! empty($params['name'])) {
             $qb->where('product_flat.name', 'like', '%' . urldecode($params['name']) . '%');
         }
 
         /* added for api as per the documentation */
-        if (isset($params['url_key']) && $params['url_key']) {
+        if (! empty($params['url_key'])) {
             $qb->where('product_flat.url_key', 'like', '%' . urldecode($params['url_key']) . '%');
         }
 
@@ -190,7 +187,7 @@ class ProductListingQuery extends BaseFilter
             }
         }
 
-        if (isset($params['price']) && $params['price']) {
+        if (! empty($params['price'])) {
             $priceFilter = $params['price'];
             $priceRange = explode(',', $priceFilter);
 
@@ -231,6 +228,22 @@ class ProductListingQuery extends BaseFilter
 
         if (isset($params['price'])) {
             unset($attributeFilterParams['price']);
+        };
+
+        if (! empty($params['filters'])) {
+            foreach ($params['filters'] as $attribute) {
+                
+                if (
+                    ! isset($attribute['key']) 
+                    || ! isset($attribute['value'])
+                ) {
+                    continue;
+                }
+
+                $attributeFilterParams[$attribute['key']] = $attribute['value'];
+            }
+
+            unset($attributeFilterParams['filters']);
         };
 
         $attributeFilters = $this->attributeRepository

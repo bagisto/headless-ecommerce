@@ -1,23 +1,29 @@
 # Shop\Product\ItemListing related APIs.
 extend type Query {
-    getProductListing(input: FilterProductListingInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll"), locale: String, first: Int, page: Int): [Product!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
-
+    getProductListing(
+        input: FilterProductListingInput @spread, 
+        locale: String, 
+        first: Int, 
+        page: Int
+    ): [Product!] 
+    @paginate(type: "paginator", builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll", defaultCount: 10)
+    
     getFilterAttribute(categorySlug: String): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getFilterAttributes")
 }
 
 input FilterProductListingInput {
-    categorySlug: String
-    search: String
-    name: String
-    url_key: String
+    categorySlug: String @rename(attribute: "category_slug")
+    status: Boolean
+    visibleIndividually: Boolean @rename(attribute: "visible_individually")
     featured: Boolean
     new: Boolean
+    search: String
+    name: String
+    urlKey: String @rename(attribute: "url_key")
     order: String
     sort: String
     price: String
-    color: String
-    size: String
-    brand: String
+    filters: [FilterAttributeData], 
 }
 
 input FilterAttributeInput {
