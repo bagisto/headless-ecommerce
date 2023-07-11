@@ -240,7 +240,7 @@ class ProductListingQuery extends BaseFilter
                     continue;
                 }
 
-                $attributeFilterParams[$attribute['key']] = $attribute['value'];
+                $attributeFilterParams[$attribute['key']] = is_array($attribute['value']) ? implode(",", $attribute['value']) : $attribute['value'];
             }
 
             unset($attributeFilterParams['filters']);
@@ -299,9 +299,12 @@ class ProductListingQuery extends BaseFilter
         $category = $maxPrice = null;
         $filterAttributes = null;
 
-        if (isset($args['categorySlug']) && $args['categorySlug']) {
-            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($args) {
-                $q->where('slug', 'like', '%' . urldecode($args['categorySlug']) . '%');
+        if (! empty($args['categorySlug'])) {
+            $slugs = explode("/", $args['categorySlug']);
+            $lastSlugs = end($slugs);
+            
+            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($lastSlugs) {
+                $q->where('slug', 'like', '%' . urldecode($lastSlugs) . '%');
             })->first();
 
             if ($category) {

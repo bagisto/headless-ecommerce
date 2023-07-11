@@ -115,6 +115,11 @@ type Product {
     name: String
     description: String
     shortDescription: String @rename(attribute: "short_description")
+    new: Boolean
+    featured: Boolean
+    status: Boolean
+    visibleIndividually: Boolean @rename(attribute: "visible_individually")
+    guestCheckout: Boolean @rename(attribute: "guest_checkout")
     parentId: ID @rename(attribute: "parent_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
