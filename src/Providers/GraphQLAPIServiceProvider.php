@@ -6,10 +6,12 @@ use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Webkul\BookingProduct\Type\Booking as BaseBookingType;
+use Webkul\Product\Type\Configurable as BaseConfigurableType;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 use Webkul\GraphQLAPI\Type\Booking as GraphQLAPIBookingType;
+use Webkul\GraphQLAPI\Type\Configurable as GraphQLAPIConfigurableType;
 use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
 
@@ -169,6 +171,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         $this->app->bind(\Webkul\Checkout\Cart::class, \Webkul\GraphQLAPI\Cart::class);
 
+        $this->app->bind(BaseConfigurableType::class, GraphQLAPIConfigurableType::class);
+        
         $this->app->bind(BaseBookingType::class, GraphQLAPIBookingType::class);
     }
 
