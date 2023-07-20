@@ -252,16 +252,14 @@ class BagistoGraphql
     }
 
     /**
+     * Store/Update the product images/videos.
+     * 
      * @param  array  $data
-     * @param  \Webkul\Product\Contracts\Product  $product
-     * @param Array $image_urls
-     * @param String $path
-     * @param String $type
      * @return void
      */
-    public function uploadProductImages($product, $image_urls, $path, $type = 'image')
+    public function uploadProductImages($data)
     {
-        $model_path = $path . $product->id . '/';
+        $model_path = $data['path'] . $data['resource']->id . '/';
 
         $image_dir_path = storage_path('app/public/' . $model_path);
 
@@ -269,42 +267,70 @@ class BagistoGraphql
             mkdir(storage_path('app/public/' . $model_path), 0777, true);
         }
 
-        $previousImageIds = $productImageArray = ($type == 'video') ? $product->videos()->pluck('id') : $product->images()->pluck('id');
+        $previousImageIds = $productImageArray = ($data['data_type'] == 'video') ? $data['resource']->videos()->pluck('id') : $data['resource']->images()->pluck('id');
 
-        if ($image_urls) {
+        if ($data['data']) {
 
             foreach ($productImageArray->toArray() as $productImageId) {
+
                 if (is_numeric($index = $previousImageIds->search($productImageId))) {
                     $previousImageIds->forget($index);
                 }
-                if ( $type == 'video')
+
+                if ( $data['data_type'] == 'video')
                     $this->productVideoRepository->delete($productImageId);
                 else
                     $this->productImageRepository->delete($productImageId);
             }
 
-            foreach ($image_urls as $imageId => $image_url) {
-                if (! $this->validatePath($image_url, $type)) {
+            foreach ($data['data'] as $imageId => $image_url) {
+                
+                $pathValidate = false;
+                $img_name = basename($image_url);
+
+                if ($data['upload_type'] == 'base64') {
+                    
+                    $validate = explode("base64,", $image_url);
+
+                    if (
+                        ! isset($validate[1]) 
+                        || ($this->is_not_base64($validate[1]))
+                    ) {
+                        continue;
+                    }
+
+                    $allowedMimeTypes = $data['data_type'] == 'image' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
+
+                    $getImgMime = mime_content_type($image_url);
+            
+                    $extension = explode("/", $getImgMime)[1];
+                
+                    $img_name = \Str::random(30) . '.' . $extension;
+
+                    $pathValidate = ($getImgMime && in_array($getImgMime, $allowedMimeTypes));
+                } else {
+                    $pathValidate = $this->validatePath($image_url, $data['data_type']);
+                }
+
+                if (! $pathValidate) {
                     continue;
                 }
-                
-                $img_name = basename($image_url);
 
                 $savePath = $image_dir_path . $img_name;
 
-                if ( file_exists($savePath) ) {
+                if (file_exists($savePath)) {
                     Storage::delete('/' . $model_path . $img_name);
                 }
 
                 file_put_contents($savePath, file_get_contents($image_url));
 
                 $params =[
-                    'type'       => $type,
+                    'type'       => $data['data_type'],
                     'path'       => $model_path . $img_name,
-                    'product_id' => $product->id,
+                    'product_id' => $data['resource']->id,
                 ];
 
-                if ( $type == 'video') {
+                if ( $data['data_type'] == 'video') {
                     $this->productVideoRepository->create($params);
                 } else {
                     $this->productImageRepository->create($params);
@@ -315,13 +341,24 @@ class BagistoGraphql
                 if ($imageModel = $this->productImageRepository->find($imageId)) {
                     Storage::delete($imageModel->path);
 
-                    if ( $type == 'video')
+                    if ( $data['data_type'] == 'video')
                         $this->productImageRepository->delete($imageId);
                     else
                         $this->productVideoRepository->delete($imageId);
                 }
             }
         }
+    }
+
+    /**
+     * To validate the base64 url
+     *
+     * @param String|null $imageURL
+     * @param String|null $type
+     * @return boolean
+     */
+    function is_not_base64($string) {
+        return !preg_match('/^[a-zA-Z0-9\/+]+={0,2}$/', $string) || base64_encode(base64_decode($string)) !== $string;
     }
 
     /**

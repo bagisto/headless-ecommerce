@@ -225,8 +225,17 @@ class ProductMutation extends Controller
             Event::dispatch('catalog.product.update.after', $product);
 
             if (isset($product->id)) {
-                bagisto_graphql()->uploadProductImages($product, $image_urls, 'product/', 'image');
-                bagisto_graphql()->uploadProductImages($product, $video_urls, 'product/', 'video');
+                
+                $uploadParams = [
+                    'resource' => $product,
+                    'data' => $image_urls,
+                    'path' => 'product/',
+                    'data_type' => 'image',
+                    'upload_type' => ! isset($args['upload_type']) ? 'path' : $args['upload_type']
+                ];
+                
+                bagisto_graphql()->uploadProductImages($uploadParams);
+                bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $video_urls, 'data_type' => 'video']));
 
                 if ($product->type == 'booking') {
                     $allow_types = ['appointment', 'rental', 'table'];

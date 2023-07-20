@@ -71,6 +71,7 @@ input UpdateProductInput {
     crossSells: [Int] @rename(attribute: "cross_sells")
     images: [String]
     videos: [String]
+    uploadType: UploadType @rename(attribute: "upload_type")
     defaultVariantId: ID @rename(attribute: "default_variant_id")
     variants: [UpdateVariantInput!]
     links: [UpdateGroupedProductInput!]
