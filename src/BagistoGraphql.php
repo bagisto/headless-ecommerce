@@ -86,7 +86,10 @@ class BagistoGraphql
     ];
 
     protected $allowedVideoMimeTypes = [
-        'mp4'   => 'video/mp4',
+        'mp4'       => 'video/mp4',
+        'webm'      => 'video/webm',
+        'quicktime' => 'video/quicktime',
+        'octet-stream' => 'application/octet-stream',
     ];
 
     /**
