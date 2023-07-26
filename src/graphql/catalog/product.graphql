@@ -47,6 +47,7 @@ input UpdateProductInput {
     guestCheckout: Boolean @rename(attribute: "guest_checkout")
     color: Int
     size: Int
+    customAttributes: [CustomAttributeInput] @rename(attribute: "custom_attributes")
     shortDescription: String! @rename(attribute: "short_description")
     description: String!
     metaTitle: String @rename(attribute: "meta_title")
@@ -96,6 +97,11 @@ input UpdateVariantInput {
 input VariantInventoryInput {
     inventorySourceId: Int! @rename(attribute: "inventory_source_id")
     qty: Int!
+}
+
+input CustomAttributeInput {
+    name: String!
+    value: String
 }
 
 input FilterProductsInput {

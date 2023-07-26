@@ -109,6 +109,14 @@ class ProductMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
+        if (! empty($data['custom_attributes'])) {
+            foreach ($data['custom_attributes'] as $customAttribute) {
+                $data[$customAttribute['name']] = $customAttribute['value'];
+            }
+
+            unset($data['custom_attributes']);
+        }
+
         $product = $this->productRepository->findOrFail($id);
 
         // Only in case of configurable product type
