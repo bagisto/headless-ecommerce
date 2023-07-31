@@ -165,8 +165,12 @@ class AddressesMutation extends Controller
 
         try {
             Event::dispatch('customer.address.create.before');
-            
-            $data['customer_id'] = $customer->id;
+                        
+            $data = array_merge($data, [
+                'gender' => $customer->gender,
+                'customer_id' => $customer->id,
+            ]);
+
             $customerAddress = $this->customerAddressRepository->create($data);
     
             Event::dispatch('customer.address.create.after', $customerAddress);
@@ -251,6 +255,8 @@ class AddressesMutation extends Controller
             }
 
             Event::dispatch('customer.address.update.before');
+
+            $data['gender'] = $customer->gender;
 
             $customerAddress = $this->customerAddressRepository->update($data, $id);
 
