@@ -141,6 +141,7 @@ return [
             'coupon-removed' => 'सफलता: कार्ट से कूपन सफलतापूर्वक हटा दिया गया।',
             'coupon-remove-failed' => 'चेतावनी: कूपन को कार्ट से हटाने में कुछ त्रुटि है या कूपन नहीं मिला।',
             'review-create-success' => 'सफलता: समीक्षा सफलतापूर्वक सबमिट की गई है, कृपया अनुमोदन के लिए प्रतीक्षा करें।',
+            'un-authorized-access' => 'Warning: You are not authorized to use this section.',
         ],
     ],
 

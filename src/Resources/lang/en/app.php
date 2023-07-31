@@ -142,6 +142,7 @@
                 'coupon-removed'            => 'Success: coupon removed from cart successfully.',
                 'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
                 'review-create-success'     => 'Success: Review is submitted successfully, please wait for the approval.',
+                'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
             ]
         ],
         

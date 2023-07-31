@@ -142,6 +142,7 @@ return [
             'coupon-removed'            => 'نجاح: تمت إزالة القسيمة من السلة بنجاح.',
             'coupon-remove-failed'      => 'تحذير: هناك بعض الأخطاء في إزالة القسيمة من السلة أو لم يتم العثور على القسيمة.',
             'review-create-success'     => 'نجاح: تم إرسال المراجعة بنجاح، يرجى الانتظار للموافقة.',
+            'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
         ]
     ],
     

@@ -142,6 +142,7 @@ return [
             'coupon-removed'            => 'Başarı: kupon başarıyla sepetten kaldırıldı.',
             'coupon-remove-failed'      => 'Uyarı: kuponu sepetten kaldırma veya kupon bulunamama konusunda bazı hatalar var.',
             'review-create-success'     => 'Başarı: İnceleme başarıyla gönderildi, onay için lütfen bekleyin.',
+            'un-authorized-access'  => 'Warning: You are not authorized to use this section.',
         ]
     ],
     

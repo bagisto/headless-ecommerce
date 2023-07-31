@@ -142,6 +142,7 @@ return [
             'coupon-removed'            => 'Succes: coupon succesvol uit de winkelwagen verwijderd.',
             'coupon-remove-failed'      => 'Waarschuwing: er zijn enkele fouten bij het verwijderen van de coupon uit de winkelwagen of de coupon is niet gevonden.',
             'review-create-success'     => 'Succes: Beoordeling is succesvol ingediend, wacht op goedkeuring.',
+            'un-authorized-access' => 'Warning: You are not authorized to use this section.',
         ]
     ],
     

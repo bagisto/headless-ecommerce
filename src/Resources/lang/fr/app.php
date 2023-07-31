@@ -142,6 +142,7 @@ return [
             'coupon-removed'            => 'Succès: coupon retiré du panier avec succès.',
             'coupon-remove-failed'      => 'Attention: il y a quelques erreurs lors de la suppression du coupon du panier ou le coupon n\'a pas été trouvé.',
             'review-create-success'     => 'Succès: L\'avis est soumis avec succès, veuillez attendre l\'approbation.',
+            'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
         ]
     ],
     

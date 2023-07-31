@@ -144,6 +144,7 @@
                 'coupon-removed' => '成功: カートからクーポンが正常に削除されました。',
                 'coupon-remove-failed' => '警告: カートからクーポンを削除する際にエラーが発生しました、またはクーポンが見つかりませんでした。',
                 'review-create-success' => '成功: レビューが正常に送信されました。承認をお待ちください。',
+                'un-authorized-access' => 'Warning: You are not authorized to use this section.',
             ]
         ],
         

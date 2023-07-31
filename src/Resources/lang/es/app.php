@@ -142,6 +142,7 @@ return [
             'coupon-removed'            => 'Éxito: cupón eliminado del carrito con éxito.',
             'coupon-remove-failed'      => 'Advertencia: hay algunos errores al eliminar el cupón del carrito o el cupón no se encontró.',
             'review-create-success'     => 'Éxito: La reseña se envió correctamente, espere la aprobación.',
+            'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
         ]
     ],
     
