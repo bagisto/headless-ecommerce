@@ -3,11 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\Paginator;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class DownloadableMutation extends Controller
 {
@@ -111,10 +111,16 @@ class DownloadableMutation extends Controller
             if ( ($downloads && isset($downloads->first()->id)) || isset($downloads->id) ) {
                 return $downloads;
             } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Downloadable Purchase Link']));
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.response.not-found', ['name' => 'downloadable purchase link']),
+                    'Resource not found'
+                );
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Error: Downloadable Purchase Link'
+            );
         }
     }
 }

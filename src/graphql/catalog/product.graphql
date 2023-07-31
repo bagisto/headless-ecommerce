@@ -8,7 +8,7 @@ extend type Query {
 
     productFlat(id: ID @eq): ProductFlat @find(model: "Webkul\\Product\\Models\\ProductFlat")
 
-    relatedProducts(productId: Int!): [Product] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getRelatedProducts")
+    relatedProducts(productId: ID!): [Product] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getRelatedProducts")
 }
 
 extend type Mutation @guard {
@@ -21,7 +21,7 @@ extend type Mutation @guard {
 
 input CreateProductInput {
     type: String!
-    attributeFamilyId: Int! @rename(attribute: "attribute_family_id")
+    attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
     sku: String!
     superAttributes: [SuperAttributesInput] @rename(attribute: "super_attributes")
     family: Int
@@ -39,7 +39,7 @@ input UpdateProductInput {
     name: String!
     productNumber: String @rename(attribute: "product_number")
     urlKey: String! @rename(attribute: "url_key")
-    taxCategoryId: Int @rename(attribute: "tax_category_id")
+    taxCategoryId: ID @rename(attribute: "tax_category_id")
     new: Boolean
     featured: Boolean
     visibleIndividually: Boolean @rename(attribute: "visible_individually")
@@ -83,7 +83,7 @@ input UpdateProductInput {
 }
 
 input UpdateVariantInput {
-    variantId: Int! @rename(attribute: "variant_id")
+    variantId: ID! @rename(attribute: "variant_id")
     sku: String!
     name: String!
     color: Int
@@ -95,7 +95,7 @@ input UpdateVariantInput {
 }
 
 input VariantInventoryInput {
-    inventorySourceId: Int! @rename(attribute: "inventory_source_id")
+    inventorySourceId: ID! @rename(attribute: "inventory_source_id")
     qty: Int!
 }
 
@@ -116,7 +116,7 @@ input FilterProductsInput {
 type Product {
     id: ID!
     type: String!
-    attributeFamilyId: Int! @rename(attribute: "attribute_family_id")
+    attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
     sku: String!
     urlKey: String! @rename(attribute: "url_key")
     name: String
@@ -192,7 +192,7 @@ type ProductFlat {
     locale: String!
     channel: String!
     productId: ID! @rename(attribute: "product_id")
-    parentId: Int @rename(attribute: "parent_id")
+    parentId: ID @rename(attribute: "parent_id")
     minPrice: Float @rename(attribute: "min_price")
     maxPrice: Float @rename(attribute: "max_price")
     metaTitle: String @rename(attribute: "meta_title")

@@ -77,8 +77,7 @@ class AccountMutation extends Controller
         }
         
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
-
-            $customer = bagisto_graphql()->guard($this->guard)->user();
+            $customer = $this->customerRepository->find(bagisto_graphql()->guard($this->guard)->user()->id);
 
             return [
                 'status'    => $customer ? true : false,

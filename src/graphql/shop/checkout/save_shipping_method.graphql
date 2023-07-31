@@ -19,7 +19,7 @@ type PaymentMethodsResponse {
 
 type PaymentResponse {
     method: String!
-    method_title: String!
+    methodTitle: String! @rename(attribute: "method_title")
     description: String
     sort: Int!
 }

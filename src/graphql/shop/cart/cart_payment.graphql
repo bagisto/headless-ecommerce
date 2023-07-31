@@ -7,7 +7,7 @@ extend type Query {
 type CartPayment {
     id: ID!
     method: String!
-    methodTitle: String @rename(attribute: "method_title")
+    methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentTitle")
     cartId: ID! @rename(attribute: "cart_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
