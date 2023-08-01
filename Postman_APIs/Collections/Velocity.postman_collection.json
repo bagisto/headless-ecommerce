@@ -4,7 +4,7 @@
 		"name": "Velocity",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1890198",
-		"_collection_link": "https://web.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-6875be65-fbcf-40f3-839c-ac0cf6698498?action=share&creator=1890198&source=collection_link"
+		"_collection_link": "https://warped-spaceship-266216.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-6875be65-fbcf-40f3-839c-ac0cf6698498?action=share&creator=1890198&source=collection_link"
 	},
 	"item": [
 		{
@@ -84,7 +84,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation createHeaderContent {\n    createHeaderContent(input: {\n        title: \"Test\"\n        position: 2\n        status: false\n        contentType: \"category\"\n        locale: \"en\"\n        pageLink: \"test\"\n        linkTarget: true\n    }) {\n        id\n        contentType\n        position\n        status\n        translations {\n            id\n            contentId\n            title\n            customTitle\n            customHeading\n            pageLink\n            linkTarget\n            catalogType\n            products\n            description\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
+						"query": "mutation createHeaderContent {\n    createHeaderContent(input: {\n        title: \"Trending Collection\"\n        position: 2\n        status: false\n        contentType: \"category\"\n        locale: \"en\"\n        pageLink: \"test\"\n        linkTarget: true\n    }) {\n        id\n        contentType\n        position\n        status\n        translations {\n            id\n            contentId\n            title\n            customTitle\n            customHeading\n            pageLink\n            linkTarget\n            catalogType\n            products\n            description\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
 						"variables": ""
 					}
 				},
@@ -114,7 +114,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation updateHeaderContent {\n    updateHeaderContent(\n        id: 1,\n        input: {\n            title: \"Test\"\n            position: 2\n            status: true\n            contentType: \"category\"\n            locale: \"en\"\n            pageLink: \"test\"\n            linkTarget: false\n        }\n    ) {\n        id\n        contentType\n        position\n        status\n        translations {\n            id\n            contentId\n            title\n            customTitle\n            customHeading\n            pageLink\n            linkTarget\n            catalogType\n            products\n            description\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
+						"query": "mutation updateHeaderContent {\n    updateHeaderContent(\n        id: 1,\n        input: {\n            title: \"Trending Collection\"\n            position: 2\n            status: true\n            contentType: \"category\"\n            locale: \"en\"\n            pageLink: \"test\"\n            linkTarget: false\n        }\n    ) {\n        id\n        contentType\n        position\n        status\n        translations {\n            id\n            contentId\n            title\n            customTitle\n            customHeading\n            pageLink\n            linkTarget\n            catalogType\n            products\n            description\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
 						"variables": ""
 					}
 				},

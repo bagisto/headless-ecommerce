@@ -5,7 +5,7 @@
 		"description": "This will contain all the admin section APIs which comes under Settings menu. ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1890198",
-		"_collection_link": "https://web.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-0d222665-ed99-4996-9276-a20bcd380a6a?action=share&creator=1890198&source=collection_link"
+		"_collection_link": "https://warped-spaceship-266216.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-0d222665-ed99-4996-9276-a20bcd380a6a?action=share&creator=1890198&source=collection_link"
 	},
 	"item": [
 		{
@@ -90,7 +90,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createUser {\n    createUser(input: {\n        name: \"Tom Martin\"\n        email: \"admin1@example.com\"\n    \tpassword: \"admin123\"\n    \tpasswordConfirmation: \"admin123\"\n    \troleId: 1\n    \tstatus: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
+								"query": "mutation createUser {\n    createUser(input: {\n        name: \"Tom Martin\"\n        email: \"tom@example.com\"\n    \tpassword: \"admin123\"\n    \tpasswordConfirmation: \"admin123\"\n    \troleId: 1\n    \tstatus: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -121,7 +121,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateUser {\n    updateUser(id: 2, input: {\n        name: \"Admin User\"\n        email: \"admin1@example.com\"\n        password: \"admin123\"\n        passwordConfirmation: \"admin123\"\n        roleId: 1\n        status: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}\n",
+								"query": "mutation updateUser {\n    updateUser(id: 2, input: {\n        name: \"Admin User\"\n        email: \"tom@example.com\"\n        password: \"admin123\"\n        passwordConfirmation: \"admin123\"\n        roleId: 1\n        status: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -305,7 +305,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query role {\n    role(id:2) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"query": "query role {\n    role(id: 1) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -336,7 +336,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createRole {\n    createRole(input: {\n        name: \"Custom Role name afd\"\n        description: \"Custom Role Description\"\n        permissionType: \"custom\"\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"query": "mutation createRole {\n    createRole(input: {\n        name: \"Custom Role\"\n        description: \"Custom Role Description\"\n        permissionType: \"custom\"\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -367,7 +367,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateRole {\n    updateRole(id: 2, input: {\n        name: \"Custom\"\n        description: \"Custom Description\"\n        permissionType: \"custom\"\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"query": "mutation updateRole {\n    updateRole(id: 2, input: {\n        name: \"Custom Rules\"\n        description: \"Custom Description\"\n        permissionType: \"custom\"\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -398,7 +398,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteRole {\n    deleteRole(id: 3) {\n        success\n    }\n}",
+								"query": "mutation deleteRole {\n    deleteRole(id: 2) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -466,7 +466,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query locale {\n    locale(id: 4) {\n        id\n        name\n        code\n        direction\n    }\n}",
+								"query": "query locale {\n    locale(id: 1) {\n        id\n        name\n        code\n        direction\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -497,7 +497,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"arb\"\n        name: \"Arabic Locale\"\n        direction: \"ltr\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}",
+								"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"ar\"\n        name: \"Arabic Locale\"\n        direction: \"rtl\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -535,7 +535,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateLocale {\n    updateLocale(id: 6, input: {\n    \tcode: \"arc\"\n        name: \"Arabic lang\"\n        direction: \"RTL\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation updateLocale {\n    updateLocale(id: 4, input: {\n    \tcode: \"arc\"\n        name: \"Arabic lang\"\n        direction: \"RTL\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -566,7 +566,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocale {\n    deleteLocale(id: 6) {\n        success\n    }\n}",
+								"query": "mutation deleteLocale {\n    deleteLocale(id: 4) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1063,7 +1063,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createInventorySource {\n    createInventorySource(input: {\n        code: \"ncr\",\n        name: \"NCRStore\",\n        contactName: \"TomMartin\",\n        contactEmail: \"tom_martin@example.com\",\n        contactNumber: \"4792645441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 3,\n        latitude: \"123.123.123.123\",\n        longitude: \"444.444.444.444\",\n        status: false\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n    }\n}\n",
+								"query": "mutation createInventorySource {\n    createInventorySource(input: {\n        code: \"ncr\",\n        name: \"NCRStore\",\n        contactName: \"TomMartin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"4792645441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 3,\n        latitude: \"123.123.123.123\",\n        longitude: \"444.444.444.444\",\n        status: false\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -1216,7 +1216,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query taxRate {\n    taxRate(id: 2) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"query": "query taxRate {\n    taxRate(id: 1) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1247,7 +1247,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createTaxRate {\n    createTaxRate(input: {\n        identifier: \"demo tax\",\n        country: \"IN\",\n        state: \"\",\n        isZip: 1,\n        zipFrom: \"555555\",\n        zipTo: \"600000\",\n        taxRate: 4.33,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"query": "mutation createTaxRate {\n    createTaxRate(input: {\n        identifier: \"Service Tax\",\n        country: \"IN\",\n        state: \"\",\n        isZip: 1,\n        zipFrom: \"555555\",\n        zipTo: \"600000\",\n        taxRate: 4.33,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1278,7 +1278,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateTaxRate {\n    updateTaxRate(id: 2, input: {\n        identifier: \"demo tax\",\n        isZip: 1,\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"query": "mutation updateTaxRate {\n    updateTaxRate(id: 2, input: {\n        identifier: \"Service Tax\",\n        isZip: 1,\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1309,7 +1309,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteTaxRate {\n    deleteTaxRate(id: 2) {\n        success\n    }\n}",
+								"query": "mutation deleteTaxRate {\n    deleteTaxRate(id: 1) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1431,7 +1431,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createTaxCategory {\n    createTaxCategory(input: {\n        code: \"servicetax\"\n        name: \"Service Tax\"\n        description: \"Service Tax Description\"\n        taxrates: [3]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+								"query": "mutation createTaxCategory {\n    createTaxCategory(input: {\n        code: \"service-tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [3]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1462,7 +1462,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateTaxCategory {\n    updateTaxCategory(id: 1, input: {\n        code: \"servicetax\"\n        name: \"Service Tax\"\n        description: \"Service Tax Description\"\n        taxrates: [3]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+								"query": "\nmutation updateTaxCategory {\n    updateTaxCategory(id: 1, input: {\n        code: \"service-tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1676,7 +1676,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteChannel {\n    deleteChannel(id: 4) {\n        success\n    }\n}",
+								"query": "mutation deleteChannel {\n    deleteChannel(id: 2) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1839,7 +1839,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query country {\n    country(id: 3) {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
+								"query": "query country {\n    country(id: 1) {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1887,7 +1887,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query countrieState {\n    countrieState(id: 3) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
+								"query": "query countrieState {\n    countrieState(id: 1) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1946,7 +1946,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query slider {\n    slider(id: 28){\n        id\n        title\n        path\n        content\n        channelId\n        locale\n        sliderPath\n        imgPath\n        channel{\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales{\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies{\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources{\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+								"query": "query slider {\n    slider(id: 1){\n        id\n        title\n        path\n        content\n        channelId\n        locale\n        sliderPath\n        imgPath\n        channel{\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales{\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies{\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources{\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -1976,7 +1976,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createSlider {\n    createSlider(input: {\n        title: \"fdasasf\"\n        channelId: 1\n        expiredAt: \"2022-08-31\"\n        locale: \"ar,arb,nl,en,fr\"\n        image:\n            \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    \n        sortOrder: 1\n        content: \"fasdfasfas\"\n        sliderPath: \"fdasfasfasf\"\n    }){\n        id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n    }\n}",
+								"query": "mutation createSlider {\n    createSlider(input: {\n        title: \"fdasasf\"\n        channelId: 1\n        expiredAt: \"2022-08-31\"\n        locale: \"ar,arb,nl,en,fr\"\n        image:\n            \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    \n        sortOrder: 1\n        content: \"Kids Collection\"\n        sliderPath: \"kids\"\n    }){\n        id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -2006,7 +2006,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateSlider {\n    updateSlider(id: 28,input: {\n        title: \"fdasasf\"\n        channelId: 1\n        expiredAt: \"2022-08-31\"\n        locale: \"ar,arb,nl,en,fr\"\n        image:\n            \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    \n        sortOrder: 1\n        content: \"fasdfasfas\"\n        sliderPath: \"fdasfasfasf\"\n    }){\n        id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n    }\n}",
+								"query": "mutation updateSlider {\n    updateSlider(id: 1, input: {\n        title: \"fdasasf\"\n        channelId: 1\n        expiredAt: \"2022-08-31\"\n        locale: \"ar,arb,nl,en,fr\"\n        image:\n            \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    \n        sortOrder: 1\n        content: \"New Kids Collection\"\n        sliderPath: \"Kids Collection\"\n    }){\n        id\n            title\n            path\n            content\n            channelId\n            locale\n            sliderPath\n            imgPath\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n    }\n}",
 								"variables": ""
 							}
 						},
