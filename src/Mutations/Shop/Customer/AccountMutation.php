@@ -242,11 +242,17 @@ class AccountMutation extends Controller
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.invalid-header'),
+                'Invalid request parameters.'
+            );
         }
 
-        if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+        if (! bagisto_graphql()->guard($this->guard)->check()) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'Customer not logged in'
+            );
         }
         $data = $args['input'];
 
@@ -257,7 +263,10 @@ class AccountMutation extends Controller
                 $orders = $customer->all_orders->whereIn('status', ['pending', 'processing'])->first();
 
                 if ($orders) {
-                    throw new Exception(trans('admin::app.response.order-pending', ['name' => 'Customer']));
+                    throw new CustomException(
+                        trans('admin::app.response.order-pending', ['name' => 'Customer']),
+                        'Orders are pending'
+                    );
                 } else {
                     $this->customerRepository->delete($customer->id);
 
@@ -267,10 +276,16 @@ class AccountMutation extends Controller
                     ];
                 }
             } else {
-                throw new Exception(trans('shop::app.customer.account.address.delete.wrong-password'));
+                throw new CustomException(
+                    trans('shop::app.customer.account.address.delete.wrong-password'),
+                    'Provided Wrong Password.'
+                );
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                'Something went wrong, try again'
+            );
         }
     }
 }

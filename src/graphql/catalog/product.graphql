@@ -146,6 +146,7 @@ type Product {
     videos: [Video!] @hasMany
     additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")
     isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInWishlist")
+    isInSale: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInSale")
     priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
     reviews: [Review] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getReviews")

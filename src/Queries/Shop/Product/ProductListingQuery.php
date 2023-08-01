@@ -333,7 +333,7 @@ class ProductListingQuery extends BaseFilter
 
             $availableSortOrders[$key] = [
                 'key'   => $key,
-                'label' => $label,
+                'label' => trans('shop::app.products.' . $label),
                 'value' => [
                     'sort'  => current($keys),
                     'order' => end($keys),

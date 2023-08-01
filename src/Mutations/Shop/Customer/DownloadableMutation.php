@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -21,9 +22,10 @@ class DownloadableMutation extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param  \Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository  $downloadableLinkPurchasedRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(protected DownloadableLinkPurchasedRepository $downloadableLinkPurchasedRepository)
     {
         $this->guard = 'api';
 
@@ -120,6 +122,130 @@ class DownloadableMutation extends Controller
             throw new CustomException(
                 $e->getMessage(),
                 'Error: Downloadable Purchase Link'
+            );
+        }
+    }
+
+    /**
+     * Download the for the specified resource.
+     *
+     * @param  null  $rootValue
+     * @param  array{}  $args
+     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
+     * @return \Illuminate\Http\Response
+     */
+    public function download($rootValue, array $args, GraphQLContext $context)
+    {
+        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.invalid-header'),
+                'Invalid request header parameter.'
+            );
+        }
+
+        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                'No Login Customer Found.'
+            );
+        }
+
+        $customer = bagisto_graphql()->guard($this->guard)->user();
+
+        try {
+            $downloadableLinkPurchased = $this->downloadableLinkPurchasedRepository->findOneByField([
+                'id'          => $args['id'],
+                'customer_id' => $customer->id,
+            ]);
+
+            if (
+                ! $downloadableLinkPurchased 
+                || $downloadableLinkPurchased->status == 'pending'
+            ) {
+                throw new CustomException(
+                    trans('bagisto_graphql::app.shop.customer.not-authorized'),
+                    'You are not authorized to perform this action.'
+                );
+            }
+
+            $totalInvoiceQty = 0;
+            if (isset($downloadableLinkPurchased->order->invoices)) {
+                foreach ($downloadableLinkPurchased->order->invoices as $invoice) {
+                    $totalInvoiceQty = $totalInvoiceQty + $invoice->total_qty;
+                }
+            }
+
+            $orderedQty = $downloadableLinkPurchased->order->total_qty_ordered;
+            $totalInvoiceQty = $totalInvoiceQty * ($downloadableLinkPurchased->download_bought / $orderedQty);
+            $totalUsedAndCancelQty = $downloadableLinkPurchased->download_used + $downloadableLinkPurchased->download_canceled;
+
+            if (
+                $downloadableLinkPurchased->download_used == $totalInvoiceQty
+                || $downloadableLinkPurchased->download_used > $totalInvoiceQty
+            ) {
+                throw new CustomException(
+                    trans('shop::app.customer.account.downloadable_products.payment-error'),
+                    'Downloadable product payment error.'
+                );
+            }
+
+            if (
+                $downloadableLinkPurchased->download_bought
+                && ($downloadableLinkPurchased->download_bought - $totalUsedAndCancelQty) <= 0
+            ) {
+                throw new CustomException(
+                    trans('shop::app.customer.account.downloadable_products.download-error'),
+                    'Downloadable link product download error.'
+                );
+            }
+
+            $remainingDownloads = $downloadableLinkPurchased->download_bought - ($totalUsedAndCancelQty + 1);
+
+            if ($downloadableLinkPurchased->download_bought) {
+                $this->downloadableLinkPurchasedRepository->update([
+                    'download_used' => $downloadableLinkPurchased->download_used + 1,
+                    'status'        => $remainingDownloads <= 0 ? 'expired' : $downloadableLinkPurchased->status,
+                ], $downloadableLinkPurchased->id);
+            }
+
+            if ($downloadableLinkPurchased->type == 'url') {
+                $type = pathinfo($downloadableLinkPurchased->url, PATHINFO_EXTENSION);
+
+                $base64_code = base64_encode(file_get_contents($downloadableLinkPurchased->url));
+                
+                $base64_str = 'data:image/' . $type . ';base64,' . $base64_code;
+
+                return [
+                    'status' => true,
+                    'string' => $base64_str,
+                    'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id'])
+                ];
+            }
+            
+            $privateDisk = Storage::disk('private');
+
+            if (! $privateDisk->exists($downloadableLinkPurchased->file)) {
+                throw new CustomException(
+                    trans('shop::app.customer.account.downloadable_products.download-error'),
+                    'Downloadable link product download error.'
+                );
+            }
+
+            $pathToFile = $privateDisk->path($downloadableLinkPurchased->file);
+
+            $type = pathinfo($pathToFile, PATHINFO_EXTENSION);
+
+            $base64_str = 'data:image/' . $type . ';base64,' . base64_encode(file_get_contents($pathToFile));
+
+            return [
+                'status' => true,
+                'string' => $base64_str,
+                'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id'])
+            ];
+        } catch (\Exception $e) {
+            throw new CustomException(
+                $e->getMessage(),
+                'Failed: Downloadable purchased link.'
             );
         }
     }

@@ -234,6 +234,25 @@ class ProductContent extends BaseFilter
     }
 
     /**
+     * Check product is in sale
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return bool
+     */
+    public function checkIsInSale($rootValue, array $args, GraphQLContext $context)
+    {
+        $productTypeInstance = $rootValue->getTypeInstance();
+
+        if ($productTypeInstance->haveSpecialPrice()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Get configurable data.
      *
      * @param  mixed  $rootValue
