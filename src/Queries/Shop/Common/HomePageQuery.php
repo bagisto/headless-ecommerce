@@ -162,37 +162,76 @@ class HomePageQuery extends BaseFilter
 
     public function getAdvertisements($rootValue, array $args)
     {
-        $data = [];
+        $data = [
+            'advertisementFour' => [
+                [
+                    'image' => asset('/themes/velocity/assets/images/big-sale-banner.webp'),
+                    'slug'  => null
+                ],  [
+                    'image' => asset('/themes/velocity/assets/images/seasons.webp'),
+                    'slug'  => null
+                ],  [
+                    'image' => asset('/themes/velocity/assets/images/deals.webp'),
+                    'slug'  => null
+                ],  [
+                    'image' => asset('/themes/velocity/assets/images/kids.webp'),
+                    'slug'  => null
+                ],
+            ],
+            'advertisementThree' => [
+                [
+                    'image' => asset('/themes/velocity/assets/images/headphones.webp'),
+                    'slug'  => null
+                ],  [
+                    'image' => asset('/themes/velocity/assets/images/watch.webp'),
+                    'slug'  => null
+                ],  [
+                    'image' => asset('/themes/velocity/assets/images/kids-2.webp'),
+                    'slug'  => null
+                ],
+            ],
+            'advertisementTwo' => [
+                [
+                    'image' => asset('/themes/velocity/assets/images/toster.webp'),
+                    'slug'  => null
+                ],  [
+                    'image' => asset('/themes/velocity/assets/images/trimmer.webp'),
+                    'slug'  => null
+                ],
+            ],
+        ];
         
         if (core()->getCurrentChannel()->theme == 'velocity') {
             $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
             
-            if ($advertisementRecord) {
-                $advertisement = json_decode($advertisementRecord->advertisement, true);
-                
-                $advertisementFour = $this->advertisement(4, $advertisement);
-                $advertisementThree = $this->advertisement(3, $advertisement);
-                $advertisementTwo = $this->advertisement(2, $advertisement);
-
-                $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
-                
-                foreach (explode("@include", $homeContent) as $template) {
-                    if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
-                    ) {
-                        $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
-
-                    } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
-                        $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
-                        
-                    } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
-                        $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
-                    }
-                }
-                
-                $data['advertisementFour'] = $advertisementFour;
-                $data['advertisementThree'] = $advertisementThree;
-                $data['advertisementTwo'] = $advertisementTwo;
+            if (! $advertisementRecord) {
+                return $data;
             }
+
+            $advertisement = json_decode($advertisementRecord->advertisement, true);
+            
+            $advertisementFour = $this->advertisement(4, $advertisement);
+            $advertisementThree = $this->advertisement(3, $advertisement);
+            $advertisementTwo = $this->advertisement(2, $advertisement);
+
+            $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
+            
+            foreach (explode("@include", $homeContent) as $template) {
+                if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
+                ) {
+                    $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
+
+                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
+                    $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
+                    
+                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
+                    $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
+                }
+            }
+            
+            $data['advertisementFour'] = $advertisementFour;
+            $data['advertisementThree'] = $advertisementThree;
+            $data['advertisementTwo'] = $advertisementTwo;
         } else {
             $data['advertisementFour'] = $data['advertisementTwo'] = [];
             $data['advertisementThree'] = [
@@ -208,7 +247,7 @@ class HomePageQuery extends BaseFilter
                 ],
             ];
         }
-        
+
         return $data;
     }
 
