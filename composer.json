@@ -9,9 +9,9 @@
         }
     ],
     "require": {
-        "php-open-source-saver/jwt-auth": "dev-main",
-        "nuwave/lighthouse": "5.x-dev",
-        "mll-lab/laravel-graphql-playground": "dev-master"
+        "php-open-source-saver/jwt-auth": "^2.1.0",
+        "nuwave/lighthouse": "^6.22",
+        "mll-lab/laravel-graphql-playground": "^1.1"
     },
     "autoload": {
         "psr-4": {
