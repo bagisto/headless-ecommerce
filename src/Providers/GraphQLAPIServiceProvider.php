@@ -5,12 +5,10 @@ namespace Webkul\GraphQLAPI\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Webkul\BookingProduct\Type\Booking as BaseBookingType;
 use Webkul\Product\Type\Configurable as BaseConfigurableType;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Type\Booking as GraphQLAPIBookingType;
 use Webkul\GraphQLAPI\Type\Configurable as GraphQLAPIConfigurableType;
 use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
@@ -61,9 +59,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         // CurrencyExchangeRate Models
         $this->app->concord->registerModel(\Webkul\Core\Contracts\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);
 
-        // Slider Models
-        $this->app->concord->registerModel(\Webkul\Core\Models\Slider::class, \Webkul\GraphQLAPI\Models\Setting\Slider::class);
-
         // Catalog Product Models
         $this->app->concord->registerModel(\Webkul\Product\Contracts\Product::class, \Webkul\GraphQLAPI\Models\Catalog\Product::class);
 
@@ -93,12 +88,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         // CartRule Coupon Models
         $this->app->concord->registerModel(\Webkul\CartRule\Contracts\CartRuleCoupon::class, \Webkul\GraphQLAPI\Models\CartRule\CartRuleCoupon::class);
-
-        // BookingProduct Coupon Models
-        $this->app->concord->registerModel(\Webkul\BookingProduct\Contracts\BookingProduct::class, \Webkul\GraphQLAPI\Models\BookingProduct\BookingProduct::class);
-
-        // CompareProduct Models
-        $this->app->concord->registerModel(\Webkul\Velocity\Contracts\VelocityCustomerCompareProduct::class, \Webkul\GraphQLAPI\Models\Velocity\VelocityCustomerCompareProduct::class);
 
         // Wishlist Models
         $this->app->concord->registerModel(\Webkul\Customer\Contracts\Wishlist::class, \Webkul\GraphQLAPI\Models\Customer\Wishlist::class);

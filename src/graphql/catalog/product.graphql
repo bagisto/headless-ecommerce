@@ -157,7 +157,6 @@ type Product {
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
     groupedProducts: [ProductGroupedProduct] @hasMany(relation: "grouped_products")
     bundleOptions: [ProductBundleOption] @hasMany(relation: "bundle_options")
-    booking: BookingProduct @hasOne(relation: "booking_product")
     sameDaySlots: [BookingDaySlots!] @rename(attribute: "same_day_slots")
     differentDaySlots: [BookingDaySlots!] @rename(attribute: "different_day_slots")
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
