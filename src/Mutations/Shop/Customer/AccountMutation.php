@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use Hash;
 use Carbon\Carbon;
@@ -12,7 +13,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class AccountMutation
+class AccountMutation extends Controller
 {
     /**
      * Contains current guard
@@ -20,13 +21,6 @@ class AccountMutation
      * @var array
      */
     protected $guard;
-
-    /**
-     * CustomerRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository
-     */
-    protected $customerRepository;
 
     /**
      * allowedImageMimeTypes array
@@ -48,16 +42,14 @@ class AccountMutation
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository
+        protected CustomerRepository $customerRepository
     )
     {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
         
-        $this->middleware('auth:' . $this->guard);
-        
-        $this->customerRepository = $customerRepository;
+        $this->middleware('auth:' . $this->guard);        
     }
 
     /**
