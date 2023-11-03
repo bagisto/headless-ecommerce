@@ -1,6 +1,6 @@
 # Setting\Locale Related APIs
 extend type Query @guard {
-    locales(input: FilterLocaleInput  @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterLocale") ): [Locale!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Core\\Models\\Locale")
+    locales(input: FilterLocaleInput  @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterLocale") ): [Locale!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\Locale")
 
     locale(id: ID @eq): Locale @find(model: "Webkul\\Core\\Models\\Locale")
 }

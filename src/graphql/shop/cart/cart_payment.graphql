@@ -1,6 +1,6 @@
 # Shop\Cart\CartPayment Related APIs
 extend type Query {
-    cartPayments: [CartPayment!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartPayment")
+    cartPayments: [CartPayment!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartPayment")
     cartPayment(id: ID @eq): CartPayment @find(model: "Webkul\\Checkout\\Models\\CartPayment")
 }
 

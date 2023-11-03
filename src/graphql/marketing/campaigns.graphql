@@ -1,7 +1,7 @@
 #Marketing\Campaign Related APIs
 extend type Query @guard {
     
-    campaigns(input: FilterCampaignInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterCampaign")): [Campaign!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Campaign")
+    campaigns(input: FilterCampaignInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterCampaign")): [Campaign!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Campaign")
     
     campaign(id: ID @eq): Campaign @find(model: "Webkul\\Marketing\\Models\\Campaign")
 }

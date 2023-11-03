@@ -6,11 +6,10 @@ use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Webkul\Customer\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class ForgotPasswordMutation extends Controller
+class ForgotPasswordMutation
 {
     use SendsPasswordResetEmails;
 

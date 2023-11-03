@@ -1,10 +1,10 @@
 #Velocity\CMSPage Related APIs
 extend type Query {
-    cmsPages(input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage")): [CmsPage!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPage")
+    cmsPages(input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage")): [CmsPage!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPage")
 
     cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")
 
-    cmsPageTranslations(input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")): [CmsTranslation!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
+    cmsPageTranslations(input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")): [CmsTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
 
     cmsPageTranslation(
         id: ID @eq,

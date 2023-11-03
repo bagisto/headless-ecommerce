@@ -1,6 +1,6 @@
 # Setting\User Related APIs
 extend type Query @guard{
-    users(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterUser")): [User!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\User\\Models\\Admin")
+    users(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterUser")): [User!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\User\\Models\\Admin")
 
     user(id: ID @eq): User @find(model: "Webkul\\User\\Models\\Admin")
 }

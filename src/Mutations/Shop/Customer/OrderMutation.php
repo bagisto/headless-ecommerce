@@ -5,14 +5,13 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\Paginator;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class OrderMutation extends Controller
+class OrderMutation
 {
     /**
      * Contains current guard

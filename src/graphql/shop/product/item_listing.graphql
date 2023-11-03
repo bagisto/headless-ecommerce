@@ -6,7 +6,7 @@ extend type Query {
         first: Int, 
         page: Int
     ): [Product!] 
-    @paginate(type: "paginator", builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll", defaultCount: 10)
+    @paginate(type: "PAGINATOR", builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll", defaultCount: 10)
     
     getFilterAttribute(categorySlug: String): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getFilterAttributes")
 }

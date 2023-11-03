@@ -7,12 +7,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class WishlistMutation extends Controller
+class WishlistMutation
 {
     /**
      * Contains current guard

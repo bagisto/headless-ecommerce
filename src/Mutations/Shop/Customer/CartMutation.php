@@ -4,12 +4,11 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class CartMutation extends Controller
+class CartMutation
 {
     /**
      * Contains current guard

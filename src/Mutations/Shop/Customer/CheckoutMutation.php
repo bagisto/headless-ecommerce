@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Contracts\Validations\AlphaNumericSpace;
 use Webkul\Core\Contracts\Validations\PhoneNumber;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Shipping\Facades\Shipping;
@@ -17,7 +16,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
-class CheckoutMutation extends Controller
+class CheckoutMutation
 {
     /**
      * Contains current guard

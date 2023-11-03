@@ -17,7 +17,7 @@ extend type Query {
     notificationList(
         first: Int,
         page: Int
-    ): [Notification!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\PushNotification")
+    ): [Notification!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\PushNotification")
 }
 
 extend type Mutation {

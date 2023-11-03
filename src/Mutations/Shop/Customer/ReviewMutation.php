@@ -6,12 +6,11 @@ use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Pagination\Paginator;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Product\Repositories\ProductReviewRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class ReviewMutation extends Controller
+class ReviewMutation
 {
     /**
      * Contains current guard

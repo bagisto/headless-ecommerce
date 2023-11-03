@@ -1,6 +1,6 @@
 # Customer\CustomerAddress Related APIs
 extend type Query @guard {
-    customerAddresses(input: FilterCustomerAddressInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerAddress")): [CustomerAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+    customerAddresses(input: FilterCustomerAddressInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomerAddress")): [CustomerAddress!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
 
     customerAddress(id: ID @eq): CustomerAddress @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }

@@ -1,6 +1,6 @@
 # Setting\ExchangeRate Related APIs
 extend type Query @guard {
-    exchangeRates(input: FilterExchangeRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterExchangeRate")): [ExchangeRate!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Setting\\CurrencyExchangeRate")
+    exchangeRates(input: FilterExchangeRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterExchangeRate")): [ExchangeRate!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Setting\\CurrencyExchangeRate")
 
     exchangeRate(id: ID @eq): ExchangeRate @find(model: "Webkul\\GraphQLAPI\\Models\\Setting\\CurrencyExchangeRate")
 }

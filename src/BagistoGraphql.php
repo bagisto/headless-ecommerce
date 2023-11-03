@@ -17,62 +17,6 @@ use Webkul\Product\Repositories\ProductBundleOptionProductRepository;
 class BagistoGraphql
 {
     /**
-     * ProductImageRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductImageRepository
-     */
-    protected $productImageRepository;
-
-    /**
-     * ProductVideoRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductVideoRepository
-     */
-    protected $productVideoRepository;
-
-    /**
-     * ProductCustomerGroupPriceRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductCustomerGroupPriceRepository
-     */
-    protected $productCustomerGroupPriceRepository;
-
-    /**
-     * ProductGroupedProductRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductGroupedProductRepository
-     */
-    protected $productGroupedProductRepository;
-
-    /**
-     * ProductDownloadableLinkRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductDownloadableLinkRepository
-     */
-    protected $productDownloadableLinkRepository;
-
-    /**
-     * ProductDownloadableSampleRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductDownloadableSampleRepository
-     */
-    protected $productDownloadableSampleRepository;
-
-    /**
-     * ProductBundleOptionRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductBundleOptionRepository
-     */
-    protected $productBundleOptionRepository;
-
-    /**
-     * ProductBundleOptionProductRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductBundleOptionProductRepository
-     */
-    protected $productBundleOptionProductRepository;
-
-    /**
      * allowedImageMimeTypes array
      *
      */
@@ -107,30 +51,15 @@ class BagistoGraphql
      * @return void
      */
     public function __construct(
-        ProductCustomerGroupPriceRepository $productCustomerGroupPriceRepository,
-        ProductGroupedProductRepository $productGroupedProductRepository,
-        ProductDownloadableLinkRepository $productDownloadableLinkRepository,
-        ProductDownloadableSampleRepository $productDownloadableSampleRepository,
-        ProductBundleOptionRepository $productBundleOptionRepository,
-        ProductBundleOptionProductRepository $productBundleOptionProductRepository,
-        ProductImageRepository $productImageRepository,
-        ProductVideoRepository $productVideoRepository
+        protected ProductCustomerGroupPriceRepository $productCustomerGroupPriceRepository,
+        protected ProductGroupedProductRepository $productGroupedProductRepository,
+        protected ProductDownloadableLinkRepository $productDownloadableLinkRepository,
+        protected ProductDownloadableSampleRepository $productDownloadableSampleRepository,
+        protected ProductBundleOptionRepository $productBundleOptionRepository,
+        protected ProductBundleOptionProductRepository $productBundleOptionProductRepository,
+        protected ProductImageRepository $productImageRepository,
+        protected ProductVideoRepository $productVideoRepository
     )   {
-        $this->productCustomerGroupPriceRepository = $productCustomerGroupPriceRepository;
-
-        $this->productGroupedProductRepository = $productGroupedProductRepository;
-
-        $this->productDownloadableLinkRepository = $productDownloadableLinkRepository;
-
-        $this->productDownloadableSampleRepository = $productDownloadableSampleRepository;
-
-        $this->productBundleOptionRepository = $productBundleOptionRepository;
-
-        $this->productBundleOptionProductRepository = $productBundleOptionProductRepository;
-
-        $this->productImageRepository = $productImageRepository;
-
-        $this->productVideoRepository = $productVideoRepository;
     }
 
     /**

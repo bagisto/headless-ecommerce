@@ -6,12 +6,11 @@ use Exception;
 use JWTAuth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class SessionMutation extends Controller
+class SessionMutation
 {
     /**
      * Contains current guard

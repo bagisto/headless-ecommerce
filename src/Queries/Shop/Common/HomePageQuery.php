@@ -7,70 +7,25 @@ use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Core\Repositories\SliderRepository;
 use Webkul\Velocity\Repositories\VelocityMetadataRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Velocity\Repositories\ContentRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 
 class HomePageQuery extends BaseFilter
 {
-    /**
-     * ProductRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
+       /**
+     * Using const variable for status
      */
-    protected $productRepository;
-
-    /**
-     * ProductFlatRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductFlatRepository
-     */
-    protected $productFlatRepository;
-
-    /**
-     * ProductFlatRepository object
-     *
-     * @var \Webkul\Core\Repositories\SliderRepository
-     */
-    protected $sliderRepository;
-
-    /**
-     * ProductFlatRepository object
-     *
-     * @var \Webkul\Velocity\Repositories\VelocityMetadataRepository
-     */
-    protected $velocityMetadataRepository;
-
-     /**
-     * CategoryRepository object
-     *
-     * @var \Webkul\Category\Repositories\CategoryRepository
-     */
-    protected $categoryRepository;
-
-    /**
-     * ContentRepository object
-     *
-     * @var \Webkul\Velocity\Repositories\ContentRepository
-     */
-    protected $contentRepository;
-
-     /**
-     * ContentRepository object
-     *
-     * @var \Webkul\Customer\Repositories\WishlistRepository
-     */
-    protected $wishlistRepository;
+    const STATUS = 1;
 
     /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
-     * @param  \Webkul\Core\Repositories\SliderRepository $sliderRepository
      * @param  \Webkul\Velocity\Repositories\VelocityMetadataRepository $velocityMetadataRepository
      * @param  \Webkul\Category\Repositories\CategoryRepository $categoryRepository
      * @param  \Webkul\Velocity\Repositories\ContentRepository $contentRepository
@@ -78,28 +33,15 @@ class HomePageQuery extends BaseFilter
     * @return void
      */
     public function __construct(
-        ProductRepository $productRepository,
-        ProductFlatRepository $productFlatRepository,
-        SliderRepository $sliderRepository,
-        VelocityMetadataRepository $velocityMetadataRepository,
-        CategoryRepository $categoryRepository,
-        ContentRepository $contentRepository,
-        WishlistRepository $wishlistRepository
+        protected ProductRepository $productRepository,
+        protected ProductFlatRepository $productFlatRepository,
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        protected VelocityMetadataRepository $velocityMetadataRepository,
+        protected CategoryRepository $categoryRepository,
+        protected ContentRepository $contentRepository,
+        protected WishlistRepository $wishlistRepository
     )
     {
-        $this->productRepository = $productRepository;
-
-        $this->productFlatRepository = $productFlatRepository;
-
-        $this->sliderRepository = $sliderRepository;
-
-        $this->velocityMetadataRepository = $velocityMetadataRepository;
-
-        $this->categoryRepository = $categoryRepository;
-
-        $this->contentRepository  = $contentRepository;
-
-        $this->wishlistRepository = $wishlistRepository;
     }
 
     public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
@@ -157,7 +99,14 @@ class HomePageQuery extends BaseFilter
 
     public function getSliders($rootValue, array $args, GraphQLContext $context)
     {
-        return $this->sliderRepository->latest()->get();      
+        visitor()->visit();
+
+        $customizations = $this->themeCustomizationRepository->orderBy('sort_order')->findWhere([
+            'status'     => self::STATUS,
+            'channel_id' => core()->getCurrentChannel()->id
+        ]);
+
+        return compact('customizations');      
     }
 
     public function getAdvertisements($rootValue, array $args)

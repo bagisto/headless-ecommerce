@@ -2,9 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Webkul\Customer\Http\Controllers\Controller;
-
-class WishlistQuery extends Controller
+class WishlistQuery
 {
     /**
      * Contains current guard

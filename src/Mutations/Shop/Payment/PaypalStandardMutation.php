@@ -9,13 +9,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Paypal\Payment\Standard;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Paypal\Helpers\Ipn;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class PaypalStandardMutation extends Controller
+class PaypalStandardMutation
 {
     /**
      * Contains current guard

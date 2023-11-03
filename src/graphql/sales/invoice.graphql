@@ -1,10 +1,10 @@
 # Seles\Invoice Related APIs
 extend type Query @guard {
-    invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoice")): [Invoice!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
+    invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoice")): [Invoice!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
 
     invoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
 
-    invoiceItems(input: FilterInvoiceItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoiceItem")): [InvoiceItem!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Sales\\Models\\InvoiceItem")
+    invoiceItems(input: FilterInvoiceItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoiceItem")): [InvoiceItem!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\InvoiceItem")
 
     invoiceItem(
         id: ID @eq,

@@ -1,7 +1,7 @@
 #Marketing\Event Related APIs
 extend type Query @guard {
     
-    events(input: FilterEventInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Event!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Event")
+    events(input: FilterEventInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Event!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Event")
     
     event(id: ID @eq): Event @find(model: "Webkul\\Marketing\\Models\\Event")
 }

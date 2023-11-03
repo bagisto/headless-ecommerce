@@ -6,9 +6,9 @@ use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Http\Controllers\Controller;
-use Webkul\Core\Repositories\SliderRepository;
 use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 
 class SliderMutation extends Controller
 {
@@ -22,12 +22,12 @@ class SliderMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\SliderRepository  $sliderRepository
+     * @param  \Webkul\Shop\Repositories\ThemeCustomizationRepository  $themeCustomizationRepository
      * @param  \Webkul\Core\Repositories\ChannelRepository $channelRepository
      * @return void
      */
     public function __construct(
-        protected SliderRepository $sliderRepository,
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected ChannelRepository $channelRepository
     ) {
         $this->guard = 'admin-api';
@@ -67,9 +67,9 @@ class SliderMutation extends Controller
 
         try {
 
-            $this->sliderRepository->save($data);
+            $this->themeCustomizationRepository->save($data);
 
-            $slider = $this->sliderRepository->where('title', $data['title'])->orderBy('id', 'DESC')->first();
+            $slider = $this->themeCustomizationRepository->where('title', $data['title'])->orderBy('id', 'DESC')->first();
 
             if (isset($slider)) {
 
@@ -120,7 +120,7 @@ class SliderMutation extends Controller
 
         try {
 
-            $slider = $this->sliderRepository->update($data, $id);
+            $slider = $this->themeCustomizationRepository->update($data, $id);
 
             if (isset($slider)) {
                 if (isset($image)) {
@@ -169,11 +169,11 @@ class SliderMutation extends Controller
 
         $id = $args['id'];
 
-        $slider = $this->sliderRepository->findOrFail($id);
+        $slider = $this->themeCustomizationRepository->findOrFail($id);
 
         try {
 
-            $this->sliderRepository->delete($id);
+            $this->themeCustomizationRepository->delete($id);
 
             return [
                 'status' => true,
