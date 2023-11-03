@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "72b4eb9d-823a-4fb5-a93e-34070bca104c",
+		"_postman_id": "ee216b9b-df75-4e26-8c36-1fbab0fead5d",
 		"name": "Shop",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1890198",
-		"_collection_link": "https://warped-spaceship-266216.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-72b4eb9d-823a-4fb5-a93e-34070bca104c?action=share&creator=1890198&source=collection_link"
+		"_exporter_id": "28057902"
 	},
 	"item": [
 		{
@@ -17,11 +16,17 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/graphql",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation customerRegister($input: CreateRegisterInput!) {\n    customerRegister(input: $input) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"query": "mutation customerRegister($input: CreateRegisterInput!) {\n    customerRegister(input: $input) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
 								"variables": "{\n    \"input\": {\n        \"firstName\": \"Kim\",\n        \"lastName\": \"Thomson\",\n        \"email\": \"kim@example.com\",\n    \t\"password\": \"demo123\",\n    \t\"passwordConfirmation\": \"demo123\"\n    }\n}"
 							}
 						},
@@ -38,15 +43,22 @@
 					"name": "Login Customer",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTAwNzcxNiwiZXhwIjoxNzMwNTQzNzE2LCJuYmYiOjE2OTkwMDc3MTYsImp0aSI6IlhJNzA5RTF6NEFsSEtqMGQiLCJzdWIiOiI3IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.sdvVRLp7QcJTi6hVkB1a7-dlxcYmgL2NxpVhq4F2g2Q",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation customerLogin($email: String!, $password: String!, $remember: Boolean) {\n    customerLogin(input: {\n        email: $email\n    \tpassword: $password\n        remember: $remember\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            seller {\n                id\n                url\n                isApproved\n                shopTitle\n            }\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
-								"variables": "{\n    \"email\": \"kim@example.com\",\n    \"password\": \"demo123\",\n    \"remember\": true\n}"
+								"query": "\nmutation customerLogin($input: LoginInput!) {\n    customerLogin(input: $input) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"variables": "{\n    \"input\" : {\n        \"email\": \"kim@example.com\",\n        \"password\": \"demo123\",\n        \"remember\": true\n    }\n    \n}"
 							}
 						},
 						"url": {
@@ -62,7 +74,14 @@
 					"name": "Forgot Password",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTAwNzcxNiwiZXhwIjoxNzMwNTQzNzE2LCJuYmYiOjE2OTkwMDc3MTYsImp0aSI6IlhJNzA5RTF6NEFsSEtqMGQiLCJzdWIiOiI3IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.sdvVRLp7QcJTi6hVkB1a7-dlxcYmgL2NxpVhq4F2g2Q",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -92,20 +111,28 @@
 					"name": "Get Customer Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTAwNzcxNiwiZXhwIjoxNzMwNTQzNzE2LCJuYmYiOjE2OTkwMDc3MTYsImp0aSI6IlhJNzA5RTF6NEFsSEtqMGQiLCJzdWIiOiI3IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.sdvVRLp7QcJTi6hVkB1a7-dlxcYmgL2NxpVhq4F2g2Q",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{customerToken}}",
-								"type": "text"
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTAwNzcxNiwiZXhwIjoxNzMwNTQzNzE2LCJuYmYiOjE2OTkwMDc3MTYsImp0aSI6IlhJNzA5RTF6NEFsSEtqMGQiLCJzdWIiOiI3IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.sdvVRLp7QcJTi6hVkB1a7-dlxcYmgL2NxpVhq4F2g2Q",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query accountInfo {\n    accountInfo {\n        message\n        status\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n\n            seller {\n                id\n                url\n                isApproved\n            }\n        }     \n    }\n}",
+								"query": "query accountInfo {\n    accountInfo {\n        message\n        status\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }     \n    }\n}",
 								"variables": ""
 							}
 						},
@@ -122,21 +149,29 @@
 					"name": "Update Account Detail",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTAwNzcxNiwiZXhwIjoxNzMwNTQzNzE2LCJuYmYiOjE2OTkwMDc3MTYsImp0aSI6IlhJNzA5RTF6NEFsSEtqMGQiLCJzdWIiOiI3IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.sdvVRLp7QcJTi6hVkB1a7-dlxcYmgL2NxpVhq4F2g2Q",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "{{customerToken}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateAccount {\n    updateAccount(input: {\n        firstName: \"Kim\"\n        lastName: \"Thomson\"\n        email: \"kim@example.com\"\n      \tgender: \"Female\"\n      \tdateOfBirth: \"2019-10-30\"\n        phone: \"345789876\"\n        oldpassword: \"\"\n        password: \"\"\n        passwordConfirmation: \"\"\n        uploadType: BASE64\n        image: null\n        imageUrl: \"data:image/png;base64,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\"\n    }) {\n        status\n        message\n        customer{\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            imageUrl\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
-								"variables": ""
+								"query": "mutation updateAccount ($input: UpdateAccountInput!) {\n    updateAccount(input: $input) {\n        status\n        message\n        customer{\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            imageUrl\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
+								"variables": "{\n    \"input\" : {\n         \"firstName\": \"Kim\",\n        \"lastName\": \"Thomson\",\n        \"email\": \"kim@example.com\",\n      \t\"gender\": \"Female\",\n      \t\"dateOfBirth\": \"2019-10-30\",\n        \"phone\": \"0987654321\",\n        \"oldpassword\": \"\",\n        \"password\": \"\",\n        \"passwordConfirmation\": \"\",\n        \"uploadType\": \"BASE64\",\n        \"image\": null,\n        \"imageUrl\": \"data:image/png;base64,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\"\n    }\n}"
 							}
 						},
 						"url": {
@@ -267,7 +302,14 @@
 					"name": "Get Addresses List",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTAwNzcxNiwiZXhwIjoxNzMwNTQzNzE2LCJuYmYiOjE2OTkwMDc3MTYsImp0aSI6IlhJNzA5RTF6NEFsSEtqMGQiLCJzdWIiOiI3IiwicHJ2IjoiOGZjYTA4OGFiYWUyZjlhOGY4NGE1ZjBiZjZhNjUyNDQ5MDU1YmUwMCJ9.sdvVRLp7QcJTi6hVkB1a7-dlxcYmgL2NxpVhq4F2g2Q",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [

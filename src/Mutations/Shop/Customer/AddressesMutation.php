@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +13,7 @@ use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class AddressesMutation
+class AddressesMutation extends Controller
 {
     /**
      * Contains current guard
