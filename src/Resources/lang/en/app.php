@@ -111,6 +111,7 @@
             ],
             'response'  => [
                 'error-registration'        => 'Warning: customer registration failed.',
+                'reset_link_sent'           => 'Success: Password reset email has been sent successfully.',
                 'password-reset-failed'     => 'Warning: We already sent you password reset email, try after sometime.',
                 'customer-details'          => 'Success: Customer details fetched successfully.',
                 'not-found'                 => 'Wanring: No :name found.',

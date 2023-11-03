@@ -2,14 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class ForgotPasswordMutation
+class ForgotPasswordMutation extends Controller
 {
     use SendsPasswordResetEmails;
 
@@ -69,7 +71,7 @@ class ForgotPasswordMutation
             if ($response == Password::RESET_LINK_SENT) {
                 return [
                     'status'    => true,
-                    'success'   => trans('customer::app.forget_password.reset_link_sent')
+                    'success'   => trans('bagisto_graphql::app.shop.response.reset_link_sent')
                 ];
             } else {
                 throw new CustomException(
