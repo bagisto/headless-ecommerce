@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use JWTAuth;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +11,7 @@ use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class SessionMutation
+class SessionMutation extends Controller
 {
     /**
      * Contains current guard
@@ -32,7 +33,7 @@ class SessionMutation
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard, ['except' => ['login']]);
     }
 

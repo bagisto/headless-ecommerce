@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use JWTAuth;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Mail\SocialLoginPasswordResetEmail;
 use Webkul\Shop\Mail\Customer\RegistrationNotification;
 
-class RegistrationMutation
+class RegistrationMutation extends Controller
 {
     /**
      * Contains current guard
@@ -52,7 +53,7 @@ class RegistrationMutation
 
         auth()->setDefaultDriver($this->guard);
         
-        // $this->middleware('auth:' . $this->guard, ['except' => ['register']]);
+        $this->middleware('auth:' . $this->guard, ['except' => ['register']]);
     }
 
     /**
