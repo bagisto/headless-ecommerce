@@ -79,7 +79,6 @@ input UpdateProductInput {
     downloadableLinks: [UpdateDownloadableLinksInput!] @rename(attribute: "downloadable_links")
     downloadableSamples: [UpdateDownloadableSamplesInput!] @rename(attribute: "downloadable_samples")
     bundleOptions: [UpdateBundleOptionsInput!] @rename(attribute: "bundle_options")
-    booking: UpdateBookingInput
 }
 
 input UpdateVariantInput {

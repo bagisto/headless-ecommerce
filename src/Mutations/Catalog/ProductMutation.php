@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
+use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Product\Helpers\ProductType;
-use Webkul\Core\Contracts\Validations\Slug;
-use Webkul\Product\Http\Controllers\Controller;
+use \Webkul\Core\Rules\Slug;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
 use Webkul\Product\Models\ProductAttributeValue;
@@ -16,6 +15,13 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ProductMutation extends Controller
 {
+     /**
+     * Contains current guard
+     *
+     * @var array
+     */
+    protected $guard;
+
     /**
      * @var int
      */
@@ -167,11 +173,6 @@ class ProductMutation extends Controller
             $data['bundle_options'] = bagisto_graphql()->manageBundleRequest($product, $data);
         }
 
-        // Only in case of booking product type
-        if ( isset($product->type) && $product->type == 'booking' && isset($data['booking']) && $data['booking']) {
-            $data['booking'] = bagisto_graphql()->manageBookingRequest($data['booking']);
-        }
-
         // Only in case of customer group price
         if ( isset($data['customer_group_prices']) && $data['customer_group_prices']) {
             $data['customer_group_prices'] = bagisto_graphql()->manageCustomerGroupPrices($product, $data);
@@ -245,46 +246,46 @@ class ProductMutation extends Controller
                 bagisto_graphql()->uploadProductImages($uploadParams);
                 bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $video_urls, 'data_type' => 'video']));
 
-                if ($product->type == 'booking') {
-                    $allow_types = ['appointment', 'rental', 'table'];
-                    $booking = $product->booking_product()->first();
+                // if ($product->type == 'booking') {
+                //     $allow_types = ['appointment', 'rental', 'table'];
+                //     $booking = $product->booking_product()->first();
 
-                    if (isset($booking->type) && in_array($booking->type, $allow_types)) {
-                        $same_slots = [];
-                        $different_slots = [];
-                        $booking_slots = [];
+                //     if (isset($booking->type) && in_array($booking->type, $allow_types)) {
+                //         $same_slots = [];
+                //         $different_slots = [];
+                //         $booking_slots = [];
 
-                        switch ($booking->type) {
-                            case 'appointment':
-                                $booking_slots = $booking->appointment_slot()->first();
-                                break;
-                            case 'rental':
-                                $booking_slots = $booking->rental_slot()->first();
-                                break;
-                            case 'table':
-                                $booking_slots = $booking->table_slot()->first();
-                                break;
+                //         switch ($booking->type) {
+                //             case 'appointment':
+                //                 $booking_slots = $booking->appointment_slot()->first();
+                //                 break;
+                //             case 'rental':
+                //                 $booking_slots = $booking->rental_slot()->first();
+                //                 break;
+                //             case 'table':
+                //                 $booking_slots = $booking->table_slot()->first();
+                //                 break;
 
-                            default:
-                                $booking_slots = [];
-                                break;
-                        }
+                //             default:
+                //                 $booking_slots = [];
+                //                 break;
+                //         }
 
-                        foreach ($booking_slots->slots as $day => $slot) {
-                            if ($booking_slots->same_slot_all_days == 0) {
-                                foreach ($slot as $timing) {
-                                    $timing['day']  = $day;
-                                    $different_slots[] = $timing;
-                                }
-                            } else {
-                                $same_slots[] = $slot;
-                            }
-                        }
+                //         foreach ($booking_slots->slots as $day => $slot) {
+                //             if ($booking_slots->same_slot_all_days == 0) {
+                //                 foreach ($slot as $timing) {
+                //                     $timing['day']  = $day;
+                //                     $different_slots[] = $timing;
+                //                 }
+                //             } else {
+                //                 $same_slots[] = $slot;
+                //             }
+                //         }
 
-                        $product->same_day_slots  = $same_slots;
-                        $product->different_day_slots = $different_slots;
-                    }
-                }
+                //         $product->same_day_slots  = $same_slots;
+                //         $product->different_day_slots = $different_slots;
+                //     }
+                // }
 
                 return $product;
             }
@@ -300,11 +301,11 @@ class ProductMutation extends Controller
 
         $validateRules =
             array_merge($product->getTypeInstance()->getTypeValidationRules(), [
-                'sku'                => ['required', 'unique:products,sku,' . $this->id, new \Webkul\Core\Contracts\Validations\Slug],
+                'sku'                => ['required', 'unique:products,sku,' . $this->id, new \Webkul\Core\Rules\Slug],
                 // 'images.*'           => 'nullable|mimes:jpeg,jpg,bmp,png',
                 'special_price_from' => 'nullable|date',
                 'special_price_to'   => 'nullable|date|after_or_equal:special_price_from',
-                'special_price'      => ['nullable', new \Webkul\Core\Contracts\Validations\Decimal, 'lt:price'],
+                'special_price'      => ['nullable', new \Webkul\Core\Rules\Decimal, 'lt:price'],
             ]);
 
         foreach ($product->getEditableAttributes() as $attribute) {
@@ -324,13 +325,13 @@ class ProductMutation extends Controller
                 array_push(
                     $validations,
                     $attribute->validation == 'decimal'
-                        ? new \Webkul\Core\Contracts\Validations\Decimal
+                        ? new \Webkul\Core\Rules\Decimal
                         : $attribute->validation
                 );
             }
 
             if ($attribute->type == 'price') {
-                array_push($validations, new \Webkul\Core\Contracts\Validations\Decimal);
+                array_push($validations, new \Webkul\Core\Rules\Decimal);
             }
 
             if ($attribute->is_unique) {
