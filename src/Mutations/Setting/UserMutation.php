@@ -156,7 +156,7 @@ class UserMutation extends Controller
         $user = $this->adminRepository->findOrFail($id);
 
         if ($this->adminRepository->count() == 1) {
-            throw new Exception(trans('admin::app.response.last-delete-error', ['name' => 'Admin']));
+            throw new Exception(trans('bagisto_graphql::app.admin.response.last-delete-error', ['name' => 'Admin']));
         } else {
             try {
                 Event::dispatch('user.admin.delete.before', $id);
@@ -165,9 +165,9 @@ class UserMutation extends Controller
 
                 Event::dispatch('user.admin.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Admin'])];
+                return ['success' => trans('bagisto_graphql::app.admin.response.delete-success', ['name' => 'Admin'])];
             } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Admin']));
+                throw new Exception(trans('bagisto_graphql::app.admin.response.delete-failed', ['name' => 'Admin']));
             }
         }
     }

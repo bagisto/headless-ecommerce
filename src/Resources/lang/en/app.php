@@ -79,6 +79,9 @@
             ],
             
             'response'  => [
+                'delete-success'            => 'Success: User deleted successfuly.',
+                'last-delete-error'         => 'Warning: Atleast on user is  required',
+                'delete-failed'             => 'Warning: Admin user is not deleted',
                 'error-invalid-parameter'   => 'Warning: Invaid parameters provided.',
                 'success-login'             => 'Success: User login successfuly.',
                 'error-login'               => 'Warning: Admin user is not login.',
