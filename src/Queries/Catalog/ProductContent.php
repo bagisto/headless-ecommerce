@@ -25,41 +25,6 @@ class ProductContent extends BaseFilter
      * @var array
      */
     protected $guard;
-    
-    /**
-     * Product repository instance.
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
-     * Wishlist repository instance.
-     *
-     * @var \Webkul\Customer\Repositories\WishlistRepository
-     */
-    protected $wishlistRepository;
-
-    /**
-     * Product view helper instance.
-     *
-     * @var \Webkul\Product\Helpers\View
-     */
-    protected $productViewHelper;
-
-    /**
-     * Product Review helper instance.
-     *
-     * @var \Webkul\Product\Helpers\Review
-     */
-    protected $review;
-
-    /**
-     * Product configurable helper instance.
-     *
-     * @var \Webkul\Product\Helpers\ConfigurableOption
-     */
-    protected $productConfigurableHelper;
 
     /**
      * Create a new controller instance.
@@ -72,24 +37,14 @@ class ProductContent extends BaseFilter
      * @return void
      */
     public function __construct(
-        ProductRepository $productRepository,
-        WishlistRepository $wishlistRepository,
-        ProductViewHelper $productViewHelper,
-        Review $review,
-        ProductConfigurableHelper $productConfigurableHelper
+        protected ProductRepository $productRepository,
+        protected WishlistRepository $wishlistRepository,
+        protected ProductViewHelper $productViewHelper,
+        protected Review $review,
+        protected ProductConfigurableHelper $productConfigurableHelper
     ) {
         $this->guard = 'api';
-
-        $this->productRepository = $productRepository;
-
-        $this->wishlistRepository = $wishlistRepository;
-
-        $this->productViewHelper = $productViewHelper;
-
-        $this->review = $review;
-
-        $this->productConfigurableHelper = $productConfigurableHelper;
-
+        
         $this->_config = request('_config');
     }
 

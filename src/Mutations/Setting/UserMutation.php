@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use JWTAuth;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
 use Webkul\User\Repositories\RoleRepository;
 use Webkul\User\Repositories\AdminRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;

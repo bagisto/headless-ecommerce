@@ -12,7 +12,6 @@ use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 use Webkul\GraphQLAPI\Type\Configurable as GraphQLAPIConfigurableType;
 use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
-
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
     /**
@@ -56,6 +55,9 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      */
     public function overrideModels()
     {
+        // Customer Models
+        $this->app->concord->registerModel(\Webkul\User\Contracts\Admin::class, \Webkul\GraphQLAPI\Models\Admin\Admin::class);
+
         // CurrencyExchangeRate Models
         $this->app->concord->registerModel(\Webkul\Core\Contracts\CurrencyExchangeRate::class, \Webkul\GraphQLAPI\Models\Setting\CurrencyExchangeRate::class);
 
