@@ -14,7 +14,14 @@
 					"name": "Get All Categories",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -36,10 +43,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Category Details",
+					"name": "Get Category Details By ID",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -63,18 +77,22 @@
 				{
 					"name": "Create New Category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCategory {\n    createCategory(input: {\n    \tname:\"Home Decor\"\n        locale: \"all\"\n        slug: \"home-decor\"\n        description: \"Home decor is inclusive of physical items and objects (furniture, art, and accessories), placement of physical items and objects, and room colors and materials (flooring, wall coverings, window coverings, and ceilings).\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Home Decor\"\n        metaDescription: \"Home Decor (Furniture, Accessories)\"\n        metaKeywords: \"Home Decor, Furniture, Accessories\"\n    \timage: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n        categoryIconPath: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation createCategory {\n    createCategory(input: {\n    \tname:\"Home Decor\"\n        locale: \"all\"\n        slug: \"home-decor\"\n        description: \"Home decor is inclusive of physical items and objects (furniture, art, and accessories), placement of physical items and objects, and room colors and materials (flooring, wall coverings, window coverings, and ceilings).\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Home Decor\"\n        metaDescription: \"Home Decor (Furniture, Accessories)\"\n        metaKeywords: \"Home Decor, Furniture, Accessories\"\n    \tlogoPath:[\n             \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n        ]\n        bannerPath:[\"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"] \n        attributes:[\n            11,23,24,25,29\n        ]\n\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -91,18 +109,22 @@
 				{
 					"name": "Update Category Details",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateCategory {\n    updateCategory(id: 2, input: {\n        name:\"Collection Femme\"\n        locale: \"en\"\n        slug: \"women-cloths\"\n        description: \"Description of the Women Collection\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Meta title of Women Collection\"\n        metaDescription: \"Meta description of Women Collection\"\n        metaKeywords: \"Méta-mots-clés Women Collection\"\n        image: \"https://cdn.pixabay.com/photo/2017/03/09/02/03/girl-2128284_960_720.jpg\"\n        categoryIconPath: \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation updateCategory {\n    updateCategory(id: 5, input: {\n        name:\"Collection Femme\"\n        locale: \"en\"\n        slug: \"women-cloths\"\n        description: \"Description of the Women Collection\"\n        status: true\n        position: 1\n        displayMode: \"products_and_description\"\n        parentId: 1\n        metaTitle: \"Meta title of Women Collection\"\n        metaDescription: \"Meta description of Women Collection\"\n        metaKeywords: \"Méta-mots-clés Women Collection\"\n        logoPath:[\n             \"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"\n        ]\n        bannerPath:[\"https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_960_720.jpg\"] \n        attributes:[\n            11,23,24,25,29\n        ]\n    }) {\n        id\n        name\n        description\n        slug\n        urlPath\n        imageUrl\n        categoryIconUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -203,18 +225,22 @@
 				{
 					"name": "Get All Attributes",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query attributes {\n\tattributes(\n        page: 1,\n        # input: {\n        #     code: \"size\"\n        # }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            adminName\n            type\n            position\n            isRequired\n            isUnique\n            validation\n            valuePerLocale\n            valuePerChannel\n            isFilterable\n            isConfigurable\n            isVisibleOnFront\n            isUserDefined\n            swatchType\n            useInFlat\n            isComparable\n            options {\n              \tid\n                adminName\n                swatchValue\n                sortOrder\n                attributeId\n                attribute {\n                  \tid\n                  \tadminName\n                }\n                translations {\n                  \tid\n                    locale\n                    label\n                    attributeOptionId\n                }\n            }\n            translations {\n                id\n                locale\n                name\n                attributeId\n            }\n        }\n    }\n}",
+								"query": "query attributes {\n\tattributes(\n        page: 1,\n        input: {\n            # code: \"size\"\n            # adminName\n            # type\n            # isRequired\n            # isUnique\n            # valuePerLocale\n            # valuePerChannel\n            id:3\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            adminName\n            type\n            position\n            isRequired\n            isUnique\n            validation\n            valuePerLocale\n            valuePerChannel\n            isFilterable\n            isConfigurable\n            isVisibleOnFront\n            isUserDefined\n            swatchType\n            useInFlat\n            isComparable\n            options {\n              \tid\n                adminName\n                swatchValue\n                sortOrder\n                attributeId\n                attribute {\n                  \tid\n                  \tadminName\n                }\n                translations {\n                  \tid\n                    locale\n                    label\n                    attributeOptionId\n                }\n            }\n            translations {\n                id\n                locale\n                name\n                attributeId\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -230,15 +256,18 @@
 				{
 					"name": "Get Attribute Details",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -258,14 +287,18 @@
 				{
 					"name": "Create New Attribute",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -285,18 +318,22 @@
 				{
 					"name": "Update Attribute Details",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateAttribute {\n    updateAttribute(id: 28, input: {\n        code: \"multi\"\n        type: \"select\"\n        adminName: \"Multi Option Attr\"\n        translations: [{\n            code: \"en\"\n            name: \"Age Validation\"\n        }, {\n            code: \"fr\"\n            name: \"Validation de l'âge\"\n        }, {\n            code: \"nl\"\n            name: \"Leeftijd validatie\"\n        }, {\n            code: \"tr\"\n            name: \"Yaş Doğrulaması\"\n        }]\n        isRequired: true\n        isUnique: true\n        validation: \"\"\n        valuePerLocale: true\n        valuePerChannel: true\n        isFilterable: true\n        isConfigurable: false\n        isVisibleOnFront: true\n        useInFlat: false\n        isComparable: true\n        swatchType: \"image\"\n        options: [{\n            adminName: \"Option 1\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/572/SpKvqowiHC2dkmvRweIsTXiiqmVZAv7UamsmLl6G.jpeg\"\n            isNew: \"true\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 1\"\n            }, {\n                code: \"fr\"\n                label: \"Option 1\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 1\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 1\"\n            }]\n        },  {\n            adminName: \"Option 2\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/571/xFs7waxcd6MSOO8mWwBX3topPN9r8bWeHOvHz4Zq.jpeg\"\n             isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 2\"\n            }, {\n                code: \"fr\"\n                label: \"Option 2\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 2\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 2\"\n            }]\n        },  {\n            adminName: \"Option 3\"\n            swatchValue: \"http://super.saascust.com/cache/medium/product/447/85Nd2GkelYxn68czxM4gW8QsBpVNcwrN9JVQsLzp.jpeg\"\n            isNew: \"true\" \n            translations: [{\n                code: \"en\"\n                label: \"Option 3\"\n            }, {\n                code: \"fr\"\n                label: \"Option 3\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 3\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 3\"\n            }]\n        }]\n    }) {\n        id\n        code\n        adminName\n        type\n        position\n        isRequired\n        isUnique\n        validation\n        valuePerLocale\n        valuePerChannel\n        isFilterable\n        isConfigurable\n        isVisibleOnFront\n        isUserDefined\n        swatchType\n        useInFlat\n        isComparable\n        options {\n            id\n            adminName\n            swatchValue\n            sortOrder\n            attributeId\n            attribute {\n                id\n                adminName\n            }\n            translations {\n                id\n                locale\n                label\n                attributeOptionId\n            }\n        }\n        translations {\n            id\n            locale\n            name\n            attributeId\n        }\n    }\n}",
+								"query": "\nmutation updateAttribute {\n    updateAttribute(id: 29, input: {\n        code: \"multi\"\n        type: \"select\"\n        adminName: \"Multi Option Attr\"\n        translations: [{\n            code: \"en\"\n            name: \"Age Validation\"\n        }, {\n            code: \"fr\"\n            name: \"Validation de l'âge\"\n        }, {\n            code: \"nl\"\n            name: \"Leeftijd validatie\"\n        }, {\n            code: \"tr\"\n            name: \"Yaş Doğrulaması\"\n        }]\n        isRequired: true\n        isUnique: true\n        validation: \"\"\n        valuePerLocale: true\n        valuePerChannel: true\n        isFilterable: true\n        isConfigurable: false\n        isVisibleOnFront: true\n        useInFlat: false\n        isComparable: true\n        swatchType: \"image\"\n        options: [{\n            adminName: \"Option 1\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/572/SpKvqowiHC2dkmvRweIsTXiiqmVZAv7UamsmLl6G.jpeg\"\n            isNew: \"true\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 1\"\n            }, {\n                code: \"fr\"\n                label: \"Option 1\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 1\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 1\"\n            }]\n        },  {\n            adminName: \"Option 2\"\n            swatchValue: \"http://admin1.saascust.com/cache/medium/product/571/xFs7waxcd6MSOO8mWwBX3topPN9r8bWeHOvHz4Zq.jpeg\"\n             isNew: \"false\"\n            translations: [{\n                code: \"en\"\n                label: \"Option 2\"\n            }, {\n                code: \"fr\"\n                label: \"Option 2\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 2\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 2\"\n            }]\n        },  {\n            adminName: \"Option 3\"\n            swatchValue: \"http://super.saascust.com/cache/medium/product/447/85Nd2GkelYxn68czxM4gW8QsBpVNcwrN9JVQsLzp.jpeg\"\n            isNew: \"true\" \n            translations: [{\n                code: \"en\"\n                label: \"Option 3\"\n            }, {\n                code: \"fr\"\n                label: \"Option 3\"\n            }, {\n                code: \"nl\"\n                label: \"Optie 3\"\n            }, {\n                code: \"tr\"\n                label: \"seçenek 3\"\n            }]\n        }]\n    }) {\n        id\n        code\n        adminName\n        type\n        position\n        isRequired\n        isUnique\n        validation\n        valuePerLocale\n        valuePerChannel\n        isFilterable\n        isConfigurable\n        isVisibleOnFront\n        isUserDefined\n        swatchType\n        useInFlat\n        isComparable\n        options {\n            id\n            adminName\n            swatchValue\n            sortOrder\n            attributeId\n            attribute {\n                id\n                adminName\n            }\n            translations {\n                id\n                locale\n                label\n                attributeOptionId\n            }\n        }\n        translations {\n            id\n            locale\n            name\n            attributeId\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -367,15 +404,18 @@
 				{
 					"name": "Get Attribute's Options",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -393,16 +433,20 @@
 					"response": []
 				},
 				{
-					"name": "Get Attribute Option Details",
+					"name": "Get Attribute Option Details By AttributeId",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -450,14 +494,18 @@
 				{
 					"name": "Get All AttributeGroups",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -477,15 +525,18 @@
 				{
 					"name": "Get AttributeGroup Detail",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -505,14 +556,18 @@
 				{
 					"name": "Create New AttributeGroup",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -532,14 +587,18 @@
 				{
 					"name": "Update AttributeGroup Detail",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -615,14 +674,18 @@
 				{
 					"name": "Get All AttributeFamilies",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -640,17 +703,20 @@
 					"response": []
 				},
 				{
-					"name": "Get AttributeFamily Details",
+					"name": "Get AttributeFamily Details By FamilyID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -671,20 +737,21 @@
 					"name": "Create New AttributeFamily",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createAttributeFamily {\n    createAttributeFamily(input: {\n        code: \"new_family\"\n        name: \"New Family\"\n      \tattributeGroups: [{\n          \tname: \"General\"\n          \tposition: 1\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 1\n            }, \t{\n              \tid: 2\n            }, \t{\n              \tid: 3\n            }, \t{\n              \tid: 4\n            }, \t{\n              \tid: 5\n            }, \t{\n              \tid: 28\n            }]\n        },\t{\n          \tname: \"Description\"\n          \tposition: 2\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 9\n            }, \t{\n              \tid: 10\n            }]\n        },\t{\n          \tname: \"Text Group\"\n          \tposition: 3\n          \tisUserDefined: true\n          \tcustomAttributes: [{\n              \tid: 19\n            }, \t{\n              \tid: 20\n            }]\n        }]\n    }) {\n        id\n        code\n        name\n        status\n        isUserDefined\n        attributeGroups {\n            id\n            name\n            position\n            isUserDefined\n            attributeFamilyId\n            customAttributes {\n                id\n                code\n                adminName\n                type\n                position\n                isRequired\n                isUnique\n                validation\n                valuePerLocale\n                valuePerChannel\n                isFilterable\n                isConfigurable\n                isVisibleOnFront\n                isUserDefined\n                swatchType\n                useInFlat\n                isComparable\n                options {\n                    id\n                    adminName\n                    swatchValue\n                    sortOrder\n                    attributeId\n                    attribute {\n                        id\n                        adminName\n                    }\n                    translations {\n                        id\n                        locale\n                        label\n                        attributeOptionId\n                    }\n                }\n                translations {\n                    id\n                    locale\n                    name\n                    attributeId\n                }\n            }\n        }\n        products {\n            id\n            type\n            sku\n            parentId\n            productFlats {\n                id\n                name\n                status\n            }\n        }\n    }\n}",
+								"query": "mutation createAttributeFamily {\n    createAttributeFamily(input: {\n        code: \"new_family\"\n        name: \"New Family\"\n      \tattributeGroups: [{\n          \tname: \"General\"\n          \tposition: 1\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 1\n                position: 1\n            }, \t{\n              \tid: 2\n                position: 2\n            }, \t{\n              \tid: 3\n                position: 3\n            }, \t{\n              \tid: 4\n                position: 1\n            }, \t{\n              \tid: 5\n                position: 4\n            }, \t{\n              \tid: 28\n                position: 5\n            }]\n        },\t{\n          \tname: \"Description\"\n          \tposition: 2\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 9\n                position: 6\n            }, \t{\n              \tid: 10\n                position: 7\n            }]\n        },\t{\n          \tname: \"Text Group\"\n          \tposition: 3\n          \tisUserDefined: true\n          \tcustomAttributes: [{\n              \tid: 19\n                position: 8\n            }, \t{\n              \tid: 20\n                position: 9\n            }]\n        }]\n    }) {\n        id\n        code\n        name\n        status\n        isUserDefined\n        attributeGroups {\n            id\n            name\n            position\n            isUserDefined\n            attributeFamilyId\n            customAttributes {\n                id\n                code\n                adminName\n                type\n                position\n                isRequired\n                isUnique\n                validation\n                valuePerLocale\n                valuePerChannel\n                isFilterable\n                isConfigurable\n                isVisibleOnFront\n                isUserDefined\n                swatchType\n                useInFlat\n                isComparable\n                options {\n                    id\n                    adminName\n                    swatchValue\n                    sortOrder\n                    attributeId\n                    attribute {\n                        id\n                        adminName\n                    }\n                    translations {\n                        id\n                        locale\n                        label\n                        attributeOptionId\n                    }\n                }\n                translations {\n                    id\n                    locale\n                    name\n                    attributeId\n                }\n            }\n        }\n        products {\n            id\n            type\n            sku\n            parentId\n            productFlats {\n                id\n                name\n                status\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -700,18 +767,22 @@
 				{
 					"name": "Update AttributeFamily Detail",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateAttributeFamily {\n    updateAttributeFamily(id: 2, input: {\n        code: \"new_family\"\n        name: \"Fashion Family\"\n      \tattributeGroups: [{\n          \tname: \"General\"\n          \tposition: 1\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 1\n            }, \t{\n              \tid: 2\n            }, \t{\n              \tid: 3\n            }, \t{\n              \tid: 4\n            }, \t{\n              \tid: 5\n            }]\n        },\t{\n          \tname: \"Description\"\n          \tposition: 2\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 9\n            }, \t{\n              \tid: 10\n            }]\n        },\t{\n          \tname: \"Text Group\"\n          \tposition: 3\n          \tisUserDefined: true\n          \tcustomAttributes: [{\n              \tid: 19\n            }, \t{\n              \tid: 20\n            }]\n        }]\n    }) {\n        id\n        code\n        name\n        status\n        isUserDefined\n        attributeGroups {\n            id\n            name\n            position\n            isUserDefined\n            attributeFamilyId\n            customAttributes {\n                id\n                code\n                adminName\n                type\n                position\n                isRequired\n                isUnique\n                validation\n                valuePerLocale\n                valuePerChannel\n                isFilterable\n                isConfigurable\n                isVisibleOnFront\n                isUserDefined\n                swatchType\n                useInFlat\n                isComparable\n                options {\n                    id\n                    adminName\n                    swatchValue\n                    sortOrder\n                    attributeId\n                    attribute {\n                        id\n                        adminName\n                    }\n                    translations {\n                        id\n                        locale\n                        label\n                        attributeOptionId\n                    }\n                }\n                translations {\n                    id\n                    locale\n                    name\n                    attributeId\n                }\n            }\n        }\n        products {\n            id\n            type\n            sku\n            parentId\n            productFlats {\n                id\n                name\n                status\n            }\n        }\n    }\n}",
+								"query": "mutation updateAttributeFamily {\n    updateAttributeFamily(id: 3, input: {\n        code: \"new_family\"\n        name: \"Fashion Family\"\n      \tattributeGroups: [{\n          \tname: \"General\"\n          \tposition: 1\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 1\n                position: 1\n            }, \t{\n              \tid: 2\n                position: 2\n            }, \t{\n              \tid: 3\n                position: 3\n            }, \t{\n              \tid: 4\n                position: 4\n            }, \t{\n              \tid: 5\n                position: 5\n            }]\n        },\t{\n          \tname: \"Description\"\n          \tposition: 2\n          \tisUserDefined: false\n          \tcustomAttributes: [{\n              \tid: 9\n                position: 6\n            }, \t{\n              \tid: 10\n                position: 7\n            }]\n        },\t{\n          \tname: \"Text Group\"\n          \tposition: 3\n          \tisUserDefined: true\n          \tcustomAttributes: [{\n              \tid: 19\n                position: 8\n            }, \t{\n              \tid: 20\n                position: 9\n            }]\n        }]\n    }) {\n        id\n        code\n        name\n        status\n        isUserDefined\n        attributeGroups {\n            id\n            name\n            position\n            isUserDefined\n            attributeFamilyId\n            customAttributes {\n                id\n                code\n                adminName\n                type\n                position\n                isRequired\n                isUnique\n                validation\n                valuePerLocale\n                valuePerChannel\n                isFilterable\n                isConfigurable\n                isVisibleOnFront\n                isUserDefined\n                swatchType\n                useInFlat\n                isComparable\n                options {\n                    id\n                    adminName\n                    swatchValue\n                    sortOrder\n                    attributeId\n                    attribute {\n                        id\n                        adminName\n                    }\n                    translations {\n                        id\n                        locale\n                        label\n                        attributeOptionId\n                    }\n                }\n                translations {\n                    id\n                    locale\n                    name\n                    attributeId\n                }\n            }\n        }\n        products {\n            id\n            type\n            sku\n            parentId\n            productFlats {\n                id\n                name\n                status\n            }\n        }\n    }\n}",
 								"variables": ""
 							}
 						},

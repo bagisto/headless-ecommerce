@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
+use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Category\Http\Controllers\Controller;
 use Webkul\Category\Repositories\CategoryRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Slug;
 
 class CategoryMutation extends Controller
 {
@@ -56,7 +56,7 @@ class CategoryMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'slug'        => ['required', 'unique:category_translations,slug', new \Webkul\Core\Contracts\Validations\Slug],
+            'slug'        => ['required', 'unique:category_translations,slug', new Slug],
             'name'        => 'required',
             'image.*'     => 'mimes:jpeg,jpg,bmp,png',
             'description' => 'required_if:display_mode,==,description_only,products_and_description',
@@ -119,7 +119,7 @@ class CategoryMutation extends Controller
         }
 
         $validator = Validator::make($data, [
-            $locale . '.slug' => ['required', new \Webkul\Core\Contracts\Validations\Slug, function ($attribute, $value, $fail) use ($id) {
+            $locale . '.slug' => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
                 if (!$this->categoryRepository->isSlugUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Category']));
                 }

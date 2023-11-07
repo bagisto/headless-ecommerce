@@ -3,13 +3,13 @@
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Controllers\Controller;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class AttributeFamilyMutation extends Controller
 {
@@ -50,7 +50,7 @@ class AttributeFamilyMutation extends Controller
         }
 
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:attribute_families,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:attribute_families,code', new Code],
             'name' => 'required',
         ]);
         
@@ -88,10 +88,10 @@ class AttributeFamilyMutation extends Controller
         $id = $args['id'];
 
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:attribute_families,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:attribute_families,code,' . $id, new Code],
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -111,7 +111,7 @@ class AttributeFamilyMutation extends Controller
             }
             
             foreach ($data['attribute_groups'] as $key => $attributeGroup) {
-                $index = 'group_' . ($key + 1);
+                $index = $key + 1;
                 $attribute_groups[$index] = $attributeGroup;
             }
             
@@ -126,7 +126,7 @@ class AttributeFamilyMutation extends Controller
             Event::dispatch('catalog.attributeFamily.update.before', $attributeFamily);
 
             return $attributeFamily;
-        } catch (Exception $e) {
+        } catch (Exception $e) {        
             throw new Exception($e->getMessage());
         }
     }

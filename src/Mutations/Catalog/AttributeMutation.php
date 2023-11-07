@@ -2,14 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Controllers\Controller;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Attribute\Repositories\AttributeOptionRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class AttributeMutation extends Controller
 {
@@ -54,7 +55,7 @@ class AttributeMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'code'       => ['required', 'unique:attributes,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code'       => ['required', 'unique:attributes,code', new Code],
             'admin_name' => 'required',
             'type'       => 'required',
         ]);
@@ -120,7 +121,7 @@ class AttributeMutation extends Controller
         $id = $args['id'];
 
         $validator = Validator::make($data, [
-            'code'       => ['required', 'unique:attributes,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code'       => ['required', 'unique:attributes,code,' . $id, new Code],
             'admin_name' => 'required',
             'type'       => 'required',
         ]);

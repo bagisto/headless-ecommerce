@@ -3,10 +3,9 @@
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Controllers\Controller;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;

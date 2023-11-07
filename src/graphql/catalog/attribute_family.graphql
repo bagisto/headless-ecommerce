@@ -1,5 +1,5 @@
 # Catalog\AttributeFamily Related APIs
-extend type Query @guard {
+extend type Query @guard(with: ["admin-api"]) {
     attributeGroups: [AttributeGroup!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeGroup")
 
     attributeGroup(id: ID @eq): AttributeGroup @find(model: "Webkul\\Attribute\\Models\\AttributeGroup")
@@ -43,6 +43,7 @@ input CreateAttributeGroupInput {
 
 input CustomerAttributeInput {
     id: Int!
+    position: Int!
 }
 
 input CreateAttributeFamilyInput {
