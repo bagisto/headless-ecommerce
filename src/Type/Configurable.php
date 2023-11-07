@@ -43,35 +43,6 @@ class Configurable extends BaseConfigurable
     }
 
     /**
-     * Get product offer price.
-     *
-     * @return float
-     */
-    public function getOfferPrice()
-    {
-        $rulePrices = $customerGroupPrices = [];
-
-        foreach ($this->product->variants as $variant) {
-            $rulePrice = app('Webkul\CatalogRule\Helpers\CatalogRuleProductPrice')->getRulePrice($variant);
-
-            if ($rulePrice) {
-                $rulePrices[] = $rulePrice->price;
-            }
-
-            $customerGroupPrices[] = $this->getCustomerGroupPrice($variant, 1);
-        }
-
-        if (
-            $rulePrices
-            || $customerGroupPrices
-        ) {
-            return min(array_merge($rulePrices, $customerGroupPrices));
-        }
-
-        return [];
-    }
-
-    /**
      * Get product maximum price.
      *
      * @return float

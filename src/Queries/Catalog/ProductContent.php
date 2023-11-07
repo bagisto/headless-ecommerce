@@ -105,7 +105,7 @@ class ProductContent extends BaseFilter
             case 'simple':
             case 'virtual':
             case 'downloadable':
-                if ($rootValue->getTypeInstance()->haveSpecialPrice()) {
+                if ($rootValue->getTypeInstance()->haveDiscount()) {
                     $priceArray['regular'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->price));
                     $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->price);
                     $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getSpecialPrice()));
@@ -117,9 +117,9 @@ class ProductContent extends BaseFilter
                 $priceArray['regular'] = trans('shop::app.products.price-label') . ' ' . core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice()));
                 $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice());
 
-                if ($rootValue->getTypeInstance()->haveOffer()) {
-                    $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getOfferPrice()));
-                    $priceArray['specialWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getOfferPrice());
+                if ($rootValue->getTypeInstance()->getMinimalPrice()) {
+                    $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice()));
+                    $priceArray['specialWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice());
                 }
                 break;
 
@@ -137,23 +137,23 @@ class ProductContent extends BaseFilter
                  */
                 $priceArray['regularWithoutCurrencyCode'] = $priceArray['specialWithoutCurrencyCode'] = '';
 
-                if ($prices['from']['regular_price']['price'] != $prices['from']['final_price']['price']) {
-                    $priceArray['regular'] .= $prices['from']['regular_price']['formated_price'];
-                    $priceArray['special'] .= $prices['from']['final_price']['formated_price'];
+                if ($prices['from']['regular']['price'] != $prices['from']['final']['price']) {
+                    $priceArray['regular'] .= $prices['from']['regular']['formatted_price'];
+                    $priceArray['special'] .= $prices['from']['final']['formatted_price'];
                 } else {
-                    $priceArray['regular'] .= $prices['from']['regular_price']['formated_price'];
+                    $priceArray['regular'] .= $prices['from']['regular']['formatted_price'];
                 }
 
-                if ($prices['from']['regular_price']['price'] != $prices['to']['regular_price']['price']
-                    || $prices['from']['final_price']['price'] != $prices['to']['final_price']['price']
+                if ($prices['from']['regular']['price'] != $prices['to']['regular']['price']
+                    || $prices['from']['final']['price'] != $prices['to']['final']['price']
                 ) {
                     $priceArray['regular'] .= ' To ';
 
-                    if ($prices['to']['regular_price']['price'] != $prices['to']['final_price']['price']) {
-                        $priceArray['regular'] .= $prices['to']['regular_price']['formated_price'];
-                        $priceArray['special'] .= $prices['to']['final_price']['formated_price'];
+                    if ($prices['to']['regular']['price'] != $prices['to']['final']['price']) {
+                        $priceArray['regular'] .= $prices['to']['regular']['formatted_price'];
+                        $priceArray['special'] .= $prices['to']['final']['formatted_price'];
                     } else {
-                        $priceArray['regular'] .= $prices['to']['regular_price']['formated_price'];
+                        $priceArray['regular'] .= $prices['to']['regular']['formatted_price'];
                     }
                 }
                 break;
@@ -200,7 +200,7 @@ class ProductContent extends BaseFilter
     {
         $productTypeInstance = $rootValue->getTypeInstance();
 
-        if ($productTypeInstance->haveSpecialPrice()) {
+        if ($productTypeInstance->haveDiscount()) {
             return true;
         }
 
@@ -253,8 +253,8 @@ class ProductContent extends BaseFilter
         foreach ($data['variant_prices'] as $key => $prices) {
             $variant_prices[$key] = [
                 'id'            => $key,
-                'regular_price' => $prices['regular_price'],
-                'final_price'   => $prices['final_price'],
+                'regular' => $prices['regular'],
+                'final'   => $prices['final'],
             ];
         }
         $data['variant_prices'] = $variant_prices;
@@ -298,7 +298,7 @@ class ProductContent extends BaseFilter
      */
     public function getCacheGalleryImages($rootValue, array $args, GraphQLContext $context)
     {
-        return productimage()->getGalleryImages($rootValue);
+        return product_image()->getGalleryImages($rootValue);
     }
 
     /**
@@ -330,7 +330,7 @@ class ProductContent extends BaseFilter
      */
     public function getProductBaseImage($rootValue, array $args, GraphQLContext $context)
     {
-        return productimage()->getProductBaseImage($rootValue);
+        return product_image()->getProductBaseImage($rootValue);
     }
 
     /**
