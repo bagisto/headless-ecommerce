@@ -91,6 +91,7 @@ input UpdateVariantInput {
     price: Float!
     weight: Float!
     status: Boolean!
+    images: [String]
 }
 
 input VariantInventoryInput {
@@ -156,8 +157,6 @@ type Product {
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
     groupedProducts: [ProductGroupedProduct] @hasMany(relation: "grouped_products")
     bundleOptions: [ProductBundleOption] @hasMany(relation: "bundle_options")
-    sameDaySlots: [BookingDaySlots!] @rename(attribute: "same_day_slots")
-    differentDaySlots: [BookingDaySlots!] @rename(attribute: "different_day_slots")
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
     cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
     # up_sells: [Product] @belongsToMany
