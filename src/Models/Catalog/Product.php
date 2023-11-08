@@ -37,12 +37,4 @@ class Product extends BaseModel
 
         return $this->typeInstance;
     }
-
-    /**
-     * Get the booking that owns the product.
-     */
-    public function booking_product()
-    {
-        return $this->hasOne(BookingProductProxy::modelClass());
-    }
 }
