@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Pagination\Paginator;
@@ -10,7 +11,7 @@ use Webkul\Product\Repositories\ProductReviewRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
-class ReviewMutation
+class ReviewMutation extends Controller
 {
     /**
      * Contains current guard
@@ -196,7 +197,7 @@ class ReviewMutation
             return [
                 'status'    => (isset($customerReview->id)) ? true : false,
                 'reviews'   => $customer->all_reviews,
-                'message'   => ($customerReview->id) ? trans('admin::app.response.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
+                'message'   => ($customerReview->id) ? trans('admin::app.reviews.datagrid.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
             ];
         } catch (Exception $e) {
             throw new CustomException(

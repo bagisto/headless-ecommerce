@@ -2,7 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-class ReviewQuery
+use App\Http\Controllers\Controller;
+
+class ReviewQuery extends Controller
 {
     /**
      * Contains current guard
