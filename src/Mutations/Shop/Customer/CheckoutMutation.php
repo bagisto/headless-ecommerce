@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Contracts\Validations\AlphaNumericSpace;
 use Webkul\Core\Contracts\Validations\PhoneNumber;
@@ -16,7 +17,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
-class CheckoutMutation
+class CheckoutMutation extends Controller
 {
     /**
      * Contains current guard
