@@ -5,8 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Core\Contracts\Validations\AlphaNumericSpace;
-use Webkul\Core\Contracts\Validations\PhoneNumber;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
@@ -14,6 +12,8 @@ use Webkul\Shipping\Facades\Shipping;
 use Webkul\Payment\Facades\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\AlphaNumericSpace;
+use Webkul\Core\Rules\PhoneNumber;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
@@ -124,7 +124,7 @@ class CheckoutMutation extends Controller
             ]);
         } else {
             $rules = array_merge($rules, [
-                "billing.first_name" => ['required', new AlphaNumericSpace],
+                "billing.first_name" => ['required'],
                 "billing.last_name"  => ['required', new AlphaNumericSpace],
                 "billing.email"      => ['required'],
                 "billing.address1"   => ['required'],

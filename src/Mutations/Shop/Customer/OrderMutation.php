@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\Paginator;
@@ -11,7 +12,7 @@ use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class OrderMutation
+class OrderMutation extends Controller
 {
     /**
      * Contains current guard
@@ -141,7 +142,7 @@ class OrderMutation
             return [
                 'status'    => $result ? true : false,
                 'order'     => $this->orderRepository->find($orderId),
-                'message'   => $result ? trans('admin::app.response.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.admin.response.cancel-error')
+                'message'   => $result ? trans('shop::app.customers.account.orders.view.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.admin.response.cancel-error')
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -159,15 +160,15 @@ class OrderMutation
 
         if (bagisto_graphql()->guard($this->guard)->check()) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
-
+            
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
-
+           
             $shipments = app(ShipmentRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
-
+                
                 $qb = $query->distinct()
                     ->addSelect('shipments.*')
                     ->leftJoin('orders', 'shipments.order_id', '=', 'orders.id')
@@ -199,7 +200,7 @@ class OrderMutation
 
                 return $qb;
             });
-
+            
             if (isset($args['id'])) {
                 $shipments = $shipments->first();
             } else {
@@ -366,7 +367,7 @@ class OrderMutation
             if (($invoices && isset($invoices->first()->id)) || isset($invoices->id)) {
                 return $invoices;
             } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Invoice']));
+                throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Refund']));
             }
         } else {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
