@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI;
 
-use JWTAuth;
 use Illuminate\Support\Arr;
+use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Product\Repositories\ProductImageRepository;

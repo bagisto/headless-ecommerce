@@ -2,7 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-class WishlistQuery
+use App\Http\Controllers\Controller;
+use Webkul\Customer\Repositories\WishlistRepository;
+
+class WishlistQuery extends Controller
 {
     /**
      * Contains current guard
@@ -16,7 +19,9 @@ class WishlistQuery
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        protected WishlistRepository $wishlistRepository
+    )
     {
         $this->guard = 'api';
 
@@ -33,41 +38,18 @@ class WishlistQuery
     public function getWishlists($query, $input, $test)
     {
         $params = $input;
-        
-        $channel = core()->getRequestedChannelCode();
-        $locale = core()->getRequestedLocaleCode();
 
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
             $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
         }
                     
-        $qb = $query->distinct()
-            ->addSelect('wishlist.*')
-            ->addSelect('product_flat.name as product_name')
-            ->leftJoin('product_flat', 'wishlist.product_id', '=', 'product_flat.product_id')
-            ->where('product_flat.channel', $channel)
-            ->where('product_flat.locale', $locale);
-
-            if ( isset($params['id']) && $params['id']) {
-                $qb->where('wishlist.id', $params['id']);
-            }
-
-            if ( isset($params['product_name']) && $params['product_name']) {
-                $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
-            }
+        $items = $this->wishlistRepository
+            ->where([
+                'channel_id'  => core()->getCurrentChannel()->id,
+                'customer_id' =>  $params['customer_id'],
+            ])
+            ->get();
             
-            if ( isset($params['product_id']) && $params['product_id']) {
-                $qb->where('wishlist.product_id', $params['product_id']);
-            }
-            
-            if ( isset($params['channel_id']) && $params['channel_id']) {
-                $qb->where('wishlist.channel_id', $params['channel_id']);
-            }
-        
-            if ( isset($params['customer_id']) && $params['customer_id']) {
-                $qb->where('wishlist.customer_id', $params['customer_id']);
-            }
-
-        return $qb;
+        return $items;
     }
 }

@@ -58,7 +58,6 @@ type Channel {
     defaultLocaleId: Int! @rename(attribute: "default_locale_id")
     baseCurrencyId: Int! @rename(attribute: "base_currency_id")
     rootCategoryId: Int! @rename(attribute: "root_category_id")
-    homeSeo: String! @rename(attribute: "home_seo")
     locales: [Locale!] @belongsTo(relation: "locales")
     defaultLocale: Locale! @rename(attribute: "default_locale")
     currencies: [Currency!] @belongsTo(relation: "currencies")
