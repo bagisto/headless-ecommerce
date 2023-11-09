@@ -38,6 +38,7 @@ input AddItemToCartInput {
     links: [Int!]
     
     # Used in case of adding Bundled Product to Cart
+    bundleOptionQuantity: [Int]   @rename(attribute: "bundle_option_qty")
     bundleOptions: [BundledOptionsInput!] @rename(attribute: "bundle_options")
 }
 
@@ -52,9 +53,7 @@ input GroupedProductInput {
 }
 
 input BundledOptionsInput {
-    bundleOptionId: Int! @rename(attribute: "bundle_option_id")
-    bundleOptionProductId: [Int!] @rename(attribute: "bundle_option_product_id")
-    qty: Int
+    bundleOptionId: [Int!] @rename(attribute: "bundle_option_id")
 }
 
 input UpdateItemToCartInput {

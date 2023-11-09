@@ -3,12 +3,13 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
+use App\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class CartMutation
+class CartMutation extends Controller
 {
     /**
      * Contains current guard
@@ -86,7 +87,7 @@ class CartMutation
         
         try {
             $product = $this->productRepository->findOrFail($data['product_id']);
-
+            
             $data = bagisto_graphql()->manageInputForCart($product, $data);
             
             $cart = Cart::addProduct($data['product_id'], $data);

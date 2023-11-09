@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI;
 
 use JWTAuth;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Product\Repositories\ProductImageRepository;
@@ -813,22 +814,14 @@ class BagistoGraphql
             case 'bundle':
                 //Case: In case of bundled product added
                 if ( isset($data['bundle_options']) && $data['bundle_options']) {
-                    $bundle_options = [];
-                    $bundle_option_qty = [];
+                    $bundleOptions = Arr::collapse($data['bundle_options']);
+                    $data['bundle_options'] = $bundleOptions;
 
-                    foreach ($data['bundle_options'] as $option) {
-                        if ( isset($option['bundle_option_id']) && isset($option['bundle_option_product_id'])) {
-
-                            $bundle_options[$option['bundle_option_id']] = $option['bundle_option_product_id'];
-
-                            if ( isset($option['qty']) && $option['qty']) {
-                                $bundle_option_qty[$option['bundle_option_id']] = $option['qty'];
-                            }
-                        }
+                    $option = [];
+                    foreach ($data['bundle_options']['bundle_option_id'] as $key => $value) {
+                        $option[$key+1] = [$key => $value];
                     }
-
-                    $data['bundle_options'] = $bundle_options;
-                    $data['bundle_option_qty'] = $bundle_option_qty;
+                    $data['bundle_options'] = $option;
                 }
                 break;
             case 'booking':
