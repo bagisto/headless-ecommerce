@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
@@ -11,7 +12,7 @@ use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class WishlistMutation
+class WishlistMutation extends Controller
 {
     /**
      * Contains current guard
@@ -217,7 +218,7 @@ class WishlistMutation
                 $this->wishlistRepository->delete($wishlist->id);
                 return [
                     'status'    => true,
-                    'success'   => trans('customer::app.wishlist.removed'),
+                    'success'   => trans('shop::app.wishlist.removed'),
                     'wishlist'  => $this->wishlistRepository->findWhere($data)
                 ];
             } else {
@@ -263,7 +264,7 @@ class WishlistMutation
                 if ( $result ) {
                     return [
                         'status'    => true,
-                        'success'   => trans('shop::app.customer.account.wishlist.moved'),
+                        'success'   => trans('shop::app.wishlist.moved-success'),
                         'wishlist'  => $this->wishlistRepository->findWhere(['customer_id' => $customer->id])
                     ];
                 } else {
@@ -306,7 +307,7 @@ class WishlistMutation
 
             return [
                 'status'    => true,
-                'success'   => trans('customer::app.wishlist.remove-all-success'),
+                'success'   => trans('shop::app.wishlist.remove-all-success'),
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
