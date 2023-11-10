@@ -38,6 +38,9 @@ class WishlistQuery extends Controller
     public function getWishlists($query, $input, $test)
     {
         $params = $input;
+        
+        $channel = core()->getRequestedChannelCode();
+        $locale = core()->getRequestedLocaleCode();
 
         if ( bagisto_graphql()->guard($this->guard)->check() ) {
             $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;

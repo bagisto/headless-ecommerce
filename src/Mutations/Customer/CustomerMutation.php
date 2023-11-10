@@ -75,12 +75,7 @@ class CustomerMutation extends Controller
             $customer = $this->customerRepository->create($data);
     
             Event::dispatch('customer.registration.after', $customer);
-            
-            $configKey = 'emails.general.notifications.emails.general.notifications.customer';
-            if (core()->getConfigData($configKey)) {
-                Mail::queue(new NewCustomerNotification($customer, $password));
-            }
-            
+                    
             return $customer;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -155,7 +150,7 @@ class CustomerMutation extends Controller
 
                 Event::dispatch('customer.customer.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Customer'])];
+                return ['success' => trans('admin::app.customers.customers.delete-success', ['name' => 'Customer'])];
             
             } else {
                 throw new Exception(trans('admin::app.response.order-pending', ['name' => 'Customer']));

@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Inventory\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Exception;
 use Webkul\Inventory\Repositories\InventorySourceRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class InventorySourceMutation extends Controller
 {
@@ -42,7 +42,7 @@ class InventorySourceMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'code'           => ['required', 'unique:inventory_sources,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code'           => ['required', 'unique:inventory_sources,code', new Code],
             'name'           => 'required',
             'contact_name'   => 'required',
             'contact_email'  => 'required|email',
@@ -89,7 +89,7 @@ class InventorySourceMutation extends Controller
         $id = $args['id'];
 
         $validator = Validator::make($data, [
-            'code'           => ['required', 'unique:inventory_sources,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code'           => ['required', 'unique:inventory_sources,code,' . $id, new Code],
             'name'           => 'required',
             'contact_name'   => 'required',
             'contact_email'  => 'required|email',
@@ -146,9 +146,9 @@ class InventorySourceMutation extends Controller
 
                 Event::dispatch('inventory.inventory_source.delete.after', $id);
 
-                return ['success' => trans('admin::app.settings.inventory_sources.delete-success')];
+                return ['success' => trans('admin::app.settings.inventory-sources.delete-success')];
             } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Inventory source']));
+                throw new Exception(trans('admin::app.settings.inventory-sources.delete-failed', ['name' => 'Inventory source']));
             }
         }
     }

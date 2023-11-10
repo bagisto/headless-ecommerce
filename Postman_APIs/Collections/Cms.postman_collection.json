@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "9ab23eba-6863-420b-8128-7280a1145a80",
+		"_postman_id": "d70093e6-2c64-41e2-86a6-5d33fa4e1b51",
 		"name": "Cms",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1890198",
-		"_collection_link": "https://warped-spaceship-266216.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-9ab23eba-6863-420b-8128-7280a1145a80?action=share&creator=1890198&source=collection_link"
+		"_exporter_id": "28057902"
 	},
 	"item": [
 		{
@@ -18,7 +17,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query cmsPages {\n    cmsPages {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            layout\n            createdAt\n            updatedAt\n            translations {\n                id\n                urlKey\n                metaDescription\n                metaTitle\n                pageTitle\n                metaKeywords\n                htmlContent\n                locale\n                cmsPageId\n            }\n            channels {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                homeSeo\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                defaultLocale\n                currencies {\n                    id\n                    name\n                    code\n                    symbol\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                baseCurrency\n                rootCategory\n                logoUrl\n                faviconUrl\n            }\n        }\n    }\n}",
+						"query": "query cmsPages {\n    cmsPages {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            layout\n            createdAt\n            updatedAt\n            translations {\n                id\n                urlKey\n                metaDescription\n                metaTitle\n                pageTitle\n                metaKeywords\n                htmlContent\n                locale\n                cmsPageId\n            }\n            channels {\n                id\n                code\n                name\n                description\n                theme\n                homePageContent\n                footerContent\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                locales {\n                    id\n                    name\n                    code\n                    direction\n                }\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n                faviconUrl\n            }\n        }\n    }\n}",
 						"variables": ""
 					}
 				},
@@ -42,7 +41,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query cmsPage {\n    cmsPage(id: 1) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+						"query": "query cmsPage {\n    cmsPage(id: 1) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
 						"variables": ""
 					}
 				},
@@ -107,20 +106,21 @@
 			"name": "Create Cms Page",
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation createCmsPage {\n    createCmsPage(input: {\n    \tpageTitle: \"Term And Condition\"\n        channels: [1]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n        layout: \"fcm\"\n        locale: \"en\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
+						"query": "mutation createCmsPage {\n    createCmsPage(input: {\n    \tpageTitle: \"Term And Condition\"\n        channels: [1]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n        layout: \"fcm\"\n        locale: \"en\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
 						"variables": ""
 					}
 				},
@@ -137,20 +137,21 @@
 			"name": "Update Cms Page",
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation updateCmsPage {\n    updateCmsPage(id: 1 , input: {\n    \tpageTitle: \"Term & Condition\"\n        channels: [1]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n        layout: \"\"\n        locale: \"\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}\n",
+						"query": "mutation updateCmsPage {\n    updateCmsPage(id: 12 , input: {\n    \tpageTitle: \"Update Term & Condition\"\n        channels: [1]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n        layout: \"fcm\"\n        locale: \"fr\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n            faviconUrl\n        }\n    }\n}\n",
 						"variables": ""
 					}
 				},
@@ -167,20 +168,21 @@
 			"name": "Remove Cms Page",
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{adminToken}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation deleteCmsPage {\n    deleteCmsPage(id: 1) {\n        success\n    }\n}",
+						"query": "mutation deleteCmsPage {\n    deleteCmsPage(id: 12) {\n        success\n    }\n}",
 						"variables": ""
 					}
 				},

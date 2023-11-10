@@ -1,5 +1,5 @@
 # Setting\TaxRate Related APIs
-extend type Query @guard {
+extend type Query @guard(with: ["admin-api"]) {
     taxRates(input: FilterTaxRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTaxRate")): [TaxRate!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxRate")
 
     taxRate(id: ID @eq): TaxRate @find(model: "Webkul\\Tax\\Models\\TaxRate")

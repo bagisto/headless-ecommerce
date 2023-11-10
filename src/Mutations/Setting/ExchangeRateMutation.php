@@ -2,11 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Exception;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Webkul\Core\Repositories\ExchangeRateRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;

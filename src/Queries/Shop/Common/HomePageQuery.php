@@ -36,9 +36,7 @@ class HomePageQuery extends BaseFilter
         protected ProductRepository $productRepository,
         protected ProductFlatRepository $productFlatRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository,
-        protected VelocityMetadataRepository $velocityMetadataRepository,
         protected CategoryRepository $categoryRepository,
-        protected ContentRepository $contentRepository,
         protected WishlistRepository $wishlistRepository
     )
     {
@@ -105,7 +103,7 @@ class HomePageQuery extends BaseFilter
             'status'     => self::STATUS,
             'channel_id' => core()->getCurrentChannel()->id
         ]);
-
+        
         return compact('customizations');      
     }
 

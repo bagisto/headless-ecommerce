@@ -3,10 +3,9 @@
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
 use Webkul\User\Repositories\RoleRepository;;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -135,9 +134,9 @@ class RoleMutation extends Controller
 
                 Event::dispatch('user.role.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Role'])];
+                return ['success' => trans('admin::app.settings.roles.delete-success', ['name' => 'Role'])];
             } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Role']));
+                throw new Exception(trans('admin::app.settings.roles.delete-failed', ['name' => 'Role']));
             }
         }
     }

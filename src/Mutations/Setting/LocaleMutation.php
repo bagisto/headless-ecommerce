@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Exception;
 use Webkul\Core\Repositories\LocaleRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class LocaleMutation extends Controller
 {
@@ -42,7 +42,7 @@ class LocaleMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'code'      => ['required', 'unique:locales,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
@@ -90,7 +90,7 @@ class LocaleMutation extends Controller
         $id = $args['id'];
 
         $validator = Validator::make($data, [
-            'code'      => ['required', 'unique:locales,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code'      => ['required', 'unique:locales,code,' . $id, new Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
@@ -148,9 +148,9 @@ class LocaleMutation extends Controller
 
                 Event::dispatch('core.locale.delete.after', $id);
 
-                return ['success' => trans('admin::app.settings.locales.delete-success')];
+                return ['success' => trans('admin::app.settings.locales.index.delete-success')];
             } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Locale']));
+                throw new Exception(trans('app.settings.locales.index.delete-success', ['name' => 'Locale']));
             }
         }
     }

@@ -124,13 +124,13 @@ class SiteMapMutation extends Controller
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'SiteMap'])
+                    'message' => trans('admin::app.marketing.sitemaps.index.edit.delete-success', ['name' => 'SiteMap'])
                 ];
             } else {
 
                 return [
                     'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'SiteMap'])
+                    'message' => trans('admin::app.marketing.sitemaps.delete-failed', ['name' => 'SiteMap'])
                 ];
             }
         } catch (Exception $e) {

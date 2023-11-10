@@ -1,5 +1,5 @@
-# Seles\Invoice Related APIs
-extend type Query @guard {
+# Seles\Invoice Related APIs 
+extend type Query @guard(with: ["admin-api"]) { 
     invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterInvoice")): [Invoice!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
 
     invoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")

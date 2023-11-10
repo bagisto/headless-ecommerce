@@ -2,14 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
-use Webkul\Core\Http\Controllers\Controller;
+use Exception;
+use App\Http\Controllers\Controller;
 use Webkul\Core\Repositories\SubscribersListRepository;
-use Webkul\Shop\Mail\SubscriptionEmail;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class NewsletterSubscriberMutation extends Controller
@@ -61,14 +58,7 @@ class NewsletterSubscriberMutation extends Controller
         if ( $unique() ) {
             $token = uniqid();
 
-            $subscriptionData = [
-                'email' => $data['email'],
-                'token' => $token,
-            ];
-
-            try {
-                Mail::queue(new SubscriptionEmail($subscriptionData));
-                
+            try {                
                 Event::dispatch('customer.subscribe.before');
                 
                 $subscription = $this->subscriptionRepository->create([

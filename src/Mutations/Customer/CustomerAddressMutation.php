@@ -158,7 +158,7 @@ class CustomerAddressMutation extends Controller
 
             Event::dispatch('customer.address.delete.after', $id);
 
-            return ['success' => trans('admin::app.response.delete-success', ['name' => 'Customer\'s Address'])];
+            return ['success' => trans('admin::app.customers.customers.view.address-delete-success', ['name' => 'Customer\'s Address'])];
 
         } catch(\Exception $e) {
             throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Customer\'s Address']));

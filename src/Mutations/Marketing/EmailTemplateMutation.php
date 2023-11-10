@@ -127,7 +127,7 @@ class EmailTemplateMutation extends Controller
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'Email Template'])
+                    'message' => trans('admin::app.marketing.communications.templates.delete-success', ['name' => 'Email Template'])
                 ];
             } else {
                 return [

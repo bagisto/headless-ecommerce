@@ -1,5 +1,5 @@
 # Sales\Refund Related APIs
-extend type Query @guard {
+extend type Query @guard(with: ["admin-api"]) {
     refunds(input: FilterRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterRefund")): [Refund!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
 
     refund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")

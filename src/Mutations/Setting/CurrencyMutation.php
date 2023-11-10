@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Exception;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class CurrencyMutation extends Controller
 {
@@ -81,7 +81,7 @@ class CurrencyMutation extends Controller
         $id = $args['id'];
         
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:currencies,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:currencies,code,' . $id, new Code],
             'name' => 'required',
         ]);
         
@@ -128,9 +128,9 @@ class CurrencyMutation extends Controller
 
                 Event::dispatch('core.currency.delete.after', $id);
 
-                return ['success' => trans('admin::app.settings.currencies.delete-success')];
+                return ['success' => trans('admin::app.settings.currencies.index.delete-success')];
             } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Currency']));
+                throw new Exception(trans('admin::app.settings.currencies.index.delete-failed', ['name' => 'Currency']));
             }
         }
     }

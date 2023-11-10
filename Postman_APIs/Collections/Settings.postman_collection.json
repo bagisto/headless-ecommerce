@@ -1,11 +1,10 @@
 {
 	"info": {
-		"_postman_id": "0d222665-ed99-4996-9276-a20bcd380a6a",
+		"_postman_id": "47e25cea-41fe-44e9-bad1-acbe2ec525ee",
 		"name": "Settings",
 		"description": "This will contain all the admin section APIs which comes under Settings menu. ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1890198",
-		"_collection_link": "https://warped-spaceship-266216.postman.co/workspace/Mp-GraphQL-v1.4.5~c28c7776-3758-45f3-9666-bddf8ef9b25d/collection/1890198-0d222665-ed99-4996-9276-a20bcd380a6a?action=share&creator=1890198&source=collection_link"
+		"_exporter_id": "28057902"
 	},
 	"item": [
 		{
@@ -15,16 +14,17 @@
 					"name": "Get All Users",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -46,20 +46,21 @@
 					"name": "Get User Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query user {\n    user(id: 1) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
+								"query": "query user {\n    user(id: #userId) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -77,21 +78,22 @@
 					"name": "Create New User",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3Mjg2NSwiZXhwIjoxNzMwODA4ODY1LCJuYmYiOjE2OTkyNzI4NjUsImp0aSI6InNLdXRhTU93Rk9XdXNYM1giLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.8LCdfR4ysaD-_0QWn1EdTDyn6KioG0I9G_kVejQa3ps",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createUser {\n    createUser(input: {\n        name: \"Tom Martin\"\n        email: \"tom@example.com\"\n    \tpassword: \"admin123\"\n    \tpasswordConfirmation: \"admin123\"\n    \troleId: 1\n    \tstatus: true\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
-								"variables": ""
+								"query": "mutation createUser ($input : CreateUserInput!){\n    createUser(input: $input) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n    }\n}",
+								"variables": "{\n    \"input\": {\n        \"name\": \"Tom Martin\",\n        \"email\": \"view@example.com\",\n    \t\"password\": \"test123\",\n    \t\"passwordConfirmation\": \"test123\",\n    \t\"roleId\": 1,\n    \t\"status\": true\n    }\n}"
 							}
 						},
 						"url": {
@@ -108,16 +110,17 @@
 					"name": "Update User",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -139,20 +142,21 @@
 					"name": "Remove User",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMzgvYmFnaXN0bzJIZWFkbGVzc0FQSS9wdWJsaWMvZ3JhcGhxbCIsImlhdCI6MTY5OTI3NTA5MywiZXhwIjoxNzMwODExMDkzLCJuYmYiOjE2OTkyNzUwOTMsImp0aSI6InVSd01DTWZJNDRTWkJRRTMiLCJzdWIiOiIxIiwicHJ2IjoiZGJhMjRmYmQ5OWI2MWE1MGUxYWU4ODU3NGJmMmQwZTI3M2FkZmU4NyJ9.rEfpm2qSzqeN4gj5i5GSU_gzHl-x4ElTRAPkN4dpQRY",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteUser {\n    deleteUser(id: 2) {\n        success\n    }\n}\n",
+								"query": "mutation deleteUser {\n    deleteUser(id: 3) {\n        success\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -173,17 +177,11 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation userLogin {\n    userLogin(input: {\n        email: \"admin@example.com\"\n        password: \"admin123\"\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        user {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n            status\n        }\n    }\n}\n",
+								"query": "mutation userLogin {\n    userLogin(input: {\n        email: \"admin@example.com\"\n        password: \"admin123\"\n        remember: true\n    }) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        user {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n            status\n        }\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -261,16 +259,17 @@
 					"name": "Get All Roles",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -292,20 +291,21 @@
 					"name": "Get Role Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query role {\n    role(id: 1) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
+								"query": "query role {\n    role(id: 2) {\n        id\n        name\n        description\n        permissionType\n        permissions\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -323,16 +323,17 @@
 					"name": "Create New Role",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -354,16 +355,17 @@
 					"name": "Update Role",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -385,16 +387,17 @@
 					"name": "Remove Role",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -422,16 +425,17 @@
 					"name": "Get All Locales",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -453,16 +457,17 @@
 					"name": "Get Locale Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -484,16 +489,17 @@
 					"name": "Create Locale",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -522,20 +528,21 @@
 					"name": "Update Locale Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateLocale {\n    updateLocale(id: 4, input: {\n    \tcode: \"arc\"\n        name: \"Arabic lang\"\n        direction: \"RTL\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
+								"query": "mutation updateLocale {\n    updateLocale(id: 10, input: {\n    \tcode: \"arc\"\n        name: \"Arabic lang\"\n        direction: \"RTL\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
 								"variables": ""
 							}
 						},
@@ -553,20 +560,21 @@
 					"name": "Remove Locale",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocale {\n    deleteLocale(id: 4) {\n        success\n    }\n}",
+								"query": "mutation deleteLocale {\n    deleteLocale(id: 10) {\n        success\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -613,16 +621,17 @@
 					"name": "Get All Currencies",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -644,16 +653,17 @@
 					"name": "Get Currency Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -675,20 +685,21 @@
 					"name": "Create Currency",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
+								"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"MXN\"\n        name: \"Mexican Peso\"\n        symbol: \"$\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -706,20 +717,21 @@
 					"name": "Update Currency",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation updateCurrency {\n    updateCurrency(id: 3, input: {\n    \tcode:\"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
+								"query": "\nmutation updateCurrency {\n    updateCurrency(id: 4, input: {\n    \tcode:\"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -737,16 +749,17 @@
 					"name": "Remove Currency",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -797,16 +810,17 @@
 					"name": "Get All Exchange Rates",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -828,16 +842,17 @@
 					"name": "Get Exchange Rate Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -859,16 +874,17 @@
 					"name": "Create New Exchange Rate",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -890,16 +906,17 @@
 					"name": "Update Exchange Rate",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -921,16 +938,17 @@
 					"name": "Remove Exchange Rate",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -988,16 +1006,17 @@
 					"name": "Get All Inventory Sources",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1019,16 +1038,17 @@
 					"name": "Get Inventory Source Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1050,16 +1070,17 @@
 					"name": "Create New Inventory Source",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1081,16 +1102,17 @@
 					"name": "Update Inventory Source",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1112,16 +1134,17 @@
 					"name": "Remove Inventory Source",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1172,16 +1195,17 @@
 					"name": "Get All TaxRates",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1203,16 +1227,17 @@
 					"name": "Get TaxRate Detail",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1234,16 +1259,17 @@
 					"name": "Create New TaxRate",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
@@ -1265,20 +1291,21 @@
 					"name": "Update TaxRate Details",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{adminToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateTaxRate {\n    updateTaxRate(id: 2, input: {\n        identifier: \"Service Tax\",\n        isZip: 1,\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+								"query": "mutation updateTaxRate {\n    updateTaxRate(id: 1, input: {\n        identifier: \"Service Tax\",\n        isZip: 1,\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
 								"variables": ""
 							}
 						},

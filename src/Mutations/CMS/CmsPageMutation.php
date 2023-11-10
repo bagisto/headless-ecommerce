@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CMS\Repositories\CmsRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Slug;
 
 class CmsPageMutation extends Controller
 {
@@ -40,7 +41,7 @@ class CmsPageMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'url_key'      => ['required', 'unique:cms_page_translations,url_key', new \Webkul\Core\Contracts\Validations\Slug],
+            'url_key'      => ['required', 'unique:cms_page_translations,url_key', new Slug],
             'page_title'   => 'required',
             'channels'     => 'required',
             'html_content' => 'required',
@@ -81,7 +82,7 @@ class CmsPageMutation extends Controller
         unset($data[$locale]['locale']);
 
         $validator = Validator::make($data, [
-            $locale . '.url_key'      => ['required', new \Webkul\Core\Contracts\Validations\Slug, function ($attribute, $value, $fail) use ($id) {
+            $locale . '.url_key'      => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
                 if (!$this->cmsRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Page']));
                 }
@@ -90,7 +91,7 @@ class CmsPageMutation extends Controller
             $locale . '.html_content' => 'required',
             'channels'                => 'required',
         ]);
-
+        
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -125,7 +126,7 @@ class CmsPageMutation extends Controller
             if ($page != Null) {
                 $page->delete();
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'CMS Page'])];
+                return ['success' => trans('admin::app.cms.delete-success', ['name' => 'CMS Page'])];
             } else {
                 throw new Exception(trans('admin::app.cms.pages.delete-failure'));
             }

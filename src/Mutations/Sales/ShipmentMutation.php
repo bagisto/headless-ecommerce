@@ -62,7 +62,7 @@ class ShipmentMutation extends Controller
         try {
 
             $shipmentData = [];
-
+            
             if (isset($params['shipment_data'])) {
                 foreach ($params['shipment_data'] as $data) {
 
@@ -70,12 +70,10 @@ class ShipmentMutation extends Controller
                         $params['inventory_source_id'] => $data['quantity']
                     ];
                 }
-
-                $shipment['shipment']['items'] =  $shipmentData;
-
-                $shipment['shipment']['carrier_title'] = $params['carrier_title'];
+               $shipment['shipment']['carrier_title'] = $params['carrier_title'];
                 $shipment['shipment']['track_number']  = $params['track_number'];
                 $shipment['shipment']['source']        = $params['inventory_source_id'];
+                $shipment['shipment']['items']         =  $shipmentData;
 
                 $validator = Validator::make($shipment, [
                     'shipment.source'        => 'required',
@@ -89,7 +87,6 @@ class ShipmentMutation extends Controller
                 if (!$this->isInventoryValidate($shipment)) {
                     throw new Exception(trans('admin::app.sales.shipments.quantity-invalid'));
                 }
-
                 $shipmentData = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $orderId]));
 
                 return $shipmentData;

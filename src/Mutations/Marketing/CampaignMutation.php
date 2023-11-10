@@ -61,12 +61,11 @@ class CampaignMutation extends Controller
         }
 
         try {
-
             $campaign = $this->campaignRepository->create($params);
 
             return $campaign;
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
     }
 
@@ -105,7 +104,7 @@ class CampaignMutation extends Controller
 
             return $campaign;
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
     }
 
@@ -133,12 +132,12 @@ class CampaignMutation extends Controller
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'Campaign'])
+                    'message' => trans('admin::app.marketing.communications.campaigns.delete-success', ['name' => 'Campaign'])
                 ];
             } else {
                 return [
                     'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Campaign'])
+                    'message' => trans('admin::app.marketing.communications.campaigns.delete-failed', ['name' => 'Campaign'])
                 ];
             }
         } catch (Exception $e) {

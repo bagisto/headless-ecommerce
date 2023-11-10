@@ -1,5 +1,5 @@
 # Customer\Customer Related APIs
-extend type Query @guard {
+extend type Query @guard(with: ["admin-api"]) {
     customers(input: FilterCustomerInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomer")): [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
 
     customer(id: ID @eq): Customer @find(model: "Webkul\\Customer\\Models\\Customer")

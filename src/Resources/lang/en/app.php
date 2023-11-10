@@ -20,6 +20,10 @@
                 'ios-topic'                         => 'IOS Topic',
             ],
 
+            'customer' => [
+                'no-customer-found' => 'No customer found'
+            ],
+
             'notification'  => [
                 'title'                 => 'Push Notification',
                 'add-title'             => 'Add Notification',

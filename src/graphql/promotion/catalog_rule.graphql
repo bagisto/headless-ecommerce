@@ -1,5 +1,5 @@
 #Promition\CatalogRule Related APIs
-extend type Query @guard {
+extend type Query @guard(with: ["admin-api"]) {
     catalogRules(input : FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
     catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
 }

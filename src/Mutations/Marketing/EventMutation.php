@@ -131,7 +131,7 @@ class EventMutation extends Controller
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'Event'])
+                    'message' => trans('admin::app.marketing.communications.events.delete-success', ['name' => 'Event'])
                 ];
             } else {
 
