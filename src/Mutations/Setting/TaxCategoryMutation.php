@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Tax\Http\Controllers\Controller;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -59,7 +59,7 @@ class TaxCategoryMutation extends Controller
             $taxCategory = $this->taxCategoryRepository->create($data);
     
             //attach the categories in the tax map table
-            $taxCategoryRepository = $this->taxCategoryRepository->attachOrDetach($taxCategory, $data['taxrates']);
+            $taxCategory->tax_rates()->sync($data['taxrates']);
     
             Event::dispatch('tax.tax_category.create.after', $taxCategory);
             
@@ -97,7 +97,7 @@ class TaxCategoryMutation extends Controller
 
         try {
             Event::dispatch('tax.tax_category.update.before', $id);
-    
+
             $taxCategory = $this->taxCategoryRepository->update($data, $id);
     
             Event::dispatch('tax.tax_category.update.after', $taxCategory);
@@ -105,11 +105,9 @@ class TaxCategoryMutation extends Controller
             if (! $taxCategory) {
                 throw new Exception(trans('admin::app.settings.tax-categories.update-error'));
             }
-    
-            $taxRates = $data['taxrates'];
-    
+        
             //attach the categories in the tax map table
-            $this->taxCategoryRepository->attachOrDetach($taxCategory, $taxRates);
+            $taxCategory->tax_rates()->sync($data['taxrates']);
 
             return $taxCategory;
         } catch (Exception $e) {

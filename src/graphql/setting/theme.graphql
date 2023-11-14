@@ -1,0 +1,70 @@
+# Setting\User Related APIs
+extend type Query @guard(with: ["admin-api"]){
+    themes(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTheme")): [Theme!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Shop\\Models\\ThemeCustomization")
+
+    theme(id: ID @eq): Theme @find(model: "Webkul\\Shop\\Models\\ThemeCustomization")
+}
+
+extend type Mutation {
+    createTheme(
+        input: CreateThemeInput!
+    ): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ThemeMutation@store")
+
+#     updateUser(
+#         id: ID!,
+#         input: CreateUserInput!
+#     ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@update")
+    
+#     deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
+
+#     userLogin(
+#         input: CreateUserLoginInput!
+#     ): LoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@login")
+
+#     userLogout: LogoutResponse @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@logout")
+}
+
+input CreateThemeInput {
+    name: String!
+    sortOrder: String! @rename(attribute: "sort_order")
+    type: String!
+    channelId: String! @rename(attribute: "channel_id")
+}
+
+# input CreateUserLoginInput {
+#     email: String! @rules(apply: ["email"])
+#     password: String! @rules(apply: ["min:6"])
+#     remember: Boolean
+# }
+
+# input FilterUserInput {
+#     id: Int
+#     channelName: String
+#     name: String
+#     type: String
+#     sortOrder: String
+#     status: Boolean
+# }
+
+# type LoginResponse {
+#     status: Boolean
+#     success: String
+#     accessToken: String @rename(attribute: "access_token")
+#     tokenType: String @rename(attribute: "token_type")
+#     expiresIn: Int @rename(attribute: "expires_in")
+#     user: User
+# }
+
+# type LogoutResponse {
+#     status: Boolean
+#     success: String
+# }
+
+type Theme {
+    id: ID!
+    type: String
+    sortOrder: String  @rename(attribute: "sort_order")
+    channelName: String @rename(attribute: "channel_name")
+    status: Boolean
+    name: String
+}
