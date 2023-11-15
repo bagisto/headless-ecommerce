@@ -4,7 +4,7 @@ namespace Webkul\GraphQLAPI\Queries\Setting;
 
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class FilterSlider extends BaseFilter
+class FilterTheme extends BaseFilter
 {
     /**
      * filter the data .

@@ -11,20 +11,6 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 class CategoryQuery extends BaseFilter
 {
     /**
-     * CategoryRepository object
-     *
-     * @var \Webkul\Category\Repositories\CategoryRepository
-     */
-    protected $categoryRepository;
-
-    /**
-     * ProductFlatRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductFlatRepository
-     */
-    protected $productFlatRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
@@ -32,13 +18,10 @@ class CategoryQuery extends BaseFilter
      * @return void
      */
     public function __construct(
-        CategoryRepository $categoryRepository,
-        ProductFlatRepository $productFlatRepository
+        protected CategoryRepository $categoryRepository,
+        protected ProductFlatRepository $productFlatRepository
     )
     {
-        $this->categoryRepository = $categoryRepository;
-
-        $this->productFlatRepository = $productFlatRepository;
 
         $this->_config = request('_config');
     }

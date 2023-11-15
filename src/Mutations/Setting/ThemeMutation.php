@@ -4,9 +4,12 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 
 class ThemeMutation extends Controller
 {
@@ -25,7 +28,7 @@ class ThemeMutation extends Controller
      * @return void
      */
     public function __construct(
-      
+      protected ThemeCustomizationRepository $themeCustomizationRepository
     ) {
         $this->guard = 'admin-api';
 
@@ -44,19 +47,6 @@ class ThemeMutation extends Controller
         }
 
         $data = $args['input'];
-
-        $validator = Validator::make($data, [
-            'name'     => 'required',
-            'email'    => 'email|unique:admins,email',
-            'password' => 'nullable',
-            'password_confirmation' => 'nullable|required_with:password|same:password',
-            'status'   => 'sometimes',
-            'role_id'  => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            throw new Exception($validator->messages());
-        }
 
         if (request()->has('id')) {
             $theme = $this->themeCustomizationRepository->find(request()->input('id'));
@@ -78,33 +68,75 @@ class ThemeMutation extends Controller
         Event::dispatch('theme_customization.create.before');
 
         $theme = $this->themeCustomizationRepository->create([
-            'name'       => request()->input('name'),
-            'sort_order' => request()->input('sort_order'),
-            'type'       => request()->input('type'),
-            'channel_id' => request()->input('channel_id'),
+            'name'       => $data['name'],
+            'sort_order' => $data['sort_order'],
+            'type'       => $data['type'],
+            'channel_id' => $data['channel_id'],
+            'status'     => $data['status']
         ]);
 
-        Event::dispatch('theme_customization.create.after', $theme);
+        return $theme;
+    }
 
-        return new JsonResponse([
-            'redirect_url' => route('admin.settings.themes.edit', $theme->id),
-        ]);
-
-        try {
-            if (isset($data['password']) && $data['password']) {
-                $data['password'] = bcrypt($data['password']);
-                $data['api_token'] = Str::random(80);
-            }
-
-            Event::dispatch('user.admin.create.before');
-
-            $admin = $this->adminRepository->create($data);
-
-            Event::dispatch('user.admin.create.after', $admin);
-
-            return $admin;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update($rootValue, array $args, GraphQLContext $context)
+    {
+        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
+
+        $data = $args['input'];
+        $id = $args['id'];
+
+        $validator = Validator::make($data, [
+            'name'       => 'required',
+            'sort_order' => 'required|numeric',
+            'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
+            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
+        ]);
+
+
+        if ($validator->fails()) {
+            throw new Exception($validator->messages());
+        }
+
+        $locale = core()->getRequestedLocaleCode();
+
+        // $data = request()->all();
+        dd($data,"dg");
+
+        if ($data['type'] == 'static_content') {
+            $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['html']); 
+            $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['css']); 
+        }
+
+        $data['status'] = request()->input('status') == 'true';
+
+        if ($data['type'] == 'image_carousel') {
+            unset($data['options']);
+        }
+
+        Event::dispatch('theme_customization.update.before', $id);
+
+        $theme = $this->themeCustomizationRepository->update($data, $id);
+
+        if ($data['type'] == 'image_carousel') {
+            $this->themeCustomizationRepository->uploadImage(
+                request()->all('options'), 
+                $theme,
+                request()->input('deleted_sliders', [])
+            );
+        }
+
+        Event::dispatch('theme_customization.update.after', $theme);
+
+        session()->flash('success', trans('admin::app.settings.themes.update-success'));
+
+        return redirect()->route('admin.settings.themes.index');
     }
 }

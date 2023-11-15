@@ -10,25 +10,29 @@ extend type Mutation {
         input: CreateThemeInput!
     ): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ThemeMutation@store")
 
-#     updateUser(
-#         id: ID!,
-#         input: CreateUserInput!
-#     ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@update")
+    updateTheme(
+        id: ID!,
+        input: UpdateThemeInput!
+    ): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ThemeMutation@update")
     
-#     deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
-
-#     userLogin(
-#         input: CreateUserLoginInput!
-#     ): LoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@login")
-
-#     userLogout: LogoutResponse @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@logout")
+    # deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
 }
 
 input CreateThemeInput {
     name: String!
-    sortOrder: String! @rename(attribute: "sort_order")
+    sortOrder: Int! @rename(attribute: "sort_order")
     type: String!
-    channelId: String! @rename(attribute: "channel_id")
+    channelId: ID! @rename(attribute: "channel_id")
+    status: Boolean
+}
+
+input UpdateThemeInput {
+    name: String!
+    sortOrder: Int! @rename(attribute: "sort_order")
+    type: String!
+    channelId: ID! @rename(attribute: "channel_id")
+    status: Boolean
+    options:[FiltersInput!]
 }
 
 # input CreateUserLoginInput {
@@ -46,25 +50,19 @@ input CreateThemeInput {
 #     status: Boolean
 # }
 
-# type LoginResponse {
-#     status: Boolean
-#     success: String
-#     accessToken: String @rename(attribute: "access_token")
-#     tokenType: String @rename(attribute: "token_type")
-#     expiresIn: Int @rename(attribute: "expires_in")
-#     user: User
-# }
-
-# type LogoutResponse {
-#     status: Boolean
-#     success: String
-# }
 
 type Theme {
     id: ID!
     type: String
-    sortOrder: String  @rename(attribute: "sort_order")
+    sortOrder: Int  @rename(attribute: "sort_order")
+    channelId: ID @rename(attribute: "channel_id")
     channelName: String @rename(attribute: "channel_name")
     status: Boolean
     name: String
+    options:String
+}
+
+input FiltersInput {
+    sort: String!
+    limit: String!
 }

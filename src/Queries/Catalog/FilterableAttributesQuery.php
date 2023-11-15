@@ -8,24 +8,15 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 class FilterableAttributesQuery extends BaseFilter
 {
     /**
-     * AttributeRepository object
-     *
-     * @var \Webkul\Attribute\Repositories\AttributeRepository
-     */
-    protected $attributeRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
      * @return void
      */
     public function __construct(
-        AttributeRepository $attributeRepository
+        protected AttributeRepository $attributeRepository
     )
     {
-        $this->attributeRepository = $attributeRepository;
-
         $this->_config = request('_config');
     }
 
