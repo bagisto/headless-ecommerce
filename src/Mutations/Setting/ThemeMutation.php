@@ -5,6 +5,7 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 
@@ -100,22 +101,21 @@ class ThemeMutation extends Controller
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
         ]);
 
-
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         $locale = core()->getRequestedLocaleCode();
 
-        // $data = request()->all();
-        dd($data,"dg");
+        $themeData = $this->themeCustomizationRepository->find($args['id']);
+        $data['type'] = $themeData->type;
 
         if ($data['type'] == 'static_content') {
             $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['html']); 
             $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['css']); 
         }
 
-        $data['status'] = request()->input('status') == 'true';
+        $data['status'] = $args['input']['status'] == 'true';
 
         if ($data['type'] == 'image_carousel') {
             unset($data['options']);
@@ -132,11 +132,29 @@ class ThemeMutation extends Controller
                 request()->input('deleted_sliders', [])
             );
         }
-
         Event::dispatch('theme_customization.update.after', $theme);
+        // dd($theme,"rgetrg");
 
-        session()->flash('success', trans('admin::app.settings.themes.update-success'));
+        return $theme;
+    }
 
-        return redirect()->route('admin.settings.themes.index');
+    public function delete($rootValue, array $args, GraphQLContext $context) {
+        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        }
+
+        $id = $args['id'];
+
+        Event::dispatch('theme_customization.delete.before', $id);
+
+        $theme = $this->themeCustomizationRepository->find($id);
+        $theme?->delete();
+
+        Storage::deleteDirectory('theme/'. $theme->id);
+
+        Event::dispatch('theme_customization.delete.after', $id);
+
+        return ['success' => trans('admin::app.settings.themes.delete-success')];
+
     }
 }

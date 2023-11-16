@@ -1,4 +1,4 @@
-# Setting\User Related APIs
+# Setting\Theme Related APIs
 extend type Query @guard(with: ["admin-api"]){
     themes(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTheme")): [Theme!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Shop\\Models\\ThemeCustomization")
 
@@ -15,7 +15,7 @@ extend type Mutation {
         input: UpdateThemeInput!
     ): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ThemeMutation@update")
     
-    # deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
+    deleteTheme(id: ID!): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ThemeMutation@delete")
 }
 
 input CreateThemeInput {
@@ -29,27 +29,20 @@ input CreateThemeInput {
 input UpdateThemeInput {
     name: String!
     sortOrder: Int! @rename(attribute: "sort_order")
-    type: String!
     channelId: ID! @rename(attribute: "channel_id")
     status: Boolean
-    options:[FiltersInput!]
+    options: OptionInput!
 }
 
-# input CreateUserLoginInput {
-#     email: String! @rules(apply: ["email"])
-#     password: String! @rules(apply: ["min:6"])
-#     remember: Boolean
-# }
+input OptionInput {
+    title: String!
+    filters: FilterInput
+}
 
-# input FilterUserInput {
-#     id: Int
-#     channelName: String
-#     name: String
-#     type: String
-#     sortOrder: String
-#     status: Boolean
-# }
-
+input FilterInput {
+    sort: String!
+    limit: String!
+}
 
 type Theme {
     id: ID!
@@ -59,10 +52,16 @@ type Theme {
     channelName: String @rename(attribute: "channel_name")
     status: Boolean
     name: String
-    options:String
+    options: Option
+    success: String
 }
 
-input FiltersInput {
+type Option {
+    title: String!
+    filters: Filter
+}
+
+type Filter {
     sort: String!
     limit: String!
 }

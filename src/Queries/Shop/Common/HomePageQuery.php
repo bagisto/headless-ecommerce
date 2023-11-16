@@ -103,8 +103,8 @@ class HomePageQuery extends BaseFilter
             'status'     => self::STATUS,
             'channel_id' => core()->getCurrentChannel()->id
         ]);
-        
-        return compact('customizations');      
+
+        return $customizations;      
     }
 
     public function getAdvertisements($rootValue, array $args)

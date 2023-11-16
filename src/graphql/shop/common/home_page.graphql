@@ -70,14 +70,10 @@ type NotificationResponse {
 }
 
 type Slider {
-    id: ID!
-    title: String!
-    path: String!
-    imageUrl: String @rename(attribute: "image_url")
-    content: String
-    channelId: ID! @rename(attribute: "channel_id")
-    locale: String!
-    sliderPath: String @rename(attribute: "slider_path")
-    imgPath: String @rename(attribute: "img_path")
-    channel: Channel! @belongsTo
+    id: Int
+    channel_id: Int
+    type: String!
+    name: String @rename(attribute: "image_url")
+    sort_order: Int
+    status: Int
 }
