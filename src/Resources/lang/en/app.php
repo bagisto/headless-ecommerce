@@ -25,32 +25,44 @@
             ],
 
             'notification'  => [
-                'title'                 => 'Push Notification',
-                'add-title'             => 'Add Notification',
-                'general'               => 'General',
-
-                'id'                    => 'Id',
-                'image'                 => 'Image',
-                'text-title'            => 'Title',
-                'edit-notification'     => 'Edit Notification',
-                'manage'                => 'Notifications',
-                'new-notification'      => 'New Notification',
-                'create-btn-title'      => 'Save Notification',
-                'notification-image'    => 'Notification Image',
-                'notification-title'    => 'Notification Title',
-                'notification-content'  => 'Notification Content',
-                'notification-type'     => 'Notification Type',
-                'product-cat-id'        => 'Product/Category Id',
-                'store-view'            => 'Channels',
-                'notification-status'   => 'Notification Status',
-                'created'               => 'Created',
-                'modified'              => 'Modified',
-                'collection-autocomplete'   => 'Custom Collection - (Autocomplete)',
-                'no-collection-found'       => 'Collections not found with same name.',
-                'collection-search-hint'    => 'Start typing collection name',
-                
+                'title'                   => 'Push Notification',
+                'add-title'               => 'Add Notification',
+                'general'                 => 'General',
+                'settings'                => 'Setting',
+                'id'                      => 'Id',
+                'image'                   => 'Image',
+                'text-title'              => 'Title',
+                'edit-notification'       => 'Edit Notification',
+                'manage'                  => 'Notifications',
+                'new-notification'        => 'New Notification',
+                'create-btn-title'        => 'Save Notification',
+                'back-btn'                => 'Back',
+                'notification-image'      => 'Notification Image',
+                'notification-title'      => 'Notification Title',
+                'notification-content'    => 'Notification Content',
+                'content-and-image'    => 'Notification Content And Image',
+                'notification-type'       => 'Notification Type',
+                'product-cat-id'          => 'Product/Category Id',
+                'store-view'              => 'Channels',
+                'notification-status'     => 'Notification Status',
+                'created'                 => 'Created',
+                'modified'                => 'Modified',
+                'collection-autocomplete' => 'Custom Collection - (Autocomplete)',
+                'no-collection-found'     => 'Collections not found with same name.',
+                'collection-search-hint'  => 'Start typing collection name',
+                'select-type'             => 'Select product type',
                 'Action'    => [
                     'edit'      => 'Edit',
+                ],
+
+                'create' => [
+                    'status' => 'Status',
+                ],
+
+                'option-type' => [
+                    'others'   => 'Simple',
+                    'product'  => 'Product',
+                    'category' => 'category'
                 ],
 
                 'status'    => [
@@ -163,8 +175,8 @@
         'mail' => [
             'customer'  => [
                 'password' => [
-                    'heading'   => config('app.name') . ' - Password Reset',
-                    'reset'     => 'Password Reset Email',
+                    'heading' => config('app.name') . ' - Password Reset',
+                    'reset'   => 'Password Reset Email',
                     'summary' => 'This email related to your account password reset, Your password has been changed successfully.
                     Kindly login to your account using below mentioned password.',
                 ]

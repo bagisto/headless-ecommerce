@@ -1,35 +1,36 @@
 <?php
 
-namespace Webkul\Admin\DataGrids\Catalog;
+namespace Webkul\GraphQLAPI\DataGrids;
 
 use Illuminate\Support\Facades\DB;
-use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Webkul\Core\Models\Channel;
 use Webkul\Core\Models\Locale;
 use Webkul\DataGrid\DataGrid;
-use Webkul\Inventory\Repositories\InventorySourceRepository;
-use Webkul\Product\Repositories\ProductRepository;
+use Illuminate\Support\Facades\Storage;
 
-class ProductDataGrid extends DataGrid
+class PushNotificationDataGrid extends DataGrid
 {
     /**
-     * Primary column.
+     * Default sort order of datagrid.
      *
      * @var string
      */
-    protected $primaryColumn = 'product_id';
+    protected $sortOrder = 'desc';
 
     /**
-     * Constructor for the class.
+     * Set index columns, ex: id.
      *
-     * @return void
+     * @var string
      */
-    public function __construct(
-        protected AttributeFamilyRepository $attributeFamilyRepository,
-        protected ProductRepository $productRepository,
-        protected InventorySourceRepository $inventorySourceRepository
-    ) {
-    }
+    protected $primaryColumn = 'push_notification_id';
+
+    /**
+     * If paginated then value of pagination.
+     *
+     * @var int
+     */
+    protected $itemsPerPage = 10;
+
 
     /**
      * Prepare query builder.
@@ -50,53 +51,36 @@ class ProductDataGrid extends DataGrid
             $whereInLocales = [core()->getRequestedLocaleCode()];
         }
 
-        $tablePrefix = DB::getTablePrefix();
-
-        /**
-         * Query Builder to fetch records from `product_flat` table
-         */
-        $queryBuilder = DB::table('product_flat')
-            ->leftJoin('attribute_families as af', 'product_flat.attribute_family_id', '=', 'af.id')
-            ->leftJoin('product_inventories', 'product_flat.product_id', '=', 'product_inventories.product_id')
-            ->leftJoin('product_images', 'product_flat.product_id', '=', 'product_images.product_id')
-            ->distinct()
-            ->leftJoin('product_categories as pc', 'product_flat.product_id', '=', 'pc.product_id')
-            ->leftJoin('category_translations as ct', function ($leftJoin) use ($whereInLocales) {
-                $leftJoin->on('pc.category_id', '=', 'ct.category_id')
-                    ->whereIn('ct.locale', $whereInLocales);
-            })
-            ->select(
-                'product_flat.locale',
-                'product_flat.channel',
-                'product_images.path as base_image',
-                'pc.category_id',
-                'ct.name as category_name',
-                'product_flat.product_id',
-                'product_flat.sku',
-                'product_flat.name',
-                'product_flat.type',
-                'product_flat.status',
-                'product_flat.price',
-                'product_flat.url_key',
-                'product_flat.visible_individually',
-                'af.name as attribute_family',
-                DB::raw('SUM(DISTINCT ' . $tablePrefix . 'product_inventories.qty) as quantity')
-            )
-            ->addSelect(DB::raw('COUNT(DISTINCT ' . $tablePrefix . 'product_images.id) as images_count'));
-
-        $queryBuilder->groupBy(
-            'product_flat.product_id',
-            'product_flat.locale',
-            'product_flat.channel'
+        $queryBuilder = DB::table('push_notification_translations as pn_trans')
+        ->leftJoin('push_notifications as pn', 'pn_trans.push_notification_id', '=', 'pn.id')
+        ->leftJoin('channels as ch', 'pn_trans.channel', '=', 'ch.code')
+        ->leftJoin('channel_translations as ch_t', 'ch.id', '=', 'ch_t.channel_id')
+        ->addSelect(
+            'pn_trans.push_notification_id as notification_id',
+            'pn.image',
+            'pn_trans.title',
+            'pn_trans.content',
+            'pn_trans.channel',
+            'pn_trans.locale',
+            'pn.type',
+            'pn.product_category_id',
+            'pn.status',
+            'pn.created_at',
+            'pn.updated_at',
+            'ch_t.name as channel_name'
         );
-        $queryBuilder->whereIn('product_flat.locale', $whereInLocales);
-        $queryBuilder->whereIn('product_flat.channel', $whereInChannels);
 
-        $this->addFilter('product_id', 'product_flat.product_id');
-        $this->addFilter('name', 'product_flat.name');
-        $this->addFilter('type', 'product_flat.type');
-        $this->addFilter('status', 'product_flat.status');
-        $this->addFilter('attribute_family', 'af.name');
+        $queryBuilder->groupBy('pn_trans.push_notification_id', 'pn_trans.channel', 'pn_trans.locale');
+
+        $queryBuilder->whereIn('pn_trans.locale', $whereInLocales);
+        $queryBuilder->whereIn('pn_trans.channel', $whereInChannels);
+
+        $this->addFilter('notification_id', 'pn_trans.push_notification_id');
+        $this->addFilter('title', 'pn_trans.title');
+        $this->addFilter('content', 'pn_trans.content');
+        $this->addFilter('channel_name', 'ch_t.name');
+        $this->addFilter('status', 'pn.status');
+        $this->addFilter('type', 'pn.type');
 
         return $queryBuilder;
     }
@@ -109,8 +93,29 @@ class ProductDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'      => 'name',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.name'),
+            'index'      => 'notification_id',
+            'label'      => trans('bagisto_graphql::app.admin.notification.id'),
+            'type'       => 'number',
+            'searchable' => true,
+            'filterable' => true,
+            'sortable'   => true,
+        ]);
+
+        $this->addColumn([
+            'index'      => 'image',
+            'label'      => trans('bagisto_graphql::app.admin.notification.image'),
+            'type'       => 'html',
+            'searchable' => true,
+            'filterable' => true,
+            'sortable'   => true,
+            'closure'    => function ($value) {
+                return '<img src=' . Storage::url($value->image) . ' class="img-thumbnail" width="100px" height="70px" />';
+            },
+        ]);
+
+        $this->addColumn([
+            'index'      => 'title',
+            'label'      => trans('bagisto_graphql::app.admin.notification.text-title'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -118,99 +123,62 @@ class ProductDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'sku',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.sku'),
+            'index'      => 'content',
+            'label'      => trans('bagisto_graphql::app.admin.notification.notification-content'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'attribute_family',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.attribute-family'),
-            'type'       => 'dropdown',
-            'options'    => [
-                'type' => 'basic',
-
-                'params' => [
-                    'options' => $this->attributeFamilyRepository->all(['name as label', 'name as value'])->toArray(),
-                ],
-            ],
-            'searchable' => false,
-            'filterable' => true,
-            'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'base_image',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.image'),
-            'type'       => 'string',
-            'searchable' => false,
-            'filterable' => false,
-            'sortable'   => false,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'price',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.price'),
-            'type'       => 'price',
-            'searchable' => false,
-            'filterable' => true,
-            'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'quantity',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.qty'),
-            'type'       => 'integer',
-            'searchable' => false,
-            'filterable' => false,
-            'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'product_id',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.id'),
-            'type'       => 'integer',
-            'searchable' => false,
-            'filterable' => true,
-            'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'status',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.status'),
-            'type'       => 'boolean',
-            'searchable' => false,
-            'filterable' => true,
-            'sortable'   => true,
-        ]);
-
-        $this->addColumn([
-            'index'      => 'category_name',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.category'),
-            'type'       => 'string',
-            'searchable' => false,
-            'filterable' => false,
-            'sortable'   => false,
         ]);
 
         $this->addColumn([
             'index'      => 'type',
-            'label'      => trans('admin::app.catalog.products.index.datagrid.type'),
-            'type'       => 'dropdown',
-            'options'    => [
-                'type' => 'basic',
-
-                'params' => [
-                    'options' => collect(config('product_types'))
-                        ->map(fn ($type) => ['label' => $type['name'], 'value' => trans('admin::app.catalog.products.index.create.' . $type['key'])])
-                        ->values()
-                        ->toArray(),
-                ],
-            ],
+            'label'      => trans('bagisto_graphql::app.admin.notification.notification-type'),
+            'type'       => 'price',
             'searchable' => true,
+            'filterable' => true,
+            'sortable'   => true,
+        ]);
+
+        $this->addColumn([
+            'index'      => 'channel_name',
+            'label'      => trans('bagisto_graphql::app.admin.notification.store-view'),
+            'type'       => 'string',
+            'searchable' => false,
+            'filterable' => false,
+            'sortable'   => false,
+        ]);
+
+        $this->addColumn([
+            'index'      => 'status',
+            'label'      => trans('bagisto_graphql::app.admin.notification.notification-status'),
+            'type'       => 'boolean',
+            'searchable' => true,
+            'filterable' => true,
+            'sortable'   => true,
+            'closure'    => function ($value) {
+                if ($value->status) {
+                    return '<span class="badge badge-md badge-success">' . trans('bagisto_graphql::app.admin.notification.status.enabled') . '</span>';
+                }
+
+                return '<span class="badge badge-md badge-danger">' . trans('bagisto_graphql::app.admin.notification.status.disabled') . '</span>';
+            },
+        ]);
+
+        $this->addColumn([
+            'index'      => 'created_at',
+            'label'      => trans('bagisto_graphql::app.admin.notification.created'),
+            'type'       => 'datetime',
+            'searchable' => false,
+            'filterable' => true,
+            'sortable'   => true,
+        ]);
+
+        $this->addColumn([
+            'index'      => 'updated_at',
+            'label'      => trans('bagisto_graphql::app.admin.notification.modified'),
+            'type'       => 'datetime',
+            'searchable' => false,
             'filterable' => true,
             'sortable'   => true,
         ]);
@@ -223,13 +191,28 @@ class ProductDataGrid extends DataGrid
      */
     public function prepareActions()
     {
-        if (bouncer()->hasPermission('catalog.products.edit')) {
+        if (bouncer()->hasPermission('settings.push_notification.edit')) {
             $this->addAction([
                 'icon'   => 'icon-edit',
-                'title'  => trans('admin::app.catalog.products.index.datagrid.edit'),
+                'title'  => trans('admin::app.datagrid.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
-                    return route('admin.catalog.products.edit', $row->product_id);
+                    return route('admin.push_notification.edit',$row->notification_id);
+                },
+
+                'condition' => function () {
+                    return true;
+                },
+            ]);
+        }
+
+        if (bouncer()->hasPermission('settings.push_notification.delete')) {
+            $this->addAction([
+                'icon'   => 'icon-delete',
+                'title'  => trans('admin::app.datagrid.delete'),
+                'method' => 'POST',
+                'url'    => function ($row) {
+                    return route('admin.push_notification.delete',$row->notification_id);
                 },
 
                 'condition' => function () {
@@ -246,26 +229,26 @@ class ProductDataGrid extends DataGrid
      */
     public function prepareMassActions()
     {
-        if (bouncer()->hasPermission('catalog.products.mass-delete')) {
+        if (bouncer()->hasPermission('settings.push_notification.massdelete')) {
             $this->addMassAction([
-                'title'  => trans('admin::app.catalog.products.index.datagrid.delete'),
-                'url'    => route('admin.catalog.products.mass_delete'),
+                'title'  => trans('admin::app.datagrid.delete'),
+                'url'    => route('admin.push_notification.mass-delete'),
                 'method' => 'POST',
             ]);
         }
 
-        if (bouncer()->hasPermission('catalog.products.mass-update')) {
+        if (bouncer()->hasPermission('settings.push_notification.massupdate')) {
             $this->addMassAction([
-                'title'   => trans('admin::app.catalog.products.index.datagrid.update-status'),
-                'url'     => route('admin.catalog.products.mass_update'),
+                'title'   => trans('admin::app.datagrid.update-status'),
+                'url'     => route('admin.push_notification.mass-update'),
                 'method'  => 'POST',
                 'options' => [
                     [
-                        'label' => trans('admin::app.catalog.products.index.datagrid.active'),
+                        'label' => trans('admin::app.datagrid.active'),
                         'value' => 1,
                     ],
                     [
-                        'label' => trans('admin::app.catalog.products.index.datagrid.disable'),
+                        'label' => trans('admin::app.datagrid.inactive'),
                         'value' => 0,
                     ],
                 ],

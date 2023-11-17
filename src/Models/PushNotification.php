@@ -9,6 +9,8 @@ use Webkul\GraphQLAPI\Contracts\PushNotification as PushNotificationContract;
 
 class PushNotification extends Model implements PushNotificationContract
 {
+    protected $table = 'push_notifications';
+
     public $timestamps = true;
 
     protected $guarded = ['_token'];

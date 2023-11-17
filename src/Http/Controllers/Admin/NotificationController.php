@@ -70,6 +70,7 @@ class NotificationController extends Controller
      */
     public function store()
     {
+
         $this->validate(request(), [
             'title'     => 'string|required',
             'content'   => 'string|required',
@@ -78,7 +79,6 @@ class NotificationController extends Controller
             'channels'  => 'required',
             'status'    => 'required'
         ]);
-        
         $data = collect(request()->all())->except('_token')->toArray();
 
         $this->notificationRepository->create($data);
@@ -99,7 +99,7 @@ class NotificationController extends Controller
         $notification = $this->notificationRepository->findOrFail($id);
 
         $channels = $this->channelRepository->get();
-
+        // dd($notification->type ,"rgtr");
         return view($this->_config['view'], compact('notification', 'channels'));
     }
 
@@ -135,41 +135,41 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function delete($id)
-    // {
-    //     try {
-    //         $this->notificationRepository->delete($id);
+    public function delete($id)
+    {
+        try {
+            $this->notificationRepository->delete($id);
 
-    //         return response()->json(['message' => trans('bagisto_graphql::app.admin.alert.delete-success', ['name' => 'Notification'])], 200);
-    //     } catch(\Exception $e) {
-    //         session()->flash('success', trans('bagisto_graphql::app.admin.alert.delete-failed', ['name' => 'Notification']));
-    //     }
+            return response()->json(['message' => trans('bagisto_graphql::app.admin.alert.delete-success', ['name' => 'Notification'])], 200);
+        } catch(\Exception $e) {
+            session()->flash('success', trans('bagisto_graphql::app.admin.alert.delete-failed', ['name' => 'Notification']));
+        }
 
-    //     return response()->json(['message' => false], 400);
-    // }
+        return response()->json(['message' => false], 400);
+    }
 
     /**
      * To mass update the notification.
      *
      * @return \Illuminate\Http\Response
      */
-    // public function massUpdate()
-    // {
-    //     $notificationIds = explode(',', request()->input('indexes'));
-    //     $updateOption = request()->input('update-options');
+    public function massUpdate()
+    {
+        $notificationIds = explode(',', request()->input('indexes'));
+        $updateOption = request()->input('update-options');
 
-    //     foreach ($notificationIds as $notificationId) {
-    //         $notification = $this->notificationRepository->find($notificationId);
+        foreach ($notificationIds as $notificationId) {
+            $notification = $this->notificationRepository->find($notificationId);
 
-    //         $notification->update([
-    //             'status' => $updateOption
-    //         ]);
-    //     }
+            $notification->update([
+                'status' => $updateOption
+            ]);
+        }
 
-    //     session()->flash('success', trans('bagisto_graphql::app.admin.alert.update-success', ['name' => 'Notification']));
+        session()->flash('success', trans('bagisto_graphql::app.admin.alert.update-success', ['name' => 'Notification']));
 
-    //     return redirect()->back();
-    // }
+        return redirect()->back();
+    }
 
     /**
      * To mass delete the notificaton.
