@@ -60,6 +60,7 @@ class TaxCategoryMutation extends Controller
     
             //attach the categories in the tax map table
             $taxCategory->tax_rates()->sync($data['taxrates']);
+
     
             Event::dispatch('tax.tax_category.create.after', $taxCategory);
             

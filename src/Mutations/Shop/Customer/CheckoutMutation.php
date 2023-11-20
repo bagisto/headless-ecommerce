@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Facades\Validator;
-use Exception;
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;

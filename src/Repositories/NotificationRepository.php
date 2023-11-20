@@ -136,17 +136,21 @@ class NotificationRepository extends Repository
     {
         if (isset($data[$type])) {
             $request = request();
-            
             foreach ($data[$type] as $imageId => $image) {
                 $file = $type . '.' . $imageId;
                 $dir = 'notification/images/' . $notification->id;
-                
+                // dd($file,$dir,"khjk");
                 if ($request->hasFile($file)) {
+
                     if ($notification->{$type}) {
+                        // dd(Storage::delete('public'.$notification->{$type}),"gfhjg");
                         Storage::delete('public'.$notification->{$type});
                     }
-               
+                    // dd(storage_path(),$notification->{$type},$request->file($file)->store($dir),"rgerg");
+                    // dd($request->file($file)->store($dir),"dgsgdf");
+                    // Storage::put('app/public/'.$notification->{$type}, $request->file($file));
                     $notification->{$type} = $request->file($file)->store($dir);
+                    // dd($notification,"edfdsf");
                     $notification->save();
                 }
             }

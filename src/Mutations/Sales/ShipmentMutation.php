@@ -62,7 +62,6 @@ class ShipmentMutation extends Controller
         try {
 
             $shipmentData = [];
-            
             if (isset($params['shipment_data'])) {
                 foreach ($params['shipment_data'] as $data) {
 
@@ -70,7 +69,8 @@ class ShipmentMutation extends Controller
                         $params['inventory_source_id'] => $data['quantity']
                     ];
                 }
-               $shipment['shipment']['carrier_title'] = $params['carrier_title'];
+               
+                $shipment['shipment']['carrier_title'] = $params['carrier_title'];
                 $shipment['shipment']['track_number']  = $params['track_number'];
                 $shipment['shipment']['source']        = $params['inventory_source_id'];
                 $shipment['shipment']['items']         =  $shipmentData;

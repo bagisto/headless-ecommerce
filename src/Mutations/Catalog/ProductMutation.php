@@ -217,6 +217,7 @@ class ProductMutation extends Controller
         }
 
         $inventories = [];
+        
         if (isset($data['inventories'])) {
             foreach ($data['inventories'] as $key => $inventory) {
                 if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
@@ -242,7 +243,7 @@ class ProductMutation extends Controller
                     'data_type' => 'image',
                     'upload_type' => ! isset($args['upload_type']) ? 'path' : $args['upload_type']
                 ];
-                
+
                 bagisto_graphql()->uploadProductImages($uploadParams);
                 bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $video_urls, 'data_type' => 'video']));
 
@@ -290,6 +291,7 @@ class ProductMutation extends Controller
                 return $product;
             }
         } catch (Exception $e) {
+            dd($e,"rgreg");
             throw new Exception($e->getMessage());
         }
     }

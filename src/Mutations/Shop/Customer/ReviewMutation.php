@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Pagination\Paginator;
 use Webkul\Product\Repositories\ProductReviewRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;

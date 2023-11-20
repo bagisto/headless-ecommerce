@@ -41,7 +41,6 @@ class FilterProducts extends BaseFilter
                 });
             })->where($arguments);
         }
-
         // filter the relationship Attribute Family
         if ( isset($arguments['attribute_family'])) {
 

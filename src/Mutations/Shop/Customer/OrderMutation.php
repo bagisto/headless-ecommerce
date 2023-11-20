@@ -160,7 +160,6 @@ class OrderMutation extends Controller
 
         if (bagisto_graphql()->guard($this->guard)->check()) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
-            
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
@@ -168,7 +167,6 @@ class OrderMutation extends Controller
             });
            
             $shipments = app(ShipmentRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
-                
                 $qb = $query->distinct()
                     ->addSelect('shipments.*')
                     ->leftJoin('orders', 'shipments.order_id', '=', 'orders.id')
@@ -203,6 +201,7 @@ class OrderMutation extends Controller
             
             if (isset($args['id'])) {
                 $shipments = $shipments->first();
+
             } else {
                 $shipments = $shipments->paginate(isset($params['limit']) ? $params['limit'] : 10);
             }

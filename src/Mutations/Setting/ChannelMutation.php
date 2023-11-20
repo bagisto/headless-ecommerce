@@ -2,13 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class ChannelMutation extends Controller
 {
@@ -42,7 +43,7 @@ class ChannelMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'code'              => ['required', 'unique:channels,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code'              => ['required', 'unique:channels,code', new Code],
             'name'              => 'required',
             'locales'           => 'required|array|min:1',
             'default_locale_id' => 'required|numeric',
@@ -119,7 +120,7 @@ class ChannelMutation extends Controller
         $id = $args['id'];
 
         $validator = Validator::make($data, [
-            'code'              => ['required', 'unique:channels,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code'              => ['required', 'unique:channels,code,' . $id, new Code],
             'name'              => 'required',
             'locales'           => 'required|array|min:1',
             'inventory_sources' => 'required|array|min:1',
@@ -196,7 +197,7 @@ class ChannelMutation extends Controller
         $channel = $this->channelRepository->findOrFail($id);
 
         if ($channel->code == config('app.channel')) {
-            throw new Exception(trans('admin::app.settings.channels.last-delete-error'));
+            throw new Exception(trans('admin::app.settings.channels.index.last-delete-error'));
         } else {
             try {
                 Event::dispatch('core.channel.delete.before', $id);
@@ -205,7 +206,7 @@ class ChannelMutation extends Controller
 
                 Event::dispatch('core.channel.delete.after', $id);
 
-                return ['success' => trans('admin::app.settings.channels.delete-success')];
+                return ['success' => trans('admin::app.settings.channels.index.delete-success')];
             } catch (\Exception $e) {
                 throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Channel']));
             }

@@ -117,16 +117,15 @@ class AttributeFamilyMutation extends Controller
             
             $data['attribute_groups'] = $attribute_groups;
         }
-        
         try {
             Event::dispatch('catalog.attributeFamily.update.before', $id);
 
             $attributeFamily = $this->attributeFamilyRepository->update($data, $id);
-            
             Event::dispatch('catalog.attributeFamily.update.before', $attributeFamily);
 
             return $attributeFamily;
-        } catch (Exception $e) {        
+        } catch (Exception $e) {
+            
             throw new Exception($e->getMessage());
         }
     }
