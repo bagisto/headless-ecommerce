@@ -8,13 +8,12 @@
     $channelLocales = $currentChannel->locales;
 
     $notificationTranslation = $notification->translations->where('channel', $currentChannel->code)->where('locale', $currentLocale->code)->first();
-
 @endphp
 
 <x-admin::layouts>
     {{-- Title of the page --}}
     <x-slot:title>
-        @lang('graphql::app.admin.settings.notification.edit.title')
+        @lang('bagisto_graphql::app.admin.notification.edit-notification')
     </x-slot:title>
 
     {{-- Edit Notification Vue Components --}}
@@ -33,7 +32,7 @@
             >
                 <div class="flex justify-between items-center">
                     <p class="text-[20px] text-gray-800 dark:text-white font-bold">
-                        @lang('graphql::app.admin.settings.notification.edit.title')
+                        @lang('bagisto_graphql::app.admin.notification.edit-notification')
                     </p>
 
                     <div class="flex gap-x-[10px] items-center">
@@ -42,20 +41,20 @@
                             href="{{ route('admin.push_notification.index') }}"
                             class="transparent-button hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white "
                         >
-                            @lang('graphql::app.admin.settings.notification.edit.back-btn')
+                            @lang('bagisto_graphql::app.admin.notification.back-btn')
                         </a>
 
                         <!-- Send Notification -->
-                        {{-- <a href="{{ route('admin.settings.notification.send_notification', $notification['id']) }}"  class="primary-button">
-                            {{ __('graphql::app.admin.settings.notification.edit.send-notification') }}
-                        </a> --}}
+                        <a href="{{ route('admin.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
+                            {{ __('bagisto_graphql::app.admin.notification.title') }}
+                        </a>
 
                         <!-- Save Button -->
                         <button
                             type="submit"
                             class="primary-button"
                         >
-                            @lang('graphql::app.admin.settings.notification.edit.save-btn')
+                            @lang('bagisto_graphql::app.admin.notification.create-btn-title')
                         </button>
                     </div>
                 </div>
@@ -137,7 +136,7 @@
                         <!-- General -->
                         <div class="p-[16px] bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
                             <p class="mb-[16px] text-[16px] text-gray-800 dark:text-white font-semibold">
-                                @lang('graphql::app.admin.settings.notification.edit.general')
+                                @lang('bagisto_graphql::app.admin.notification.edit.general')
                             </p>
 
                             <!-- Locales -->
@@ -151,7 +150,7 @@
                             <!-- Title -->
                             <x-admin::form.control-group class="mb-[10px]">
                                 <x-admin::form.control-group.label class="required">
-                                    @lang('graphql::app.admin.settings.notification.edit.title')
+                                    @lang('bagisto_graphql::app.admin.notification.notification-title')
                                 </x-admin::form.control-group.label>
 
                                 <x-admin::form.control-group.control
@@ -159,8 +158,8 @@
                                     name="title"
                                     :value="old('title') ?: $notificationTranslation->title"
                                     rules="required"
-                                    :label="trans('graphql::app.admin.settings.notification.edit.title')"
-                                    :placeholder="trans('graphql::app.admin.settings.notification.edit.title')"
+                                    :label="trans('bagisto_graphql::app.admin.notification.notification-title')"
+                                    :placeholder="trans('bagisto_graphql::app.admin.notification.notification-title')"
                                 >
                                 </x-admin::form.control-group.control>
 
@@ -174,14 +173,14 @@
                         <!-- Description and images -->
                         <div class="p-[16px] bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
                             <p class="mb-[16px] text-[16px] text-gray-800 dark:text-white font-semibold">
-                                @lang('graphql::app.admin.settings.notification.edit.content-and-images')
+                                @lang('bagisto_graphql::app.admin.notification.edit.notification-content-image')
                             </p>
 
                             <!-- Content -->
                             <v-description>
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('graphql::app.admin.settings.notification.edit.content')
+                                        @lang('bagisto_graphql::app.admin.notification.edit.content')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -190,7 +189,7 @@
                                         id="content"
                                         class="content"
                                         :value="old('content') ?: $notificationTranslation->content"
-                                        :label="trans('graphql::app.admin.settings.notification.edit.content')"
+                                        :label="trans('bagisto_graphql::app.admin.notification.edit.content')"
                                         rules="required"
                                         :tinymce="true"
                                     >
@@ -207,7 +206,7 @@
                             <div class="flex gap-[50px]">
                                 <div class="flex flex-col gap-[8px] w-[40%] mt-5">
                                     <p class="text-gray-800 dark:text-white font-medium">
-                                        @lang('graphql::app.admin.settings.notification.edit.image')
+                                        @lang('bagisto_graphql::app.admin.notification.edit.image')
                                     </p>
 
                                     <x-admin::media.images
@@ -225,7 +224,7 @@
                         <x-admin::accordion>
                             <x-slot:header>
                                 <p class="p-[10px] text-gray-600 dark:text-gray-300 text-[16px] font-semibold">
-                                    @lang('graphql::app.admin.settings.notification.edit.settings')
+                                    @lang('bagisto_graphql::app.admin.notification.edit.settings')
                                 </p>
                             </x-slot:header>
 
@@ -234,7 +233,7 @@
                                 <!-- Visible in menu -->
                                 <x-admin::form.control-group>
                                     <x-admin::form.control-group.label class="text-gray-800 dark:text-white font-medium">
-                                        @lang('graphql::app.admin.settings.notification.edit.status')
+                                        @lang('bagisto_graphql::app.admin.notification.notification-status')
                                     </x-admin::form.control-group.label>
 
                                     <input
@@ -257,7 +256,7 @@
 
                                 <!-- Select Channels -->
                                 <p class="required block leading-[24px] text-gray-800 dark:text-white font-medium">
-                                    @lang('graphql::app.admin.settings.notification.edit.store-view')
+                                    @lang('bagisto_graphql::app.admin.notification.store-view')
                                 </p>
 
                                 @foreach(core()->getAllChannels() as $channel)
@@ -273,7 +272,7 @@
                                             :id="'channels_' . $channel->id"
                                             :for="'channels_' . $channel->id"
                                             rules="required"
-                                            :label="trans('graphql::app.admin.settings.notification.edit.store-view')"
+                                            :label="trans('bagisto_graphql::app.admin.notification.store-view')"
                                             :checked="(boolean) $selectedOption"
                                         >
                                         </x-admin::form.control-group.control>
@@ -294,7 +293,7 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('graphql::app.admin.settings.notification.edit.type')
+                                        @lang('bagisto_graphql::app.admin.notification.notification-type')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -304,7 +303,7 @@
                                         :value="old('type')"
                                         id="type"
                                         class="cursor-pointer"
-                                        :label="trans('graphql::app.admin.settings.notification.edit.type')"
+                                        :label="trans('bagisto_graphql::app.admin.notification.notification-type')"
                                         v-model="notificationType"
                                         @change="showHideOptions($event)"
                                     >
@@ -314,7 +313,7 @@
                                                 value="{{ $type }}"
                                                 {{ $selectedOption == $type ? 'selected' : '' }}
                                             >
-                                                @lang('graphql::app.admin.settings.notification.edit.option-type.'. $type)
+                                                @lang('bagisto_graphql::app.admin.notification.option-type.'. $type)
                                             </option>
                                         @endforeach
                                     </x-admin::form.control-group.control>
@@ -327,14 +326,14 @@
 
                                 <x-admin::form.control-group class="mb-[10px]" v-if="showProductCategory" id="product_category">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('graphql::app.admin.settings.notification.edit.product-cat-id')
+                                        @lang('bagisto_graphql::app.admin.notification.product-cat-id')
                                     </x-admin::form.control-group.label>
 
                                     <v-field
                                         type="text"
                                         name="product_category_id"
                                         value="{{ old('product_category_id') }}"
-                                        label="{{ trans('graphql::app.admin.settings.notification.edit.product-cat-id') }}"
+                                        label="{{ trans('bagisto_graphql::app.admin.notification.product-cat-id') }}"
                                         v-validate="showProductCategory ? 'required' : ''"
                                         v-slot="{ field }"
                                     >
@@ -346,7 +345,7 @@
                                             @keyup="checkIdExistOrNot"
                                             :class="[errors['{{ 'product_category_id' }}'] ? 'border border-red-600 hover:border-red-600' : '']"
                                             class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 dark:focus:border-gray-400 focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
-                                            placeholder="{{ trans('graphql::app.admin.settings.notification.edit.product-cat-id') }}"
+                                            placeholder="{{ trans('bagisto_graphql::app.admin.notification.product-cat-id') }}"
                                             v-code
                                         >
                                     </v-field>
@@ -374,7 +373,7 @@
 
                 data() {
                     return {
-                        showProductCategory:  $notification->type != 'others' ,
+                        showProductCategory:  "{{ $notification->type }}" != 'others' ,
 
                         valid: '',
 
@@ -392,8 +391,8 @@
                     showHideOptions: function (event) {
                         this.notificationType = event.target.value;
 
-                        if (this.notificationType == '<?php echo $notification->type; ?>') {
-                            this.productCategoryInputBox = <?php echo $notification->product_category_id; ?>;
+                        if (this.notificationType == "{{ $notification->type }}") {
+                            this.productCategoryInputBox = "{{ $notification->product_category_id }}";
                         } else {
                             this.productCategoryInputBox = '';
                         }

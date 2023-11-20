@@ -104,7 +104,7 @@ class NotificationRepository extends Repository
             $notificationTranslation = $this->notificationTranslationRepository->findOneWhere([
                 'channel'               => $data['channel'],
                 'locale'                => $data['locale'],
-                'push_notification_id'  => $data['notification_id'],
+                'push_notification_id'  => $id,
             ]);
             
             if ($notificationTranslation) {
@@ -136,16 +136,16 @@ class NotificationRepository extends Repository
     {
         if (isset($data[$type])) {
             $request = request();
-
+            
             foreach ($data[$type] as $imageId => $image) {
                 $file = $type . '.' . $imageId;
                 $dir = 'notification/images/' . $notification->id;
-
+                
                 if ($request->hasFile($file)) {
                     if ($notification->{$type}) {
-                        Storage::delete($notification->{$type});
+                        Storage::delete('public'.$notification->{$type});
                     }
-
+               
                     $notification->{$type} = $request->file($file)->store($dir);
                     $notification->save();
                 }
@@ -193,7 +193,7 @@ class NotificationRepository extends Repository
                 $product = $this->productRepository->findorfail($notification->product_category_id);
 
                 $fieldData = array_merge($fieldData, [
-                    'click_action'      => route('shop.productOrCategory.index', $product->url_key),
+                    'click_action'      => route('shop.product_or_category.index', $product->url_key),
                     'productName'       => $product->name ?? '',
                     'productId'         => $product->id ?? '',
                 ]);
@@ -203,7 +203,7 @@ class NotificationRepository extends Repository
                 $category = $this->categoryRepository->findorfail($notification->product_category_id);
                 
                 $fieldData = array_merge($fieldData, [
-                    'click_action'      => route('shop.productOrCategory.index', $category->slug),
+                    'click_action'      => route('shop.product_or_category.index', $category->slug),
                     'categoryName'      => $category->name ?? '',
                     'categoryId'        => $category->id ?? '',
                 ]);

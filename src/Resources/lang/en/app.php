@@ -12,12 +12,12 @@
             ],
 
             'system' => [
-                'graphql-api'                       => 'GraphQL API',
-                'push-notification-configuration'   => 'FCM Push Notification Configuration',
-                'server-key'                        => 'Server Key',
-                'info-get-server-key'               => 'Info: To get fcm API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                'android-topic'                     => 'Android Topic',
-                'ios-topic'                         => 'IOS Topic',
+                'graphql-api'                     => 'GraphQL API',
+                'push-notification-configuration' => 'FCM Push Notification Configuration',
+                'server-key'                      => 'Server Key',
+                'info-get-server-key'             => 'Info: To get fcm API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
+                'android-topic'                   => 'Android Topic',
+                'ios-topic'                       => 'IOS Topic',
             ],
 
             'customer' => [
@@ -40,7 +40,7 @@
                 'notification-image'      => 'Notification Image',
                 'notification-title'      => 'Notification Title',
                 'notification-content'    => 'Notification Content',
-                'content-and-image'    => 'Notification Content And Image',
+                'content-and-image'       => 'Notification Content And Image',
                 'notification-type'       => 'Notification Type',
                 'product-cat-id'          => 'Product/Category Id',
                 'store-view'              => 'Channels',
@@ -51,82 +51,91 @@
                 'no-collection-found'     => 'Collections not found with same name.',
                 'collection-search-hint'  => 'Start typing collection name',
                 'select-type'             => 'Select product type',
-                'Action'    => [
-                    'edit'      => 'Edit',
+                
+                'Action' => [
+                    'edit' => 'Edit',
                 ],
 
                 'create' => [
                     'status' => 'Status',
                 ],
 
+                'edit' => [
+                    'general'                    => 'General',
+                    'notification-content-image' => 'Notification Content And Image',
+                    'content'                    => 'Notification Content',
+                    'image'                      => 'Notification Image',
+                    'settings'                   => 'Settings'   
+                ],
+
                 'option-type' => [
                     'others'   => 'Simple',
                     'product'  => 'Product',
-                    'category' => 'category'
+                    'category' => 'Category'
                 ],
 
                 'status'    => [
-                    'enabled'   => 'Enabled',
-                    'disabled'  => 'Disabled',
+                    'enabled'  => 'Enabled',
+                    'disabled' => 'Disabled',
                 ],
 
-                'notification-type-option'  => [
-                    'select'            => '-- Select --',
-                    'simple'            => 'Simple Type',
-                    'product'           => 'Product Based',
-                    'category'          => 'Category Based',
+                'notification-type-option' => [
+                    'select'   => '-- Select --',
+                    'simple'   => 'Simple Type',
+                    'product'  => 'Product Based',
+                    'category' => 'Category Based',
                 ],
             ],
 
             'alert' => [
-                'create-success'        => ':name created successfully',
-                'update-success'        => ':name updated successfully',
-                'delete-success'        => ':name deleted successfully',
-                'delete-failed'         => ':name deleted failed',
-                'sended-successfully'   => ':name pushed successfully for android and iOS.',
-                'no-value-selected'     => 'there are no existing value',
+                'create-success'      => ':name created successfully',
+                'update-success'      => ':name updated successfully',
+                'delete-success'      => ':name deleted successfully',
+                'delete-failed'       => ':name deleted failed',
+                'sended-successfully' => ':name pushed successfully for android and iOS.',
+                'no-value-selected'   => 'there are no existing value',
             ],
 
             'settings'   => [
                 'exchange_rates' => [
                     'error-invalid-target-currency' => 'Warning: Invaid target currency provided.',
-                    'delete-success'        => 'Success: Exchange rate deleted successfully.',
+                    'delete-success'                => 'Success: Exchange rate deleted successfully.',
                 ]
             ],
             
             'response'  => [
-                'delete-success'            => 'Success: User deleted successfuly.',
-                'last-delete-error'         => 'Warning: Atleast on user is  required',
-                'delete-failed'             => 'Warning: Admin user is not deleted',
-                'error-invalid-parameter'   => 'Warning: Invaid parameters provided.',
-                'success-login'             => 'Success: User login successfuly.',
-                'error-login'               => 'Warning: Admin user is not login.',
-                'session-expired'           => 'Warning: Session has expired. Please login again to your account.',
-                'invalid-header'            => 'Warning: Invalid header token.',
-                'success-logout'            => 'Success: User logout successfully.',
-                'no-login-user'             => 'Warning: No login user found.',
-                'error-customer-group'      => 'Warning: You are not authorize to delete system created attribute group.',
-                'password-invalid'          => 'Warning: Please enter the correct password.',
-                'password-match'            => 'Warning: Password doesn\'t matched.',
-                'success-registered'        => 'Success: User created successfuly.',
-                'cancel-error'              => 'Order can not be canceled.',
-                'creation-error'            => 'Refund can not be created for this order.',
-                'channel-failure'           => 'Channel Not Found.',
-                'script-delete-success'     => 'Script deleted successfuly.'
+                'delete-success'          => 'Success: User deleted successfuly.',
+                'last-delete-error'       => 'Warning: Atleast on user is  required',
+                'delete-failed'           => 'Warning: Admin user is not deleted',
+                'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
+                'success-login'           => 'Success: User login successfuly.',
+                'error-login'             => 'Warning: Admin user is not login.',
+                'session-expired'         => 'Warning: Session has expired. Please login again to your account.',
+                'invalid-header'          => 'Warning: Invalid header token.',
+                'success-logout'          => 'Success: User logout successfully.',
+                'no-login-user'           => 'Warning: No login user found.',
+                'error-customer-group'    => 'Warning: You are not authorize to delete system created attribute group.',
+                'password-invalid'        => 'Warning: Please enter the correct password.',
+                'password-match'          => 'Warning: Password doesn\'t matched.',
+                'success-registered'      => 'Success: User created successfuly.',
+                'cancel-error'            => 'Order can not be canceled.',
+                'creation-error'          => 'Refund can not be created for this order.',
+                'channel-failure'         => 'Channel Not Found.',
+                'script-delete-success'   => 'Script deleted successfuly.'
             ]
         ],
 
         'shop'  => [
             'customer'  => [
-                'success-login'         => 'Success: Customer login successfully.',
-                'success-logout'        => 'Success: Customer logout successfully.',
-                'no-login-customer'     => 'Warning: No login customer found.',
-                'address-list'          => 'Success: Customer\'s address details fetched',
-                'not-authorized'        => 'Warning: You are not authorized to update this address.',
-                'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
-                'no-address-list'       => 'Warning: No customer\'s address found.',
-                'text-password'         => 'Your Password is: :password',
-                'not-exists'            => 'Warning: No customer found for the provided data.',
+                'success-login'        => 'Success: Customer login successfully.',
+                'success-logout'       => 'Success: Customer logout successfully.',
+                'no-login-customer'    => 'Warning: No login customer found.',
+                'address-list'         => 'Success: Customer\'s address details fetched',
+                'not-authorized'       => 'Warning: You are not authorized to update this address.',
+                'success-address-list' => 'Success: Customer\'s addresses fetched successfully.',
+                'no-address-list'      => 'Warning: No customer\'s address found.',
+                'text-password'        => 'Your Password is: :password',
+                'not-exists'           => 'Warning: No customer found for the provided data.',
             ],
             'response'  => [
                 'error-registration'        => 'Warning: customer registration failed.',
@@ -155,21 +164,21 @@
                 'already-exist-inwishlist'  => 'Information: This product is already exist in wishlist.',
                 'error-move-to-cart'        => 'Warning: This product might have some required options, not able to move to cart.',
                 'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
-                'no-shipping-address-found'  => 'Warning: No shipping address record found with :address_id shipping id.',
+                'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping id.',
                 'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
                 'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
                 'warning-num-already-used'  => 'Warning: This :phone number is registered using different email address.',
                 'coupon-removed'            => 'Success: coupon removed from cart successfully.',
                 'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
                 'review-create-success'     => 'Success: Review is submitted successfully, please wait for the approval.',
-                'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
+                'un-authorized-access'      => 'Warning: You are not authorized to use this section.',
             ]
         ],
         
         'validation' => [
-            'unique'    => 'This :field has already been taken.',
-            'required'  => 'The :field field is required.',
-            'same'      => 'The :field and password must match.'
+            'unique'   => 'This :field has already been taken.',
+            'required' => 'The :field field is required.',
+            'same'     => 'The :field and password must match.'
         ],
         
         'mail' => [

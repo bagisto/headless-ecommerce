@@ -369,6 +369,6 @@ class ProductContent extends BaseFilter
      */
     public function getProductShareUrl($rootValue, array $args, GraphQLContext $context)
     {
-        return route('shop.productOrCategory.index', $rootValue->url_key);
+        return route('shop.product_or_category.index', $rootValue->url_key);
     }
 }
