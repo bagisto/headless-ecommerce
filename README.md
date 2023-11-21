@@ -33,18 +33,17 @@ composer require bagisto/graphql-api dev-main
 \Illuminate\Session\Middleware\StartSession::class,
 ~~~
 
-
 * Find a file **config/auth.php** from root and bellow code inside **guard**:
 
 ~~~
  'api' => [
             'driver'   => 'jwt',
-            'provider' => 'customer',
+            'provider' => 'customers',
         ],
 
- 'admin-api' => [
+   'admin-api' => [
             'driver'   => 'jwt',
-            'provider' => 'admin',
+            'provider' => 'admins',
         ],
 
 ~~~
@@ -52,17 +51,31 @@ composer require bagisto/graphql-api dev-main
 * Find a file **config/auth.php** from root and bellow code inside **providers**:
 
 ~~~
-  'customer' => [
+  'customers' => [
             'driver' => 'eloquent',
             'model'  => Webkul\GraphQLAPI\Models\Customer\Customer::class,
         ],
 
-    'admin' => [
+    'admins' => [
             'driver' => 'eloquent',
             'model'  =>  Webkul\GraphQLAPI\Models\Admin\Admin::class,
         ],
 
 ~~~
+
+* Install **composer require php-open-source-saver/jwt-auth**
+
+* Install **composer require nuwave/lighthouse**
+
+* Install **composer require mll-lab/laravel-graphiql**
+
+* Install **composer require mll-lab/laravel-graphql-playground**
+
+* Find a file **config/lighthouse.php** from root and add bellow line of code:
+    ~~~
+    'schema_path' => base_path('packages/Webkul/GraphQLAPI/src/graphql/schema.graphql'),
+    ~~~
+
 
 * Add the **JWT_TTL (JWT time to live)** & **JWT_SHOW_BLACKLIST_EXCEPTION** entries in the **.env** file:
 
