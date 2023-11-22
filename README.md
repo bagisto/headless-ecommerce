@@ -71,12 +71,20 @@ composer require bagisto/graphql-api dev-main
 
 * Install **composer require mll-lab/laravel-graphql-playground**
 
+* Run command **php artisan vendor:publish**
+
+* Press number of the **Nuwave\Lighthouse\LighthouseServiceProvider** class and then press enter to publish all assets and configurations.
+
+* Press number of the **MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider** class and then press enter to publish all assets and configurations.
+
+* Press number of the **MLL\GraphiQL\GraphiQLServiceProvider** class and then press enter to publish all assets and configurations.
+
+* Press number of the **PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider** class and then press enter to publish all assets and configurations.
+
 * Find a file **config/lighthouse.php** from root and add bellow line of code:
     ~~~
     'schema_path' => base_path('packages/Webkul/GraphQLAPI/src/graphql/schema.graphql'),
     ~~~
-
-* Run command **php artisan vendor:publish --force --all**
 
 * Find a file **config/lighthouse.php** from root and add comment bellow line of code inside **route/middleware**:
     ~~~
