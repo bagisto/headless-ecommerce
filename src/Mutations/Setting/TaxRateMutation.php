@@ -34,7 +34,7 @@ class TaxRateMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -43,7 +43,7 @@ class TaxRateMutation extends Controller
         $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
             'is_zip'     => 'sometimes',
-            'zip_code'   => 'sometimes|required_without:is_zip',
+            'zip_code'   => 'nullable',
             'zip_from'   => 'nullable|required_with:is_zip',
             'zip_to'     => 'nullable|required_with:is_zip,zip_from',
             'country'    => 'required|string',
@@ -54,13 +54,13 @@ class TaxRateMutation extends Controller
             throw new Exception($validator->messages());
         }
 
+        if (isset($data['is_zip'])) {
+            $data['is_zip'] = 1;
+
+            unset($data['zip_code']);
+        }
+
         try {
-            if (isset($data['is_zip'])) {
-                $data['is_zip'] = 1;
-
-                unset($data['zip_code']);
-            }
-
             Event::dispatch('tax.tax_rate.create.before');
 
             $taxRate = $this->taxRateRepository->create($data);
@@ -81,7 +81,7 @@ class TaxRateMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -122,7 +122,7 @@ class TaxRateMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -137,9 +137,9 @@ class TaxRateMutation extends Controller
 
             Event::dispatch('tax.tax_rate.delete.after', $id);
 
-            return ['success' => trans('admin::app.response.delete-success', ['name' => 'Tax Rate'])];
+            return ['success' => trans('admin::app.settings.taxes.categories.delete-success')];
         } catch (\Exception $e) {
-            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Tax Rate']));
+            throw new Exception(trans('admin::app.settings.taxes.categories.delete-failed'));
         }
     }
 }

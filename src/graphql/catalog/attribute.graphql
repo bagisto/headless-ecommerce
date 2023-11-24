@@ -39,12 +39,13 @@ input CreateAttributeInput {
     isRequired: Boolean! @rename(attribute: "is_required")
     isUnique: Boolean! @rename(attribute: "is_unique")
     validation: String
+    defaultValue: String @rename(attribute: "default_value")
     valuePerLocale: Boolean @rename(attribute: "value_per_locale")
     valuePerChannel: Boolean @rename(attribute: "value_per_channel")
     isFilterable: Boolean @rename(attribute: "is_filterable")
     isConfigurable: Boolean! @rename(attribute: "is_configurable")
     isVisibleOnFront: Boolean @rename(attribute: "is_visible_on_front")
-    useInFlat: Boolean @rename(attribute: "use_in_flat")
+    # useInFlat: Boolean @rename(attribute: "use_in_flat")
     isComparable: Boolean! @rename(attribute: "is_comparable")
     translations: [AttributeTranslationInput]
     swatchType: String @rename(attribute: "swatch_type")
@@ -67,6 +68,7 @@ input OptionInput {
     isNew: String
     isDelete: String
     translations: [OptionTranslationInput]
+    position: String
 }
 
 type Attribute {
@@ -75,6 +77,7 @@ type Attribute {
     adminName: String! @rename(attribute: "admin_name")
     type: String!
     position: Int
+    defaultValue: String @rename(attribute: "default_value")
     isRequired: Boolean! @rename(attribute: "is_required")
     isUnique: Boolean! @rename(attribute: "is_unique")
     validation: String
@@ -111,6 +114,8 @@ type AttributeOption {
     attributeId: ID! @rename(attribute: "attribute_id")
     attribute: Attribute! @belongsTo(relation: "attribute")
     isNew: Boolean
+    isDelete: Boolean
+    position: String
     translations: [AttributeOptionTranslation!] @hasMany
 }
 

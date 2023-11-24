@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 
 class ThemeMutation extends Controller
@@ -29,7 +30,8 @@ class ThemeMutation extends Controller
      * @return void
      */
     public function __construct(
-      protected ThemeCustomizationRepository $themeCustomizationRepository
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        protected ChannelRepository $channelRepository,
     ) {
         $this->guard = 'admin-api';
 
@@ -59,7 +61,7 @@ class ThemeMutation extends Controller
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
-            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
+            'channel_id' => 'required|in:' . implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
         ]);
 
         if ($validator->fails()) {
@@ -72,14 +74,14 @@ class ThemeMutation extends Controller
             'name'       => $data['name'],
             'sort_order' => $data['sort_order'],
             'type'       => $data['type'],
-            'channel_id' => $data['channel_id'],
-            'status'     => $data['status']
+            'status'     => $data['status'],
+            'channel_id' => $data['channel_id']
         ]);
 
         return $theme;
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  int  $id
@@ -98,7 +100,7 @@ class ThemeMutation extends Controller
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
-            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
+            'channel_id' => 'required|in:' . implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
         ]);
 
         if ($validator->fails()) {
@@ -111,8 +113,8 @@ class ThemeMutation extends Controller
         $data['type'] = $themeData->type;
 
         if ($data['type'] == 'static_content') {
-            $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['html']); 
-            $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['css']); 
+            $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['html']);
+            $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['css']);
         }
 
         $data['status'] = $args['input']['status'] == 'true';
@@ -127,18 +129,18 @@ class ThemeMutation extends Controller
 
         if ($data['type'] == 'image_carousel') {
             $this->themeCustomizationRepository->uploadImage(
-                request()->all('options'), 
+                request()->all('options'),
                 $theme,
                 request()->input('deleted_sliders', [])
             );
         }
         Event::dispatch('theme_customization.update.after', $theme);
-        // dd($theme,"rgetrg");
 
         return $theme;
     }
 
-    public function delete($rootValue, array $args, GraphQLContext $context) {
+    public function delete($rootValue, array $args, GraphQLContext $context)
+    {
         if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -150,11 +152,10 @@ class ThemeMutation extends Controller
         $theme = $this->themeCustomizationRepository->find($id);
         $theme?->delete();
 
-        Storage::deleteDirectory('theme/'. $theme->id);
+        Storage::deleteDirectory('theme/' . $theme->id);
 
         Event::dispatch('theme_customization.delete.after', $id);
 
         return ['success' => trans('admin::app.settings.themes.delete-success')];
-
     }
 }

@@ -20,7 +20,7 @@ extend type Mutation @guard {
 
 input createTaxRateInput {
     identifier: String!
-    isZip: Int @rename(attribute: "is_zip")
+    isZip: String @rename(attribute: "is_zip")
     zipCode: String @rename(attribute: "zip_code")
     zipFrom: String @rename(attribute: "zip_from")
     zipTo: String @rename(attribute: "zip_to")

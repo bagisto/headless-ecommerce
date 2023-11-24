@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Webkul\Product\Helpers\ProductType;
-use \Webkul\Core\Rules\Slug;
+use Webkul\Core\Rules\Slug;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
 use Webkul\Product\Models\ProductAttributeValue;
@@ -52,7 +52,7 @@ class ProductMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -108,7 +108,7 @@ class ProductMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -126,12 +126,12 @@ class ProductMutation extends Controller
         $product = $this->productRepository->findOrFail($id);
 
         // Only in case of configurable product type
-        if ( isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
+        if (isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
             $data['variants'] = bagisto_graphql()->manageConfigurableRequest($data);
         }
 
         // Only in case of grouped product type
-        if ( isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
+        if (isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
 
             if (isset($data['links'])) {
                 foreach ($data['links'] as $linkProduct) {
@@ -146,7 +146,7 @@ class ProductMutation extends Controller
         }
 
         // Only in case of downloadable product type
-        if ( isset($product->type) && $product->type == 'downloadable') {
+        if (isset($product->type) && $product->type == 'downloadable') {
             if (isset($data['downloadable_links']) && $data['downloadable_links']) {
                 $data['downloadable_links'] = bagisto_graphql()->manageDownloadableLinksRequest($product, $data);
             }
@@ -157,7 +157,7 @@ class ProductMutation extends Controller
         }
 
         // Only in case of bundle product type
-        if ( isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
+        if (isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
 
             if (isset($data['bundle_options'])) {
                 foreach ($data['bundle_options'] as $bundleProduct) {
@@ -174,7 +174,7 @@ class ProductMutation extends Controller
         }
 
         // Only in case of customer group price
-        if ( isset($data['customer_group_prices']) && $data['customer_group_prices']) {
+        if (isset($data['customer_group_prices']) && $data['customer_group_prices']) {
             $data['customer_group_prices'] = bagisto_graphql()->manageCustomerGroupPrices($product, $data);
         }
 
@@ -237,61 +237,19 @@ class ProductMutation extends Controller
             if (isset($product->id)) {
                 
                 $uploadParams = [
-                    'resource' => $product,
-                    'data' => $image_urls,
-                    'path' => 'product/',
-                    'data_type' => 'image',
+                    'resource'    => $product,
+                    'data'        => $image_urls,
+                    'path'        => 'product/',
+                    'data_type'   => 'image',
                     'upload_type' => ! isset($args['upload_type']) ? 'path' : $args['upload_type']
                 ];
 
                 bagisto_graphql()->uploadProductImages($uploadParams);
                 bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $video_urls, 'data_type' => 'video']));
 
-                // if ($product->type == 'booking') {
-                //     $allow_types = ['appointment', 'rental', 'table'];
-                //     $booking = $product->booking_product()->first();
-
-                //     if (isset($booking->type) && in_array($booking->type, $allow_types)) {
-                //         $same_slots = [];
-                //         $different_slots = [];
-                //         $booking_slots = [];
-
-                //         switch ($booking->type) {
-                //             case 'appointment':
-                //                 $booking_slots = $booking->appointment_slot()->first();
-                //                 break;
-                //             case 'rental':
-                //                 $booking_slots = $booking->rental_slot()->first();
-                //                 break;
-                //             case 'table':
-                //                 $booking_slots = $booking->table_slot()->first();
-                //                 break;
-
-                //             default:
-                //                 $booking_slots = [];
-                //                 break;
-                //         }
-
-                //         foreach ($booking_slots->slots as $day => $slot) {
-                //             if ($booking_slots->same_slot_all_days == 0) {
-                //                 foreach ($slot as $timing) {
-                //                     $timing['day']  = $day;
-                //                     $different_slots[] = $timing;
-                //                 }
-                //             } else {
-                //                 $same_slots[] = $slot;
-                //             }
-                //         }
-
-                //         $product->same_day_slots  = $same_slots;
-                //         $product->different_day_slots = $different_slots;
-                //     }
-                // }
-
                 return $product;
             }
         } catch (Exception $e) {
-            dd($e,"rgreg");
             throw new Exception($e->getMessage());
         }
     }
