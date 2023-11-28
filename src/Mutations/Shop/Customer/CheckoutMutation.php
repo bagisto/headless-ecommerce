@@ -108,6 +108,7 @@ class CheckoutMutation extends Controller
      */
     public function saveCartAddresses($rootValue, array $args, GraphQLContext $context)
     {
+
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
@@ -117,7 +118,6 @@ class CheckoutMutation extends Controller
         
         $params = $args['input'];
         $rules = ['type' => 'required'];
-
         if (! empty($params['billing_address_id'])) {
             $rules = array_merge($rules, [
                 'billing_address_id'    => 'numeric|required'
@@ -172,7 +172,7 @@ class CheckoutMutation extends Controller
         }
 
         $cart = Cart::getCart();
-        
+
         if ( ! $cart ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.warning-empty-cart'),
@@ -183,13 +183,13 @@ class CheckoutMutation extends Controller
         $billingAddressId = $params['billing_address_id'];
         $shippingAddressId = $params['shipping_address_id'];
 
-        if (! $billingAddressId && (! isset($params['billing']) || (isset($params['billing']) && !$params['billing']))) {
+        if (! $billingAddressId && (! isset($params['billing']) || (isset($params['billing']) && ! $params['billing']))) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.billing-address-missing'),
                 'Billing address missing.'
             );
         }
-    
+        
         if (! $shippingAddressId && (! isset($params['billing']['use_for_shipping']) || (isset($params['billing']['use_for_shipping']) && !$params['billing']['use_for_shipping'])) ) {
             if (! isset($params['shipping']) || (isset($params['shipping']) && !$params['shipping']) ) {
                 throw new CustomException(
@@ -200,8 +200,9 @@ class CheckoutMutation extends Controller
         }
         
         $token = 0;
-        if ( isset(getallheaders()['authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['authorization']);
+        
+        if ( isset(getallheaders()['Authorization'])) {
+            $headerValue = explode("Bearer ", getallheaders()['Authorization']);
             if ( isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
             }
@@ -258,7 +259,6 @@ class CheckoutMutation extends Controller
                         'address_id'        => $shippingAddressId,
                     ]
                 ];
-
                 $address_flag = false; 
 
                 if ( $billingAddressId ) {
@@ -308,6 +308,10 @@ class CheckoutMutation extends Controller
             
                 if ( $address_flag == true ) {
                     if (! $billingAddressId && isset($params['billing']['address1'])) {
+                        if ( isset($params['billing']['isSaved']) && $params['billing']['isSaved'] == true ) {
+                            $this->customerAddressRepository->create($params['billing']);
+                        }
+
                         $data['billing'] = $params['billing'];
 
                         if ( isset($params['billing']['use_for_shipping']) && $params['billing']['use_for_shipping'] == true ) {
@@ -316,6 +320,10 @@ class CheckoutMutation extends Controller
                     }
 
                     if (! $shippingAddressId && isset($params['shipping']['address1'])) {
+
+                        if ( isset($params['shipping']['isSaved']) && $params['shipping']['isSaved'] == true ) {
+                            $this->customerAddressRepository->create($params['shipping']);
+                        }
 
                         if (! isset($params['billing']['use_for_shipping']) || (isset($params['billing']['use_for_shipping']) && !$params['billing']['use_for_shipping']) ) {
                             $data['shipping'] = $params['shipping'];
@@ -624,13 +632,12 @@ class CheckoutMutation extends Controller
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
-        
+
         try {
             if (strlen($data['code'])) {
                 Cart::setCouponCode($data['code'])->collectTotals();
 
                 if (Cart::getCart()->coupon_code == $data['code']) {
-
                     return [
                         'success'       => true,
                         'message'       => trans('shop::app.checkout.total.success-coupon'),

@@ -2,8 +2,6 @@
 extend type Query {
     cmsPages(
         input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPage"),
-        first: Int!,
-        page: Int
     ): [CmsPage!] @paginate(type: "PAGINATOR" defaultCount:2 model: "Webkul\\CMS\\Models\\CmsPage")
 
     cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")
@@ -33,6 +31,7 @@ input FilterCmsPageInput {
     id: Int
     pageTitle: String @rename(attribute: "page_title")
     urlKey: String @rename(attribute: "url_key")
+    
 }
 
 input FilterCmsPageTranslationInput {

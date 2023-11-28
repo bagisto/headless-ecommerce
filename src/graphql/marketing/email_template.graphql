@@ -28,7 +28,7 @@ input FilterEmailTemplateInput {
 input CreateEmailTemplateInput {
     name: String!
     content: String!
-    status: Boolean!
+    status: String!
 }
 
 type EmailTemplate {

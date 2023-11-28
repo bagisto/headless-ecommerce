@@ -245,32 +245,32 @@ class AccountMutation extends Controller
                 'Customer not logged in'
             );
         }
+
         $data = $args['input'];
 
         $customer = bagisto_graphql()->guard($this->guard)->user();
 
         try {
             if (Hash::check($data['password'], $customer->password)) {
-                $orders = $customer->all_orders->whereIn('status', ['pending', 'processing'])->first();
 
-                if ($orders) {
-                    throw new CustomException(
-                        trans('admin::app.response.order-pending', ['name' => 'Customer']),
-                        'Orders are pending'
-                    );
+                if ($customer->orders->whereIn('status', ['pending', 'processing'])->first()) {
+                    return [
+                        'status'    => false,
+                        'success'  =>  trans('shop::app.customers.account.profile.order-pending')
+                    ];
                 } else {
                     $this->customerRepository->delete($customer->id);
 
                     return [
-                        'status'    => true,
-                        'success'   => trans('admin::app.response.delete-success', ['name' => 'Customer'])
+                        'status'    => false,
+                        'success'   => trans('shop::app.customers.account.profile.delete-success')
                     ];
                 }
             } else {
-                throw new CustomException(
-                    trans('shop::app.customer.account.address.delete.wrong-password'),
-                    'Provided Wrong Password.'
-                );
+                return [
+                    'status'    => false,
+                    'success'   => trans('shop::app.customers.account.profile.wrong-password')
+                ];
             }
         } catch (Exception $e) {
             throw new CustomException(
