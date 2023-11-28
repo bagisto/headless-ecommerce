@@ -1,6 +1,6 @@
 #Shop\Customer\CompareProduct Related APIs
 extend type Query @guard(with: ["api"]){
-    compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!]  @paginate(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
+    compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!]  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 
     compareProduct(id: ID @eq): CustomerCompareProduct @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 }
@@ -50,6 +50,6 @@ type CustomerCompareProduct {
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     product: Product! @belongsTo(relation: "product")
-    customer: Customer! @belongsTo(relation: "customer")
+    customer: Customer!
     cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }

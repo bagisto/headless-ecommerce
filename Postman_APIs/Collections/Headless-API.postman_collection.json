@@ -4076,16 +4076,17 @@
 							"name": "Get All Shipment List",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{adminToken}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
@@ -4106,16 +4107,17 @@
 							"name": "Get Shipement Detail",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{adminToken}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
@@ -4136,16 +4138,17 @@
 							"name": "Get Shipment's Item List",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{adminToken}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
@@ -4166,16 +4169,17 @@
 							"name": "Get Shipment Item Detail",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{adminToken}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
@@ -5677,20 +5681,21 @@
 							"name": "Get Compare List",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{customerToken}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query compareProducts {\n    compareProducts(input: {\n        # page: 1\n        # limit: 10\n        # id: 1\n        # productFlatId: 1\n        # productName: \"Music Show\"\n        # price: 11.30\n    }) {\n        id\n        productFlatId\n        customerId\n        createdAt\n        updatedAt\n        productFlat {\n            product {\n                id\n                type\n                isInWishlist\n                priceHtml {\n                    id\n                    type\n                    html\n                    regular\n                    regularWithoutCurrencyCode\n                    special\n                    specialWithoutCurrencyCode\n                    currencyCode\n                }\n            }\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            createdAt\n            updatedAt\n        }\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n    }\n}",
+										"query": "query compareProducts {\n    compareProducts(input: {\n        # page: 1\n        # limit: 10\n        # id: 1\n        # productFlatId: 1\n        # productName: \"Music Show\"\n        # price: 11.30\n    }) {\n        id\n        productId\n        customerId\n        createdAt\n        updatedAt\n        product {\n            id\n            type\n            isInWishlist\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            # thumbnail\n            # price\n            # cost\n            # specialPrice\n            # specialPriceFrom\n            # specialPriceTo\n            # weight\n            # color\n            # colorLabel\n            # size\n            # sizeLabel\n            # locale\n            # channel\n            # productId\n            # parentId\n            # minPrice\n            # maxPrice\n            # metaTitle\n            # metaKeywords\n            # metaDescription\n            # width\n            # height\n            # depth\n            # createdAt\n            # updatedAt\n            priceHtml {\n                id\n                type\n                html\n                regular\n                regularWithoutCurrencyCode\n                special\n                specialWithoutCurrencyCode\n                currencyCode\n            }\n        }\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -5707,20 +5712,21 @@
 							"name": "Get Compare Product Detail",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{customerToken}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query compareProduct {\n    compareProduct(id: 1) {\n        id\n        productFlatId\n        customerId\n        createdAt\n        updatedAt\n        productFlat {\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            thumbnail\n            price\n            cost\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            color\n            colorLabel\n            size\n            sizeLabel\n            locale\n            channel\n            productId\n            parentId\n            minPrice\n            maxPrice\n            metaTitle\n            metaKeywords\n            metaDescription\n            width\n            height\n            depth\n            createdAt\n            updatedAt\n        }\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n    }\n}",
+										"query": "query compareProduct {\n    compareProduct(id: 2) {\n        id\n        productId\n        customerId\n        createdAt\n        updatedAt\n       product {\n            id\n            type\n            isInWishlist\n            id\n            sku\n            name\n            description\n            shortDescription\n            urlKey\n            new\n            featured\n            status\n            visibleIndividually\n            # thumbnail\n            # price\n            # cost\n            # specialPrice\n            # specialPriceFrom\n            # specialPriceTo\n            # weight\n            # color\n            # colorLabel\n            # size\n            # sizeLabel\n            # locale\n            # channel\n            # productId\n            # parentId\n            # minPrice\n            # maxPrice\n            # metaTitle\n            # metaKeywords\n            # metaDescription\n            # width\n            # height\n            # depth\n            # createdAt\n            # updatedAt\n            priceHtml {\n                id\n                type\n                html\n                regular\n                regularWithoutCurrencyCode\n                special\n                specialWithoutCurrencyCode\n                currencyCode\n            }\n        }\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -6786,30 +6792,6 @@
 							}
 						}
 					]
-				},
-				{
-					"name": "Get Slider Detail",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query slider {\n    slider(id: 1) {\n        id\n        title\n        path\n        content\n        channelId\n        locale\n        sliderPath\n        imgPath\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            homePageContent\n            footerContent\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            homeSeo\n            locales {\n                id\n                name\n                code\n                direction\n            }\n            defaultLocale\n            currencies {\n                id\n                name\n                code\n                symbol\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            baseCurrency\n            rootCategory\n            logoUrl\n            faviconUrl\n        }\n    }\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},

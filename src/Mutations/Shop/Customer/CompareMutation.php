@@ -61,42 +61,23 @@ class CompareMutation extends Controller
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
-
-            $compareProducts = app(CompareProductsRepository::class)->scopeQuery(function ($query) use ($params) {
+            
+            $compareProducts = app(CompareItemRepository::class)->scopeQuery(function ($query) use ($params) {
                 $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
 
                 $locale = isset($params['locale']) ?: app()->getLocale();
 
                 $customer = bagisto_graphql()->guard($this->guard)->user();
 
-                $qb = $query->distinct()
-                    ->addSelect('velocity_customer_compare_products.*')
-                    ->leftJoin('product_flat', 'velocity_customer_compare_products.product_flat_id', '=', 'product_flat.id')
-                    ->where('product_flat.channel', $channel)
-                    ->where('product_flat.locale', $locale)
-                    ->where('velocity_customer_compare_products.customer_id', $customer->id);
+                $qb = $query->select('product_flat.*')
+                    ->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
+                    ->leftJoin('customers','customers.id','=','compare_items.customer_id')
+                    ->where('customers.id', $customer->id);
+                
+                $qb = $this->compareItemRepository->with('customer');
 
-                if (! empty($params['id'])) {
-                    $qb->where('velocity_customer_compare_products.id', $params['id']);
-                }
-
-                if (! empty($params['product_flat_id'])) {
-                    $qb->where('velocity_customer_compare_products.product_flat_id', $params['product_flat_id']);
-                }
-
-                if (! empty($params['product_name'])) {
-                    $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
-                }
-
-                if (! empty($params['price'])) {
-                    $qb->where([
-                        ['product_flat.min_price', '>=', core()->convertToBasePrice($params['price'])],
-                        ['product_flat.min_price', '<=', core()->convertToBasePrice($params['price'])]
-                    ]);
-                }
-
-                return $qb->groupBy('product_flat.product_id');
-            });
+                return $qb;
+             });
             
             if (! empty($args['id'])) {
                 $compareProducts = $compareProducts->first();

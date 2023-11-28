@@ -1,5 +1,5 @@
 # Seles\Shipment Related APIs
-extend type Query @guard {
+extend type Query @guard(with: ["admin-api"]) {
     shipments(input: FilterShipmentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Sales\\FilterShipment")): [Shipment!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Shipment")
 
     shipment(id: ID @eq): Shipment @find(model: "Webkul\\Sales\\Models\\Shipment")
