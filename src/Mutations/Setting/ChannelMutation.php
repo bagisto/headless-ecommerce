@@ -73,7 +73,7 @@ class ChannelMutation extends Controller
                 $favicon = $data['favicon'];
                 unset($data['favicon']);
             }
-
+            
             $data['seo']['meta_title'] = $data['seo_title'];
             $data['seo']['meta_description'] = $data['seo_description'];
             $data['seo']['meta_keywords'] = $data['seo_keywords'];
@@ -82,7 +82,7 @@ class ChannelMutation extends Controller
             unset($data['seo_description']);
             unset($data['seo_keywords']);
 
-            $data['home_seo'] = json_encode($data['seo']);
+            $data['home_seo'] = $data['seo'];
 
             unset($data['seo']);
 
@@ -112,7 +112,7 @@ class ChannelMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -160,7 +160,7 @@ class ChannelMutation extends Controller
             unset($data['seo_description']);
             unset($data['seo_keywords']);
 
-            $data['home_seo'] = json_encode($data['seo']);
+            $data['home_seo'] = $data['seo'];
 
             Event::dispatch('core.channel.update.before', $id);
 

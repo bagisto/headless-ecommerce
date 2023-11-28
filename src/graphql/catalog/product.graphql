@@ -141,7 +141,7 @@ type Product {
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
     images: [Image!] @hasMany
-    cacheBaseImage: CacheImage @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductBaseImage")
+    cacheBaseImage: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductBaseImage")
     cacheGalleryImages: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getCacheGalleryImages")
     videos: [Video!] @hasMany
     additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")

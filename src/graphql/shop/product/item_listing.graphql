@@ -1,13 +1,10 @@
 # Shop\Product\ItemListing related APIs.
-extend type Query @guard(with: ["api"]) {
+extend type Query  {
     getProductListing(
-        input: FilterProductListingInput @spread, 
-        locale: String, 
-        first: Int, 
-        page: Int
-    ): [Product!] 
-    @paginate(type: "PAGINATOR", resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll", defaultCount: 10)
-    
+        input: FilterProductListingInput @builder(method:"Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll"),
+      
+    ): [Product!] @paginate(type: "PAGINATOR", defaultCount: 10,model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product" )
+
     getFilterAttribute(categorySlug: String): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getFilterAttributes")
 }
 
