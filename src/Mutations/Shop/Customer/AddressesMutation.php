@@ -2,15 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use App\Http\Controllers\Controller;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Rules\VatIdRule;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class AddressesMutation extends Controller
@@ -198,7 +198,9 @@ class AddressesMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameter.'
@@ -283,7 +285,8 @@ class AddressesMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameter.'

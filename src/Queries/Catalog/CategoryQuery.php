@@ -2,28 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Queries\Catalog;
 
+use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Illuminate\Support\Facades\DB;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class CategoryQuery extends BaseFilter
 {
-    /**
-     * CategoryRepository object
-     *
-     * @var \Webkul\Category\Repositories\CategoryRepository
-     */
-    protected $categoryRepository;
-
-    /**
-     * ProductFlatRepository object
-     *
-     * @var \Webkul\Product\Repositories\ProductFlatRepository
-     */
-    protected $productFlatRepository;
-
     /**
      * Create a new controller instance.
      *
@@ -32,13 +18,10 @@ class CategoryQuery extends BaseFilter
      * @return void
      */
     public function __construct(
-        CategoryRepository $categoryRepository,
-        ProductFlatRepository $productFlatRepository
+        protected CategoryRepository $categoryRepository,
+        protected ProductFlatRepository $productFlatRepository
     )
     {
-        $this->categoryRepository = $categoryRepository;
-
-        $this->productFlatRepository = $productFlatRepository;
 
         $this->_config = request('_config');
     }
@@ -81,7 +64,7 @@ class CategoryQuery extends BaseFilter
             $categorySlug[] = $rootValue->slug;
         }
 
-        if (!empty($categorySlug)) {
+        if (! empty($categorySlug)) {
             foreach ($categorySlug as $slug) {
                 $category = $this->categoryRepository->findBySlugOrFail($slug);
                 if ($category) {

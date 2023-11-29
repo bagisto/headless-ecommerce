@@ -27,9 +27,11 @@ input NewAddressInput {
     state: String!
     postcode: String!
     phone: String!
-    saveAsAddress: Boolean @rename(attribute: "save_as_address")
+    isSaved: Boolean
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
     additional: [String]
+    customerId: Int  @rename(attribute: "customer_id")
+    defaultAddress : Boolean  @rename(attribute: "default_address")
 }
 
 type ShippingMethodsResponse {

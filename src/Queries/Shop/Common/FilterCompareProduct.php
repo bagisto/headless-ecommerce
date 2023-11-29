@@ -18,15 +18,11 @@ class FilterCompareProduct extends BaseFilter
         $arguments = $this->getFilterParams($input);
          
          //filter Both the relationship Product Flat for name and price
-       if ( isset($arguments['name']) && isset($arguments['price']) ) {
-
+       if (isset($arguments['name']) && isset($arguments['price']) ) {
             $name = $input['name'];
-
             $price = $input['price'];
 
-
             unset($arguments['name']);
-
             unset($arguments['price']);
 
             return $query->whereHas('product_flat',function ($q) use ($name,$price) {
@@ -36,10 +32,8 @@ class FilterCompareProduct extends BaseFilter
         }      
 
         // filter the relationship Product Flat for name 
-        if ( isset($arguments['name'])) {
-
+        if (isset($arguments['name'])) {
             $name = $input['name'];
-
             unset($arguments['name']);
 
             return $query->whereHas('product_flat',function ($q) use ($name) {
@@ -48,10 +42,8 @@ class FilterCompareProduct extends BaseFilter
         }
 
         // filter the relationship Product Flat for price
-        if ( isset($arguments['price'])) {
-
+        if (isset($arguments['price'])) {
             $price = $input['price'];
-
             unset($arguments['price']);
 
             return $query->whereHas('product_flat',function ($q) use ($price) {

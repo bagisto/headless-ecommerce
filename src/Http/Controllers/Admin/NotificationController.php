@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Admin;
 
+use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
-use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\Product\Repositories\ProductRepository;
 
 class NotificationController extends Controller
 {
@@ -70,6 +70,7 @@ class NotificationController extends Controller
      */
     public function store()
     {
+
         $this->validate(request(), [
             'title'     => 'string|required',
             'content'   => 'string|required',
@@ -78,7 +79,6 @@ class NotificationController extends Controller
             'channels'  => 'required',
             'status'    => 'required'
         ]);
-        
         $data = collect(request()->all())->except('_token')->toArray();
 
         $this->notificationRepository->create($data);
@@ -99,7 +99,7 @@ class NotificationController extends Controller
         $notification = $this->notificationRepository->findOrFail($id);
 
         $channels = $this->channelRepository->get();
-
+        // dd($notification->type ,"rgtr");
         return view($this->_config['view'], compact('notification', 'channels'));
     }
 
@@ -237,7 +237,13 @@ class NotificationController extends Controller
         if ($data['selectedType'] == 'product') {
             if ($product = $this->productRepository->find($data['givenValue'])) {
 
-                if (! isset($product->id) || !isset($product->url_key) || ( isset($product->parent_id) && $product->parent_id) ) {
+                if (
+                    ! isset($product->id) || 
+                    ! isset($product->url_key) || 
+                    (
+                    isset($product->parent_id) 
+                    && $product->parent_id
+                    ) ) {
                     return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
                 } else {
                     return response()->json(['value' => true], 200);

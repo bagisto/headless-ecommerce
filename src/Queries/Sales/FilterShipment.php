@@ -18,36 +18,28 @@ class FilterShipment extends BaseFilter
         $arguments = $this->getFilterParams($input);    
 
         // Convert the shipment_date parameter to created_at parameter
-         if ( isset($arguments['shipment_date'])) {
-
+         if (isset($arguments['shipment_date'])) {
             $arguments['created_at'] = $arguments['shipment_date'];
-
             unset($arguments['shipment_date']);
         }
 
         // Convert the inventory_source parameter to inventory_source_name parameter
-        if ( isset($arguments['inventory_source'])) {
-
+        if (isset($arguments['inventory_source'])) {
             $arguments['inventory_source_name'] = $arguments['inventory_source'];
-
             unset($arguments['inventory_source']);
         }
 
         // ilter the relationship Order and Address
-        if ( isset($arguments['order_date']) && isset($arguments['shipping_to'])) {
-
-            $order_date = $arguments['order_date'];
-           
-            $shipped_to = $input['shipping_to'];
-
-            $shippedName = $this->nameSplitter($shipped_to);
+        if (isset($arguments['order_date']) && isset($arguments['shipping_to'])) {
+            $orderDate = $arguments['order_date'];
+            $shippedTo = $input['shipping_to'];
+            $shippedName = $this->nameSplitter($shippedTo);
 
             unset($arguments['shipping_to']);
-
             unset($arguments['order_date']);
 
-            return $query->whereHas('order',function ($q) use ($order_date,$shippedName) {
-                $q->where('created_at', $order_date);
+            return $query->whereHas('order',function ($q) use ($orderDate,$shippedName) {
+                $q->where('created_at', $orderDate);
 
                 $q->whereHas('addresses',function ($qry) use ($shippedName) {
                     $qry->where(['first_name' => $shippedName['firstname'],
@@ -57,23 +49,20 @@ class FilterShipment extends BaseFilter
         }
 
         // filter the relationship Order
-        if ( isset($arguments['order_date'])) {
-
-            $order_date = $arguments['order_date'];
+        if (isset($arguments['order_date'])) {
+            $orderDate = $arguments['order_date'];
 
             unset($arguments['order_date']);
 
-            return $query->whereHas('order',function ($q) use ($order_date) {
-                $q->where('created_at', $order_date);
+            return $query->whereHas('order',function ($q) use ($orderDate) {
+                $q->where('created_at', $orderDate);
             })->where($arguments);
         }
 
          // filter the relationship addresses for Shipping Address
-         if ( isset($arguments['shipping_to'])) {
-
-            $shipped_to = $input['shipping_to'];
-
-            $shippedName = $this->nameSplitter($shipped_to);
+         if (isset($arguments['shipping_to'])) {
+            $shippedTo = $input['shipping_to'];
+            $shippedName = $this->nameSplitter($shippedTo);
 
             unset($arguments['shipping_to']);
 

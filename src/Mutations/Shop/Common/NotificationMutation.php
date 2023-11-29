@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class NotificationMutation extends Controller
 {
@@ -46,7 +46,6 @@ class NotificationMutation extends Controller
 
         try {
             $notification = $this->notificationRepository->findOrFail($data['id']);
-
             $result = $this->notificationRepository->prepareNotification($notification);
 
             if (isset($result->message_id)) {

@@ -31,8 +31,8 @@ class Install extends Command
     {
         // running `php artisan jwt:secret`
         $this->warn('Step: Generating JWT Secret token...');
-        $jwt_secret = $this->call('jwt:secret');
-        $this->info($jwt_secret);
+        $jwtSecret = $this->call('jwt:secret');
+        $this->info($jwtSecret);
 
         // running `php artisan migrate`
         $this->warn('Step: Migrating Notification tables into database...');
@@ -49,10 +49,20 @@ class Install extends Command
         $configuration = shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config');
         $this->info($configuration);
 
+        // running `php artisan vendor:publish --provider "MLL\GraphiQL\GraphiQLServiceProvider" --tag=config`
+        $this->warn('Step: Publishing GraphiQL Provider File...');
+        $configuration = shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config');
+        $this->info($configuration);
+
         // running `php artisan vendor:publish --tag=lighthouse-config`
         $this->warn('Step: Publishing Lighthouse Configuration File...');
-        $lighthouse_config = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
-        $this->info($lighthouse_config);
+        $lighthouseConfig = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
+        $this->info($lighthouseConfig);
+
+        // running `php artisan vendor:publish --tag=lighthouse-config`
+        $this->warn('Step: Publishing GraphiQL Configuration File...');
+        $graphiqlConfig = shell_exec('php artisan vendor:publish --tag=graphiql-config');
+        $this->info($graphiqlConfig);
 
         // running `composer dump-autoload`
         $this->warn('Step: Composer autoload...');
@@ -61,8 +71,8 @@ class Install extends Command
 
         // running `php artisan cache:clear`
         $this->warn('Step: Clearing the cache...');
-        $cache_clear = $this->call('optimize:clear');
-        $this->info($cache_clear);
+        $cacheClear = $this->call('optimize:clear');
+        $this->info($cacheClear);
         
         $this->comment('Success: Bagisto GraphQL API has been configured successfully.');
     }

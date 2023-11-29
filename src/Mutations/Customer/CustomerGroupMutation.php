@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class CustomerGroupMutation extends Controller
 {
@@ -36,14 +36,14 @@ class CustomerGroupMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:customer_groups,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:customer_groups,code', new Code],
             'name' => 'required',
         ]);
         
@@ -74,15 +74,16 @@ class CustomerGroupMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:customer_groups,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:customer_groups,code,' . $id, new Code],
             'name' => 'required',
         ]);
         
@@ -115,12 +116,12 @@ class CustomerGroupMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $customerGroup = $this->customerGroupRepository->findOrFail($id);
 
         if ($customerGroup->is_user_defined == 0) {
@@ -135,7 +136,7 @@ class CustomerGroupMutation extends Controller
 
                 Event::dispatch('customer.customer_group.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Customer Group'])];
+                return ['success' => trans('admin::app.customers.groups.index.edit.delete-success', ['name' => 'Customer Group'])];
             } catch(\Exception $e) {
                 throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Customer Group']));
             }

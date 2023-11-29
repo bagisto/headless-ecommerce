@@ -32,7 +32,8 @@ class HeaderContentMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -89,7 +90,9 @@ class HeaderContentMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -147,7 +150,8 @@ class HeaderContentMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

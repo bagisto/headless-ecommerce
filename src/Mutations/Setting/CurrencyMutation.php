@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
-use Webkul\Core\Repositories\CurrencyRepository;
+use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
+use Webkul\Core\Repositories\CurrencyRepository;
+use Webkul\Core\Rules\Code;
 
 class CurrencyMutation extends Controller
 {
@@ -36,12 +36,12 @@ class CurrencyMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code' => 'required|min:3|max:3|unique:currencies,code',
             'name' => 'required',
@@ -68,20 +68,20 @@ class CurrencyMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:currencies,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:currencies,code,' . $id, new Code],
             'name' => 'required',
         ]);
         
@@ -105,17 +105,16 @@ class CurrencyMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $currency = $this->currencyRepository->findOrFail($id);
 
         if ($this->currencyRepository->count() == 1) {
@@ -128,9 +127,9 @@ class CurrencyMutation extends Controller
 
                 Event::dispatch('core.currency.delete.after', $id);
 
-                return ['success' => trans('admin::app.settings.currencies.delete-success')];
+                return ['success' => trans('admin::app.settings.currencies.index.delete-success')];
             } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Currency']));
+                throw new Exception(trans('admin::app.settings.currencies.index.delete-failed', ['name' => 'Currency']));
             }
         }
     }

@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Marketing;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Marketing\Repositories\CampaignRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CampaignMutation extends Controller
 {
@@ -40,12 +40,12 @@ class CampaignMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
-
         $validator = Validator::make($params, [
             'name'                  => 'required',
             'subject'               => 'required',
@@ -61,12 +61,11 @@ class CampaignMutation extends Controller
         }
 
         try {
-
             $campaign = $this->campaignRepository->create($params);
 
             return $campaign;
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
     }
 
@@ -78,13 +77,14 @@ class CampaignMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($params, [
             'name'                  => 'required',
             'subject'               => 'required',
@@ -100,45 +100,40 @@ class CampaignMutation extends Controller
         }
 
         try {
-
             $campaign = $this->campaignRepository->update($params, $id);
 
             return $campaign;
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (!isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $campaign = $this->campaignRepository->find($id);
-
         try {
-
             if ($campaign != Null) {
-
                 $campaign->delete();
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'Campaign'])
+                    'message' => trans('admin::app.marketing.communications.campaigns.delete-success', ['name' => 'Campaign'])
                 ];
             } else {
                 return [
                     'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Campaign'])
+                    'message' => trans('admin::app.marketing.communications.campaigns.delete-failed', ['name' => 'Campaign'])
                 ];
             }
         } catch (Exception $e) {

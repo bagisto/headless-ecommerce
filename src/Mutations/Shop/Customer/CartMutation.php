@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CartMutation extends Controller
 {
@@ -75,21 +75,21 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
 
-        if (! isset($data['product_id']) || (isset($data['product_id']) && !$data['product_id'])) {
+        if (! isset($data['product_id']) || 
+            (isset($data['product_id']) && ! $data['product_id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
         
         try {
             $product = $this->productRepository->findOrFail($data['product_id']);
-
             $data = bagisto_graphql()->manageInputForCart($product, $data);
-            
             $cart = Cart::addProduct($data['product_id'], $data);
             
             if ( isset($cart->id)) {
@@ -114,13 +114,15 @@ class CartMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
 
-        if (! isset($data['qty']) || (isset($data['qty']) && !$data['qty'])) {
+        if (! isset($data['qty']) || 
+            (isset($data['qty']) && ! $data['qty'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
         
@@ -131,12 +133,10 @@ class CartMutation extends Controller
                     $qty[$item['cart_item_id']] = $item['quantity'];
                 }
             }
+
             $data['qty'] = $qty;
-
             $result = Cart::updateItems($data);
-            
             if ($result == true) {
-
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-update-to-cart'),
@@ -158,7 +158,8 @@ class CartMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -166,7 +167,6 @@ class CartMutation extends Controller
         
         try {
             $result = Cart::removeItem($cartItemId);
-            
             if ($result == true) {
 
                 return [
@@ -220,7 +220,8 @@ class CartMutation extends Controller
      */
     public function move($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

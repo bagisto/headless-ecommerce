@@ -2,17 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
-use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Carbon\Carbon;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Admin\Mail\NewCustomerNotification;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CustomerMutation extends Controller
 {
@@ -42,12 +39,12 @@ class CustomerMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
@@ -62,11 +59,8 @@ class CustomerMutation extends Controller
         }
 
         $password = rand(100000, 10000000);
-
         $data['password'] = bcrypt($password);
-
         $data['is_verified'] = 1;
-
         $data['date_of_birth'] = (isset($data['date_of_birth']) && $data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
 
         try {
@@ -75,12 +69,7 @@ class CustomerMutation extends Controller
             $customer = $this->customerRepository->create($data);
     
             Event::dispatch('customer.registration.after', $customer);
-            
-            $configKey = 'emails.general.notifications.emails.general.notifications.customer';
-            if (core()->getConfigData($configKey)) {
-                Mail::queue(new NewCustomerNotification($customer, $password));
-            }
-            
+                    
             return $customer;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -90,18 +79,18 @@ class CustomerMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
@@ -138,16 +127,15 @@ class CustomerMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $customer = $this->customerRepository->findOrFail($id);
 
         try {
-
             if (! $this->customerRepository->checkIfCustomerHasOrderPendingOrProcessing($customer)) {
                 Event::dispatch('customer.customer.delete.before', $id);
 
@@ -155,7 +143,7 @@ class CustomerMutation extends Controller
 
                 Event::dispatch('customer.customer.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Customer'])];
+                return ['success' => trans('admin::app.customers.customers.delete-success', ['name' => 'Customer'])];
             
             } else {
                 throw new Exception(trans('admin::app.response.order-pending', ['name' => 'Customer']));

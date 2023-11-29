@@ -2,13 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Queries\Catalog;
 
+use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
 use Webkul\Product\Helpers\View as ProductViewHelper;
 use Webkul\Product\Helpers\Review;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ProductContent extends BaseFilter
 {
@@ -25,41 +26,6 @@ class ProductContent extends BaseFilter
      * @var array
      */
     protected $guard;
-    
-    /**
-     * Product repository instance.
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
-     * Wishlist repository instance.
-     *
-     * @var \Webkul\Customer\Repositories\WishlistRepository
-     */
-    protected $wishlistRepository;
-
-    /**
-     * Product view helper instance.
-     *
-     * @var \Webkul\Product\Helpers\View
-     */
-    protected $productViewHelper;
-
-    /**
-     * Product Review helper instance.
-     *
-     * @var \Webkul\Product\Helpers\Review
-     */
-    protected $review;
-
-    /**
-     * Product configurable helper instance.
-     *
-     * @var \Webkul\Product\Helpers\ConfigurableOption
-     */
-    protected $productConfigurableHelper;
 
     /**
      * Create a new controller instance.
@@ -72,24 +38,14 @@ class ProductContent extends BaseFilter
      * @return void
      */
     public function __construct(
-        ProductRepository $productRepository,
-        WishlistRepository $wishlistRepository,
-        ProductViewHelper $productViewHelper,
-        Review $review,
-        ProductConfigurableHelper $productConfigurableHelper
+        protected ProductRepository $productRepository,
+        protected WishlistRepository $wishlistRepository,
+        protected ProductViewHelper $productViewHelper,
+        protected Review $review,
+        protected ProductConfigurableHelper $productConfigurableHelper
     ) {
         $this->guard = 'api';
-
-        $this->productRepository = $productRepository;
-
-        $this->wishlistRepository = $wishlistRepository;
-
-        $this->productViewHelper = $productViewHelper;
-
-        $this->review = $review;
-
-        $this->productConfigurableHelper = $productConfigurableHelper;
-
+        
         $this->_config = request('_config');
     }
 
@@ -150,7 +106,7 @@ class ProductContent extends BaseFilter
             case 'simple':
             case 'virtual':
             case 'downloadable':
-                if ($rootValue->getTypeInstance()->haveSpecialPrice()) {
+                if ($rootValue->getTypeInstance()->haveDiscount()) {
                     $priceArray['regular'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->price));
                     $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->price);
                     $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getSpecialPrice()));
@@ -162,9 +118,9 @@ class ProductContent extends BaseFilter
                 $priceArray['regular'] = trans('shop::app.products.price-label') . ' ' . core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice()));
                 $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice());
 
-                if ($rootValue->getTypeInstance()->haveOffer()) {
-                    $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getOfferPrice()));
-                    $priceArray['specialWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getOfferPrice());
+                if ($rootValue->getTypeInstance()->getMinimalPrice()) {
+                    $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice()));
+                    $priceArray['specialWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice());
                 }
                 break;
 
@@ -182,23 +138,23 @@ class ProductContent extends BaseFilter
                  */
                 $priceArray['regularWithoutCurrencyCode'] = $priceArray['specialWithoutCurrencyCode'] = '';
 
-                if ($prices['from']['regular_price']['price'] != $prices['from']['final_price']['price']) {
-                    $priceArray['regular'] .= $prices['from']['regular_price']['formated_price'];
-                    $priceArray['special'] .= $prices['from']['final_price']['formated_price'];
+                if ($prices['from']['regular']['price'] != $prices['from']['final']['price']) {
+                    $priceArray['regular'] .= $prices['from']['regular']['formatted_price'];
+                    $priceArray['special'] .= $prices['from']['final']['formatted_price'];
                 } else {
-                    $priceArray['regular'] .= $prices['from']['regular_price']['formated_price'];
+                    $priceArray['regular'] .= $prices['from']['regular']['formatted_price'];
                 }
 
-                if ($prices['from']['regular_price']['price'] != $prices['to']['regular_price']['price']
-                    || $prices['from']['final_price']['price'] != $prices['to']['final_price']['price']
+                if ($prices['from']['regular']['price'] != $prices['to']['regular']['price']
+                    || $prices['from']['final']['price'] != $prices['to']['final']['price']
                 ) {
                     $priceArray['regular'] .= ' To ';
 
-                    if ($prices['to']['regular_price']['price'] != $prices['to']['final_price']['price']) {
-                        $priceArray['regular'] .= $prices['to']['regular_price']['formated_price'];
-                        $priceArray['special'] .= $prices['to']['final_price']['formated_price'];
+                    if ($prices['to']['regular']['price'] != $prices['to']['final']['price']) {
+                        $priceArray['regular'] .= $prices['to']['regular']['formatted_price'];
+                        $priceArray['special'] .= $prices['to']['final']['formatted_price'];
                     } else {
-                        $priceArray['regular'] .= $prices['to']['regular_price']['formated_price'];
+                        $priceArray['regular'] .= $prices['to']['regular']['formatted_price'];
                     }
                 }
                 break;
@@ -245,7 +201,7 @@ class ProductContent extends BaseFilter
     {
         $productTypeInstance = $rootValue->getTypeInstance();
 
-        if ($productTypeInstance->haveSpecialPrice()) {
+        if ($productTypeInstance->haveDiscount()) {
             return true;
         }
 
@@ -294,41 +250,41 @@ class ProductContent extends BaseFilter
         }
         $data['index'] = $index;
 
-        $variant_prices = [];
+        $variantPrices = [];
         foreach ($data['variant_prices'] as $key => $prices) {
-            $variant_prices[$key] = [
+            $variantPrices[$key] = [
                 'id'            => $key,
-                'regular_price' => $prices['regular_price'],
-                'final_price'   => $prices['final_price'],
+                'regular' => $prices['regular'],
+                'final'   => $prices['final'],
             ];
         }
-        $data['variant_prices'] = $variant_prices;
+        $data['variant_prices'] = $variantPrices;
 
-        $variant_images = [];
+        $variantImages = [];
         foreach ($data['variant_images'] as $key => $imgs) {
-            $variant_images[$key] = [
+            $variantImages[$key] = [
                 'id'     => $key,
                 'images' => [],
             ];
 
             foreach ($imgs as $img_index => $urls) {
-                $variant_images[$key]['images'][$img_index] = $urls;
+                $variantImages[$key]['images'][$img_index] = $urls;
             }
         }
-        $data['variant_images'] = $variant_images;
+        $data['variant_images'] = $variantImages;
 
-        $variant_videos = [];
+        $variantVideos = [];
         foreach ($data['variant_videos'] as $key => $imgs) {
-            $variant_videos[$key] = [
+            $variantVideos[$key] = [
                 'id'     => $key,
                 'videos' => [],
             ];
 
             foreach ($imgs as $img_index => $urls) {
-                $variant_videos[$key]['videos'][$img_index] = $urls;
+                $variantVideos[$key]['videos'][$img_index] = $urls;
             }
         }
-        $data['variant_videos'] = $variant_videos;
+        $data['variant_videos'] = $variantVideos;
 
         return $data;
     }
@@ -343,7 +299,7 @@ class ProductContent extends BaseFilter
      */
     public function getCacheGalleryImages($rootValue, array $args, GraphQLContext $context)
     {
-        return productimage()->getGalleryImages($rootValue);
+        return product_image()->getGalleryImages($rootValue);
     }
 
     /**
@@ -375,7 +331,9 @@ class ProductContent extends BaseFilter
      */
     public function getProductBaseImage($rootValue, array $args, GraphQLContext $context)
     {
-        return productimage()->getProductBaseImage($rootValue);
+        themes()->set('default');
+
+        return product_image()->getProductBaseImage($rootValue);
     }
 
     /**
@@ -414,6 +372,6 @@ class ProductContent extends BaseFilter
      */
     public function getProductShareUrl($rootValue, array $args, GraphQLContext $context)
     {
-        return route('shop.productOrCategory.index', $rootValue->url_key);
+        return route('shop.product_or_category.index', $rootValue->url_key);
     }
 }

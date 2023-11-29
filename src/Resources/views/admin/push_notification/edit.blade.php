@@ -1,242 +1,440 @@
-@extends('admin::layouts.content')
+@php
+    $channels = core()->getAllChannels();
 
-@section('page_title')
-    {{ __('bagisto_graphql::app.admin.notification.edit-notification') }}
-@stop
+    $currentChannel = core()->getRequestedChannel();
 
-@section('content')
-    <div class="content">
-        @php
-            $locale = request()->get('locale') ?: app()->getLocale();
-            $channel = request()->get('channel') ?: core()->getDefaultChannelCode();
+    $currentLocale = core()->getRequestedLocale();
 
-            $channelLocales = app('Webkul\Core\Repositories\ChannelRepository')->findOneByField('code', $channel)->locales;
+    $channelLocales = $currentChannel->locales;
 
-            if (! $channelLocales->contains('code', $locale)) {
-                $locale = config('app.fallback_locale');
-            }
-            
-            $notificationTranslation = $notification->translations->where('channel', $channel)->where('locale', $locale)->first();
-        @endphp
-        <form method="POST" action="" @submit.prevent="onSubmit" enctype="multipart/form-data">
+    $notificationTranslation = $notification->translations->where('channel', $currentChannel->code)->where('locale', $currentLocale->code)->first();
+@endphp
 
-            <div class="page-header">
-                <div class="page-title">
-                    <h1>
-                        <i class="icon angle-left-icon back-link" onclick="window.location = '{{ route('admin.push_notification.index') }}'"></i>
+<x-admin::layouts>
+    {{-- Title of the page --}}
+    <x-slot:title>
+        @lang('bagisto_graphql::app.admin.notification.edit-notification')
+    </x-slot:title>
 
-                        {{ __('bagisto_graphql::app.admin.notification.edit-notification') }}
-                    </h1>
+    {{-- Edit Notification Vue Components --}}
+    <v-edit-notification></v-edit-notification>
 
-                    <div class="control-group">
-                        <select class="control" id="channel-switcher" name="channel">
-                            @foreach (core()->getAllChannels() as $channelModel)
+    @pushOnce('scripts')
+        <script
+            type="text/x-template"
+            id="v-edit-notification-template"
+        >
+            <!-- Input Form -->
+            <x-admin::form
+                :action="route('admin.push_notification.update', $notification->id)"
+                enctype="multipart/form-data"
+                method="PUT"
+            >
+                <div class="flex justify-between items-center">
+                    <p class="text-[20px] text-gray-800 dark:text-white font-bold">
+                        @lang('bagisto_graphql::app.admin.notification.edit-notification')
+                    </p>
 
-                                <option
-                                    value="{{ $channelModel->code }}" {{ ($channelModel->code) == $channel ? 'selected' : '' }}>
-                                    {{ core()->getChannelName($channelModel) }}
-                                </option>
+                    <div class="flex gap-x-[10px] items-center">
+                        <!-- Cancel Button -->
+                        <a
+                            href="{{ route('admin.push_notification.index') }}"
+                            class="transparent-button hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white "
+                        >
+                            @lang('bagisto_graphql::app.admin.notification.back-btn')
+                        </a>
 
-                            @endforeach
-                        </select>
-                    </div>
+                        <!-- Send Notification -->
+                        <a href="{{ route('admin.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
+                            {{ __('bagisto_graphql::app.admin.notification.title') }}
+                        </a>
 
-                    <div class="control-group">
-                        <select class="control" id="locale-switcher" name="locale">
-                            @foreach ($channelLocales as $localeModel)
-
-                                <option
-                                    value="{{ $localeModel->code }}" {{ ($localeModel->code) == $locale ? 'selected' : '' }}>
-                                    {{ $localeModel->name }}
-                                </option>
-
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="page-action" style="margin-top:10px;">
-                     <a href="{{ route('admin.push_notification.send-notification', $notification['id']) }}"  class="btn btn-lg btn-primary">
-                        {{ __('bagisto_graphql::app.admin.notification.title') }}
-                    </a> 
-
-                    <button type="submit" class="btn btn-lg btn-primary">
-                        {{ __('bagisto_graphql::app.admin.notification.create-btn-title') }}
-                    </button>
-                </div>
-            </div>
-
-            <div class="page-content">
-
-                <div class="form-container">
-                    @csrf()
-                    <input name="_method" type="hidden" value="PUT">
-                    <input type="hidden" value="{{ $notification['id'] }}" name="notification_id" />
-                    
-                    <div class="control-group" :class="[errors.has('title') ? 'has-error' : '']">
-                        <label for="title" class="required">{{ __('bagisto_graphql::app.admin.notification.notification-title') }}</label>
-
-                        <input type="text" v-validate="'required'" class="control" id="title" name="title" value="{{ old('title') ?? (isset($notificationTranslation['title']) ? $notificationTranslation['title']: '') }}" data-vv-as="&quot;{{ __('bagisto_graphql::app.admin.notification.notification-title') }}&quot;" v-slugify-target="'slug'"/>
-
-                        <span class="control-error" v-if="errors.has('title')">@{{ errors.first('title') }}</span>
-                    </div>
-                    
-                    <div class="control-group" :class="[errors.has('content') ? 'has-error' : '']">
-                        <label for="content" class="required">{{ __('bagisto_graphql::app.admin.notification.notification-content') }}</label>
-                        
-                        <textarea class="control" name="content" v-validate="'required'" data-vv-as="&quot;{{ __('bagisto_graphql::app.admin.notification.notification-content') }}&quot;" cols="30" rows="10">{{ old('content') ?? (isset($notificationTranslation['content']) ? $notificationTranslation['content'] : '') }}
-                        </textarea>
-                        
-                        <span class="control-error" v-if="errors.has('content')">@{{ errors.first('content') }}</span>
-                    </div>
-
-                    <div class="control-group" :class="[errors.has('image') ? 'has-error' : '']">
-                        <label for="image" class="required">
-                            {{ __('bagisto_graphql::app.admin.notification.notification-image') }}
-                        </label>
-
-                        <image-wrapper :button-label="'{{ __('bagisto_graphql::app.admin.notification.notification-image') }}'" input-name="image" :multiple="false" :images='"{{ url('storage/'.$notification->image) }}"'></image-wrapper>
-
-                        <span class="control-error" v-if="errors.has('image')">@{{ errors.first('image') }}</span>
-                    </div>
-
-                    <option-wrapper></option-wrapper>
-
-                    <div class="control-group" :class="[errors.has('channels[]') ? 'has-error' : '']" >
-                        <label for="reseller" class="required">
-                            {{ __('bagisto_graphql::app.admin.notification.store-view') }}
-                        </label>
-
-                        <select  v-validate="'required'" id="channels" class="control" name="channels[]" multiple="multiple" data-vv-as="&quot;{{ __('bagisto_graphql::app.admin.notification.store-view') }}&quot;">
-                            @foreach ($channels as $channelDetail)
-                                <option value="{{ $channelDetail->code }}"
-                                    @if ( in_array($channelDetail->code, $notification->notificationChannelsArray())) selected @endif >
-                                    {{ $channelDetail->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="control-error" v-if="errors.has('channels[]')">@{{ errors.first('channels[]') }}
-                        </span>
-                    </div>
-
-                    <div class="control-group" :class="[errors.has('status') ? 'has-error' : '']">
-                        <label for="status">
-                            {{ __('bagisto_graphql::app.admin.notification.notification-status') }}
-                        </label>
-
-                        <select class="control" name="status" data-vv-as="&quot;{{ __('bagisto_graphql::app.admin.notification.notification-status') }}&quot;">
-                            <option value="1" {{ $notification->status == '1' ? 'selected' : '' }}>{{ __('bagisto_graphql::app.admin.notification.status.enabled') }}</option>
-                            <option value="0" {{ $notification->status == '0' ? 'selected' : '' }}>{{ __('bagisto_graphql::app.admin.notification.status.disabled') }}</option>
-                        </select>
-                        <span class="control-error" v-if="errors.has('status')">@{{ errors.first('status') }}</span>
+                        <!-- Save Button -->
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            @lang('bagisto_graphql::app.admin.notification.create-btn-title')
+                        </button>
                     </div>
                 </div>
-            </div>
-        </form>
-    </div>
-@stop
 
-@push('scripts')
-    <script type="text/x-template" id="options-template">
-        <div>
-            <div class="control-group" :class="[errors.has('type') ? 'has-error' : '']">
-                <label for="type" class="required">
-                    {{ __('bagisto_graphql::app.admin.notification.notification-type') }}
-                </label>
+                <!-- Channel and Locale Switcher -->
+                <div class="flex  gap-[16px] justify-between items-center mt-[28px] max-md:flex-wrap">
+                    <div class="flex gap-x-[4px] items-center">
+                        <!-- Channel Switcher -->
+                        <x-admin::dropdown :class="$channels->count() <= 1 ? 'hidden' : ''">
+                            <!-- Dropdown Toggler -->
+                            <x-slot:toggle>
+                                <button
+                                    type="button"
+                                    class="transparent-button px-[4px] py-[6px] hover:bg-gray-200 dark:hover:bg-gray-800  focus:bg-gray-200 dark:focus:bg-gray-800 dark:text-white"
+                                >
+                                    <span class="icon-store text-[24px] "></span>
 
-                <select class="control" id="type" name="type" v-validate="'required'" data-vv-as="&quot;{{ __('bagisto_graphql::app.admin.notification.notification-type') }}&quot;" @change="showHideOptions($event)" v-model="notificationType">
+                                    {{ $currentChannel->name }}
 
-                    <option value="">{{ __('bagisto_graphql::app.admin.notification.notification-type-option.select') }}</option>
-                    <option value="others" {{ $notification->type == 'other' ? 'selected' : '' }}>{{ __('bagisto_graphql::app.admin.notification.notification-type-option.simple') }}</option>
-                    <option value="product" {{ $notification->type == 'product' ? 'selected' : '' }}>{{ __('bagisto_graphql::app.admin.notification.notification-type-option.product') }}</option>
-                    <option value="category" {{ $notification->type == 'category' ? 'selected' : '' }}>{{ __('bagisto_graphql::app.admin.notification.notification-type-option.category') }}</option>
-                </select>
-                <span class="control-error" v-if="errors.has('type')">@{{ errors.first('type') }}</span>
-            </div>
+                                    <input type="hidden" name="channel" value="{{ $currentChannel->code }}"/>
 
-            <div class="control-group" id="productCat" :class="[errors.has('product_category_id') ? 'has-error' : '']" v-if="showProductCategory">
-                <label for="product_category_id" class="required">
-                    {{ __('bagisto_graphql::app.admin.notification.product-cat-id') }}
-                </label>
+                                    <span class="icon-sort-down text-[24px]"></span>
+                                </button>
+                            </x-slot:toggle>
 
-                <input type="text" id="product_category_id" class="control" name="product_category_id" v-validate="showProductCategory ? 'required' : ''" data-vv-as="&quot;{{ __('bagisto_graphql::app.admin.notification.product-cat-id') }}&quot;" @keyup="checkIdExistOrNot" v-model="productCategoryInputBox" placeholder="{{ __('bagisto_graphql::app.admin.notification.product-cat-id') }}" >
+                            <!-- Dropdown Content -->
+                            <x-slot:content class="!p-[0px]">
+                                @foreach ($channels as $channel)
+                                    <a
+                                        href="?{{ Arr::query(['channel' => $channel->code, 'locale' => $currentLocale->code]) }}"
+                                        class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white  "
+                                    >
+                                        {{ $channel->name }}
+                                    </a>
+                                @endforeach
+                            </x-slot:content>
+                        </x-admin::dropdown>
 
-                <span class="control-error" v-if="errors.has('product_category_id')">@{{ errors.first('product_category_id') }}</span>
-            </div>
+                        <!-- Locale Switcher -->
+                        <x-admin::dropdown>
+                            <!-- Dropdown Toggler -->
+                            <x-slot:toggle>
+                                <button
+                                    type="button"
+                                    class="transparent-button px-[4px] py-[6px] hover:bg-gray-200 dark:hover:bg-gray-800  focus:bg-gray-200 dark:focus:bg-gray-800 dark:text-white"
+                                >
+                                    <span class="icon-language text-[24px] "></span>
 
-        </div>
-    </script>
+                                    {{ $currentLocale->name }}
 
-    <script>
+                                    <input type="hidden" name="locale" value="{{ $currentLocale->code }}"/>
 
-        Vue.component('option-wrapper', {
+                                    <span class="icon-sort-down text-[24px]"></span>
+                                </button>
+                            </x-slot:toggle>
 
-            template: '#options-template',
+                            <!-- Dropdown Content -->
+                            <x-slot:content class="!p-[0px]">
+                                @foreach ($currentChannel->locales as $locale)
+                                    <a
+                                        href="?{{ Arr::query(['channel' => $currentChannel->code, 'locale' => $locale->code]) }}"
+                                        class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white   {{ $locale->code == $currentLocale->code ? 'bg-gray-100 dark:bg-gray-950' : ''}}"
+                                    >
+                                        {{ $locale->name }}
+                                    </a>
+                                @endforeach
+                            </x-slot:content>
+                        </x-admin::dropdown>
+                    </div>
+                </div>
 
-            inject: ['$validator'],
+                <!-- body content -->
+                <div class="flex gap-[10px] mt-[14px]">
+                    <!-- Left sub Component -->
+                    <div class="flex flex-col gap-[8px] flex-1">
 
-            data: function(data) {
-                return {
-                    showProductCategory: '{{ ($notification['type'] == 'product' || $notification['type'] == 'category') ?? false }}',
-                    notificationType : '{{ $notification['type'] }}',
-                    productCategoryInputBox : '{{ old('product_category_id') ?? $notification->product_category_id }}',
-                    message: '',
-                    isValid: false,
-                    
-                }
-            },
+                        {!! view_render_event('graphql::app.admin.settings.notification.edit_form_accordian.notification.before', ['notification' => $notification]) !!}
 
-            methods: {
-                showHideOptions: function (event) {
-                    this_this = this;
-                    this_this.notificationType = event.target.value;
+                        <!-- General -->
+                        <div class="p-[16px] bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
+                            <p class="mb-[16px] text-[16px] text-gray-800 dark:text-white font-semibold">
+                                @lang('bagisto_graphql::app.admin.notification.edit.general')
+                            </p>
 
-                    this_this.showProductCategory = false;
-                    if (event.target.value == 'product' || event.target.value == 'category' ) {
-                        this_this.showProductCategory = true;
+                            <!-- Locales -->
+                            <x-admin::form.control-group.control
+                                type="hidden"
+                                name="locale"
+                                value="{{ $notificationTranslation->locale }}"
+                            >
+                            </x-admin::form.control-group.control>
+
+                            <!-- Title -->
+                            <x-admin::form.control-group class="mb-[10px]">
+                                <x-admin::form.control-group.label class="required">
+                                    @lang('bagisto_graphql::app.admin.notification.notification-title')
+                                </x-admin::form.control-group.label>
+
+                                <x-admin::form.control-group.control
+                                    type="text"
+                                    name="title"
+                                    :value="old('title') ?: $notificationTranslation->title"
+                                    rules="required"
+                                    :label="trans('bagisto_graphql::app.admin.notification.notification-title')"
+                                    :placeholder="trans('bagisto_graphql::app.admin.notification.notification-title')"
+                                >
+                                </x-admin::form.control-group.control>
+
+                                <x-admin::form.control-group.error
+                                    control-name="title"
+                                >
+                                </x-admin::form.control-group.error>
+                            </x-admin::form.control-group>
+                        </div>
+
+                        <!-- Description and images -->
+                        <div class="p-[16px] bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
+                            <p class="mb-[16px] text-[16px] text-gray-800 dark:text-white font-semibold">
+                                @lang('bagisto_graphql::app.admin.notification.edit.notification-content-image')
+                            </p>
+
+                            <!-- Content -->
+                            <v-description>
+                                <x-admin::form.control-group class="mb-[10px]">
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('bagisto_graphql::app.admin.notification.edit.content')
+                                    </x-admin::form.control-group.label>
+
+                                    <x-admin::form.control-group.control
+                                        type="textarea"
+                                        name="content"
+                                        id="content"
+                                        class="content"
+                                        :value="old('content') ?: $notificationTranslation->content"
+                                        :label="trans('bagisto_graphql::app.admin.notification.edit.content')"
+                                        rules="required"
+                                        :tinymce="true"
+                                    >
+                                    </x-admin::form.control-group.control>
+
+                                    <x-admin::form.control-group.error
+                                        control-name="content"
+                                    >
+                                    </x-admin::form.control-group.error>
+                                </x-admin::form.control-group>
+                            </v-description>
+
+                            <!-- Add Image -->
+                            <div class="flex gap-[50px]">
+                                <div class="flex flex-col gap-[8px] w-[40%] mt-5">
+                                    <p class="text-gray-800 dark:text-white font-medium">
+                                        @lang('bagisto_graphql::app.admin.notification.edit.image')
+                                    </p>
+
+                                    <x-admin::media.images
+                                        name="image"
+                                        :uploaded-images="$notification->image ? [['id' => 'logo_path', 'url' => $notification->image_url]] : ''"
+                                    ></x-admin::media.images>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Section -->
+                    <div class="flex flex-col gap-[8px] w-[360px] max-w-full">
+                        <!-- Settings -->
+                        <x-admin::accordion>
+                            <x-slot:header>
+                                <p class="p-[10px] text-gray-600 dark:text-gray-300 text-[16px] font-semibold">
+                                    @lang('bagisto_graphql::app.admin.notification.edit.settings')
+                                </p>
+                            </x-slot:header>
+
+                            <x-slot:content>
+
+                                <!-- Visible in menu -->
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="text-gray-800 dark:text-white font-medium">
+                                        @lang('bagisto_graphql::app.admin.notification.notification-status')
+                                    </x-admin::form.control-group.label>
+
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="0"
+                                    />
+
+                                    @php $selectedOption = old('status') ?: $notification->status @endphp
+
+                                    <x-admin::form.control-group.control
+                                        type="switch"
+                                        name="status"
+                                        value="1"
+                                        :label="trans('graphql::app.admin.settings.notification.edit.status')"
+                                        :checked="(bool) $selectedOption"
+                                    >
+                                    </x-admin::form.control-group.control>
+                                </x-admin::form.control-group>
+
+                                <!-- Select Channels -->
+                                <p class="required block leading-[24px] text-gray-800 dark:text-white font-medium">
+                                    @lang('bagisto_graphql::app.admin.notification.store-view')
+                                </p>
+
+                                @foreach(core()->getAllChannels() as $channel)
+                                    <x-admin::form.control-group class="flex gap-[10px] !mb-0 p-[6px]">
+                                        @php
+                                            $selectedOption = $notificationTranslation->channel ? $notificationTranslation->channel == $channel->code : old('channels')
+                                        @endphp
+
+                                        <x-admin::form.control-group.control
+                                            type="checkbox"
+                                            name="channels[]"
+                                            :value="$channel->code"
+                                            :id="'channels_' . $channel->id"
+                                            :for="'channels_' . $channel->id"
+                                            rules="required"
+                                            :label="trans('bagisto_graphql::app.admin.notification.store-view')"
+                                            :checked="(boolean) $selectedOption"
+                                        >
+                                        </x-admin::form.control-group.control>
+
+                                        <x-admin::form.control-group.label
+                                            :for="'channels_' . $channel->id"
+                                            class="!text-[14px] !text-gray-600 dark:!text-gray-300 font-semibold cursor-pointer"
+                                        >
+                                            {{ core()->getChannelName($channel) }}
+                                        </x-admin::form.control-group.label>
+                                    </x-admin::form.control-group>
+                                @endforeach
+
+                                <x-admin::form.control-group.error
+                                    control-name="channels[]"
+                                >
+                                </x-admin::form.control-group.error>
+
+                                <x-admin::form.control-group class="mb-[10px]">
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('bagisto_graphql::app.admin.notification.notification-type')
+                                    </x-admin::form.control-group.label>
+
+                                    <x-admin::form.control-group.control
+                                        type="select"
+                                        name="type"
+                                        rules="required"
+                                        :value="old('type')"
+                                        id="type"
+                                        class="cursor-pointer"
+                                        :label="trans('bagisto_graphql::app.admin.notification.notification-type')"
+                                        v-model="notificationType"
+                                        @change="showHideOptions($event)"
+                                    >
+                                        <!-- Here! All Needed types are defined -->
+                                        @foreach(['others', 'product', 'category'] as $type)
+                                            <option
+                                                value="{{ $type }}"
+                                                {{ $selectedOption == $type ? 'selected' : '' }}
+                                            >
+                                                @lang('bagisto_graphql::app.admin.notification.option-type.'. $type)
+                                            </option>
+                                        @endforeach
+                                    </x-admin::form.control-group.control>
+
+                                    <x-admin::form.control-group.error
+                                        control-name="type"
+                                    >
+                                    </x-admin::form.control-group.error>
+                                </x-admin::form.control-group>
+
+                                <x-admin::form.control-group class="mb-[10px]" v-if="showProductCategory" id="product_category">
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('bagisto_graphql::app.admin.notification.product-cat-id')
+                                    </x-admin::form.control-group.label>
+
+                                    <v-field
+                                        type="text"
+                                        name="product_category_id"
+                                        value="{{ old('product_category_id') }}"
+                                        label="{{ trans('bagisto_graphql::app.admin.notification.product-cat-id') }}"
+                                        v-validate="showProductCategory ? 'required' : ''"
+                                        v-slot="{ field }"
+                                    >
+                                        <input
+                                            type="text"
+                                            name="product_category_id"
+                                            id="product_category_id"
+                                            v-model="productCategoryInputBox"
+                                            @keyup="checkIdExistOrNot"
+                                            :class="[errors['{{ 'product_category_id' }}'] ? 'border border-red-600 hover:border-red-600' : '']"
+                                            class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 dark:focus:border-gray-400 focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                                            placeholder="{{ trans('bagisto_graphql::app.admin.notification.product-cat-id') }}"
+                                            v-code
+                                        >
+                                    </v-field>
+
+                                    <x-admin::form.control-group.error
+                                        control-name="product_category_id"
+                                    >
+                                    </x-admin::form.control-group.error>
+
+                                    <span class="control-error" v-show="! isValid">@{{ message }}</span>
+                                </x-admin::form.control-group>
+
+                            </x-slot:content>
+                        </x-admin::accordion>
+                    </div>
+                </div>
+            </x-admin::form>
+        </script>
+
+        <script type="module">
+            app.component('v-edit-notification', {
+                template: '#v-edit-notification-template',
+
+                inject: ['$validator'],
+
+                data() {
+                    return {
+                        showProductCategory:  "{{ $notification->type }}" != 'others' ,
+
+                        valid: '',
+
+                        notificationType : '{{ old('type') ?: $notification->type }}',
+
+                        productCategoryInputBox : '{{ old('product_category_id') ?: $notification->product_category_id }}',
+
+                        message: '',
+
+                        isValid: false,
                     }
                 },
 
-                //id exist or not
-                checkIdExistOrNot(event) {
-                    this_this = this;
-                    var selectedType = this_this.notificationType;
-                    var givenValue = this_this.productCategoryInputBox;
-                    var spaceCount = (givenValue.split(" ").length - 1);
+                methods: {
+                    showHideOptions: function (event) {
+                        this.notificationType = event.target.value;
 
-                    if (spaceCount > 0) {
-                        this_this.isValid = true;
-                        return false;
-                    }
-
-                    this_this.$http.post("{{ route('admin.push_notification.cat-product-id') }}",{givenValue:givenValue, selectedType:selectedType})
-
-                    .then(response => {
-                        if(response.data.value) {
-                            $('#product_category').removeClass('has-error');
-                            this_this.isValid = response.data.value;
-                            this_this.message = response.data.message;
+                        if (this.notificationType == "{{ $notification->type }}") {
+                            this.productCategoryInputBox = "{{ $notification->product_category_id }}";
                         } else {
-                            $('#product_category').addClass('has-error');
-                            this_this.message = response.data.message;
-                            this_this.isValid = response.data.value;
+                            this.productCategoryInputBox = '';
                         }
-                    }).catch(function (error) {
-                        currentObj.output = error;
-                    });
+
+                        this.showProductCategory = false;
+
+                        if (event.target.value == 'product' || event.target.value == 'category' ) {
+                            this.showProductCategory = true;
+                        }
+                    },
+
+                    //id exist or not
+                    checkIdExistOrNot(event) {
+                        var selectedType = this.notificationType;
+                        var givenValue = this.productCategoryInputBox;
+                        var spaceCount = (givenValue.split(" ").length - 1);
+
+                        if (spaceCount > 0) {
+                            this.isValid = true;
+                            return false;
+                        }
+
+                        this.$axios.post("{{ route('admin.push_notification.cat-product-id') }}",{givenValue:givenValue, selectedType:selectedType})
+                            .then(response => {
+                                var productCategory = document.getElementById('product_category');
+
+                                if(response.data.value) {
+                                    productCategory.classList.remove('has-error');
+                                    this.isValid = response.data.value;
+                                    this.message = response.data.message;
+                                } else {
+                                    productCategory.classList.add('has-error');
+                                    this.message = response.data.message;
+                                    this.isValid = response.data.value;
+                                }
+                            }).catch(function (error) {
+                                // currentObj.output = error;
+                                console.log(error);
+                            });
+                    },
                 },
-            },
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#channel-switcher, #locale-switcher').on('change', function (e) {
-                $('#channel-switcher').val()
-                var query = '?channel=' + $('#channel-switcher').val() + '&locale=' + $('#locale-switcher').val();
-
-                window.location.href = "{{ route('admin.push_notification.edit', $notification->id)  }}" + query;
-            })
-        });
-    </script>
-@endpush
+            });
+        </script>
+    @endPushOnce
+</x-admin::layouts>

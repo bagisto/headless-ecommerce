@@ -10,7 +10,7 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 
 ### 1. Requirements:
 
-* **Bagisto**: v1.4.5
+* **Bagisto**: v2.0.0
 
 ### 2. Installation:
 
@@ -33,6 +33,36 @@ composer require bagisto/graphql-api dev-main
 \Illuminate\Session\Middleware\StartSession::class,
 ~~~
 
+* Find a file **config/auth.php** from root and bellow code inside **guard**:
+
+~~~
+    'api' => [
+            'driver'   => 'jwt',
+            'provider' => 'customer',
+        ],
+
+   'admin-api' => [
+            'driver'   => 'jwt',
+            'provider' => 'admin',
+        ],
+
+~~~
+
+* Find a file **config/auth.php** from root and bellow code inside **providers**:
+
+~~~
+    'customer' => [
+            'driver' => 'eloquent',
+            'model'  => Webkul\GraphQLAPI\Models\Customer\Customer::class,
+        ],
+
+    'admin' => [
+            'driver' => 'eloquent',
+            'model'  =>  Webkul\GraphQLAPI\Models\Admin\Admin::class,
+        ],
+
+~~~
+
 * Add the **JWT_TTL (JWT time to live)** & **JWT_SHOW_BLACKLIST_EXCEPTION** entries in the **.env** file:
 
 ~~~
@@ -49,10 +79,10 @@ php artisan bagisto-graphql:install
 * Now to use the **graphql-playground** for testing the APIs:
 
 ~~~
-http://your-domain.com/graphql-playground
+http://your-domain.com/graphiql
 ~~~
 
-* You can also use the **Postmen** for testing the APIs:
+* You can also use the **Postman** for testing the APIs:
 
 ~~~
 http://your-domain.com/graphql

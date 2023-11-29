@@ -2,15 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
-use Webkul\Core\Http\Controllers\Controller;
-use Webkul\Core\Repositories\SubscribersListRepository;
-use Webkul\Shop\Mail\SubscriptionEmail;
+use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
+use Webkul\Core\Repositories\SubscribersListRepository;
 
 class NewsletterSubscriberMutation extends Controller
 {
@@ -36,12 +33,12 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function subscribe($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'email' => 'email|required',
         ]);
@@ -51,24 +48,14 @@ class NewsletterSubscriberMutation extends Controller
         }
 
         $unique = 0;
-
         $alreadySubscribed = $this->subscriptionRepository->findWhere(['email' => $data['email']]);
-
         $unique = function () use ($alreadySubscribed) {
             return $alreadySubscribed->count() > 0 ? 0 : 1;
         };
 
         if ( $unique() ) {
             $token = uniqid();
-
-            $subscriptionData = [
-                'email' => $data['email'],
-                'token' => $token,
-            ];
-
-            try {
-                Mail::queue(new SubscriptionEmail($subscriptionData));
-                
+            try {                
                 Event::dispatch('customer.subscribe.before');
                 
                 $subscription = $this->subscriptionRepository->create([
@@ -77,12 +64,11 @@ class NewsletterSubscriberMutation extends Controller
                     'is_subscribed' => 1,
                     'token'         => $token,
                 ]);
-
                 if ( isset($subscription->id)) {
                     Event::dispatch('customer.subscribe.after', $subscription);
                     
                     return $subscription;
-                
+            
                 } else {
                     throw new Exception(trans('shop::app.subscription.not-subscribed'));
                 }
@@ -115,7 +101,7 @@ class NewsletterSubscriberMutation extends Controller
         try {
             $subscriber = $this->subscriptionRepository->findOneByField('token', $args['token']);
 
-            if ( isset($subscriber->id) && isset($subscriber->is_subscribed)) {
+            if (isset($subscriber->id) && isset($subscriber->is_subscribed)) {
                 
                 Event::dispatch('customer.subscribe.update.before');
                 
@@ -144,7 +130,8 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['email']) || (isset($args['email']) && !$args['email'])) {
+        if (! isset($args['email']) || 
+            (isset($args['email']) && ! $args['email'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -155,8 +142,7 @@ class NewsletterSubscriberMutation extends Controller
         $subscriber = $this->subscriptionRepository->findOneByField('email', $args['email']);
 
         try {
-
-            if ( isset($subscriber->id)) {
+            if (isset($subscriber->id)) {
                 Event::dispatch('customer.subscriber.delete.before', $subscriber->id);
 
                 $this->subscriptionRepository->delete($subscriber->id);

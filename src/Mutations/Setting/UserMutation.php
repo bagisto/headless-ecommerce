@@ -2,16 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use JWTAuth;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Exception;
+use JWTAuth;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\User\Repositories\RoleRepository;
 use Webkul\User\Repositories\AdminRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UserMutation extends Controller
 {
@@ -45,12 +44,12 @@ class UserMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'name'     => 'required',
             'email'    => 'email|unique:admins,email',
@@ -90,13 +89,14 @@ class UserMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'name'     => 'required',
             'email'    => 'email|unique:admins,email,' . $id,
@@ -111,7 +111,7 @@ class UserMutation extends Controller
         }
 
         try {
-            if (!$data['password']) {
+            if (! $data['password']) {
                 unset($data['password']);
             } else {
                 $isPasswordChanged = true;
@@ -148,16 +148,16 @@ class UserMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $user = $this->adminRepository->findOrFail($id);
 
         if ($this->adminRepository->count() == 1) {
-            throw new Exception(trans('admin::app.response.last-delete-error', ['name' => 'Admin']));
+            throw new Exception(trans('bagisto_graphql::app.admin.response.last-delete-error', ['name' => 'Admin']));
         } else {
             try {
                 Event::dispatch('user.admin.delete.before', $id);
@@ -166,9 +166,9 @@ class UserMutation extends Controller
 
                 Event::dispatch('user.admin.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Admin'])];
+                return ['success' => trans('bagisto_graphql::app.admin.response.delete-success', ['name' => 'Admin'])];
             } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Admin']));
+                throw new Exception(trans('bagisto_graphql::app.admin.response.delete-failed', ['name' => 'Admin']));
             }
         }
     }
@@ -180,12 +180,12 @@ class UserMutation extends Controller
      */
     public function login($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'email'     => 'required|email',
             'password'  => 'required',
@@ -197,7 +197,7 @@ class UserMutation extends Controller
 
         $remember = isset($data['remember']) ? $data['remember'] : 0;
 
-        if (!$jwtToken = JWTAuth::attempt([
+        if (! $jwtToken = JWTAuth::attempt([
             'email'     => $data['email'],
             'password'  => $data['password'],
         ], $remember)) {

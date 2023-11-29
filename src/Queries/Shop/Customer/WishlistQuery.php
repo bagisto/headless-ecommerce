@@ -2,7 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Webkul\Customer\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Webkul\Customer\Repositories\WishlistRepository;
 
 class WishlistQuery extends Controller
 {
@@ -18,7 +19,9 @@ class WishlistQuery extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        protected WishlistRepository $wishlistRepository
+    )
     {
         $this->guard = 'api';
 
@@ -44,32 +47,32 @@ class WishlistQuery extends Controller
         }
                     
         $qb = $query->distinct()
-            ->addSelect('wishlist.*')
-            ->addSelect('product_flat.name as product_name')
-            ->leftJoin('product_flat', 'wishlist.product_id', '=', 'product_flat.product_id')
-            ->where('product_flat.channel', $channel)
-            ->where('product_flat.locale', $locale);
+        ->addSelect('wishlist_items.*')
+        ->addSelect('product_flat.name as product_name')
+        ->leftJoin('product_flat', 'wishlist_items.product_id', '=', 'product_flat.product_id')
+        ->where('product_flat.channel', $channel)
+        ->where('product_flat.locale', $locale);
 
-            if ( isset($params['id']) && $params['id']) {
-                $qb->where('wishlist.id', $params['id']);
-            }
+        if ( isset($params['id']) && $params['id']) {
+            $qb->where('wishlist_items.id', $params['id']);
+        }
 
-            if ( isset($params['product_name']) && $params['product_name']) {
-                $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
-            }
-            
-            if ( isset($params['product_id']) && $params['product_id']) {
-                $qb->where('wishlist.product_id', $params['product_id']);
-            }
-            
-            if ( isset($params['channel_id']) && $params['channel_id']) {
-                $qb->where('wishlist.channel_id', $params['channel_id']);
-            }
+        if ( isset($params['product_name']) && $params['product_name']) {
+            $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
+        }
         
-            if ( isset($params['customer_id']) && $params['customer_id']) {
-                $qb->where('wishlist.customer_id', $params['customer_id']);
-            }
+        if ( isset($params['product_id']) && $params['product_id']) {
+            $qb->where('wishlist_items.product_id', $params['product_id']);
+        }
+        
+        if ( isset($params['channel_id']) && $params['channel_id']) {
+            $qb->where('wishlist_items.channel_id', $params['channel_id']);
+        }
+    
+        if ( isset($params['customer_id']) && $params['customer_id']) {
+            $qb->where('wishlist_items.customer_id', $params['customer_id']);
+        }
 
-        return $qb;
+        return $qb;;
     }
 }

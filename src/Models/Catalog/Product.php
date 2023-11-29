@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Models\Catalog;
 
 use Exception;
 use Webkul\Product\Type\AbstractType;
-use Webkul\BookingProduct\Models\BookingProductProxy;
 use Webkul\Product\Models\Product as BaseModel;
 
 class Product extends BaseModel
@@ -37,13 +36,5 @@ class Product extends BaseModel
         $this->typeInstance->setProduct($this);
 
         return $this->typeInstance;
-    }
-
-    /**
-     * Get the booking that owns the product.
-     */
-    public function booking_product()
-    {
-        return $this->hasOne(BookingProductProxy::modelClass());
     }
 }

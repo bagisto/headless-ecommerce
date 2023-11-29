@@ -1,10 +1,10 @@
 #Catalog\Product Related API
 extend type Query {
-    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterProducts")): [Product!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterProducts")): [Product!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 
     product(id: ID @eq): Product @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
 
-    productFlats: [ProductFlat!] @paginate(type: "paginator", defaultCount: 10, model: "Webkul\\Product\\Models\\ProductFlat")
+    productFlats: [ProductFlat!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\Product\\Models\\ProductFlat")
 
     productFlat(id: ID @eq): ProductFlat @find(model: "Webkul\\Product\\Models\\ProductFlat")
 
@@ -79,7 +79,6 @@ input UpdateProductInput {
     downloadableLinks: [UpdateDownloadableLinksInput!] @rename(attribute: "downloadable_links")
     downloadableSamples: [UpdateDownloadableSamplesInput!] @rename(attribute: "downloadable_samples")
     bundleOptions: [UpdateBundleOptionsInput!] @rename(attribute: "bundle_options")
-    booking: UpdateBookingInput
 }
 
 input UpdateVariantInput {
@@ -92,6 +91,7 @@ input UpdateVariantInput {
     price: Float!
     weight: Float!
     status: Boolean!
+    images: [String]
 }
 
 input VariantInventoryInput {
@@ -140,8 +140,8 @@ type Product {
     superAttributes: [Attribute!] @belongsToMany(relation: "super_attributes")
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
-    images: [Image!] @hasMany
-    cacheBaseImage: CacheImage @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductBaseImage")
+    images: [Image] @hasMany
+    cacheBaseImage: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductBaseImage")
     cacheGalleryImages: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getCacheGalleryImages")
     videos: [Video!] @hasMany
     additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")
@@ -157,9 +157,6 @@ type Product {
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
     groupedProducts: [ProductGroupedProduct] @hasMany(relation: "grouped_products")
     bundleOptions: [ProductBundleOption] @hasMany(relation: "bundle_options")
-    booking: BookingProduct @hasOne(relation: "booking_product")
-    sameDaySlots: [BookingDaySlots!] @rename(attribute: "same_day_slots")
-    differentDaySlots: [BookingDaySlots!] @rename(attribute: "different_day_slots")
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
     cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
     # up_sells: [Product] @belongsToMany

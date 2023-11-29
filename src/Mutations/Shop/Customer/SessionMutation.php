@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
-use JWTAuth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Customer\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerRepository;
+use Exception;
+use JWTAuth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class SessionMutation extends Controller
@@ -33,7 +33,7 @@ class SessionMutation extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard, ['except' => ['login']]);
     }
 
@@ -44,7 +44,8 @@ class SessionMutation extends Controller
      */
     public function login($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameters.'

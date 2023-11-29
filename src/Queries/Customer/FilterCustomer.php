@@ -17,10 +17,10 @@ class FilterCustomer extends BaseFilter
     {
         $arguments = $this->getFilterParams($input);
 
-        $group_name = "";
+        $groupName = "";
 
         // Get first_name and last_name
-        if ( isset($arguments['name'])) {
+        if (isset($arguments['name'])) {
 
             $nameChanger = $this->nameSplitter($arguments['name']);
 
@@ -32,14 +32,14 @@ class FilterCustomer extends BaseFilter
         }
 
         // filter the relationship Customer Group
-        if ( isset($arguments['group_name'])) {
+        if (isset($arguments['group_name'])) {
 
-            $group_name = $input['group_name'];
+            $groupName = $input['group_name'];
 
             unset($arguments['group_name']);
 
-            return $query->whereHas('group', function ($q) use ($group_name) {
-                $q->where('name', $group_name);
+            return $query->whereHas('group', function ($q) use ($groupName) {
+                $q->where('name', $groupName);
             })->where($arguments);
         }
 

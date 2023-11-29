@@ -1,6 +1,6 @@
 #Shop\Customer\CompareProduct Related APIs
 extend type Query @guard(with: ["api"]){
-    compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
+    compareProducts(input: FilterCompareProductsInput): [CustomerCompareProduct!]  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 
     compareProduct(id: ID @eq): CustomerCompareProduct @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 }
@@ -18,7 +18,7 @@ extend type Mutation @guard(with: ["api"]) {
 }
 
 input AddToCompareInput {
-    productFlatId: ID! @rename(attribute: "product_flat_id")
+    productId: ID! @rename(attribute: "product_id")
 }
 
 type AddToCompareResponse {
@@ -38,19 +38,18 @@ input FilterCompareProductsInput {
     page: Int
     limit: Int
     id: Int
-    productFlatId: Int @rename(attribute: "product_flat_id")
+    productId: Int @rename(attribute: "product_id")
     productName: String @rename(attribute: "product_name")
     price: Float
 }
 
 type CustomerCompareProduct {
     id: ID!
-    productFlatId: ID! @rename(attribute: "product_flat_id")
+    productId: ID! @rename(attribute: "product_id")
     customerId: ID! @rename(attribute: "customer_id")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     product: Product! @belongsTo(relation: "product")
-    productFlat: ProductFlat! @belongsTo(relation: "product_flat")
-    customer: Customer! @belongsTo(relation: "customer")
+    customer: Customer!
     cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
 }

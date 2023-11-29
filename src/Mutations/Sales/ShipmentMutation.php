@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Sales;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ShipmentMutation extends Controller
 {
@@ -46,13 +46,13 @@ class ShipmentMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $orderId = $params['order_id'];
-
         $order = $this->orderRepository->findOrFail($orderId);
 
         if (! $order->canShip()) {
@@ -60,23 +60,18 @@ class ShipmentMutation extends Controller
         }
 
         try {
-
             $shipmentData = [];
-
             if (isset($params['shipment_data'])) {
                 foreach ($params['shipment_data'] as $data) {
-
                     $shipmentData[$data['order_item_id']] = [
                         $params['inventory_source_id'] => $data['quantity']
                     ];
                 }
-
-                $shipment['shipment']['items'] =  $shipmentData;
-
+               
                 $shipment['shipment']['carrier_title'] = $params['carrier_title'];
                 $shipment['shipment']['track_number']  = $params['track_number'];
                 $shipment['shipment']['source']        = $params['inventory_source_id'];
-
+                $shipment['shipment']['items']         =  $shipmentData;
                 $validator = Validator::make($shipment, [
                     'shipment.source'        => 'required',
                     'shipment.items.*.*'     => 'required|numeric|min:0',
@@ -86,7 +81,7 @@ class ShipmentMutation extends Controller
                     throw new Exception($validator->messages());
                 }
 
-                if (!$this->isInventoryValidate($shipment)) {
+                if (! $this->isInventoryValidate($shipment)) {
                     throw new Exception(trans('admin::app.sales.shipments.quantity-invalid'));
                 }
 
@@ -109,12 +104,11 @@ class ShipmentMutation extends Controller
      */
     public function isInventoryValidate(&$data)
     {
-        if (!isset($data['shipment']['items'])) {
+        if (! isset($data['shipment']['items'])) {
             return;
         }
 
         $valid = false;
-
         $inventorySourceId = $data['shipment']['source'];
 
         foreach ($data['shipment']['items'] as $itemId => $inventorySource) {
@@ -127,12 +121,11 @@ class ShipmentMutation extends Controller
 
                 if ($orderItem->getTypeInstance()->isComposite()) {
                     foreach ($orderItem->children as $child) {
-                        if (!$child->qty_ordered) {
+                        if (! $child->qty_ordered) {
                             continue;
                         }
 
                         $finalQty = ($child->qty_ordered / $orderItem->qty_ordered) * $qty;
-
                         $availableQty = $child->product->inventories()
                             ->where('inventory_source_id', $inventorySourceId)
                             ->sum('qty');

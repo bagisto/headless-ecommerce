@@ -2,15 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class WishlistMutation extends Controller
 {
@@ -75,32 +74,34 @@ class WishlistMutation extends Controller
                     ->where('product_flat.locale', $locale)
                     ->where('wishlist.customer_id', $customer->id);
 
-                if ( isset($params['id']) && $params['id']) {
+                if (isset($params['id']) && $params['id']) {
                     $qb->where('wishlist.id', $params['id']);
                 }
 
-                if ( isset($params['product_name']) && $params['product_name']) {
+                if (isset($params['product_name']) && $params['product_name']) {
                     $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
                 }
                 
-                if ( isset($params['product_id']) && $params['product_id']) {
+                if (isset($params['product_id']) && $params['product_id']) {
                     $qb->where('wishlist.product_id', $params['product_id']);
                 }
                 
-                if ( isset($params['channel_id']) && $params['channel_id']) {
+                if (isset($params['channel_id']) && $params['channel_id']) {
                     $qb->where('wishlist.channel_id', $params['channel_id']);
                 }
 
                 return $qb;
             });
 
-            if ( isset($args['id'])) {
+            if (isset($args['id'])) {
                 $wishlists = $wishlists->first();
             } else {
-                $wishlists = $wishlists->paginate( isset($params['limit']) ? $params['limit'] : 10);
+                $wishlists = $wishlists->paginate(isset($params['limit']) ? $params['limit'] : 10);
             }
             
-            if ( ($wishlists && isset($wishlists->first()->id)) || isset($wishlists->id) ) {
+            if ( ($wishlists && 
+                isset($wishlists->first()->id)) || 
+                isset($wishlists->id) ) {
                 return $wishlists;
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Wishlist Item']));
@@ -117,7 +118,8 @@ class WishlistMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -182,7 +184,8 @@ class WishlistMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -218,7 +221,7 @@ class WishlistMutation extends Controller
                 $this->wishlistRepository->delete($wishlist->id);
                 return [
                     'status'    => true,
-                    'success'   => trans('customer::app.wishlist.removed'),
+                    'success'   => trans('shop::app.wishlist.removed'),
                     'wishlist'  => $this->wishlistRepository->findWhere($data)
                 ];
             } else {
@@ -240,7 +243,8 @@ class WishlistMutation extends Controller
      */
     public function move($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) ||
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -264,7 +268,7 @@ class WishlistMutation extends Controller
                 if ( $result ) {
                     return [
                         'status'    => true,
-                        'success'   => trans('shop::app.customer.account.wishlist.moved'),
+                        'success'   => trans('shop::app.wishlist.moved-success'),
                         'wishlist'  => $this->wishlistRepository->findWhere(['customer_id' => $customer->id])
                     ];
                 } else {
@@ -307,7 +311,7 @@ class WishlistMutation extends Controller
 
             return [
                 'status'    => true,
-                'success'   => trans('customer::app.wishlist.remove-all-success'),
+                'success'   => trans('shop::app.wishlist.remove-all-success'),
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

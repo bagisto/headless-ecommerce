@@ -3,21 +3,19 @@
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
 
 class AttributeFamilyMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
-     * @param  \Webkul\Attribute\Repositories\AttributeFamilyRepository  $attributeFamilyRepository
      * @return void
      */
     public function __construct(
@@ -39,7 +37,13 @@ class AttributeFamilyMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (
+            ! isset($args['input']) 
+            || (
+                isset($args['input']) 
+                && ! $args['input']
+                )
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -50,7 +54,7 @@ class AttributeFamilyMutation extends Controller
         }
 
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:attribute_families,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:attribute_families,code', new Code],
             'name' => 'required',
         ]);
         
@@ -75,31 +79,35 @@ class AttributeFamilyMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) 
+            || ! isset($args['input']) 
+            || (
+                isset($args['input']) 
+                && ! $args['input']
+               )
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
-            'code' => ['required', 'unique:attribute_families,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code' => ['required', 'unique:attribute_families,code,' . $id, new Code],
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
-
         $attribute_groups = [];
-        if ( isset($data['attribute_groups']) && $data['attribute_groups']) {
+
+        if (isset($data['attribute_groups']) && $data['attribute_groups']) {
             $previousAttributeGroupIds = $attributeGroupArray = $attributeFamily->attribute_groups()->pluck('id');
 
             foreach ($attributeGroupArray->toArray() as $key => $attributeGroupId) {
@@ -111,18 +119,17 @@ class AttributeFamilyMutation extends Controller
             }
             
             foreach ($data['attribute_groups'] as $key => $attributeGroup) {
-                $index = 'group_' . ($key + 1);
+                $index = $key + 1;
                 $attribute_groups[$index] = $attributeGroup;
             }
             
             $data['attribute_groups'] = $attribute_groups;
         }
-        
         try {
             Event::dispatch('catalog.attributeFamily.update.before', $id);
 
             $attributeFamily = $this->attributeFamilyRepository->update($data, $id);
-            
+
             Event::dispatch('catalog.attributeFamily.update.before', $attributeFamily);
 
             return $attributeFamily;
@@ -144,7 +151,6 @@ class AttributeFamilyMutation extends Controller
         }
 
         $id = $args['id'];
-
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
 
         if ($this->attributeFamilyRepository->count() == 1) {

@@ -10,20 +10,6 @@ use Webkul\Checkout\Repositories\CartItemRepository;
 class FormattedPrice extends BaseFilter
 {
     /**
-     * Cart repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\CartRepository
-     */
-    protected $cartRepository;
-
-    /**
-     * CartItem repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\CartItemRepository
-     */
-    protected $cartItemRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Checkout\Repositories\CartRepository  $cartRepository
@@ -31,13 +17,9 @@ class FormattedPrice extends BaseFilter
      * @return void
      */
     public function __construct(
-        CartRepository $cartRepository,
-        CartItemRepository $cartItemRepository
+        protected CartRepository $cartRepository,
+        protected CartItemRepository $cartItemRepository
     ) {
-        $this->cartRepository = $cartRepository;
-
-        $this->cartItemRepository = $cartItemRepository;
-
         $this->_config = request('_config');
     }
 

@@ -1,6 +1,6 @@
 # Setting\TaxRate Related APIs
-extend type Query @guard {
-    taxRates(input: FilterTaxRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTaxRate")): [TaxRate!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxRate")
+extend type Query @guard(with: ["admin-api"]) {
+    taxRates(input: FilterTaxRateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTaxRate")): [TaxRate!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxRate")
 
     taxRate(id: ID @eq): TaxRate @find(model: "Webkul\\Tax\\Models\\TaxRate")
 }
@@ -20,7 +20,7 @@ extend type Mutation @guard {
 
 input createTaxRateInput {
     identifier: String!
-    isZip: Int @rename(attribute: "is_zip")
+    isZip: String @rename(attribute: "is_zip")
     zipCode: String @rename(attribute: "zip_code")
     zipFrom: String @rename(attribute: "zip_from")
     zipTo: String @rename(attribute: "zip_to")

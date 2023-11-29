@@ -9,14 +9,6 @@ use Webkul\Checkout\Repositories\CartRepository;
 
 class Cart extends BaseFilter
 {
-
-    /**
-     * Cart repository instance.
-     *
-     * @var \Webkul\Checkout\Repositories\CartRepository
-     */
-    protected $cartRepository;
-
     /**
      * Create a new controller instance.
      *
@@ -24,10 +16,8 @@ class Cart extends BaseFilter
      * @return void
      */
     public function __construct(
-        CartRepository $cartRepository
+        protected CartRepository $cartRepository
     ) {
-        $this->cartRepository = $cartRepository;
-
         $this->_config = request('_config');
     }
     /**

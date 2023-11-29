@@ -1,6 +1,6 @@
 #Promition\CartRule Related APIs
-extend type Query @guard {
-    cartRules(input : FilterCartRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCartRules")): [CartRule!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\CartRule\\Models\\CartRule")
+extend type Query @guard(with: ["admin-api"]) {
+    cartRules(input : FilterCartRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCartRules")): [CartRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CartRule\\Models\\CartRule")
     cartRule(id: ID @eq): CartRule @find(model: "Webkul\\CartRule\\Models\\CartRule")
 }
 

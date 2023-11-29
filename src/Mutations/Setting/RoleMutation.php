@@ -3,10 +3,9 @@
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
 use Webkul\User\Repositories\RoleRepository;;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -43,7 +42,8 @@ class RoleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -80,7 +80,9 @@ class RoleMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -117,7 +119,8 @@ class RoleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -135,9 +138,9 @@ class RoleMutation extends Controller
 
                 Event::dispatch('user.role.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Role'])];
+                return ['success' => trans('admin::app.settings.roles.delete-success', ['name' => 'Role'])];
             } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Role']));
+                throw new Exception(trans('admin::app.settings.roles.delete-failed', ['name' => 'Role']));
             }
         }
     }

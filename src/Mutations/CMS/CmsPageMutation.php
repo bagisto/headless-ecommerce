@@ -2,11 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\CMS;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CMS\Repositories\CmsRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Slug;
 
 class CmsPageMutation extends Controller
 {
@@ -33,14 +34,15 @@ class CmsPageMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'url_key'      => ['required', 'unique:cms_page_translations,url_key', new \Webkul\Core\Contracts\Validations\Slug],
+            'url_key'      => ['required', 'unique:cms_page_translations,url_key', new Slug],
             'page_title'   => 'required',
             'channels'     => 'required',
             'html_content' => 'required',
@@ -62,12 +64,13 @@ class CmsPageMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -81,7 +84,7 @@ class CmsPageMutation extends Controller
         unset($data[$locale]['locale']);
 
         $validator = Validator::make($data, [
-            $locale . '.url_key'      => ['required', new \Webkul\Core\Contracts\Validations\Slug, function ($attribute, $value, $fail) use ($id) {
+            $locale . '.url_key'      => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
                 if (!$this->cmsRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Page']));
                 }
@@ -90,7 +93,7 @@ class CmsPageMutation extends Controller
             $locale . '.html_content' => 'required',
             'channels'                => 'required',
         ]);
-
+        
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -107,25 +110,22 @@ class CmsPageMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $page = $this->cmsRepository->find($id);
-
         try {
-
             if ($page != Null) {
                 $page->delete();
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'CMS Page'])];
+                return ['success' => trans('admin::app.cms.delete-success', ['name' => 'CMS Page'])];
             } else {
                 throw new Exception(trans('admin::app.cms.pages.delete-failure'));
             }

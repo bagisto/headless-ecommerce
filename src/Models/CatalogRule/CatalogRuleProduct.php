@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Models\CatalogRule;
 
-use Illuminate\Database\Eloquent\Model;
 use Webkul\CatalogRule\Models\CatalogRuleProduct as BaseModel;
 use Webkul\CatalogRule\Contracts\CatalogRuleProduct as CatalogRuleProductContract;
 use Webkul\Core\Models\ChannelProxy;

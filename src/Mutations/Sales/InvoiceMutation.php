@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Sales;
 
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
 
@@ -42,35 +42,30 @@ class InvoiceMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $orderId = $params['order_id'];
-
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if (!$order->canInvoice()) {
+        if (! $order->canInvoice()) {
             throw new Exception(trans('admin::app.sales.invoices.creation-error'));
         }
 
         try {
-
             $invoiceData = [];
-
             if (isset($params['invoice_data'])) {
                 foreach ($params['invoice_data'] as $data) {
-
                     $invoiceData = $invoiceData + [
                         $data['order_item_id'] => $data['quantity']
                     ];
                 }
 
                 $invoice['invoice']['items'] =  $invoiceData;
-
                 $haveProductToInvoice = false;
-
                 foreach ($invoice['invoice']['items'] as $itemId => $qty) {
                     if ($qty) {
                         $haveProductToInvoice = true;
@@ -78,7 +73,7 @@ class InvoiceMutation extends Controller
                     }
                 }
 
-                if (!$haveProductToInvoice) {
+                if (! $haveProductToInvoice) {
                     throw new Exception(trans('admin::app.sales.invoices.product-error'));
                 }
 

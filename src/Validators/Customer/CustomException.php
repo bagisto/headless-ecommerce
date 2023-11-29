@@ -3,9 +3,9 @@
 namespace Webkul\GraphQLAPI\Validators\Customer;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ClientAware;
 
-class CustomException extends Exception implements RendersErrorsExtensions
+class CustomException extends Exception implements ClientAware
 {
     /**
     * @var @string

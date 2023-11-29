@@ -1,7 +1,7 @@
 #Marketing\Event Related APIs
-extend type Query @guard {
+extend type Query  @guard(with: ["admin-api"]) {
     
-    sitemaps(input: FilterSiteMapInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Sitemap!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\Sitemap\\Models\\Sitemap")
+    sitemaps(input: FilterSiteMapInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEvent")): [Sitemap!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Sitemap\\Models\\Sitemap")
     
     sitemap(id: ID @eq): Sitemap @find(model: "Webkul\\Sitemap\\Models\\Sitemap")
 }

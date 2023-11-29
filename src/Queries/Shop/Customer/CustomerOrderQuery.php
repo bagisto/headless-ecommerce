@@ -3,10 +3,9 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 
-class CustomerOrderQuery extends Controller
+class CustomerOrderQuery
 {
     /**
      * Contains current guard.
@@ -25,8 +24,7 @@ class CustomerOrderQuery extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:' . $this->guard);
+        // $this->middleware('auth:' . $this->guard);
     }
 
     /**

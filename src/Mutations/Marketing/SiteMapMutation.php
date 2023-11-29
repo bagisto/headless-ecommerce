@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Marketing;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sitemap\Repositories\SitemapRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class SiteMapMutation extends Controller
 {
@@ -40,12 +40,12 @@ class SiteMapMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
-
         $validator = Validator::make($params, [
             'file_name'   => 'required',
             'path'        => 'required',
@@ -56,7 +56,6 @@ class SiteMapMutation extends Controller
         }
 
         try {
-
             $sitemap = $this->sitemapRepository->create($params);
 
             return $sitemap;
@@ -68,18 +67,18 @@ class SiteMapMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($params, [
             'file_name'   => 'required',
             'path'        => 'required',
@@ -90,9 +89,7 @@ class SiteMapMutation extends Controller
         }
 
         try {
-
             $sitemap = $this->sitemapRepository->update($params, $id);
-
             $sitemap = $this->sitemapRepository->find($id);
 
             return $sitemap;
@@ -104,33 +101,31 @@ class SiteMapMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $sitemap = $this->sitemapRepository->find($id);
 
         try {
             if ($sitemap != Null) {
-
                 $sitemap->delete();
 
                 return [
                     'status' => true,
-                    'message' => trans('admin::app.response.delete-success', ['name' => 'SiteMap'])
+                    'message' => trans('admin::app.marketing.sitemaps.index.edit.delete-success', ['name' => 'SiteMap'])
                 ];
             } else {
 
                 return [
                     'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'SiteMap'])
+                    'message' => trans('admin::app.marketing.sitemaps.delete-failed', ['name' => 'SiteMap'])
                 ];
             }
         } catch (Exception $e) {

@@ -8,21 +8,12 @@ use Webkul\Core\Repositories\CurrencyRepository;
 class CurrencyMiddleware
 {
     /**
-     * Currency repository.
-     *
-     * @var \Webkul\Core\Repositories\CurrencyRepository
-     */
-    protected $currencyRepository;
-
-    /**
      * Create a middleware instance.
      *
-     * @param  \Webkul\Core\Repositories\CurrencyRepository $locale
      * @return void
      */
-    public function __construct(CurrencyRepository $currencyRepository)
+    public function __construct(protected CurrencyRepository $currencyRepository)
     {
-        $this->currencyRepository = $currencyRepository;
     }
 
     /**
@@ -37,12 +28,12 @@ class CurrencyMiddleware
         $currencyCode = $request->header('x-currency');
 
         if ($currencyCode && $this->currencyRepository->findOneByField('code', $currencyCode)) {
-            core()->setCurrency($currencyCode);
+            core()->setCurrentCurrency($currencyCode);
 
             return $next($request);
         }
 
-        core()->setCurrency(core()->getChannelBaseCurrencyCode());
+        core()->setCurrentCurrency(core()->getChannelBaseCurrencyCode());
 
         return $next($request);
     }

@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Promotion;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
 use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CatalogRuleMutation extends Controller
 {
@@ -44,12 +44,12 @@ class CatalogRuleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
-
         $validator = Validator::make($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1',
@@ -65,7 +65,6 @@ class CatalogRuleMutation extends Controller
         }
 
         try {
-
             Event::dispatch('promotions.catalog_rule.create.before');
 
             $catalogRule = $this->catalogRuleRepository->create($params);
@@ -84,18 +83,18 @@ class CatalogRuleMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1',
@@ -111,7 +110,6 @@ class CatalogRuleMutation extends Controller
         }
 
         try {
-
             $catalogRule = $this->catalogRuleRepository->findOrFail($id);
 
             Event::dispatch('promotions.catalog_rule.update.before', $catalogRule);
@@ -132,22 +130,20 @@ class CatalogRuleMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $catalogRule = $this->catalogRuleRepository->find($id);
 
         try {
             if ($catalogRule != Null) {
-
                 Event::dispatch('promotions.catalog_rule.delete.before', $id);
 
                 $catalogRule->delete($id);
@@ -178,7 +174,6 @@ class CatalogRuleMutation extends Controller
         ]);
 
         try {
-
             if (! $id) {
                 throw new Exception(trans('admin::app.promotions.cart-rules.cart-rule-not-defind-error'));
             }

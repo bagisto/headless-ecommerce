@@ -9,6 +9,8 @@ use Webkul\GraphQLAPI\Contracts\PushNotification as PushNotificationContract;
 
 class PushNotification extends Model implements PushNotificationContract
 {
+    protected $table = 'push_notifications';
+
     public $timestamps = true;
 
     protected $guarded = ['_token'];
@@ -80,7 +82,10 @@ class PushNotification extends Model implements PushNotificationContract
             $channelList = Channel::query()->pluck('code')->toArray();
             $channelDetail = Channel::query()->where('code', $translation->channel)->first();
             
-            if (in_array($translation->channel, $channelList) && isset($channelDetail->code) && !in_array($channelDetail->code, $channels)) {
+            if (
+                in_array($translation->channel, $channelList) 
+                && isset($channelDetail->code) 
+                && ! in_array($channelDetail->code, $channels)) {
                 array_push($channels, $channelDetail->code);
             }
         }

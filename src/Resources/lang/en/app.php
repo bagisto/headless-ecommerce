@@ -20,33 +20,57 @@
                 'ios-topic'                         => 'IOS Topic',
             ],
 
-            'notification'  => [
-                'title'                 => 'Push Notification',
-                'add-title'             => 'Add Notification',
-                'general'               => 'General',
+            'customer' => [
+                'no-customer-found' => 'No customer found'
+            ],
 
-                'id'                    => 'Id',
-                'image'                 => 'Image',
-                'text-title'            => 'Title',
-                'edit-notification'     => 'Edit Notification',
-                'manage'                => 'Notifications',
-                'new-notification'      => 'New Notification',
-                'create-btn-title'      => 'Save Notification',
-                'notification-image'    => 'Notification Image',
-                'notification-title'    => 'Notification Title',
-                'notification-content'  => 'Notification Content',
-                'notification-type'     => 'Notification Type',
-                'product-cat-id'        => 'Product/Category Id',
-                'store-view'            => 'Channels',
-                'notification-status'   => 'Notification Status',
-                'created'               => 'Created',
-                'modified'              => 'Modified',
-                'collection-autocomplete'   => 'Custom Collection - (Autocomplete)',
-                'no-collection-found'       => 'Collections not found with same name.',
-                'collection-search-hint'    => 'Start typing collection name',
-                
+            'notification'  => [
+                'title'                   => 'Push Notification',
+                'add-title'               => 'Add Notification',
+                'general'                 => 'General',
+                'settings'                => 'Setting',
+                'id'                      => 'Id',
+                'image'                   => 'Image',
+                'text-title'              => 'Title',
+                'edit-notification'       => 'Edit Notification',
+                'manage'                  => 'Notifications',
+                'new-notification'        => 'New Notification',
+                'create-btn-title'        => 'Save Notification',
+                'back-btn'                => 'Back',
+                'notification-image'      => 'Notification Image',
+                'notification-title'      => 'Notification Title',
+                'notification-content'    => 'Notification Content',
+                'content-and-image'    => 'Notification Content And Image',
+                'notification-type'       => 'Notification Type',
+                'product-cat-id'          => 'Product/Category Id',
+                'store-view'              => 'Channels',
+                'notification-status'     => 'Notification Status',
+                'created'                 => 'Created',
+                'modified'                => 'Modified',
+                'collection-autocomplete' => 'Custom Collection - (Autocomplete)',
+                'no-collection-found'     => 'Collections not found with same name.',
+                'collection-search-hint'  => 'Start typing collection name',
+                'select-type'             => 'Select product type',
                 'Action'    => [
                     'edit'      => 'Edit',
+                ],
+
+                'create' => [
+                    'status' => 'Status',
+                ],
+
+                'edit' => [
+                    'general' => 'General',
+                    'notification-content-image' => 'Notification Content And Image',
+                    'content'                    => 'Notification Content',
+                    'image'                      => 'Notification Image',
+                    'settings'                   => 'Settings'   
+                ],
+
+                'option-type' => [
+                    'others'   => 'Simple',
+                    'product'  => 'Product',
+                    'category' => 'Category'
                 ],
 
                 'status'    => [
@@ -79,6 +103,9 @@
             ],
             
             'response'  => [
+                'delete-success'            => 'Success: User deleted successfuly.',
+                'last-delete-error'         => 'Warning: Atleast on user is  required',
+                'delete-failed'             => 'Warning: Admin user is not deleted',
                 'error-invalid-parameter'   => 'Warning: Invaid parameters provided.',
                 'success-login'             => 'Success: User login successfuly.',
                 'error-login'               => 'Warning: Admin user is not login.',
@@ -111,6 +138,7 @@
             ],
             'response'  => [
                 'error-registration'        => 'Warning: customer registration failed.',
+                'reset_link_sent'           => 'Success: Password reset email has been sent successfully.',
                 'password-reset-failed'     => 'Warning: We already sent you password reset email, try after sometime.',
                 'customer-details'          => 'Success: Customer details fetched successfully.',
                 'not-found'                 => 'Wanring: No :name found.',

@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
-use Webkul\Customer\Http\Controllers\Controller;
-use Webkul\Product\Repositories\ProductReviewRepository;
+use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ReviewMutation extends Controller
@@ -160,7 +160,8 @@ class ReviewMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameter.'
@@ -197,7 +198,7 @@ class ReviewMutation extends Controller
             return [
                 'status'    => (isset($customerReview->id)) ? true : false,
                 'reviews'   => $customer->all_reviews,
-                'message'   => ($customerReview->id) ? trans('admin::app.response.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
+                'message'   => ($customerReview->id) ? trans('admin::app.reviews.datagrid.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
             ];
         } catch (Exception $e) {
             throw new CustomException(

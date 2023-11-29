@@ -2,53 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Product;
 
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Product\Models\ProductAttributeValueProxy;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Helpers\Toolbar;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Product\Models\ProductAttributeValueProxy;
 
 class ProductListingQuery extends BaseFilter
 {
-    /**
-     * Product flat repository instance.
-     *
-     * @var \Webkul\Product\Repositories\ProductFlatRepository
-     */
-    protected $productFlatRepository;
-
-    /**
-     * Product repository instance.
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
-     * Category repository instance.
-     *
-     * @var \Webkul\Category\Repositories\CategoryRepository
-     */
-    protected $categoryRepository;
-
-    /**
-     * Attribute repository instance.
-     *
-     * @var \Webkul\Attribute\Repositories\AttributeRepository
-     */
-    protected $attributeRepository;
-
-    /**
-     * Toolbar helper instance.
-     *
-     * @var \Webkul\Product\Helpers\Toolbar
-     */
-    protected $productHelperToolbar;
 
     /**
      * Create a new controller instance.
@@ -59,21 +26,14 @@ class ProductListingQuery extends BaseFilter
      * @return void
      */
     public function __construct(
-        ProductFlatRepository $productFlatRepository,
-        ProductRepository $productRepository,
-        CategoryRepository $categoryRepository,
-        AttributeRepository $attributeRepository,
-        Toolbar $productHelperToolbar
+        protected ProductFlatRepository $productFlatRepository,
+        protected ProductRepository $productRepository,
+        protected CategoryRepository $categoryRepository,
+        protected AttributeRepository $attributeRepository,
+        protected Toolbar $productHelperToolbar,
+        protected CustomerRepository $customerRepository,
+
     ) {
-        $this->productFlatRepository = $productFlatRepository;
-
-        $this->productRepository = $productRepository;
-
-        $this->categoryRepository = $categoryRepository;
-
-        $this->attributeRepository = $attributeRepository;
-
-        $this->productHelperToolbar = $productHelperToolbar;
     }
 
     /**
@@ -134,9 +94,9 @@ class ProductListingQuery extends BaseFilter
             }
         }
 
-        if (! core()->getConfigData('catalog.products.homepage.out_of_stock_items')) {
-            $qb = $this->productRepository->checkOutOfStockItem($qb);
-        }
+        // if (! core()->getConfigData('catalog.products.homepage.out_of_stock_items')) {
+        //     $qb = $this->productRepository->checkOutOfStockItem($qb);
+        // }
 
         if (! empty($params['status'])) {
             $qb->where('product_flat.status', 1);
@@ -166,24 +126,6 @@ class ProductListingQuery extends BaseFilter
         /* added for api as per the documentation */
         if (! empty($params['url_key'])) {
             $qb->where('product_flat.url_key', 'like', '%' . urldecode($params['url_key']) . '%');
-        }
-
-        # sort direction
-        $orderDirection = 'asc';
-        if (isset($params['order']) && in_array($params['order'], ['desc', 'asc'])) {
-            $orderDirection = $params['order'];
-        } else {
-            $sortOptions = $this->getDefaultSortByOption();
-            $orderDirection = ! empty($sortOptions) ? $sortOptions[1] : 'asc';
-        }
-
-        if (isset($params['sort'])) {
-            $this->checkSortAttributeAndGenerateQuery($qb, $params['sort'], $orderDirection);
-        } else {
-            $sortOptions = $this->getDefaultSortByOption();
-            if (! empty($sortOptions)) {
-                $this->checkSortAttributeAndGenerateQuery($qb, $sortOptions[0], $orderDirection);
-            }
         }
 
         if (! empty($params['price'])) {
@@ -232,9 +174,7 @@ class ProductListingQuery extends BaseFilter
         if (! empty($params['filters'])) {
             foreach ($params['filters'] as $attribute) {
                 
-                if (
-                    ! isset($attribute['key']) 
-                    || ! isset($attribute['value'])
+                if (! isset($attribute['key']) || ! isset($attribute['value'])
                 ) {
                     continue;
                 }
@@ -307,7 +247,7 @@ class ProductListingQuery extends BaseFilter
             })->first();
 
             if ($category) {
-                $maxPrice = $this->productFlatRepository->handleCategoryProductMaximumPrice($category);
+                $maxPrice = $this->productRepository->getMaxPrice($category);
 
                 if (empty($filterAttributes = $category->filterableAttributes)) {
                     $filterAttributes = $this->attributeRepository->getFilterAttributes();
@@ -333,7 +273,7 @@ class ProductListingQuery extends BaseFilter
 
             $availableSortOrders[$key] = [
                 'key'   => $key,
-                'label' => trans('shop::app.products.' . $label),
+                // 'label' => trans('shop::app.products.' . $label),
                 'value' => [
                     'sort'  => current($keys),
                     'order' => end($keys),
@@ -348,45 +288,5 @@ class ProductListingQuery extends BaseFilter
             'filter_data'       => $filterData,
             'sort_orders'       => $availableSortOrders,
         ];
-    }
-
-    /**
-     * Get default sort by option.
-     *
-     * @return array
-     */
-    private function getDefaultSortByOption()
-    {
-        $value = core()->getConfigData('catalog.products.storefront.sort_by');
-
-        $config = $value ? $value : 'name-desc';
-
-        return explode('-', $config);
-    }
-
-    /**
-     * Check sort attribute and generate query.
-     *
-     * @param  object  $query
-     * @param  string  $sort
-     * @param  string  $direction
-     * @return object
-     */
-    private function checkSortAttributeAndGenerateQuery($query, $sort, $direction)
-    {
-        $attribute = $this->attributeRepository->findOneByField('code', $sort);
-
-        if ($attribute) {
-            if ($attribute->code === 'price') {
-                $query->orderBy('product_flat.min_price', $direction);
-            } else {
-                $query->orderBy('product_flat.' . $attribute->code, $direction);
-            }
-        } else {
-            /* `created_at` is not an attribute so it will be in else case */
-            $query->orderBy('product_flat.created_at', $direction);
-        }
-
-        return $query;
     }
 }

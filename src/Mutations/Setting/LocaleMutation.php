@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Http\Controllers\Controller;
-use Webkul\Core\Repositories\LocaleRepository;
+use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
+use Webkul\Core\Repositories\LocaleRepository;
+use Webkul\Core\Rules\Code;
 
 class LocaleMutation extends Controller
 {
@@ -35,14 +35,14 @@ class LocaleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
-            'code'      => ['required', 'unique:locales,code', new \Webkul\Core\Contracts\Validations\Code],
+            'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
@@ -77,20 +77,20 @@ class LocaleMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
-            'code'      => ['required', 'unique:locales,code,' . $id, new \Webkul\Core\Contracts\Validations\Code],
+            'code'      => ['required', 'unique:locales,code,' . $id, new Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
@@ -130,12 +130,12 @@ class LocaleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $locale = $this->localeRepository->findOrFail($id);
 
         if ($this->localeRepository->count() == 1) {
@@ -148,9 +148,9 @@ class LocaleMutation extends Controller
 
                 Event::dispatch('core.locale.delete.after', $id);
 
-                return ['success' => trans('admin::app.settings.locales.delete-success')];
+                return ['success' => trans('admin::app.settings.locales.index.delete-success')];
             } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Locale']));
+                throw new Exception(trans('app.settings.locales.index.delete-success', ['name' => 'Locale']));
             }
         }
     }

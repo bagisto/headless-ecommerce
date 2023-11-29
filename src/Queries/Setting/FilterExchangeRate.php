@@ -20,10 +20,8 @@ class FilterExchangeRate extends BaseFilter
         $currency = "";
 
         // filter the relationship Currency
-        if ( isset($arguments['currency'])) {
-
+        if (isset($arguments['currency'])) {
             $currency = $input['currency'];
-
             unset($arguments['currency']);
         }
 

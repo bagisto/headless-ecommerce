@@ -4,6 +4,7 @@ type Image {
     type: String
     path: String
     url: String
+    variants:[Image]
     productId: ID @rename(attribute: "product_id")
     product: Product @belongsTo(relation: "product")
 }

@@ -1,6 +1,6 @@
 # Catalog\Category Related APIs
 extend type Query {
-    categories(input: FilterCategoryListInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+    categories(input: FilterCategoryListInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterCategory")): [Category!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
 
     category(id: ID @eq): Category @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
 }
@@ -26,13 +26,13 @@ input CreateCategoryInput {
     status: Boolean!
     position: Int!
     displayMode: String! @rename(attribute: "display_mode")
-    image: String
+    logoPath: [String] @rename(attribute: "logo_path")
+    bannerPath: [String] @rename(attribute: "banner_path")
     parentId: ID @rename(attribute: "parent_id")
     metaTitle: String! @rename(attribute: "meta_title")
     metaDescription: String! @rename(attribute: "meta_description")
     metaKeywords: String! @rename(attribute: "meta_keywords")
-    attributes: [Int]
-    categoryIconPath: String! @rename(attribute: "category_icon_path")
+    attributes: [Int!]
 }
 
 input FilterCategoryListInput {

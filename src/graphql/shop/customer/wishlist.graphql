@@ -4,7 +4,7 @@ extend type Query @guard(with: ["api"]) {
         input: FilterWislistInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists"),
         first: Int,
         page: Int
-    ): [Wishlist!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")
+    ): [Wishlist!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")
 
     wishlist(id: ID @eq): Wishlist @find(model: "Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist") 
 }

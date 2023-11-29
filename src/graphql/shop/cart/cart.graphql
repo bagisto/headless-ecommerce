@@ -38,10 +38,8 @@ input AddItemToCartInput {
     links: [Int!]
     
     # Used in case of adding Bundled Product to Cart
+    bundleOptionQuantity: [Int]   @rename(attribute: "bundle_option_qty")
     bundleOptions: [BundledOptionsInput!] @rename(attribute: "bundle_options")
-    
-    # Used in case of adding booking Product to Cart
-    booking: BookingProductInput
 }
 
 input ConfigurableProductInput {
@@ -55,26 +53,7 @@ input GroupedProductInput {
 }
 
 input BundledOptionsInput {
-    bundleOptionId: Int! @rename(attribute: "bundle_option_id")
-    bundleOptionProductId: [Int!] @rename(attribute: "bundle_option_product_id")
-    qty: Int
-}
-
-input BookingProductInput {
-    date: String!
-    slot: BookingSlotInput!
-    qty: [EventBookingInput!]
-    note: String
-}
-
-input BookingSlotInput {
-    from: Int
-    to: Int
-}
-
-input EventBookingInput {
-    ticketId: Int! @rename(attribute: "ticket_id")
-    quantity: Int!
+    bundleOptionId: [Int!] @rename(attribute: "bundle_option_id")
 }
 
 input UpdateItemToCartInput {

@@ -2,16 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
-use Webkul\Shop\Http\Controllers\Controller;
-use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Velocity\Repositories\VelocityCustomerCompareProductRepository as CompareProductsRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
-
+use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Product\Repositories\ProductFlatRepository;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\Customer\Repositories\CompareItemRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class CompareMutation extends Controller
 {
@@ -30,7 +29,8 @@ class CompareMutation extends Controller
      */
     public function __construct(
         protected ProductFlatRepository $productFlatRepository,
-        protected CompareProductsRepository $compareProductsRepository
+        protected ProductRepository $productRepository,
+        protected CompareItemRepository $compareItemRepository
     ) {
         $this->guard = 'api';
 
@@ -61,42 +61,23 @@ class CompareMutation extends Controller
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
-
-            $compareProducts = app(CompareProductsRepository::class)->scopeQuery(function ($query) use ($params) {
+            
+            $compareProducts = app(CompareItemRepository::class)->scopeQuery(function ($query) use ($params) {
                 $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
 
                 $locale = isset($params['locale']) ?: app()->getLocale();
 
                 $customer = bagisto_graphql()->guard($this->guard)->user();
 
-                $qb = $query->distinct()
-                    ->addSelect('velocity_customer_compare_products.*')
-                    ->leftJoin('product_flat', 'velocity_customer_compare_products.product_flat_id', '=', 'product_flat.id')
-                    ->where('product_flat.channel', $channel)
-                    ->where('product_flat.locale', $locale)
-                    ->where('velocity_customer_compare_products.customer_id', $customer->id);
+                $qb = $query->select('product_flat.*')
+                    ->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
+                    ->leftJoin('customers','customers.id','=','compare_items.customer_id')
+                    ->where('customers.id', $customer->id);
+                
+                $qb = $this->compareItemRepository->with('customer');
 
-                if (! empty($params['id'])) {
-                    $qb->where('velocity_customer_compare_products.id', $params['id']);
-                }
-
-                if (! empty($params['product_flat_id'])) {
-                    $qb->where('velocity_customer_compare_products.product_flat_id', $params['product_flat_id']);
-                }
-
-                if (! empty($params['product_name'])) {
-                    $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
-                }
-
-                if (! empty($params['price'])) {
-                    $qb->where([
-                        ['product_flat.min_price', '>=', core()->convertToBasePrice($params['price'])],
-                        ['product_flat.min_price', '<=', core()->convertToBasePrice($params['price'])]
-                    ]);
-                }
-
-                return $qb->groupBy('product_flat.product_id');
-            });
+                return $qb;
+             });
             
             if (! empty($args['id'])) {
                 $compareProducts = $compareProducts->first();
@@ -119,18 +100,19 @@ class CompareMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (!bagisto_graphql()->guard($this->guard)->check()) {
+        if (! bagisto_graphql()->guard($this->guard)->check()) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
 
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'product_flat_id'    => 'required',
+            'product_id'    => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -138,29 +120,25 @@ class CompareMutation extends Controller
         }
 
         try {
-            $productFlat = $this->productFlatRepository->findOrFail($data['product_flat_id']);
-
-            if (! $productFlat->status) {
-                throw new Exception(trans('bagisto_graphql::app.shop.response.invalid-product'));
-            }
-
-            $data['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
-
-            $compareProduct = $this->compareProductsRepository->findOneWhere($data);
-            $compareList = $this->compareProductsRepository->findWhere(['customer_id' => $data['customer_id']]);
-
-            if (isset($compareProduct->id) && $compareProduct->id) {
-
+            $compareProduct = $this->compareItemRepository->findOneByField([
+                'customer_id'  =>  bagisto_graphql()->guard($this->guard)->user()->id,
+                'product_id'   => $data['product_id'],
+            ]);
+            
+            if ($compareProduct) {
                 return [
-                    'success'           => trans('velocity::app.customer.compare.already_added'),
-                    'compareProduct'    => $compareList,
+                    'success'        => trans('shop::app.compare.already-added'),
+                    'compareProduct' => [$compareProduct],
                 ];
             } else {
-                $compareProduct = $this->compareProductsRepository->create($data);
+                $this->compareItemRepository->create([
+                    'customer_id' => bagisto_graphql()->guard($this->guard)->user()->id,
+                    'product_id'  => $data['product_id'],
+                ]);
 
                 return [
-                    'success'           => trans('velocity::app.customer.compare.added'),
-                    'compareProduct'    => $this->compareProductsRepository->findWhere(['customer_id' => $data['customer_id']]),
+                    'success'           => trans('shop::app.compare.item-add-success'),
+                    'compareProduct'    => $this->compareItemRepository->findWhere(['customer_id' => bagisto_graphql()->guard($this->guard)->user()->id]),
                 ];
             }
         } catch (Exception $e) {
@@ -176,7 +154,8 @@ class CompareMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -187,7 +166,7 @@ class CompareMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'product_flat_id'    => 'required',
+            'product_id'    => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -199,20 +178,20 @@ class CompareMutation extends Controller
 
             $data['customer_id'] = $customer->id;
 
-            $compareProduct = $this->compareProductsRepository->findOneWhere($data);
+            $compareProduct = $this->compareItemRepository->findOneWhere($data);
 
             if (isset($compareProduct->id) && $compareProduct->id) {
-                $this->compareProductsRepository->delete($compareProduct->id);
+                $this->compareItemRepository->delete($compareProduct->id);
                 
                 return [
-                    'status'            => true,
-                    'success'           => trans('velocity::app.customer.compare.removed'),
-                    'compareProduct'    => $this->compareProductsRepository->findWhere(['customer_id' => $data['customer_id']])
+                    'status'         => true,
+                    'success'        => trans('shop::app.compare.remove-success'),
+                    'compareProduct' => $this->compareItemRepository->findWhere(['customer_id' => $data['customer_id']])
                 ];
             } else {
                 return [
-                    'status'    => false,
-                    'success'   => trans('bagisto_graphql::app.shop.response.not-found', ['name'    => 'Compare Product']),
+                    'status'  => false,
+                    'success' => trans('bagisto_graphql::app.shop.response.not-found', ['name' => 'Compare Product']),
                 ];
             }
         } catch (Exception $e) {
@@ -235,17 +214,17 @@ class CompareMutation extends Controller
         try {
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
-            $compareProducts = $this->compareProductsRepository->findByField('customer_id', $customer->id);
+            $compareProducts = $this->compareItemRepository->findByField('customer_id', $customer->id);
 
             if ($compareProducts->count() > 0) {
                 foreach ($compareProducts as $compareProduct) {
-                    $this->compareProductsRepository->delete($compareProduct->id);
+                    $this->compareItemRepository->delete($compareProduct->id);
                 }
             }
 
             return [
-                'status'    => true,
-                'success'   => trans('velocity::app.customer.compare.removed-all'),
+                'status'  => true,
+                'success' => trans('shop::app.compare.remove-all-success'),
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

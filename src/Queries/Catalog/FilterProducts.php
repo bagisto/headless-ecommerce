@@ -17,23 +17,23 @@ class FilterProducts extends BaseFilter
     {
         $arguments = $this->getFilterParams($input);
 
-        $attribute_family = "";
+        $attributeFamily = "";
 
         $qty = "";
         
         // filter Both the relationship Attribute Family as well the Inventories
         if ( isset($arguments['attribute_family']) && isset($arguments['qty']) ) {
 
-            $attribute_family = $input['attribute_family'];
+            $attributeFamily = $input['attribute_family'];
 
             $qty = $input['qty'];
 
             unset($arguments['attribute_family']);
             unset($arguments['qty']);
 
-            return $query->where(function($qry) use($attribute_family,$qty){
-                $qry->whereHas('attribute_family',function ($q) use ($attribute_family) {
-                    $q->where('name',$attribute_family);
+            return $query->where(function($qry) use($attributeFamily,$qty){
+                $qry->whereHas('attribute_family',function ($q) use ($attributeFamily) {
+                    $q->where('name',$attributeFamily);
                 });
 
                 $qry->whereHas('inventories',function ($q) use ($qty) {
@@ -41,16 +41,15 @@ class FilterProducts extends BaseFilter
                 });
             })->where($arguments);
         }
-
         // filter the relationship Attribute Family
         if ( isset($arguments['attribute_family'])) {
 
-            $attribute_family = $input['attribute_family'];
+            $attributeFamily = $input['attribute_family'];
 
             unset($arguments['attribute_family']);
 
-            return $query->whereHas('attribute_family',function ($q) use ($attribute_family) {
-                $q->where('name',$attribute_family);
+            return $query->whereHas('attribute_family',function ($q) use ($attributeFamily) {
+                $q->where('name',$attributeFamily);
             })->where($arguments);
         }
 

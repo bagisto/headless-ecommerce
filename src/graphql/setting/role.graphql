@@ -1,6 +1,6 @@
 # Setting\User\Role Related APIs
-extend type Query @guard {
-    roles(input: FilterRoleInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterRole")): [Role!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\User\\Models\\Role")
+extend type Query @guard(with: ["admin-api"]) {
+    roles(input: FilterRoleInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterRole")): [Role!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\User\\Models\\Role")
     
     role(id: ID @eq): Role @find(model: "Webkul\\User\\Models\\Role")
 }

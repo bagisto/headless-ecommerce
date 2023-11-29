@@ -1,8 +1,8 @@
 <?php
 
 namespace Webkul\GraphQLAPI\Models\CartRule;
-use Webkul\CartRule\Models\CartRuleCouponUsageProxy;
 
+use Webkul\CartRule\Models\CartRuleCouponUsageProxy;
 use Webkul\CartRule\Models\CartRuleCoupon as BaseModel;
 
 class CartRuleCoupon extends BaseModel

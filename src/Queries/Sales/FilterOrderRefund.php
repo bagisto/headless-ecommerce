@@ -18,36 +18,27 @@ class FilterOrderRefund extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // Convert the refund_date parameter to created_at parameter
-         if ( isset($arguments['refund_date'])) {
-
+         if (isset($arguments['refund_date'])) {
             $arguments['created_at'] = $arguments['refund_date'];
-
             unset($arguments['refund_date']);
         }
 
         // Convert the refunded parameter to base_grand_total parameter
-        if ( isset($arguments['refunded'])) {
-
+        if (isset($arguments['refunded'])) {
             $arguments['base_grand_total'] = $arguments['refunded'];
-
             unset($arguments['refunded']);
         }
 
         // Convert the Status parameter to State parameter
-        if ( isset($arguments['status'])) {
-
+        if (isset($arguments['status'])) {
             $arguments['state'] = $arguments['status'];
-
             unset($arguments['status']);
         }
 
         // ilter the relationship Customer Name
-        if ( isset($arguments['customer_name'])) {
-
+        if (isset($arguments['customer_name'])) {
             $nameChanger = $this->nameSplitter($arguments['customer_name']);
-
             $firstname = $nameChanger['firstname'];
-
             $lastname = $nameChanger['lastname'];
 
             unset($arguments['customer_name']);

@@ -2,7 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Webkul\Customer\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 
 class ReviewQuery extends Controller
 {

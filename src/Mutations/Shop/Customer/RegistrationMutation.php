@@ -2,21 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
-use JWTAuth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Webkul\Customer\Mail\RegistrationEmail;
+use Exception;
+use JWTAuth;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Mail\VerificationEmail;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Shop\Mail\Customer\RegistrationNotification;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Mail\SocialLoginPasswordResetEmail;
-
 
 class RegistrationMutation extends Controller
 {
@@ -64,7 +63,8 @@ class RegistrationMutation extends Controller
      */
     public function register($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 'Invalid request parameters.'
@@ -72,7 +72,7 @@ class RegistrationMutation extends Controller
         }
     
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
@@ -107,6 +107,7 @@ class RegistrationMutation extends Controller
             'customer_group_id'         => $this->customerGroupRepository->findOneByField('code', 'general')->id,
             'token'      => $verificationData['token'],
         ]);
+        // dd($data,"testyugi");
 
         Event::dispatch('customer.registration.before');
 
@@ -141,13 +142,13 @@ class RegistrationMutation extends Controller
             $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
 
             if (core()->getConfigData($configCustomerKey)) {
-                Mail::queue(new RegistrationEmail($data, 'customer'));
+                Mail::queue(new RegistrationNotification($data, 'customer'));
             }
 
             $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
 
             if (core()->getConfigData($configAdminKey)) {
-                Mail::queue(new RegistrationEmail(request()->all(), 'admin'));
+                Mail::queue(new RegistrationNotification(request()->all(), 'admin'));
             }
         } catch (Exception $e) {}
 
@@ -292,12 +293,12 @@ class RegistrationMutation extends Controller
                 
                 $data['is_social_login'] = true;
 
-                Mail::queue(new RegistrationEmail($data, 'customer'));
+                Mail::queue(new RegistrationNotification($data, 'customer'));
             }
 
             $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
             if (core()->getConfigData($configAdminKey)) {
-                Mail::queue(new RegistrationEmail($data, 'admin'));
+                Mail::queue(new RegistrationNotification($data, 'admin'));
             }
         } catch (Exception $e) {}
 

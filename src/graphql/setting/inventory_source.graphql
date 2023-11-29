@@ -1,11 +1,11 @@
 # Setting\InventorySource Related APIs
-extend type Query @guard {
-    inventorySources(input: FilterInventorySourceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterInventorySources")): [InventorySource!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Inventory\\Models\\InventorySource")
+extend type Query @guard(with: ["admin-api"]) {
+    inventorySources(input: FilterInventorySourceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterInventorySources")): [InventorySource!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Inventory\\Models\\InventorySource")
 
     inventorySource(id: ID @eq): InventorySource @find(model: "Webkul\\Inventory\\Models\\InventorySource")
 }
 
-extend type Mutation @guard {
+extend type Mutation {
     createInventorySource(
         input: createInventorySourceInput!
     ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\InventorySourceMutation@store")

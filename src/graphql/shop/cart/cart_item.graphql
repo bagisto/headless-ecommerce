@@ -25,7 +25,7 @@ type CartItem {
     discountPercent: Float! @rename(attribute: "discount_percent")
     discountAmount:Float! @rename(attribute: "discount_amount")
     baseDiscountAmount:Float! @rename(attribute: "base_discount_amount")
-    additional: CartItemAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    # additional: [CartItemAdditional] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     parentId: ID @rename(attribute: "parent_id")
     productId: ID! @rename(attribute: "product_id")
     cartId: ID! @rename(attribute: "cart_id")

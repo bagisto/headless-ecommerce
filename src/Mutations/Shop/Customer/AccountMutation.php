@@ -2,14 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
-use Hash;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
+use Carbon\Carbon;
+use Exception;
+use Hash;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Customer\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
@@ -21,13 +21,6 @@ class AccountMutation extends Controller
      * @var array
      */
     protected $guard;
-
-    /**
-     * CustomerRepository object
-     *
-     * @var \Webkul\Customer\Repositories\CustomerRepository
-     */
-    protected $customerRepository;
 
     /**
      * allowedImageMimeTypes array
@@ -49,16 +42,14 @@ class AccountMutation extends Controller
      * @return void
      */
     public function __construct(
-        CustomerRepository $customerRepository
+        protected CustomerRepository $customerRepository
     )
     {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
         
-        $this->middleware('auth:' . $this->guard);
-        
-        $this->customerRepository = $customerRepository;
+        $this->middleware('auth:' . $this->guard);        
     }
 
     /**
@@ -116,11 +107,8 @@ class AccountMutation extends Controller
         }
 
         $customer = bagisto_graphql()->guard($this->guard)->user();
-
         $data = $args['input'];
-        
         $isPasswordChanged = false;
-        
         $validator = Validator::make($data, [
             'first_name'            => 'string|required',
             'last_name'             => 'string|required',
@@ -176,7 +164,6 @@ class AccountMutation extends Controller
             Event::dispatch('customer.update.before');
     
             if ($customer = $this->customerRepository->update($data, $customer->id)) {
-    
                 if ($isPasswordChanged) {
                     Event::dispatch('user.admin.update-password', $customer);
                 }
@@ -187,14 +174,11 @@ class AccountMutation extends Controller
                     core()->getCurrentChannel()->theme != 'default' 
                     && ! empty($data['upload_type'])
                 ) {
-
                     if ($data['upload_type'] == 'file') {
-
                         if (! empty($data['image']))  {
                             $customer->image = $data['image']->storePublicly('customer/' . $customer->id);
                             $customer->save();
                         } else {
-
                             if ($customer->image) {
                                 Storage::delete($customer->image);
                             }
@@ -254,32 +238,31 @@ class AccountMutation extends Controller
                 'Customer not logged in'
             );
         }
-        $data = $args['input'];
 
+        $data = $args['input'];
         $customer = bagisto_graphql()->guard($this->guard)->user();
 
         try {
             if (Hash::check($data['password'], $customer->password)) {
-                $orders = $customer->all_orders->whereIn('status', ['pending', 'processing'])->first();
 
-                if ($orders) {
-                    throw new CustomException(
-                        trans('admin::app.response.order-pending', ['name' => 'Customer']),
-                        'Orders are pending'
-                    );
+                if ($customer->orders->whereIn('status', ['pending', 'processing'])->first()) {
+                    return [
+                        'status'    => false,
+                        'success'  =>  trans('shop::app.customers.account.profile.order-pending')
+                    ];
                 } else {
                     $this->customerRepository->delete($customer->id);
 
                     return [
-                        'status'    => true,
-                        'success'   => trans('admin::app.response.delete-success', ['name' => 'Customer'])
+                        'status'    => false,
+                        'success'   => trans('shop::app.customers.account.profile.delete-success')
                     ];
                 }
             } else {
-                throw new CustomException(
-                    trans('shop::app.customer.account.address.delete.wrong-password'),
-                    'Provided Wrong Password.'
-                );
+                return [
+                    'status'    => false,
+                    'success'   => trans('shop::app.customers.account.profile.wrong-password')
+                ];
             }
         } catch (Exception $e) {
             throw new CustomException(

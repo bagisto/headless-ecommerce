@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class DownloadableMutation extends Controller
@@ -65,46 +65,46 @@ class DownloadableMutation extends Controller
                     ->where('orders.channel_id', $channel_id)
                     ->where('downloadable_link_purchased.customer_id', $customer->id);
 
-                if ( isset($params['id']) && $params['id']) {
+                if (isset($params['id']) && $params['id']) {
                     $qb->where('downloadable_link_purchased.id', $params['id']);
                 }
                 
-                if ( isset($params['order_id']) && $params['order_id']) {
+                if (isset($params['order_id']) && $params['order_id']) {
                     $qb->where('downloadable_link_purchased.order_id', $params['order_id']);
                 }
                 
-                if ( isset($params['order_item_id']) && $params['order_item_id']) {
+                if (isset($params['order_item_id']) && $params['order_item_id']) {
                     $qb->where('downloadable_link_purchased.order_item_id', $params['order_item_id']);
                 }
 
-                if ( isset($params['product_name']) && $params['product_name']) {
+                if (isset($params['product_name']) && $params['product_name']) {
                     $qb->where('downloadable_link_purchased.product_name', 'like', '%' . urldecode($params['product_name']) . '%');
                 }
 
-                if ( isset($params['link_name']) && $params['link_name']) {
+                if (isset($params['link_name']) && $params['link_name']) {
                     $qb->where('downloadable_link_purchased.name', 'like', '%' . urldecode($params['link_name']) . '%');
                 }
                 
-                if ( isset($params['status']) && $params['status']) {
+                if (isset($params['status']) && $params['status']) {
                     $qb->where('downloadable_link_purchased.status', $params['status']);
                 }
                 
-                if ( isset($params['download_bought']) && $params['download_bought']) {
+                if (isset($params['download_bought']) && $params['download_bought']) {
                     $qb->where('downloadable_link_purchased.download_bought', $params['download_bought']);
                 }
                 
-                if ( isset($params['download_used']) && $params['download_used']) {
+                if (isset($params['download_used']) && $params['download_used']) {
                     $qb->where('downloadable_link_purchased.download_used', $params['download_used']);
                 }
                 
-                if ( isset($params['status']) && $params['status']) {
+                if (isset($params['status']) && $params['status']) {
                     $qb->where('downloadable_link_purchased.status', $params['status']);
                 }
 
                 return $qb;
             });
 
-            if ( isset($args['id'])) {
+            if (isset($args['id'])) {
                 $downloads = $downloads->first();
             } else {
                 $downloads = $downloads->paginate( isset($params['limit']) ? $params['limit'] : 10);
@@ -169,6 +169,7 @@ class DownloadableMutation extends Controller
             }
 
             $totalInvoiceQty = 0;
+            
             if (isset($downloadableLinkPurchased->order->invoices)) {
                 foreach ($downloadableLinkPurchased->order->invoices as $invoice) {
                     $totalInvoiceQty = $totalInvoiceQty + $invoice->total_qty;

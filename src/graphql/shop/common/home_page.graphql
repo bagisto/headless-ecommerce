@@ -17,7 +17,7 @@ extend type Query {
     notificationList(
         first: Int,
         page: Int
-    ): [Notification!] @paginate(type: "paginator" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\PushNotification")
+    ): [Notification!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\PushNotification")
 }
 
 extend type Mutation {
@@ -67,4 +67,13 @@ type NotificationResponse {
     status: Boolean
     success: String
     messageId: String @rename(attribute: "message_id")
+}
+
+type Slider {
+    id: Int
+    channel_id: Int
+    type: String!
+    name: String @rename(attribute: "image_url")
+    sort_order: Int
+    status: Int
 }
