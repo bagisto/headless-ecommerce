@@ -47,7 +47,8 @@ class AttributeMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -109,7 +110,9 @@ class AttributeMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -172,7 +175,8 @@ class AttributeMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -207,7 +211,9 @@ class AttributeMutation extends Controller
         $response = [];
         $options = [];
         foreach ($data['options'] as $index => $option) {
-            if ((isset($option['admin_name']) && $option['admin_name']) && (isset($option['translations']) && is_array($option['translations']))) {
+            if ((isset($option['admin_name']) && 
+                $option['admin_name']) && 
+                (isset($option['translations']) && is_array($option['translations']))) {
                 $key = strtolower(str_replace(" ", "_", $option['admin_name']));
 
                 if ($attributeOption = $this->attributeOptionRepository->where('admin_name', $option['admin_name'])->first()) {

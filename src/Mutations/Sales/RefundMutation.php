@@ -45,7 +45,8 @@ class RefundMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -95,7 +96,7 @@ class RefundMutation extends Controller
 
                 $refundedData = $this->refundRepository->create(array_merge($refund, ['order_id' => $orderId]));
 
-                if (isset($refundedData->id) ) {
+                if (isset($refundedData->id)) {
                     $refundedData->success = trans('admin::app.response.create-success', ['name' => 'Refund']);
 
                     return $refundedData;

@@ -65,7 +65,7 @@ class PaypalStandardMutation
         $data = $args;
 
         $company = app()->getInitializedCompany();
-        if (!isset($company->id)) {
+        if (! isset($company->id)) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
             $data['company_id'] = $company->id;
@@ -82,7 +82,9 @@ class PaypalStandardMutation
         try {
             $cart = Cart::getCart();
 
-            if (!isset($cart->payment->method) || (isset($cart->payment->method) && $cart->payment->method != 'paypal_standard') ) {
+            if (! isset($cart->payment->method) || 
+                (isset($cart->payment->method) && 
+                $cart->payment->method != 'paypal_standard') ) {
                 throw new Exception(trans('bagisto_graphql::app.shop.payment.invalid-request'));
             } else {
                 if ($this->paypal_standard->getConfigData('active') && $this->paypal_standard->getConfigData('business_account')) {
@@ -149,7 +151,7 @@ class PaypalStandardMutation
         $data = $args;
 
         $company = app()->getInitializedCompany();
-        if (!isset($company->id)) {
+        if (! isset($company->id)) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
             $data['company_id'] = $company->id;
@@ -166,7 +168,8 @@ class PaypalStandardMutation
         try {
             $cart = Cart::getCart();
 
-            if ($cart && isset($cart->payment->method) && $cart->payment->method == 'paypal_standard') {
+            if ($cart && isset($cart->payment->method) && 
+                $cart->payment->method == 'paypal_standard') {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
 
                 Cart::deActivateCart();
@@ -203,7 +206,7 @@ class PaypalStandardMutation
         $data = $args;
 
         $company = app()->getInitializedCompany();
-        if (!isset($company->id)) {
+        if (! isset($company->id)) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
             $data['company_id'] = $company->id;
@@ -242,7 +245,7 @@ class PaypalStandardMutation
         $data = $args['input'];
 
         $company = app()->getInitializedCompany();
-        if (!isset($company->id)) {
+        if (! isset($company->id)) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
             $data['company_id'] = $company->id;

@@ -174,9 +174,7 @@ class ProductListingQuery extends BaseFilter
         if (! empty($params['filters'])) {
             foreach ($params['filters'] as $attribute) {
                 
-                if (
-                    ! isset($attribute['key']) 
-                    || ! isset($attribute['value'])
+                if (! isset($attribute['key']) || ! isset($attribute['value'])
                 ) {
                     continue;
                 }

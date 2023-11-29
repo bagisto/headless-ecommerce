@@ -52,7 +52,8 @@ class ProductMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && ! $args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -60,8 +61,8 @@ class ProductMutation extends Controller
 
         if (
             ProductType::hasVariants($data['type'])
-            && (!isset($data['super_attributes'])
-                || !count($data['super_attributes']))
+            && (! isset($data['super_attributes'])
+                || ! count($data['super_attributes']))
         ) {
             throw new Exception(trans('admin::app.catalog.products.configurable-error'));
         }
@@ -69,7 +70,9 @@ class ProductMutation extends Controller
         if ( isset($data['super_attributes']) && $data['super_attributes']) {
             $super_attributes = [];
             foreach ($data['super_attributes'] as $key => $super_attribute) {
-                if (isset($super_attribute['attribute_code']) && isset($super_attribute['values']) && is_array($super_attribute['values'])) {
+                if (isset($super_attribute['attribute_code']) && 
+                    isset($super_attribute['values']) && 
+                    is_array($super_attribute['values'])) {
                     $super_attributes[$super_attribute['attribute_code']] = $super_attribute['values'];
                 }
             }
@@ -108,7 +111,9 @@ class ProductMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -126,12 +131,14 @@ class ProductMutation extends Controller
         $product = $this->productRepository->findOrFail($id);
 
         // Only in case of configurable product type
-        if (isset($product->type) && $product->type == 'configurable' && isset($data['variants']) && $data['variants']) {
+        if (isset($product->type) && $product->type == 'configurable' && 
+            isset($data['variants']) && $data['variants']) {
             $data['variants'] = bagisto_graphql()->manageConfigurableRequest($data);
         }
 
         // Only in case of grouped product type
-        if (isset($product->type) && $product->type == 'grouped' && isset($data['links']) && $data['links']) {
+        if (isset($product->type) && $product->type == 'grouped' && 
+            isset($data['links']) && $data['links']) {
 
             if (isset($data['links'])) {
                 foreach ($data['links'] as $linkProduct) {
@@ -157,7 +164,8 @@ class ProductMutation extends Controller
         }
 
         // Only in case of bundle product type
-        if (isset($product->type) && $product->type == 'bundle' && isset($data['bundle_options']) && $data['bundle_options']) {
+        if (isset($product->type) && $product->type == 'bundle' && 
+            isset($data['bundle_options']) && $data['bundle_options']) {
 
             if (isset($data['bundle_options'])) {
                 foreach ($data['bundle_options'] as $bundleProduct) {
@@ -199,7 +207,7 @@ class ProductMutation extends Controller
 
         if (count($multiselectAttributeCodes)) {
             foreach ($multiselectAttributeCodes as $multiselectAttributeCode) {
-                if (!isset($data[$multiselectAttributeCode])) {
+                if (! isset($data[$multiselectAttributeCode])) {
                     $data[$multiselectAttributeCode] = array();
                 }
             }
@@ -316,7 +324,8 @@ class ProductMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || ( isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            ( isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

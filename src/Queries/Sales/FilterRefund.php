@@ -19,26 +19,20 @@ class FilterRefund extends BaseFilter
 
         // Convert the refund_date parameter to created_at parameter
          if ( isset($arguments['refund_date'])) {
-
             $arguments['created_at'] = $arguments['refund_date'];
-
             unset($arguments['refund_date']);
         }
 
         // Convert the refunded parameter to base_grand_total parameter
-        if ( isset($arguments['refunded'])) {
-
+        if (isset($arguments['refunded'])) {
             $arguments['base_grand_total'] = $arguments['refunded'];
-
             unset($arguments['refunded']);
         }
 
         // filter the relationship order addresses for Billing Address
-        if ( isset($arguments['billed_to'])) {
-
-            $billed_to = $input['billed_to'];
-
-            $billingName =$this->nameSplitter($billed_to);
+        if (isset($arguments['billed_to'])) {
+            $billedTo = $input['billed_to'];
+            $billingName =$this->nameSplitter($billedTo);
 
             unset($arguments['billed_to']);
 

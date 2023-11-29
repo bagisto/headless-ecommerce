@@ -37,7 +37,9 @@ class AttributeFamilyMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && 
+            ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -77,7 +79,9 @@ class AttributeFamilyMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || 
+            ! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -95,7 +99,7 @@ class AttributeFamilyMutation extends Controller
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
         $attribute_groups = [];
 
-        if ( isset($data['attribute_groups']) && $data['attribute_groups']) {
+        if (isset($data['attribute_groups']) && $data['attribute_groups']) {
             $previousAttributeGroupIds = $attributeGroupArray = $attributeFamily->attribute_groups()->pluck('id');
 
             foreach ($attributeGroupArray->toArray() as $key => $attributeGroupId) {

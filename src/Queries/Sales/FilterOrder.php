@@ -18,26 +18,19 @@ class FilterOrder extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // Convert the order_date parameter to created_at parameter
-        if ( isset($arguments['order_date'])) {
-
+        if (isset($arguments['order_date'])) {
             $arguments['created_at'] = $arguments['order_date'];
-
             unset($arguments['order_date']);
         }
 
        //filter Both the relationship Address for billed_to and shipped_to
-       if ( isset($arguments['billed_to']) && isset($arguments['shipped_to']) ) {
-
+       if (isset($arguments['billed_to']) && isset($arguments['shipped_to']) ) {
             $billedTo = $input['billed_to'];
-
             $shippedTo = $input['shipped_to'];
-
             $billingName =$this->nameSplitter($billedTo);
-
             $shippedName =$this->nameSplitter($shippedTo);
 
             unset($arguments['billed_to']);
-
             unset($arguments['shipped_to']);
 
             return $query->where(function($qry) use($billingName,$shippedName){
@@ -54,12 +47,9 @@ class FilterOrder extends BaseFilter
         }      
 
         // filter the relationship addresses for Billing Address
-        if ( isset($arguments['billed_to'])) {
-
+        if (isset($arguments['billed_to'])) {
             $billedTo = $input['billed_to'];
-
             $billingName =$this->nameSplitter($billedTo);
-
             unset($arguments['billed_to']);
 
             return $query->whereHas('addresses',function ($q) use ($billingName) {
@@ -69,12 +59,9 @@ class FilterOrder extends BaseFilter
         }
 
         // filter the relationship addresses for Shipping Address
-        if ( isset($arguments['shipped_to'])) {
-
+        if (isset($arguments['shipped_to'])) {
             $shippedTo = $input['shipped_to'];
-
             $shippedName =$this->nameSplitter($shippedTo);
-
             unset($arguments['shipped_to']);
 
             return $query->whereHas('addresses',function ($q) use ($shippedName) {

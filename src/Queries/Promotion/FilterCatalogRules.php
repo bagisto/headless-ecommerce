@@ -18,27 +18,21 @@ class FilterCatalogRules extends BaseFilter
         $arguments = $this->getFilterParams($input);
        
         // Convert the invoice_date parameter to created_at parameter
-        if ( isset($arguments['start'])) {
-
+        if (isset($arguments['start'])) {
             $arguments['starts_from'] = $arguments['start'];
-
             unset($arguments['start']);
         }
 
         // Convert the grand_total parameter to base_grand_total parameter
-        if ( isset($arguments['end'])) {
-
+        if (isset($arguments['end'])) {
             $arguments['ends_till'] = $arguments['end'];
-
             unset($arguments['end']);
         }
 
 
         // Convert the grand_total parameter to base_grand_total parameter
-        if ( isset($arguments['priority'])) {
-
+        if (isset($arguments['priority'])) {
             $arguments['sort_order'] = $arguments['priority'];
-
             unset($arguments['priority']);
         }
 

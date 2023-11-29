@@ -20,7 +20,7 @@ class FilterCustomer extends BaseFilter
         $groupName = "";
 
         // Get first_name and last_name
-        if ( isset($arguments['name'])) {
+        if (isset($arguments['name'])) {
 
             $nameChanger = $this->nameSplitter($arguments['name']);
 
@@ -32,7 +32,7 @@ class FilterCustomer extends BaseFilter
         }
 
         // filter the relationship Customer Group
-        if ( isset($arguments['group_name'])) {
+        if (isset($arguments['group_name'])) {
 
             $groupName = $input['group_name'];
 

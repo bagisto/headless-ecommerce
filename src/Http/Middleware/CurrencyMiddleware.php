@@ -10,7 +10,6 @@ class CurrencyMiddleware
     /**
      * Create a middleware instance.
      *
-     * @param  \Webkul\Core\Repositories\CurrencyRepository $locale
      * @return void
      */
     public function __construct(protected CurrencyRepository $currencyRepository)

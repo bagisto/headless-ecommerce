@@ -39,7 +39,8 @@ class OrderMutation extends Controller
      */
     public function cancel($rootValue, array $args, GraphQLContext $context)
     { 
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || 
+            (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

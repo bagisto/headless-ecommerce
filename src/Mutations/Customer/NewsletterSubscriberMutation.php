@@ -33,7 +33,8 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function subscribe($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || 
+            (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -129,7 +130,8 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['email']) || (isset($args['email']) && !$args['email'])) {
+        if (! isset($args['email']) || 
+            (isset($args['email']) && ! $args['email'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

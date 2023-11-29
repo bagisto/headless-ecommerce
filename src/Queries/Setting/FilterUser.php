@@ -20,10 +20,8 @@ class FilterUser extends BaseFilter
         $role = "";
 
         // filter the relationship Role
-        if ( isset($arguments['role'])) {
-
+        if (isset($arguments['role'])) {
             $role = $input['role'];
-
             unset($arguments['role']);
 
             return $query->whereHas('role', function ($q) use ($role) {

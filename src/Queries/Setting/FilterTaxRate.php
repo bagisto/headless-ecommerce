@@ -18,8 +18,7 @@ class FilterTaxRate extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // check the value for the input state *
-        if ( isset($arguments['state']) && $input['state']  == "*") {
-
+        if (isset($arguments['state']) && $input['state']  == "*") {
             unset($arguments['state']);
 
             return $query->where(function ($q) {

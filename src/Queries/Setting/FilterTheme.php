@@ -18,10 +18,8 @@ class FilterTheme extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // filter the relationship Currency
-        if ( isset($arguments['channel'])) {
-
+        if (isset($arguments['channel'])) {
             $channel = $input['channel'];
-
             unset($arguments['channel']);
 
             return $query->whereHas('channel', function ($q) use ($channel) {

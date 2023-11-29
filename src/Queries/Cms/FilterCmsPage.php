@@ -18,7 +18,7 @@ class FilterCmsPage extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         //filter Both the relationship Address for page_title and url_key
-       if ( isset($arguments['page_title']) && isset($arguments['url_key']) ) {
+       if (isset($arguments['page_title']) && isset($arguments['url_key']) ) {
 
             $pageTitle = $input['page_title'];
 
@@ -39,7 +39,7 @@ class FilterCmsPage extends BaseFilter
         }  
 
         // get the page_title value and store in $pageTitle variable
-        if ( isset($arguments['page_title'])) {
+        if (isset($arguments['page_title'])) {
 
             $pageTitle = $arguments['page_title'];
 
@@ -53,7 +53,7 @@ class FilterCmsPage extends BaseFilter
         }     
 
         // get the url_key value and store in $urlKey variable
-        if ( isset($arguments['url_key'])) {
+        if (isset($arguments['url_key'])) {
 
             $urlKey = $arguments['url_key'];
 

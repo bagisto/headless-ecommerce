@@ -93,7 +93,8 @@ class BagistoGraphql
 
         $validateUser = $this->apiAuth($token, $guard);
 
-        return (!$token || (!isset($validateUser['success']) || (isset($validateUser['success']) && !$validateUser['success'])))
+        return (! $token || (! isset($validateUser['success']) || 
+            (isset($validateUser['success']) && ! $validateUser['success'])))
             ? false
             : true;
     }
@@ -112,7 +113,8 @@ class BagistoGraphql
             $setToken =  JWTAuth::setToken($token)->authenticate();
             $customerFromToken = JWTAuth::toUser($setToken);
 
-            if (isset($setToken) && isset($customerFromToken) && $loggedAdmin != NULL) {
+            if (isset($setToken) && 
+                isset($customerFromToken) && $loggedAdmin != NULL) {
                 if ($customerFromToken->id == $loggedAdmin->id) {
                     return [
                         'success'   => true,
@@ -394,7 +396,7 @@ class BagistoGraphql
                 foreach ($fields as $field) {
                     if (isset($localeArray[$field]) && $localeArray[$field]) {
 
-                        if (!isset($result[$localeArray['code']][$field])) {
+                        if (! isset($result[$localeArray['code']][$field])) {
                             $result[$localeArray['code']][$field] = $localeArray[$field];
                         }
                     }
@@ -502,7 +504,7 @@ class BagistoGraphql
 
                 foreach ($linkArray->toArray() as $key => $linkId) {
                     if (is_numeric($index = $previousLinkIds->search($linkId))) {
-                        if (!isset($downloadableLinks[$linkId])) {
+                        if (! isset($downloadableLinks[$linkId])) {
                             $previousLinkIds->forget($index);
                         }
                     }
@@ -794,7 +796,8 @@ class BagistoGraphql
                 if (isset($data['super_attribute']) && $data['super_attribute']) {
                     $superAttribute = [];
                     foreach ($data['super_attribute'] as $key => $attribute) {
-                        if (isset($attribute['attribute_id']) && isset($attribute['attribute_option_id'])) {
+                        if (isset($attribute['attribute_id']) && 
+                            isset($attribute['attribute_option_id'])) {
                             $superAttribute[$attribute['attribute_id']] = $attribute['attribute_option_id'];
                         }
                     }
@@ -836,7 +839,9 @@ class BagistoGraphql
                             if (isset($data['booking']['slot']) && is_array($data['booking']['slot'])) {
                                 $data['booking']['slot'] = implode("-", $data['booking']['slot']);
                             }
-                        } elseif ($booking->type == 'event' && (isset($data['booking']['qty']) && $data['booking']['qty'])) {
+                        } elseif ($booking->type == 'event' && 
+                            (isset($data['booking']['qty']) && 
+                            $data['booking']['qty'])) {
                             $tickets = [];
                             $events = $data['booking']['qty'];
                             foreach ($events as $key => $ticket) {
