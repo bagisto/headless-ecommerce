@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Queries\Catalog;
 
+use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Illuminate\Support\Facades\DB;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class CategoryQuery extends BaseFilter
@@ -64,7 +64,7 @@ class CategoryQuery extends BaseFilter
             $categorySlug[] = $rootValue->slug;
         }
 
-        if (!empty($categorySlug)) {
+        if (! empty($categorySlug)) {
             foreach ($categorySlug as $slug) {
                 $category = $this->categoryRepository->findBySlugOrFail($slug);
                 if ($category) {

@@ -2,16 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
-use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Product\Helpers\ProductType;
 use Webkul\Core\Rules\Slug;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
 use Webkul\Product\Models\ProductAttributeValue;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ProductMutation extends Controller
 {
@@ -73,6 +73,7 @@ class ProductMutation extends Controller
                     $super_attributes[$super_attribute['attribute_code']] = $super_attribute['values'];
                 }
             }
+
             $data['super_attributes'] = $super_attributes;
         }
 
@@ -87,7 +88,6 @@ class ProductMutation extends Controller
         }
 
         try {
-
             Event::dispatch('catalog.product.create.before');
 
             $product = $this->productRepository->create($data);
@@ -188,7 +188,6 @@ class ProductMutation extends Controller
 
         foreach ($product->attribute_family->attribute_groups as $attributeGroup) {
             $customAttributes = $product->getEditableAttributes($attributeGroup);
-
             if (count($customAttributes)) {
                 foreach ($customAttributes as $attribute) {
                     if ($attribute->type == 'multiselect') {
@@ -206,24 +205,25 @@ class ProductMutation extends Controller
             }
         }
 
-        $image_urls = $video_urls = [];
+        $imageUrls = $videoUrls = [];
         if (isset($data['images'])) {
-            $image_urls = $data['images'];
+            $imageUrls = $data['images'];
             unset($data['images']);
         }
+
         if (isset($data['videos'])) {
-            $video_urls = $data['videos'];
+            $videoUrls = $data['videos'];
             unset($data['videos']);
         }
 
         $inventories = [];
-        
         if (isset($data['inventories'])) {
             foreach ($data['inventories'] as $key => $inventory) {
                 if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
                     $inventories[$inventory['inventory_source_id']] = $inventory['qty'];
                 }
             }
+
             $data['inventories'] = $inventories;
         }
 
@@ -235,17 +235,16 @@ class ProductMutation extends Controller
             Event::dispatch('catalog.product.update.after', $product);
 
             if (isset($product->id)) {
-                
                 $uploadParams = [
                     'resource'    => $product,
-                    'data'        => $image_urls,
+                    'data'        => $imageUrls,
                     'path'        => 'product/',
                     'data_type'   => 'image',
                     'upload_type' => ! isset($args['upload_type']) ? 'path' : $args['upload_type']
                 ];
 
                 bagisto_graphql()->uploadProductImages($uploadParams);
-                bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $video_urls, 'data_type' => 'video']));
+                bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $videoUrls, 'data_type' => 'video']));
 
                 return $product;
             }
@@ -258,7 +257,6 @@ class ProductMutation extends Controller
     {
         $this->id = $id;
         $product = $this->productRepository->findOrFail($this->id);
-
         $validateRules =
             array_merge($product->getTypeInstance()->getTypeValidationRules(), [
                 'sku'                => ['required', 'unique:products,sku,' . $this->id, new \Webkul\Core\Rules\Slug],
@@ -275,7 +273,7 @@ class ProductMutation extends Controller
 
             $validations = [];
 
-            if (!isset($validateRules[$attribute->code])) {
+            if (! isset($validateRules[$attribute->code])) {
                 array_push($validations, $attribute->is_required ? 'required' : 'nullable');
             } else {
                 $validations = $validateRules[$attribute->code];
@@ -323,7 +321,6 @@ class ProductMutation extends Controller
         }
 
         $id = $args['id'];
-
         $product = $this->productRepository->findOrFail($id);
 
         try {

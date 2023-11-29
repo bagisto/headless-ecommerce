@@ -3,9 +3,9 @@
 namespace Webkul\GraphQLAPI;
 
 use Illuminate\Support\Arr;
-use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use JWTAuth;
 use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
 use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
@@ -60,7 +60,7 @@ class BagistoGraphql
         protected ProductBundleOptionProductRepository $productBundleOptionProductRepository,
         protected ProductImageRepository $productImageRepository,
         protected ProductVideoRepository $productVideoRepository
-    )   {
+    ) {
     }
 
     /**
@@ -78,7 +78,7 @@ class BagistoGraphql
      *
      * @param guard $value
      * @return boolean
-    */
+     */
     public function validateAPIUser($guard)
     {
         $token = 0;
@@ -93,7 +93,7 @@ class BagistoGraphql
 
         $validateUser = $this->apiAuth($token, $guard);
 
-        return (! $token || (! isset($validateUser['success']) || (isset($validateUser['success']) && ! $validateUser['success'])))
+        return (!$token || (!isset($validateUser['success']) || (isset($validateUser['success']) && !$validateUser['success'])))
             ? false
             : true;
     }
@@ -103,7 +103,7 @@ class BagistoGraphql
      *
      * @param data $value
      * @return mixed
-    */
+     */
     public function apiAuth($token, $guard)
     {
         $loggedAdmin = auth($guard)->user();
@@ -132,7 +132,7 @@ class BagistoGraphql
             ];
         } catch (\Exception $e) {
             //In case customer's session has expired
-            if ( $token !== 0 && $loggedAdmin == null ) {
+            if ($token !== 0 && $loggedAdmin == null) {
                 return [
                     'success'       => false,
                     'message'       => trans('bagisto_graphql::app.admin.response.session-expired'),
@@ -155,29 +155,29 @@ class BagistoGraphql
      * @param String $path
      * @param String $type
      * @return mixed
-    */
-    public function uploadImage($model, $image_url, $path, $type)
+     */
+    public function uploadImage($model, $imageUrl, $path, $type)
     {
-        $model_path = $path . $model->id . '/';
-        $image_dir_path = storage_path('app/public/' . $model_path);
-        if (! file_exists($image_dir_path)) {
-            mkdir(storage_path('app/public/' . $model_path), 0777, true);
+        $modelPath = $path . $model->id . '/';
+        $imageDirPath = storage_path('app/public/' . $modelPath);
+        if (!file_exists($imageDirPath)) {
+            mkdir(storage_path('app/public/' . $modelPath), 0777, true);
         }
 
-        if ( isset($image_url) && $image_url) {
-            $valoidateImg = $this->validatePath($image_url, 'image');
+        if (isset($imageUrl) && $imageUrl) {
+            $valoidateImg = $this->validatePath($imageUrl, 'image');
 
-            if ( $valoidateImg ) {
-                $img_name = basename($image_url);
-                $savePath = $image_dir_path . $img_name;
+            if ($valoidateImg) {
+                $imgName = basename($imageUrl);
+                $savePath = $imageDirPath . $imgName;
 
-                if ( file_exists($savePath) ) {
-                    Storage::delete('/' . $model_path . $img_name);
+                if (file_exists($savePath)) {
+                    Storage::delete('/' . $modelPath . $imgName);
                 }
 
-                file_put_contents($savePath, file_get_contents($image_url));
+                file_put_contents($savePath, file_get_contents($imageUrl));
 
-                $model->{$type} = $model_path . $img_name;
+                $model->{$type} = $modelPath . $imgName;
 
                 $model->save();
             }
@@ -192,12 +192,12 @@ class BagistoGraphql
      */
     public function uploadProductImages($data)
     {
-        $model_path = $data['path'] . $data['resource']->id . '/';
+        $modelPath = $data['path'] . $data['resource']->id . '/';
 
-        $image_dir_path = storage_path('app/public/' . $model_path);
+        $imageDirPath = storage_path('app/public/' . $modelPath);
 
-        if (! file_exists($image_dir_path)) {
-            mkdir(storage_path('app/public/' . $model_path), 0777, true);
+        if (!file_exists($imageDirPath)) {
+            mkdir(storage_path('app/public/' . $modelPath), 0777, true);
         }
 
         $previousImageIds = $productImageArray = ($data['data_type'] == 'video') ? $data['resource']->videos()->pluck('id') : $data['resource']->images()->pluck('id');
@@ -210,23 +210,23 @@ class BagistoGraphql
                     $previousImageIds->forget($index);
                 }
 
-                if ( $data['data_type'] == 'video')
+                if ($data['data_type'] == 'video')
                     $this->productVideoRepository->delete($productImageId);
                 else
                     $this->productImageRepository->delete($productImageId);
             }
 
-            foreach ($data['data'] as $imageId => $image_url) {
-                
+            foreach ($data['data'] as $imageId => $imageUrl) {
+
                 $pathValidate = false;
-                $img_name = basename($image_url);
+                $imgName = basename($imageUrl);
 
                 if ($data['upload_type'] == 'base64') {
-                    
-                    $validate = explode("base64,", $image_url);
+
+                    $validate = explode("base64,", $imageUrl);
 
                     if (
-                        ! isset($validate[1]) 
+                        ! isset($validate[1])
                         || ($this->is_not_base64($validate[1]))
                     ) {
                         continue;
@@ -234,36 +234,36 @@ class BagistoGraphql
 
                     $allowedMimeTypes = $data['data_type'] == 'image' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
 
-                    $getImgMime = mime_content_type($image_url);
-            
+                    $getImgMime = mime_content_type($imageUrl);
+
                     $extension = explode("/", $getImgMime)[1];
-                
-                    $img_name = \Str::random(30) . '.' . $extension;
+
+                    $imgName = \Str::random(30) . '.' . $extension;
 
                     $pathValidate = ($getImgMime && in_array($getImgMime, $allowedMimeTypes));
                 } else {
-                    $pathValidate = $this->validatePath($image_url, $data['data_type']);
+                    $pathValidate = $this->validatePath($imageUrl, $data['data_type']);
                 }
 
-                if (! $pathValidate) {
+                if (!$pathValidate) {
                     continue;
                 }
 
-                $savePath = $image_dir_path . $img_name;
+                $savePath = $imageDirPath . $imgName;
 
                 if (file_exists($savePath)) {
-                    Storage::delete('/' . $model_path . $img_name);
+                    Storage::delete('/' . $modelPath . $imgName);
                 }
 
-                file_put_contents($savePath, file_get_contents($image_url));
+                file_put_contents($savePath, file_get_contents($imageUrl));
 
-                $params =[
+                $params = [
                     'type'       => $data['data_type'],
-                    'path'       => $model_path . $img_name,
+                    'path'       => $modelPath . $imgName,
                     'product_id' => $data['resource']->id,
                 ];
 
-                if ( $data['data_type'] == 'video') {
+                if ($data['data_type'] == 'video') {
                     $this->productVideoRepository->create($params);
                 } else {
                     $this->productImageRepository->create($params);
@@ -274,7 +274,7 @@ class BagistoGraphql
                 if ($imageModel = $this->productImageRepository->find($imageId)) {
                     Storage::delete($imageModel->path);
 
-                    if ( $data['data_type'] == 'video')
+                    if ($data['data_type'] == 'video')
                         $this->productImageRepository->delete($imageId);
                     else
                         $this->productVideoRepository->delete($imageId);
@@ -290,7 +290,8 @@ class BagistoGraphql
      * @param String|null $type
      * @return boolean
      */
-    function is_not_base64($string) {
+    function is_not_base64($string)
+    {
         return !preg_match('/^[a-zA-Z0-9\/+]+={0,2}$/', $string) || base64_encode(base64_decode($string)) !== $string;
     }
 
@@ -300,19 +301,20 @@ class BagistoGraphql
      * @param String|null $imageURL
      * @param String|null $type
      * @return boolean
-    */
-    public function validatePath(string $imageURL, $type = 'image') {
+     */
+    public function validatePath(string $imageURL, $type = 'image')
+    {
         if ($imageURL) {
             $chkURL = curl_init();
-			curl_setopt($chkURL, CURLOPT_URL, $imageURL);
-			curl_setopt($chkURL, CURLOPT_NOBODY, 1);
-			curl_setopt($chkURL, CURLOPT_FAILONERROR, 1);
-			curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
-			if (curl_exec($chkURL) !== FALSE && $this->getImageMIMEType($imageURL, $type)) {
-					return true;
-			} else {
-					return false;
-			}
+            curl_setopt($chkURL, CURLOPT_URL, $imageURL);
+            curl_setopt($chkURL, CURLOPT_NOBODY, 1);
+            curl_setopt($chkURL, CURLOPT_FAILONERROR, 1);
+            curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
+            if (curl_exec($chkURL) !== FALSE && $this->getImageMIMEType($imageURL, $type)) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -324,7 +326,7 @@ class BagistoGraphql
      * @param String|null $imageURL
      * @param String|null $type
      * @return boolean
-    */
+     */
     public function getImageMIMEType($filename, $type = 'image')
     {
         $explodeURL = explode('.', $filename);
@@ -350,10 +352,10 @@ class BagistoGraphql
      * @param array $product
      * @param array $data
      * @return array|null
-    */
+     */
     public function manageCustomerGroupPrices($product, $data)
     {
-        $customer_group_prices = [];
+        $customerGroupPrices = [];
 
         $previousCustomerGroupPriceIds = $customerGroupPriceArray = $product->customer_group_prices()->pluck('id');
 
@@ -369,10 +371,10 @@ class BagistoGraphql
         foreach ($data['customer_group_prices'] as $key => $row) {
             $row['customer_group_id'] = $row['customer_group_id'] == '' ? null : $row['customer_group_id'];
             $index = 'customer_group_price_' . $key;
-            $customer_group_prices[$index] = $row;
+            $customerGroupPrices[$index] = $row;
         }
 
-        return $customer_group_prices;
+        return $customerGroupPrices;
     }
 
     /**
@@ -381,18 +383,18 @@ class BagistoGraphql
      * @param array $data
      * @param array $fields
      * @return array|null
-    */
+     */
     public function manageLocaleFields($data, $fields)
     {
         $result = [];
 
         foreach ($data as $localeArray) {
-            if ( isset($localeArray['code']) && $localeArray['code'] ) {
+            if (isset($localeArray['code']) && $localeArray['code']) {
 
                 foreach ($fields as $field) {
-                    if ( isset($localeArray[$field]) && $localeArray[$field] ) {
+                    if (isset($localeArray[$field]) && $localeArray[$field]) {
 
-                        if (! isset($result[$localeArray['code']][$field])) {
+                        if (!isset($result[$localeArray['code']][$field])) {
                             $result[$localeArray['code']][$field] = $localeArray[$field];
                         }
                     }
@@ -408,17 +410,17 @@ class BagistoGraphql
      *
      * @param array $data
      * @return mixed
-    */
+     */
     public function manageConfigurableRequest($data)
     {
         $variants = [];
         foreach ($data['variants'] as $key => $variant) {
-            if ( isset($variant['variant_id']) && $variant['variant_id']) {
-                if ( isset($variant['inventories']) && $variant['inventories'] ) {
+            if (isset($variant['variant_id']) && $variant['variant_id']) {
+                if (isset($variant['inventories']) && $variant['inventories']) {
 
                     $inventories = [];
                     foreach ($variant['inventories'] as $key => $inventory) {
-                        if ( isset($inventory['inventory_source_id']) && isset($inventory['qty']) ) {
+                        if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
                             $inventories[$inventory['inventory_source_id']] = $inventory['qty'];
                         }
                     }
@@ -440,16 +442,16 @@ class BagistoGraphql
      *
      * @param array $data
      * @return mixed
-    */
+     */
     public function manageGroupedRequest($product, $data)
     {
         $links = [];
         foreach ($data['links'] as $key => $link) {
-            if ( isset($link['group_product_id']) && $link['group_product_id']) {
-                $group_product_id = $link['group_product_id'];
+            if (isset($link['group_product_id']) && $link['group_product_id']) {
+                $groupProductId = $link['group_product_id'];
                 unset($link['group_product_id']);
 
-                $links[$group_product_id] = $link;
+                $links[$groupProductId] = $link;
             } else {
                 $previousGroupedProductIds = $groupPriceArray = $product->grouped_products()->pluck('id');
 
@@ -461,7 +463,7 @@ class BagistoGraphql
                     $this->productGroupedProductRepository->delete($groupPriceId);
                 }
 
-                if ( isset($link['associated_product_id']) && $link['associated_product_id']) {
+                if (isset($link['associated_product_id']) && $link['associated_product_id']) {
                     $links['link_' . $key] = $link;
                 }
             }
@@ -475,48 +477,48 @@ class BagistoGraphql
      *
      * @param array $data
      * @return mixed
-    */
+     */
     public function manageDownloadableLinksRequest($product, $data)
     {
-        $downloadable_links = [];
+        $downloadableLinks = [];
         foreach ($data['downloadable_links'] as $key => $link) {
 
             if (isset($link['locales'])) {
                 foreach ($link['locales'] as $locale) {
-                    if ( isset($locale['code']) && isset($locale['title'])) {
+                    if (isset($locale['code']) && isset($locale['title'])) {
                         $link[$locale['code']] = ['title' => $locale['title']];
                     }
                 }
                 unset($link['locales']);
             }
 
-            if ( isset($link['link_product_id']) && $link['link_product_id']) {
-                $link_product_id = $link['link_product_id'];
+            if (isset($link['link_product_id']) && $link['link_product_id']) {
+                $linkProductId = $link['link_product_id'];
                 unset($link['link_product_id']);
 
-                $downloadable_links[$link_product_id] = $link;
+                $downloadableLinks[$linkProductId] = $link;
             } else {
                 $previousLinkIds = $linkArray = $product->downloadable_links()->pluck('id');
 
                 foreach ($linkArray->toArray() as $key => $linkId) {
                     if (is_numeric($index = $previousLinkIds->search($linkId))) {
-                        if (! isset($downloadable_links[$linkId])) {
+                        if (!isset($downloadableLinks[$linkId])) {
                             $previousLinkIds->forget($index);
                         }
                     }
 
-                    if (! isset($downloadable_links[$linkId])) {
+                    if (! isset($downloadableLinks[$linkId])) {
                         $this->productDownloadableLinkRepository->delete($linkId);
                     }
                 }
 
-                if ( isset($link['type']) && $link['type']) {
-                    $downloadable_links['link_' . $key] = $link;
+                if (isset($link['type']) && $link['type']) {
+                    $downloadableLinks['link_' . $key] = $link;
                 }
             }
         }
 
-        return $downloadable_links;
+        return $downloadableLinks;
     }
 
     /**
@@ -524,47 +526,47 @@ class BagistoGraphql
      *
      * @param array $data
      * @return mixed
-    */
+     */
     public function manageDownloadableSamplesRequest($product, $data)
     {
-        $downloadable_samples = [];
+        $downloadableSamples = [];
         foreach ($data['downloadable_samples'] as $key => $sample) {
 
             if (isset($sample['locales'])) {
                 foreach ($sample['locales'] as $locale) {
-                    if ( isset($locale['code']) && isset($locale['title'])) {
+                    if (isset($locale['code']) && isset($locale['title'])) {
                         $sample[$locale['code']] = ['title' => $locale['title']];
                     }
                 }
                 unset($sample['locales']);
             }
 
-            if ( isset($sample['sample_product_id']) && $sample['sample_product_id']) {
-                $sample_product_id = $sample['sample_product_id'];
+            if (isset($sample['sample_product_id']) && $sample['sample_product_id']) {
+                $sampleProductId = $sample['sample_product_id'];
                 unset($sample['sample_product_id']);
 
-                $downloadable_samples[$sample_product_id] = $sample;
+                $downloadableSamples[$sampleProductId] = $sample;
             } else {
                 $previousLinkIds = $sampleArray = $product->downloadable_samples()->pluck('id');
 
                 foreach ($sampleArray->toArray() as $key => $sampleId) {
                     if (is_numeric($index = $previousLinkIds->search($sampleId))) {
-                        if (! isset($downloadable_samples[$sampleId])) {
+                        if (! isset($downloadableSamples[$sampleId])) {
                             $previousLinkIds->forget($index);
                         }
                     }
-                    if (! isset($downloadable_samples[$sampleId])) {
+                    if (! isset($downloadableSamples[$sampleId])) {
                         $this->productDownloadableSampleRepository->delete($sampleId);
                     }
                 }
 
-                if ( isset($sample['type']) && $sample['type']) {
-                    $downloadable_samples['sample_' . $key] = $sample;
+                if (isset($sample['type']) && $sample['type']) {
+                    $downloadableSamples['sample_' . $key] = $sample;
                 }
             }
         }
 
-        return $downloadable_samples;
+        return $downloadableSamples;
     }
 
     /**
@@ -572,52 +574,52 @@ class BagistoGraphql
      *
      * @param array $data
      * @return mixed
-    */
+     */
     public function manageBundleRequest($product, $data)
     {
-        $bundle_options = [];
+        $bundleOptions = [];
         foreach ($data['bundle_options'] as $key => $option) {
             $products = [];
 
             if (isset($option['locales'])) {
                 foreach ($option['locales'] as $locale) {
-                    if ( isset($locale['code']) && isset($locale['label'])) {
+                    if (isset($locale['code']) && isset($locale['label'])) {
                         $option[$locale['code']] = ['label' => $locale['label']];
                     }
                 }
                 unset($option['locales']);
             }
 
-            if ( isset($option['bundle_option_id']) && $option['bundle_option_id']) {
-                $bundle_option_id = $option['bundle_option_id'];
+            if (isset($option['bundle_option_id']) && $option['bundle_option_id']) {
+                $bundleOptionId = $option['bundle_option_id'];
                 unset($option['bundle_option_id']);
 
-                if ( isset($option['products']) && $option['products']) {
-                    foreach($option['products'] as $index => $prod) {
+                if (isset($option['products']) && $option['products']) {
+                    foreach ($option['products'] as $index => $prod) {
 
-                        if ( isset($prod['bundle_option_product_id']) && $prod['bundle_option_product_id']) {
+                        if (isset($prod['bundle_option_product_id']) && $prod['bundle_option_product_id']) {
 
                             $bundle_option_product_id = $prod['bundle_option_product_id'];
                             unset($prod['bundle_option_product_id']);
 
                             $products[$bundle_option_product_id] = $prod;
                         } else {
-                            $productBundleOption = $this->productBundleOptionRepository->findOrFail($bundle_option_id);
+                            $productBundleOption = $this->productBundleOptionRepository->findOrFail($bundleOptionId);
 
                             $previousBundleOptionProductIds = $bundleOptionProductArray = $productBundleOption->bundle_option_products()->pluck('id');
 
                             foreach ($bundleOptionProductArray->toArray() as $key => $bundleOptionProductId) {
                                 if (is_numeric($index = $previousBundleOptionProductIds->search($bundleOptionProductId))) {
-                                    if (! isset($bundle_options[$bundleOptionProductId])) {
+                                    if (! isset($bundleOptions[$bundleOptionProductId])) {
                                         $previousBundleOptionProductIds->forget($index);
                                     }
                                 }
-                                if (! isset($bundle_options[$bundleOptionProductId])) {
+                                if (! isset($bundleOptions[$bundleOptionProductId])) {
                                     $this->productBundleOptionProductRepository->delete($bundleOptionProductId);
                                 }
                             }
 
-                            if ( isset($prod['product_id']) && $prod['product_id']) {
+                            if (isset($prod['product_id']) && $prod['product_id']) {
                                 $products['product_' . $index] = $prod;
                             }
                         }
@@ -626,37 +628,37 @@ class BagistoGraphql
                     $option['products'] = $products;
                 }
 
-                $bundle_options[$bundle_option_id] = $option;
+                $bundleOptions[$bundleOptionId] = $option;
             } else {
                 $previousBundleOptionIds = $optionArray = $product->bundle_options()->pluck('id');
 
                 foreach ($optionArray->toArray() as $key => $optionId) {
                     if (is_numeric($index = $previousBundleOptionIds->search($optionId))) {
-                        if (! isset($bundle_options[$optionId])) {
+                        if (! isset($bundleOptions[$optionId])) {
                             $previousBundleOptionIds->forget($index);
                         }
                     }
-                    if (! isset($bundle_options[$optionId])) {
+                    if (! isset($bundleOptions[$optionId])) {
                         $this->productBundleOptionRepository->delete($optionId);
                     }
                 }
 
-                if ( isset($option['products']) && $option['products']) {
-                    foreach($option['products'] as $index => $prod) {
-                        if ( isset($prod['product_id']) && $prod['product_id']) {
+                if (isset($option['products']) && $option['products']) {
+                    foreach ($option['products'] as $index => $prod) {
+                        if (isset($prod['product_id']) && $prod['product_id']) {
                             $products['product_' . $index] = $prod;
                         }
                     }
                     $option['products'] = $products;
                 }
 
-                if ( isset($option['type']) && $option['type']) {
-                    $bundle_options['option_' . $key] = $option;
+                if (isset($option['type']) && $option['type']) {
+                    $bundleOptions['option_' . $key] = $option;
                 }
             }
         }
 
-        return $bundle_options;
+        return $bundleOptions;
     }
 
     /**
@@ -664,21 +666,21 @@ class BagistoGraphql
      *
      * @param array $data
      * @return mixed
-    */
+     */
     public function manageBookingRequest($data)
     {
         $booking = [];
         switch ($data['type']) {
             case 'appointment':
-                if ( isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
+                if (isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
                     $slots = [];
-                    if ( isset($data['slots'])) {
+                    if (isset($data['slots'])) {
                         foreach ($data['slots'] as $key => $slot) {
-                            if ( isset($slot['day'])) {
-                                $day_index = $slot['day'];
+                            if (isset($slot['day'])) {
+                                $dayIndex = $slot['day'];
                                 unset($slot['day']);
 
-                                $slots[$day_index][] = $slot;
+                                $slots[$dayIndex][] = $slot;
                             }
                         }
 
@@ -691,16 +693,16 @@ class BagistoGraphql
                 break;
 
             case 'event':
-                if ( isset($data['tickets']) && $data['tickets']) {
+                if (isset($data['tickets']) && $data['tickets']) {
                     $tickets = [];
 
                     foreach ($data['tickets'] as $key => $ticket) {
 
                         if (isset($ticket['locales'])) {
-                            foreach($ticket['locales'] as $locale) {
-                                $locale_code = $locale['locale'];
+                            foreach ($ticket['locales'] as $locale) {
+                                $localeCode = $locale['locale'];
                                 unset($locale['locale']);
-                                $ticket[$locale_code] = $locale;
+                                $ticket[$localeCode] = $locale;
                             }
 
                             unset($ticket['locales']);
@@ -713,22 +715,22 @@ class BagistoGraphql
                 $booking = $data;
                 break;
             case 'rental':
-                if ( isset($data['rental_slot']) && $data['rental_slot']) {
+                if (isset($data['rental_slot']) && $data['rental_slot']) {
 
                     foreach ($data['rental_slot'] as $key => $slot) {
                         $data[$key] = $slot;
                     }
                     unset($data['rental_slot']);
 
-                    if ( isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
+                    if (isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
                         $slots = [];
-                        if ( isset($data['slots'])) {
+                        if (isset($data['slots'])) {
                             foreach ($data['slots'] as $key => $slot) {
-                                if ( isset($slot['day'])) {
-                                    $day_index = $slot['day'];
+                                if (isset($slot['day'])) {
+                                    $dayIndex = $slot['day'];
                                     unset($slot['day']);
 
-                                    $slots[$day_index][] = $slot;
+                                    $slots[$dayIndex][] = $slot;
                                 }
                             }
 
@@ -741,22 +743,22 @@ class BagistoGraphql
                 }
                 break;
             case 'table':
-                if ( isset($data['table_slot']) && $data['table_slot']) {
+                if (isset($data['table_slot']) && $data['table_slot']) {
 
                     foreach ($data['table_slot'] as $key => $slot) {
                         $data[$key] = $slot;
                     }
                     unset($data['table_slot']);
 
-                    if ( isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
+                    if (isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
                         $slots = [];
-                        if ( isset($data['slots'])) {
+                        if (isset($data['slots'])) {
                             foreach ($data['slots'] as $key => $slot) {
-                                if ( isset($slot['day'])) {
-                                    $day_index = $slot['day'];
+                                if (isset($slot['day'])) {
+                                    $dayIndex = $slot['day'];
                                     unset($slot['day']);
 
-                                    $slots[$day_index][] = $slot;
+                                    $slots[$dayIndex][] = $slot;
                                 }
                             }
 
@@ -783,62 +785,62 @@ class BagistoGraphql
      * @param object $product
      * @param array $data
      * @return array
-    */
+     */
     public function manageInputForCart($product, $data)
     {
         switch ($product->type) {
             case 'configurable':
                 //Case: In case of configurable product added
-                if ( isset($data['super_attribute']) && $data['super_attribute']) {
-                    $super_attribute = [];
+                if (isset($data['super_attribute']) && $data['super_attribute']) {
+                    $superAttribute = [];
                     foreach ($data['super_attribute'] as $key => $attribute) {
-                        if ( isset($attribute['attribute_id']) && isset($attribute['attribute_option_id'])) {
-                            $super_attribute[$attribute['attribute_id']] = $attribute['attribute_option_id'];
+                        if (isset($attribute['attribute_id']) && isset($attribute['attribute_option_id'])) {
+                            $superAttribute[$attribute['attribute_id']] = $attribute['attribute_option_id'];
                         }
                     }
-                    $data['super_attribute'] = $super_attribute;
+                    $data['super_attribute'] = $superAttribute;
                 }
                 break;
             case 'grouped':
                 //Case: In case of grouped product added
-                if ( isset($data['qty']) && $data['qty']) {
-                    $grouped_product = [];
+                if (isset($data['qty']) && $data['qty']) {
+                    $groupedProduct = [];
                     foreach ($data['qty'] as $key => $product) {
-                        if ( isset($product['product_id']) && isset($product['quantity'])) {
-                            $grouped_product[$product['product_id']] = $product['quantity'];
+                        if (isset($product['product_id']) && isset($product['quantity'])) {
+                            $groupedProduct[$product['product_id']] = $product['quantity'];
                         }
                     }
-                    $data['qty'] = $grouped_product;
+                    $data['qty'] = $groupedProduct;
                 }
                 break;
             case 'bundle':
                 //Case: In case of bundled product added
-                if ( isset($data['bundle_options']) && $data['bundle_options']) {
+                if (isset($data['bundle_options']) && $data['bundle_options']) {
                     $bundleOptions = Arr::collapse($data['bundle_options']);
                     $data['bundle_options'] = $bundleOptions;
 
                     $option = [];
                     foreach ($data['bundle_options']['bundle_option_id'] as $key => $value) {
-                        $option[$key+1] = [$key => $value];
+                        $option[$key + 1] = [$key => $value];
                     }
                     $data['bundle_options'] = $option;
                 }
                 break;
             case 'booking':
                 //Case: In case of booking product added
-                if ( isset($data['booking']) && $data['booking']) {
+                if (isset($data['booking']) && $data['booking']) {
                     $booking = $product->booking_product;
 
-                    if ( isset($booking->type) && $booking->type) {
-                        if ( $booking->type == 'default' || $booking->type == 'appointment' || $booking->type == 'table' ) {
-                            if ( isset($data['booking']['slot']) && is_array($data['booking']['slot']) ) {
+                    if (isset($booking->type) && $booking->type) {
+                        if ($booking->type == 'default' || $booking->type == 'appointment' || $booking->type == 'table') {
+                            if (isset($data['booking']['slot']) && is_array($data['booking']['slot'])) {
                                 $data['booking']['slot'] = implode("-", $data['booking']['slot']);
                             }
-                        } elseif ($booking->type == 'event' && (isset($data['booking']['qty']) && $data['booking']['qty']) ) {
+                        } elseif ($booking->type == 'event' && (isset($data['booking']['qty']) && $data['booking']['qty'])) {
                             $tickets = [];
                             $events = $data['booking']['qty'];
                             foreach ($events as $key => $ticket) {
-                                if ( isset($ticket['ticket_id']) && isset($ticket['quantity']) ) {
+                                if (isset($ticket['ticket_id']) && isset($ticket['quantity'])) {
                                     $tickets[$ticket['ticket_id']] = $ticket['quantity'];
                                 }
                             }
@@ -862,46 +864,46 @@ class BagistoGraphql
      * @param array $data
      * @param string $field
      * @return void
-    */
+     */
     public function saveImageByURL($collection, $data = [], $field = 'image_url')
     {
         $getImgMime = null;
         $base64Validate = $pathValidate = false;
-        $image_name = basename($data[$field]);
-        
+        $imageName = basename($data[$field]);
+
         if ($data['upload_type'] == 'base64') {
             $getImgMime = mime_content_type($data[$field]);
-            
+
             $extension = explode("/", $getImgMime)[1];
-        
-            $image_name = $field . '_avatar.' . $extension;
-            
+
+            $imageName = $field . '_avatar.' . $extension;
+
             $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
             $pathValidate = $this->validatePath($data[$field], 'image');
         }
-        
+
         if ($base64Validate || $pathValidate) {
             $keyIndex = explode("_", $field);
 
             if (! isset($keyIndex[0])) {
                 return false;
             }
-            
+
             if ($collection->{$keyIndex[0]}) {
                 Storage::delete($collection->{$keyIndex[0]});
             }
 
             $collection->{$keyIndex[0]} = null;
             $collection->save();
-        
+
             $path = $data['save_path'] . '/';
 
             $contents = file_get_contents($data[$field]);
-            
-            Storage::put($path . $image_name, $contents);
-            
-            $collection->{$keyIndex[0]} = $path . $image_name;
+
+            Storage::put($path . $imageName, $contents);
+
+            $collection->{$keyIndex[0]} = $path . $imageName;
             $collection->save();
         }
     }

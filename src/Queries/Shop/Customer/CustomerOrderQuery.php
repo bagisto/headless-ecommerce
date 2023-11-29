@@ -24,7 +24,6 @@ class CustomerOrderQuery
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        // dd($this,"tejhkj");
         // $this->middleware('auth:' . $this->guard);
     }
 

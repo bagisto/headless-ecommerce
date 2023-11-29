@@ -3,12 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ForgotPasswordMutation extends Controller

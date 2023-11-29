@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Queries\Sales;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
@@ -11,58 +10,10 @@ use Webkul\Sales\Repositories\InvoiceItemRepository;
 use Webkul\Sales\Repositories\ShipmentItemRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\RefundItemRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FormattedPrice extends BaseFilter
 {
-    /**
-     * Order repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\OrderRepository
-     */
-    protected $orderRepository;
-
-    /**
-     * OrderItem repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\OrderItemRepository
-     */
-    protected $orderItemRepository;
-
-    /**
-     * Invoice repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\InvoiceRepository
-     */
-    protected $invoiceRepository;
-
-    /**
-     * InvoiceItem repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\InvoiceItemRepository
-     */
-    protected $invoiceItemRepository;
-
-    /**
-     * ShipementItem repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\ShipmentItemRepository
-     */
-    protected $shipmentItemRepository;
-
-    /**
-     * Refund repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\RefundRepository
-     */
-    protected $refundRepository;
-
-    /**
-     * RefundItem repository instance.
-     *
-     * @var \Webkul\Sales\Repositories\RefundItemRepository
-     */
-    protected $refundItemRepository;
-
     /**
      * Create a new controller instance.
      *
@@ -76,28 +27,14 @@ class FormattedPrice extends BaseFilter
      * @return void
      */
     public function __construct(
-        OrderRepository $orderRepository,
-        OrderItemRepository $orderItemRepository,
-        InvoiceRepository $invoiceRepository,
-        InvoiceItemRepository $invoiceItemRepository,
-        ShipmentItemRepository $shipmentItemRepository,
-        RefundRepository $refundRepository,
-        RefundItemRepository $refundItemRepository
+        protected OrderRepository $orderRepository,
+        protected OrderItemRepository $orderItemRepository,
+        protected InvoiceRepository $invoiceRepository,
+        protected InvoiceItemRepository $invoiceItemRepository,
+        protected ShipmentItemRepository $shipmentItemRepository,
+        protected RefundRepository $refundRepository,
+        protected RefundItemRepository $refundItemRepository
     ) {
-        $this->orderRepository = $orderRepository;
-
-        $this->orderItemRepository = $orderItemRepository;
-
-        $this->invoiceRepository = $invoiceRepository;
-
-        $this->invoiceItemRepository = $invoiceItemRepository;
-
-        $this->shipmentItemRepository = $shipmentItemRepository;
-
-        $this->refundRepository = $refundRepository;
-
-        $this->refundItemRepository = $refundItemRepository;
-
         $this->_config = request('_config');
     }
 

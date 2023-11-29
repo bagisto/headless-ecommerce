@@ -3,12 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Exception;
-use Hash;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
+use Carbon\Carbon;
+use Exception;
+use Hash;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
@@ -107,11 +107,8 @@ class AccountMutation extends Controller
         }
 
         $customer = bagisto_graphql()->guard($this->guard)->user();
-
         $data = $args['input'];
-        
         $isPasswordChanged = false;
-        
         $validator = Validator::make($data, [
             'first_name'            => 'string|required',
             'last_name'             => 'string|required',
@@ -167,7 +164,6 @@ class AccountMutation extends Controller
             Event::dispatch('customer.update.before');
     
             if ($customer = $this->customerRepository->update($data, $customer->id)) {
-    
                 if ($isPasswordChanged) {
                     Event::dispatch('user.admin.update-password', $customer);
                 }
@@ -178,14 +174,11 @@ class AccountMutation extends Controller
                     core()->getCurrentChannel()->theme != 'default' 
                     && ! empty($data['upload_type'])
                 ) {
-
                     if ($data['upload_type'] == 'file') {
-
                         if (! empty($data['image']))  {
                             $customer->image = $data['image']->storePublicly('customer/' . $customer->id);
                             $customer->save();
                         } else {
-
                             if ($customer->image) {
                                 Storage::delete($customer->image);
                             }
@@ -247,7 +240,6 @@ class AccountMutation extends Controller
         }
 
         $data = $args['input'];
-
         $customer = bagisto_graphql()->guard($this->guard)->user();
 
         try {

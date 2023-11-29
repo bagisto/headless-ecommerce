@@ -2,15 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Customer\Rules\VatIdRule;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CustomerAddressMutation extends Controller
 {
@@ -45,11 +44,9 @@ class CustomerAddressMutation extends Controller
         }
 
         $data = $args['input'];
-
         $data = array_merge($data, [
             'address1' => implode(PHP_EOL, array_filter([$data['address1']])),
         ]);
-        
         $validator = Validator::make($data, [
             'customer_id'   => 'numeric|required',
             'company_name'  => 'string',
@@ -67,7 +64,6 @@ class CustomerAddressMutation extends Controller
         }
 
         $customer = $this->customerRepository->find($data['customer_id']);
-
         if (! isset($customer->id) ) {
             throw new Exception(trans('bagisto_graphql::app.admin.customer.no-customer-found'));
         }
@@ -88,7 +84,6 @@ class CustomerAddressMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -99,11 +94,9 @@ class CustomerAddressMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-
         $data = array_merge($data, [
             'address1' => implode(PHP_EOL, array_filter([$data['address1']])),
         ]);
-        
         $validator = Validator::make($data, [
             'company_name' => 'string',
             'address1'     => 'string|required',
@@ -122,7 +115,6 @@ class CustomerAddressMutation extends Controller
         $customerAddress = $this->customerAddressRepository->findOrFail($id);
 
         try {
-
             Event::dispatch('customer.address.update.before');
 
             $customerAddress = $this->customerAddressRepository->update($data, $id);
@@ -138,7 +130,6 @@ class CustomerAddressMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)

@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CartMutation extends Controller
 {
@@ -88,7 +88,6 @@ class CartMutation extends Controller
         try {
             $product = $this->productRepository->findOrFail($data['product_id']);
             $data = bagisto_graphql()->manageInputForCart($product, $data);
-            // dd($data,"Efrtwert");
             $cart = Cart::addProduct($data['product_id'], $data);
             
             if ( isset($cart->id)) {
@@ -130,12 +129,10 @@ class CartMutation extends Controller
                     $qty[$item['cart_item_id']] = $item['quantity'];
                 }
             }
+
             $data['qty'] = $qty;
-
             $result = Cart::updateItems($data);
-            
             if ($result == true) {
-
                 return [
                     'status'    => true,
                     'message'   => trans('bagisto_graphql::app.shop.response.success-update-to-cart'),
@@ -165,7 +162,6 @@ class CartMutation extends Controller
         
         try {
             $result = Cart::removeItem($cartItemId);
-            
             if ($result == true) {
 
                 return [

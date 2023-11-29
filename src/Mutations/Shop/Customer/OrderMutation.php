@@ -3,14 +3,13 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\Paginator;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\RefundRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class OrderMutation extends Controller
 {
@@ -45,7 +44,7 @@ class OrderMutation extends Controller
      */
     public function order($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

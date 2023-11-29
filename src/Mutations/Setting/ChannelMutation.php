@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use App\Http\Controllers\Controller;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Repositories\ChannelRepository;
+use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Core\Rules\Code;
 
 class ChannelMutation extends Controller
@@ -36,12 +35,11 @@ class ChannelMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code'              => ['required', 'unique:channels,code', new Code],
             'name'              => 'required',
@@ -68,6 +66,7 @@ class ChannelMutation extends Controller
                 $logo = $data['logo'];
                 unset($data['logo']);
             }
+
             $favicon = '';
             if (isset($data['favicon'])) {
                 $favicon = $data['favicon'];
@@ -83,7 +82,6 @@ class ChannelMutation extends Controller
             unset($data['seo_keywords']);
 
             $data['home_seo'] = $data['seo'];
-
             unset($data['seo']);
 
             Event::dispatch('core.channel.create.before');
@@ -107,7 +105,6 @@ class ChannelMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -118,7 +115,6 @@ class ChannelMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'code'              => ['required', 'unique:channels,code,' . $id, new Code],
             'name'              => 'required',
@@ -146,6 +142,7 @@ class ChannelMutation extends Controller
                 $logo = $data['logo'];
                 unset($data['logo']);
             }
+
             $favicon = '';
             if (isset($data['favicon'])) {
                 $favicon = $data['favicon'];
@@ -183,17 +180,15 @@ class ChannelMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $channel = $this->channelRepository->findOrFail($id);
 
         if ($channel->code == config('app.channel')) {

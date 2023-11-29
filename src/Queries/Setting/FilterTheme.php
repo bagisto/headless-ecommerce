@@ -15,7 +15,6 @@ class FilterTheme extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        dd("dsfsd");
         $arguments = $this->getFilterParams($input);
 
         // filter the relationship Currency

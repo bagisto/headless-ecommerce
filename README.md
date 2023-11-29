@@ -82,7 +82,7 @@ php artisan bagisto-graphql:install
 http://your-domain.com/graphiql
 ~~~
 
-* You can also use the **Postmen** for testing the APIs:
+* You can also use the **Postman** for testing the APIs:
 
 ~~~
 http://your-domain.com/graphql

@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class DownloadableMutation extends Controller
@@ -169,6 +169,7 @@ class DownloadableMutation extends Controller
             }
 
             $totalInvoiceQty = 0;
+            
             if (isset($downloadableLinkPurchased->order->invoices)) {
                 foreach ($downloadableLinkPurchased->order->invoices as $invoice) {
                     $totalInvoiceQty = $totalInvoiceQty + $invoice->total_qty;

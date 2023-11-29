@@ -5,9 +5,9 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Core\Repositories\CurrencyRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Code;
 
 class CurrencyMutation extends Controller
@@ -41,7 +41,6 @@ class CurrencyMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code' => 'required|min:3|max:3|unique:currencies,code',
             'name' => 'required',
@@ -68,7 +67,6 @@ class CurrencyMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -79,7 +77,6 @@ class CurrencyMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
             'code' => ['required', 'unique:currencies,code,' . $id, new Code],
             'name' => 'required',
@@ -105,7 +102,6 @@ class CurrencyMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
@@ -115,7 +111,6 @@ class CurrencyMutation extends Controller
         }
 
         $id = $args['id'];
-
         $currency = $this->currencyRepository->findOrFail($id);
 
         if ($this->currencyRepository->count() == 1) {

@@ -4,11 +4,11 @@ namespace Webkul\GraphQLAPI\Queries\Catalog;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
 use Webkul\Product\Helpers\View as ProductViewHelper;
 use Webkul\Product\Helpers\Review;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ProductContent extends BaseFilter
 {
@@ -249,41 +249,41 @@ class ProductContent extends BaseFilter
         }
         $data['index'] = $index;
 
-        $variant_prices = [];
+        $variantPrices = [];
         foreach ($data['variant_prices'] as $key => $prices) {
-            $variant_prices[$key] = [
+            $variantPrices[$key] = [
                 'id'            => $key,
                 'regular' => $prices['regular'],
                 'final'   => $prices['final'],
             ];
         }
-        $data['variant_prices'] = $variant_prices;
+        $data['variant_prices'] = $variantPrices;
 
-        $variant_images = [];
+        $variantImages = [];
         foreach ($data['variant_images'] as $key => $imgs) {
-            $variant_images[$key] = [
+            $variantImages[$key] = [
                 'id'     => $key,
                 'images' => [],
             ];
 
             foreach ($imgs as $img_index => $urls) {
-                $variant_images[$key]['images'][$img_index] = $urls;
+                $variantImages[$key]['images'][$img_index] = $urls;
             }
         }
-        $data['variant_images'] = $variant_images;
+        $data['variant_images'] = $variantImages;
 
-        $variant_videos = [];
+        $variantVideos = [];
         foreach ($data['variant_videos'] as $key => $imgs) {
-            $variant_videos[$key] = [
+            $variantVideos[$key] = [
                 'id'     => $key,
                 'videos' => [],
             ];
 
             foreach ($imgs as $img_index => $urls) {
-                $variant_videos[$key]['videos'][$img_index] = $urls;
+                $variantVideos[$key]['videos'][$img_index] = $urls;
             }
         }
-        $data['variant_videos'] = $variant_videos;
+        $data['variant_videos'] = $variantVideos;
 
         return $data;
     }

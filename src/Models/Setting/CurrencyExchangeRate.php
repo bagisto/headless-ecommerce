@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Models\Setting;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Core\Models\CurrencyProxy;
 use Webkul\Core\Models\CurrencyExchangeRate as BaseModel;

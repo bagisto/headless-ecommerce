@@ -2,33 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Core\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\Core\Repositories\LocaleRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CustomScriptMutation extends Controller
 {
-    /**
-     * ChannelRepository object
-     *
-     * @var \Webkul\Core\Repositories\ChannelRepository
-     */
-    protected $channelRepository;
-
-    /**
-     * LocaleRepository instance
-     */
-    protected $localeRepository;
-
-    /**
-     * CoreConfigRepository instance
-     */
-    protected $coreConfigRepository;
-
     /**
      * Create a new controller instance.
      *
@@ -36,9 +19,9 @@ class CustomScriptMutation extends Controller
      * @return void
      */
     public function __construct(
-        ChannelRepository $channelRepository,
-        LocaleRepository $localeRepository,
-        CoreConfigRepository $coreConfigRepository
+        protected ChannelRepository $channelRepository,
+        protected LocaleRepository $localeRepository,
+        protected CoreConfigRepository $coreConfigRepository
     )
     {
         $this->guard = 'admin-api';
@@ -124,8 +107,8 @@ class CustomScriptMutation extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
-    {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+    { 
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -134,7 +117,6 @@ class CustomScriptMutation extends Controller
         }
 
         $data = $args['input'];
-
         $channel = $this->channelRepository->findOneByField('id', $data['channel']);
 
         if ($channel == Null) {
@@ -150,7 +132,6 @@ class CustomScriptMutation extends Controller
         }
 
         try {
-
             if ( isset($data['customCSS'])) {
                 $customData = [
                     'channel'   => $channel->code,
@@ -207,9 +188,7 @@ class CustomScriptMutation extends Controller
         $scripts = $this->coreConfigRepository->findOrFail($id);
 
         try {
-
             $this->coreConfigRepository->delete($id);
-
 
             return ['success' => trans('bagisto_graphql::app.admin.response.script-delete-success')];
         } catch(\Exception $e) {

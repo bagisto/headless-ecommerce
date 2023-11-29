@@ -5,9 +5,9 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Core\Repositories\LocaleRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Code;
 
 class LocaleMutation extends Controller
@@ -35,12 +35,11 @@ class LocaleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
@@ -77,18 +76,16 @@ class LocaleMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code,' . $id, new Code],
             'name'      => 'required',
@@ -130,12 +127,11 @@ class LocaleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $locale = $this->localeRepository->findOrFail($id);
 
         if ($this->localeRepository->count() == 1) {

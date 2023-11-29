@@ -3,13 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
-
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 
@@ -45,7 +43,7 @@ class ThemeMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -95,7 +93,6 @@ class ThemeMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
@@ -108,7 +105,6 @@ class ThemeMutation extends Controller
         }
 
         $locale = core()->getRequestedLocaleCode();
-
         $themeData = $this->themeCustomizationRepository->find($args['id']);
         $data['type'] = $themeData->type;
 
@@ -141,14 +137,14 @@ class ThemeMutation extends Controller
 
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
 
         Event::dispatch('theme_customization.delete.before', $id);
-
+        
         $theme = $this->themeCustomizationRepository->find($id);
         $theme?->delete();
 

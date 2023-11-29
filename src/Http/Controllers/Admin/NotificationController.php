@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Admin;
 
+use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
-use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\Product\Repositories\ProductRepository;
 
 class NotificationController extends Controller
 {

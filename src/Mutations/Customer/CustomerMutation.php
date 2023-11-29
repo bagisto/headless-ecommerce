@@ -2,17 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
-use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Carbon\Carbon;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Admin\Mail\NewCustomerNotification;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CustomerMutation extends Controller
 {
@@ -47,7 +44,6 @@ class CustomerMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
@@ -62,11 +58,8 @@ class CustomerMutation extends Controller
         }
 
         $password = rand(100000, 10000000);
-
         $data['password'] = bcrypt($password);
-
         $data['is_verified'] = 1;
-
         $data['date_of_birth'] = (isset($data['date_of_birth']) && $data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
 
         try {
@@ -85,7 +78,6 @@ class CustomerMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -96,7 +88,6 @@ class CustomerMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
@@ -138,11 +129,9 @@ class CustomerMutation extends Controller
         }
 
         $id = $args['id'];
-
         $customer = $this->customerRepository->findOrFail($id);
 
         try {
-
             if (! $this->customerRepository->checkIfCustomerHasOrderPendingOrProcessing($customer)) {
                 Event::dispatch('customer.customer.delete.before', $id);
 

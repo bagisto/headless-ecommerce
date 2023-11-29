@@ -5,9 +5,9 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Tax\Repositories\TaxRateRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class TaxRateMutation extends Controller
 {
@@ -39,7 +39,6 @@ class TaxRateMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
             'is_zip'     => 'sometimes',
@@ -87,7 +86,6 @@ class TaxRateMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier,' . $id,
             'is_zip'     => 'sometimes',
@@ -127,7 +125,6 @@ class TaxRateMutation extends Controller
         }
 
         $id = $args['id'];
-
         $taxRate = $this->taxRateRepository->findOrFail($id);
 
         try {

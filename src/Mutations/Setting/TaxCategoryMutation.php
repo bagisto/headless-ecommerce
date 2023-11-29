@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Setting;
 
-use App\Http\Controllers\Controller;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Tax\Repositories\TaxCategoryRepository;
+use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
+use Webkul\Tax\Repositories\TaxCategoryRepository;
 
 class TaxCategoryMutation extends Controller
 {
@@ -41,7 +40,6 @@ class TaxCategoryMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code'        => 'required|string|unique:tax_categories,code',
             'name'        => 'required|string',
@@ -61,7 +59,6 @@ class TaxCategoryMutation extends Controller
             //attach the categories in the tax map table
             $taxCategory->tax_rates()->sync($data['taxrates']);
 
-    
             Event::dispatch('tax.tax_category.create.after', $taxCategory);
             
             return $taxCategory;
@@ -73,7 +70,6 @@ class TaxCategoryMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -84,7 +80,6 @@ class TaxCategoryMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
             'code'        => 'required|string|unique:tax_categories,code,' . $id,
             'name'        => 'required|string',
@@ -119,7 +114,6 @@ class TaxCategoryMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
@@ -129,7 +123,6 @@ class TaxCategoryMutation extends Controller
         }
 
         $id = $args['id'];
-
         $taxCategory = $this->taxCategoryRepository->findOrFail($id);
     
         try {

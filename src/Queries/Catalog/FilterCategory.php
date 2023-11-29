@@ -17,21 +17,21 @@ class FilterCategory extends BaseFilter
     {
         $arguments = $this->getFilterParams($input);
 
-        $qb_conditions = [];
+        $qbConditions = [];
         foreach ($arguments as $key => $argument) {
             if (! $argument ) {
                 unset($arguments[$key]);
             }
             
             if ( in_array($key, ['name', 'slug']) && $argument) {
-                $qb_conditions[$key] = $argument;
+                $qbConditions[$key] = $argument;
 
                 unset($arguments[$key]);
             }
         }
         
-        return $query->whereHas('translation', function ($q) use ($qb_conditions) {
-            foreach ($qb_conditions as $column => $condition) {
+        return $query->whereHas('translation', function ($q) use ($qbConditions) {
+            foreach ($qbConditions as $column => $condition) {
                 $q->where($column, 'like', '%' . urldecode($condition) . '%');
             }
         })->where($arguments);

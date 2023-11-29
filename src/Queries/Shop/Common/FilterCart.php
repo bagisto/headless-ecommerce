@@ -24,9 +24,9 @@ class FilterCart extends BaseFilter
 
             $customerName =$this->nameSplitter($customer_name);
 
-            $arguments['customer_first_name'] =  $customerName['firstname']; 
+            $arguments['customer_first_name'] = $customerName['firstname']; 
 
-            $arguments['customer_last_name'] =  $customerName['lastname'];
+            $arguments['customer_last_name'] = $customerName['lastname'];
 
             unset($arguments['customer_name']);
 

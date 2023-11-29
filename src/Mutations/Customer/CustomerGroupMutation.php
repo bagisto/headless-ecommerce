@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Customer;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Code;
 
 class CustomerGroupMutation extends Controller
@@ -41,7 +41,6 @@ class CustomerGroupMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code' => ['required', 'unique:customer_groups,code', new Code],
             'name' => 'required',
@@ -80,7 +79,6 @@ class CustomerGroupMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
             'code' => ['required', 'unique:customer_groups,code,' . $id, new Code],
             'name' => 'required',
@@ -120,7 +118,6 @@ class CustomerGroupMutation extends Controller
         }
 
         $id = $args['id'];
-
         $customerGroup = $this->customerGroupRepository->findOrFail($id);
 
         if ($customerGroup->is_user_defined == 0) {

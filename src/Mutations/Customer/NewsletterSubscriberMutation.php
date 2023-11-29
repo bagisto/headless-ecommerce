@@ -4,10 +4,10 @@ namespace Webkul\GraphQLAPI\Mutations\Customer;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Exception;
 use App\Http\Controllers\Controller;
-use Webkul\Core\Repositories\SubscribersListRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
+use Webkul\Core\Repositories\SubscribersListRepository;
 
 class NewsletterSubscriberMutation extends Controller
 {
@@ -38,7 +38,6 @@ class NewsletterSubscriberMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'email' => 'email|required',
         ]);
@@ -48,16 +47,13 @@ class NewsletterSubscriberMutation extends Controller
         }
 
         $unique = 0;
-
         $alreadySubscribed = $this->subscriptionRepository->findWhere(['email' => $data['email']]);
-
         $unique = function () use ($alreadySubscribed) {
             return $alreadySubscribed->count() > 0 ? 0 : 1;
         };
 
         if ( $unique() ) {
             $token = uniqid();
-
             try {                
                 Event::dispatch('customer.subscribe.before');
                 
@@ -67,12 +63,11 @@ class NewsletterSubscriberMutation extends Controller
                     'is_subscribed' => 1,
                     'token'         => $token,
                 ]);
-
                 if ( isset($subscription->id)) {
                     Event::dispatch('customer.subscribe.after', $subscription);
                     
                     return $subscription;
-                
+            
                 } else {
                     throw new Exception(trans('shop::app.subscription.not-subscribed'));
                 }
@@ -105,7 +100,7 @@ class NewsletterSubscriberMutation extends Controller
         try {
             $subscriber = $this->subscriptionRepository->findOneByField('token', $args['token']);
 
-            if ( isset($subscriber->id) && isset($subscriber->is_subscribed)) {
+            if (isset($subscriber->id) && isset($subscriber->is_subscribed)) {
                 
                 Event::dispatch('customer.subscribe.update.before');
                 
@@ -145,8 +140,7 @@ class NewsletterSubscriberMutation extends Controller
         $subscriber = $this->subscriptionRepository->findOneByField('email', $args['email']);
 
         try {
-
-            if ( isset($subscriber->id)) {
+            if (isset($subscriber->id)) {
                 Event::dispatch('customer.subscriber.delete.before', $subscriber->id);
 
                 $this->subscriptionRepository->delete($subscriber->id);

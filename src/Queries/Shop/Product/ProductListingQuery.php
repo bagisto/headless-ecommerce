@@ -2,15 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Product;
 
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\GraphQLAPI\Models\Catalog\Product;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Helpers\Toolbar;
@@ -130,24 +127,6 @@ class ProductListingQuery extends BaseFilter
         if (! empty($params['url_key'])) {
             $qb->where('product_flat.url_key', 'like', '%' . urldecode($params['url_key']) . '%');
         }
-
-        # sort direction
-        $orderDirection = 'asc';
-        // if (isset($params['order']) && in_array($params['order'], ['desc', 'asc'])) {
-        //     $orderDirection = $params['order'];
-        // } else {
-        //     $sortOptions = $this->getDefaultSortByOption();
-        //     $orderDirection = ! empty($sortOptions) ? $sortOptions[1] : 'asc';
-        // }
-
-        // if (isset($params['sort'])) {
-        //     $this->checkSortAttributeAndGenerateQuery($qb, $params['sort'], $orderDirection);
-        // } else {
-        //     $sortOptions = $this->getDefaultSortByOption();
-        //     if (! empty($sortOptions)) {
-        //         $this->checkSortAttributeAndGenerateQuery($qb, $sortOptions[0], $orderDirection);
-        //     }
-        // }
 
         if (! empty($params['price'])) {
             $priceFilter = $params['price'];

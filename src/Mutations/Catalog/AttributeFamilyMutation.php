@@ -3,12 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Code;
 
 class AttributeFamilyMutation extends Controller
@@ -16,8 +16,6 @@ class AttributeFamilyMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
-     * @param  \Webkul\Attribute\Repositories\AttributeFamilyRepository  $attributeFamilyRepository
      * @return void
      */
     public function __construct(
@@ -75,7 +73,6 @@ class AttributeFamilyMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -86,7 +83,6 @@ class AttributeFamilyMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'code' => ['required', 'unique:attribute_families,code,' . $id, new Code],
             'name' => 'required',
@@ -97,8 +93,8 @@ class AttributeFamilyMutation extends Controller
         }
 
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
-
         $attribute_groups = [];
+
         if ( isset($data['attribute_groups']) && $data['attribute_groups']) {
             $previousAttributeGroupIds = $attributeGroupArray = $attributeFamily->attribute_groups()->pluck('id');
 
@@ -121,11 +117,11 @@ class AttributeFamilyMutation extends Controller
             Event::dispatch('catalog.attributeFamily.update.before', $id);
 
             $attributeFamily = $this->attributeFamilyRepository->update($data, $id);
+
             Event::dispatch('catalog.attributeFamily.update.before', $attributeFamily);
 
             return $attributeFamily;
         } catch (Exception $e) {
-            
             throw new Exception($e->getMessage());
         }
     }
@@ -143,7 +139,6 @@ class AttributeFamilyMutation extends Controller
         }
 
         $id = $args['id'];
-
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
 
         if ($this->attributeFamilyRepository->count() == 1) {

@@ -4,45 +4,24 @@ declare(strict_types = 1);
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Paypal\Payment\Standard;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Paypal\Helpers\Ipn;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class PaypalStandardMutation
 {
+    
     /**
      * Contains current guard
      *
      * @var string
      */
     protected string $guard;
-
-    /**
-     * Standard object
-     *
-     * @var \Webkul\Paypal\Payment\Standard;
-     */
-    protected Standard $paypal_standard;
-
-    /**
-     * Ipn Helper object
-     *
-     * @var \Webkul\Paypal\Helpers\Ipn;
-     */
-    protected Ipn $ipnHelper;
-
-    /**
-     * OrderRepository object
-     *
-     * @var \Webkul\Sales\Repositories\OrderRepository;
-     */
-    protected OrderRepository $orderRepository;
 
     /**
      * Create a new controller instance.
@@ -54,9 +33,9 @@ class PaypalStandardMutation
      * @return void
      */
     public function __construct(
-        Standard $paypal_standard,
-        Ipn $ipnHelper,
-        OrderRepository $orderRepository
+        protected Standard $paypal_standard,
+        protected Ipn $ipnHelper,
+        protected OrderRepository $orderRepository
     )   {
         $this->guard = 'api';
 

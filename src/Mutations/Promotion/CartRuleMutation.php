@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Promotion;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CartRuleMutation extends Controller
 {
@@ -44,7 +44,7 @@ class CartRuleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -89,12 +89,11 @@ class CartRuleMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -125,7 +124,6 @@ class CartRuleMutation extends Controller
         }
 
         try {
-
             $cartRule = $this->cartRuleRepository->findOrFail($id);
 
             Event::dispatch('promotions.cart_rule.update.before', $cartRule);
@@ -150,7 +148,6 @@ class CartRuleMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
@@ -160,13 +157,10 @@ class CartRuleMutation extends Controller
         }
 
         $id = $args['id'];
-
         $cartRule = $this->cartRuleRepository->find($id);
 
         try {
-
             if ($cartRule != Null) {
-
                 Event::dispatch('promotions.cart_rule.delete.before', $id);
 
                 $cartRule->delete();
@@ -197,8 +191,7 @@ class CartRuleMutation extends Controller
         ]);
 
         try {
-
-            if (!$id) {
+            if (! $id) {
                 throw new Exception(trans('admin::app.promotions.cart-rules.cart-rule-not-defind-error'));
             }
 

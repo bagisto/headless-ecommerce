@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Sales;
 
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Sales\Repositories\OrderRepository;
 
 class OrderMutation extends Controller
@@ -38,16 +38,15 @@ class OrderMutation extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function cancel($rootValue, array $args, GraphQLContext $context)
-    {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+    { 
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $orderId = $args['id'];
-
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if (!$order->canCancel() || !$order->canInvoice()) {
+        if (! $order->canCancel() || !$order->canInvoice()) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.cancel-error'));
         }
 

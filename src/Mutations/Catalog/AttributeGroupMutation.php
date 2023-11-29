@@ -45,7 +45,6 @@ class AttributeGroupMutation extends Controller
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'name'                  => 'string|required',
             'position'              => 'numeric|required',
@@ -87,7 +86,6 @@ class AttributeGroupMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-        
         $validator = Validator::make($data, [
             'name'                  => 'string|required',
             'position'              => 'numeric|required',
@@ -99,7 +97,6 @@ class AttributeGroupMutation extends Controller
         }
         
         try {
-
             $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);
             
             unset($data['attribute_family_id']);
@@ -135,7 +132,6 @@ class AttributeGroupMutation extends Controller
         }
 
         $id = $args['id'];
-
         $attributeGroup = $this->attributeGroupRepository->findOrFail($id);
 
         if( isset($attributeGroup->is_user_defined) && !$attributeGroup->is_user_defined ) {

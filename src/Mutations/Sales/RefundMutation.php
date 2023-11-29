@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Sales;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class RefundMutation extends Controller
 {
@@ -51,7 +51,6 @@ class RefundMutation extends Controller
 
         $params = $args['input'];
         $orderId = $params['order_id'];
-
         $order = $this->orderRepository->findOrFail($orderId);
 
         if (! $order->canRefund()) {
@@ -59,24 +58,18 @@ class RefundMutation extends Controller
         }
 
         try {
-
             $refundData= [];
-
             if (isset($params['refund_data'])) {
-
                 foreach ($params['refund_data'] as $data) {
-
                     $refundData = $refundData + [
                         $data['order_item_id'] => $data['quantity']
                     ];
                 }
 
                 $refund['refund']['items']=  $refundData;
-
                 $refund['refund']['shipping']          = $params['refund_shipping'];
                 $refund['refund']['adjustment_refund'] = $params['adjustment_refund'];
                 $refund['refund']['adjustment_fee']    = $params['adjustment_fee'];
-
                 $validator = Validator::make($refund, [
                     'refund.items.*' => 'required|numeric|min:0',
                 ]);
@@ -85,28 +78,24 @@ class RefundMutation extends Controller
                     throw new Exception($validator->messages());
                 }
 
-
                 $totals = $this->refundRepository->getOrderItemsRefundSummary($refund['refund']['items'], $orderId);
-
                 if ($totals != false) {
                     $maxRefundAmount = $totals['grand_total']['price'] - $order->refunds()->sum('base_adjustment_refund');
 
                     $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $refund['refund']['shipping'] + $refund['refund']['adjustment_refund'] - $refund['refund']['adjustment_fee'];
                 }
 
-
                 if (! isset($refundAmount)) {
                     throw new Exception(trans('admin::app.sales.refunds.invalid-refund-amount-error'));
                 }
 
                 if ($refundAmount > $maxRefundAmount) {
-
                     throw new Exception(trans('admin::app.sales.refunds.refund-limit-error') . core()->formatBasePrice($maxRefundAmount));
                 }
 
                 $refundedData = $this->refundRepository->create(array_merge($refund, ['order_id' => $orderId]));
 
-                if ( isset($refundedData->id) ) {
+                if (isset($refundedData->id) ) {
                     $refundedData->success = trans('admin::app.response.create-success', ['name' => 'Refund']);
 
                     return $refundedData;

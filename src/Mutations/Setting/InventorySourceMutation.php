@@ -5,9 +5,9 @@ namespace Webkul\GraphQLAPI\Mutations\Setting;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
 use Webkul\Inventory\Repositories\InventorySourceRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Code;
 
 class InventorySourceMutation extends Controller
@@ -35,12 +35,11 @@ class InventorySourceMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'code'           => ['required', 'unique:inventory_sources,code', new Code],
             'name'           => 'required',
@@ -76,7 +75,6 @@ class InventorySourceMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
@@ -87,7 +85,6 @@ class InventorySourceMutation extends Controller
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'code'           => ['required', 'unique:inventory_sources,code,' . $id, new Code],
             'name'           => 'required',
@@ -133,7 +130,6 @@ class InventorySourceMutation extends Controller
         }
 
         $id = $args['id'];
-
         $inventorySource = $this->inventorySourceRepository->findOrFail($id);
 
         if ($this->inventorySourceRepository->count() == 1) {

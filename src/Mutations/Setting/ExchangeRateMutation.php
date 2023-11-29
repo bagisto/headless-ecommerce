@@ -37,12 +37,11 @@ class ExchangeRateMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
-
         $validator = Validator::make($data, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency'],
             'rate'            => 'required|numeric',
@@ -54,7 +53,7 @@ class ExchangeRateMutation extends Controller
 
         $currency = $this->currencyRepository->findOrFail($data['target_currency']);
 
-        if (!isset($currency->id)) {
+        if (! isset($currency->id)) {
             throw new Exception(trans('bagisto_graphql::app.admin.settings.exchange_rates.error-invalid-target-currency'));
         }
 
@@ -79,13 +78,12 @@ class ExchangeRateMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
+        if (! isset($args['id']) || !isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
-
         $validator = Validator::make($data, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency,' . $id],
             'rate'            => 'required|numeric',
@@ -116,12 +114,11 @@ class ExchangeRateMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-
         $exchangeRate = $this->exchangeRateRepository->findOrFail($id);
 
         if ($this->exchangeRateRepository->count() == 1) {

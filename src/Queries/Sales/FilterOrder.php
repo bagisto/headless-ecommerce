@@ -28,13 +28,13 @@ class FilterOrder extends BaseFilter
        //filter Both the relationship Address for billed_to and shipped_to
        if ( isset($arguments['billed_to']) && isset($arguments['shipped_to']) ) {
 
-            $billed_to = $input['billed_to'];
+            $billedTo = $input['billed_to'];
 
-            $shipped_to = $input['shipped_to'];
+            $shippedTo = $input['shipped_to'];
 
-            $billingName =$this->nameSplitter($billed_to);
+            $billingName =$this->nameSplitter($billedTo);
 
-            $shippedName =$this->nameSplitter($shipped_to);
+            $shippedName =$this->nameSplitter($shippedTo);
 
             unset($arguments['billed_to']);
 
@@ -56,9 +56,9 @@ class FilterOrder extends BaseFilter
         // filter the relationship addresses for Billing Address
         if ( isset($arguments['billed_to'])) {
 
-            $billed_to = $input['billed_to'];
+            $billedTo = $input['billed_to'];
 
-            $billingName =$this->nameSplitter($billed_to);
+            $billingName =$this->nameSplitter($billedTo);
 
             unset($arguments['billed_to']);
 
@@ -71,9 +71,9 @@ class FilterOrder extends BaseFilter
         // filter the relationship addresses for Shipping Address
         if ( isset($arguments['shipped_to'])) {
 
-            $shipped_to = $input['shipped_to'];
+            $shippedTo = $input['shipped_to'];
 
-            $shippedName =$this->nameSplitter($shipped_to);
+            $shippedName =$this->nameSplitter($shippedTo);
 
             unset($arguments['shipped_to']);
 

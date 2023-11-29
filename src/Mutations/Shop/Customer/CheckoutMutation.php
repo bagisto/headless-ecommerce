@@ -5,13 +5,13 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Shipping\Facades\Shipping;
 use Webkul\Payment\Facades\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\AlphaNumericSpace;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
@@ -108,7 +108,6 @@ class CheckoutMutation extends Controller
      */
     public function saveCartAddresses($rootValue, array $args, GraphQLContext $context)
     {
-
         if (! isset($args['input']) || (isset($args['input']) && !$args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
@@ -118,6 +117,7 @@ class CheckoutMutation extends Controller
         
         $params = $args['input'];
         $rules = ['type' => 'required'];
+
         if (! empty($params['billing_address_id'])) {
             $rules = array_merge($rules, [
                 'billing_address_id'    => 'numeric|required'
@@ -160,7 +160,6 @@ class CheckoutMutation extends Controller
         
         if ($validator->fails()) {
             $errorMessage = [];
-            
             foreach ($validator->messages()->toArray() as $field => $message) {
                 $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
             }
@@ -173,7 +172,7 @@ class CheckoutMutation extends Controller
 
         $cart = Cart::getCart();
 
-        if ( ! $cart ) {
+        if (! $cart ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.warning-empty-cart'),
                 'Your cart is empty.'
@@ -201,7 +200,7 @@ class CheckoutMutation extends Controller
         
         $token = 0;
         
-        if ( isset(getallheaders()['Authorization'])) {
+        if (isset(getallheaders()['Authorization'])) {
             $headerValue = explode("Bearer ", getallheaders()['Authorization']);
             if ( isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
@@ -211,7 +210,7 @@ class CheckoutMutation extends Controller
         $validateUser = bagisto_graphql()->apiAuth($token, $this->guard);
 
         if ($token && isset($validateUser['success']) && ! $validateUser['success']) {
-            if ( $billingAddressId || $shippingAddressId) {
+            if ($billingAddressId || $shippingAddressId) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.response.invalid-guest-access'),
                     'invalid-guest-access.'
@@ -261,18 +260,18 @@ class CheckoutMutation extends Controller
                 ];
                 $address_flag = false; 
 
-                if ( $billingAddressId ) {
+                if ($billingAddressId) {
                     $billingAddress = $this->customerAddressRepository->findOneWhere([
                         'id'            => $billingAddressId,
                         'address_type'  => 'customer'
                     ]);
 
-                    if ( isset($billingAddress->id)) {
+                    if (isset($billingAddress->id)) {
                         $data['billing']['first_name'] = $billingAddress->first_name;
                         $data['billing']['last_name'] = $billingAddress->last_name;
                         $data['billing']['address1'] = $billingAddress->address1;
 
-                        if ( isset($params['billing']['use_for_shipping']) && $params['billing']['use_for_shipping'] == true ) {
+                        if (isset($params['billing']['use_for_shipping']) && $params['billing']['use_for_shipping'] == true ) {
                             unset($data['shipping']['address_id']);
                             $data['billing']['use_for_shipping'] = true;
                         } else {
@@ -294,7 +293,7 @@ class CheckoutMutation extends Controller
                         'address_type'  => 'customer'
                     ]);
 
-                    if ( isset($shippingAddress->id)) {
+                    if (isset($shippingAddress->id)) {
                         $data['shipping']['address1'] = $shippingAddress->address1;
                     } else {
                         throw new CustomException(
@@ -306,22 +305,22 @@ class CheckoutMutation extends Controller
                     $address_flag = true; 
                 }
             
-                if ( $address_flag == true ) {
+                if ($address_flag == true ) {
                     if (! $billingAddressId && isset($params['billing']['address1'])) {
-                        if ( isset($params['billing']['isSaved']) && $params['billing']['isSaved'] == true ) {
+                        if (isset($params['billing']['isSaved']) && $params['billing']['isSaved'] == true ) {
                             $this->customerAddressRepository->create($params['billing']);
                         }
 
                         $data['billing'] = $params['billing'];
 
-                        if ( isset($params['billing']['use_for_shipping']) && $params['billing']['use_for_shipping'] == true ) {
+                        if (isset($params['billing']['use_for_shipping']) && $params['billing']['use_for_shipping'] == true ) {
                             unset($data['shipping']['address_id']);
                         }
                     }
 
                     if (! $shippingAddressId && isset($params['shipping']['address1'])) {
 
-                        if ( isset($params['shipping']['isSaved']) && $params['shipping']['isSaved'] == true ) {
+                        if (isset($params['shipping']['isSaved']) && $params['shipping']['isSaved'] == true ) {
                             $this->customerAddressRepository->create($params['shipping']);
                         }
 
@@ -330,7 +329,7 @@ class CheckoutMutation extends Controller
                         }
                     }
 
-                    if ( isset($cart['is_guest']) && $cart['is_guest'] == 1) {
+                    if (isset($cart['is_guest']) && $cart['is_guest'] == 1) {
                         $data['billing']['customer_id'] = $data['shipping']['customer_id'] = null;
                     }
                 }
@@ -342,7 +341,7 @@ class CheckoutMutation extends Controller
                     );
                 } else {
                     $coreCurrency = config('app.currency');
-                    if ( isset($params['currency']) && $params['currency'] ) {
+                    if (isset($params['currency']) && $params['currency'] ) {
                         $coreCurrency = $params['currency'];
                     }
         
@@ -409,7 +408,7 @@ class CheckoutMutation extends Controller
     {
         $cart = Cart::getCart();
 
-        if ( ! $cart ) {
+        if (! $cart) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.warning-empty-cart'),
                 'Your cart is empty.'
@@ -454,12 +453,12 @@ class CheckoutMutation extends Controller
                                 $methods = [];
                                 foreach ($shippingMethod['rates'] as $rate) {
                                     $methods = [
-                                        'code'              => $rate->method,
-                                        'label'             => $rate->method_title,
-                                        'price'             => core()->convertPrice($rate->price, $coreCurrency),
-                                        'formatted_price'   => core()->formatPrice(core()->convertPrice($rate->price, $coreCurrency), $coreCurrency),
-                                        'base_price'        => core()->convertPrice($rate->base_price, core()->getBaseCurrencyCode()),
-                                        'formatted_base_price'=> core()->formatPrice(core()->convertPrice($rate->base_price, core()->getBaseCurrencyCode()), core()->getBaseCurrencyCode())
+                                        'code'                => $rate->method,
+                                        'label'               => $rate->method_title,
+                                        'price'               => core()->convertPrice($rate->price, $coreCurrency),
+                                        'formatted_price'     => core()->formatPrice(core()->convertPrice($rate->price, $coreCurrency), $coreCurrency),
+                                        'base_price'           => core()->convertPrice($rate->base_price, core()->getBaseCurrencyCode()),
+                                        'formatted_base_price' => core()->formatPrice(core()->convertPrice($rate->base_price, core()->getBaseCurrencyCode()), core()->getBaseCurrencyCode())
                                     ];
                                 }
                                 $shipping_methods[] = [
@@ -614,7 +613,6 @@ class CheckoutMutation extends Controller
     /**
      * Apply Coupon to cart
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function applyCoupon($rootValue, array $args, GraphQLContext $context)
@@ -659,7 +657,6 @@ class CheckoutMutation extends Controller
     /**
      * Remove Coupon from cart
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function removeCoupon($rootValue, array $args, GraphQLContext $context)
@@ -688,7 +685,6 @@ class CheckoutMutation extends Controller
     /**
      * Create order
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function saveOrder($rootValue, array $args, GraphQLContext $context)

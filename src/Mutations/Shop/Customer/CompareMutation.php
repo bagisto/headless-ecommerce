@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
+use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
 
@@ -104,7 +104,7 @@ class CompareMutation extends Controller
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        if (!bagisto_graphql()->guard($this->guard)->check()) {
+        if (! bagisto_graphql()->guard($this->guard)->check()) {
             throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
 
