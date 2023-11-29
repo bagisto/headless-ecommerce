@@ -140,7 +140,7 @@ type Product {
     superAttributes: [Attribute!] @belongsToMany(relation: "super_attributes")
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
-    images: [Image!] @hasMany
+    images: [Image] @hasMany
     cacheBaseImage: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductBaseImage")
     cacheGalleryImages: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getCacheGalleryImages")
     videos: [Video!] @hasMany

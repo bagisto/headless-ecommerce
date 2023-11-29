@@ -237,9 +237,13 @@ class NotificationController extends Controller
         if ($data['selectedType'] == 'product') {
             if ($product = $this->productRepository->find($data['givenValue'])) {
 
-                if (! isset($product->id) || 
+                if (
+                    ! isset($product->id) || 
                     ! isset($product->url_key) || 
-                    (isset($product->parent_id) && $product->parent_id) ) {
+                    (
+                    isset($product->parent_id) 
+                    && $product->parent_id
+                    ) ) {
                     return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
                 } else {
                     return response()->json(['value' => true], 200);

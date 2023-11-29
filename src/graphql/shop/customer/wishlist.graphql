@@ -1,7 +1,7 @@
 #Shop\Customer\Wishlist Related APIs
 extend type Query @guard(with: ["api"]) {
     wishlists(
-        input: FilterWislistInput @paginate(type: "PAGINATOR", resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists"),
+        input: FilterWislistInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists"),
         first: Int,
         page: Int
     ): [Wishlist!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")

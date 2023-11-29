@@ -113,8 +113,10 @@ class BagistoGraphql
             $setToken =  JWTAuth::setToken($token)->authenticate();
             $customerFromToken = JWTAuth::toUser($setToken);
 
-            if (isset($setToken) && 
-                isset($customerFromToken) && $loggedAdmin != NULL) {
+            if (
+                isset($setToken) && 
+                isset($customerFromToken) 
+                && $loggedAdmin != NULL) {
                 if ($customerFromToken->id == $loggedAdmin->id) {
                     return [
                         'success'   => true,
@@ -674,7 +676,7 @@ class BagistoGraphql
         $booking = [];
         switch ($data['type']) {
             case 'appointment':
-                if (isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
+                if (isset($data['same_slot_all_days']) && ! $data['same_slot_all_days']) {
                     $slots = [];
                     if (isset($data['slots'])) {
                         foreach ($data['slots'] as $key => $slot) {
@@ -835,7 +837,10 @@ class BagistoGraphql
                     $booking = $product->booking_product;
 
                     if (isset($booking->type) && $booking->type) {
-                        if ($booking->type == 'default' || $booking->type == 'appointment' || $booking->type == 'table') {
+                        if (
+                            $booking->type == 'default' 
+                            || $booking->type == 'appointment' 
+                            || $booking->type == 'table') {
                             if (isset($data['booking']['slot']) && is_array($data['booking']['slot'])) {
                                 $data['booking']['slot'] = implode("-", $data['booking']['slot']);
                             }

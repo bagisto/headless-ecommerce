@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Queries\Catalog;
 
+use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
@@ -330,6 +331,8 @@ class ProductContent extends BaseFilter
      */
     public function getProductBaseImage($rootValue, array $args, GraphQLContext $context)
     {
+        themes()->set('default');
+
         return product_image()->getProductBaseImage($rootValue);
     }
 

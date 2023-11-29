@@ -51,7 +51,7 @@ class Install extends Command
 
         // running `php artisan vendor:publish --provider "MLL\GraphiQL\GraphiQLServiceProvider" --tag=config`
         $this->warn('Step: Publishing GraphiQL Provider File...');
-        $configuration = shell_exec('php artisan vendor:publish --provider="*MLL\GraphiQL\GraphiQLServiceProvider" --tag=config');
+        $configuration = shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config');
         $this->info($configuration);
 
         // running `php artisan vendor:publish --tag=lighthouse-config`
