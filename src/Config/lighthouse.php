@@ -75,9 +75,7 @@ return [
     |
     */
 
-    'schema' => [
-        'register' => base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
-    ],
+    'schema_path'=>base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
 
     /*
     |--------------------------------------------------------------------------
