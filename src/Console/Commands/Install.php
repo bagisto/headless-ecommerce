@@ -49,10 +49,20 @@ class Install extends Command
         $configuration = shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config');
         $this->info($configuration);
 
+        // running `php artisan vendor:publish --provider "MLL\GraphiQL\GraphiQLServiceProvider" --tag=config`
+        $this->warn('Step: Publishing GraphiQL Provider File...');
+        $configuration = shell_exec('php artisan vendor:publish --provider="*MLL\GraphiQL\GraphiQLServiceProvider" --tag=config');
+        $this->info($configuration);
+
         // running `php artisan vendor:publish --tag=lighthouse-config`
         $this->warn('Step: Publishing Lighthouse Configuration File...');
         $lighthouse_config = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
         $this->info($lighthouse_config);
+
+        // running `php artisan vendor:publish --tag=lighthouse-config`
+        $this->warn('Step: Publishing GraphiQL Configuration File...');
+        $graphiql_config = shell_exec('php artisan vendor:publish --tag=graphiql-config');
+        $this->info($graphiql_config);
 
         // running `composer dump-autoload`
         $this->warn('Step: Composer autoload...');

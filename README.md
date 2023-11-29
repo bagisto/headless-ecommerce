@@ -36,7 +36,7 @@ composer require bagisto/graphql-api dev-main
 * Find a file **config/auth.php** from root and bellow code inside **guard**:
 
 ~~~
- 'api' => [
+    'api' => [
             'driver'   => 'jwt',
             'provider' => 'customer',
         ],
@@ -51,7 +51,7 @@ composer require bagisto/graphql-api dev-main
 * Find a file **config/auth.php** from root and bellow code inside **providers**:
 
 ~~~
-  'customer' => [
+    'customer' => [
             'driver' => 'eloquent',
             'model'  => Webkul\GraphQLAPI\Models\Customer\Customer::class,
         ],
@@ -62,38 +62,6 @@ composer require bagisto/graphql-api dev-main
         ],
 
 ~~~
-
-* Install **composer require php-open-source-saver/jwt-auth**
-
-* Install **composer require nuwave/lighthouse**
-
-* Install **composer require mll-lab/laravel-graphiql**
-
-* Install **composer require mll-lab/laravel-graphql-playground**
-
-* Run command **php artisan vendor:publish**
-
-* Press number of the **Nuwave\Lighthouse\LighthouseServiceProvider** class and then press enter to publish all assets and configurations.
-
-* Press number of the **MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider** class and then press enter to publish all assets and configurations.
-
-* Press number of the **MLL\GraphiQL\GraphiQLServiceProvider** class and then press enter to publish all assets and configurations.
-
-* Press number of the **PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider** class and then press enter to publish all assets and configurations.
-
-* Find a file **config/lighthouse.php** from root and add bellow line of code:
-    ~~~
-    'schema_path' => base_path('packages/Webkul/GraphQLAPI/src/graphql/schema.graphql'),
-    ~~~
-
-* Find a file **config/lighthouse.php** from root and add comment bellow line of code inside **route/middleware**:
-    ~~~
-         \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
-
-         \Nuwave\Lighthouse\Support\Http\Middleware\AttemptAuthentication::class,
-        
-        \Nuwave\Lighthouse\Support\Http\Middleware\LogGraphQLQueries::class,
-    ~~~
 
 * Add the **JWT_TTL (JWT time to live)** & **JWT_SHOW_BLACKLIST_EXCEPTION** entries in the **.env** file:
 
@@ -111,7 +79,7 @@ php artisan bagisto-graphql:install
 * Now to use the **graphql-playground** for testing the APIs:
 
 ~~~
-http://your-domain.com/graphql-playground
+http://your-domain.com/graphiql
 ~~~
 
 * You can also use the **Postmen** for testing the APIs:
