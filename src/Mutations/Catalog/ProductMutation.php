@@ -111,9 +111,12 @@ class ProductMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            ! isset($args['id']) 
+            || ! isset($args['input']) 
+            || (isset($args['input']) 
+            && ! $args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -214,6 +217,7 @@ class ProductMutation extends Controller
         }
 
         $imageUrls = $videoUrls = [];
+
         if (isset($data['images'])) {
             $imageUrls = $data['images'];
             unset($data['images']);
@@ -225,6 +229,7 @@ class ProductMutation extends Controller
         }
 
         $inventories = [];
+
         if (isset($data['inventories'])) {
             foreach ($data['inventories'] as $key => $inventory) {
                 if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
@@ -247,12 +252,13 @@ class ProductMutation extends Controller
                     'resource'    => $product,
                     'data'        => $imageUrls,
                     'path'        => 'product/',
-                    'data_type'   => 'image',
+                    'data_type'   => 'images',
                     'upload_type' => ! isset($args['upload_type']) ? 'path' : $args['upload_type']
                 ];
-
+                
                 bagisto_graphql()->uploadProductImages($uploadParams);
-                bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $videoUrls, 'data_type' => 'video']));
+
+                bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $videoUrls, 'data_type' => 'videos']));
 
                 return $product;
             }

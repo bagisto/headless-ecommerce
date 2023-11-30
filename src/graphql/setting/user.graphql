@@ -29,8 +29,9 @@ input CreateUserInput {
     email: String!
     password: String!
     passwordConfirmation: String @rename(attribute: "password_confirmation")
-    roleId: Int! @rename(attribute: "role_id")
+    roleId: String! @rename(attribute: "role_id")
     status: Boolean!
+    image: [String]
 }
 
 input CreateUserLoginInput {
@@ -68,6 +69,7 @@ type User {
     password: String!
     apiToken: String! @rename(attribute: "api_token")
     roleId: Int! @rename(attribute: "role_id")
+    image: String
     status: Boolean!
     role: Role! @belongsTo(relation: "role")
     createdAt: DateTime @rename(attribute: "created_at")

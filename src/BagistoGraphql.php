@@ -164,17 +164,16 @@ class BagistoGraphql
     {
         $modelPath = $path . $model->id . '/';
         $imageDirPath = storage_path('app/public/' . $modelPath);
-        if (!file_exists($imageDirPath)) {
+
+        if (! file_exists($imageDirPath)) {
             mkdir(storage_path('app/public/' . $modelPath), 0777, true);
         }
 
         if (isset($imageUrl) && $imageUrl) {
-            $valoidateImg = $this->validatePath($imageUrl, 'image');
-
+            $valoidateImg = $this->validatePath($imageUrl, 'images');
             if ($valoidateImg) {
                 $imgName = basename($imageUrl);
                 $savePath = $imageDirPath . $imgName;
-
                 if (file_exists($savePath)) {
                     Storage::delete('/' . $modelPath . $imgName);
                 }
@@ -204,7 +203,7 @@ class BagistoGraphql
             mkdir(storage_path('app/public/' . $modelPath), 0777, true);
         }
 
-        $previousImageIds = $productImageArray = ($data['data_type'] == 'video') ? $data['resource']->videos()->pluck('id') : $data['resource']->images()->pluck('id');
+        $previousImageIds = $productImageArray = ($data['data_type'] == 'videos') ? $data['resource']->videos()->pluck('id') : $data['resource']->images()->pluck('id');
 
         if ($data['data']) {
 
@@ -214,7 +213,7 @@ class BagistoGraphql
                     $previousImageIds->forget($index);
                 }
 
-                if ($data['data_type'] == 'video')
+                if ($data['data_type'] == 'videos')
                     $this->productVideoRepository->delete($productImageId);
                 else
                     $this->productImageRepository->delete($productImageId);
@@ -236,7 +235,7 @@ class BagistoGraphql
                         continue;
                     }
 
-                    $allowedMimeTypes = $data['data_type'] == 'image' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
+                    $allowedMimeTypes = $data['data_type'] == 'images' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
 
                     $getImgMime = mime_content_type($imageUrl);
 
@@ -249,7 +248,7 @@ class BagistoGraphql
                     $pathValidate = $this->validatePath($imageUrl, $data['data_type']);
                 }
 
-                if (!$pathValidate) {
+                if (! $pathValidate) {
                     continue;
                 }
 
@@ -267,7 +266,7 @@ class BagistoGraphql
                     'product_id' => $data['resource']->id,
                 ];
 
-                if ($data['data_type'] == 'video') {
+                if ($data['data_type'] == 'videos') {
                     $this->productVideoRepository->create($params);
                 } else {
                     $this->productImageRepository->create($params);
@@ -278,7 +277,7 @@ class BagistoGraphql
                 if ($imageModel = $this->productImageRepository->find($imageId)) {
                     Storage::delete($imageModel->path);
 
-                    if ($data['data_type'] == 'video')
+                    if ($data['data_type'] == 'videos')
                         $this->productImageRepository->delete($imageId);
                     else
                         $this->productVideoRepository->delete($imageId);
@@ -306,7 +305,7 @@ class BagistoGraphql
      * @param String|null $type
      * @return boolean
      */
-    public function validatePath(string $imageURL, $type = 'image')
+    public function validatePath(string $imageURL, $type = 'images')
     {
         if ($imageURL) {
             $chkURL = curl_init();
@@ -331,12 +330,12 @@ class BagistoGraphql
      * @param String|null $type
      * @return boolean
      */
-    public function getImageMIMEType($filename, $type = 'image')
+    public function getImageMIMEType($filename, $type = 'images')
     {
         $explodeURL = explode('.', $filename);
         $ext = strtolower(array_pop($explodeURL));
 
-        $mimeTypes = $type == 'image' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
+        $mimeTypes = $type == 'images' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
 
         if (array_key_exists($ext, $mimeTypes)) {
             return true;
@@ -890,7 +889,7 @@ class BagistoGraphql
 
             $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
-            $pathValidate = $this->validatePath($data[$field], 'image');
+            $pathValidate = $this->validatePath($data[$field], 'images');
         }
 
         if ($base64Validate || $pathValidate) {

@@ -24,15 +24,15 @@ input CreateCategoryInput {
     slug: String!
     description: String!
     status: Boolean!
-    position: Int!
+    position: String!
     displayMode: String! @rename(attribute: "display_mode")
     logoPath: [String] @rename(attribute: "logo_path")
     bannerPath: [String] @rename(attribute: "banner_path")
-    parentId: ID @rename(attribute: "parent_id")
+    parentId: String @rename(attribute: "parent_id")
     metaTitle: String! @rename(attribute: "meta_title")
     metaDescription: String! @rename(attribute: "meta_description")
     metaKeywords: String! @rename(attribute: "meta_keywords")
-    attributes: [Int!]
+    attributes: [String!]
 }
 
 input FilterCategoryListInput {
@@ -81,14 +81,13 @@ type Category {
     description: String!
     slug: String!
     urlPath: String @rename(attribute: "url_path")
-    image: String
-    imageUrl: String @rename(attribute: "image_url")
-    categoryIconUrl: String @rename(attribute: "category_icon_url")
     metaTitle: String @rename(attribute: "meta_title")
     metaDescription: String @rename(attribute: "meta_description")
     metaKeywords: String @rename(attribute: "meta_keywords")
-    position: Int!
+    position: String!
     status: Boolean!
+    logoPath: String @rename(attribute: "logo_path")
+    bannerPath: String @rename(attribute: "banner_path")
     productCount: Int @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getProductCount")
     breadcrumbs: [CategoryBreadcrumbs] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getbreadcrumbs")
     displayMode: String! @rename(attribute: "display_mode")

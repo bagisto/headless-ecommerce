@@ -55,6 +55,7 @@ class CategoryMutation extends Controller
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'slug'        => ['required', 'unique:category_translations,slug', new Slug],
             'name'        => 'required',
@@ -68,23 +69,25 @@ class CategoryMutation extends Controller
 
         try {
             $image_url = '';
-            if (isset($data['image'])) {
-                $image_url = $data['image'];
-                unset($data['image']);
+            if (isset($data['logo_path'])) {
+                $image_url =  current($data['logo_path']);
+                unset($data['logo_path']);
             }
 
-            $category_icon_path = '';
-            if (isset($data['category_icon_path'])) {
-                $category_icon_path = $data['category_icon_path'];
-                unset($data['category_icon_path']);
+            $banner_path = '';
+            if (isset($data['banner_path'])) {
+                $banner_path = current($data['banner_path']);
+                unset($data['banner_path']);
             }
 
             $category = $this->categoryRepository->create($data);
 
-            if (isset($category->id)) {
-                bagisto_graphql()->uploadImage($category, $image_url, 'category/', 'image');
+            Event::dispatch('catalog.category.create.after', $category);
 
-                bagisto_graphql()->uploadImage($category, $category_icon_path, 'velocity/category_icon_path/', 'category_icon_path');
+            if (isset($category->id)) {
+                bagisto_graphql()->uploadImage($category, $image_url, 'category/', 'logo_path');
+
+                bagisto_graphql()->uploadImage($category, $banner_path, 'category/', 'banner_path');
 
                 return $category;
             }
@@ -100,9 +103,12 @@ class CategoryMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
+        if (
+            ! isset($args['id']) || 
             ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+            (isset($args['input']) 
+            && ! $args['input'])
+            ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -134,23 +140,25 @@ class CategoryMutation extends Controller
 
         try {
             $image_url = '';
-            if (isset($data['image'])) {
-                $image_url = $data['image'];
-                unset($data['image']);
+            if (isset($data['logo_path'])) {
+                $image_url =  current($data['logo_path']);
+                unset($data['logo_path']);
             }
 
-            $category_icon_path = '';
-            if (isset($data['category_icon_path'])) {
-                $category_icon_path = $data['category_icon_path'];
-                unset($data['category_icon_path']);
+            $banner_path = '';
+            if (isset($data['banner_path'])) {
+                $banner_path = current($data['banner_path']);
+                unset($data['banner_path']);
             }
 
             $category = $this->categoryRepository->update($data, $id);
 
-            if (isset($category->id)) {
-                bagisto_graphql()->uploadImage($category, $image_url, 'category/', 'image');
+            Event::dispatch('catalog.category.update.after', $category);
 
-                bagisto_graphql()->uploadImage($category, $category_icon_path, 'velocity/category_icon_path/', 'category_icon_path');
+            if (isset($category->id)) {
+                bagisto_graphql()->uploadImage($category, $image_url, 'category/', 'logo_path');
+
+                bagisto_graphql()->uploadImage($category, $banner_path, 'category/', 'banner_path');
 
                 return $category;
             }
