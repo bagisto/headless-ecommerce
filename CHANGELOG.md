@@ -6,9 +6,9 @@ This changelog consists of the bug & security fixes and new features included in
 
 * [Issue Fixed] - Category is created but image not updated on category.
 
-* [Issue Fixed] - Unable to add the video on the product 
+* [Issue Fixed] - Unable to add the video to the product 
 
-* [Issue Fixed] - Getting exception while open the Channel
+* [Issue Fixed] - Getting an exception while opening the Channel
 
 * [Issue Fixed] - Getting issue in Shop -> Products API
 
@@ -20,7 +20,7 @@ This changelog consists of the bug & security fixes and new features included in
 
 * [Issue Fixed] - Getting issue in Get and Post CMS Page API
 
-* [Issue Fixed] - Gettiing exception in Attribute API
+* [Issue Fixed] - Getting exception in Attribute API
 
 * [Issue Fixed] - In Email Template API Status is not updated
 
