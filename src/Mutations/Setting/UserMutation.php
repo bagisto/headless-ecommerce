@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 use JWTAuth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -50,6 +51,7 @@ class UserMutation extends Controller
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'name'     => 'required',
             'email'    => 'email|unique:admins,email',
@@ -57,6 +59,7 @@ class UserMutation extends Controller
             'password_confirmation' => 'nullable|required_with:password|same:password',
             'status'   => 'sometimes',
             'role_id'  => 'required',
+            'image'    => 'sometimes'
         ]);
 
         if ($validator->fails()) {
@@ -71,7 +74,19 @@ class UserMutation extends Controller
 
             Event::dispatch('user.admin.create.before');
 
+            $image_url = '';
+            if (isset($data['image'])) {
+                $image_url = current($data['image']);
+                unset($data['image']);
+            }
+
             $admin = $this->adminRepository->create($data);
+
+            if (isset($admin->id)) {
+                bagisto_graphql()->uploadImage($admin, $image_url, 'admins/', 'image');
+
+                return $admin;
+            }
 
             Event::dispatch('user.admin.create.after', $admin);
 
@@ -104,6 +119,7 @@ class UserMutation extends Controller
             'password_confirmation' => 'nullable|required_with:password|same:password',
             'status'   => 'sometimes',
             'role_id'  => 'required',
+            'image'    => 'sometimes'
         ]);
 
         if ($validator->fails()) {
@@ -127,6 +143,18 @@ class UserMutation extends Controller
             Event::dispatch('user.admin.update.before', $id);
 
             $admin = $this->adminRepository->update($data, $id);
+
+            $image_url = '';
+            if (isset($data['image'])) {
+                $image_url = current($data['image']);
+                unset($data['image']);
+            }
+
+            if (isset($admin->id)) {
+                bagisto_graphql()->uploadImage($admin, $image_url, 'admins/', 'image');
+
+                return $admin;
+            }
 
             if ($isPasswordChanged) {
                 Event::dispatch('user.admin.update-password', $admin);
