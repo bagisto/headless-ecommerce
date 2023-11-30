@@ -1,6 +1,54 @@
-# CHANGELOG for v1.x.x
+# CHANGELOG for v2.0.x
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
+
+## **v2.0.0 (30th of Nov, 2023)** - *Release*
+
+* [Issue Fixed] - Category is created but image not updated on category.
+
+* [Issue Fixed] - Unable to add the video on the product 
+
+* [Issue Fixed] - Getting exception while open the Channel
+
+* [Issue Fixed] - Getting issue in Shop -> Products API
+
+* [Issue Fixed] - Getting issue on Compare Products API
+
+* [Issue Fixed] - Getting issue while Hitting Apply Coupon and Shipping method API
+
+* [Issue Fixed] - Unable to remove the customer account.
+
+* [Issue Fixed] - Getting issue in Get and Post CMS Page API
+
+* [Issue Fixed] - Gettiing exception in Attribute API
+
+* [Issue Fixed] - In Email Template API Status is not updated
+
+* [Issue Fixed] - Getting exception in Categories API
+
+* [Issue Fixed] - Getting exception in Downloadable Product API
+
+* [Issue Fixed] - Getting exception in Update Group Product
+
+* [Issue Fixed] - Getting exception on Config Product API
+
+* [Issue Fixed] - Getting exception in Simple Product API
+
+* [Issue Fixed] - Please change API method to GET 
+
+* [Issue Fixed] - Getting exception in the Theme API
+
+* [Issue Fixed] - Getting exception in Channel API
+
+* [Issue Fixed] - Getting exception in TaxCategory API
+
+* [Issue Fixed] - Getting exception in Tax Rate API
+
+* [Issue Fixed] - Getting exception in Inventory Source API
+
+* [Issue Fixed] - Unable to Install the Headless GraphQL API
+
+* [Issue Fixed] - If we give an input value [which does not exist] then we get an internal server error but need to get the proper message data not found on the console
 
 ## **v1.4.6 (29th of Jun, 2023)** - *Release*
 
