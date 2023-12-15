@@ -73,7 +73,7 @@ type Slider {
     id: Int
     channel_id: Int
     type: String!
-    name: String @rename(attribute: "image_url")
+    name: String
     sort_order: Int
     status: Int
 }
