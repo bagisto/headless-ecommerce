@@ -6556,7 +6556,7 @@
 							"response": []
 						},
 						{
-							"name": "Home Slider",
+							"name": "Theme Customization",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -6566,38 +6566,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query homeSliders {\n    homeSliders {\n        id \n        channel_id\n        type\n        name\n        sort_order\n        status\n    }\n}",
-										"variables": ""
-									}
-								},
-								"url": {
-									"raw": "{{url}}",
-									"host": [
-										"{{url}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Home Advertisements Banners",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{customerToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "graphql",
-									"graphql": {
-										"query": "query advertisements {\n    advertisements {\n        advertisementFour {\n          slug\n          image\n        }\n        advertisementThree {\n          slug\n          image\n        }\n        advertisementTwo {\n          slug\n          image\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n    }\n}",
+										"query": "query homeSliders {\n    homeSliders {\n        id \n        channel_id\n        type\n        name\n        sort_order\n        status\n        translations {\n            id\n            theme_customization_id\n            locale\n            options {\n                css\n                html\n                title\n                images {\n                    link\n                    image\n                }\n                filters {\n                    new\n                    sort\n                    limit\n                    parent_id\n                }\n                column_1{\n                    url\n                    title\n                }\n            }\n        }\n    }\n}",
 										"variables": ""
 									}
 								},

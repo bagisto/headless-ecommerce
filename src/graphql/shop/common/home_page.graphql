@@ -59,6 +59,40 @@ type NotificationTranslation {
     pushNotificationId: ID! @rename(attribute: "push_notification_id")
 }
 
+type ThemeTranslation {
+    id: ID!
+    theme_customization_id: Int!
+    locale: String!
+    options: OptionFields!
+}
+
+type OptionFields {
+    title: String
+    css: String
+    html: String
+    images : [Link]
+    filters: FilterOption
+    column_1: [ColumOption]
+}
+
+type Link {
+    link: String
+    image: String
+}
+
+type FilterOption {
+    new: Int
+    sort: String
+    limit: Int
+    parent_id: Int
+    featured: Int
+}
+
+type ColumOption {
+    url: String
+    title: String
+}
+
 input NotificationInput {
     id: ID!
 }
@@ -73,7 +107,8 @@ type Slider {
     id: Int
     channel_id: Int
     type: String!
-    name: String @rename(attribute: "image_url")
+    name: String
     sort_order: Int
     status: Int
+    translations: [ThemeTranslation !] @hasMany
 }
