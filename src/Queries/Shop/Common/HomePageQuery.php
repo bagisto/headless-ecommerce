@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Velocity\Repositories\VelocityMetadataRepository;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Velocity\Repositories\ContentRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Shop\Repositories\ThemeCustomizationRepository;
@@ -43,7 +41,7 @@ class HomePageQuery extends BaseFilter
     }
 
     public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
-    {   
+    {
         return core()->getDefaultChannel();
     }
 
@@ -62,13 +60,13 @@ class HomePageQuery extends BaseFilter
                 ->where('product_flat.status', 1)
                 ->where('product_flat.visible_individually', 1)
                 ->where('product_flat.new', 1)
-                ->whereIn('products.type', ['simple', 'virtual', 'configurable'])
+                ->whereIn('products.type', ['simple', 'virtual', 'grouped', 'downloadable', 'bundle'])
                 ->where('product_flat.channel', $channel)
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
         })->paginate($count);
 
-        return $results;      
+        return $results;
     }
 
     public function getFeaturedProducts($rootValue, array $args, GraphQLContext $context)
@@ -86,13 +84,36 @@ class HomePageQuery extends BaseFilter
                 ->where('product_flat.status', 1)
                 ->where('product_flat.visible_individually', 1)
                 ->where('product_flat.featured', 1)
-                ->whereIn('products.type', ['simple', 'virtual', 'configurable'])
+                ->whereIn('products.type', ['simple', 'virtual', 'grouped', 'downloadable', 'bundle'])
                 ->where('product_flat.channel', $channel)
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
         })->paginate($count);
 
-        return $results;      
+        return $results;
+    }
+
+    public function getAllProducts($rootValue, array $args, GraphQLContext $context)
+    {
+        $count = isset($args['count']) ? $args['count'] : 4;
+
+        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
+            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
+
+            $locale = request()->get('locale') ?: app()->getLocale();
+
+            return $query->distinct()
+                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
+                ->addSelect('products.*')
+                ->where('product_flat.status', 1)
+                ->where('product_flat.visible_individually', 1)
+                ->where('product_flat.featured', 1)
+                ->where('product_flat.channel', $channel)
+                ->where('product_flat.locale', $locale)
+                ->inRandomOrder();
+        })->paginate($count);
+
+        return $results;
     }
 
     public function getSliders($rootValue, array $args, GraphQLContext $context)
@@ -104,7 +125,7 @@ class HomePageQuery extends BaseFilter
             'channel_id' => core()->getCurrentChannel()->id
         ]);
 
-        return $customizations;      
+        return $customizations;
     }
 
     public function getAdvertisements($rootValue, array $args)
@@ -147,22 +168,22 @@ class HomePageQuery extends BaseFilter
                 ],
             ],
         ];
-        
+
         if (core()->getCurrentChannel()->theme == 'velocity') {
             $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
-            
+
             if (! $advertisementRecord) {
                 return $data;
             }
 
             $advertisement = json_decode($advertisementRecord->advertisement, true);
-            
+
             $advertisementFour = $this->advertisement(4, $advertisement);
             $advertisementThree = $this->advertisement(3, $advertisement);
             $advertisementTwo = $this->advertisement(2, $advertisement);
 
             $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
-            
+
             foreach (explode("@include", $homeContent) as $template) {
                 if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
                 ) {
@@ -170,12 +191,12 @@ class HomePageQuery extends BaseFilter
 
                 } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
                     $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
-                    
+
                 } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
                     $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
                 }
             }
-            
+
             $data['advertisementFour'] = $advertisementFour;
             $data['advertisementThree'] = $advertisementThree;
             $data['advertisementTwo'] = $advertisementTwo;
@@ -211,9 +232,9 @@ class HomePageQuery extends BaseFilter
 
             if (isset($category->id))
                 $categoryId = $category->id;
-                
+
         }
-        
+
         return $this->categoryRepository->getVisibleCategoryTree($categoryId);
     }
 
@@ -266,7 +287,7 @@ class HomePageQuery extends BaseFilter
                 $results[1] = ['image' => asset('/themes/velocity/assets/images/trimmer.webp')];
             }
         }
-       
+
         return $results;
     }
 
@@ -279,7 +300,7 @@ class HomePageQuery extends BaseFilter
             $indexArray = explode(",", str_replace(']', '', str_replace('[', '', $findArray[1])));
 
             foreach ($indexArray as $slugString) {
-                $oneSlug = explode("'one'=>", $slugString); 
+                $oneSlug = explode("'one'=>", $slugString);
                 $twoSlug = explode("'two'=>", $slugString);
                 $threeSlug = explode("'three'=>", $slugString);
                 $fourSlug = explode("'four'=>", $slugString);

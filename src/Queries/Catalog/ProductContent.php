@@ -45,7 +45,7 @@ class ProductContent extends BaseFilter
         protected ProductConfigurableHelper $productConfigurableHelper
     ) {
         $this->guard = 'api';
-        
+
         $this->_config = request('_config');
     }
 
@@ -91,73 +91,123 @@ class ProductContent extends BaseFilter
      */
     public function getProductPriceHtml($rootValue, array $args, GraphQLContext $context)
     {
+        $productType = $rootValue->getTypeInstance();
+
         $priceArray = [
             'id'                         => $rootValue->id,
             'type'                       => $rootValue->type,
-            'html'                       => strip_tags($rootValue->getTypeInstance()->getPriceHtml($rootValue)),
-            'regular'                    => core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->price)),
-            'regularWithoutCurrencyCode' => $rootValue->getTypeInstance()->evaluatePrice($rootValue->price),
-            'special'                    => '',
-            'specialWithoutCurrencyCode' => '',
+            'priceHtml'                  => $productType->getPriceHtml(),
+            'priceWithoutHtml'           => strip_tags($productType->getPriceHtml()),
+            'minPrice'                   => core()->formatPrice($productType->getMinimalPrice()),
+            'regularPrice'               => '',
+            'formattedRegularPrice'      => '',
+            'finalPrice'                 => '',
+            'formattedFinalPrice'        => '',
+
             'currencyCode'               => core()->getCurrentCurrency()->code,
         ];
+
+        $regularPrice = $productType->getProductPrices();
 
         switch ($rootValue->type) {
             case 'simple':
             case 'virtual':
             case 'downloadable':
-                if ($rootValue->getTypeInstance()->haveDiscount()) {
-                    $priceArray['regular'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->price));
-                    $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->price);
-                    $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getSpecialPrice()));
-                    $priceArray['specialWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getSpecialPrice());
-                }
-                break;
-
-            case 'configurable':
-                $priceArray['regular'] = trans('shop::app.products.price-label') . ' ' . core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice()));
-                $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice());
-
-                if ($rootValue->getTypeInstance()->getMinimalPrice()) {
-                    $priceArray['special'] = core()->currency($rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice()));
-                    $priceArray['specialWithoutCurrencyCode'] = $rootValue->getTypeInstance()->evaluatePrice($rootValue->getTypeInstance()->getMinimalPrice());
-                }
-                break;
-
             case 'grouped':
-                $priceArray['regular'] = trans('shop::app.products.starting-at') . ' ' . core()->currency($rootValue->getTypeInstance()->getMinimalPrice());
-                $priceArray['regularWithoutCurrencyCode'] = $rootValue->getTypeInstance()->getMinimalPrice();
+
+                $priceArray['finalPrice'] = $regularPrice['final']['formatted_price'];
+                $priceArray['formattedFinalPrice'] = $regularPrice['final']['formatted_price'];
+                $priceArray['regularPrice'] = $regularPrice['regular']['price'];
+                $priceArray['formattedRegularPrice'] = $regularPrice['regular']['formatted_price'];
+
+                break;
+            case 'configurable':
+
+                $priceArray['regularPrice'] = $regularPrice['regular']['price'];
+                $priceArray['formattedRegularPrice'] = $regularPrice['regular']['formatted_price'];
+
                 break;
 
             case 'bundle':
-                $prices = $rootValue->getTypeInstance()->getProductPrices();
-                $priceArray['regular'] = $priceArray['special'] = '';
+                $priceArray['finalPrice'] = '';
+                $priceArray['formattedFinalPrice'] = '';
+                $priceArray['regularPrice'] = '';
+                $priceArray['formattedRegularPrice'] = '';
 
                 /**
                  * Not in use.
                  */
                 $priceArray['regularWithoutCurrencyCode'] = $priceArray['specialWithoutCurrencyCode'] = '';
 
-                if ($prices['from']['regular']['price'] != $prices['from']['final']['price']) {
-                    $priceArray['regular'] .= $prices['from']['regular']['formatted_price'];
-                    $priceArray['special'] .= $prices['from']['final']['formatted_price'];
+                if ($regularPrice['from']['regular']['price'] != $regularPrice['from']['final']['price']) {
+                    $priceArray['finalPrice'] = $regularPrice['from']['final']['price'];
+                    $priceArray['formattedFinalPrice'] = $regularPrice['from']['final']['formatted_price'];
+                    $priceArray['regularPrice'] = $regularPrice['from']['regular']['price'];
+                    $priceArray['formattedRegularPrice'] = $regularPrice['from']['regular']['formatted_price'];
                 } else {
-                    $priceArray['regular'] .= $prices['from']['regular']['formatted_price'];
+                    $priceArray['regularPrice'] .= $regularPrice['from']['regular']['price'];
+                    $priceArray['formattedRegularPrice'] .= $regularPrice['from']['regular']['formatted_price'];
                 }
 
-                if ($prices['from']['regular']['price'] != $prices['to']['regular']['price']
-                    || $prices['from']['final']['price'] != $prices['to']['final']['price']
+                if ($regularPrice['from']['regular']['price'] != $regularPrice['to']['regular']['price']
+                    || $regularPrice['from']['final']['price'] != $regularPrice['to']['final']['price']
                 ) {
-                    $priceArray['regular'] .= ' To ';
+                    $priceArray['regularPrice'] .= ' To ';
+                    $priceArray['formattedRegularPrice'] .= ' To ';
+                    $priceArray['finalPrice'] .= ' To ';
+                    $priceArray['formattedFinalPrice'] .= ' To ';
 
-                    if ($prices['to']['regular']['price'] != $prices['to']['final']['price']) {
-                        $priceArray['regular'] .= $prices['to']['regular']['formatted_price'];
-                        $priceArray['special'] .= $prices['to']['final']['formatted_price'];
+                    if ($regularPrice['to']['regular']['price'] != $regularPrice['to']['final']['price']) {
+                        $priceArray['finalPrice'] .= $regularPrice['to']['final']['price'];
+                        $priceArray['formattedFinalPrice'] .= $regularPrice['to']['final']['formatted_price'];
+                        $priceArray['regularPrice'] .= $regularPrice['to']['regular']['price'];
+                        $priceArray['formattedRegularPrice'] .= $regularPrice['to']['regular']['formatted_price'];
                     } else {
-                        $priceArray['regular'] .= $prices['to']['regular']['formatted_price'];
+                        $priceArray['regularPrice'] .= $regularPrice['to']['regular']['price'];
+                        $priceArray['formattedRegularPrice'] .= $regularPrice['to']['regular']['formatted_price'];
                     }
                 }
                 break;
+        }
+
+        return $priceArray;
+    }
+
+    /**
+     * Get bundle type product price.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return array
+     */
+    public function getBundleProductPrice($rootValue, array $args, GraphQLContext $context)
+    {
+        $product = $this->productRepository->find($rootValue['id']);
+
+        $priceArray = [
+            'finalPriceFrom'            => '',
+            'formattedFinalPriceFrom'   => '',
+            'regularPriceFrom'          => '',
+            'formattedRegularPriceFrom' => '',
+            'finalPriceTo'              => '',
+            'formattedFinalPriceTo'     => '',
+            'regularPriceTo'            => '',
+            'formattedRegularPriceTo'   => '',
+        ];
+
+        $regularPrice = $product->getTypeInstance()->getProductPrices();
+
+        if ($product->type == 'bundle') {
+            $priceArray['finalPriceFrom'] = $regularPrice['from']['final']['price'];
+            $priceArray['formattedFinalPriceFrom'] = $regularPrice['from']['final']['formatted_price'];
+            $priceArray['regularPriceFrom'] = $regularPrice['from']['regular']['price'];
+            $priceArray['formattedRegularPriceFrom'] = $regularPrice['from']['regular']['formatted_price'];
+            $priceArray['finalPriceTo'] = $regularPrice['to']['final']['price'];
+            $priceArray['formattedFinalPriceTo'] = $regularPrice['to']['final']['formatted_price'];
+            $priceArray['regularPriceTo'] = $regularPrice['to']['regular']['price'];
+            $priceArray['formattedRegularPriceTo'] = $regularPrice['to']['regular']['formatted_price'];
+
         }
 
         return $priceArray;
@@ -236,7 +286,7 @@ class ProductContent extends BaseFilter
                         'attributeCode'     => '',
                         'attributeOptionId' => $optionId,
                     ];
-                    
+
                     foreach ($data['attributes'] as $attribute) {
                         if ($attribute['id'] == $attributeId) {
                             $optionData['attributeCode'] = $attribute['code'];

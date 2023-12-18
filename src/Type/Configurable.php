@@ -14,7 +14,7 @@ class Configurable extends BaseConfigurable
      * @param  int  $qty
      * @return float
      */
-    public function getMinimalPrice($qty = null)
+    public function getMinimalPrice1($qty = null)
     {
         /* method is calling many time so using variable */
         $tablePrefix = DB::getTablePrefix();
@@ -47,7 +47,7 @@ class Configurable extends BaseConfigurable
      *
      * @return float
      */
-    public function getMaximumPrice()
+    public function getMaximumPrice1()
     {
         $productFlat = ProductFlat::join('products', 'product_flat.product_id', '=', 'products.id')
             ->distinct()
