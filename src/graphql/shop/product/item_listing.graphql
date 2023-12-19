@@ -2,7 +2,7 @@
 extend type Query  {
     getProductListing(
         input: FilterProductListingInput @builder(method:"Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getAll"),
-      
+
     ): [Product!] @paginate(type: "PAGINATOR", defaultCount: 10,model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product" )
 
     getFilterAttribute(categorySlug: String): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@getFilterAttributes")
@@ -20,7 +20,7 @@ input FilterProductListingInput {
     order: String
     sort: String
     price: String
-    filters: [FilterAttributeData], 
+    filters: [FilterAttributeData],
 }
 
 input FilterAttributeInput {
@@ -47,11 +47,9 @@ input FilterAttributeData {
 
 type CatalogSortOrder {
     key: String
-    label: String
-    value: CatalogSortOrderValue
-}
-
-type CatalogSortOrderValue {
+    title: String
+    value: String
     sort: String
     order: String
+    position: String
 }

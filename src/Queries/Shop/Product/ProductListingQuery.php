@@ -8,8 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Product\Repositories\{ProductRepository, ProductFlatRepository};
 use Webkul\Product\Helpers\Toolbar;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Models\ProductAttributeValueProxy;
@@ -82,9 +81,9 @@ class ProductListingQuery extends BaseFilter
             ->where('product_flat.channel', core()->getRequestedChannelCode())
             ->where('product_flat.locale', core()->getRequestedLocaleCode())
             ->whereNotNull('product_flat.url_key');
-            
+
         if (! empty($params['category_slug'])) {
-            
+
             $categoryId = $this->categoryRepository->whereHas('translation', function ($q) use ($params) {
                 $q->where('slug', 'like', '%' . urldecode($params['category_slug']) . '%');
             })->pluck('id')->first();
@@ -173,7 +172,7 @@ class ProductListingQuery extends BaseFilter
 
         if (! empty($params['filters'])) {
             foreach ($params['filters'] as $attribute) {
-                
+
                 if (! isset($attribute['key']) || ! isset($attribute['value'])
                 ) {
                     continue;
@@ -241,7 +240,7 @@ class ProductListingQuery extends BaseFilter
         if (! empty($args['categorySlug'])) {
             $slugs = explode("/", $args['categorySlug']);
             $lastSlugs = end($slugs);
-            
+
             $category = $this->categoryRepository->whereHas('translation', function ($q) use ($lastSlugs) {
                 $q->where('slug', 'like', '%' . urldecode($lastSlugs) . '%');
             })->first();
@@ -259,7 +258,7 @@ class ProductListingQuery extends BaseFilter
         foreach ($filterAttributes as $key => $filterAttribute) {
             if ($filterAttribute->code != 'price') {
                 $optionIds = $filterAttribute->options->pluck('id')->toArray();
-                
+
                 $filterData[$filterAttribute->code] = [
                     'key' => $filterAttribute->code,
                     'value'  => $optionIds,
@@ -268,19 +267,19 @@ class ProductListingQuery extends BaseFilter
         }
 
         $availableSortOrders = [];
+
         foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
-            $keys = explode('-', $key);
 
             $availableSortOrders[$key] = [
-                'key'   => $key,
-                // 'label' => trans('shop::app.products.' . $label),
-                'value' => [
-                    'sort'  => current($keys),
-                    'order' => end($keys),
-                ]
+                "key"      => $key,
+                "title"    => $label['title'],
+                "value"    => $label['value'],
+                "sort"     => $label['sort'],
+                "order"    => $label['order'],
+                "position" => $label['position']
             ];
         }
-        
+
         return [
             'min_price'         => 0,
             'max_price'         => $maxPrice ?? 500,

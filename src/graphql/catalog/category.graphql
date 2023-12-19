@@ -100,5 +100,5 @@ type Category {
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime! @rename(attribute: "updated_at")
     count: Int
-    success: String   
+    success: String
 }
