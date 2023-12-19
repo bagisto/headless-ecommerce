@@ -8,7 +8,7 @@ extend type Query {
 
     allProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
-    homeSliders(count: Int): [Slider!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getSliders")
+    themeCustomization(count: Int): [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
     advertisements: Advertise @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAdvertisements")
 
@@ -61,9 +61,30 @@ type NotificationTranslation {
     pushNotificationId: ID! @rename(attribute: "push_notification_id")
 }
 
-type ThemeTranslation {
+input NotificationInput {
     id: ID!
-    theme_customization_id: Int!
+}
+
+type NotificationResponse {
+    status: Boolean
+    success: String
+    messageId: String @rename(attribute: "message_id")
+}
+
+type FrontTheme {
+    id: Int
+    channelId: Int @rename(attribute: "channel_id")
+    type: String!
+    name: String
+    sortOrder: Int @rename(attribute: "sort_order")
+    status: Int
+    baseUrl: String @rename(attribute: "base_url")
+    translations: [FrontThemeTranslation !] @hasMany
+}
+
+type FrontThemeTranslation {
+    id: ID!
+    themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
     locale: String!
     options: OptionFields!
 }
@@ -72,9 +93,9 @@ type OptionFields {
     title: String
     css: String
     html: String
-    images : [Link]
+    images: [Link]
     filters: FilterOption
-    column_1: [ColumOption]
+    columns: [ColumOption]
 }
 
 type Link {
@@ -86,31 +107,12 @@ type FilterOption {
     new: Int
     sort: String
     limit: Int
-    parent_id: Int
+    parentId: Int @rename(attribute: "parent_id")
     featured: Int
 }
 
 type ColumOption {
     url: String
     title: String
-}
-
-input NotificationInput {
-    id: ID!
-}
-
-type NotificationResponse {
-    status: Boolean
-    success: String
-    messageId: String @rename(attribute: "message_id")
-}
-
-type Slider {
-    id: Int
-    channel_id: Int
-    type: String!
-    name: String
-    sort_order: Int
-    status: Int
-    translations: [ThemeTranslation !] @hasMany
+    sortOrder: String @rename(attribute: "sort_order")
 }

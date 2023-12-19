@@ -116,7 +116,7 @@ class HomePageQuery extends BaseFilter
         return $results;
     }
 
-    public function getSliders($rootValue, array $args, GraphQLContext $context)
+    public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
     {
         visitor()->visit();
 
@@ -124,8 +124,14 @@ class HomePageQuery extends BaseFilter
             'status'     => self::STATUS,
             'channel_id' => core()->getCurrentChannel()->id
         ]);
+        
+        $result = $customizations->map(function ($item) {
+            $item->base_url = asset('');
 
-        return $customizations;
+            return $item;
+        });
+
+        return $result;
     }
 
     public function getAdvertisements($rootValue, array $args)
