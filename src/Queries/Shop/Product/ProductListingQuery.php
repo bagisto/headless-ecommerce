@@ -15,24 +15,26 @@ use Webkul\Product\Models\ProductAttributeValueProxy;
 
 class ProductListingQuery extends BaseFilter
 {
-
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Attribute\Repositories\AttributeRepository $attributeRepository
+     * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
+     * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
+     * @param  \Webkul\Customer\Repositories\CustomerRepository $customerRepository
+     * @param  \Webkul\Product\Repositories\ProductRepository $productRepository
+     * @param  \Webkul\Product\Repositories\ProductFlatRepository $productFlatRepository
+     * @param  \Webkul\Product\Helpers\Toolbar $productHelperToolbar
      * @return void
      */
     public function __construct(
-        protected ProductFlatRepository $productFlatRepository,
-        protected ProductRepository $productRepository,
-        protected CategoryRepository $categoryRepository,
         protected AttributeRepository $attributeRepository,
-        protected Toolbar $productHelperToolbar,
+        protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
-
-    ) {
+        protected ProductRepository $productRepository,
+        protected ProductFlatRepository $productFlatRepository,
+        protected Toolbar $productHelperToolbar,
+    )
+    {
     }
 
     /**
@@ -46,7 +48,7 @@ class ProductListingQuery extends BaseFilter
     {
         $slug = $input['slug'] ?? '';
 
-        $product = app(ProductFlatRepository::class)->findOneWhere([
+        $product = $this->productFlatRepository->findOneWhere([
             'url_key' => $slug,
             'locale'  => app()->getLocale(),
             'channel' => core()->getCurrentChannelCode(),

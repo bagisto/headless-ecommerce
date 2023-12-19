@@ -2,14 +2,14 @@
 
 return [
     [
-        'key'  => 'general.api',
-        'name' => 'bagisto_graphql::app.admin.system.graphql-api',
-        'sort' => 3,
-    ],  [
-        'key'   => 'general.api.pushnotification',
-        'name'  => 'bagisto_graphql::app.admin.system.push-notification-configuration',
-        'sort'  => 1,
-        'fields'=> [
+        'key'    => 'general.api',
+        'name'   => 'bagisto_graphql::app.admin.system.graphql-api',
+        'sort'   => 3,
+    ], [
+        'key'    => 'general.api.pushnotification',
+        'name'   => 'bagisto_graphql::app.admin.system.push-notification-configuration',
+        'sort'   => 1,
+        'fields' => [
             [
                 'name'          => 'server_key',
                 'title'         => 'bagisto_graphql::app.admin.system.server-key',

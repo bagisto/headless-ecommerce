@@ -94,7 +94,7 @@ class PushNotificationDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'notification_id',
-            'label'      => trans('bagisto_graphql::app.admin.notification.id'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.id'),
             'type'       => 'number',
             'searchable' => true,
             'filterable' => true,
@@ -103,7 +103,7 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'image',
-            'label'      => trans('bagisto_graphql::app.admin.notification.image'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.image'),
             'type'       => 'html',
             'searchable' => true,
             'filterable' => true,
@@ -115,7 +115,7 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'title',
-            'label'      => trans('bagisto_graphql::app.admin.notification.text-title'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.text-title'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -124,7 +124,7 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'content',
-            'label'      => trans('bagisto_graphql::app.admin.notification.notification-content'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-content'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -133,7 +133,7 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'type',
-            'label'      => trans('bagisto_graphql::app.admin.notification.notification-type'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-type'),
             'type'       => 'price',
             'searchable' => true,
             'filterable' => true,
@@ -142,7 +142,7 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'channel_name',
-            'label'      => trans('bagisto_graphql::app.admin.notification.store-view'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.store-view'),
             'type'       => 'string',
             'searchable' => false,
             'filterable' => false,
@@ -151,23 +151,23 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'status',
-            'label'      => trans('bagisto_graphql::app.admin.notification.notification-status'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-status'),
             'type'       => 'boolean',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
             'closure'    => function ($value) {
                 if ($value->status) {
-                    return '<span class="badge badge-md badge-success">' . trans('bagisto_graphql::app.admin.notification.status.enabled') . '</span>';
+                    return '<span class="badge badge-md badge-success">' . trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled') . '</span>';
                 }
 
-                return '<span class="badge badge-md badge-danger">' . trans('bagisto_graphql::app.admin.notification.status.disabled') . '</span>';
+                return '<span class="badge badge-md badge-danger">' . trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.disabled') . '</span>';
             },
         ]);
 
         $this->addColumn([
             'index'      => 'created_at',
-            'label'      => trans('bagisto_graphql::app.admin.notification.created'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.created-at'),
             'type'       => 'datetime',
             'searchable' => false,
             'filterable' => true,
@@ -176,7 +176,7 @@ class PushNotificationDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'updated_at',
-            'label'      => trans('bagisto_graphql::app.admin.notification.modified'),
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.updated-at'),
             'type'       => 'datetime',
             'searchable' => false,
             'filterable' => true,
@@ -197,7 +197,7 @@ class PushNotificationDataGrid extends DataGrid
                 'title'  => trans('admin::app.datagrid.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
-                    return route('admin.push_notification.edit',$row->notification_id);
+                    return route('admin.settings.push_notification.edit', $row->notification_id);
                 },
 
                 'condition' => function () {
@@ -212,7 +212,7 @@ class PushNotificationDataGrid extends DataGrid
                 'title'  => trans('admin::app.datagrid.delete'),
                 'method' => 'POST',
                 'url'    => function ($row) {
-                    return route('admin.push_notification.delete',$row->notification_id);
+                    return route('admin.settings.push_notification.delete', $row->notification_id);
                 },
 
                 'condition' => function () {
@@ -232,7 +232,7 @@ class PushNotificationDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.push_notification.massdelete')) {
             $this->addMassAction([
                 'title'  => trans('admin::app.datagrid.delete'),
-                'url'    => route('admin.push_notification.mass-delete'),
+                'url'    => route('admin.settings.push_notification.mass-delete'),
                 'method' => 'POST',
             ]);
         }
@@ -240,7 +240,7 @@ class PushNotificationDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.push_notification.massupdate')) {
             $this->addMassAction([
                 'title'   => trans('admin::app.datagrid.update-status'),
-                'url'     => route('admin.push_notification.mass-update'),
+                'url'     => route('admin.settings.push_notification.mass-update'),
                 'method'  => 'POST',
                 'options' => [
                     [

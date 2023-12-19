@@ -7,41 +7,28 @@ use Webkul\GraphQLAPI\Http\Controllers\Admin\NotificationController;
  * FCM Notification routes.
  */
 Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_url')], function () {
-    Route::prefix('api_notification')->group(function () {
-        Route::get('/', [NotificationController::class, 'index'])->defaults('_config', [
-            'view' => 'bagisto_graphql::admin.push_notification.index'
-            ])->name('admin.push_notification.index');
+    Route::prefix('settings/api_notification')->group(function () {
 
-        Route::get('/create', [NotificationController::class, 'create'])->defaults('_config', [
-            'view' => 'bagisto_graphql::admin.push_notification.create'
-        ])->name('admin.push_notification.create');
+        Route::controller(NotificationController::class)->group(function () {
+            Route::get('', 'index')->name('admin.settings.push_notification.index');
 
-        Route::post('/store', [NotificationController::class, 'store'])->defaults('_config', [
-            'redirect' => 'admin.push_notification.index'
-        ])->name('admin.push_notification.store');
+            Route::get('create', 'create')->name('admin.settings.push_notification.create');
 
-        Route::get('/edit/{id}', [NotificationController::class, 'edit'])->defaults('_config', [
-            'view' => 'bagisto_graphql::admin.push_notification.edit'
-        ])->name('admin.push_notification.edit');
+            Route::post('store', 'store')->name('admin.settings.push_notification.store');
 
-        Route::put('/edit/{id}', [NotificationController::class, 'update'])->defaults('_config', [
-            'redirect' => 'admin.push_notification.index'
-        ])->name('admin.push_notification.update');
+            Route::get('edit/{id}', 'edit')->name('admin.settings.push_notification.edit');
 
-        Route::post('/delete/{id}', [NotificationController::class, 'delete'])->defaults('_config', [
-            'redirect' => 'admin.push_notification.index'
-        ])->name('admin.push_notification.delete');
+            Route::put('edit/{id}', 'update')->name('admin.settings.push_notification.update');
 
-        Route::post('/massdelete', [NotificationController::class, 'massDestroy'])->defaults('_config', [
-            'redirect' => 'admin.push_notification.index'
-        ])->name('admin.push_notification.mass-delete');
+            Route::post('delete/{id}', 'delete')->name('admin.settings.push_notification.delete');
 
-        Route::post('/massupdate', [NotificationController::class, 'massUpdate'])->defaults('_config', [
-            'redirect' => 'admin.push_notification.index'
-        ])->name('admin.push_notification.mass-update');
+            Route::post('massdelete', 'massDestroy')->name('admin.settings.push_notification.mass-delete');
 
-        Route::get('/send/{id}', [NotificationController::class, 'sendNotification'])->name('admin.push_notification.send-notification');
+            Route::post('massupdate', 'massUpdate')->name('admin.settings.push_notification.mass-update');
 
-        Route::post('/exist', [NotificationController::class, 'exist'])->name('admin.push_notification.cat-product-id');
+            Route::get('send/{id}', 'sendNotification')->name('admin.settings.push_notification.send-notification');
+
+            Route::post('exist', 'exist')->name('admin.settings.push_notification.cat-product-id');
+        });
     });
 });

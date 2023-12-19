@@ -7,7 +7,6 @@ use Webkul\CartRule\Models\CartRuleCoupon as BaseModel;
 
 class CartRuleCoupon extends BaseModel
 {
-    
     /**
      * Get the cart rule that owns the cart rule coupon.
      */

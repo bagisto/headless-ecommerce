@@ -52,8 +52,8 @@ class CustomException extends Exception implements ClientAware
     public function extensionsContent(): array
     {
         return [
-            'some'      => 'Customer Login Attempt',
-            'reason'    => $this->reason,
+            'some'   => 'Customer Login Attempt',
+            'reason' => $this->reason,settings
         ];
     }
 }
