@@ -3,31 +3,31 @@
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
-use App\Http\Controllers\Controller;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Repositories\AttributeGroupRepository;
+use App\Http\Controllers\Controller;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeGroupRepository;
 
 class AttributeGroupMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
      * @param  \Webkul\Attribute\Repositories\AttributeFamilyRepository  $attributeFamilyRepository
+     * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
      * @return void
      */
     public function __construct(
+        protected AttributeFamilyRepository $attributeFamilyRepository,
         protected AttributeGroupRepository $attributeGroupRepository,
-        protected AttributeFamilyRepository $attributeFamilyRepository
     )
     {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard);
 
         $this->_config = request('_config');
@@ -40,31 +40,31 @@ class AttributeGroupMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
+        if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $validator = Validator::make($data, [
-            'name'                  => 'string|required',
-            'position'              => 'numeric|required',
-            'attribute_family_id'   => 'numeric|required',
+            'name'                => 'string|required',
+            'position'            => 'numeric|required',
+            'attribute_family_id' => 'numeric|required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
             $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);
-        
+
             unset($data['attribute_family_id']);
 
             Event::dispatch('catalog.attributeGroup.create.before');
 
             $attributeGroup = $attributeFamily->attribute_groups()->create($data);
-            
+
             Event::dispatch('catalog.attributeGroup.create.before', $attributeGroup);
 
             return $attributeGroup;
@@ -81,8 +81,8 @@ class AttributeGroupMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
+        if (! isset($args['id']) ||
+            ! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -90,29 +90,29 @@ class AttributeGroupMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
         $validator = Validator::make($data, [
-            'name'                  => 'string|required',
-            'position'              => 'numeric|required',
-            'attribute_family_id'   => 'numeric|required',
+            'name'                => 'string|required',
+            'position'            => 'numeric|required',
+            'attribute_family_id' => 'numeric|required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
-        
+
         try {
             $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);
-            
+
             unset($data['attribute_family_id']);
 
             Event::dispatch('catalog.attributeGroup.update.before', $id);
-    
+
             $previousAttributeGroupIds = $attributeFamily->attribute_groups()->pluck('id');
-            
+
             if ( is_numeric($index = $previousAttributeGroupIds->search($id)) ) {
                 $attributeGroup = $this->attributeGroupRepository->find($id);
-    
-                $attributeGroup->update($data); 
-                
+
+                $attributeGroup->update($data);
+
                 Event::dispatch('catalog.attributeGroup.update.before', $attributeGroup);
 
                 return $attributeGroup;
@@ -130,7 +130,7 @@ class AttributeGroupMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
+        if (! isset($args['id']) ||
             (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -145,7 +145,7 @@ class AttributeGroupMutation extends Controller
                 Event::dispatch('catalog.attributeGroup.delete.before', $id);
 
                 $this->attributeGroupRepository->delete($id);
-                
+
                 Event::dispatch('catalog.attributeGroup.delete.after', $id);
 
                 return ['success' => trans('admin::app.response.delete-success', ['name' => 'Attribute Group'])];

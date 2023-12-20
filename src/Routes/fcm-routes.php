@@ -20,7 +20,7 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_ur
 
             Route::put('edit/{id}', 'update')->name('admin.settings.push_notification.update');
 
-            Route::post('delete/{id}', 'delete')->name('admin.settings.push_notification.delete');
+            Route::post('delete/{id}', 'destroy')->name('admin.settings.push_notification.delete');
 
             Route::post('massdelete', 'massDestroy')->name('admin.settings.push_notification.mass-delete');
 

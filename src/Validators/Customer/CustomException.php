@@ -53,7 +53,7 @@ class CustomException extends Exception implements ClientAware
     {
         return [
             'some'   => 'Customer Login Attempt',
-            'reason' => $this->reason,settings
+            'reason' => $this->reason,
         ];
     }
 }

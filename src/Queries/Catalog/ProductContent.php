@@ -115,7 +115,7 @@ class ProductContent extends BaseFilter
             case 'downloadable':
             case 'grouped':
 
-                $priceArray['finalPrice'] = $regularPrice['final']['formatted_price'];
+                $priceArray['finalPrice'] = $regularPrice['final']['price'];
                 $priceArray['formattedFinalPrice'] = $regularPrice['final']['formatted_price'];
                 $priceArray['regularPrice'] = $regularPrice['regular']['price'];
                 $priceArray['formattedRegularPrice'] = $regularPrice['regular']['formatted_price'];

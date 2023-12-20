@@ -22,7 +22,7 @@ class PushNotificationDataGrid extends DataGrid
      *
      * @var string
      */
-    protected $primaryColumn = 'push_notification_id';
+    protected $primaryColumn = 'notification_id';
 
     /**
      * If paginated then value of pagination.
@@ -57,11 +57,11 @@ class PushNotificationDataGrid extends DataGrid
         ->leftJoin('channel_translations as ch_t', 'ch.id', '=', 'ch_t.channel_id')
         ->addSelect(
             'pn_trans.push_notification_id as notification_id',
-            'pn.image',
             'pn_trans.title',
             'pn_trans.content',
             'pn_trans.channel',
             'pn_trans.locale',
+            'pn.image',
             'pn.type',
             'pn.product_category_id',
             'pn.status',
@@ -231,7 +231,7 @@ class PushNotificationDataGrid extends DataGrid
     {
         if (bouncer()->hasPermission('settings.push_notification.massdelete')) {
             $this->addMassAction([
-                'title'  => trans('admin::app.datagrid.delete'),
+                'title'  => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.delete'),
                 'url'    => route('admin.settings.push_notification.mass-delete'),
                 'method' => 'POST',
             ]);
@@ -239,16 +239,16 @@ class PushNotificationDataGrid extends DataGrid
 
         if (bouncer()->hasPermission('settings.push_notification.massupdate')) {
             $this->addMassAction([
-                'title'   => trans('admin::app.datagrid.update-status'),
+                'title'   => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.update'),
                 'url'     => route('admin.settings.push_notification.mass-update'),
                 'method'  => 'POST',
                 'options' => [
                     [
-                        'label' => trans('admin::app.datagrid.active'),
+                        'label' => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled'),
                         'value' => 1,
                     ],
                     [
-                        'label' => trans('admin::app.datagrid.inactive'),
+                        'label' => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.disabled'),
                         'value' => 0,
                     ],
                 ],

@@ -124,7 +124,7 @@ class HomePageQuery extends BaseFilter
             'status'     => self::STATUS,
             'channel_id' => core()->getCurrentChannel()->id
         ]);
-        
+
         $result = $customizations->map(function ($item) {
             $item->base_url = asset('');
 
@@ -132,97 +132,6 @@ class HomePageQuery extends BaseFilter
         });
 
         return $result;
-    }
-
-    public function getAdvertisements($rootValue, array $args)
-    {
-        $data = [
-            'advertisementFour' => [
-                [
-                    'image' => asset('/themes/velocity/assets/images/big-sale-banner.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/seasons.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/deals.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/kids.webp'),
-                    'slug'  => null
-                ],
-            ],
-            'advertisementThree' => [
-                [
-                    'image' => asset('/themes/velocity/assets/images/headphones.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/watch.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/kids-2.webp'),
-                    'slug'  => null
-                ],
-            ],
-            'advertisementTwo' => [
-                [
-                    'image' => asset('/themes/velocity/assets/images/toster.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/trimmer.webp'),
-                    'slug'  => null
-                ],
-            ],
-        ];
-
-        if (core()->getCurrentChannel()->theme == 'velocity') {
-            $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
-
-            if (! $advertisementRecord) {
-                return $data;
-            }
-
-            $advertisement = json_decode($advertisementRecord->advertisement, true);
-
-            $advertisementFour = $this->advertisement(4, $advertisement);
-            $advertisementThree = $this->advertisement(3, $advertisement);
-            $advertisementTwo = $this->advertisement(2, $advertisement);
-
-            $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
-
-            foreach (explode("@include", $homeContent) as $template) {
-                if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
-                ) {
-                    $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
-
-                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
-                    $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
-
-                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
-                    $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
-                }
-            }
-
-            $data['advertisementFour'] = $advertisementFour;
-            $data['advertisementThree'] = $advertisementThree;
-            $data['advertisementTwo'] = $advertisementTwo;
-        } else {
-            $data['advertisementFour'] = $data['advertisementTwo'] = [];
-            $data['advertisementThree'] = [
-                [
-                    'image' => asset("/themes/default/assets/images/1.webp"),
-                    'slug'  => null
-                ],  [
-                    'image' => asset("/themes/default/assets/images/2.webp"),
-                    'slug'  => null
-                ],  [
-                    'image' => asset("/themes/default/assets/images/3.webp"),
-                    'slug'  => null
-                ],
-            ];
-        }
-
-        return $data;
     }
 
     public function getCategories($rootValue, array $args, GraphQLContext $context)
@@ -295,34 +204,5 @@ class HomePageQuery extends BaseFilter
         }
 
         return $results;
-    }
-
-    public function getAdvertisementSlug($tempString, $template, $advertisement)
-    {
-        $trimString = trim(preg_replace('/\(+/', '', $template), ')');
-        $findArray = explode($tempString, $trimString);
-
-        if (count($findArray) > 1) {
-            $indexArray = explode(",", str_replace(']', '', str_replace('[', '', $findArray[1])));
-
-            foreach ($indexArray as $slugString) {
-                $oneSlug = explode("'one'=>", $slugString);
-                $twoSlug = explode("'two'=>", $slugString);
-                $threeSlug = explode("'three'=>", $slugString);
-                $fourSlug = explode("'four'=>", $slugString);
-
-                if (count($oneSlug) > 1)
-                    $advertisement[0]['slug'] = str_replace("'", '', $oneSlug[1]);
-                elseif (count($twoSlug) > 1)
-                    $advertisement[1]['slug'] = str_replace("'", '', $twoSlug[1]);
-                elseif (count($threeSlug) > 1)
-                    $advertisement[2]['slug'] = str_replace("'", '', $threeSlug[1]);
-                elseif (count($fourSlug) > 1)
-                    $advertisement[3]['slug'] = str_replace("'", '', $fourSlug[1]);
-
-            }
-        }
-
-        return $advertisement;
     }
 }

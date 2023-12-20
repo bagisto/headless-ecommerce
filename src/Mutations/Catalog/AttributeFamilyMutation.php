@@ -3,12 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Catalog;
 
 use Exception;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use App\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
+use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Core\Rules\Code;
 
 class AttributeFamilyMutation extends Controller
@@ -16,17 +16,19 @@ class AttributeFamilyMutation extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param  \Webkul\Attribute\Repositories\AttributeFamilyRepository  $attributeFamilyRepository
+     * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
      * @return void
      */
     public function __construct(
+        protected AttributeFamilyRepository $attributeFamilyRepository,
         protected AttributeGroupRepository $attributeGroupRepository,
-        protected AttributeFamilyRepository $attributeFamilyRepository
     )
     {
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-    
+
         $this->_config = request('_config');
     }
 
@@ -38,9 +40,9 @@ class AttributeFamilyMutation extends Controller
     public function store($rootValue, array $args, GraphQLContext $context)
     {
         if (
-            ! isset($args['input']) 
+            ! isset($args['input'])
             || (
-                isset($args['input']) 
+                isset($args['input'])
                 && ! $args['input']
                 )
         ) {
@@ -57,17 +59,17 @@ class AttributeFamilyMutation extends Controller
             'code' => ['required', 'unique:attribute_families,code', new Code],
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
-        
+
         try {
 
             Event::dispatch('catalog.attributeFamily.create.before');
 
             $attributeFamily = $this->attributeFamilyRepository->create($data);
-            
+
             Event::dispatch('catalog.attributeFamily.create.before', $attributeFamily);
 
             return $attributeFamily;
@@ -83,10 +85,10 @@ class AttributeFamilyMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) 
-            || ! isset($args['input']) 
+        if (! isset($args['id'])
+            || ! isset($args['input'])
             || (
-                isset($args['input']) 
+                isset($args['input'])
                 && ! $args['input']
                )
         ) {
@@ -117,12 +119,12 @@ class AttributeFamilyMutation extends Controller
 
                 $this->attributeGroupRepository->delete($attributeGroupId);
             }
-            
+
             foreach ($data['attribute_groups'] as $key => $attributeGroup) {
                 $index = $key + 1;
                 $attribute_groups[$index] = $attributeGroup;
             }
-            
+
             $data['attribute_groups'] = $attribute_groups;
         }
         try {
@@ -164,7 +166,7 @@ class AttributeFamilyMutation extends Controller
                 Event::dispatch('catalog.attributeFamily.delete.before', $id);
 
                 $this->attributeFamilyRepository->delete($id);
-                
+
                 Event::dispatch('catalog.attributeFamily.delete.after', $id);
 
                 return ['success' => trans('admin::app.response.delete-success', ['name' => 'Family'])];

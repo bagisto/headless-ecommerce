@@ -10,8 +10,6 @@ extend type Query {
 
     themeCustomization(count: Int): [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
-    advertisements: Advertise @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAdvertisements")
-
     homeCategories(categoryId: Int, categorySlug: String): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
     velocityHeaderContent: [HeaderContent!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getvelocityMetaData")
@@ -26,18 +24,6 @@ extend type Mutation {
     sendNotification(
         input: NotificationInput!
     ): NotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NotificationMutation@send")
-}
-
-type Advertise {
-    advertisementFour: [AdvertiseData]
-    advertisementThree: [AdvertiseData]
-    advertisementTwo: [AdvertiseData]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
-}
-
-type AdvertiseData {
-    image: String!
-    slug: String
 }
 
 type Notification {
