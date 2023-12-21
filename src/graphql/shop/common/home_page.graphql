@@ -2,13 +2,13 @@
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 
+    themeCustomization: [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
+
     newProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getNewProducts")
 
     featuredProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFeaturedProducts")
 
     allProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
-
-    themeCustomization(count: Int): [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
     homeCategories(categoryId: Int, categorySlug: String): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
@@ -24,6 +24,50 @@ extend type Mutation {
     sendNotification(
         input: NotificationInput!
     ): NotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NotificationMutation@send")
+}
+
+type FrontTheme {
+    id: Int
+    channelId: Int @rename(attribute: "channel_id")
+    type: String!
+    name: String
+    sortOrder: Int @rename(attribute: "sort_order")
+    status: Int
+    baseUrl: String @rename(attribute: "base_url")
+    translations: [FrontThemeTranslation!]
+}
+
+type FrontThemeTranslation {
+    id: ID!
+    themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
+    locale: String!
+    options: OptionFields!
+}
+
+type OptionFields {
+    title: String
+    css: String
+    html: String
+    images: [Link]
+    filters: [FilterOption]
+    columns: [ColumOption]
+}
+
+type Link {
+    link: String
+    image: String
+    imageUrl: String @rename(attribute: "image_url")
+}
+
+type FilterOption {
+    value: String
+    key: String
+}
+
+type ColumOption {
+    url: String
+    title: String
+    sortOrder: String @rename(attribute: "sort_order")
 }
 
 type Notification {
@@ -55,50 +99,4 @@ type NotificationResponse {
     status: Boolean
     success: String
     messageId: String @rename(attribute: "message_id")
-}
-
-type FrontTheme {
-    id: Int
-    channelId: Int @rename(attribute: "channel_id")
-    type: String!
-    name: String
-    sortOrder: Int @rename(attribute: "sort_order")
-    status: Int
-    baseUrl: String @rename(attribute: "base_url")
-    translations: [FrontThemeTranslation !] @hasMany
-}
-
-type FrontThemeTranslation {
-    id: ID!
-    themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
-    locale: String!
-    options: OptionFields!
-}
-
-type OptionFields {
-    title: String
-    css: String
-    html: String
-    images: [Link]
-    filters: FilterOption
-    columns: [ColumOption]
-}
-
-type Link {
-    link: String
-    image: String
-}
-
-type FilterOption {
-    new: Int
-    sort: String
-    limit: Int
-    parentId: Int @rename(attribute: "parent_id")
-    featured: Int
-}
-
-type ColumOption {
-    url: String
-    title: String
-    sortOrder: String @rename(attribute: "sort_order")
 }

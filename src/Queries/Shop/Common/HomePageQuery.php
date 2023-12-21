@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductRepository;
@@ -45,77 +44,6 @@ class HomePageQuery extends BaseFilter
         return core()->getDefaultChannel();
     }
 
-    public function getNewProducts($rootValue, array $args, GraphQLContext $context)
-    {
-        $count = isset($args['count']) ? $args['count'] : 4;
-
-        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
-            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-            $locale = request()->get('locale') ?: app()->getLocale();
-
-            return $query->distinct()
-                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
-                ->addSelect('products.*')
-                ->where('product_flat.status', 1)
-                ->where('product_flat.visible_individually', 1)
-                ->where('product_flat.new', 1)
-                ->whereIn('products.type', ['simple', 'virtual', 'grouped', 'downloadable', 'bundle'])
-                ->where('product_flat.channel', $channel)
-                ->where('product_flat.locale', $locale)
-                ->inRandomOrder();
-        })->paginate($count);
-
-        return $results;
-    }
-
-    public function getFeaturedProducts($rootValue, array $args, GraphQLContext $context)
-    {
-        $count = isset($args['count']) ? $args['count'] : 4;
-
-        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
-            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-            $locale = request()->get('locale') ?: app()->getLocale();
-
-            return $query->distinct()
-                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
-                ->addSelect('products.*')
-                ->where('product_flat.status', 1)
-                ->where('product_flat.visible_individually', 1)
-                ->where('product_flat.featured', 1)
-                ->whereIn('products.type', ['simple', 'virtual', 'grouped', 'downloadable', 'bundle'])
-                ->where('product_flat.channel', $channel)
-                ->where('product_flat.locale', $locale)
-                ->inRandomOrder();
-        })->paginate($count);
-
-        return $results;
-    }
-
-    public function getAllProducts($rootValue, array $args, GraphQLContext $context)
-    {
-        $count = isset($args['count']) ? $args['count'] : 4;
-
-        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
-            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-            $locale = request()->get('locale') ?: app()->getLocale();
-
-            return $query->distinct()
-                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
-                ->addSelect('products.*')
-                ->where('product_flat.status', 1)
-                ->where('product_flat.visible_individually', 1)
-                ->where('product_flat.featured', 1)
-                ->where('product_flat.channel', $channel)
-                ->where('product_flat.locale', $locale)
-                ->inRandomOrder();
-        })->paginate($count);
-
-        return $results;
-    }
-
     public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
     {
         visitor()->visit();
@@ -126,13 +54,80 @@ class HomePageQuery extends BaseFilter
         ]);
 
         $result = $customizations->map(function ($item) {
-            $item->base_url = asset('');
+            if ($item->type == 'image_carousel') {
+
+                $images['images'] = [];
+
+                foreach ($item->options['images'] as $i => $element) {
+                    $images['images'][$i] = array_merge($element, ['image_url' => asset('/').$element['image']]);
+                }
+
+                $item->options = $images;
+            }
+
+            if ($item->type == 'static_content') {
+
+                $staticContent['css'] = $item->options['css'];
+                $staticContent['html'] = [];
+
+                $staticContent['html'] = str_replace('data-src="storage', 'data-src="'.asset('/storage'), $item->options['html']);
+
+                $item->options = $staticContent;
+            }
+
+            if ($item->type == 'product_carousel' || $item->type == 'category_carousel') {
+
+                if (isset($item->options['title'])) {
+                    $options['title'] =  $item->options['title'];
+                }
+
+                $options['filters'] =  [];
+
+                $i = 0;
+
+                foreach ($item->options['filters'] as $key => $value) {
+                    $options['filters'][$i]['key'] = $key;
+                    $options['filters'][$i]['value'] = $value;
+
+                    $i++;
+                }
+
+                $item->options = $options;
+            }
 
             return $item;
         });
 
         return $result;
     }
+
+    public function getAllProducts($rootValue, array $args, GraphQLContext $context)
+    {
+        $count = isset($args['count']) ? $args['count'] : 4;
+
+        $allowedProductsType = ['simple', 'virtual', 'grouped', 'downloadable', 'bundle', 'configurable'];
+
+        $results = app(ProductRepository::class)->scopeQuery(function ($query, $allowedProductsType) {
+            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
+
+            $locale = request()->get('locale') ?: app()->getLocale();
+
+            return $query->distinct()
+                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
+                ->addSelect('products.*')
+                ->where('product_flat.status', 1)
+                ->where('product_flat.visible_individually', 1)
+                ->where('product_flat.featured', 1)
+                ->whereIn('products.type', $allowedProductsType)
+                ->where('product_flat.channel', $channel)
+                ->where('product_flat.locale', $locale)
+                ->inRandomOrder();
+        })->paginate($count);
+
+        return $results;
+    }
+
+
 
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {

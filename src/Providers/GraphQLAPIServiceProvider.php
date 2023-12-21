@@ -96,6 +96,12 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         // Customer Models
         $this->app->concord->registerModel(\Webkul\Customer\Contracts\Customer::class, \Webkul\GraphQLAPI\Models\Customer\Customer::class);
+
+        //  // Wishlist Models
+        //  $this->app->concord->registerModel(\Webkul\Shop\Contracts\ThemeCustomization::class, \Webkul\GraphQLAPI\Models\Shop\ThemeCustomization::class);
+
+        //  // Customer Models
+        //  $this->app->concord->registerModel(\Webkul\Shop\Contracts\ThemeCustomizationTranslation::class, \Webkul\GraphQLAPI\Models\Shop\ThemeCustomizationTranslation::class);
     }
 
     /**

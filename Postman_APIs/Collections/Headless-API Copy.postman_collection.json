@@ -6542,7 +6542,7 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "query homeCategories ($categoryId: Int, $categorySlug: String) {\n    homeCategories(categoryId: $categoryId, categorySlug: $categorySlug) {\n        id\n        name\n        description\n        slug\n        urlPath\n        url\n        logoPath\n        logoUrl\n        bannerPath\n        bannerUrl\n        metaTitle\n        metaDescription\n        metaKeywords\n        position\n        status\n        productCount\n        displayMode\n        parentId\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        translations {\n            id\n            name\n            description\n            localeId\n            locale\n        }\n        children {\n            id\n            name\n            description\n            slug\n            children {\n                id\n                name\n                description\n                slug\n            }\n        }\n        createdAt\n        updatedAt\n    }\n}",
-										"variables": "{\n    \"categorySlug\": \"root\"\n}"
+										"variables": "{\n    \"categorySlug\": \"qqqqq\"\n}"
 									}
 								},
 								"url": {
@@ -6565,7 +6565,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query themeCustomization {\n    themeCustomization {\n        id \n        channelId\n        type\n        name\n        sortOrder\n        status\n        baseUrl\n        translations {\n            id\n            themeCustomizationId\n            locale\n            options {\n                css\n                html\n                title\n                images {\n                    link\n                    image\n                }\n                filters {\n                    new\n                    sort\n                    limit\n                    parentId\n                }\n                columns {\n                    url\n                    title\n                    sortOrder\n                }\n            }\n        }\n    }\n}",
+										"query": "query themeCustomization {\n    themeCustomization {\n        id \n        channelId\n        type\n        name\n        sortOrder\n        status\n        baseUrl\n        translations {\n            id\n            themeCustomizationId\n            locale\n            options {\n                css\n                html\n                title\n                images {\n                    link\n                    image\n                    imageUrl\n                }\n                filters {\n                    new\n                    featured\n                    sort\n                    limit\n                    parentId\n                }\n                columns {\n                    url\n                    title\n                    sortOrder\n                }\n            }\n        }\n    }\n}",
 										"variables": ""
 									}
 								},

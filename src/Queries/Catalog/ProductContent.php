@@ -207,7 +207,6 @@ class ProductContent extends BaseFilter
             $priceArray['formattedFinalPriceTo'] = $regularPrice['to']['final']['formatted_price'];
             $priceArray['regularPriceTo'] = $regularPrice['to']['regular']['price'];
             $priceArray['formattedRegularPriceTo'] = $regularPrice['to']['regular']['formatted_price'];
-
         }
 
         return $priceArray;
