@@ -70,6 +70,17 @@ input OptionInput {
     position: String
 }
 
+input FilterAttributesInput {
+    id: ID
+    code: String
+    adminName: String @rename(attribute: "admin_name")
+    type: String
+    isRequired: Int @rename(attribute: "is_required")
+    isUnique: Int @rename(attribute: "is_unique")
+    valuePerLocale: Int @rename(attribute: "value_per_locale")
+    valuePerChannel: Int @rename(attribute: "value_per_channel")
+}
+
 type Attribute {
     id: ID!
     code: String!
@@ -93,17 +104,6 @@ type Attribute {
     success: String
 }
 
-input FilterAttributesInput {
-    id: ID
-    code: String
-    adminName: String @rename(attribute: "admin_name")
-    type: String
-    isRequired: Int @rename(attribute: "is_required")
-    isUnique: Int @rename(attribute: "is_unique")
-    valuePerLocale: Int @rename(attribute: "value_per_locale")
-    valuePerChannel: Int @rename(attribute: "value_per_channel")
-}
-
 type AttributeOption {
     id: ID!
     adminName: String! @rename(attribute: "admin_name")
@@ -117,17 +117,17 @@ type AttributeOption {
     translations: [AttributeOptionTranslation!] @hasMany
 }
 
+type AttributeOptionTranslation {
+    id: ID!
+    locale: String!
+    label: String!
+    attributeOptionId: ID! @rename(attribute: "attribute_option_id")
+}
+
 type AttributeTranslation {
     id: ID!
     locale: String!
     name: String!
     attributeId: ID! @rename(attribute: "attribute_id")
     attribute: Attribute! @belongsTo(relation: "attribute")
-}
-
-type AttributeOptionTranslation {
-    id: ID!
-    locale: String!
-    label: String!
-    attributeOptionId: ID! @rename(attribute: "attribute_option_id")
 }

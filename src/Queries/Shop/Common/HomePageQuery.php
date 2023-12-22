@@ -70,7 +70,7 @@ class HomePageQuery extends BaseFilter
                 $staticContent['css'] = $item->options['css'];
                 $staticContent['html'] = [];
 
-                $staticContent['html'] = str_replace('data-src="storage', 'data-src="'.asset('/storage'), $item->options['html']);
+                $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
 
                 $item->options = $staticContent;
             }
@@ -101,6 +101,27 @@ class HomePageQuery extends BaseFilter
         return $result;
     }
 
+    public function getCategories($rootValue, array $args, GraphQLContext $context)
+    {
+        $params = $args['input'];
+
+        /**
+         * These are the default parameters. By default, only the enabled category
+         * will be shown in the current locale.
+         */
+        if (! isset($params['status'])) {
+            $params = array_merge(['status' => 1], $params);
+        }
+
+        if (! isset($params['locale'])) {
+            $params = array_merge(['locale' => app()->getLocale()], $params);
+        }
+
+        $categories = $this->categoryRepository->getAll($params);
+
+        return $categories;
+    }
+
     public function getAllProducts($rootValue, array $args, GraphQLContext $context)
     {
         $count = isset($args['count']) ? $args['count'] : 4;
@@ -123,80 +144,6 @@ class HomePageQuery extends BaseFilter
                 ->where('product_flat.locale', $locale)
                 ->inRandomOrder();
         })->paginate($count);
-
-        return $results;
-    }
-
-
-
-    public function getCategories($rootValue, array $args, GraphQLContext $context)
-    {
-        $categoryId = isset($args['categoryId']) ? $args['categoryId'] : core()->getCurrentChannel()->root_category_id;
-
-        $categorySlug = isset($args['categorySlug']) ? $args['categorySlug'] : '';
-
-        if ($categorySlug) {
-            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($categorySlug) {
-                $q->where('slug', 'like', '%' . urldecode($categorySlug) . '%');
-            })->first();
-
-            if (isset($category->id))
-                $categoryId = $category->id;
-
-        }
-
-        return $this->categoryRepository->getVisibleCategoryTree($categoryId);
-    }
-
-    public function getvelocityMetaData($rootValue, array $args, GraphQLContext $context)
-    {
-        return $this->contentRepository->latest()->get();
-    }
-
-    public function advertisement($type, $advertisement)
-    {
-        $results = [];
-
-        if ($type == 4 && isset($advertisement[4]) && is_array($advertisement[4])) {
-            $advertisementFour = array_values(array_filter($advertisement[4]));
-            foreach($advertisementFour as $key => $value) {
-                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
-            }
-
-            if (empty($results)) {
-                $results[0] = ['image' => asset('/themes/velocity/assets/images/big-sale-banner.webp')];
-                $results[1] = ['image' => asset('/themes/velocity/assets/images/seasons.webp')];
-                $results[2] = ['image' => asset('/themes/velocity/assets/images/deals.webp')];
-                $results[3] = ['image' => asset('/themes/velocity/assets/images/kids.webp')];
-            }
-        }
-
-        if ($type == 3 &&  isset($advertisement[3]) && is_array($advertisement[3])) {
-            $advertisementThree = array_values(array_filter($advertisement[3]));
-
-            foreach($advertisementThree as $key => $value) {
-                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
-            }
-
-            if (empty($results)) {
-               $results[0] = ['image' => asset('/themes/velocity/assets/images/headphones.webp')];
-               $results[1] = ['image' => asset('/themes/velocity/assets/images/watch.webp')];
-               $results[2] = ['image' => asset('/themes/velocity/assets/images/kids-2.webp')];
-            }
-        }
-
-        if ($type == 2 &&  isset($advertisement[2]) && is_array($advertisement[2])) {
-            $advertisementTwo = array_values(array_filter($advertisement[2]));
-
-            foreach($advertisementTwo as $key => $value) {
-                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
-            }
-
-            if (empty($results)) {
-                $results[0] = ['image' => asset('/themes/velocity/assets/images/toster.webp')];
-                $results[1] = ['image' => asset('/themes/velocity/assets/images/trimmer.webp')];
-            }
-        }
 
         return $results;
     }

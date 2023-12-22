@@ -4,13 +4,10 @@ extend type Query {
 
     themeCustomization: [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
-    newProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getNewProducts")
+    homeCategories(input: FilterHomeCategoriesInput): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
-    featuredProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFeaturedProducts")
+    allProducts(input: FilterAllProductsInput): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
-    allProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
-
-    homeCategories(categoryId: Int, categorySlug: String): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
     velocityHeaderContent: [HeaderContent!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getvelocityMetaData")
 
@@ -24,6 +21,21 @@ extend type Mutation {
     sendNotification(
         input: NotificationInput!
     ): NotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NotificationMutation@send")
+}
+
+input FilterHomeCategoriesInput {
+    name: String
+    description: String
+    status: Boolean
+    onlyChildren: Int @rename(attribute: "only_children")
+    parentId: Int @rename(attribute: "parent_id")
+    locale: String
+    sort: String
+    limit: Int
+}
+
+input FilterAllProductsInput {
+    name: String
 }
 
 type FrontTheme {

@@ -43,16 +43,65 @@ input FilterCategoryListInput {
     position: Int
 }
 
-type FilterableAttribute {
+type CategoryBreadcrumbs {
+    name: String
+    slug: String
+    urlPath: String @rename(attribute: "url_path")
+}
+
+# type Category {
+#     productCount: Int @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getProductCount")
+#     categoryProductMaxPrice: Float @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getCategoryProductMaxPrice")
+#     filterableAttributes: [FilterableAttribute!] @hasMany
+#     children: [Category!] @hasMany
+#     translations: [Translation!] @hasMany
+#     breadcrumbs: [CategoryBreadcrumbs] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getbreadcrumbs")
+#     createdAt: DateTime! @rename(attribute: "created_at")
+#     updatedAt: DateTime! @rename(attribute: "updated_at")
+#     count: Int
+#     success: String
+# }
+
+
+type Category {
+    id: ID!
+    name: String!
+    description: String!
+    slug: String!
+    urlPath: String @rename(attribute: "url_path")
+    logoPath: String @rename(attribute: "logo_path")
+    logoUrl: String @rename(attribute: "logo_url")
+    bannerPath: String @rename(attribute: "banner_path")
+    bannerUrl: String @rename(attribute: "banner_url")
+    metaTitle: String @rename(attribute: "meta_title")
+    metaDescription: String @rename(attribute: "meta_description")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    position: Int
+    status: Boolean
+    displayMode: String! @rename(attribute: "display_mode")
+    parentId: ID @rename(attribute: "parent_id")
+    additional: String
+    Lft: Int @rename(attribute: "_lft")
+    Rgt: Int @rename(attribute: "_rgt")
+    categoryId: Int @rename(attribute: "category_id")
+    localeId: Int @rename(attribute: "locale_id")
+    locale: String
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    filterableAttributes: [filterableAttributes!] @belongsToMany
+    translations: [Translation!] @hasMany
+}
+
+type filterableAttributes {
     id: ID!
     code: String!
     adminName: String! @rename(attribute: "admin_name")
     type: String!
     validation: String
     position: Int
-    options: [AttributeOption!] @hasMany
     isFilterable: Int @rename(attribute: "is_filterable")
     category: Category! @belongsTo(relation: "category")
+    options: [AttributeOption!] @hasMany
 }
 
 type Translation {
@@ -67,41 +116,4 @@ type Translation {
     locale: String!
     localeId: ID @rename(attribute: "locale_id")
     urlPath: String @rename(attribute: "url_path")
-}
-
-type CategoryBreadcrumbs {
-    name: String
-    slug: String
-    urlPath: String @rename(attribute: "url_path")
-}
-
-type Category {
-    id: ID!
-    name: String!
-    description: String!
-    slug: String!
-    urlPath: String @rename(attribute: "url_path")
-    url: String @rename(attribute: "url")
-    metaTitle: String @rename(attribute: "meta_title")
-    metaDescription: String @rename(attribute: "meta_description")
-    metaKeywords: String @rename(attribute: "meta_keywords")
-    position: String!
-    status: Boolean!
-    logoPath: String @rename(attribute: "logo_path")
-    logoUrl: String @rename(attribute: "logo_url")
-    bannerPath: String @rename(attribute: "banner_path")
-    bannerUrl: String @rename(attribute: "banner_url")
-    productCount: Int @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getProductCount")
-    breadcrumbs: [CategoryBreadcrumbs] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getbreadcrumbs")
-    displayMode: String! @rename(attribute: "display_mode")
-    parentId: ID @rename(attribute: "parent_id")
-    additional: String
-    categoryProductMaxPrice: Float @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getCategoryProductMaxPrice")
-    filterableAttributes: [FilterableAttribute!] @hasMany
-    translations: [Translation!] @hasMany
-    children: [Category!] @hasMany
-    createdAt: DateTime! @rename(attribute: "created_at")
-    updatedAt: DateTime! @rename(attribute: "updated_at")
-    count: Int
-    success: String
 }
