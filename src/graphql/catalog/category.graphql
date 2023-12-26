@@ -43,26 +43,6 @@ input FilterCategoryListInput {
     position: Int
 }
 
-type CategoryBreadcrumbs {
-    name: String
-    slug: String
-    urlPath: String @rename(attribute: "url_path")
-}
-
-# type Category {
-#     productCount: Int @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getProductCount")
-#     categoryProductMaxPrice: Float @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getCategoryProductMaxPrice")
-#     filterableAttributes: [FilterableAttribute!] @hasMany
-#     children: [Category!] @hasMany
-#     translations: [Translation!] @hasMany
-#     breadcrumbs: [CategoryBreadcrumbs] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getbreadcrumbs")
-#     createdAt: DateTime! @rename(attribute: "created_at")
-#     updatedAt: DateTime! @rename(attribute: "updated_at")
-#     count: Int
-#     success: String
-# }
-
-
 type Category {
     id: ID!
     name: String!
@@ -90,6 +70,7 @@ type Category {
     updatedAt: DateTime @rename(attribute: "updated_at")
     filterableAttributes: [filterableAttributes!] @belongsToMany
     translations: [Translation!] @hasMany
+    children: [Category!] @hasMany
 }
 
 type filterableAttributes {
@@ -117,3 +98,17 @@ type Translation {
     localeId: ID @rename(attribute: "locale_id")
     urlPath: String @rename(attribute: "url_path")
 }
+
+
+# type Category {
+#     productCount: Int @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getProductCount")
+#     categoryProductMaxPrice: Float @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getCategoryProductMaxPrice")
+#     filterableAttributes: [FilterableAttribute!] @hasMany
+#     children: [Category!] @hasMany
+#     translations: [Translation!] @hasMany
+#     breadcrumbs: [CategoryBreadcrumbs] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\CategoryQuery@getbreadcrumbs")
+#     createdAt: DateTime! @rename(attribute: "created_at")
+#     updatedAt: DateTime! @rename(attribute: "updated_at")
+#     count: Int
+#     success: String
+# }

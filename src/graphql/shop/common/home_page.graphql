@@ -4,9 +4,9 @@ extend type Query {
 
     themeCustomization: [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
-    homeCategories(input: FilterHomeCategoriesInput): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
+    homeCategories(input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
-    allProducts(input: FilterAllProductsInput): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
+    allProducts(input: [FilterAllProductsInput]): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
 
     velocityHeaderContent: [HeaderContent!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getvelocityMetaData")
@@ -24,18 +24,13 @@ extend type Mutation {
 }
 
 input FilterHomeCategoriesInput {
-    name: String
-    description: String
-    status: Boolean
-    onlyChildren: Int @rename(attribute: "only_children")
-    parentId: Int @rename(attribute: "parent_id")
-    locale: String
-    sort: String
-    limit: Int
+    key: String
+    value: String
 }
 
 input FilterAllProductsInput {
-    name: String
+    key: String
+    value: String
 }
 
 type FrontTheme {
@@ -62,7 +57,9 @@ type OptionFields {
     html: String
     images: [Link]
     filters: [FilterOption]
-    columns: [ColumOption]
+    column_1: [ColumOption]
+    column_2: [ColumOption]
+    column_3: [ColumOption]
 }
 
 type Link {
