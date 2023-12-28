@@ -6,7 +6,15 @@ extend type Query {
 
     homeCategories(input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
-    allProducts(input: [FilterAllProductsInput]): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
+    allProducts(
+        input: [FilterAllProductsInput]
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
+    ): [Product!]
+    @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product"
+    )
 
     notificationList(
         first: Int,

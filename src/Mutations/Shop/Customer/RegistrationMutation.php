@@ -52,7 +52,7 @@ class RegistrationMutation extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard, ['except' => ['register']]);
     }
 
@@ -63,33 +63,33 @@ class RegistrationMutation extends Controller
      */
     public function register($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
+        if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 'Invalid request parameters.'
             );
         }
-    
+
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'first_name' => 'string|required',
-            'last_name'  => 'string|required',
-            'email'      => 'email|required|unique:customers,email',
-            'password'   => 'min:6|required',
+            'first_name'            => 'string|required',
+            'last_name'             => 'string|required',
+            'email'                 => 'email|required|unique:customers,email',
+            'password'              => 'min:6|required',
             'password_confirmation' => 'required|required_with:password|same:password',
         ]);
-                
+
         if ($validator->fails()) {
-            
+
             $errorMessage = [];
             foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
-                
+
                 $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error, ['field' => $index]) : $error;
             }
-            
+
             throw new CustomException(
                 implode(", ", $errorMessage),
                 'Invalid Register Details.'
@@ -118,15 +118,15 @@ class RegistrationMutation extends Controller
         if (! $customer) {
             return [
                 'status'    => false,
-                'success'   => trans('bagisto_graphql::app.shop.response.error-registration')
-            ]; 
+                'success'   => trans('bagisto_graphql::app.shop.customer.signup-form.error-registration')
+            ];
         }
 
         if (core()->getConfigData('customer.settings.email.verification')) {
-            
+
             try {
                 $configKey = 'emails.general.notifications.emails.general.notifications.verification';
-                
+
                 if (core()->getConfigData($configKey)) {
                     Mail::queue(new VerificationEmail($verificationData));
                 }
@@ -134,10 +134,10 @@ class RegistrationMutation extends Controller
 
             return [
                 'status'    => true,
-                'success'   => trans('shop::app.customer.signup-form.success-verify')
+                'success'   => trans('bagisto_graphql::app.shop.customer.signup-form.success-verify')
             ];
         }
-        
+
         try {
             $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
 
@@ -160,7 +160,7 @@ class RegistrationMutation extends Controller
             ], $remember)
         ) {
             throw new CustomException(
-                trans('shop::app.customer.login-form.invalid-creds'),
+                trans('bagisto_graphql::app.shop.customer.signup-form.invalid-creds'),
                 'Invalid Email and Password.'
             );
         }
@@ -174,7 +174,7 @@ class RegistrationMutation extends Controller
             bagisto_graphql()->guard($this->guard)->logout();
 
             throw new CustomException(
-                trans('shop::app.customer.login-form.not-activated'),
+                trans('bagisto_graphql::app.shop.customer.login-form.not-activated'),
                 'Account Not Activated.'
             );
         }
@@ -197,24 +197,24 @@ class RegistrationMutation extends Controller
     public function socialSignUp($rootValue, array $args , GraphQLContext $context)
     {
         $data = $args;
-        
+
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
             'email'             => 'email|required',
             'signup_type'       => 'string|required',
         ]);
-        
+
         $errorMessage = [];
 
         if ($validator->fails()) {
 
             foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
-                
+
                 $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error, ['field' => $index]) : $error;
             }
-            
+
             throw new CustomException(
                 implode(", ", $errorMessage),
                 'Invalid Register Details.'
@@ -222,22 +222,22 @@ class RegistrationMutation extends Controller
         }
 
         if ($data['signup_type'] == 'truecaller') {
-            
+
             if (empty($data['phone'])) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.validation.required', ['field' => 'phone number']),
+                    trans('bagisto_graphql::app.shop.customer.signup-form.validation.required', ['field' => 'phone number']),
                     'Invalid request parameters.'
                 );
             }
 
             $customer = $this->customerRepository->findOneByField('phone', $data['phone']);
-                
+
             if (
-                $customer 
+                $customer
                 && $customer->email != $data['email']
             ) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.warning-num-already-used', ['phone' => $data['phone']]),
+                    trans('bagisto_graphql::app.shop.customer.signup-form.warning-num-already-used', ['phone' => $data['phone']]),
                     'Invalid request parameters.'
                 );
             }
@@ -252,7 +252,7 @@ class RegistrationMutation extends Controller
                 || $customer->is_verified == 0
             ) {
                 throw new CustomException(
-                    trans('shop::app.customer.login-form.not-activated'),
+                    trans('bagisto_graphql::app.shop.customer.login-form.not-activated'),
                     'Account Not Activated.'
                 );
             }
@@ -262,7 +262,7 @@ class RegistrationMutation extends Controller
 
         $token  = md5(uniqid(rand(), true));
         $data['password'] = $data['password_confirmation'] = rand(1,999999);
-        
+
         $data   = array_merge($data, [
             'password'          => bcrypt($data['password']),
             'api_token'         => Str::random(80),
@@ -281,8 +281,8 @@ class RegistrationMutation extends Controller
         if (! $customer) {
             return [
                 'status'    => false,
-                'success'   => trans('bagisto_graphql::app.shop.response.error-registration')
-            ]; 
+                'success'   => trans('bagisto_graphql::app.shop.customer.signup-form.error-registration')
+            ];
         }
 
         Event::dispatch('customer.registration.after', $customer);
@@ -290,7 +290,7 @@ class RegistrationMutation extends Controller
         try {
             $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
             if (core()->getConfigData($configCustomerKey)) {
-                
+
                 $data['is_social_login'] = true;
 
                 Mail::queue(new RegistrationNotification($data, 'customer'));
@@ -317,19 +317,19 @@ class RegistrationMutation extends Controller
     public function loginCustomer($customer, $data)
     {
         $jwtToken = null;
-        
+
         if (! isset($data['password'])) {
             $data['password'] = $password = rand(1, 999999);
-            
+
             $customer->password = bcrypt($password);
             $customer->save();
-            
+
             try {
                 Mail::queue(new SocialLoginPasswordResetEmail($data));
             } catch(\Exception $e) {}
-            
+
         }
-        
+
         $remember = isset($data['remember']) ? $data['remember'] : 0;
 
         if (! $jwtToken = JWTAuth::attempt([
@@ -337,11 +337,11 @@ class RegistrationMutation extends Controller
             'password'  => $data['password'],
         ], $remember)) {
             throw new CustomException(
-                trans('shop::app.customer.login-form.invalid-creds'),
+                trans('bagisto_graphql::app.shop.customer.login-form.invalid-creds'),
                 'Invalid Email and Password.'
             );
         }
-        
+
         $customer = bagisto_graphql()->guard($this->guard)->user();
 
         /**

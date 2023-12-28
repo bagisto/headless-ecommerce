@@ -138,51 +138,16 @@ return [
         ],
 
         'shop'          => [
-            'customer' => [
-                'success-login'        => 'Success: Customer login successfully.',
-                'success-logout'       => 'Success: Customer logout successfully.',
-                'no-login-customer'    => 'Warning: No login customer found.',
-                'address-list'         => 'Success: Customer\'s address details fetched',
-                'not-authorized'       => 'Warning: You are not authorized to update this address.',
-                'success-address-list' => 'Success: Customer\'s addresses fetched successfully.',
-                'no-address-list'      => 'Warning: No customer\'s address found.',
-                'text-password'        => 'Your Password is: :password',
-                'not-exists'           => 'Warning: No customer found for the provided data.',
-            ],
 
             'response' => [
-                'error-registration'        => 'Warning: customer registration failed.',
-                'reset_link_sent'           => 'Success: Password reset email has been sent successfully.',
-                'password-reset-failed'     => 'Warning: We already sent you password reset email, try after sometime.',
                 'customer-details'          => 'Success: Customer details fetched successfully.',
                 'not-found'                 => 'Wanring: No :name found.',
                 'no-address-found'          => 'Wanring: No address found.',
                 'no-order-found'            => 'Wanring: No order found.',
-                'warning-empty-cart'        => 'Warning: There is no product added to the cart.',
-                'success-add-to-cart'       => 'Success: Product added to cart successfully.',
-                'success-update-to-cart'    => 'Success: Cart item has been updated successfully.',
-                'success-delete-cart-item'  => 'Success: Cart item has been removed successfully.',
-                'success-moved-cart-item'   => 'Success: Cart item moved to wishlist successfully.',
-                'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
-                'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
                 'invalid-address'           => 'Wanring: No address found for provided addressId.',
-                'wrong-error'               => 'Wanring: There is some error with your cart, try again.',
-                'save-cart-address'         => 'Success: Cart address save successfully.',
-                'error-payment-selection'   => 'Warning: There is some error in fetching payment methods.',
-                'selected-shipment'         => 'Success: Shipment has been selected successfully.',
-                'error-payment-save'        => 'Warning: There is some error in saving payment method.',
-                'selected-payment'          => 'Success: Payment method selected successfully.',
-                'error-placing-order'       => 'Warning: There is some error in order placing.',
                 'invalid-product'           => 'Warning: You are requesting for invalid product.',
                 'already-exist-inwishlist'  => 'Information: This product is already exist in wishlist.',
                 'error-move-to-cart'        => 'Warning: This product might have some required options, not able to move to cart.',
-                'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
-                'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping id.',
-                'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
-                'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
-                'warning-num-already-used'  => 'Warning: This :phone number is registered using different email address.',
-                'coupon-removed'            => 'Success: coupon removed from cart successfully.',
-                'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
                 'review-create-success'     => 'Success: Review is submitted successfully, please wait for the approval.',
                 'un-authorized-access'      => 'Warning: You are not authorized to use this section.',
             ]
@@ -208,6 +173,26 @@ return [
 
     'shop' => [
         'checkout' => [
+            'save-cart-address'         => 'Success: Cart address save successfully.',
+            'error-payment-selection'   => 'Warning: There is some error in fetching payment methods.',
+            'selected-shipment'         => 'Success: Shipment has been selected successfully.',
+            'warning-empty-cart'        => 'Warning: There is no product added to the cart.',
+            'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
+            'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
+            'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
+            'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
+            'wrong-error'               => 'Wanring: There is some error with your cart, try again.',
+            'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
+            'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping id.',
+            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
+            'already-applied' => 'Coupon code already applied.',
+            'success-apply'   => 'Coupon code applied successfully.',
+            'coupon-removed'            => 'Success: coupon removed from cart successfully.',
+            'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
+            'error-placing-order'       => 'Warning: There is some error in order placing.',
+            'selected-payment'          => 'Success: Payment method selected successfully.',
+            'error-payment-save'        => 'Warning: There is some error in saving payment method.',
+
             'cart' => [
                 'item' => [
                     'success-all-remove'       => 'All items successfully removed from cart.',
@@ -223,7 +208,45 @@ return [
                     'fail-delete-cart-item'    => 'Fail: Cart item not found.',
                 ]
             ]
-        ]
+        ],
+
+        'customer' => [
+            'success-login'         => 'Success: Customer login successfully.',
+            'success-logout'        => 'Success: Customer logout successfully.',
+            'no-login-customer'     => 'Warning: No login customer found.',
+            'address-list'          => 'Success: Customer\'s address details fetched',
+            'not-authorized'        => 'Warning: You are not authorized to update this address.',
+            'no-address-list'       => 'Warning: No customer\'s address found.',
+            'text-password'         => 'Your Password is: :password',
+            'not-exists'            => 'Warning: No customer found for the provided data.',
+            'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
+            'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
+            'password-reset-failed' => 'Warning: We already sent you password reset email, try after sometime.',
+            'invalid-header'        => 'Warning: Invalid header token.',
+            'no-login-user'         => 'Warning: No login user found.',
+
+            'signup-form'           => [
+                'error-registration'       => 'Warning: customer registration failed.',
+                'warning-num-already-used' => 'Warning: This :phone number is registered using different email address.',
+                'success-verify'           => 'Account created successfully, an e-mail has been sent for verification.',
+                'invalid-creds'            => 'Please check your credentials and try again.',
+
+                'validation'               => [
+                    'unique'   => 'This :field has already been taken.',
+                    'required' => 'The :field field is required.',
+                    'same'     => 'The :field and password must match.'
+                ],
+            ],
+
+            'login-form'            => [
+                'not-activated' => 'Your activation seeks admin approval',
+                'invalid-creds' => 'Please check your credentials and try again.',
+            ]
+        ],
+
+        'response' => [
+            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
+        ],
     ]
 
 ];

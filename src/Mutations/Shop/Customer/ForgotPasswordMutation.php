@@ -31,7 +31,7 @@ class ForgotPasswordMutation extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard, ['except' => ['forgot']]);
     }
 
@@ -42,46 +42,46 @@ class ForgotPasswordMutation extends Controller
      */
     public function forgot($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
+        if (! isset($args['input']) ||
         (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new Exception(trans('bagisto_graphql::app.shop.response.error-invalid-parameter'));
         }
-    
+
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
             'email' => 'required|email',
         ]);
-                
+
         if ($validator->fails()) {
             $errorMessage = [];
             foreach ($validator->messages()->toArray() as $message) {
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
-            
+
             throw new CustomException(
                 implode(" ,", $errorMessage),
                 'Invalid ForgotPassword Details.'
             );
         }
-        
+
         try {
             $response = $this->broker()->sendResetLink($data);
-            
+
             if ($response == Password::RESET_LINK_SENT) {
                 return [
                     'status'    => true,
-                    'success'   => trans('bagisto_graphql::app.shop.response.reset_link_sent')
+                    'success'   => trans('bagisto_graphql::app.shop.customer.reset-link-sent')
                 ];
             } else {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.password-reset-failed'),
+                    trans('bagisto_graphql::app.shop.customer.password-reset-failed'),
                     'Invalid ForgotPassword Email Details.'
                 );
             }
         } catch (\Swift_RfcComplianceException $e) {
             throw new CustomException(
-                trans('customer::app.forget_password.reset_link_sent'),
+                trans('bagisto_graphql::app.shop.customer.reset-link-sent'),
                 'Swift_RfcComplianceException: Invalid ForgotPassword Details.'
             );
         } catch (Exception $e) {

@@ -114,7 +114,7 @@ class CheckoutMutation extends Controller
         if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
                 'Invalid request parameters.'
             );
         }
@@ -178,7 +178,7 @@ class CheckoutMutation extends Controller
 
         if (! $cart ) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.warning-empty-cart'),
+                trans('bagisto_graphql::app.shop.checkout.warning-empty-cart'),
                 'Your cart is empty.'
             );
         }
@@ -190,7 +190,7 @@ class CheckoutMutation extends Controller
             (! isset($params['billing']) ||
             (isset($params['billing']) && ! $params['billing']))) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.billing-address-missing'),
+                trans('bagisto_graphql::app.shop.checkout.billing-address-missing'),
                 'Billing address missing.'
             );
         }
@@ -202,7 +202,7 @@ class CheckoutMutation extends Controller
             if (! isset($params['shipping']) ||
                 (isset($params['shipping']) && ! $params['shipping']) ) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.shipping-address-missing'),
+                    trans('bagisto_graphql::app.shop.checkout.shipping-address-missing'),
                     'Shipping address missing.'
                 );
             }
@@ -222,12 +222,12 @@ class CheckoutMutation extends Controller
         if ($token && isset($validateUser['success']) && ! $validateUser['success']) {
             if ($billingAddressId || $shippingAddressId) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.invalid-guest-access'),
+                    trans('bagisto_graphql::app.shop.checkout.invalid-guest-access'),
                     'invalid-guest-access.'
                 );
             } else {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.guest-address-warning'),
+                    trans('bagisto_graphql::app.shop.checkout.guest-address-warning'),
                     'guest-address-warning.'
                 );
             }
@@ -247,7 +247,7 @@ class CheckoutMutation extends Controller
             ) {
                 throw new CustomException(
                     'Cart have some item(s), which are not allowed for guest checkout.',
-                    trans('bagisto_graphql::app.shop.response.wrong-error')
+                    trans('bagisto_graphql::app.shop.checkout.wrong-error')
                 );
             }
 
@@ -290,7 +290,7 @@ class CheckoutMutation extends Controller
                         }
                     } else {
                         throw new CustomException(
-                            trans('bagisto_graphql::app.shop.response.no-billing-address-found', ['address_id' => $billingAddressId]),
+                            trans('bagisto_graphql::app.shop.checkout.no-billing-address-found', ['address_id' => $billingAddressId]),
                             'No billing address found.'
                         );
                     }
@@ -308,7 +308,7 @@ class CheckoutMutation extends Controller
                         $data['shipping']['address1'] = $shippingAddress->address1;
                     } else {
                         throw new CustomException(
-                            trans('bagisto_graphql::app.shop.response.no-shipping-address-found', ['address_id' => $shippingAddressId]),
+                            trans('bagisto_graphql::app.shop.checkout.no-shipping-address-found', ['address_id' => $shippingAddressId]),
                             'No shipping address found.'
                         );
                     }
@@ -351,7 +351,7 @@ class CheckoutMutation extends Controller
 
                 if (Cart::hasError() || ! Cart::saveCustomerAddress($data)) {
                     throw new CustomException(
-                        trans('bagisto_graphql::app.shop.response.wrong-error'),
+                        trans('bagisto_graphql::app.shop.checkout.wrong-error'),
                         'Cart have some item(s), which are not allowed for guest checkout.'
                     );
                 } else {
@@ -365,7 +365,7 @@ class CheckoutMutation extends Controller
                     if ($cart->haveStockableItems() && $params['type'] == 'shipping') {
                         if (! $rates = Shipping::collectRates()) {
                             throw new CustomException(
-                                trans('bagisto_graphql::app.shop.response.wrong-error'),
+                                trans('bagisto_graphql::app.shop.checkout.wrong-error'),
                                 'Error in fatching shipping rate.'
                             );
                         } else {
@@ -389,7 +389,7 @@ class CheckoutMutation extends Controller
                             }
 
                             return [
-                                'success'           => trans('bagisto_graphql::app.shop.response.save-cart-address'),
+                                'success'           => trans('bagisto_graphql::app.shop.checkout.save-cart-address'),
                                 'cart'              => Cart::getCart(),
                                 'shipping_methods'  => $shipping_methods,
                                 'jump_to_section'   => 'shipping',
@@ -398,7 +398,7 @@ class CheckoutMutation extends Controller
                     } else {
 
                         return [
-                            'success'           => trans('bagisto_graphql::app.shop.response.save-cart-address'),
+                            'success'           => trans('bagisto_graphql::app.shop.checkout.save-cart-address'),
                             'cart'              => Cart::getCart(),
                             'payment_methods'   => Payment::getPaymentMethods(),
                             'jump_to_section'   => 'payment',
@@ -425,7 +425,7 @@ class CheckoutMutation extends Controller
 
         if (! $cart) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.warning-empty-cart'),
+                trans('bagisto_graphql::app.shop.checkout.warning-empty-cart'),
                 'Your cart is empty.'
             );
         }
@@ -441,7 +441,7 @@ class CheckoutMutation extends Controller
                 $validateUser['success']) ) {
                 if (! bagisto_graphql()->guard($this->guard)->check() && ! Cart::getCart()->hasGuestCheckoutItems()) {
                     throw new CustomException(
-                        trans('bagisto_graphql::app.shop.response.wrong-error'),
+                        trans('bagisto_graphql::app.shop.checkout.wrong-error'),
                         'Cart have some item(s), which are not allowed for guest checkout.'
                     );
                 }
@@ -462,7 +462,7 @@ class CheckoutMutation extends Controller
                     if ($cart->haveStockableItems()) {
                         if (! $rates = Shipping::collectRates()) {
                             throw new CustomException(
-                                trans('bagisto_graphql::app.shop.response.wrong-error'),
+                                trans('bagisto_graphql::app.shop.checkout.wrong-error'),
                                 'Error in fatching shipping rate.'
                             );
                         } else {
@@ -494,7 +494,7 @@ class CheckoutMutation extends Controller
                         }
                     } else {
                         return [
-                            'success'           => trans('bagisto_graphql::app.shop.response.save-cart-address'),
+                            'success'           => trans('bagisto_graphql::app.shop.checkout.save-cart-address'),
                             'cart'              => Cart::getCart(),
                             'payment_methods'   => Payment::getPaymentMethods(),
                             'jump_to_section'   => 'payment',
@@ -504,7 +504,7 @@ class CheckoutMutation extends Controller
             } elseif ($token && isset($validateUser['success']) &&
             ! $validateUser['success']) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.guest-address-warning'),
+                    trans('bagisto_graphql::app.shop.checkout.guest-address-warning'),
                     'guest-address-warning.'
                 );
             }
@@ -527,7 +527,7 @@ class CheckoutMutation extends Controller
         if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
                 'Invalid request parameters.'
             );
         }
@@ -553,7 +553,7 @@ class CheckoutMutation extends Controller
         try {
             if (Cart::hasError() || !Cart::saveShippingMethod($data['shipping_method'])) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.error-payment-selection'),
+                    trans('bagisto_graphql::app.shop.checkout.error-payment-selection'),
                     'Error in saving shipping method.'
                 );
             }
@@ -561,7 +561,7 @@ class CheckoutMutation extends Controller
             Cart::collectTotals();
 
             return [
-                'success'           => trans('bagisto_graphql::app.shop.response.selected-shipment'),
+                'success'           => trans('bagisto_graphql::app.shop.checkout.selected-shipment'),
                 'cart'              => Cart::getCart(),
                 'payment_methods'   => Payment::getPaymentMethods(),
                 'jump_to_section'   => 'payment',
@@ -585,7 +585,7 @@ class CheckoutMutation extends Controller
         if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
                 'Invalid request parameters.'
             );
         }
@@ -611,7 +611,7 @@ class CheckoutMutation extends Controller
         try {
             if (Cart::hasError() || ! Cart::savePaymentMethod($data['payment'])) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.error-payment-save'),
+                    trans('bagisto_graphql::app.shop.checkout.error-payment-save'),
                     'Error in saving payment method.'
                 );
             }
@@ -619,7 +619,7 @@ class CheckoutMutation extends Controller
             Cart::collectTotals();
 
             return [
-                'success'           => trans('bagisto_graphql::app.shop.response.selected-payment'),
+                'success'           => trans('bagisto_graphql::app.shop.checkout.selected-payment'),
                 'cart'              => Cart::getCart(),
                 'jump_to_section'   => 'review'
             ];
@@ -640,7 +640,7 @@ class CheckoutMutation extends Controller
     {
         if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new Exception(trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'));
         }
 
         $data = $args['input'];
@@ -669,7 +669,7 @@ class CheckoutMutation extends Controller
                     if (Cart::getCart()->coupon_code == $data['code']) {
                         return [
                             'success' => true,
-                            'message' => trans('shop::app.checkout.cart.coupon.already-applied'),
+                            'message' => trans('bagisto_graphql::app.shop.checkout.already-applied'),
                             'cart'    => Cart::getCart(),
                         ];
                     }
@@ -679,7 +679,7 @@ class CheckoutMutation extends Controller
                     if (Cart::getCart()->coupon_code == $data['code']) {
                         return [
                             'success' => true,
-                            'message' => trans('shop::app.checkout.cart.coupon.success-apply'),
+                            'message' => trans('bagisto_graphql::app.shop.checkout.success-apply'),
                             'cart'    => Cart::getCart(),
                         ];
                     }
@@ -688,7 +688,7 @@ class CheckoutMutation extends Controller
 
             return [
                 'success' => false,
-                'message' => trans('shop::app.checkout.total.invalid-coupon'),
+                'message' => trans('bagisto_graphql::app.shop.checkout.invalid-coupon'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
@@ -709,14 +709,14 @@ class CheckoutMutation extends Controller
 
                 return [
                     'success' => true,
-                    'message' => trans('bagisto_graphql::app.admin.shop.response.coupon-removed'),
+                    'message' => trans('bagisto_graphql::app.shop.checkout.response.coupon-removed'),
                     'cart'    => Cart::getCart(),
                 ];
             }
 
             return [
                 'success' => false,
-                'message' => trans('bagisto_graphql::app.admin.shop.response.coupon-remove-failed'),
+                'message' => trans('bagisto_graphql::app.shop.checkout.coupon-remove-failed'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
@@ -734,7 +734,7 @@ class CheckoutMutation extends Controller
         try {
             if (Cart::hasError()) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.error-placing-order'),
+                    trans('bagisto_graphql::app.shop.checkout.error-placing-order'),
                     'Some error found in cart.'
                 );
             }

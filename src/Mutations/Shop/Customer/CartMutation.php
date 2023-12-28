@@ -11,6 +11,7 @@ use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class CartMutation extends Controller
 {
@@ -122,7 +123,7 @@ class CartMutation extends Controller
                 'cart'    => $cart,
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage(), $e->getMessage());
         }
     }
 
@@ -181,7 +182,7 @@ class CartMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage(), $e->getMessage());
         }
     }
 
@@ -228,7 +229,7 @@ class CartMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage(), $e->getMessage());
         }
     }
 
@@ -262,7 +263,7 @@ class CartMutation extends Controller
                 'cart'    => $cart,
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage(), $e->getMessage());
         }
     }
 
@@ -299,7 +300,7 @@ class CartMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage(), $e->getMessage());
         }
     }
 }
