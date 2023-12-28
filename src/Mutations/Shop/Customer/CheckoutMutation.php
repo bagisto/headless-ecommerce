@@ -2,19 +2,19 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Checkout\Facades\Cart;
+use App\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\Payment\Facades\Payment;
-use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\Core\Rules\AlphaNumericSpace;
 use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Shipping\Facades\Shipping;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
@@ -30,8 +30,8 @@ class CheckoutMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @param  \Webkul\Customer\Repositories\CartRuleCouponRepository  $cartRuleCouponRepository
+     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @param  \Webkul\Customer\Repositories\CustomerAddressRepository  $customerAddressRepository
      * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
      * @param  \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
@@ -708,16 +708,16 @@ class CheckoutMutation extends Controller
                 Cart::removeCouponCode()->collectTotals();
 
                 return [
-                    'success'       => true,
-                    'message'       => trans('bagisto_graphql::app.shop.response.coupon-removed'),
-                    'cart'          => Cart::getCart(),
+                    'success' => true,
+                    'message' => trans('bagisto_graphql::app.admin.shop.response.coupon-removed'),
+                    'cart'    => Cart::getCart(),
                 ];
             }
 
             return [
-                'success'       => false,
-                'message'       => trans('bagisto_graphql::app.shop.response.coupon-remove-failed'),
-                'cart'          => Cart::getCart(),
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.admin.shop.response.coupon-remove-failed'),
+                'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

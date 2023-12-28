@@ -8,9 +8,6 @@ extend type Query {
 
     allProducts(input: [FilterAllProductsInput]): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
-
-    velocityHeaderContent: [HeaderContent!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getvelocityMetaData")
-
     notificationList(
         first: Int,
         page: Int
@@ -31,6 +28,10 @@ input FilterHomeCategoriesInput {
 input FilterAllProductsInput {
     key: String
     value: String
+}
+
+input NotificationInput {
+    id: ID!
 }
 
 type FrontTheme {
@@ -98,10 +99,6 @@ type NotificationTranslation {
     locale: String!
     channel: String!
     pushNotificationId: ID! @rename(attribute: "push_notification_id")
-}
-
-input NotificationInput {
-    id: ID!
 }
 
 type NotificationResponse {

@@ -15,7 +15,7 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter
 {
-       /**
+    /**
      * Using const variable for status
      */
     const STATUS = 1;
@@ -44,11 +44,23 @@ class HomePageQuery extends BaseFilter
     {
     }
 
+    /**
+     * @param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return \Webkul\Core\Contracts\Channel
+     */
     public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
     {
         return core()->getDefaultChannel();
     }
 
+    /**
+     *@param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return mixed
+     */
     public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
     {
         visitor()->visit();
@@ -107,6 +119,12 @@ class HomePageQuery extends BaseFilter
         return $result;
     }
 
+    /**
+     * @param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return void
+     */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
         $filters = array_filter($args['input']);
@@ -135,8 +153,9 @@ class HomePageQuery extends BaseFilter
 
     /**
      * Get all products.
-     *
-     *
+     * @param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      * @return \Illuminate\Support\Collection
      */
     public function getAllProducts($rootValue, array $args, GraphQLContext $context)

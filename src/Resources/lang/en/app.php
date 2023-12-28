@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'admin'      => [
+    'admin' => [
         'menu'          => [
             'push-notification' => 'Push Notification',
         ],
@@ -203,6 +203,27 @@ return [
                     Kindly login to your account using below mentioned password.',
                 ]
             ]
+        ],
+    ],
+
+    'shop' => [
+        'checkout' => [
+            'cart' => [
+                'item' => [
+                    'success-all-remove'       => 'All items successfully removed from cart.',
+                    'fail-all-remove'          => 'Error in removing items from cart.',
+                    'error-invalid-parameter'  => 'Warning: Invaid parameters provided.',
+                    'success-moved-cart-item'  => 'Success: Cart item moved to wishlist successfully.',
+                    'fail-moved-cart-item'     => 'Fail: Cart item is not moved to wishlist.',
+                    'success-add-to-cart'      => 'Success: Product added to cart successfully.',
+                    'fail-add-to-cart'         => 'Fail: Product is not added to cart.',
+                    'success-update-to-cart'   => 'Success: Cart item has been updated successfully.',
+                    'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
+                    'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
+                    'fail-delete-cart-item'    => 'Fail: Cart item not found.',
+                ]
+            ]
         ]
     ]
+
 ];
