@@ -68,9 +68,12 @@ class CheckoutMutation extends Controller
             $customerAddresses = [];
             $formatted_addresses = [];
 
-            if (! $token || ($token && isset($validateUser['success']) && $validateUser['success']) ) {
+            if (
+                ! $token
+                || ! empty($validateUser['success'])
+             ) {
 
-                if ( bagisto_graphql()->guard($this->guard)->check() ) {
+                if (bagisto_graphql()->guard($this->guard)->check() ) {
                     $customer = bagisto_graphql()->guard($this->guard)->user();
                     $customerAddresses = $customer->addresses()->get();
 
@@ -88,13 +91,13 @@ class CheckoutMutation extends Controller
             }
 
             return [
-                'success'           => $customer ? trans('bagisto_graphql::app.shop.customer.success-address-list') : trans('bagisto_graphql::app.shop.customer.no-address-list'),
-                'is_guest'          => (isset($customer->id)) ? 0 : 1,
-                'customer'          => $customer,
-                'addresses'         => $formatted_addresses,
-                'address_list'      => $customerAddresses,
-                'cart'              => Cart::getCart(),
-                'default_country'   => config('app.default_country') ? config('app.default_country') : 'IN'
+                'success'         => $customer ? trans('bagisto_graphql::app.shop.customer.success-address-list') : trans('bagisto_graphql::app.shop.customer.no-address-list'),
+                'is_guest'        => (isset($customer->id)) ? 0 : 1,
+                'customer'        => $customer,
+                'addresses'       => $formatted_addresses,
+                'address_list'    => $customerAddresses,
+                'cart'            => Cart::getCart(),
+                'default_country' => config('app.default_country') ? config('app.default_country') : 'IN'
             ];
         } catch (Exception $e) {
             throw new CustomException(
@@ -212,7 +215,7 @@ class CheckoutMutation extends Controller
 
         if (isset(getallheaders()['Authorization'])) {
             $headerValue = explode("Bearer ", getallheaders()['Authorization']);
-            if ( isset($headerValue[1]) && $headerValue[1]) {
+            if (isset($headerValue[1]) && $headerValue[1]) {
                 $token = $headerValue[1];
             }
         }
@@ -298,7 +301,7 @@ class CheckoutMutation extends Controller
                     $address_flag = true;
                 }
 
-                if ( $shippingAddressId ) {
+                if ($shippingAddressId ) {
                     $shippingAddress = $this->customerAddressRepository->findOneWhere([
                         'id'            => $shippingAddressId,
                         'address_type'  => 'customer'
@@ -640,7 +643,7 @@ class CheckoutMutation extends Controller
     {
         if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'));
         }
 
         $data = $args['input'];
@@ -650,7 +653,7 @@ class CheckoutMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new CustomException($validator->messages());
         }
 
         try {
@@ -692,7 +695,7 @@ class CheckoutMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -720,7 +723,7 @@ class CheckoutMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 

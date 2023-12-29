@@ -30,7 +30,7 @@ class DownloadableMutation extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard);
     }
 
@@ -42,14 +42,14 @@ class DownloadableMutation extends Controller
     public function downloadLinks($rootValue, array $args , GraphQLContext $context)
     {
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new Exception(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
 
         try {
             $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
             $currentPage = isset($params['page']) ? $params['page'] : 1;
-            
+
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
@@ -57,7 +57,7 @@ class DownloadableMutation extends Controller
             $downloads = app(DownloadableLinkPurchasedRepository::class)->scopeQuery(function ($query) use ($params) {
                 $channel_id = isset($params['channel_id']) ?: (core()->getCurrentChannel()->id ?: core()->getDefaultChannel()->id);
                 $customer = bagisto_graphql()->guard($this->guard)->user();
-                    
+
                 $qb = $query->distinct()
                     ->addSelect('downloadable_link_purchased.*')
                     ->leftJoin('orders', 'downloadable_link_purchased.order_id', '=', 'orders.id')
@@ -68,11 +68,11 @@ class DownloadableMutation extends Controller
                 if (isset($params['id']) && $params['id']) {
                     $qb->where('downloadable_link_purchased.id', $params['id']);
                 }
-                
+
                 if (isset($params['order_id']) && $params['order_id']) {
                     $qb->where('downloadable_link_purchased.order_id', $params['order_id']);
                 }
-                
+
                 if (isset($params['order_item_id']) && $params['order_item_id']) {
                     $qb->where('downloadable_link_purchased.order_item_id', $params['order_item_id']);
                 }
@@ -84,19 +84,19 @@ class DownloadableMutation extends Controller
                 if (isset($params['link_name']) && $params['link_name']) {
                     $qb->where('downloadable_link_purchased.name', 'like', '%' . urldecode($params['link_name']) . '%');
                 }
-                
+
                 if (isset($params['status']) && $params['status']) {
                     $qb->where('downloadable_link_purchased.status', $params['status']);
                 }
-                
+
                 if (isset($params['download_bought']) && $params['download_bought']) {
                     $qb->where('downloadable_link_purchased.download_bought', $params['download_bought']);
                 }
-                
+
                 if (isset($params['download_used']) && $params['download_used']) {
                     $qb->where('downloadable_link_purchased.download_used', $params['download_used']);
                 }
-                
+
                 if (isset($params['status']) && $params['status']) {
                     $qb->where('downloadable_link_purchased.status', $params['status']);
                 }
@@ -109,12 +109,12 @@ class DownloadableMutation extends Controller
             } else {
                 $downloads = $downloads->paginate( isset($params['limit']) ? $params['limit'] : 10);
             }
-            
-            if ( ($downloads && isset($downloads->first()->id)) || isset($downloads->id) ) {
+
+            if (($downloads && isset($downloads->first()->id)) || isset($downloads->id) ) {
                 return $downloads;
             } else {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.not-found', ['name' => 'downloadable purchase link']),
+                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'downloadable purchase link']),
                     'Resource not found'
                 );
             }
@@ -159,7 +159,7 @@ class DownloadableMutation extends Controller
             ]);
 
             if (
-                ! $downloadableLinkPurchased 
+                ! $downloadableLinkPurchased
                 || $downloadableLinkPurchased->status == 'pending'
             ) {
                 throw new CustomException(
@@ -169,7 +169,7 @@ class DownloadableMutation extends Controller
             }
 
             $totalInvoiceQty = 0;
-            
+
             if (isset($downloadableLinkPurchased->order->invoices)) {
                 foreach ($downloadableLinkPurchased->order->invoices as $invoice) {
                     $totalInvoiceQty = $totalInvoiceQty + $invoice->total_qty;
@@ -213,7 +213,7 @@ class DownloadableMutation extends Controller
                 $type = pathinfo($downloadableLinkPurchased->url, PATHINFO_EXTENSION);
 
                 $base64_code = base64_encode(file_get_contents($downloadableLinkPurchased->url));
-                
+
                 $base64_str = 'data:image/' . $type . ';base64,' . $base64_code;
 
                 return [
@@ -222,7 +222,7 @@ class DownloadableMutation extends Controller
                     'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id'])
                 ];
             }
-            
+
             $privateDisk = Storage::disk('private');
 
             if (! $privateDisk->exists($downloadableLinkPurchased->file)) {

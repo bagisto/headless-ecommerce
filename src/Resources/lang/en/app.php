@@ -140,15 +140,11 @@ return [
         'shop'          => [
 
             'response' => [
-                'customer-details'          => 'Success: Customer details fetched successfully.',
-                'not-found'                 => 'Wanring: No :name found.',
                 'no-address-found'          => 'Wanring: No address found.',
-                'no-order-found'            => 'Wanring: No order found.',
                 'invalid-address'           => 'Wanring: No address found for provided addressId.',
                 'invalid-product'           => 'Warning: You are requesting for invalid product.',
                 'already-exist-inwishlist'  => 'Information: This product is already exist in wishlist.',
                 'error-move-to-cart'        => 'Warning: This product might have some required options, not able to move to cart.',
-                'review-create-success'     => 'Success: Review is submitted successfully, please wait for the approval.',
                 'un-authorized-access'      => 'Warning: You are not authorized to use this section.',
             ]
         ],
@@ -184,9 +180,9 @@ return [
             'wrong-error'               => 'Wanring: There is some error with your cart, try again.',
             'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
             'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping id.',
-            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
-            'already-applied' => 'Coupon code already applied.',
-            'success-apply'   => 'Coupon code applied successfully.',
+            'error-invalid-parameter'   => 'Warning: Invaid parameters provided.',
+            'already-applied'           => 'Coupon code already applied.',
+            'success-apply'             => 'Coupon code applied successfully.',
             'coupon-removed'            => 'Success: coupon removed from cart successfully.',
             'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
             'error-placing-order'       => 'Warning: There is some error in order placing.',
@@ -222,8 +218,35 @@ return [
             'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
             'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
             'password-reset-failed' => 'Warning: We already sent you password reset email, try after sometime.',
-            'invalid-header'        => 'Warning: Invalid header token.',
             'no-login-user'         => 'Warning: No login user found.',
+            'customer-details'      => 'Success: Customer details fetched successfully.',
+
+            'account'               => [
+                'not-found' => 'Wanring: No :name found.',
+
+                'profile'   => [
+                    'edit-success'   => 'Profile Updated Successfully',
+                    'edit-fail'      => 'Profile not updated',
+                    'unmatch'        => 'The old password does not match.',
+                    'order-pending'  => 'Cannot delete customer account because some Order(s) are pending or processing state.',
+                    'delete-success' => 'Customer deleted successfully',
+                    'wrong-password' => 'Wrong Password !',
+                ],
+
+                'order' => [
+                    'no-order-found'            => 'Wanring: No order found.',
+                    'cancel-success'        => 'Order cancelled successfully',
+
+                ],
+
+                'review'    => [
+                    'success'     => 'Success: Review is submitted successfully, please wait for the approval.',
+                ],
+
+                'wishlist' => [
+                    'remove-all-success' => 'All the items from your wishlist have been removed'
+                ]
+            ],
 
             'signup-form'           => [
                 'error-registration'       => 'Warning: customer registration failed.',
@@ -246,6 +269,8 @@ return [
 
         'response' => [
             'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
+            'invalid-header'          => 'Warning: Invalid header token.',
+            'cancel-error'            => 'Order can not be canceled.',
         ],
     ]
 

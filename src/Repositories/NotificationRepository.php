@@ -171,7 +171,7 @@ class NotificationRepository extends Repository
             ['locale', '=', core()->getRequestedLocaleCode()]
         ])->first();
 
-        if ( $notificationTranslations ) {
+        if ($notificationTranslations ) {
             $notification->title = $notificationTranslations->title;
             $notification->content = $notificationTranslations->content;
         }

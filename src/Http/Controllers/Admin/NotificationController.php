@@ -200,7 +200,7 @@ class NotificationController extends Controller
         $notificationIds = $massUpdateRequest->input('indices');
 
         foreach ($notificationIds as $notificationId) {
-            Event::dispatch('settings.notification.update.before', $notificationId);    
+            Event::dispatch('settings.notification.update.before', $notificationId);
 
             $notification = $this->notificationRepository->find($notificationId);
 
@@ -254,7 +254,7 @@ class NotificationController extends Controller
     {
         $data = request()->all();
 
-        if ( substr_count($data['givenValue'], ' ') > 0) {
+        if (substr_count($data['givenValue'], ' ')) {
             return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => $data['selectedType']],200);
         }
 

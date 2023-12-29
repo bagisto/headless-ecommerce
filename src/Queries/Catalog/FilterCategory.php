@@ -22,14 +22,14 @@ class FilterCategory extends BaseFilter
             if (! $argument ) {
                 unset($arguments[$key]);
             }
-            
-            if ( in_array($key, ['name', 'slug']) && $argument) {
+
+            if (in_array($key, ['name', 'slug']) && $argument) {
                 $qbConditions[$key] = $argument;
 
                 unset($arguments[$key]);
             }
         }
-        
+
         return $query->whereHas('translation', function ($q) use ($qbConditions) {
             foreach ($qbConditions as $column => $condition) {
                 $q->where($column, 'like', '%' . urldecode($condition) . '%');

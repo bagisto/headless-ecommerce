@@ -52,7 +52,7 @@ class ProductMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
+        if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -67,11 +67,11 @@ class ProductMutation extends Controller
             throw new Exception(trans('admin::app.catalog.products.configurable-error'));
         }
 
-        if ( isset($data['super_attributes']) && $data['super_attributes']) {
+        if (isset($data['super_attributes']) && $data['super_attributes']) {
             $super_attributes = [];
             foreach ($data['super_attributes'] as $key => $super_attribute) {
-                if (isset($super_attribute['attribute_code']) && 
-                    isset($super_attribute['values']) && 
+                if (isset($super_attribute['attribute_code']) &&
+                    isset($super_attribute['values']) &&
                     is_array($super_attribute['values'])) {
                     $super_attributes[$super_attribute['attribute_code']] = $super_attribute['values'];
                 }
@@ -112,10 +112,12 @@ class ProductMutation extends Controller
     public function update($rootValue, array $args, GraphQLContext $context)
     {
         if (
-            ! isset($args['id']) 
-            || ! isset($args['input']) 
-            || (isset($args['input']) 
-            && ! $args['input'])
+            ! isset($args['id'])
+            || ! isset($args['input'])
+            || (
+                isset($args['input'])
+                && ! $args['input']
+            )
         ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -134,13 +136,13 @@ class ProductMutation extends Controller
         $product = $this->productRepository->findOrFail($id);
 
         // Only in case of configurable product type
-        if (isset($product->type) && $product->type == 'configurable' && 
+        if (isset($product->type) && $product->type == 'configurable' &&
             isset($data['variants']) && $data['variants']) {
             $data['variants'] = bagisto_graphql()->manageConfigurableRequest($data);
         }
 
         // Only in case of grouped product type
-        if (isset($product->type) && $product->type == 'grouped' && 
+        if (isset($product->type) && $product->type == 'grouped' &&
             isset($data['links']) && $data['links']) {
 
             if (isset($data['links'])) {
@@ -167,7 +169,7 @@ class ProductMutation extends Controller
         }
 
         // Only in case of bundle product type
-        if (isset($product->type) && $product->type == 'bundle' && 
+        if (isset($product->type) && $product->type == 'bundle' &&
             isset($data['bundle_options']) && $data['bundle_options']) {
 
             if (isset($data['bundle_options'])) {
@@ -255,7 +257,7 @@ class ProductMutation extends Controller
                     'data_type'   => 'images',
                     'upload_type' => ! isset($args['upload_type']) ? 'path' : $args['upload_type']
                 ];
-                
+
                 bagisto_graphql()->uploadProductImages($uploadParams);
 
                 bagisto_graphql()->uploadProductImages(array_merge($uploadParams, ['data' => $videoUrls, 'data_type' => 'videos']));
@@ -330,7 +332,7 @@ class ProductMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
+        if (! isset($args['id']) ||
             ( isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }

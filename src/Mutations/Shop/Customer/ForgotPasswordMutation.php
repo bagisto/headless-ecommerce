@@ -44,7 +44,7 @@ class ForgotPasswordMutation extends Controller
     {
         if (! isset($args['input']) ||
         (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.shop.response.error-invalid-parameter'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
@@ -73,12 +73,12 @@ class ForgotPasswordMutation extends Controller
                     'status'    => true,
                     'success'   => trans('bagisto_graphql::app.shop.customer.reset-link-sent')
                 ];
-            } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.password-reset-failed'),
-                    'Invalid ForgotPassword Email Details.'
-                );
             }
+
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.not-exists'),
+                'Invalid ForgotPassword Email Details.'
+            );
         } catch (\Swift_RfcComplianceException $e) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.reset-link-sent'),

@@ -48,7 +48,7 @@ class SessionMutation extends Controller
             (isset($args['input']) && ! $args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
-                'Invalid request parameters.'
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
             );
         }
 
@@ -129,12 +129,12 @@ class SessionMutation extends Controller
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.invalid-header'),
+                trans('bagisto_graphql::app.shop.invalid-header'),
                 'Invalid request header parameters.'
             );
         }
 
-        if ( bagisto_graphql()->guard($this->guard)->check() ) {
+        if (bagisto_graphql()->guard($this->guard)->check() ) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
             bagisto_graphql()->guard($this->guard)->logout();
 

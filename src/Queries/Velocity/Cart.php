@@ -35,7 +35,7 @@ class Cart extends BaseFilter
             return $cart;
         }
 
-        if ( bagisto_graphql()->guard('api')->check() ) {
+        if (bagisto_graphql()->guard('api')->check() ) {
             $customer_id = bagisto_graphql()->guard('api')->user()->id;
 
             $cart = $this->cartRepository->findOneWhere([

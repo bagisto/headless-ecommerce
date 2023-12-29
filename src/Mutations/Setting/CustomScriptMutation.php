@@ -46,7 +46,7 @@ class CustomScriptMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
+        if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -85,11 +85,11 @@ class CustomScriptMutation extends Controller
                 ]
             ];
 
-            if ( isset($data['customCSS'])) {
+            if (isset($data['customCSS'])) {
                 $customData['general']['content']['custom_scripts']['custom_css'] = $data['customCSS'];
             }
 
-            if ( isset($data['customJS'])) {
+            if (isset($data['customJS'])) {
                 $customData['general']['content']['custom_scripts']['custom_javascript'] = $data['customJS'];
             }
 
@@ -108,8 +108,8 @@ class CustomScriptMutation extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update($rootValue, array $args, GraphQLContext $context)
-    { 
-        if (! isset($args['input']) || 
+    {
+        if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -134,7 +134,7 @@ class CustomScriptMutation extends Controller
         }
 
         try {
-            if ( isset($data['customCSS'])) {
+            if (isset($data['customCSS'])) {
                 $customData = [
                     'channel'   => $channel->code,
                     'locale'    => app()->getLocale(),
@@ -177,7 +177,7 @@ class CustomScriptMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
+        if (! isset($args['id']) ||
             (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }

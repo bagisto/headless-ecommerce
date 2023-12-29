@@ -108,7 +108,7 @@ class AttributeGroupMutation extends Controller
 
             $previousAttributeGroupIds = $attributeFamily->attribute_groups()->pluck('id');
 
-            if ( is_numeric($index = $previousAttributeGroupIds->search($id)) ) {
+            if (is_numeric($previousAttributeGroupIds->search($id))) {
                 $attributeGroup = $this->attributeGroupRepository->find($id);
 
                 $attributeGroup->update($data);

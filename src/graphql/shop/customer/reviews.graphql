@@ -13,9 +13,9 @@ extend type Mutation {
     createReview(
         input: CreateReviewInput!
     ): CreateReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@store")
-  
+
     deleteReview(id: ID!): DeleteReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@delete")
-  
+
     deleteAllReview: DeleteReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@deleteAll")
 }
 
