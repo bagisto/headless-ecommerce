@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Admin;
 
-use Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
@@ -35,7 +34,7 @@ class NotificationController extends Controller
         protected CategoryRepository $categoryRepository,
         protected ChannelRepository $channelRepository,
         protected ProductRepository $productRepository,
-        protected NotificationRepository $notificationRepository,
+        protected NotificationRepository $notificationRepository
     ) {
         $this->_config = request('_config');
 
@@ -79,7 +78,7 @@ class NotificationController extends Controller
             'image.*'  => 'mimes:jpeg,jpg,bmp,png',
             'type'     => 'required',
             'channels' => 'required',
-            'status'   => 'required'
+            'status'   => 'required',
         ]);
 
         $data = collect(request()->all())->except('_token')->toArray();
@@ -124,7 +123,7 @@ class NotificationController extends Controller
             'image.*'  => 'mimes:jpeg,jpg,bmp,png',
             'type'     => 'required',
             'channels' => 'required',
-            'status'   => 'required'
+            'status'   => 'required',
         ]);
 
         $requestData =  request()->all();
@@ -156,13 +155,13 @@ class NotificationController extends Controller
             Event::dispatch('settings.push-notification.delete.after', $id);
 
             return new JsonResponse([
-                'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success')
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
             ]);
         } catch(\Exception $e) {
         }
 
         return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed')
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed'),
         ], 500);
     }
 
@@ -185,7 +184,7 @@ class NotificationController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-delete-success')
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-delete-success'),
         ]);
     }
 
@@ -205,7 +204,7 @@ class NotificationController extends Controller
             $notification = $this->notificationRepository->find($notificationId);
 
             $notification->update([
-                'status' => $massUpdateRequest->input('value')
+                'status' => $massUpdateRequest->input('value'),
             ]);
 
             Event::dispatch('settings.notification.update.after', $notification);
@@ -234,10 +233,14 @@ class NotificationController extends Controller
 
             $message = $result;
 
-            if (gettype($result) == 'array' && !empty($result['error']))
+            if (
+                gettype($result) == 'array'
+                && !empty($result['error'])
+            ) {
                 $message = $result['error'];
-            elseif (isset($result->error))
+            } elseif (isset($result->error)) {
                 $message = $result->error;
+            }
 
             session()->flash('error', $message);
         }
@@ -254,38 +257,34 @@ class NotificationController extends Controller
     {
         $data = request()->all();
 
-        if (substr_count($data['givenValue'], ' ') > 0) {
-            return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => $data['selectedType']],200);
+        if (substr_count($data['givenValue'], ' ')) {
+            return response()->json([
+                'value'   => false,
+                'message' => 'Product not exist',
+                'type'    => $data['selectedType']
+            ], 200);
         }
 
         //product case
         if ($data['selectedType'] == 'product') {
             if ($product = $this->productRepository->find($data['givenValue'])) {
-
-                if (
-                    ! isset($product->id) ||
-                    ! isset($product->url_key) ||
-                    (
-                        isset($product->parent_id)
-                        && $product->parent_id
-                    )
-                ) {
+                if (! isset($product->url_key)) {
                     return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
-                } else {
-                    return response()->json(['value' => true], 200);
                 }
-            } else {
-                return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
+
+                return response()->json(['value' => true], 200);
             }
+
+            return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
         }
 
         //category case
         if ($data['selectedType'] == 'category') {
             if ($this->categoryRepository->find($data['givenValue'])) {
                 return response()->json(['value' => true] ,200);
-            } else {
-                return response()->json(['value' => false, 'message' => 'Category not exist', 'type' => 'category'] ,200);
             }
+
+            return response()->json(['value' => false, 'message' => 'Category not exist', 'type' => 'category'] ,200);
         }
     }
 }

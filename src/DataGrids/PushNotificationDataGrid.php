@@ -199,7 +199,6 @@ class PushNotificationDataGrid extends DataGrid
                 'url'    => function ($row) {
                     return route('admin.settings.push_notification.edit', $row->notification_id);
                 },
-
                 'condition' => function () {
                     return true;
                 },
@@ -214,7 +213,6 @@ class PushNotificationDataGrid extends DataGrid
                 'url'    => function ($row) {
                     return route('admin.settings.push_notification.delete', $row->notification_id);
                 },
-
                 'condition' => function () {
                     return true;
                 },

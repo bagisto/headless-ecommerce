@@ -16,18 +16,18 @@ return [
                 'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.server-key',
                 'type'          => 'text',
                 'info'          => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.info-get-server-key',
-                'channel_based' => true
+                'channel_based' => true,
             ], [
                 'name'          => 'android_topic',
                 'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.android-topic',
                 'type'          => 'text',
-                'channel_based' => true
+                'channel_based' => true,
             ], [
                 'name'          => 'ios_topic',
                 'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.ios-topic',
                 'type'          => 'text',
-                'channel_based' => true
+                'channel_based' => true,
             ],
-        ]
-    ]
+        ],
+    ],
 ];
