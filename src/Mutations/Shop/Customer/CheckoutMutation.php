@@ -643,7 +643,10 @@ class CheckoutMutation extends Controller
     {
         if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter')
+            );
         }
 
         $data = $args['input'];
@@ -653,7 +656,10 @@ class CheckoutMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            throw new CustomException(
+                $validator->messages(),
+                $validator->messages()
+            );
         }
 
         try {
@@ -695,7 +701,10 @@ class CheckoutMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -723,7 +732,10 @@ class CheckoutMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -820,8 +832,8 @@ class CheckoutMutation extends Controller
         ];
 
         $notification   = [
-            'title'             => $data['title'],
-            'content'           => $data['body'],
+            'title'   => $data['title'],
+            'content' => $data['body'],
         ];
 
         $this->notificationRepository->sendNotification($data, $notification);

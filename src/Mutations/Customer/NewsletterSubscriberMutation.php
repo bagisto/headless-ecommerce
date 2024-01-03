@@ -53,7 +53,7 @@ class NewsletterSubscriberMutation extends Controller
             return $alreadySubscribed->count() > 0 ? 0 : 1;
         };
 
-        if ($unique()) {
+        if ($unique() ) {
             $token = uniqid();
             try {
                 Event::dispatch('customer.subscribe.before');

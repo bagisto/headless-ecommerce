@@ -86,7 +86,10 @@ class CompareMutation extends Controller
                 return $compareProducts;
             }
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -104,11 +107,17 @@ class CompareMutation extends Controller
                 && ! $args['input']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+            );
         }
 
         if (! bagisto_graphql()->guard($this->guard)->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                trans('bagisto_graphql::app.shop.customer.no-login-customer')
+            );
         }
 
         $data = $args['input'];
@@ -118,7 +127,10 @@ class CompareMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            throw new CustomException(
+                $validator->messages(),
+                $validator->messages()
+            );
         }
 
         try {
@@ -144,7 +156,10 @@ class CompareMutation extends Controller
                 ];
             }
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -163,11 +178,17 @@ class CompareMutation extends Controller
                 && ! $args['input']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+            );
         }
 
         if (!bagisto_graphql()->guard($this->guard)->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                trans('bagisto_graphql::app.shop.customer.no-login-customer')
+            );
         }
 
         $data = $args['input'];
@@ -177,7 +198,10 @@ class CompareMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            throw new CustomException(
+                $validator->messages(),
+                $validator->messages()
+            );
         }
 
         try {
@@ -202,7 +226,10 @@ class CompareMutation extends Controller
                 ];
             }
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -215,7 +242,10 @@ class CompareMutation extends Controller
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
         if (! bagisto_graphql()->guard($this->guard)->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                trans('bagisto_graphql::app.shop.customer.no-login-customer')
+            );
         }
 
         try {
@@ -232,7 +262,10 @@ class CompareMutation extends Controller
                 'success' => trans('shop::app.compare.remove-all-success'),
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 }

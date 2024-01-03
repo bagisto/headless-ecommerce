@@ -50,11 +50,17 @@ class AddressesMutation extends Controller
     public function address($rootValue, array $args , GraphQLContext $context)
     {
         if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
+            );
         }
 
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                trans('bagisto_graphql::app.shop.customer.no-login-customer')
+            );
         }
 
         $address = DB::table('addresses')

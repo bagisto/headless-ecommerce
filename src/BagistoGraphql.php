@@ -759,7 +759,7 @@ class BagistoGraphql
 
             $extension = explode("/", $getImgMime)[1];
 
-            $imageName = $field . '_avatar.' . $extension;
+            $imageName = $field . '_review.' . $extension;
 
             $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
@@ -790,6 +790,40 @@ class BagistoGraphql
             $collection->{$keyIndex[0]} = $path . $imageName;
 
             $collection->save();
+        }
+    }
+
+    public function storeReviewAttachment($data = [], $field = 'image_url')
+    {
+        $getImgMime = null;
+
+        $base64Validate = $pathValidate = false;
+
+        $imageName = basename($data[$field]);
+
+        $getImgMime = mime_content_type($data[$field]);
+
+        $extension = explode("/", $getImgMime)[1];
+
+        $imageName = $imageName . '_review.' . $extension;
+
+        $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
+
+        if ($base64Validate || $pathValidate) {
+            $keyIndex = explode("_", $field);
+
+            if (! isset($keyIndex[0])) {
+                return false;
+            }
+
+            $path = $data['save_path'] . '/';
+
+            Storage::put($path . $imageName, file_get_contents($data[$field]));
+
+            return [
+                'path'        => $path . $imageName,
+                'img_details' => explode("/", mime_content_type($data[$field]))
+            ];
         }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use Exception;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ForgotPasswordMutation extends Controller
@@ -44,7 +44,10 @@ class ForgotPasswordMutation extends Controller
     {
         if (! isset($args['input']) ||
         (isset($args['input']) && ! $args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.response.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
+            );
         }
 
         $data = $args['input'];

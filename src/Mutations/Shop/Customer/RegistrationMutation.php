@@ -179,7 +179,7 @@ class RegistrationMutation extends Controller
 
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.login-form.not-activated'),
-                'Account Not Activated.'
+                trans('bagisto_graphql::app.shop.customer.login-form.not-activated')
             );
         }
 

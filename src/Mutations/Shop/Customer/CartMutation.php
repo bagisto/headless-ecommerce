@@ -53,7 +53,10 @@ class CartMutation extends Controller
         try {
             return Cart::getCart();
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -69,7 +72,10 @@ class CartMutation extends Controller
 
             return $cart ? $cart->items : [];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -87,7 +93,10 @@ class CartMutation extends Controller
                 && ! $args['input']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         $data = $args['input'];
@@ -99,7 +108,10 @@ class CartMutation extends Controller
                 && ! $data['product_id']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         try {
@@ -123,7 +135,10 @@ class CartMutation extends Controller
                 'cart'    => $cart,
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException(
+                $e->getMessage(), $e->getMessage(),
+                $e->getMessage(), $e->getMessage()
+            );
         }
     }
 
@@ -142,7 +157,10 @@ class CartMutation extends Controller
                 && ! $args['input']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         $data = $args['input'];
@@ -154,7 +172,10 @@ class CartMutation extends Controller
                 && ! $data['qty']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         try {
@@ -185,7 +206,10 @@ class CartMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -204,7 +228,10 @@ class CartMutation extends Controller
                 && ! $args['id']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         try {
@@ -232,7 +259,10 @@ class CartMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -266,7 +296,10 @@ class CartMutation extends Controller
                 'cart'    => $cart,
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -285,7 +318,10 @@ class CartMutation extends Controller
                 && ! $args['id']
             )
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         try {
@@ -303,7 +339,10 @@ class CartMutation extends Controller
                 'cart'    => Cart::getCart(),
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 }

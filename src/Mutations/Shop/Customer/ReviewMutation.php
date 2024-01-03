@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductReviewRepository;
+use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ReviewMutation extends Controller
@@ -27,7 +28,8 @@ class ReviewMutation extends Controller
      * @return void
      */
     public function __construct(
-       protected ProductReviewRepository $productReviewRepository
+       protected ProductReviewRepository $productReviewRepository,
+       protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     )
     {
         $this->guard = 'api';
@@ -122,33 +124,63 @@ class ReviewMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'comment'    => 'required',
-            'rating'     => 'required|numeric|min:1|max:5',
-            'title'      => 'required',
-            'product_id' => 'required',
+            'comment'     => 'required',
+            'rating'      => 'required|numeric|min:1|max:5',
+            'title'       => 'required',
+            'product_id'  => 'required',
+            'attachments' => 'array',
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            throw new CustomException(
+                $validator->messages(),
+                $validator->messages()
+            );
         }
 
         try {
             if (bagisto_graphql()->guard($this->guard)->check()) {
                 $customer = bagisto_graphql()->guard($this->guard)->user();
+
                 $data['customer_id'] = $customer->id;
                 $data['name'] = $customer->name;
             }
 
             $data['status'] = 'pending';
 
+            $attachments = $data['attachments'];
+
+            $data['attachments'];
+
             $review = $this->productReviewRepository->create($data);
+
+            foreach ($attachments as $attachment) {
+
+                if (! empty($attachment['upload_type'])) {
+                    if ($attachment['upload_type'] == 'base64') {
+                        $attachment['save_path'] = 'review/' . $review->id;
+
+                        $records = bagisto_graphql()->storeReviewAttachment($attachment);
+
+                        $this->productReviewAttachmentRepository->create([
+                            'path'      => $records['path'],
+                            'review_id' => $review->id,
+                            'type'      => $records['img_details'][0],
+                            'mime_type' => $records['img_details'][1],
+                        ]);
+                    }
+                }
+            }
 
             return [
                 'success'   => trans('bagisto_graphql::app.shop.customer.account.review.success'),
                 'review'    => $review
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -241,7 +273,10 @@ class ReviewMutation extends Controller
                 'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), 'All review remove Failed.');
+            throw new CustomException(
+                $e->getMessage(),
+                'All review remove Failed.'
+            );
         }
     }
 }

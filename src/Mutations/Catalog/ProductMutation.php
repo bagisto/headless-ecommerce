@@ -114,10 +114,8 @@ class ProductMutation extends Controller
         if (
             ! isset($args['id'])
             || ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-            )
+            || (isset($args['input'])
+            && ! $args['input'])
         ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }

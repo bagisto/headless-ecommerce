@@ -254,7 +254,7 @@ class NotificationController extends Controller
     {
         $data = request()->all();
 
-        if (substr_count($data['givenValue'], ' ')) {
+        if (substr_count($data['givenValue'], ' ') > 0) {
             return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => $data['selectedType']],200);
         }
 

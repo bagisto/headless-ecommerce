@@ -42,7 +42,10 @@ class DownloadableMutation extends Controller
     public function downloadLinks($rootValue, array $args , GraphQLContext $context)
     {
         if (! bagisto_graphql()->guard($this->guard)->check() ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
+                trans('bagisto_graphql::app.shop.customer.no-login-customer')
+            );
         }
 
         try {
