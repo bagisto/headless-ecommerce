@@ -103,7 +103,6 @@ class ProductContent extends BaseFilter
             'formattedRegularPrice'      => '',
             'finalPrice'                 => '',
             'formattedFinalPrice'        => '',
-
             'currencyCode'               => core()->getCurrentCurrency()->code,
         ];
 

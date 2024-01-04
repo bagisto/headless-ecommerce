@@ -179,7 +179,7 @@ class WishlistMutation extends Controller
                 unset($data['product_id']);
 
                 return [
-                    'success'  => trans('bagisto_graphql::app.shop.response.already-exist-inwishlist'),
+                    'success'  => trans('bagisto_graphql::app.shop.customer.account.wishlist.already-exist'),
                     'wishlist' => $this->wishlistRepository->findWhere($data)
                 ];
             }
@@ -189,7 +189,7 @@ class WishlistMutation extends Controller
             unset($data['product_id']);
 
             return [
-                'success'  => trans('customer::app.wishlist.success'),
+                'success'  => trans('bagisto_graphql::app.shop.customer.account.wishlist.success'),
                 'wishlist' => $this->wishlistRepository->findWhere($data)
             ];
         } catch (Exception $e) {
@@ -210,8 +210,8 @@ class WishlistMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
             );
         }
 
@@ -257,7 +257,7 @@ class WishlistMutation extends Controller
 
                 return [
                     'status'   => true,
-                    'success'  => trans('shop::app.wishlist.removed'),
+                    'success'  => trans('bagisto_graphql::app.shop.customer.account.wishlist.removed'),
                     'wishlist' => $this->wishlistRepository->findWhere($data)
                 ];
             }
@@ -312,13 +312,13 @@ class WishlistMutation extends Controller
                 if ($result ) {
                     return [
                         'status'   => true,
-                        'success'  => trans('shop::app.wishlist.moved-success'),
+                        'success'  => trans('bagisto_graphql::app.shop.customer.account.wishlist.moved-success'),
                         'wishlist' => $this->wishlistRepository->findWhere(['customer_id' => $customer->id])
                     ];
                 } else {
                     return [
                         'status'  => false,
-                        'success' => trans('bagisto_graphql::app.shop.response.error-move-to-cart'),
+                        'success' => trans('bagisto_graphql::app.shop.customer.account.wishlist.error-move-to-cart'),
                     ];
                 }
             } else {
@@ -352,6 +352,14 @@ class WishlistMutation extends Controller
 
         try {
             $wishlistItems = bagisto_graphql()->guard($this->guard)->user()->wishlist_items;
+
+            if (! count($wishlistItems)) {
+
+                return [
+                    'status'  => false,
+                    'success' => trans('bagisto_graphql::app.shop.customer.account.wishlist.no-item-found'),
+                ];
+            }
 
             foreach ($wishlistItems as $wishlistItem) {
                 $this->wishlistRepository->delete($wishlistItem->id);

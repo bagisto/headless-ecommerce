@@ -152,6 +152,16 @@ class HomePageQuery extends BaseFilter
     }
 
     /**
+     * Get all categories in tree format.
+     */
+    public function getCategoriesTree()
+    {
+        $categories = $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
+
+        return $categories;
+    }
+
+    /**
      * Get all products.
      * @param mixed $rootValue
      * @param array $args

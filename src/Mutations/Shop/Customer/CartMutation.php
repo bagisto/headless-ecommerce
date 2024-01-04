@@ -3,14 +3,14 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use Webkul\Checkout\Facades\Cart;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\Checkout\Repositories\CartRepository;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Checkout\Repositories\CartItemRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Checkout\Repositories\CartRepository;
+use Webkul\Checkout\Repositories\CartItemRepository;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Shipping\Facades\Shipping;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class CartMutation extends Controller
@@ -70,7 +70,7 @@ class CartMutation extends Controller
         try {
             $cart = Cart::getCart();
 
-            return $cart ? $cart->items : [];
+            return $cart?->items ?? [];
         } catch (Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
@@ -86,13 +86,7 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-            )
-        ) {
+        if (empty($args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
@@ -101,13 +95,7 @@ class CartMutation extends Controller
 
         $data = $args['input'];
 
-        if (
-            ! isset($data['product_id'])
-            || (
-                isset($data['product_id'])
-                && ! $data['product_id']
-            )
-        ) {
+        if (empty($data['product_id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
@@ -121,7 +109,7 @@ class CartMutation extends Controller
 
             $cart = Cart::addProduct($data['product_id'], $data);
 
-            if (isset($cart->id)) {
+            if (! empty($cart)) {
                 return [
                     'status'  => true,
                     'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-add-to-cart'),
@@ -150,13 +138,7 @@ class CartMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-            )
-        ) {
+        if (empty($args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
@@ -165,13 +147,7 @@ class CartMutation extends Controller
 
         $data = $args['input'];
 
-        if (
-            ! isset($data['qty'])
-            || (
-                isset($data['qty'])
-                && ! $data['qty']
-            )
-        ) {
+        if (empty($data['qty'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
@@ -221,13 +197,7 @@ class CartMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['id'])
-            || (
-                isset($args['id'])
-                && ! $args['id']
-            )
-        ) {
+        if (empty($args['id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
@@ -311,13 +281,7 @@ class CartMutation extends Controller
      */
     public function move($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['id'])
-            || (
-                isset($args['id'])
-                && ! $args['id']
-            )
-        ) {
+        if (empty($args['id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')

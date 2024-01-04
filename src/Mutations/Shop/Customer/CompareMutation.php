@@ -2,15 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use App\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Product\Repositories\ProductFlatRepository;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class CompareMutation extends Controller
 {
@@ -28,9 +28,9 @@ class CompareMutation extends Controller
      * @return void
      */
     public function __construct(
-        protected ProductFlatRepository $productFlatRepository,
+        protected CompareItemRepository $compareItemRepository,
         protected ProductRepository $productRepository,
-        protected CompareItemRepository $compareItemRepository
+        protected ProductFlatRepository $productFlatRepository
     ) {
         $this->guard = 'api';
 
@@ -56,7 +56,7 @@ class CompareMutation extends Controller
         try {
             $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
-            $currentPage = isset($params['page']) ? $params['page'] : 1;
+            $currentPage = $params['page'] ?? 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
@@ -66,12 +66,10 @@ class CompareMutation extends Controller
 
                 $customer = bagisto_graphql()->guard($this->guard)->user();
 
-                $qb = $query->select('product_flat.*')
-                    ->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
+                $qb = $query->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
                     ->leftJoin('customers','customers.id','=','compare_items.customer_id')
-                    ->where('customers.id', $customer->id);
-
-                $qb = $this->compareItemRepository->with('customer');
+                    ->where('customers.id', $customer->id)
+                    ->groupBy('compare_items.product_id');
 
                 return $qb;
              });
@@ -100,13 +98,7 @@ class CompareMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-            )
-        ) {
+        if (empty($args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
@@ -171,20 +163,14 @@ class CompareMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-            )
-        ) {
+        if (empty($args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
             );
         }
 
-        if (!bagisto_graphql()->guard($this->guard)->check()) {
+        if (! bagisto_graphql()->guard($this->guard)->check()) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 trans('bagisto_graphql::app.shop.customer.no-login-customer')
@@ -207,17 +193,15 @@ class CompareMutation extends Controller
         try {
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
-            $data['customer_id'] = $customer->id;
-
             $compareProduct = $this->compareItemRepository->findOneWhere($data);
 
-            if (isset($compareProduct->id) && $compareProduct->id) {
+            if ($compareProduct) {
                 $this->compareItemRepository->delete($compareProduct->id);
 
                 return [
                     'status'         => true,
                     'success'        => trans('shop::app.compare.remove-success'),
-                    'compareProduct' => $this->compareItemRepository->findWhere(['customer_id' => $data['customer_id']])
+                    'compareProduct' => $this->compareItemRepository->findWhere(['customer_id' => $customer->id]),
                 ];
             } else {
                 return [
@@ -249,13 +233,9 @@ class CompareMutation extends Controller
         }
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
-            $compareProducts = $this->compareItemRepository->findByField('customer_id', $customer->id);
-
-            foreach ($compareProducts as $compareProduct) {
-                $this->compareItemRepository->delete($compareProduct->id);
-            }
+            $this->compareItemRepository->deleteWhere([
+                'customer_id' => bagisto_graphql()->guard($this->guard)->user()->id,
+            ]);
 
             return [
                 'status'  => true,

@@ -3,11 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ForgotPasswordMutation extends Controller
@@ -42,8 +42,7 @@ class ForgotPasswordMutation extends Controller
      */
     public function forgot($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) ||
-        (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
@@ -58,6 +57,7 @@ class ForgotPasswordMutation extends Controller
 
         if ($validator->fails()) {
             $errorMessage = [];
+
             foreach ($validator->messages()->toArray() as $message) {
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
@@ -73,8 +73,8 @@ class ForgotPasswordMutation extends Controller
 
             if ($response == Password::RESET_LINK_SENT) {
                 return [
-                    'status'    => true,
-                    'success'   => trans('bagisto_graphql::app.shop.customer.reset-link-sent')
+                    'status'  => true,
+                    'success' => trans('bagisto_graphql::app.shop.customer.reset-link-sent')
                 ];
             }
 

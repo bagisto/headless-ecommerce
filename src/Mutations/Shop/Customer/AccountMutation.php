@@ -5,9 +5,9 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Exception;
 use Hash;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -27,12 +27,12 @@ class AccountMutation extends Controller
      *
      */
     protected $allowedImageMimeTypes = [
-        'png'   => 'image/png',
-        'jpe'   => 'image/jpeg',
-        'jpeg'  => 'image/jpeg',
-        'jpg'   => 'image/jpeg',
-        'bmp'   => 'image/bmp',
-        'webp'  => 'image/webp',
+        'png'  => 'image/png',
+        'jpe'  => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'jpg'  => 'image/jpeg',
+        'bmp'  => 'image/bmp',
+        'webp' => 'image/webp',
     ];
 
     /**
@@ -41,9 +41,7 @@ class AccountMutation extends Controller
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @return void
      */
-    public function __construct(
-        protected CustomerRepository $customerRepository
-    )
+    public function __construct(protected CustomerRepository $customerRepository)
     {
         $this->guard = 'api';
 
@@ -71,7 +69,7 @@ class AccountMutation extends Controller
             $customer = $this->customerRepository->find(bagisto_graphql()->guard($this->guard)->user()->id);
 
             return [
-                'status'   => $customer ? true : false,
+                'status'   => ! empty($customer),
                 'customer' => $customer,
                 'message'  => trans('bagisto_graphql::app.shop.customer.customer-details')
             ];
@@ -128,7 +126,7 @@ class AccountMutation extends Controller
         if ($validator->fails()) {
             $errorMessage = [];
 
-            foreach ($validator->messages()->toArray() as $field => $message) {
+            foreach ($validator->messages()->toArray() as $message) {
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
 
@@ -142,16 +140,17 @@ class AccountMutation extends Controller
             $data['date_of_birth'] = ! empty($data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
 
             if (! empty($data['oldpassword'])) {
-                if (Hash::check($data['oldpassword'], $customer->password) ) {
+
+                if (Hash::check($data['oldpassword'], $customer->password)) {
                     $isPasswordChanged = true;
 
                     $data['password'] = bcrypt($data['password']);
+                } else {
+                    throw new CustomException(
+                        trans('bagisto_graphql::app.shop.customer.account.profile.unmatch'),
+                        'Wrong Customer Password.'
+                    );
                 }
-
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.account.profile.unmatch'),
-                    'Wrong Customer Password.'
-                );
             } else {
                 unset($data['password']);
             }
@@ -165,33 +164,18 @@ class AccountMutation extends Controller
 
                 Event::dispatch('customer.update.after', $customer);
 
-                if (! empty($data['upload_type'])) {
-                    if ($data['upload_type'] == 'file') {
-                        if (! empty($data['image']))  {
-                            $customer->image = $data['image']->storePublicly('customer/' . $customer->id);
-                            $customer->save();
-                        } else {
-                            if ($customer->image) {
-                                Storage::delete($customer->image);
-                            }
+                if (
+                    ! empty($data['upload_type'])
+                    && in_array($data['upload_type'], ['path', 'base64'])
+                    && ! empty($data['image_url'])
+                ) {
+                    $data['save_path'] = 'customer/' . $customer->id;
 
-                            $customer->image = null;
-                            $customer->save();
-                        }
-                    }
-
-                    if (
-                        in_array($data['upload_type'], ['path', 'base64'])
-                        && ! empty($data['image_url'])
-                    ) {
-                        $data['save_path'] = 'customer/' . $customer->id;
-
-                        bagisto_graphql()->saveImageByURL($customer, $data, 'image_url');
-                    }
+                    bagisto_graphql()->saveImageByURL($customer, $data, 'image_url');
                 }
 
                 return [
-                    'status'   => $customer ? true : false,
+                    'status'   => ! empty($customer),
                     'customer' => $customer,
                     'message'  => trans('bagisto_graphql::app.shop.customer.account.profile.edit-success')
                 ];
@@ -247,16 +231,16 @@ class AccountMutation extends Controller
                     $this->customerRepository->delete($customer->id);
 
                     return [
-                        'status'  => false,
+                        'status'  => true,
                         'success' => trans('bagisto_graphql::app.shop.customer.account.profile.delete-success')
                     ];
                 }
-            } else {
-                return [
-                    'status'  => false,
-                    'success' => trans('bagisto_graphql::app.shop.customer.account.profile.wrong-password')
-                ];
             }
+
+            return [
+                'status'  => false,
+                'success' => trans('bagisto_graphql::app.shop.customer.account.profile.wrong-password')
+            ];
         } catch (Exception $e) {
             throw new CustomException(
                 $e->getMessage(),

@@ -2,20 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use JWTAuth;
-use Illuminate\Support\Facades\Validator;
+use Exception;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Customer\Mail\VerificationEmail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Mail\Customer\RegistrationNotification;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\GraphQLAPI\Mail\SocialLoginPasswordResetEmail;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\Shop\Mail\Customer\EmailVerificationNotification;
 
 class RegistrationMutation extends Controller
 {
@@ -34,7 +34,7 @@ class RegistrationMutation extends Controller
     protected $errorCode = [
         'validation.unique',
         'validation.required',
-        'validation.same'
+        'validation.same',
     ];
 
     /**
@@ -63,13 +63,7 @@ class RegistrationMutation extends Controller
      */
     public function register($rootValue, array $args , GraphQLContext $context)
     {
-        if (
-            ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-            )
-        ) {
+        if (empty($args['input'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 'Invalid request parameters.'
@@ -102,6 +96,7 @@ class RegistrationMutation extends Controller
         }
 
         $verificationData['email'] = $data['email'];
+
         $verificationData['token'] = md5(uniqid(rand(), true));
 
         $data = array_merge($data, [
@@ -129,10 +124,8 @@ class RegistrationMutation extends Controller
         if (core()->getConfigData('customer.settings.email.verification')) {
 
             try {
-                $configKey = 'emails.general.notifications.emails.general.notifications.verification';
-
-                if (core()->getConfigData($configKey)) {
-                    Mail::queue(new VerificationEmail($verificationData));
+                if (core()->getConfigData('emails.general.notifications.emails.general.notifications.verification')) {
+                    Mail::queue(new EmailVerificationNotification($verificationData));
                 }
             } catch (Exception $e) {}
 
@@ -143,15 +136,11 @@ class RegistrationMutation extends Controller
         }
 
         try {
-            $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
-
-            if (core()->getConfigData($configCustomerKey)) {
+            if (core()->getConfigData('emails.general.notifications.emails.general.notifications.registration')) {
                 Mail::queue(new RegistrationNotification($data, 'customer'));
             }
 
-            $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
-
-            if (core()->getConfigData($configAdminKey)) {
+            if (core()->getConfigData('emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin')) {
                 Mail::queue(new RegistrationNotification(request()->all(), 'admin'));
             }
         } catch (Exception $e) {}
@@ -172,8 +161,8 @@ class RegistrationMutation extends Controller
         $loginCustomer = bagisto_graphql()->guard($this->guard)->user();
 
         if (
-            $loginCustomer->status == 0
-            || $loginCustomer->is_verified == 0
+            ! $loginCustomer->status
+            || ! $loginCustomer->is_verified
         ) {
             bagisto_graphql()->guard($this->guard)->logout();
 
@@ -189,7 +178,7 @@ class RegistrationMutation extends Controller
             'access_token' => 'Bearer ' . $jwtToken,
             'token_type'   => 'Bearer',
             'expires_in'   => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
-            'customer'     => $this->customerRepository->find($loginCustomer->id)
+            'customer'     => $this->customerRepository->find($loginCustomer->id),
         ];
     }
 
@@ -203,16 +192,15 @@ class RegistrationMutation extends Controller
         $data = $args;
 
         $validator = Validator::make($data, [
-            'first_name'        => 'string|required',
-            'last_name'         => 'string|required',
-            'email'             => 'email|required',
-            'signup_type'       => 'string|required',
+            'first_name'  => 'string|required',
+            'last_name'   => 'string|required',
+            'email'       => 'email|required',
+            'signup_type' => 'string|required',
         ]);
 
         $errorMessage = [];
 
         if ($validator->fails()) {
-
             foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
 
@@ -226,7 +214,6 @@ class RegistrationMutation extends Controller
         }
 
         if ($data['signup_type'] == 'truecaller') {
-
             if (empty($data['phone'])) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.customer.signup-form.validation.required', ['field' => 'phone number']),
@@ -252,8 +239,8 @@ class RegistrationMutation extends Controller
         if ($customer) {
 
             if (
-                $customer->status == 0
-                || $customer->is_verified == 0
+                ! $customer->status
+                || ! $customer->is_verified
             ) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.customer.login-form.not-activated'),
@@ -264,11 +251,11 @@ class RegistrationMutation extends Controller
             return $this->loginCustomer($customer, $data);
         }
 
-        $token  = md5(uniqid(rand(), true));
+        $token = md5(uniqid(rand(), true));
 
         $data['password'] = $data['password_confirmation'] = rand(1,999999);
 
-        $data   = array_merge($data, [
+        $data = array_merge($data, [
             'password'          => bcrypt($data['password']),
             'api_token'         => Str::random(80),
             'is_verified'       => core()->getConfigData('customer.settings.email.verification') ? 0 : 1,
@@ -293,17 +280,14 @@ class RegistrationMutation extends Controller
         Event::dispatch('customer.registration.after', $customer);
 
         try {
-            $configCustomerKey = 'emails.general.notifications.emails.general.notifications.registration';
-            if (core()->getConfigData($configCustomerKey)) {
+            if (core()->getConfigData('emails.general.notifications.emails.general.notifications.registration')) {
 
                 $data['is_social_login'] = true;
 
                 Mail::queue(new RegistrationNotification($data, 'customer'));
             }
 
-            $configAdminKey = 'emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin';
-
-            if (core()->getConfigData($configAdminKey)) {
+            if (core()->getConfigData('emails.general.notifications.emails.general.notifications.customer-registration-confirmation-mail-to-admin')) {
                 Mail::queue(new RegistrationNotification($data, 'admin'));
             }
         } catch (Exception $e) {}
@@ -361,7 +345,7 @@ class RegistrationMutation extends Controller
             'access_token' => 'Bearer ' . $jwtToken,
             'token_type'   => 'Bearer',
             'expires_in'   => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
-            'customer'     => $this->customerRepository->find($customer->id)
+            'customer'     => $this->customerRepository->find($customer->id),
         ];
     }
 }

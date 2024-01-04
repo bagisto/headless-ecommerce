@@ -3,13 +3,13 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Exception;
-use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
+use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
-use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class OrderMutation extends Controller
@@ -45,8 +45,7 @@ class OrderMutation extends Controller
      */
     public function order($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) ||
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
@@ -57,8 +56,8 @@ class OrderMutation extends Controller
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
             $order = $this->orderRepository->findOneWhere([
-                'id'            => $args['id'],
-                'customer_id'   => $customer->id,
+                'id'          => $args['id'],
+                'customer_id' => $customer->id,
             ]);
 
             if (! empty($order->id)) {
@@ -96,7 +95,6 @@ class OrderMutation extends Controller
             });
 
             $orders = app(OrderRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
-
                 return $query->distinct()
                     ->addSelect('orders.*')
                     ->where('orders.customer_id', $customer->id);
@@ -125,8 +123,7 @@ class OrderMutation extends Controller
      */
     public function cancel($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) ||
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
@@ -146,11 +143,15 @@ class OrderMutation extends Controller
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
             $order = $this->orderRepository->findOneWhere([
-                'id'            => $orderId,
-                'customer_id'   => $customer->id,
+                'id'          => $orderId,
+                'customer_id' => $customer->id,
             ]);
 
-            if (! $order || ! $order->canCancel() || ! $order->canInvoice()) {
+            if (
+                ! $order
+                || ! $order->canCancel()
+                || ! $order->canInvoice()
+            ) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.response.cancel-error'),
                     trans('bagisto_graphql::app.shop.response.cancel-error')
@@ -160,9 +161,9 @@ class OrderMutation extends Controller
             $result = $this->orderRepository->cancel($orderId);
 
             return [
-                'status'    => $result ? true : false,
-                'order'     => $this->orderRepository->find($orderId),
-                'message'   => $result ? trans('bagisto_graphql::app.shop.customer.account.order.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.shop.response.cancel-error')
+                'status'  => ! empty($result),
+                'order'   => $this->orderRepository->find($orderId),
+                'message' => $result ? trans('bagisto_graphql::app.shop.customer.account.order.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.shop.response.cancel-error'),
             ];
         } catch (Exception $e) {
             throw new CustomException(
@@ -183,6 +184,7 @@ class OrderMutation extends Controller
 
         if (bagisto_graphql()->guard($this->guard)->check()) {
             $customer = bagisto_graphql()->guard($this->guard)->user();
+
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
@@ -270,27 +272,27 @@ class OrderMutation extends Controller
                     ->leftJoin('orders', 'invoices.order_id', '=', 'orders.id')
                     ->where('orders.customer_id', $customer->id);
 
-                if (isset($params['id']) && $params['id']) {
+                if (! empty($params['id'])) {
                     $qb->where('invoices.id', $params['id']);
                 }
 
-                if (isset($params['order_id']) && $params['order_id']) {
+                if (! empty($params['order_id'])) {
                     $qb->where('invoices.order_id', $params['order_id']);
                 }
 
-                if (isset($params['quantity']) && $params['quantity']) {
+                if (! empty($params['quantity'])) {
                     $qb->where('invoices.total_qty', $params['quantity']);
                 }
 
-                if (isset($params['grand_total']) && $params['grand_total']) {
+                if (! empty($params['grand_total'])) {
                     $qb->where('invoices.grand_total', $params['grand_total']);
                 }
 
-                if (isset($params['base_grand_total']) && $params['base_grand_total']) {
+                if (! empty($params['base_grand_total'])) {
                     $qb->where('invoices.grand_total', $params['base_grand_total']);
                 }
 
-                if (isset($params['invoice_date']) && $params['invoice_date']) {
+                if (! empty($params['invoice_date'])) {
                     $qb->where('invoices.created_at', $params['invoice_date']);
                 }
 
@@ -345,47 +347,47 @@ class OrderMutation extends Controller
                     ->leftJoin('orders', 'refunds.order_id', '=', 'orders.id')
                     ->where('orders.customer_id', $customer->id);
 
-                if (isset($params['id']) && $params['id']) {
+                if (! empty($params['id'])) {
                     $qb->where('refunds.id', $params['id']);
                 }
 
-                if (isset($params['order_id']) && $params['order_id']) {
+                if (! empty($params['order_id'])) {
                     $qb->where('refunds.order_id', $params['order_id']);
                 }
 
-                if (isset($params['quantity']) && $params['quantity']) {
+                if (! empty($params['quantity'])) {
                     $qb->where('refunds.total_qty', $params['quantity']);
                 }
 
-                if (isset($params['adjustment_refund']) && $params['adjustment_refund']) {
+                if (! empty($params['adjustment_refund'])) {
                     $qb->where('refunds.adjustment_refund', $params['adjustment_refund']);
                 }
 
-                if (isset($params['adjustment_fee']) && $params['adjustment_fee']) {
+                if (! empty($params['adjustment_fee'])) {
                     $qb->where('refunds.adjustment_fee', $params['adjustment_fee']);
                 }
 
-                if (isset($params['shipping_amount']) && $params['shipping_amount']) {
+                if (! empty($params['shipping_amount'])) {
                     $qb->where('refunds.shipping_amount', $params['shipping_amount']);
                 }
 
-                if (isset($params['tax_amount']) && $params['tax_amount']) {
+                if (! empty($params['tax_amount'])) {
                     $qb->where('refunds.tax_amount', $params['tax_amount']);
                 }
 
-                if (isset($params['discount_amount']) && $params['discount_amount']) {
+                if (! empty($params['discount_amount'])) {
                     $qb->where('refunds.discount_amount', $params['discount_amount']);
                 }
 
-                if (isset($params['grand_total']) && $params['grand_total']) {
+                if (! empty($params['grand_total'])) {
                     $qb->where('refunds.grand_total', $params['grand_total']);
                 }
 
-                if (isset($params['base_grand_total']) && $params['base_grand_total']) {
+                if (! empty($params['base_grand_total'])) {
                     $qb->where('refunds.grand_total', $params['base_grand_total']);
                 }
 
-                if (isset($params['refund_date']) && $params['refund_date']) {
+                if (! empty($params['refund_date'])) {
                     $qb->where('refunds.created_at', $params['refund_date']);
                 }
 

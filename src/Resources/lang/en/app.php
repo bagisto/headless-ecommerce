@@ -22,8 +22,8 @@ return [
                         'info-get-server-key'             => 'Info: To get fcm API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
                         'android-topic'                   => 'Android Topic',
                         'ios-topic'                       => 'IOS Topic',
-                    ]
-                ]
+                    ],
+                ],
             ],
         ],
 
@@ -113,7 +113,7 @@ return [
         ],
 
         'customer'      => [
-            'no-customer-found' => 'No customer found'
+            'no-customer-found' => 'No customer found',
         ],
 
         'response'      => [
@@ -134,25 +134,24 @@ return [
             'cancel-error'            => 'Order can not be canceled.',
             'creation-error'          => 'Refund can not be created for this order.',
             'channel-failure'         => 'Channel Not Found.',
-            'script-delete-success'   => 'Script deleted successfuly.'
+            'script-delete-success'   => 'Script deleted successfuly.',
         ],
 
         'shop'          => [
 
             'response' => [
-                'no-address-found'          => 'Wanring: No address found.',
-                'invalid-address'           => 'Wanring: No address found for provided addressId.',
-                'invalid-product'           => 'Warning: You are requesting for invalid product.',
-                'already-exist-inwishlist'  => 'Information: This product is already exist in wishlist.',
-                'error-move-to-cart'        => 'Warning: This product might have some required options, not able to move to cart.',
-                'un-authorized-access'      => 'Warning: You are not authorized to use this section.',
+                'no-address-found'         => 'Wanring: No address found.',
+                'invalid-address'          => 'Wanring: No address found for provided addressId.',
+                'invalid-product'          => 'Warning: You are requesting for invalid product.',
+                'already-exist-inwishlist' => 'Information: This product is already exist in wishlist.',
+                'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
             ]
         ],
 
         'validation'    => [
             'unique'   => 'This :field has already been taken.',
             'required' => 'The :field field is required.',
-            'same'     => 'The :field and password must match.'
+            'same'     => 'The :field and password must match.',
         ],
 
         'mail'          => [
@@ -162,8 +161,8 @@ return [
                     'reset'   => 'Password Reset Email',
                     'summary' => 'This email related to your account password reset, Your password has been changed successfully.
                     Kindly login to your account using below mentioned password.',
-                ]
-            ]
+                ],
+            ],
         ],
     ],
 
@@ -202,8 +201,8 @@ return [
                     'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
                     'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
                     'fail-delete-cart-item'    => 'Fail: Cart item not found.',
-                ]
-            ]
+                ],
+            ],
         ],
 
         'customer' => [
@@ -234,18 +233,27 @@ return [
                 ],
 
                 'order' => [
-                    'no-order-found'            => 'Wanring: No order found.',
-                    'cancel-success'        => 'Order cancelled successfully',
+                    'no-order-found' => 'Wanring: No order found.',
+                    'cancel-success' => 'Order cancelled successfully',
 
                 ],
 
                 'review'    => [
-                    'success'     => 'Success: Review is submitted successfully, please wait for the approval.',
+                    'success' => 'Success: Review is submitted successfully, please wait for the approval.',
                 ],
 
                 'wishlist' => [
-                    'remove-all-success' => 'All the items from your wishlist have been removed'
-                ]
+                    'removed'            => 'Item Successfully Removed From Wishlist',
+                    'remove-fail'        => 'Item Cannot Be Removed From Wishlist',
+                    'remove-all-success' => 'All the items from your wishlist have been removed',
+                    'success'            => 'Item Successfully Added To Wishlist',
+                    'already-exist'      => 'Product already exist in wishlist',
+                    'move-to-cart'       => 'Move To Cart',
+                    'moved-success'      => 'Item Successfully Moved to Cart',
+                    'error-move-to-cart' => 'Warning: This product might have some required options, not able to move to cart.',
+                    'no-item-found'      => 'Warning: There is no product found.',
+
+                ],
             ],
 
             'signup-form'           => [
@@ -257,14 +265,14 @@ return [
                 'validation'               => [
                     'unique'   => 'This :field has already been taken.',
                     'required' => 'The :field field is required.',
-                    'same'     => 'The :field and password must match.'
+                    'same'     => 'The :field and password must match.',
                 ],
             ],
 
             'login-form'            => [
                 'not-activated' => 'Your activation seeks admin approval',
                 'invalid-creds' => 'Please check your credentials and try again.',
-            ]
+            ],
         ],
 
         'response' => [

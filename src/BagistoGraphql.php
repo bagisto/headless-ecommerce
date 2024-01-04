@@ -719,15 +719,19 @@ class BagistoGraphql
                 break;
             case 'bundle':
                 //Case: In case of bundled product added
-                if (isset($data['bundle_options']) && $data['bundle_options']) {
-                    $bundleOptions = Arr::collapse($data['bundle_options']);
-                    $data['bundle_options'] = $bundleOptions;
+                if (! empty($data['bundle_options'])) {
+                    $bundle_options = [];
 
-                    $option = [];
-                    foreach ($data['bundle_options']['bundle_option_id'] as $key => $value) {
-                        $option[$key + 1] = [$key => $value];
+                    foreach ($data['bundle_options'] as $option) {
+                        if (
+                            ! empty($option['bundle_option_id'])
+                            && ! empty($option['bundle_option_product_id'])
+                        ) {
+                            $bundle_options[$option['bundle_option_id']] = $option['bundle_option_product_id'];
+                        }
                     }
-                    $data['bundle_options'] = $option;
+
+                    $data['bundle_options'] = $bundle_options;
                 }
                 break;
 

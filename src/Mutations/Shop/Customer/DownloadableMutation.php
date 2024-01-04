@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
@@ -59,6 +59,7 @@ class DownloadableMutation extends Controller
 
             $downloads = app(DownloadableLinkPurchasedRepository::class)->scopeQuery(function ($query) use ($params) {
                 $channel_id = isset($params['channel_id']) ?: (core()->getCurrentChannel()->id ?: core()->getDefaultChannel()->id);
+
                 $customer = bagisto_graphql()->guard($this->guard)->user();
 
                 $qb = $query->distinct()
@@ -180,7 +181,9 @@ class DownloadableMutation extends Controller
             }
 
             $orderedQty = $downloadableLinkPurchased->order->total_qty_ordered;
+
             $totalInvoiceQty = $totalInvoiceQty * ($downloadableLinkPurchased->download_bought / $orderedQty);
+
             $totalUsedAndCancelQty = $downloadableLinkPurchased->download_used + $downloadableLinkPurchased->download_canceled;
 
             if (
@@ -220,9 +223,9 @@ class DownloadableMutation extends Controller
                 $base64_str = 'data:image/' . $type . ';base64,' . $base64_code;
 
                 return [
-                    'status' => true,
-                    'string' => $base64_str,
-                    'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id'])
+                    'status'   => true,
+                    'string'   => $base64_str,
+                    'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id']),
                 ];
             }
 
@@ -242,9 +245,9 @@ class DownloadableMutation extends Controller
             $base64_str = 'data:image/' . $type . ';base64,' . base64_encode(file_get_contents($pathToFile));
 
             return [
-                'status' => true,
-                'string' => $base64_str,
-                'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id'])
+                'status'   => true,
+                'string'   => $base64_str,
+                'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id']),
             ];
         } catch (\Exception $e) {
             throw new CustomException(
