@@ -66,7 +66,8 @@ class CompareMutation extends Controller
 
                 $customer = bagisto_graphql()->guard($this->guard)->user();
 
-                $qb = $query->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
+                $qb = $query->select('compare_items.*')
+                    ->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
                     ->leftJoin('customers','customers.id','=','compare_items.customer_id')
                     ->where('customers.id', $customer->id)
                     ->groupBy('compare_items.product_id');
@@ -74,7 +75,7 @@ class CompareMutation extends Controller
                 return $qb;
              });
 
-            if (! empty($args['id'])) {
+             if (! empty($args['id'])) {
                 $compareProducts = $compareProducts->first();
             } else {
                 $compareProducts = $compareProducts->paginate(isset($params['limit']) ? $params['limit'] : 10);

@@ -355,7 +355,7 @@ class AddressesMutation extends Controller
             return [
                 'status'    => ! empty($customerAddress),
                 'addresses' => $customer->addresses,
-                'message'   => ! empty($customerAddress) ? trans('admin::app.response.delete-success', ['name' => 'Customer\'s Address']) : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Address']),
+                'message'   => ! empty($customerAddress) ? trans('bagisto_graphql::app.shop.customer.account.addressess.delete-success') : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Address']),
             ];
         } catch (Exception $e) {
             throw new CustomException(

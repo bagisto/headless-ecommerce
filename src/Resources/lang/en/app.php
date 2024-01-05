@@ -254,6 +254,10 @@ return [
                     'no-item-found'      => 'Warning: There is no product found.',
 
                 ],
+
+                'addressess' => [
+                    'delete-success' => 'Customer\'s Address deleted successfully'
+                ]
             ],
 
             'signup-form'           => [
@@ -281,5 +285,4 @@ return [
             'cancel-error'            => 'Order can not be canceled.',
         ],
     ]
-
 ];

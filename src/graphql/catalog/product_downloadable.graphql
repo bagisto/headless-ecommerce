@@ -2,8 +2,8 @@
 type ProductDownloadableSample {
     id: ID!
     url: String
-    file: String
     fileUrl: String @rename(attribute: "file_url")
+    file: String
     fileName: String @rename(attribute: "file_name")
     type: String
     sortOrder: Int @rename(attribute: "sort_order")
@@ -26,8 +26,8 @@ type ProductDownloadableLink {
     title: String
     price: Float!
     url: String
-    file: String
     fileUrl: String @rename(attribute: "file_url")
+    file: String
     fileName: String @rename(attribute: "file_name")
     type: String
     sampleUrl: String @rename(attribute: "sample_url")
