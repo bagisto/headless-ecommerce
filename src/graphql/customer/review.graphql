@@ -1,16 +1,4 @@
 # Customer\Review Related APIs
 extend type Query {
-    reviews(input: ReviewFilterInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterReview")): [Review!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Product\\Models\\ProductReview")
-
     review(id: ID @eq): Review @find(model: "Webkul\\Product\\Models\\ProductReview")
-}
-
-input ReviewFilterInput {
-    id: Int
-    name: String
-    customerId: ID @rename(attribute: "customer_id")
-    productId: ID! @rename(attribute: "product_id")
-    title: String
-    rating: Int
-    status: String
 }

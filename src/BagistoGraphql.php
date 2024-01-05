@@ -2,18 +2,20 @@
 
 namespace Webkul\GraphQLAPI;
 
+use JWTAuth;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use JWTAuth;
-use Webkul\Product\Repositories\ProductImageRepository;
-use Webkul\Product\Repositories\ProductVideoRepository;
-use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
-use Webkul\Product\Repositories\ProductGroupedProductRepository;
-use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
-use Webkul\Product\Repositories\ProductDownloadableSampleRepository;
-use Webkul\Product\Repositories\ProductBundleOptionRepository;
-use Webkul\Product\Repositories\ProductBundleOptionProductRepository;
+use Webkul\Product\Repositories\{
+    ProductBundleOptionRepository,
+    ProductBundleOptionProductRepository,
+    ProductCustomerGroupPriceRepository,
+    ProductDownloadableLinkRepository,
+    ProductDownloadableSampleRepository,
+    ProductGroupedProductRepository,
+    ProductImageRepository,
+    ProductVideoRepository,
+};
 
 class BagistoGraphql
 {
@@ -22,44 +24,48 @@ class BagistoGraphql
      *
      */
     protected $allowedImageMimeTypes = [
-        'png'   => 'image/png',
-        'jpe'   => 'image/jpeg',
-        'jpeg'  => 'image/jpeg',
-        'jpg'   => 'image/jpeg',
-        'bmp'   => 'image/bmp',
-        'webp'  => 'image/webp',
+        'png'  => 'image/png',
+        'jpe'  => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'jpg'  => 'image/jpeg',
+        'bmp'  => 'image/bmp',
+        'webp' => 'image/webp',
     ];
 
+    /**
+     * allowedVideoTypes array
+     *
+     */
     protected $allowedVideoMimeTypes = [
-        'mp4'       => 'video/mp4',
-        'webm'      => 'video/webm',
-        'quicktime' => 'video/quicktime',
+        'mp4'          => 'video/mp4',
+        'webm'         => 'video/webm',
+        'quicktime'    => 'video/quicktime',
         'octet-stream' => 'application/octet-stream',
     ];
 
     /**
      * Create a new instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductImageRepository  $productImageRepository
-     * @param  \Webkul\Product\Repositories\ProductVideoRepository  $productVideoRepository
-     * @param  \Webkul\Product\Repositories\ProductCustomerGroupPriceRepository  $productCustomerGroupPriceRepository
-     * @param  \Webkul\Product\Repositories\ProductGroupedProductRepository $productGroupedProductRepository
-     * @param  \Webkul\Product\Repositories\ProductDownloadableLinkRepository $productDownloadableLinkRepository
-     * @param  \Webkul\Product\Repositories\ProductDownloadableSampleRepository $productDownloadableSampleRepository
      * @param  \Webkul\Product\Repositories\ProductBundleOptionRepository $productBundleOptionRepository
      * @param  \Webkul\Product\Repositories\ProductBundleOptionProductRepository $productBundleOptionProductRepository
+     * @param  \Webkul\Product\Repositories\ProductCustomerGroupPriceRepository  $productCustomerGroupPriceRepository
+     * @param  \Webkul\Product\Repositories\ProductDownloadableLinkRepository $productDownloadableLinkRepository
+     * @param  \Webkul\Product\Repositories\ProductDownloadableSampleRepository $productDownloadableSampleRepository
+     * @param  \Webkul\Product\Repositories\ProductGroupedProductRepository $productGroupedProductRepository
+     * @param  \Webkul\Product\Repositories\ProductImageRepository  $productImageRepository
+     * @param  \Webkul\Product\Repositories\ProductVideoRepository  $productVideoRepository
      *
      * @return void
      */
     public function __construct(
-        protected ProductCustomerGroupPriceRepository $productCustomerGroupPriceRepository,
-        protected ProductGroupedProductRepository $productGroupedProductRepository,
-        protected ProductDownloadableLinkRepository $productDownloadableLinkRepository,
-        protected ProductDownloadableSampleRepository $productDownloadableSampleRepository,
         protected ProductBundleOptionRepository $productBundleOptionRepository,
         protected ProductBundleOptionProductRepository $productBundleOptionProductRepository,
+        protected ProductCustomerGroupPriceRepository $productCustomerGroupPriceRepository,
+        protected ProductDownloadableLinkRepository $productDownloadableLinkRepository,
+        protected ProductDownloadableSampleRepository $productDownloadableSampleRepository,
+        protected ProductGroupedProductRepository $productGroupedProductRepository,
         protected ProductImageRepository $productImageRepository,
-        protected ProductVideoRepository $productVideoRepository
+        protected ProductVideoRepository $productVideoRepository,
     ) {
     }
 
@@ -93,10 +99,17 @@ class BagistoGraphql
 
         $validateUser = $this->apiAuth($token, $guard);
 
-        return (! $token || (! isset($validateUser['success']) || 
-            (isset($validateUser['success']) && ! $validateUser['success'])))
-            ? false
-            : true;
+        return (
+            ! $token ||
+            (
+                ! isset($validateUser['success']) ||
+                (
+                    isset($validateUser['success']) &&
+                    ! $validateUser['success']
+                )
+            )
+        ) ? false : true;
+
     }
 
     /**
@@ -110,23 +123,23 @@ class BagistoGraphql
         $loggedAdmin = auth($guard)->user();
 
         try {
-            $setToken =  JWTAuth::setToken($token)->authenticate();
+            $setToken = JWTAuth::setToken($token)->authenticate();
             $customerFromToken = JWTAuth::toUser($setToken);
 
             if (
-                isset($setToken) && 
-                isset($customerFromToken) 
+                isset($setToken) &&
+                isset($customerFromToken)
                 && $loggedAdmin != NULL) {
                 if ($customerFromToken->id == $loggedAdmin->id) {
                     return [
-                        'success'   => true,
-                        'message'   => trans('bagisto_graphql::app.admin.response.success-login'),
+                        'success' => true,
+                        'message' => trans('bagisto_graphql::app.admin.response.success-login'),
                     ];
                 }
             } else {
                 return [
-                    'success'   => false,
-                    'message'   => trans('bagisto_graphql::app.admin.response.error-login'),
+                    'success' => false,
+                    'message' => trans('bagisto_graphql::app.admin.response.error-login'),
                 ];
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
@@ -138,14 +151,14 @@ class BagistoGraphql
             //In case customer's session has expired
             if ($token !== 0 && $loggedAdmin == null) {
                 return [
-                    'success'       => false,
-                    'message'       => trans('bagisto_graphql::app.admin.response.session-expired'),
-                    'otherError'    => 'userNotExist'
+                    'success'    => false,
+                    'message'    => trans('bagisto_graphql::app.admin.response.session-expired'),
+                    'otherError' => 'userNotExist'
                 ];
             } else {
                 return [
-                    'success'   => false,
-                    'message'   => $e->getMessage(),
+                    'success' => false,
+                    'message' => $e->getMessage(),
                 ];
             }
         }
@@ -189,7 +202,7 @@ class BagistoGraphql
 
     /**
      * Store/Update the product images/videos.
-     * 
+     *
      * @param  array  $data
      * @return void
      */
@@ -338,11 +351,15 @@ class BagistoGraphql
         $mimeTypes = $type == 'images' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
 
         if (array_key_exists($ext, $mimeTypes)) {
+
             return true;
         } elseif (function_exists('finfo_open')) {
+
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $filename);
+
             finfo_close($finfo);
+
             return $mimetype;
         } else {
             return false;
@@ -546,6 +563,7 @@ class BagistoGraphql
 
             if (isset($sample['sample_product_id']) && $sample['sample_product_id']) {
                 $sampleProductId = $sample['sample_product_id'];
+
                 unset($sample['sample_product_id']);
 
                 $downloadableSamples[$sampleProductId] = $sample;
@@ -665,124 +683,6 @@ class BagistoGraphql
     }
 
     /**
-     *to manage the request data for Booking
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function manageBookingRequest($data)
-    {
-        $booking = [];
-        switch ($data['type']) {
-            case 'appointment':
-                if (isset($data['same_slot_all_days']) && ! $data['same_slot_all_days']) {
-                    $slots = [];
-                    if (isset($data['slots'])) {
-                        foreach ($data['slots'] as $key => $slot) {
-                            if (isset($slot['day'])) {
-                                $dayIndex = $slot['day'];
-                                unset($slot['day']);
-
-                                $slots[$dayIndex][] = $slot;
-                            }
-                        }
-
-                        $data['slots'] = $slots;
-                        $booking = $data;
-                    }
-                } else {
-                    $booking = $data;
-                }
-                break;
-
-            case 'event':
-                if (isset($data['tickets']) && $data['tickets']) {
-                    $tickets = [];
-
-                    foreach ($data['tickets'] as $key => $ticket) {
-
-                        if (isset($ticket['locales'])) {
-                            foreach ($ticket['locales'] as $locale) {
-                                $localeCode = $locale['locale'];
-                                unset($locale['locale']);
-                                $ticket[$localeCode] = $locale;
-                            }
-
-                            unset($ticket['locales']);
-                        }
-                        $tickets['ticket_' . $key] = $ticket;
-                    }
-                    $data['tickets'] = $tickets;
-                }
-
-                $booking = $data;
-                break;
-            case 'rental':
-                if (isset($data['rental_slot']) && $data['rental_slot']) {
-
-                    foreach ($data['rental_slot'] as $key => $slot) {
-                        $data[$key] = $slot;
-                    }
-                    unset($data['rental_slot']);
-
-                    if (isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
-                        $slots = [];
-                        if (isset($data['slots'])) {
-                            foreach ($data['slots'] as $key => $slot) {
-                                if (isset($slot['day'])) {
-                                    $dayIndex = $slot['day'];
-                                    unset($slot['day']);
-
-                                    $slots[$dayIndex][] = $slot;
-                                }
-                            }
-
-                            $data['slots'] = $slots;
-                            $booking = $data;
-                        }
-                    } else {
-                        $booking = $data;
-                    }
-                }
-                break;
-            case 'table':
-                if (isset($data['table_slot']) && $data['table_slot']) {
-
-                    foreach ($data['table_slot'] as $key => $slot) {
-                        $data[$key] = $slot;
-                    }
-                    unset($data['table_slot']);
-
-                    if (isset($data['same_slot_all_days']) && !$data['same_slot_all_days']) {
-                        $slots = [];
-                        if (isset($data['slots'])) {
-                            foreach ($data['slots'] as $key => $slot) {
-                                if (isset($slot['day'])) {
-                                    $dayIndex = $slot['day'];
-                                    unset($slot['day']);
-
-                                    $slots[$dayIndex][] = $slot;
-                                }
-                            }
-
-                            $data['slots'] = $slots;
-                            $booking = $data;
-                        }
-                    } else {
-                        $booking = $data;
-                    }
-                }
-                break;
-
-            default:
-                $booking = $data;
-                break;
-        }
-
-        return $booking;
-    }
-
-    /**
      *to manage the request data for Cart
      *
      * @param object $product
@@ -797,7 +697,7 @@ class BagistoGraphql
                 if (isset($data['super_attribute']) && $data['super_attribute']) {
                     $superAttribute = [];
                     foreach ($data['super_attribute'] as $key => $attribute) {
-                        if (isset($attribute['attribute_id']) && 
+                        if (isset($attribute['attribute_id']) &&
                             isset($attribute['attribute_option_id'])) {
                             $superAttribute[$attribute['attribute_id']] = $attribute['attribute_option_id'];
                         }
@@ -819,43 +719,19 @@ class BagistoGraphql
                 break;
             case 'bundle':
                 //Case: In case of bundled product added
-                if (isset($data['bundle_options']) && $data['bundle_options']) {
-                    $bundleOptions = Arr::collapse($data['bundle_options']);
-                    $data['bundle_options'] = $bundleOptions;
+                if (! empty($data['bundle_options'])) {
+                    $bundle_options = [];
 
-                    $option = [];
-                    foreach ($data['bundle_options']['bundle_option_id'] as $key => $value) {
-                        $option[$key + 1] = [$key => $value];
-                    }
-                    $data['bundle_options'] = $option;
-                }
-                break;
-            case 'booking':
-                //Case: In case of booking product added
-                if (isset($data['booking']) && $data['booking']) {
-                    $booking = $product->booking_product;
-
-                    if (isset($booking->type) && $booking->type) {
+                    foreach ($data['bundle_options'] as $option) {
                         if (
-                            $booking->type == 'default' 
-                            || $booking->type == 'appointment' 
-                            || $booking->type == 'table') {
-                            if (isset($data['booking']['slot']) && is_array($data['booking']['slot'])) {
-                                $data['booking']['slot'] = implode("-", $data['booking']['slot']);
-                            }
-                        } elseif ($booking->type == 'event' && 
-                            (isset($data['booking']['qty']) && 
-                            $data['booking']['qty'])) {
-                            $tickets = [];
-                            $events = $data['booking']['qty'];
-                            foreach ($events as $key => $ticket) {
-                                if (isset($ticket['ticket_id']) && isset($ticket['quantity'])) {
-                                    $tickets[$ticket['ticket_id']] = $ticket['quantity'];
-                                }
-                            }
-                            $data['booking']['qty'] = $tickets;
+                            ! empty($option['bundle_option_id'])
+                            && ! empty($option['bundle_option_product_id'])
+                        ) {
+                            $bundle_options[$option['bundle_option_id']] = $option['bundle_option_product_id'];
                         }
                     }
+
+                    $data['bundle_options'] = $bundle_options;
                 }
                 break;
 
@@ -877,7 +753,9 @@ class BagistoGraphql
     public function saveImageByURL($collection, $data = [], $field = 'image_url')
     {
         $getImgMime = null;
+
         $base64Validate = $pathValidate = false;
+
         $imageName = basename($data[$field]);
 
         if ($data['upload_type'] == 'base64') {
@@ -885,7 +763,7 @@ class BagistoGraphql
 
             $extension = explode("/", $getImgMime)[1];
 
-            $imageName = $field . '_avatar.' . $extension;
+            $imageName = $field . '_review.' . $extension;
 
             $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
@@ -904,6 +782,7 @@ class BagistoGraphql
             }
 
             $collection->{$keyIndex[0]} = null;
+
             $collection->save();
 
             $path = $data['save_path'] . '/';
@@ -913,7 +792,42 @@ class BagistoGraphql
             Storage::put($path . $imageName, $contents);
 
             $collection->{$keyIndex[0]} = $path . $imageName;
+
             $collection->save();
+        }
+    }
+
+    public function storeReviewAttachment($data = [], $field = 'image_url')
+    {
+        $getImgMime = null;
+
+        $base64Validate = $pathValidate = false;
+
+        $imageName = basename($data[$field]);
+
+        $getImgMime = mime_content_type($data[$field]);
+
+        $extension = explode("/", $getImgMime)[1];
+
+        $imageName = $imageName . '_review.' . $extension;
+
+        $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
+
+        if ($base64Validate || $pathValidate) {
+            $keyIndex = explode("_", $field);
+
+            if (! isset($keyIndex[0])) {
+                return false;
+            }
+
+            $path = $data['save_path'] . '/';
+
+            Storage::put($path . $imageName, file_get_contents($data[$field]));
+
+            return [
+                'path'        => $path . $imageName,
+                'img_details' => explode("/", mime_content_type($data[$field]))
+            ];
         }
     }
 }

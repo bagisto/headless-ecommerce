@@ -6,20 +6,20 @@ extend type Query @guard(with: ["api"]) {
         page: Int
     ): [Wishlist!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")
 
-    wishlist(id: ID @eq): Wishlist @find(model: "Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist") 
+    wishlist(id: ID @eq): Wishlist @find(model: "Webkul\\GraphQLAPI\\Models\\Customer\\Wishlist")
 }
 
 extend type Mutation @guard(with: ["api"]) {
     addToWishlist(
         input: AddToWishlistInput!
     ): AddToWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@store")
-  
+
     removeFromWishlist(
         input: AddToWishlistInput!
     ): RemoveWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@delete")
 
     moveToCart(id: ID @eq): MoveToCartResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
-  
+
     removeAllWishlists: RemoveWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")
 
     shareWishlist(shared: Boolean!): ShareWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@share")

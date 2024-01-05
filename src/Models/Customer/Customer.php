@@ -7,7 +7,6 @@ use Webkul\Customer\Models\Customer as BaseModel;
 
 class Customer extends BaseModel implements  JWTSubject
 {
-
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -28,5 +27,5 @@ class Customer extends BaseModel implements  JWTSubject
         return [];
     }
 
-    
+
 }

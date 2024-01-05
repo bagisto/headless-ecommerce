@@ -1,7 +1,7 @@
 # Catalog\Attribute Related APIs
 extend type Query @guard(with: ["admin-api"]) {
     attributes(input: FilterAttributesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterableAttributesQuery")): [Attribute!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\Attribute")
-    
+
     attribute(id: ID @eq): Attribute @find(model: "Webkul\\Attribute\\Models\\Attribute")
 
     attributeOptions: [AttributeOption!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeOption")
@@ -45,7 +45,6 @@ input CreateAttributeInput {
     isFilterable: Boolean @rename(attribute: "is_filterable")
     isConfigurable: Boolean! @rename(attribute: "is_configurable")
     isVisibleOnFront: Boolean @rename(attribute: "is_visible_on_front")
-    # useInFlat: Boolean @rename(attribute: "use_in_flat")
     isComparable: Boolean! @rename(attribute: "is_comparable")
     translations: [AttributeTranslationInput]
     swatchType: String @rename(attribute: "swatch_type")
@@ -71,6 +70,17 @@ input OptionInput {
     position: String
 }
 
+input FilterAttributesInput {
+    id: ID
+    code: String
+    adminName: String @rename(attribute: "admin_name")
+    type: String
+    isRequired: Int @rename(attribute: "is_required")
+    isUnique: Int @rename(attribute: "is_unique")
+    valuePerLocale: Int @rename(attribute: "value_per_locale")
+    valuePerChannel: Int @rename(attribute: "value_per_channel")
+}
+
 type Attribute {
     id: ID!
     code: String!
@@ -88,22 +98,10 @@ type Attribute {
     isVisibleOnFront: Boolean @rename(attribute: "is_visible_on_front")
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     swatchType: String @rename(attribute: "swatch_type")
-    useInFlat: Boolean @rename(attribute: "use_in_flat")
     isComparable: Boolean! @rename(attribute: "is_comparable")
     options: [AttributeOption!] @hasMany
     translations: [AttributeTranslation!] @hasMany
     success: String
-}
-
-input FilterAttributesInput {
-    id: ID
-    code: String
-    adminName: String @rename(attribute: "admin_name")
-    type: String
-    isRequired: Int @rename(attribute: "is_required")
-    isUnique: Int @rename(attribute: "is_unique")
-    valuePerLocale: Int @rename(attribute: "value_per_locale")
-    valuePerChannel: Int @rename(attribute: "value_per_channel")
 }
 
 type AttributeOption {
@@ -119,17 +117,17 @@ type AttributeOption {
     translations: [AttributeOptionTranslation!] @hasMany
 }
 
+type AttributeOptionTranslation {
+    id: ID!
+    locale: String!
+    label: String!
+    attributeOptionId: ID! @rename(attribute: "attribute_option_id")
+}
+
 type AttributeTranslation {
     id: ID!
     locale: String!
     name: String!
     attributeId: ID! @rename(attribute: "attribute_id")
     attribute: Attribute! @belongsTo(relation: "attribute")
-}
-
-type AttributeOptionTranslation {
-    id: ID!
-    locale: String!
-    label: String!
-    attributeOptionId: ID! @rename(attribute: "attribute_option_id")
 }

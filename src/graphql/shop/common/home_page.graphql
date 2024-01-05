@@ -2,17 +2,21 @@
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 
-    newProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getNewProducts")
+    themeCustomization: [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
-    featuredProducts(count: Int): [Product!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFeaturedProducts")
+    homeCategories(input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
-    homeSliders(count: Int): [Slider!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getSliders")
+    getCategoriesTree: [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategoriesTree")
 
-    advertisements: Advertise @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAdvertisements")
-
-    homeCategories(categoryId: Int, categorySlug: String): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
-
-    velocityHeaderContent: [HeaderContent!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getvelocityMetaData")
+    allProducts(
+        input: [FilterAllProductsInput]
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
+    ): [Product!]
+    @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product"
+    )
 
     notificationList(
         first: Int,
@@ -26,16 +30,64 @@ extend type Mutation {
     ): NotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NotificationMutation@send")
 }
 
-type Advertise {
-    advertisementFour: [AdvertiseData]
-    advertisementThree: [AdvertiseData]
-    advertisementTwo: [AdvertiseData]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+input FilterHomeCategoriesInput {
+    key: String
+    value: String
 }
 
-type AdvertiseData {
-    image: String!
-    slug: String
+input FilterAllProductsInput {
+    key: String
+    value: String
+}
+
+input NotificationInput {
+    id: ID!
+}
+
+type FrontTheme {
+    id: Int
+    channelId: Int @rename(attribute: "channel_id")
+    type: String!
+    name: String
+    sortOrder: Int @rename(attribute: "sort_order")
+    status: Int
+    baseUrl: String @rename(attribute: "base_url")
+    translations: [FrontThemeTranslation!]
+}
+
+type FrontThemeTranslation {
+    id: ID!
+    themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
+    locale: String!
+    options: OptionFields!
+}
+
+type OptionFields {
+    title: String
+    css: String
+    html: String
+    images: [Link]
+    filters: [FilterOption]
+    column_1: [ColumOption]
+    column_2: [ColumOption]
+    column_3: [ColumOption]
+}
+
+type Link {
+    link: String
+    image: String
+    imageUrl: String @rename(attribute: "image_url")
+}
+
+type FilterOption {
+    value: String
+    key: String
+}
+
+type ColumOption {
+    url: String
+    title: String
+    sortOrder: String @rename(attribute: "sort_order")
 }
 
 type Notification {
@@ -59,56 +111,8 @@ type NotificationTranslation {
     pushNotificationId: ID! @rename(attribute: "push_notification_id")
 }
 
-type ThemeTranslation {
-    id: ID!
-    theme_customization_id: Int!
-    locale: String!
-    options: OptionFields!
-}
-
-type OptionFields {
-    title: String
-    css: String
-    html: String
-    images : [Link]
-    filters: FilterOption
-    column_1: [ColumOption]
-}
-
-type Link {
-    link: String
-    image: String
-}
-
-type FilterOption {
-    new: Int
-    sort: String
-    limit: Int
-    parent_id: Int
-    featured: Int
-}
-
-type ColumOption {
-    url: String
-    title: String
-}
-
-input NotificationInput {
-    id: ID!
-}
-
 type NotificationResponse {
     status: Boolean
     success: String
     messageId: String @rename(attribute: "message_id")
-}
-
-type Slider {
-    id: Int
-    channel_id: Int
-    type: String!
-    name: String
-    sort_order: Int
-    status: Int
-    translations: [ThemeTranslation !] @hasMany
 }

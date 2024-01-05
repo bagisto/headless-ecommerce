@@ -3,7 +3,7 @@ extend type Mutation {
     applyCoupon(
         input: ApplyCouponInput!
     ): CouponResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@applyCoupon")
-    
+
     removeCoupon: CouponResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@removeCoupon")
 }
 

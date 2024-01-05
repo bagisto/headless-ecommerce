@@ -23,7 +23,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         include __DIR__ . '/../Http/helpers.php';
-        
+
         $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
@@ -43,7 +43,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         if (request()->hasHeader('authorization')) {
             $headerValue = explode('Bearer ', request()->header('authorization'));
-            
+
             if (isset($headerValue[1]) && $headerValue[1]) {
                 request()->merge(['token' => $headerValue[1]]);
             }
@@ -96,6 +96,12 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         // Customer Models
         $this->app->concord->registerModel(\Webkul\Customer\Contracts\Customer::class, \Webkul\GraphQLAPI\Models\Customer\Customer::class);
+
+        //  // Wishlist Models
+        //  $this->app->concord->registerModel(\Webkul\Shop\Contracts\ThemeCustomization::class, \Webkul\GraphQLAPI\Models\Shop\ThemeCustomization::class);
+
+        //  // Customer Models
+        //  $this->app->concord->registerModel(\Webkul\Shop\Contracts\ThemeCustomizationTranslation::class, \Webkul\GraphQLAPI\Models\Shop\ThemeCustomizationTranslation::class);
     }
 
     /**
@@ -164,10 +170,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->app->bind('cart', 'Webkul\GraphQLAPI\Cart');
 
         $this->app->bind(\Webkul\Checkout\Cart::class, \Webkul\GraphQLAPI\Cart::class);
-
-        $this->app->bind(BaseConfigurableType::class, GraphQLAPIConfigurableType::class);
-        
-        $this->app->bind(BaseBookingType::class, GraphQLAPIBookingType::class);
     }
 
     /**

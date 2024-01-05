@@ -11,4 +11,5 @@ type Review {
     customerId: ID @rename(attribute: "customer_id")
     customerName: String @rename(attribute: "name")
     product: Product! @belongsTo(relation: "product")
+    attachments: [String] @hasMany(relation: "images")
 }

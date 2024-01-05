@@ -13,9 +13,9 @@ extend type Mutation {
     createReview(
         input: CreateReviewInput!
     ): CreateReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@store")
-  
+
     deleteReview(id: ID!): DeleteReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@delete")
-  
+
     deleteAllReview: DeleteReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@deleteAll")
 }
 
@@ -25,6 +25,12 @@ input CreateReviewInput {
     rating: Int!
     comment: String!
     productId: ID! @rename(attribute: "product_id")
+    attachments: [Attachments]!
+}
+
+input Attachments {
+    uploadType: String! @rename(attribute: "upload_type")
+    imageUrl: String! @rename(attribute: "image_url")
 }
 
 type CreateReviewResponse {

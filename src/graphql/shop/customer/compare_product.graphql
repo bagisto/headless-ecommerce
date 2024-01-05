@@ -9,11 +9,11 @@ extend type Mutation @guard(with: ["api"]) {
     addToCompare(
         input: AddToCompareInput!
     ): AddToCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@store")
-  
+
     removeFromCompareProduct(
         input: AddToCompareInput!
     ): RemoveCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@delete")
-  
+
     removeAllCompareProducts: RemoveCompareResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@deleteAll")
 }
 

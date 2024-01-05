@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductReviewRepository;
+use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ReviewMutation extends Controller
@@ -27,13 +28,14 @@ class ReviewMutation extends Controller
      * @return void
      */
     public function __construct(
-       protected ProductReviewRepository $productReviewRepository
+       protected ProductReviewRepository $productReviewRepository,
+       protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     )
     {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard);
     }
 
@@ -51,7 +53,7 @@ class ReviewMutation extends Controller
         }
 
         $currentPage = isset($params['page']) ? $params['page'] : 1;
-        
+
         Paginator::currentPageResolver(function () use ($currentPage) {
             return $currentPage;
         });
@@ -60,7 +62,7 @@ class ReviewMutation extends Controller
             $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
 
             $locale = isset($params['locale']) ?: app()->getLocale();
-                
+
             $qb = $query->distinct()
                 ->addSelect('product_reviews.*')
                 ->addSelect('product_flat.name as product_name')
@@ -75,11 +77,11 @@ class ReviewMutation extends Controller
             if (! empty($params['title'])) {
                 $qb->where('product_reviews.title', 'like', '%' . urldecode($params['title']) . '%');
             }
-            
+
             if (! empty($params['rating'])) {
                 $qb->where('product_reviews.rating', $params['rating']);
             }
-    
+
             if (! empty($params['customer_id'])) {
                 $qb->where('product_reviews.customer_id', $params['customer_id']);
             }
@@ -91,7 +93,7 @@ class ReviewMutation extends Controller
             if (! empty($params['product_name'])) {
                 $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
             }
-            
+
             if (! empty($params['product_id'])) {
                 $qb->where('product_reviews.product_id', $params['product_id']);
             }
@@ -103,7 +105,7 @@ class ReviewMutation extends Controller
             return $qb;
         });
 
-        if ( isset($args['id'])) {
+        if (isset($args['id'])) {
             $reviews = $reviews->first();
         } else {
             $reviews = $reviews->paginate( isset($params['limit']) ? $params['limit'] : 10);
@@ -120,35 +122,65 @@ class ReviewMutation extends Controller
     public function store($rootValue, array $args, GraphQLContext $context)
     {
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
-            'comment'       => 'required',
-            'rating'        => 'required|numeric|min:1|max:5',
-            'title'         => 'required',
-            'product_id'    => 'required',
+            'comment'     => 'required',
+            'rating'      => 'required|numeric|min:1|max:5',
+            'title'       => 'required',
+            'product_id'  => 'required',
+            'attachments' => 'array',
         ]);
-        
+
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new CustomException(
+                $validator->messages(),
+                $validator->messages()
+            );
         }
 
         try {
             if (bagisto_graphql()->guard($this->guard)->check()) {
                 $customer = bagisto_graphql()->guard($this->guard)->user();
-                $data['customer_id']    = $customer->id;
-                $data['name']    = $customer->name;
+
+                $data['customer_id'] = $customer->id;
+                $data['name'] = $customer->name;
             }
-    
+
             $data['status'] = 'pending';
-    
+
+            $attachments = $data['attachments'];
+
+            $data['attachments'];
+
             $review = $this->productReviewRepository->create($data);
 
+            foreach ($attachments as $attachment) {
+
+                if (! empty($attachment['upload_type'])) {
+                    if ($attachment['upload_type'] == 'base64') {
+                        $attachment['save_path'] = 'review/' . $review->id;
+
+                        $records = bagisto_graphql()->storeReviewAttachment($attachment);
+
+                        $this->productReviewAttachmentRepository->create([
+                            'path'      => $records['path'],
+                            'review_id' => $review->id,
+                            'type'      => $records['img_details'][0],
+                            'mime_type' => $records['img_details'][1],
+                        ]);
+                    }
+                }
+            }
+
             return [
-                'success'   => trans('bagisto_graphql::app.shop.response.review-create-success'),
+                'success'   => trans('bagisto_graphql::app.shop.customer.account.review.success'),
                 'review'    => $review
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -160,10 +192,10 @@ class ReviewMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
+        if (! isset($args['id']) ||
             (isset($args['id']) && ! $args['id'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 'Invalid request parameter.'
             );
         }
@@ -176,29 +208,29 @@ class ReviewMutation extends Controller
         }
 
         $id = $args['id'];
-        
+
         try {
             $customer = bagisto_graphql()->guard($this->guard)->user();
 
             $customerReview = $this->productReviewRepository->findOrFail($id);
-            
-            if ( isset($customerReview->customer_id) && $customerReview->customer_id !== $customer->id ) {
+
+            if (isset($customerReview->customer_id) && $customerReview->customer_id !== $customer->id ) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.customer.not-authorized'),
                     'You are not authorized to perform this action.'
                 );
             }
-        
+
             Event::dispatch('customer.review.delete.before', $id);
 
             $this->productReviewRepository->delete($id);
 
             Event::dispatch('customer.review.delete.after', $id);
-            
+
             return [
                 'status'    => (isset($customerReview->id)) ? true : false,
                 'reviews'   => $customer->all_reviews,
-                'message'   => ($customerReview->id) ? trans('admin::app.reviews.datagrid.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
+                'message'   => ($customerReview->id) ? trans('admin::app.reviews.datagrid.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
             ];
         } catch (Exception $e) {
             throw new CustomException(
@@ -221,27 +253,30 @@ class ReviewMutation extends Controller
                 'Customer Not Login.'
             );
         }
-        
+
         try {
             $customer = bagisto_graphql()->guard($this->guard)->user();
-            
+
             $customerReviews = $customer->all_reviews;
 
             foreach ($customerReviews as $review) {
-                
+
                 Event::dispatch('customer.review.delete.before', $review->id);
-                
+
                 $this->productReviewRepository->delete($review->id);
 
                 Event::dispatch('customer.review.delete.after', $review->id);
             }
-            
+
             return [
                 'status'    => $customerReviews->count() ? true : false,
-                'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.response.not-found', ['name'   => 'Review'])
+                'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage(), 'All review remove Failed.');
+            throw new CustomException(
+                $e->getMessage(),
+                'All review remove Failed.'
+            );
         }
     }
 }

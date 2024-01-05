@@ -18,7 +18,7 @@ class FilterRefund extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // Convert the refund_date parameter to created_at parameter
-         if ( isset($arguments['refund_date'])) {
+         if (isset($arguments['refund_date'])) {
             $arguments['created_at'] = $arguments['refund_date'];
             unset($arguments['refund_date']);
         }
@@ -41,7 +41,7 @@ class FilterRefund extends BaseFilter
                     'last_name' => $billingName['lastname']]);
             })->where($arguments);
         }
-        
+
         return $query->where($arguments);
     }
 }

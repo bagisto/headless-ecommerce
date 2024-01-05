@@ -21,7 +21,7 @@ class Product extends BaseModel
         if ($this->typeInstance) {
             return $this->typeInstance;
         }
-        if ( $this->type !== 'booking') {
+        if ($this->type !== 'booking') {
             $this->typeInstance = app(config('product_types.' . $this->type . '.class'));
         } else {
             $this->typeInstance = app('Webkul\GraphQLAPI\Type\Booking');

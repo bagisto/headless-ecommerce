@@ -2,12 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Exception;
+use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
+use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Shipping\Facades\Shipping;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class CartMutation extends Controller
 {
@@ -22,18 +26,20 @@ class CartMutation extends Controller
      * Create a new controller instance.
      *
      * @param  \Webkul\Checkout\Repositories\CartRepository  $cartRepository
+     * @param  \Webkul\Checkout\Repositories\CartItemRepository  $cartItemRepository
      * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @return void
      */
     public function __construct(
        protected CartRepository $cartRepository,
+       protected CartItemRepository $cartItemRepository,
        protected ProductRepository $productRepository
     )
     {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard);
     }
 
@@ -45,10 +51,12 @@ class CartMutation extends Controller
     public function cart($rootValue, array $args , GraphQLContext $context)
     {
         try {
-
             return Cart::getCart();
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -61,10 +69,13 @@ class CartMutation extends Controller
     {
         try {
             $cart = Cart::getCart();
-            
-            return $cart ? $cart->items : [];
+
+            return $cart?->items ?? [];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -75,34 +86,47 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($args['input'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         $data = $args['input'];
 
-        if (! isset($data['product_id']) || 
-            (isset($data['product_id']) && ! $data['product_id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($data['product_id'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
-        
+
         try {
             $product = $this->productRepository->findOrFail($data['product_id']);
+
             $data = bagisto_graphql()->manageInputForCart($product, $data);
+
             $cart = Cart::addProduct($data['product_id'], $data);
-            
-            if ( isset($cart->id)) {
+
+            if (! empty($cart)) {
                 return [
-                    'status'    => true,
-                    'message'   => trans('bagisto_graphql::app.shop.response.success-add-to-cart'),
-                    'cart'      => $cart,
+                    'status'  => true,
+                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-add-to-cart'),
+                    'cart'    => $cart,
                 ];
-            } else {
-                return $cart;
             }
+
+            return [
+                'status'  => true,
+                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-add-to-cart'),
+                'cart'    => $cart,
+            ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(), $e->getMessage(),
+                $e->getMessage(), $e->getMessage()
+            );
         }
     }
 
@@ -114,39 +138,54 @@ class CartMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($args['input'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
         $data = $args['input'];
 
-        if (! isset($data['qty']) || 
-            (isset($data['qty']) && ! $data['qty'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($data['qty'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
-        
+
         try {
             $qty = [];
+
             foreach ($data['qty'] as $item) {
-                if (isset($item['cart_item_id']) && $item['quantity']) {
+                if (
+                    isset($item['cart_item_id'])
+                    && $item['quantity']
+                ) {
                     $qty[$item['cart_item_id']] = $item['quantity'];
                 }
             }
 
             $data['qty'] = $qty;
-            $result = Cart::updateItems($data);
-            if ($result == true) {
+
+            if (Cart::updateItems($data)) {
                 return [
-                    'status'    => true,
-                    'message'   => trans('bagisto_graphql::app.shop.response.success-update-to-cart'),
-                    'cart'      => Cart::getCart(),
+                    'status'  => true,
+                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-update-to-cart'),
+                    'cart'    => Cart::getCart(),
                 ];
-            } else {
-                return $result;
             }
+
+            return [
+                'status'  => false,
+                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-update-to-cart'),
+                'cart'    => Cart::getCart(),
+            ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -158,27 +197,42 @@ class CartMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($args['id'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
-        $cartItemId = $args['id'];
-        
         try {
-            $result = Cart::removeItem($cartItemId);
-            if ($result == true) {
+            $cartItem = $this->cartItemRepository->find($args['id']);
+
+            if ($cartItem) {
+                Event::dispatch('checkout.cart.delete.before', $args['id']);
+
+                Shipping::removeAllShippingRates();
+
+                $this->cartItemRepository->delete($cartItem->id);
+
+                Event::dispatch('checkout.cart.delete.after', $args['id']);
 
                 return [
-                    'status'    => true,
-                    'message'   => trans('bagisto_graphql::app.shop.response.success-delete-cart-item'),
-                    'cart'      => Cart::getCart(),
+                    'status'  => true,
+                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-delete-cart-item'),
+                    'cart'    => Cart::getCart(),
                 ];
-            } else {
-                return $result;
             }
+
+            return [
+                'status'  => true,
+                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-delete-cart-item'),
+                'cart'    => Cart::getCart(),
+            ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -188,27 +242,34 @@ class CartMutation extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
-    {   
+    {
         try {
-            $result = Cart::removeAllItems();
+            if ($cart = Cart::getCart()) {
+                Event::dispatch('checkout.cart.delete.all.before', $cart);
 
-            $cart = Cart::getCart();
-            
-            if ($result) {
+                $this->cartRepository->delete($cart->id);
+
+                Cart::resetCart();
+
+                Event::dispatch('checkout.cart.delete.all.after', $cart);
+
                 return [
-                    'status'    => true,
-                    'message'   => trans('shop::app.checkout.cart.item.success-all-remove'),
-                    'cart'      => $cart,
+                    'status'  => true,
+                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-all-remove'),
+                    'cart'    => $cart,
                 ];
             }
-            
+
             return [
-                'status'    => false,
-                'message'   => trans('velocity::app.error.something_went_wrong'),
-                'cart'      => $cart,
+                'status'  => false,
+                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-all-remove'),
+                'cart'    => $cart,
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 
@@ -220,28 +281,32 @@ class CartMutation extends Controller
      */
     public function move($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($args['id'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.cart.item.error-invalid-parameter')
+            );
         }
 
-        $cartItemId = $args['id'];
-        
         try {
-            $result = Cart::moveToWishlist($cartItemId);
-            
-            if ( $result == true) {
-
+            if (Cart::moveToWishlist($args['id'])) {
                 return [
-                    'status'    => true,
-                    'message'   => trans('bagisto_graphql::app.shop.response.success-moved-cart-item'),
-                    'cart'      => Cart::getCart(),
+                    'status'  => true,
+                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-moved-cart-item'),
+                    'cart'    => Cart::getCart(),
                 ];
-            } else {
-                return $result;
             }
+
+            return [
+                'status'  => false,
+                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-moved-cart-item'),
+                'cart'    => Cart::getCart(),
+            ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException(
+                $e->getMessage(),
+                $e->getMessage()
+            );
         }
     }
 }

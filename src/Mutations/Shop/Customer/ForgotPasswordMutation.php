@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Validator;
 use Exception;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class ForgotPasswordMutation extends Controller
@@ -31,7 +31,7 @@ class ForgotPasswordMutation extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
+
         $this->middleware('auth:' . $this->guard, ['except' => ['forgot']]);
     }
 
@@ -42,46 +42,49 @@ class ForgotPasswordMutation extends Controller
      */
     public function forgot($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-        (isset($args['input']) && ! $args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
+        if (empty($args['input'])) {
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
+            );
         }
-    
+
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
             'email' => 'required|email',
         ]);
-                
+
         if ($validator->fails()) {
             $errorMessage = [];
+
             foreach ($validator->messages()->toArray() as $message) {
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
-            
+
             throw new CustomException(
                 implode(" ,", $errorMessage),
                 'Invalid ForgotPassword Details.'
             );
         }
-        
+
         try {
             $response = $this->broker()->sendResetLink($data);
-            
+
             if ($response == Password::RESET_LINK_SENT) {
                 return [
-                    'status'    => true,
-                    'success'   => trans('bagisto_graphql::app.shop.response.reset_link_sent')
+                    'status'  => true,
+                    'success' => trans('bagisto_graphql::app.shop.customer.reset-link-sent')
                 ];
-            } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.password-reset-failed'),
-                    'Invalid ForgotPassword Email Details.'
-                );
             }
+
+            throw new CustomException(
+                trans('bagisto_graphql::app.shop.customer.not-exists'),
+                'Invalid ForgotPassword Email Details.'
+            );
         } catch (\Swift_RfcComplianceException $e) {
             throw new CustomException(
-                trans('customer::app.forget_password.reset_link_sent'),
+                trans('bagisto_graphql::app.shop.customer.reset-link-sent'),
                 'Swift_RfcComplianceException: Invalid ForgotPassword Details.'
             );
         } catch (Exception $e) {

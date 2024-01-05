@@ -10,15 +10,15 @@ extend type Mutation {
     addItemToCart(
         input: AddItemToCartInput!
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@store")
-  
+
     updateItemToCart(
         input: UpdateItemToCartInput!
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@update")
-  
+
     removeCartItem(id: ID!): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@delete")
-  
+
     removeAllCartItem: CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
-  
+
     moveToWishlist(id: ID!): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@move")
 }
 
@@ -30,13 +30,13 @@ input AddItemToCartInput {
     # Used in case of adding Grouped Product to Cart
     selectedConfigurableOption: Int @rename(attribute: "selected_configurable_option")
     superAttribute: [ConfigurableProductInput!] @rename(attribute: "super_attribute")
-    
+
     # Used in case of adding Grouped Product to Cart
     qty: [GroupedProductInput!]
 
     # Used in case of adding Downloadable Product to Cart
     links: [Int!]
-    
+
     # Used in case of adding Bundled Product to Cart
     bundleOptionQuantity: [Int]   @rename(attribute: "bundle_option_qty")
     bundleOptions: [BundledOptionsInput!] @rename(attribute: "bundle_options")
@@ -53,12 +53,13 @@ input GroupedProductInput {
 }
 
 input BundledOptionsInput {
-    bundleOptionId: [Int!] @rename(attribute: "bundle_option_id")
+    bundleOptionId: Int! @rename(attribute: "bundle_option_id")
+    bundleOptionProductId: [Int!] @rename(attribute: "bundle_option_product_id")
+    qty: Int
 }
 
 input UpdateItemToCartInput {
     qty: [UpdateItemsQty!]
-    
 }
 
 input UpdateItemsQty {

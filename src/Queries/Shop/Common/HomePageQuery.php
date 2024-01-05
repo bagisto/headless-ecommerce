@@ -2,21 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Velocity\Repositories\VelocityMetadataRepository;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Velocity\Repositories\ContentRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Shop\Repositories\ThemeCustomizationRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter
 {
-       /**
+    /**
      * Using const variable for status
      */
     const STATUS = 1;
@@ -24,78 +23,45 @@ class HomePageQuery extends BaseFilter
     /**
      * Create a new controller instance.
      *
+     * @param  \Webkul\Product\Repositories\AttributeRepository  $attributeRepository
      * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
-     * @param  \Webkul\Velocity\Repositories\VelocityMetadataRepository $velocityMetadataRepository
      * @param  \Webkul\Category\Repositories\CategoryRepository $categoryRepository
-     * @param  \Webkul\Velocity\Repositories\ContentRepository $contentRepository
+     * @param  \Webkul\Customer\Repositories\CustomerRepository $customerRepository
      * @param  \Webkul\Customer\Repositories\WishlistRepository $wishlistRepository
+     * @param  \Webkul\Velocity\Repositories\VelocityMetadataRepository $velocityMetadataRepository
     * @return void
      */
     public function __construct(
+        protected AttributeRepository $attributeRepository,
         protected ProductRepository $productRepository,
         protected ProductFlatRepository $productFlatRepository,
-        protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected CategoryRepository $categoryRepository,
-        protected WishlistRepository $wishlistRepository
+        protected CustomerRepository $customerRepository,
+        protected WishlistRepository $wishlistRepository,
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
     )
     {
     }
 
+    /**
+     * @param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return \Webkul\Core\Contracts\Channel
+     */
     public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
-    {   
+    {
         return core()->getDefaultChannel();
     }
 
-    public function getNewProducts($rootValue, array $args, GraphQLContext $context)
-    {
-        $count = isset($args['count']) ? $args['count'] : 4;
-
-        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
-            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-            $locale = request()->get('locale') ?: app()->getLocale();
-
-            return $query->distinct()
-                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
-                ->addSelect('products.*')
-                ->where('product_flat.status', 1)
-                ->where('product_flat.visible_individually', 1)
-                ->where('product_flat.new', 1)
-                ->whereIn('products.type', ['simple', 'virtual', 'configurable'])
-                ->where('product_flat.channel', $channel)
-                ->where('product_flat.locale', $locale)
-                ->inRandomOrder();
-        })->paginate($count);
-
-        return $results;      
-    }
-
-    public function getFeaturedProducts($rootValue, array $args, GraphQLContext $context)
-    {
-        $count = isset($args['count']) ? $args['count'] : 4;
-
-        $results = app(ProductRepository::class)->scopeQuery(function ($query) {
-            $channel = request()->get('channel') ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-            $locale = request()->get('locale') ?: app()->getLocale();
-
-            return $query->distinct()
-                ->leftJoin('product_flat', 'products.id', '=', 'product_flat.product_id')
-                ->addSelect('products.*')
-                ->where('product_flat.status', 1)
-                ->where('product_flat.visible_individually', 1)
-                ->where('product_flat.featured', 1)
-                ->whereIn('products.type', ['simple', 'virtual', 'configurable'])
-                ->where('product_flat.channel', $channel)
-                ->where('product_flat.locale', $locale)
-                ->inRandomOrder();
-        })->paginate($count);
-
-        return $results;      
-    }
-
-    public function getSliders($rootValue, array $args, GraphQLContext $context)
+    /**
+     *@param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return mixed
+     */
+    public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
     {
         visitor()->visit();
 
@@ -104,198 +70,299 @@ class HomePageQuery extends BaseFilter
             'channel_id' => core()->getCurrentChannel()->id
         ]);
 
-        return $customizations;      
-    }
+        $result = $customizations->map(function ($item) {
 
-    public function getAdvertisements($rootValue, array $args)
-    {
-        $data = [
-            'advertisementFour' => [
-                [
-                    'image' => asset('/themes/velocity/assets/images/big-sale-banner.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/seasons.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/deals.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/kids.webp'),
-                    'slug'  => null
-                ],
-            ],
-            'advertisementThree' => [
-                [
-                    'image' => asset('/themes/velocity/assets/images/headphones.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/watch.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/kids-2.webp'),
-                    'slug'  => null
-                ],
-            ],
-            'advertisementTwo' => [
-                [
-                    'image' => asset('/themes/velocity/assets/images/toster.webp'),
-                    'slug'  => null
-                ],  [
-                    'image' => asset('/themes/velocity/assets/images/trimmer.webp'),
-                    'slug'  => null
-                ],
-            ],
-        ];
-        
-        if (core()->getCurrentChannel()->theme == 'velocity') {
-            $advertisementRecord = $this->velocityMetadataRepository->where(['locale' => core()->getRequestedLocaleCode(), 'channel' => core()->getDefaultChannelCode()])->first();
-            
-            if (! $advertisementRecord) {
-                return $data;
-            }
+            if ($item->type == 'image_carousel') {
 
-            $advertisement = json_decode($advertisementRecord->advertisement, true);
-            
-            $advertisementFour = $this->advertisement(4, $advertisement);
-            $advertisementThree = $this->advertisement(3, $advertisement);
-            $advertisementTwo = $this->advertisement(2, $advertisement);
+                $images['images'] = [];
 
-            $homeContent = preg_replace('/\s+/', '', $advertisementRecord->home_page_content);
-            
-            foreach (explode("@include", $homeContent) as $template) {
-                if (Str::contains($template, 'shop::home.advertisements.advertisement-four')
-                ) {
-                    $advertisementFour = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-four',", $template, $advertisementFour);
-
-                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-three')) {
-                    $advertisementThree = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-three',", $template, $advertisementThree);
-                    
-                } else if (Str::contains($template, 'shop::home.advertisements.advertisement-two')) {
-                    $advertisementTwo = $this->getAdvertisementSlug("'shop::home.advertisements.advertisement-two',", $template, $advertisementTwo);
+                foreach ($item->options['images'] as $i => $element) {
+                    $images['images'][$i] = array_merge($element, ['image_url' => asset('/').$element['image']]);
                 }
-            }
-            
-            $data['advertisementFour'] = $advertisementFour;
-            $data['advertisementThree'] = $advertisementThree;
-            $data['advertisementTwo'] = $advertisementTwo;
-        } else {
-            $data['advertisementFour'] = $data['advertisementTwo'] = [];
-            $data['advertisementThree'] = [
-                [
-                    'image' => asset("/themes/default/assets/images/1.webp"),
-                    'slug'  => null
-                ],  [
-                    'image' => asset("/themes/default/assets/images/2.webp"),
-                    'slug'  => null
-                ],  [
-                    'image' => asset("/themes/default/assets/images/3.webp"),
-                    'slug'  => null
-                ],
-            ];
-        }
 
-        return $data;
+                $item->options = $images;
+            }
+
+            if ($item->type == 'static_content') {
+
+                $staticContent['css'] = $item->options['css'];
+                $staticContent['html'] = [];
+
+                $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
+
+                $item->options = $staticContent;
+            }
+
+            if ($item->type == 'product_carousel' || $item->type == 'category_carousel') {
+
+                if (isset($item->options['title'])) {
+                    $options['title'] =  $item->options['title'];
+                }
+
+                $options['filters'] =  [];
+
+                $i = 0;
+
+                foreach ($item->options['filters'] as $key => $value) {
+                    $options['filters'][$i]['key'] = $key;
+                    $options['filters'][$i]['value'] = $value;
+
+                    $i++;
+                }
+
+                $item->options = $options;
+            }
+
+            return $item;
+        });
+
+        return $result;
     }
 
+    /**
+     * @param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return void
+     */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
-        $categoryId = isset($args['categoryId']) ? $args['categoryId'] : core()->getCurrentChannel()->root_category_id;
+        $filters = array_filter($args['input']);
+        $params = [];
 
-        $categorySlug = isset($args['categorySlug']) ? $args['categorySlug'] : '';
-
-        if ($categorySlug) {
-            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($categorySlug) {
-                $q->where('slug', 'like', '%' . urldecode($categorySlug) . '%');
-            })->first();
-
-            if (isset($category->id))
-                $categoryId = $category->id;
-                
+        foreach ($filters as $input) {
+            $params[$input['key']] = $input['value'];
         }
-        
-        return $this->categoryRepository->getVisibleCategoryTree($categoryId);
+
+        /**
+         * These are the default parameters. By default, only the enabled category
+         * will be shown in the current locale.
+         */
+        if (! isset($params['status'])) {
+            $params = array_merge(['status' => 1], $params);
+        }
+
+        if (! isset($params['locale'])) {
+            $params = array_merge(['locale' => app()->getLocale()], $params);
+        }
+
+        $categories = $this->categoryRepository->getAll($params);
+
+        return $categories;
     }
 
-    public function getvelocityMetaData($rootValue, array $args, GraphQLContext $context)
+    /**
+     * Get all categories in tree format.
+     */
+    public function getCategoriesTree()
     {
-        return $this->contentRepository->latest()->get();
+        $categories = $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
+
+        return $categories;
     }
 
-    public function advertisement($type, $advertisement)
+    /**
+     * Get all products.
+     * @param mixed $rootValue
+     * @param array $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllProducts($query, $input)
     {
-        $results = [];
-
-        if ($type == 4 && isset($advertisement[4]) && is_array($advertisement[4])) {
-            $advertisementFour = array_values(array_filter($advertisement[4]));
-            foreach($advertisementFour as $key => $value) {
-                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
-            }
-
-            if (empty($results)) {
-                $results[0] = ['image' => asset('/themes/velocity/assets/images/big-sale-banner.webp')];
-                $results[1] = ['image' => asset('/themes/velocity/assets/images/seasons.webp')];
-                $results[2] = ['image' => asset('/themes/velocity/assets/images/deals.webp')];
-                $results[3] = ['image' => asset('/themes/velocity/assets/images/kids.webp')];
-            }
-        }
-
-        if ($type == 3 &&  isset($advertisement[3]) && is_array($advertisement[3])) {
-            $advertisementThree = array_values(array_filter($advertisement[3]));
-
-            foreach($advertisementThree as $key => $value) {
-                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
-            }
-
-            if (empty($results)) {
-               $results[0] = ['image' => asset('/themes/velocity/assets/images/headphones.webp')];
-               $results[1] = ['image' => asset('/themes/velocity/assets/images/watch.webp')];
-               $results[2] = ['image' => asset('/themes/velocity/assets/images/kids-2.webp')];
-            }
-        }
-
-        if ($type == 2 &&  isset($advertisement[2]) && is_array($advertisement[2])) {
-            $advertisementTwo = array_values(array_filter($advertisement[2]));
-
-            foreach($advertisementTwo as $key => $value) {
-                $results[$key] = $value ? ['image' => Storage::url($value)] : '';
-            }
-
-            if (empty($results)) {
-                $results[0] = ['image' => asset('/themes/velocity/assets/images/toster.webp')];
-                $results[1] = ['image' => asset('/themes/velocity/assets/images/trimmer.webp')];
-            }
-        }
-       
-        return $results;
+        return $this->searchFromDatabase($query, $input);
     }
 
-    public function getAdvertisementSlug($tempString, $template, $advertisement)
+    /**
+     * Search product from database.
+     *
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function searchFromDatabase($query, $input)
     {
-        $trimString = trim(preg_replace('/\(+/', '', $template), ')');
-        $findArray = explode($tempString, $trimString);
+        $params = [
+            'status'               => 1,
+            'visible_individually' => 1,
+            'url_key'              => null,
+        ];
 
-        if (count($findArray) > 1) {
-            $indexArray = explode(",", str_replace(']', '', str_replace('[', '', $findArray[1])));
+        $filters = array_filter($input);
 
-            foreach ($indexArray as $slugString) {
-                $oneSlug = explode("'one'=>", $slugString); 
-                $twoSlug = explode("'two'=>", $slugString);
-                $threeSlug = explode("'three'=>", $slugString);
-                $fourSlug = explode("'four'=>", $slugString);
+        foreach ($filters as $input) {
+            $params[$input['key']] = $input['value'];
+        }
 
-                if (count($oneSlug) > 1)
-                    $advertisement[0]['slug'] = str_replace("'", '', $oneSlug[1]);
-                elseif (count($twoSlug) > 1)
-                    $advertisement[1]['slug'] = str_replace("'", '', $twoSlug[1]);
-                elseif (count($threeSlug) > 1)
-                    $advertisement[2]['slug'] = str_replace("'", '', $threeSlug[1]);
-                elseif (count($fourSlug) > 1)
-                    $advertisement[3]['slug'] = str_replace("'", '', $fourSlug[1]);
+        if (! empty($params['search'])) {
+            $params['name'] = $params['search'];
+        }
 
+        $prefix = DB::getTablePrefix();
+
+        $qb = app(ProductRepository::class)->distinct()
+                ->select('products.*')
+                ->leftJoin('products as variants', DB::raw('COALESCE(' . $prefix . 'variants.parent_id, ' . $prefix . 'variants.id)'), '=', 'products.id')
+                ->leftJoin('product_price_indices', function ($join) {
+                    $customerGroup = $this->customerRepository->getCurrentGroup();
+
+                    $join->on('products.id', '=', 'product_price_indices.product_id')
+                        ->where('product_price_indices.customer_group_id', $customerGroup->id);
+                });
+
+        if (! empty($params['category_id'])) {
+            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
+                ->whereIn('product_categories.category_id', explode(',', $params['category_id']));
+        }
+
+        if (! empty($params['type'])) {
+            $qb->where('products.type', $params['type']);
+        }
+
+        /**
+         * Filter query by price.
+         */
+        if (! empty($params['price'])) {
+            $priceRange = explode(',', $params['price']);
+
+            $qb->whereBetween('product_price_indices.min_price', [
+                core()->convertToBasePrice(current($priceRange)),
+                core()->convertToBasePrice(end($priceRange)),
+            ]);
+        }
+
+        /**
+         * Retrieve all the filterable attributes.
+         */
+        $filterableAttributes = $this->attributeRepository->getProductDefaultAttributes(array_keys($params));
+
+        /**
+         * Filter the required attributes.
+         */
+        $attributes = $filterableAttributes->whereIn('code', [
+            'name',
+            'status',
+            'visible_individually',
+            'url_key',
+        ]);
+
+        /**
+         * Filter collection by required attributes.
+         */
+        foreach ($attributes as $attribute) {
+            $alias = $attribute->code . '_product_attribute_values';
+
+            $qb->leftJoin('product_attribute_values as ' . $alias, 'products.id', '=', $alias . '.product_id')
+                ->where($alias . '.attribute_id', $attribute->id);
+
+            if ($attribute->code == 'name') {
+                $qb->where($alias . '.text_value', 'like', '%' . urldecode($params['name']) . '%');
+            } elseif ($attribute->code == 'url_key') {
+                if (empty($params['url_key'])) {
+                    $qb->whereNotNull($alias . '.text_value');
+                } else {
+                    $qb->where($alias . '.text_value', 'like', '%' . urldecode($params['url_key']) . '%');
+                }
+            } else {
+                if (is_null($params[$attribute->code])) {
+                    continue;
+                }
+
+                $qb->where($alias . '.' . $attribute->column_name, 1);
             }
         }
 
-        return $advertisement;
+        /**
+         * Filter the filterable attributes.
+         */
+        $attributes = $filterableAttributes->whereNotIn('code', [
+            'price',
+            'name',
+            'status',
+            'visible_individually',
+            'url_key',
+        ]);
+
+        /**
+         * Filter query by attributes.
+         */
+        if ($attributes->isNotEmpty()) {
+            $qb->leftJoin('product_attribute_values', 'products.id', '=', 'product_attribute_values.product_id');
+
+            $qb->where(function ($filterQuery) use ($params, $attributes) {
+                foreach ($attributes as $attribute) {
+                    $filterQuery->orWhere(function ($attributeQuery) use ($params, $attribute) {
+                        $attributeQuery = $attributeQuery->where('product_attribute_values.attribute_id', $attribute->id);
+
+                        $values = explode(',', $params[$attribute->code]);
+
+                        if ($attribute->type == 'price') {
+                            $attributeQuery->whereBetween('product_attribute_values.' . $attribute->column_name, [
+                                core()->convertToBasePrice(current($values)),
+                                core()->convertToBasePrice(end($values)),
+                            ]);
+                        } else {
+                            $attributeQuery->whereIn('product_attribute_values.' . $attribute->column_name, $values);
+                        }
+                    });
+                }
+            });
+
+            /**
+             * This is key! if a product has been filtered down to the same number of attributes that we filtered on,
+             * we know that it has matched all of the requested filters.
+             *
+             * To Do (@devansh): Need to monitor this.
+             */
+            $qb->groupBy('products.id');
+            $qb->havingRaw('COUNT(*) = ' . count($attributes));
+        }
+
+        /**
+         * Sort collection.
+         */
+        $sortOptions = $this->getSortOptions($params);
+
+        if ($sortOptions['order'] != 'rand') {
+            $attribute = $this->attributeRepository->findOneByField('code', $sortOptions['sort']);
+
+            if ($attribute) {
+                if ($attribute->code === 'price') {
+                    $qb->orderBy('product_price_indices.min_price', $sortOptions['order']);
+                } else {
+                    $alias = 'sort_product_attribute_values';
+
+                    $qb->leftJoin('product_attribute_values as ' . $alias, function ($join) use ($alias, $attribute) {
+                        $join->on('products.id', '=', $alias . '.product_id')
+                            ->where($alias . '.attribute_id', $attribute->id)
+                            ->where($alias . '.channel', core()->getRequestedChannelCode())
+                            ->where($alias . '.locale', core()->getRequestedLocaleCode());
+                    })
+                        ->orderBy($alias . '.' . $attribute->column_name, $sortOptions['order']);
+                }
+            } else {
+                /* `created_at` is not an attribute so it will be in else case */
+                $qb->orderBy('products.created_at', $sortOptions['order']);
+            }
+        } else {
+            return $qb->inRandomOrder();
+        }
+
+        return $qb->groupBy('products.id');
+    }
+
+    /**
+     * Fetch per page limit from toolbar helper. Adapter for this repository.
+     */
+    public function getPerPageLimit(array $params): int
+    {
+        return product_toolbar()->getLimit($params);
+    }
+
+    /**
+     * Fetch sort option from toolbar helper. Adapter for this repository.
+     */
+    public function getSortOptions(array $params): array
+    {
+        return product_toolbar()->getOrder($params);
     }
 }

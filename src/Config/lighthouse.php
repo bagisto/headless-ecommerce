@@ -11,7 +11,6 @@ return [
     | registration and take full control.
     |
     */
-
     'route' => [
         /*
          * The URI the endpoint responds to, e.g. mydomain.com/graphql.
@@ -36,10 +35,10 @@ return [
 
             // Logs every incoming GraphQL query.
             // \Nuwave\Lighthouse\Support\Http\Middleware\LogGraphQLQueries::class,
-            
+
             // Validate Locale in request
             \Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
-            
+
             // Validate Currency in request
             \Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware::class,
         ],
@@ -62,7 +61,6 @@ return [
     | Falls back to the Laravel default if the defined guard is either `null` or not found.
     |
     */
-
     'guard' => 'admin-api',
 
     /*
@@ -74,7 +72,6 @@ return [
     | Additional schema files may be imported from within that file.
     |
     */
-
     'schema_path'=>base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
 
     /*
@@ -87,7 +84,6 @@ return [
     | caching of the final schema to optimize performance of large schemas.
     |
     */
-
     'cache' => [
         /*
          * Setting to true enables schema caching.
@@ -139,7 +135,6 @@ return [
     | Caches the result of parsing incoming query strings to boost performance on subsequent requests.
     |
     */
-
     'query_cache' => [
         /*
          * Setting to true enables query caching.
@@ -172,17 +167,16 @@ return [
     | or an array, they are tried in order and the first match is used.
     |
     */
-
     'namespaces' => [
-        'models' => ['App', 'Webkul\\GraphQLAPI\\Models'],
-        'queries' => 'Webkul\\GraphQLAPI\\Queries',
-        'mutations' => 'Webkul\\GraphQLAPI\\Mutations',
+        'models'        => ['App', 'Webkul\\GraphQLAPI\\Models'],
+        'queries'       => 'Webkul\\GraphQLAPI\\Queries',
+        'mutations'     => 'Webkul\\GraphQLAPI\\Mutations',
         'subscriptions' => 'Webkul\\GraphQLAPI\\Subscriptions',
-        'interfaces' => 'Webkul\\GraphQLAPI\\Interfaces',
-        'unions' => 'Webkul\\GraphQLAPI\\Unions',
-        'scalars' => 'Webkul\\GraphQLAPI\\Scalars',
-        'directives' => ['Webkul\\GraphQLAPI\\Directives'],
-        'validators' => ['Webkul\\GraphQLAPI\\Validators'],
+        'interfaces'    => 'Webkul\\GraphQLAPI\\Interfaces',
+        'unions'        => 'Webkul\\GraphQLAPI\\Unions',
+        'scalars'       => 'Webkul\\GraphQLAPI\\Scalars',
+        'directives'    => ['Webkul\\GraphQLAPI\\Directives'],
+        'validators'    => ['Webkul\\GraphQLAPI\\Validators'],
     ],
 
     /*
@@ -194,10 +188,9 @@ return [
     | Read more at https://webonyx.github.io/graphql-php/security/
     |
     */
-
     'security' => [
-        'max_query_complexity' => \GraphQL\Validator\Rules\QueryComplexity::DISABLED,
-        'max_query_depth' => \GraphQL\Validator\Rules\QueryDepth::DISABLED,
+        'max_query_complexity'  => \GraphQL\Validator\Rules\QueryComplexity::DISABLED,
+        'max_query_depth'       => \GraphQL\Validator\Rules\QueryDepth::DISABLED,
         'disable_introspection' => (bool) env('LIGHTHOUSE_SECURITY_DISABLE_INTROSPECTION', false)
             ? \GraphQL\Validator\Rules\DisableIntrospection::ENABLED
             : \GraphQL\Validator\Rules\DisableIntrospection::DISABLED,
@@ -212,7 +205,6 @@ return [
     | the @paginate directive, or paginated relation directives.
     |
     */
-
     'pagination' => [
         /*
          * Allow clients to query paginated lists without specifying the amount of items.
@@ -254,7 +246,6 @@ return [
     | 15 => RETHROW_UNSAFE_EXCEPTIONS | RETHROW_INTERNAL_EXCEPTIONS | INCLUDE_TRACE | INCLUDE_DEBUG_MESSAGE
     |
     */
-
     'debug' => env('LIGHTHOUSE_DEBUG', \GraphQL\Error\DebugFlag::INCLUDE_DEBUG_MESSAGE | \GraphQL\Error\DebugFlag::INCLUDE_TRACE),
 
     /*
@@ -267,7 +258,6 @@ return [
     | The classes must implement \Nuwave\Lighthouse\Execution\ErrorHandler
     |
     */
-
     'error_handlers' => [
         \Nuwave\Lighthouse\Execution\AuthenticationErrorHandler::class,
         \Nuwave\Lighthouse\Execution\AuthorizationErrorHandler::class,
@@ -286,7 +276,6 @@ return [
     | The classes must implement \Nuwave\Lighthouse\Support\Contracts\FieldMiddleware
     |
     */
-
     'field_middleware' => [
         \Nuwave\Lighthouse\Schema\Directives\TrimDirective::class,
         \Nuwave\Lighthouse\Schema\Directives\ConvertEmptyStringsToNullDirective::class,
@@ -307,7 +296,6 @@ return [
     | When creating a Relay compliant server, this must be named "id".
     |
     */
-
     'global_id_field' => 'id',
 
     /*
@@ -320,7 +308,6 @@ return [
     | You may set this flag to either process or deny these queries.
     |
     */
-
     'persisted_queries' => true,
 
     /*
@@ -332,7 +319,6 @@ return [
     | wrapped in a transaction to ensure atomicity.
     |
     */
-
     'transactional_mutations' => true,
 
     /*
@@ -345,7 +331,6 @@ return [
     | allowed inputs by design, mass assignment protection is not needed.
     |
     */
-
     'force_fill' => true,
 
     /*
@@ -357,7 +342,6 @@ return [
     | will be optimized by combining the queries through the BatchLoader.
     |
     */
-
     'batchload_relations' => true,
 
     /*
@@ -370,7 +354,6 @@ return [
     | key field is called exactly `id` for every type in your schema.
     |
     */
-
     'shortcut_foreign_key_selection' => false,
 
     /*
@@ -385,7 +368,6 @@ return [
     | This setting will be removed and always behave as if it were true in v6.
     |
     */
-
     'non_null_pagination_results' => false,
 
     /*
@@ -403,7 +385,6 @@ return [
     | calling the Enum's __toString() method automagically when used in a query.
     |
     */
-
     'unbox_bensampo_enum_enum_instances' => true,
 
     /*
@@ -415,7 +396,6 @@ return [
     | as well their required configuration options.
     |
     */
-
     'subscriptions' => [
         /*
          * Determines if broadcasts should be queued by default.
@@ -456,14 +436,14 @@ return [
                 'driver' => 'log',
             ],
             'pusher' => [
-                'driver' => 'pusher',
-                'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@pusher',
+                'driver'     => 'pusher',
+                'routes'     => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@pusher',
                 'connection' => 'pusher',
             ],
             'echo' => [
-                'driver' => 'echo',
+                'driver'     => 'echo',
                 'connection' => env('LIGHTHOUSE_SUBSCRIPTION_REDIS_CONNECTION', 'default'),
-                'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@echoRoutes',
+                'routes'     => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@echoRoutes',
             ],
         ],
 
@@ -489,7 +469,6 @@ return [
     | Configuration for the experimental @defer directive support.
     |
     */
-
     'defer' => [
         /*
          * Maximum number of nested fields that can be deferred in one query.
@@ -514,7 +493,6 @@ return [
     | Lighthouse can act as a federated service: https://www.apollographql.com/docs/federation/federation-spec.
     |
     */
-
     'federation' => [
         /*
          * Location of resolver classes when resolving the `_entities` field.

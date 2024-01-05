@@ -14,7 +14,7 @@ extend type Mutation @guard {
         id: ID!,
         input: CreateChannelInput!
     ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@update")
-    
+
     deleteChannel(id: ID!): Channel  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\ChannelMutation@delete")
 }
 
@@ -23,8 +23,6 @@ input CreateChannelInput {
     name: String!
     description: String
     theme: String!
-    # homePageContent: String @rename(attribute: "home_page_content")
-    # footerContent: String @rename(attribute: "footer_content")
     hostname: String
     defaultLocaleId: String! @rename(attribute: "default_locale_id")
     baseCurrencyId: String! @rename(attribute: "base_currency_id")
@@ -55,8 +53,6 @@ type Channel {
     name: String!
     description: String
     theme: String!
-    # homePageContent: String @rename(attribute: "home_page_content")
-    # footerContent: String @rename(attribute: "footer_content")
     hostname: String
     defaultLocaleId: Int! @rename(attribute: "default_locale_id")
     baseCurrencyId: Int! @rename(attribute: "base_currency_id")

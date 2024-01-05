@@ -2,10 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Admin;
 
-use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Product\Repositories\ProductRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Admin\Http\Requests\MassUpdateRequest;
+use Webkul\Admin\Http\Requests\MassDestroyRequest;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
@@ -21,17 +25,17 @@ class NotificationController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
+     * @param \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
      * @param \Webkul\Core\Repositories\ChannelRepository  $channelRepository
      * @param \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
+     * @param \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
      */
     public function __construct(
-        protected ChannelRepository $channelRepository,
-        protected NotificationRepository $notificationRepository,
         protected CategoryRepository $categoryRepository,
-        protected ProductRepository $productRepository
-    )   {
+        protected ChannelRepository $channelRepository,
+        protected ProductRepository $productRepository,
+        protected NotificationRepository $notificationRepository
+    ) {
         $this->_config = request('_config');
 
         $this->middleware('admin');
@@ -48,7 +52,7 @@ class NotificationController extends Controller
             return app(PushNotificationDataGrid::class)->toJson();
         }
 
-        return view($this->_config['view']);
+        return view('bagisto_graphql::admin.settings.push_notification.index');
     }
 
     /**
@@ -58,9 +62,7 @@ class NotificationController extends Controller
      */
     public function create()
     {
-        $channels = $this->channelRepository->get();
-
-        return view($this->_config['view'], compact('channels'));
+        return view('bagisto_graphql::admin.settings.push_notification.create');
     }
 
     /**
@@ -70,22 +72,26 @@ class NotificationController extends Controller
      */
     public function store()
     {
-
         $this->validate(request(), [
-            'title'     => 'string|required',
-            'content'   => 'string|required',
-            'image.*'   => 'mimes:jpeg,jpg,bmp,png',
-            'type'      => 'required',
-            'channels'  => 'required',
-            'status'    => 'required'
+            'title'    => 'string|required',
+            'content'  => 'string|required',
+            'image.*'  => 'mimes:jpeg,jpg,bmp,png',
+            'type'     => 'required',
+            'channels' => 'required',
+            'status'   => 'required',
         ]);
+
         $data = collect(request()->all())->except('_token')->toArray();
 
-        $this->notificationRepository->create($data);
+        Event::dispatch('settings.notification.create.before');
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.alert.create-success', ['name' => 'Notification']));
+        $notification = $this->notificationRepository->create($data);
 
-        return redirect()->route('admin.push_notification.index');
+        Event::dispatch('settings.notification.create.after', $notification);
+
+        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.create.success'));
+
+        return redirect()->route('admin.settings.push_notification.index');
     }
 
     /**
@@ -99,8 +105,8 @@ class NotificationController extends Controller
         $notification = $this->notificationRepository->findOrFail($id);
 
         $channels = $this->channelRepository->get();
-        // dd($notification->type ,"rgtr");
-        return view($this->_config['view'], compact('notification', 'channels'));
+
+        return view('bagisto_graphql::admin.settings.push_notification.edit', compact('notification', 'channels'));
     }
 
     /**
@@ -112,83 +118,101 @@ class NotificationController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'title'     => 'string|required',
-            'content'   => 'string|required',
-            'image.*'   => 'mimes:jpeg,jpg,bmp,png',
-            'type'      => 'required',
-            'channels'  => 'required',
-            'status'    => 'required'
+            'title'    => 'string|required',
+            'content'  => 'string|required',
+            'image.*'  => 'mimes:jpeg,jpg,bmp,png',
+            'type'     => 'required',
+            'channels' => 'required',
+            'status'   => 'required',
         ]);
 
-        $data = collect(request()->all())->except('_token')->toArray();
+        $requestData =  request()->all();
 
-        $this->notificationRepository->update($data, $id);
+        Event::dispatch('settings.notification.update.befor', $id);
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.alert.update-success', ['name' => 'Notification']));
+        $notification = $this->notificationRepository->update($requestData, $id);
 
-        return redirect()->route('admin.push_notification.index');
+        Event::dispatch('settings.notification.update.after', $notification);
+
+        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.edit.success'));
+
+        return redirect()->route('admin.settings.push_notification.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function delete($id)
+    public function destroy($id): JsonResponse
     {
         try {
+            Event::dispatch('settings.push-notification.delete.before', $id);
+
             $this->notificationRepository->delete($id);
 
-            return response()->json(['message' => trans('bagisto_graphql::app.admin.alert.delete-success', ['name' => 'Notification'])], 200);
+            Event::dispatch('settings.push-notification.delete.after', $id);
+
+            return new JsonResponse([
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
+            ]);
         } catch(\Exception $e) {
-            session()->flash('success', trans('bagisto_graphql::app.admin.alert.delete-failed', ['name' => 'Notification']));
         }
 
-        return response()->json(['message' => false], 400);
+        return new JsonResponse([
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed'),
+        ], 500);
     }
 
     /**
-     * To mass update the notification.
+     * Remove the specified resources from database.
      *
-     * @return \Illuminate\Http\Response
+     * @param MassDestroyRequest $massDestroyRequest
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function massUpdate()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResponse
     {
-        $notificationIds = explode(',', request()->input('indexes'));
-        $updateOption = request()->input('update-options');
+        $notificationsIds = $massDestroyRequest->input('indices');
+
+        foreach ($notificationsIds as $notificationsId) {
+            Event::dispatch('settings.push-notification.delete.before', $notificationsId);
+
+            $this->notificationRepository->delete($notificationsId);
+
+            Event::dispatch('settings.push-notification.delete.after', $notificationsId);
+        }
+
+        return new JsonResponse([
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-delete-success'),
+        ]);
+    }
+
+    /**
+     * Mass update the notifications.
+     *
+     * @param MassUpdateRequest $massUpdateRequest
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResponse
+    {
+        $notificationIds = $massUpdateRequest->input('indices');
 
         foreach ($notificationIds as $notificationId) {
+            Event::dispatch('settings.notification.update.before', $notificationId);
+
             $notification = $this->notificationRepository->find($notificationId);
 
             $notification->update([
-                'status' => $updateOption
+                'status' => $massUpdateRequest->input('value'),
             ]);
+
+            Event::dispatch('settings.notification.update.after', $notification);
         }
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.alert.update-success', ['name' => 'Notification']));
-
-        return redirect()->back();
-    }
-
-    /**
-     * To mass delete the notificaton.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function massDestroy()
-    {
-        $notificationIds = explode(',', request()->input('indexes'));
-
-        foreach ($notificationIds as $notificationId) {
-            $this->notificationRepository->deleteWhere([
-                'id' => $notificationId
-            ]);
-        }
-
-        session()->flash('success', trans('bagisto_graphql::app.admin.alert.delete-success', ['name' => 'Notification']));
-
-        return redirect()->back();
+        return new JsonResponse([
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-update-success')
+        ], 200);
     }
 
     /**
@@ -204,16 +228,20 @@ class NotificationController extends Controller
 
         if (isset($result->message_id)) {
 
-            session()->flash('success', trans('bagisto_graphql::app.admin.alert.sended-successfully', ['name' => 'Notification']));
+            session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.edit.notification-send-success'));
         } else {
 
             $message = $result;
 
-            if (gettype($result) == 'array' && !empty($result['error']))
+            if (
+                gettype($result) == 'array'
+                && !empty($result['error'])
+            ) {
                 $message = $result['error'];
-            elseif (isset($result->error))
+            } elseif (isset($result->error)) {
                 $message = $result->error;
-            
+            }
+
             session()->flash('error', $message);
         }
 
@@ -229,37 +257,34 @@ class NotificationController extends Controller
     {
         $data = request()->all();
 
-        if ( substr_count($data['givenValue'], ' ') > 0) {
-            return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => $data['selectedType']],200);
+        if (substr_count($data['givenValue'], ' ')) {
+            return response()->json([
+                'value'   => false,
+                'message' => 'Product not exist',
+                'type'    => $data['selectedType']
+            ], 200);
         }
 
         //product case
         if ($data['selectedType'] == 'product') {
             if ($product = $this->productRepository->find($data['givenValue'])) {
-
-                if (
-                    ! isset($product->id) || 
-                    ! isset($product->url_key) || 
-                    (
-                    isset($product->parent_id) 
-                    && $product->parent_id
-                    ) ) {
+                if (! isset($product->url_key)) {
                     return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
-                } else {
-                    return response()->json(['value' => true], 200);
                 }
-            } else {
-                return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
+
+                return response()->json(['value' => true], 200);
             }
+
+            return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
         }
 
         //category case
         if ($data['selectedType'] == 'category') {
             if ($this->categoryRepository->find($data['givenValue'])) {
                 return response()->json(['value' => true] ,200);
-            } else {
-                return response()->json(['value' => false, 'message' => 'Category not exist', 'type' => 'category'] ,200);
             }
+
+            return response()->json(['value' => false, 'message' => 'Category not exist', 'type' => 'category'] ,200);
         }
     }
 }

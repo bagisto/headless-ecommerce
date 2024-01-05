@@ -7,7 +7,6 @@ use Webkul\User\Models\Admin as BaseModel;
 
 class Admin extends BaseModel implements JWTSubject
 {
-
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

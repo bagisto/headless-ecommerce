@@ -5,9 +5,8 @@ namespace Webkul\GraphQLAPI\Models\Catalog;
 use Webkul\Category\Models\Category as BaseModel;
 use DB;
 
-class Category extends BaseModel 
+class Category extends BaseModel
 {
-
     //Make it available in the json response
     protected $appends = ['count'];
 
@@ -18,5 +17,5 @@ class Category extends BaseModel
     {
         $data = DB::table('product_categories')->where("category_id",$this->id)->get();
         return count($data);
-    }  
+    }
 }

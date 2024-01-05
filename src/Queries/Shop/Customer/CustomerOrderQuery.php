@@ -109,6 +109,6 @@ class CustomerOrderQuery
      */
     public function getOrderPaymentTitle($rootValue, array $args, GraphQLContext $context)
     {
-        return core()->getConfigData('sales.paymentmethods.' . $rootValue->method . '.title');
+        return core()->getConfigData('sales.payment_methods.' . $rootValue->method . '.title');
     }
 }

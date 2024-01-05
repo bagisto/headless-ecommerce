@@ -20,9 +20,9 @@ class FilterProducts extends BaseFilter
         $attributeFamily = "";
 
         $qty = "";
-        
+
         // filter Both the relationship Attribute Family as well the Inventories
-        if ( isset($arguments['attribute_family']) && isset($arguments['qty']) ) {
+        if (isset($arguments['attribute_family']) && isset($arguments['qty']) ) {
 
             $attributeFamily = $input['attribute_family'];
 
@@ -42,7 +42,7 @@ class FilterProducts extends BaseFilter
             })->where($arguments);
         }
         // filter the relationship Attribute Family
-        if ( isset($arguments['attribute_family'])) {
+        if (isset($arguments['attribute_family'])) {
 
             $attributeFamily = $input['attribute_family'];
 
@@ -54,7 +54,7 @@ class FilterProducts extends BaseFilter
         }
 
         // filter the relationship Inventories
-        if ( isset($arguments['qty']) || array_key_exists("qty",$input)) {
+        if (isset($arguments['qty']) || array_key_exists("qty",$input)) {
 
             $qty = $input['qty'];
 

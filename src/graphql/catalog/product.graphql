@@ -235,10 +235,24 @@ type ProductAdditionalData {
 type ProductPriceHtml {
     id: ID!
     type: String
-    html: String
-    regular: String
-    regularWithoutCurrencyCode: String
-    special: String
-    specialWithoutCurrencyCode: String
+    minPrice: String
+    priceHtml: String
+    priceWithoutHtml: String
+    regularPrice: String
+    formattedRegularPrice: String
+    finalPrice: String
+    formattedFinalPrice: String
     currencyCode: String
+    bundlePrice: BundlePrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getBundleProductPrice")
+}
+
+type BundlePrice {
+    finalPriceFrom: String
+    formattedFinalPriceFrom: String
+    regularPriceFrom: String
+    formattedRegularPriceFrom: String
+    finalPriceTo: String
+    formattedFinalPriceTo: String
+    regularPriceTo: String
+    formattedRegularPriceTo: String
 }

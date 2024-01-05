@@ -74,7 +74,7 @@ class NotificationRepository extends Repository
                 }
             }
         }
-        
+
         $this->uploadImages($data, $notification);
 
         Event::dispatch('api.notification.create.after', $notification);
@@ -95,18 +95,18 @@ class NotificationRepository extends Repository
         Event::dispatch('api.notification.update.before', $id);
 
         $notification = $this->find($id);
-        
+
         $notification->update($data);
 
         if (isset($data['channel']) && isset($data['locale'])) {
             $model = app()->make($this->model());
-            
+
             $notificationTranslation = $this->notificationTranslationRepository->findOneWhere([
                 'channel'               => $data['channel'],
                 'locale'                => $data['locale'],
                 'push_notification_id'  => $id,
             ]);
-            
+
             if ($notificationTranslation) {
                 foreach ($model->translatedAttributes as $attribute) {
                     if (isset($data[$attribute])) {
@@ -116,9 +116,9 @@ class NotificationRepository extends Repository
                 $notificationTranslation->save();
             }
         }
-        
+
         $this->uploadImages($data, $notification);
-        
+
         Event::dispatch('api.notification.update.after', $notification);
 
         return $notification;
@@ -143,7 +143,7 @@ class NotificationRepository extends Repository
                     if ($notification->{$type}) {
                         Storage::delete('public'.$notification->{$type});
                     }
-                   
+
                     $notification->{$type} = $request->file($file)->store($dir);
                     $notification->save();
                 }
@@ -170,8 +170,8 @@ class NotificationRepository extends Repository
             ['channel', '=', core()->getRequestedChannelCode()],
             ['locale', '=', core()->getRequestedLocaleCode()]
         ])->first();
-        
-        if ( $notificationTranslations ) {
+
+        if ($notificationTranslations ) {
             $notification->title = $notificationTranslations->title;
             $notification->content = $notificationTranslations->content;
         }
@@ -188,7 +188,7 @@ class NotificationRepository extends Repository
 
         switch ($notification->type) {
             case 'product' :
-                $product = $this->productRepository->findorfail($notification->product_category_id);
+                $product = $this->productRepository->findOrFail($notification->product_category_id);
 
                 $fieldData = array_merge($fieldData, [
                     'click_action'      => route('shop.product_or_category.index', $product->url_key),
@@ -198,8 +198,8 @@ class NotificationRepository extends Repository
             break;
 
             case 'category':
-                $category = $this->categoryRepository->findorfail($notification->product_category_id);
-                
+                $category = $this->categoryRepository->findOrFail($notification->product_category_id);
+
                 $fieldData = array_merge($fieldData, [
                     'click_action'      => route('shop.product_or_category.index', $category->slug),
                     'categoryName'      => $category->name ?? '',
@@ -244,7 +244,7 @@ class NotificationRepository extends Repository
                 'title' => $data['title'],
             ],
         );
-        
+
         $headers = array(
             'Content-Type:application/json',
             'Authorization:key=' . $authKey,
@@ -259,12 +259,12 @@ class NotificationRepository extends Repository
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
             curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, true );
             curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
-            
+
             $result = curl_exec( $ch );
             curl_close( $ch );
 
             Log::info('sendNotification: ', ['response' => json_decode($result)]);
-        
+
             return json_decode($result);
         } catch (\Exception $e) {
             session()->flash('error', $e);
