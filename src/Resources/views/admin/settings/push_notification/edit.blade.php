@@ -417,7 +417,7 @@
                             .then(response => {
                                 var productCategory = document.getElementById('product_category');
 
-                                if(response.data.value) {
+                                if (response.data.value) {
                                     productCategory.classList.remove('has-error');
                                     this.isValid = response.data.value;
                                     this.message = response.data.message;

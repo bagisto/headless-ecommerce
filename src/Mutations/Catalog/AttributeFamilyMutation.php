@@ -45,7 +45,7 @@ class AttributeFamilyMutation extends Controller
 
         $data = $args['input'];
 
-        if(! isset($data['attribute_groups'])) {
+        if (! isset($data['attribute_groups'])) {
             $data['attribute_groups'] = [];
         }
 

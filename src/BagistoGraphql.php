@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI;
 
 use JWTAuth;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Product\Repositories\{
@@ -92,7 +91,7 @@ class BagistoGraphql
         if (request()->hasHeader('authorization')) {
             $headerValue = explode("Bearer ", request()->header('authorization'));
 
-            if (isset($headerValue[1]) && $headerValue[1]) {
+            if (! empty($headerValue[1])) {
                 $token = $headerValue[1];
             }
         }
@@ -124,6 +123,7 @@ class BagistoGraphql
 
         try {
             $setToken = JWTAuth::setToken($token)->authenticate();
+
             $customerFromToken = JWTAuth::toUser($setToken);
 
             if (
@@ -153,7 +153,7 @@ class BagistoGraphql
                 return [
                     'success'    => false,
                     'message'    => trans('bagisto_graphql::app.admin.response.session-expired'),
-                    'otherError' => 'userNotExist'
+                    'otherError' => 'User Not Exist',
                 ];
             } else {
                 return [
@@ -176,6 +176,7 @@ class BagistoGraphql
     public function uploadImage($model, $imageUrl, $path, $type)
     {
         $modelPath = $path . $model->id . '/';
+
         $imageDirPath = storage_path('app/public/' . $modelPath);
 
         if (! file_exists($imageDirPath)) {
@@ -184,9 +185,12 @@ class BagistoGraphql
 
         if (isset($imageUrl) && $imageUrl) {
             $valoidateImg = $this->validatePath($imageUrl, 'images');
+
             if ($valoidateImg) {
                 $imgName = basename($imageUrl);
+
                 $savePath = $imageDirPath . $imgName;
+
                 if (file_exists($savePath)) {
                     Storage::delete('/' . $modelPath . $imgName);
                 }
@@ -226,15 +230,17 @@ class BagistoGraphql
                     $previousImageIds->forget($index);
                 }
 
-                if ($data['data_type'] == 'videos')
+                if ($data['data_type'] == 'videos') {
                     $this->productVideoRepository->delete($productImageId);
-                else
+                }
+                else {
                     $this->productImageRepository->delete($productImageId);
+                }
             }
 
             foreach ($data['data'] as $imageId => $imageUrl) {
-
                 $pathValidate = false;
+
                 $imgName = basename($imageUrl);
 
                 if ($data['upload_type'] == 'base64') {
@@ -290,10 +296,12 @@ class BagistoGraphql
                 if ($imageModel = $this->productImageRepository->find($imageId)) {
                     Storage::delete($imageModel->path);
 
-                    if ($data['data_type'] == 'videos')
+                    if ($data['data_type'] == 'videos') {
                         $this->productImageRepository->delete($imageId);
-                    else
+                    }
+                    else {
                         $this->productVideoRepository->delete($imageId);
+                    }
                 }
             }
         }
@@ -322,18 +330,20 @@ class BagistoGraphql
     {
         if ($imageURL) {
             $chkURL = curl_init();
+
             curl_setopt($chkURL, CURLOPT_URL, $imageURL);
             curl_setopt($chkURL, CURLOPT_NOBODY, 1);
             curl_setopt($chkURL, CURLOPT_FAILONERROR, 1);
             curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
+
             if (curl_exec($chkURL) !== FALSE && $this->getImageMIMEType($imageURL, $type)) {
                 return true;
             } else {
                 return false;
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -346,24 +356,26 @@ class BagistoGraphql
     public function getImageMIMEType($filename, $type = 'images')
     {
         $explodeURL = explode('.', $filename);
+
         $ext = strtolower(array_pop($explodeURL));
 
         $mimeTypes = $type == 'images' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
 
         if (array_key_exists($ext, $mimeTypes)) {
-
             return true;
-        } elseif (function_exists('finfo_open')) {
+        }
 
+        if (function_exists('finfo_open')) {
             $finfo = finfo_open(FILEINFO_MIME);
+
             $mimetype = finfo_file($finfo, $filename);
 
             finfo_close($finfo);
 
             return $mimetype;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -390,7 +402,9 @@ class BagistoGraphql
 
         foreach ($data['customer_group_prices'] as $key => $row) {
             $row['customer_group_id'] = $row['customer_group_id'] == '' ? null : $row['customer_group_id'];
+
             $index = 'customer_group_price_' . $key;
+
             $customerGroupPrices[$index] = $row;
         }
 
@@ -409,11 +423,10 @@ class BagistoGraphql
         $result = [];
 
         foreach ($data as $localeArray) {
-            if (isset($localeArray['code']) && $localeArray['code']) {
+            if (! empty($localeArray['code'])) {
 
                 foreach ($fields as $field) {
                     if (isset($localeArray[$field]) && $localeArray[$field]) {
-
                         if (! isset($result[$localeArray['code']][$field])) {
                             $result[$localeArray['code']][$field] = $localeArray[$field];
                         }
@@ -434,20 +447,24 @@ class BagistoGraphql
     public function manageConfigurableRequest($data)
     {
         $variants = [];
-        foreach ($data['variants'] as $key => $variant) {
-            if (isset($variant['variant_id']) && $variant['variant_id']) {
-                if (isset($variant['inventories']) && $variant['inventories']) {
+
+        foreach ($data['variants'] as $variant) {
+            if (! empty($variant['variant_id'])) {
+                if (! empty($variant['inventories'])) {
 
                     $inventories = [];
-                    foreach ($variant['inventories'] as $key => $inventory) {
+
+                    foreach ($variant['inventories'] as $inventory) {
                         if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
                             $inventories[$inventory['inventory_source_id']] = $inventory['qty'];
                         }
                     }
+
                     $variant['inventories'] = $inventories;
                 }
 
                 $variant_id = $variant['variant_id'];
+
                 unset($variant['variant_id']);
 
                 $variants[$variant_id] = $variant;
@@ -466,9 +483,11 @@ class BagistoGraphql
     public function manageGroupedRequest($product, $data)
     {
         $links = [];
+
         foreach ($data['links'] as $key => $link) {
-            if (isset($link['group_product_id']) && $link['group_product_id']) {
+            if (! empty($link['group_product_id'])) {
                 $groupProductId = $link['group_product_id'];
+
                 unset($link['group_product_id']);
 
                 $links[$groupProductId] = $link;
@@ -483,7 +502,7 @@ class BagistoGraphql
                     $this->productGroupedProductRepository->delete($groupPriceId);
                 }
 
-                if (isset($link['associated_product_id']) && $link['associated_product_id']) {
+                if (! empty($link['associated_product_id'])) {
                     $links['link_' . $key] = $link;
                 }
             }
@@ -501,8 +520,8 @@ class BagistoGraphql
     public function manageDownloadableLinksRequest($product, $data)
     {
         $downloadableLinks = [];
-        foreach ($data['downloadable_links'] as $key => $link) {
 
+        foreach ($data['downloadable_links'] as $key => $link) {
             if (isset($link['locales'])) {
                 foreach ($link['locales'] as $locale) {
                     if (isset($locale['code']) && isset($locale['title'])) {
@@ -512,8 +531,9 @@ class BagistoGraphql
                 unset($link['locales']);
             }
 
-            if (isset($link['link_product_id']) && $link['link_product_id']) {
+            if (! empty($link['link_product_id'])) {
                 $linkProductId = $link['link_product_id'];
+
                 unset($link['link_product_id']);
 
                 $downloadableLinks[$linkProductId] = $link;
@@ -550,8 +570,8 @@ class BagistoGraphql
     public function manageDownloadableSamplesRequest($product, $data)
     {
         $downloadableSamples = [];
-        foreach ($data['downloadable_samples'] as $key => $sample) {
 
+        foreach ($data['downloadable_samples'] as $key => $sample) {
             if (isset($sample['locales'])) {
                 foreach ($sample['locales'] as $locale) {
                     if (isset($locale['code']) && isset($locale['title'])) {
@@ -581,7 +601,7 @@ class BagistoGraphql
                     }
                 }
 
-                if (isset($sample['type']) && $sample['type']) {
+                if (! empty($sample['type'])) {
                     $downloadableSamples['sample_' . $key] = $sample;
                 }
             }
@@ -599,6 +619,7 @@ class BagistoGraphql
     public function manageBundleRequest($product, $data)
     {
         $bundleOptions = [];
+
         foreach ($data['bundle_options'] as $key => $option) {
             $products = [];
 
@@ -608,19 +629,20 @@ class BagistoGraphql
                         $option[$locale['code']] = ['label' => $locale['label']];
                     }
                 }
+
                 unset($option['locales']);
             }
 
-            if (isset($option['bundle_option_id']) && $option['bundle_option_id']) {
+            if (! empty($option['bundle_option_id'])) {
                 $bundleOptionId = $option['bundle_option_id'];
+
                 unset($option['bundle_option_id']);
 
-                if (isset($option['products']) && $option['products']) {
+                if (! empty($option['products'])) {
                     foreach ($option['products'] as $index => $prod) {
-
-                        if (isset($prod['bundle_option_product_id']) && $prod['bundle_option_product_id']) {
-
+                        if (! empty($prod['bundle_option_product_id'])) {
                             $bundle_option_product_id = $prod['bundle_option_product_id'];
+
                             unset($prod['bundle_option_product_id']);
 
                             $products[$bundle_option_product_id] = $prod;
@@ -640,7 +662,7 @@ class BagistoGraphql
                                 }
                             }
 
-                            if (isset($prod['product_id']) && $prod['product_id']) {
+                            if (! empty($prod['product_id'])) {
                                 $products['product_' . $index] = $prod;
                             }
                         }
@@ -659,12 +681,13 @@ class BagistoGraphql
                             $previousBundleOptionIds->forget($index);
                         }
                     }
+
                     if (! isset($bundleOptions[$optionId])) {
                         $this->productBundleOptionRepository->delete($optionId);
                     }
                 }
 
-                if (isset($option['products']) && $option['products']) {
+                if (! empty($option['products'])) {
                     foreach ($option['products'] as $index => $prod) {
                         if (isset($prod['product_id']) && $prod['product_id']) {
                             $products['product_' . $index] = $prod;
@@ -673,7 +696,7 @@ class BagistoGraphql
                     $option['products'] = $products;
                 }
 
-                if (isset($option['type']) && $option['type']) {
+                if (! empty($option['type'])) {
                     $bundleOptions['option_' . $key] = $option;
                 }
             }
@@ -694,11 +717,14 @@ class BagistoGraphql
         switch ($product->type) {
             case 'configurable':
                 //Case: In case of configurable product added
-                if (isset($data['super_attribute']) && $data['super_attribute']) {
+                if (! empty($data['super_attribute'])) {
                     $superAttribute = [];
-                    foreach ($data['super_attribute'] as $key => $attribute) {
-                        if (isset($attribute['attribute_id']) &&
-                            isset($attribute['attribute_option_id'])) {
+
+                    foreach ($data['super_attribute'] as $attribute) {
+                        if (
+                            isset($attribute['attribute_id'])
+                            && isset($attribute['attribute_option_id'])
+                        ) {
                             $superAttribute[$attribute['attribute_id']] = $attribute['attribute_option_id'];
                         }
                     }
@@ -707,13 +733,15 @@ class BagistoGraphql
                 break;
             case 'grouped':
                 //Case: In case of grouped product added
-                if (isset($data['qty']) && $data['qty']) {
+                if (! empty($data['qty'])) {
                     $groupedProduct = [];
-                    foreach ($data['qty'] as $key => $product) {
-                        if (isset($product['product_id']) && isset($product['quantity'])) {
+
+                    foreach ($data['qty'] as $product) {
+                        if (! empty($product['product_id'])) {
                             $groupedProduct[$product['product_id']] = $product['quantity'];
                         }
                     }
+
                     $data['qty'] = $groupedProduct;
                 }
                 break;
@@ -770,7 +798,10 @@ class BagistoGraphql
             $pathValidate = $this->validatePath($data[$field], 'image');
         }
 
-        if ($base64Validate || $pathValidate) {
+        if (
+            $base64Validate
+            || $pathValidate
+        ) {
             $keyIndex = explode("_", $field);
 
             if (! isset($keyIndex[0])) {
@@ -782,6 +813,7 @@ class BagistoGraphql
             }
 
             $collection->{$keyIndex[0]} = null;
+
             $collection->save();
 
             $path = $data['save_path'] . '/';
@@ -812,7 +844,10 @@ class BagistoGraphql
 
         $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
 
-        if ($base64Validate || $pathValidate) {
+        if (
+            $base64Validate
+            || $pathValidate
+        ) {
             $keyIndex = explode("_", $field);
 
             if (! isset($keyIndex[0])) {
@@ -825,7 +860,7 @@ class BagistoGraphql
 
             return [
                 'path'        => $path . $imageName,
-                'img_details' => explode("/", mime_content_type($data[$field]))
+                'img_details' => explode("/", mime_content_type($data[$field])),
             ];
         }
     }
