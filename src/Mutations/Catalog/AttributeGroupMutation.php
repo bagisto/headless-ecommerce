@@ -40,12 +40,12 @@ class AttributeGroupMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) ||
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'name'                => 'string|required',
             'position'            => 'numeric|required',
@@ -81,14 +81,17 @@ class AttributeGroupMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) ||
-            ! isset($args['input']) ||
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || ! empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'name'                => 'string|required',
             'position'            => 'numeric|required',
@@ -130,28 +133,28 @@ class AttributeGroupMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) ||
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $attributeGroup = $this->attributeGroupRepository->findOrFail($id);
 
-        if( isset($attributeGroup->is_user_defined) && !$attributeGroup->is_user_defined ) {
+        if(! empty($attributeGroup->is_user_defined)) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-customer-group'));
-        } else {
-            try {
-                Event::dispatch('catalog.attributeGroup.delete.before', $id);
+        }
 
-                $this->attributeGroupRepository->delete($id);
+        try {
+            Event::dispatch('catalog.attributeGroup.delete.before', $id);
 
-                Event::dispatch('catalog.attributeGroup.delete.after', $id);
+            $this->attributeGroupRepository->delete($id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Attribute Group'])];
-            } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Attribute Group']));
-            }
+            Event::dispatch('catalog.attributeGroup.delete.after', $id);
+
+            return ['success' => trans('admin::app.response.delete-success', ['name' => 'Attribute Group'])];
+        } catch(\Exception $e) {
+            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Attribute Group']));
         }
     }
 }

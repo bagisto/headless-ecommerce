@@ -3,10 +3,10 @@
 namespace Webkul\GraphQLAPI\DataGrids;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Models\Channel;
 use Webkul\Core\Models\Locale;
 use Webkul\DataGrid\DataGrid;
-use Illuminate\Support\Facades\Storage;
 
 class PushNotificationDataGrid extends DataGrid
 {
@@ -30,7 +30,6 @@ class PushNotificationDataGrid extends DataGrid
      * @var int
      */
     protected $itemsPerPage = 10;
-
 
     /**
      * Prepare query builder.

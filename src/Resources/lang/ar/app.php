@@ -2,165 +2,163 @@
 
 return [
     'admin' => [
-        'menu'          => [
-            'push-notification' => 'Push Notification',
+        'menu' => [
+            'push-notification' => 'إشعار الدفع',
         ],
 
-        'acl'           => [
-            'push-notification' => 'Push Notification',
-            'send'              => 'Send',
+        'acl' => [
+            'push-notification' => 'إشعار الدفع',
+            'send'              => 'إرسال',
         ],
 
         'configuration' => [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'GraphQL API',
-                        'info'                            => 'Notification related configurations',
-                        'push-notification-configuration' => 'FCM Push Notification Configuration',
-                        'server-key'                      => 'Server Key',
-                        'info-get-server-key'             => 'Info: To get fcm API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'android-topic'                   => 'Android Topic',
-                        'ios-topic'                       => 'IOS Topic',
+                        'title'                           => 'واجهة برمجة التطبيقات GraphQL',
+                        'info'                            => 'تكوينات ذات صلة بالإشعارات',
+                        'push-notification-configuration' => 'تكوين إشعار FCM للدفع',
+                        'server-key'                      => 'مفتاح الخادم',
+                        'info-get-server-key'             => 'معلومات: للحصول على بيانات اعتماد API FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
+                        'android-topic'                   => 'موضوع Android',
+                        'ios-topic'                       => 'موضوع iOS',
                     ],
                 ],
             ],
         ],
 
-        'settings'      => [
-            'notification'   => [
-                'index'  => [
-                    'title'               => 'Push Notification',
-                    'add-title'           => 'Add Notification',
-                    'delete-success'      => 'Notification deleted successfully',
-                    'mass-update-success' => 'Selected Notifications updated successfully',
-                    'mass-delete-success' => 'Selected Notifications deleted successfully',
+        'settings' => [
+            'notification' => [
+                'index' => [
+                    'title'               => 'إشعار الدفع',
+                    'add-title'           => 'إضافة إشعار',
+                    'delete-success'      => 'تم حذف الإشعار بنجاح',
+                    'mass-update-success' => 'تم تحديث الإشعارات المحددة بنجاح',
+                    'mass-delete-success' => 'تم حذف الإشعارات المحددة بنجاح',
 
-                    'datagrid'            => [
-                        'id'                   => 'Id',
-                        'image'                => 'Image',
-                        'text-title'           => 'Title',
-                        'notification-content' => 'Notification Content',
-                        'notification-type'    => 'Notification Type',
-                        'store-view'           => 'Channels',
-                        'notification-status'  => 'Notification Status',
-                        'created-at'           => 'Created Time',
-                        'updated-at'           => 'Updated Time',
-                        'delete'               => 'Delete',
-                        'update'               => 'Update',
+                    'datagrid' => [
+                        'id'                   => 'الرقم التعريفي',
+                        'image'                => 'صورة',
+                        'text-title'           => 'العنوان',
+                        'notification-content' => 'محتوى الإشعار',
+                        'notification-type'    => 'نوع الإشعار',
+                        'store-view'           => 'القنوات',
+                        'notification-status'  => 'حالة الإشعار',
+                        'created-at'           => 'وقت الإنشاء',
+                        'updated-at'           => 'وقت التحديث',
+                        'delete'               => 'حذف',
+                        'update'               => 'تحديث',
 
-                        'status'               => [
-                            'enabled'  => 'Enabled',
-                            'disabled' => 'Disabled',
+                        'status' => [
+                            'enabled'  => 'مُمكّن',
+                            'disabled' => 'مُعطّل',
                         ],
                     ],
                 ],
 
                 'create' => [
-                    'new-notification'     => 'New Notification',
-                    'back-btn'             => 'Back',
-                    'create-btn-title'     => 'Save Notification',
-                    'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Settings',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
-                    'success'              => 'Notification created successfully',
+                    'new-notification'     => 'إشعار جديد',
+                    'back-btn'             => 'رجوع',
+                    'create-btn-title'     => 'حفظ الإشعار',
+                    'general'              => 'عام',
+                    'title'                => 'إشعار الدفع',
+                    'content-and-image'    => 'محتوى الإشعار والصورة',
+                    'notification-content' => 'محتوى الإشعار',
+                    'image'                => 'صورة',
+                    'settings'             => 'الإعدادات',
+                    'status'               => 'الحالة',
+                    'store-view'           => 'القنوات',
+                    'notification-type'    => 'نوع الإشعار',
+                    'product-cat-id'       => 'هوية المنتج / الفئة',
+                    'success'              => 'تم إنشاء الإشعار بنجاح',
 
-                    'option-type'          => [
-                        'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category'
+                    'option-type' => [
+                        'others'   => 'بسيط',
+                        'product'  => 'منتج',
+                        'category' => 'فئة',
                     ],
-
                 ],
 
-                'edit'   => [
-                    'edit-notification'         => 'Edit Notification',
-                    'back-btn'                  => 'Back',
-                    'send-title'                => 'Send Notification',
-                    'update-btn-title'          => 'Update Notification',
-                    'general'                   => 'General',
-                    'title'                     => 'Push Notification',
-                    'content-and-image'         => 'Notification Content And Image',
-                    'notification-content'      => 'Notification Content',
-                    'image'                     => 'Image',
-                    'settings'                  => 'Settings',
-                    'status'                    => 'Status',
-                    'store-view'                => 'Channels',
-                    'notification-type'         => 'Notification Type',
-                    'product-cat-id'            => 'Product/Category Id',
-                    'success'                   => 'Notification updated successfully',
-                    'notification-send-success' => 'Notification send successfully for android and iOS.',
+                'edit' => [
+                    'edit-notification'         => 'تعديل الإشعار',
+                    'back-btn'                  => 'رجوع',
+                    'send-title'                => 'إرسال الإشعار',
+                    'update-btn-title'          => 'تحديث الإشعار',
+                    'general'                   => 'عام',
+                    'title'                     => 'إشعار الدفع',
+                    'content-and-image'         => 'محتوى الإشعار والصورة',
+                    'notification-content'      => 'محتوى الإشعار',
+                    'image'                     => 'صورة',
+                    'settings'                  => 'الإعدادات',
+                    'status'                    => 'الحالة',
+                    'store-view'                => 'القنوات',
+                    'notification-type'         => 'نوع الإشعار',
+                    'product-cat-id'            => 'هوية المنتج / الفئة',
+                    'success'                   => 'تم تحديث الإشعار بنجاح',
+                    'notification-send-success' => 'تم إرسال الإشعار بنجاح لنظامي Android و iOS.',
 
-                    'option-type'               => [
-                        'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category'
+                    'option-type' => [
+                        'others'   => 'بسيط',
+                        'product'  => 'منتج',
+                        'category' => 'فئة'
                     ],
-                ]
+                ],
             ],
 
             'exchange_rates' => [
-                'error-invalid-target-currency' => 'Warning: Invaid target currency provided.',
-                'delete-success'                => 'Success: Exchange rate deleted successfully.',
-            ]
+                'error-invalid-target-currency' => 'تحذير: العملة المستهدفة غير صالحة.',
+                'delete-success'                => 'نجاح: تم حذف سعر الصرف بنجاح.',
+            ],
         ],
 
-        'customer'      => [
-            'no-customer-found' => 'No customer found',
+        'customer' => [
+            'no-customer-found' => 'لم يتم العثور على عميل',
         ],
 
-        'response'      => [
-            'delete-success'          => 'Success: User deleted successfuly.',
-            'last-delete-error'       => 'Warning: Atleast on user is  required',
-            'delete-failed'           => 'Warning: Admin user is not deleted',
-            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
-            'success-login'           => 'Success: User login successfuly.',
-            'error-login'             => 'Warning: Admin user is not login.',
-            'session-expired'         => 'Warning: Session has expired. Please login again to your account.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'success-logout'          => 'Success: User logout successfully.',
-            'no-login-user'           => 'Warning: No login user found.',
-            'error-customer-group'    => 'Warning: You are not authorize to delete system created attribute group.',
-            'password-invalid'        => 'Warning: Please enter the correct password.',
-            'password-match'          => 'Warning: Password doesn\'t matched.',
-            'success-registered'      => 'Success: User created successfuly.',
-            'cancel-error'            => 'Order can not be canceled.',
-            'creation-error'          => 'Refund can not be created for this order.',
-            'channel-failure'         => 'Channel Not Found.',
-            'script-delete-success'   => 'Script deleted successfuly.',
+        'response' => [
+            'delete-success'          => 'نجاح: تم حذف المستخدم بنجاح.',
+            'last-delete-error'       => 'تحذير: يجب أن يكون هناك مستخدم واحد على الأقل',
+            'delete-failed'           => 'تحذير: لم يتم حذف مستخدم الإدارة',
+            'error-invalid-parameter' => 'تحذير: تم توفير معلمات غير صالحة.',
+            'success-login'           => 'نجاح: تم تسجيل دخول المستخدم بنجاح.',
+            'error-login'             => 'تحذير: مستخدم الإدارة غير مسجل الدخول.',
+            'session-expired'         => 'تحذير: انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى إلى حسابك.',
+            'invalid-header'          => 'تحذير: رمز العنوان غير صالح.',
+            'success-logout'          => 'نجاح: تم تسجيل خروج المستخدم بنجاح.',
+            'no-login-user'           => 'تحذير: لم يتم العثور على مستخدم مسجل الدخول.',
+            'error-customer-group'    => 'تحذير: ليس لديك الإذن لحذف مجموعة السمات التي تم إنشاؤها من النظام.',
+            'password-invalid'        => 'تحذير: يرجى إدخال كلمة مرور صحيحة.',
+            'password-match'          => 'تحذير: كلمات المرور غير متطابقة.',
+            'success-registered'      => 'نجاح: تم إنشاء المستخدم بنجاح.',
+            'cancel-error'            => 'تحذير: لا يمكن إلغاء الطلب.',
+            'creation-error'          => 'تحذير: لا يمكن إنشاء استرداد لهذا الطلب.',
+            'channel-failure'         => 'القناة غير موجودة.',
+            'script-delete-success'   => 'تم حذف النص بنجاح.',
         ],
 
-        'shop'          => [
-
+        'shop' => [
             'response' => [
-                'no-address-found'         => 'Wanring: No address found.',
-                'invalid-address'          => 'Wanring: No address found for provided addressId.',
-                'invalid-product'          => 'Warning: You are requesting for invalid product.',
-                'already-exist-inwishlist' => 'Information: This product is already exist in wishlist.',
-                'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
-            ]
-        ],
+                'no-address-found'         => 'تحذير: لا يوجد عنوان.',
+                'invalid-address'          => 'تحذير: لا يوجد عنوان للهوية المقدمة.',
+                'invalid-product'          => 'تحذير: أنت تطلب منتجًا غير صالح.',
+                'already-exist-inwishlist' => 'معلومات: هذا المنتج موجود بالفعل في قائمة الأماني.',
+                'un-authorized-access'     => 'تحذير: ليس لديك الإذن لاستخدام هذا القسم.',
+            ],
 
-        'validation'    => [
-            'unique'   => 'This :field has already been taken.',
-            'required' => 'The :field field is required.',
-            'same'     => 'The :field and password must match.',
-        ],
+            'validation' => [
+                'unique'   => 'تم اتخاذ :field هذا بالفعل.',
+                'required' => 'حقل :field مطلوب.',
+                'same'     => 'يجب أن تتطابق :field مع كلمة المرور.',
+            ],
 
-        'mail'          => [
-            'customer' => [
-                'password' => [
-                    'heading' => config('app.name') . ' - Password Reset',
-                    'reset'   => 'Password Reset Email',
-                    'summary' => 'This email related to your account password reset, Your password has been changed successfully.
-                    Kindly login to your account using below mentioned password.',
+            'mail' => [
+                'customer' => [
+                    'password' => [
+                        'heading' => config('app.name') . ' - إعادة تعيين كلمة المرور',
+                        'reset'   => 'بريد إلكتروني لإعادة تعيين كلمة المرور',
+                        'summary' => 'هذا البريد الإلكتروني متعلق بإعادة تعيين كلمة مرور حسابك. تم تغيير كلمة المرور الخاصة بك بنجاح.
+                        يرجى تسجيل الدخول إلى حسابك باستخدام كلمة المرور المذكورة أدناه.',
+                    ],
                 ],
             ],
         ],
@@ -168,121 +166,119 @@ return [
 
     'shop' => [
         'checkout' => [
-            'save-cart-address'         => 'Success: Cart address save successfully.',
-            'error-payment-selection'   => 'Warning: There is some error in fetching payment methods.',
-            'selected-shipment'         => 'Success: Shipment has been selected successfully.',
-            'warning-empty-cart'        => 'Warning: There is no product added to the cart.',
-            'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
-            'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
-            'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
-            'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
-            'wrong-error'               => 'Wanring: There is some error with your cart, try again.',
-            'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
-            'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping id.',
-            'error-invalid-parameter'   => 'Warning: Invaid parameters provided.',
-            'already-applied'           => 'Coupon code already applied.',
-            'success-apply'             => 'Coupon code applied successfully.',
-            'coupon-removed'            => 'Success: coupon removed from cart successfully.',
-            'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
-            'error-placing-order'       => 'Warning: There is some error in order placing.',
-            'selected-payment'          => 'Success: Payment method selected successfully.',
-            'error-payment-save'        => 'Warning: There is some error in saving payment method.',
+            'save-cart-address'         => 'نجاح: تم حفظ عنوان السلة بنجاح.',
+            'error-payment-selection'   => 'تحذير: هناك خطأ في جلب طرق الدفع.',
+            'selected-shipment'         => 'نجاح: تم اختيار الشحن بنجاح.',
+            'warning-empty-cart'        => 'تحذير: لا توجد منتجات مضافة إلى السلة.',
+            'billing-address-missing'   => 'تحذير: عنوان الفواتير مفقود للدفع.',
+            'shipping-address-missing'  => 'تحذير: عنوان الشحن مفقود للدفع.',
+            'invalid-guest-access'      => 'تحذير: لا يُسمح للعملاء الضيوف بالحصول على العناوين باستخدام معرف العنوان للفواتير/الشحن.',
+            'guest-address-warning'     => 'تحذير: إذا كنت تحاول كضيف، جرب بدون رمز التفويض.',
+            'wrong-error'               => 'تحذير: هناك خطأ في سلة التسوق، حاول مرة أخرى.',
+            'no-billing-address-found'  => 'تحذير: لم يتم العثور على سجل عنوان الفواتير بمعرف الفاتورة :address_id.',
+            'no-shipping-address-found' => 'تحذير: لم يتم العثور على سجل عنوان الشحن بمعرف الشحن :address_id.',
+            'error-invalid-parameter'   => 'تحذير: توجد معلمات غير صالحة.',
+            'already-applied'           => 'تم تطبيق رمز الكوبون بالفعل.',
+            'success-apply'             => 'تم تطبيق رمز الكوبون بنجاح.',
+            'coupon-removed'            => 'نجاح: تمت إزالة الكوبون من السلة بنجاح.',
+            'coupon-remove-failed'      => 'تحذير: هناك بعض الأخطاء في إزالة الكوبون من السلة أو الكوبون غير موجود.',
+            'error-placing-order'       => 'تحذير: هناك خطأ في تقديم الطلب.',
+            'selected-payment'          => 'نجاح: تم اختيار طريقة الدفع بنجاح.',
+            'error-payment-save'        => 'تحذير: هناك خطأ في حفظ طريقة الدفع.',
 
             'cart' => [
                 'item' => [
-                    'success-all-remove'       => 'All items successfully removed from cart.',
-                    'fail-all-remove'          => 'Error in removing items from cart.',
-                    'error-invalid-parameter'  => 'Warning: Invaid parameters provided.',
-                    'success-moved-cart-item'  => 'Success: Cart item moved to wishlist successfully.',
-                    'fail-moved-cart-item'     => 'Fail: Cart item is not moved to wishlist.',
-                    'success-add-to-cart'      => 'Success: Product added to cart successfully.',
-                    'fail-add-to-cart'         => 'Fail: Product is not added to cart.',
-                    'success-update-to-cart'   => 'Success: Cart item has been updated successfully.',
-                    'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
-                    'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
-                    'fail-delete-cart-item'    => 'Fail: Cart item not found.',
+                    'success-all-remove'       => 'تمت إزالة جميع العناصر بنجاح من السلة.',
+                    'fail-all-remove'          => 'خطأ في إزالة العناصر من السلة.',
+                    'error-invalid-parameter'  => 'تحذير: توجد معلمات غير صالحة.',
+                    'success-moved-cart-item'  => 'نجاح: تم نقل عنصر السلة إلى قائمة الأمنيات بنجاح.',
+                    'fail-moved-cart-item'     => 'فشل: لم يتم نقل عنصر السلة إلى قائمة الأمنيات.',
+                    'success-add-to-cart'      => 'نجاح: تمت إضافة المنتج إلى السلة بنجاح.',
+                    'fail-add-to-cart'         => 'فشل: لم يتم إضافة المنتج إلى السلة.',
+                    'success-update-to-cart'   => 'نجاح: تم تحديث عنصر السلة بنجاح.',
+                    'fail-update-to-cart'      => 'فشل: لم يتم تحديث عنصر السلة.',
+                    'success-delete-cart-item' => 'نجاح: تم حذف عنصر السلة بنجاح.',
+                    'fail-delete-cart-item'    => 'فشل: لم يتم العثور على عنصر السلة.',
                 ],
             ],
         ],
 
         'customer' => [
-            'success-login'         => 'Success: Customer login successfully.',
-            'success-logout'        => 'Success: Customer logout successfully.',
-            'no-login-customer'     => 'Warning: No login customer found.',
-            'address-list'          => 'Success: Customer\'s address details fetched',
-            'not-authorized'        => 'Warning: You are not authorized to update this address.',
-            'no-address-list'       => 'Warning: No customer\'s address found.',
-            'text-password'         => 'Your Password is: :password',
-            'not-exists'            => 'Warning: No customer found for the provided data.',
-            'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
-            'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
-            'password-reset-failed' => 'Warning: We already sent you password reset email, try after sometime.',
-            'no-login-user'         => 'Warning: No login user found.',
-            'customer-details'      => 'Success: Customer details fetched successfully.',
+            'success-login'         => 'نجاح: تسجيل دخول العميل بنجاح.',
+            'success-logout'        => 'نجاح: تسجيل خروج العميل بنجاح.',
+            'no-login-customer'     => 'تحذير: لم يتم العثور على عميل مسجّل.',
+            'address-list'          => 'نجاح: جلب تفاصيل عناوين العميل.',
+            'not-authorized'        => 'تحذير: ليس لديك الإذن لتحديث هذا العنوان.',
+            'no-address-list'       => 'تحذير: لم يتم العثور على عناوين للعميل.',
+            'text-password'         => 'كلمة المرور الخاصة بك هي: :password',
+            'not-exists'            => 'تحذير: لم يتم العثور على عميل باستخدام البيانات المقدمة.',
+            'success-address-list'  => 'نجاح: جلب عناوين العميل بنجاح.',
+            'reset-link-sent'       => 'نجاح: تم إرسال بريد إلكتروني لإعادة تعيين كلمة المرور بنجاح.',
+            'password-reset-failed' => 'تحذير: لقد قمنا بإرسال بريد إلكتروني لإعادة تعيين كلمة المرور بالفعل، حاول مرة أخرى بعد فترة من الزمن.',
+            'no-login-user'         => 'تحذير: لم يتم العثور على مستخدم مسجّل.',
+            'customer-details'      => 'نجاح: جلب تفاصيل العميل بنجاح.',
 
-            'account'               => [
-                'not-found' => 'Wanring: No :name found.',
+            'account' => [
+                'not-found' => 'تحذير: لم يتم العثور على :name.',
 
-                'profile'   => [
-                    'edit-success'   => 'Profile Updated Successfully',
-                    'edit-fail'      => 'Profile not updated',
-                    'unmatch'        => 'The old password does not match.',
-                    'order-pending'  => 'Cannot delete customer account because some Order(s) are pending or processing state.',
-                    'delete-success' => 'Customer deleted successfully',
-                    'wrong-password' => 'Wrong Password !',
+                'profile' => [
+                    'edit-success'   => 'تم تحديث الملف الشخصي بنجاح',
+                    'edit-fail'      => 'لم يتم تحديث الملف الشخصي',
+                    'unmatch'        => 'كلمة المرور القديمة غير متطابقة.',
+                    'order-pending'  => 'لا يمكن حذف حساب العميل لأن بعض الطلبات قيد الانتظار أو في حالة معالجة.',
+                    'delete-success' => 'تم حذف العميل بنجاح',
+                    'wrong-password' => 'كلمة المرور خاطئة!',
                 ],
 
                 'order' => [
-                    'no-order-found' => 'Wanring: No order found.',
-                    'cancel-success' => 'Order cancelled successfully',
-
+                    'no-order-found' => 'تحذير: لا يوجد أمر موجود.',
+                    'cancel-success' => 'تم إلغاء الطلب بنجاح',
                 ],
 
-                'review'    => [
-                    'success' => 'Success: Review is submitted successfully, please wait for the approval.',
+                'review' => [
+                    'success' => 'نجاح: تم إرسال المراجعة بنجاح، يرجى الانتظار للموافقة عليها.',
                 ],
 
                 'wishlist' => [
-                    'removed'            => 'Item Successfully Removed From Wishlist',
-                    'remove-fail'        => 'Item Cannot Be Removed From Wishlist',
-                    'remove-all-success' => 'All the items from your wishlist have been removed',
-                    'success'            => 'Item Successfully Added To Wishlist',
-                    'already-exist'      => 'Product already exist in wishlist',
-                    'move-to-cart'       => 'Move To Cart',
-                    'moved-success'      => 'Item Successfully Moved to Cart',
-                    'error-move-to-cart' => 'Warning: This product might have some required options, not able to move to cart.',
-                    'no-item-found'      => 'Warning: There is no product found.',
-
+                    'removed'            => 'تمت إزالة العنصر بنجاح من قائمة الرغبات',
+                    'remove-fail'        => 'لا يمكن إزالة العنصر من قائمة الرغبات',
+                    'remove-all-success' => 'تمت إزالة جميع العناصر من قائمة الرغبات الخاصة بك',
+                    'success'            => 'تمت إضافة العنصر بنجاح إلى قائمة الرغبات',
+                    'already-exist'      => 'المنتج موجود بالفعل في قائمة الرغبات',
+                    'move-to-cart'       => 'انتقال إلى السلة',
+                    'moved-success'      => 'تم نقل العنصر بنجاح إلى السلة',
+                    'error-move-to-cart' => 'تحذير: قد يحتوي هذا المنتج على بعض الخيارات المطلوبة، لا يمكن نقله إلى السلة.',
+                    'no-item-found'      => 'تحذير: لا يوجد منتجات موجودة.',
                 ],
 
                 'addressess' => [
-                    'delete-success' => 'Customer\'s Address deleted successfully'
+                    'delete-success' => 'تم حذف عنوان العميل بنجاح',
                 ]
             ],
 
-            'signup-form'           => [
-                'error-registration'       => 'Warning: customer registration failed.',
-                'warning-num-already-used' => 'Warning: This :phone number is registered using different email address.',
-                'success-verify'           => 'Account created successfully, an e-mail has been sent for verification.',
-                'invalid-creds'            => 'Please check your credentials and try again.',
+            'signup-form' => [
+                'error-registration'       => 'تحذير: فشل تسجيل العميل.',
+                'warning-num-already-used' => 'تحذير: تم تسجيل هذا :phone الهاتف باستخدام عنوان بريد إلكتروني مختلف.',
+                'success-verify'           => 'تم إنشاء الحساب بنجاح، تم إرسال بريد إلكتروني للتحقق.',
+                'invalid-creds'            => 'يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.',
 
-                'validation'               => [
-                    'unique'   => 'This :field has already been taken.',
-                    'required' => 'The :field field is required.',
-                    'same'     => 'The :field and password must match.',
+                'validation' => [
+                    'unique'   => 'هذا :field تم أخذه بالفعل.',
+                    'required' => 'حقل :field مطلوب.',
+                    'same'     => 'يجب أن تتطابق الحقول :field وكلمة المرور.',
                 ],
             ],
 
-            'login-form'            => [
-                'not-activated' => 'Your activation seeks admin approval',
-                'invalid-creds' => 'Please check your credentials and try again.',
+            'login-form' => [
+                'not-activated' => 'يتطلب تنشيطك موافقة المسؤول',
+                'invalid-creds' => 'يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.',
             ],
         ],
 
         'response' => [
-            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'cancel-error'            => 'Order can not be canceled.',
+            'error-invalid-parameter' => 'تحذير: توجد معلمات غير صالحة.',
+            'invalid-header'          => 'تحذير: رمز الرأس غير صالح.',
+            'cancel-error'            => 'لا يمكن إلغاء الطلب.',
         ],
-    ]
+    ],
 ];

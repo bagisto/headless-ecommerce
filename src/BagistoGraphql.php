@@ -756,18 +756,18 @@ class BagistoGraphql
 
         $base64Validate = $pathValidate = false;
 
-        $imageName = basename($data[$field]);
+        $image_name = basename($data[$field]);
 
         if ($data['upload_type'] == 'base64') {
             $getImgMime = mime_content_type($data[$field]);
 
             $extension = explode("/", $getImgMime)[1];
 
-            $imageName = $field . '_review.' . $extension;
+            $image_name = $field . '_avatar.' . $extension;
 
             $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
-            $pathValidate = $this->validatePath($data[$field], 'images');
+            $pathValidate = $this->validatePath($data[$field], 'image');
         }
 
         if ($base64Validate || $pathValidate) {
@@ -782,16 +782,15 @@ class BagistoGraphql
             }
 
             $collection->{$keyIndex[0]} = null;
-
             $collection->save();
 
             $path = $data['save_path'] . '/';
 
             $contents = file_get_contents($data[$field]);
 
-            Storage::put($path . $imageName, $contents);
+            Storage::put($path . $image_name, $contents);
 
-            $collection->{$keyIndex[0]} = $path . $imageName;
+            $collection->{$keyIndex[0]} = $path . $image_name;
 
             $collection->save();
         }

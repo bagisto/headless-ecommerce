@@ -2,165 +2,163 @@
 
 return [
     'admin' => [
-        'menu'          => [
-            'push-notification' => 'Push Notification',
+        'menu' => [
+            'push-notification' => 'Notificación Push',
         ],
 
-        'acl'           => [
-            'push-notification' => 'Push Notification',
-            'send'              => 'Send',
+        'acl' => [
+            'push-notification' => 'Notificación Push',
+            'send'              => 'Enviar',
         ],
 
         'configuration' => [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'GraphQL API',
-                        'info'                            => 'Notification related configurations',
-                        'push-notification-configuration' => 'FCM Push Notification Configuration',
-                        'server-key'                      => 'Server Key',
-                        'info-get-server-key'             => 'Info: To get fcm API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'android-topic'                   => 'Android Topic',
-                        'ios-topic'                       => 'IOS Topic',
+                        'title'                           => 'API GraphQL',
+                        'info'                            => 'Configuraciones relacionadas con notificaciones',
+                        'push-notification-configuration' => 'Configuración de Notificación Push FCM',
+                        'server-key'                      => 'Clave del Servidor',
+                        'info-get-server-key'             => 'Info: Para obtener credenciales de la API FCM: <a href="https://console.firebase.google.com/" target="_blank">Haz clic aquí</a>',
+                        'android-topic'                   => 'Tema de Android',
+                        'ios-topic'                       => 'Tema de iOS',
                     ],
                 ],
             ],
         ],
 
-        'settings'      => [
-            'notification'   => [
-                'index'  => [
-                    'title'               => 'Push Notification',
-                    'add-title'           => 'Add Notification',
-                    'delete-success'      => 'Notification deleted successfully',
-                    'mass-update-success' => 'Selected Notifications updated successfully',
-                    'mass-delete-success' => 'Selected Notifications deleted successfully',
+        'settings' => [
+            'notification' => [
+                'index' => [
+                    'title'               => 'Notificación Push',
+                    'add-title'           => 'Agregar Notificación',
+                    'delete-success'      => 'Notificación eliminada exitosamente',
+                    'mass-update-success' => 'Notificaciones seleccionadas actualizadas exitosamente',
+                    'mass-delete-success' => 'Notificaciones seleccionadas eliminadas exitosamente',
 
-                    'datagrid'            => [
+                    'datagrid' => [
                         'id'                   => 'Id',
-                        'image'                => 'Image',
-                        'text-title'           => 'Title',
-                        'notification-content' => 'Notification Content',
-                        'notification-type'    => 'Notification Type',
-                        'store-view'           => 'Channels',
-                        'notification-status'  => 'Notification Status',
-                        'created-at'           => 'Created Time',
-                        'updated-at'           => 'Updated Time',
-                        'delete'               => 'Delete',
-                        'update'               => 'Update',
+                        'image'                => 'Imagen',
+                        'text-title'           => 'Título',
+                        'notification-content' => 'Contenido de la Notificación',
+                        'notification-type'    => 'Tipo de Notificación',
+                        'store-view'           => 'Canales',
+                        'notification-status'  => 'Estado de la Notificación',
+                        'created-at'           => 'Tiempo de Creación',
+                        'updated-at'           => 'Tiempo de Actualización',
+                        'delete'               => 'Eliminar',
+                        'update'               => 'Actualizar',
 
-                        'status'               => [
-                            'enabled'  => 'Enabled',
-                            'disabled' => 'Disabled',
+                        'status' => [
+                            'enabled'  => 'Habilitado',
+                            'disabled' => 'Deshabilitado',
                         ],
                     ],
                 ],
 
                 'create' => [
-                    'new-notification'     => 'New Notification',
-                    'back-btn'             => 'Back',
-                    'create-btn-title'     => 'Save Notification',
+                    'new-notification'     => 'Nueva Notificación',
+                    'back-btn'             => 'Atrás',
+                    'create-btn-title'     => 'Guardar Notificación',
                     'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Settings',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
-                    'success'              => 'Notification created successfully',
+                    'title'                => 'Notificación Push',
+                    'content-and-image'    => 'Contenido e Imagen de la Notificación',
+                    'notification-content' => 'Contenido de la Notificación',
+                    'image'                => 'Imagen',
+                    'settings'             => 'Configuraciones',
+                    'status'               => 'Estado',
+                    'store-view'           => 'Canales',
+                    'notification-type'    => 'Tipo de Notificación',
+                    'product-cat-id'       => 'ID de Producto/Categoría',
+                    'success'              => 'Notificación creada exitosamente',
 
-                    'option-type'          => [
+                    'option-type' => [
                         'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category'
+                        'product'  => 'Producto',
+                        'category' => 'Categoría',
                     ],
-
                 ],
 
-                'edit'   => [
-                    'edit-notification'         => 'Edit Notification',
-                    'back-btn'                  => 'Back',
-                    'send-title'                => 'Send Notification',
-                    'update-btn-title'          => 'Update Notification',
+                'edit' => [
+                    'edit-notification'         => 'Editar Notificación',
+                    'back-btn'                  => 'Atrás',
+                    'send-title'                => 'Enviar Notificación',
+                    'update-btn-title'          => 'Actualizar Notificación',
                     'general'                   => 'General',
-                    'title'                     => 'Push Notification',
-                    'content-and-image'         => 'Notification Content And Image',
-                    'notification-content'      => 'Notification Content',
-                    'image'                     => 'Image',
-                    'settings'                  => 'Settings',
-                    'status'                    => 'Status',
-                    'store-view'                => 'Channels',
-                    'notification-type'         => 'Notification Type',
-                    'product-cat-id'            => 'Product/Category Id',
-                    'success'                   => 'Notification updated successfully',
-                    'notification-send-success' => 'Notification send successfully for android and iOS.',
+                    'title'                     => 'Notificación Push',
+                    'content-and-image'         => 'Contenido e Imagen de la Notificación',
+                    'notification-content'      => 'Contenido de la Notificación',
+                    'image'                     => 'Imagen',
+                    'settings'                  => 'Configuraciones',
+                    'status'                    => 'Estado',
+                    'store-view'                => 'Canales',
+                    'notification-type'         => 'Tipo de Notificación',
+                    'product-cat-id'            => 'ID de Producto/Categoría',
+                    'success'                   => 'Notificación actualizada exitosamente',
+                    'notification-send-success' => 'Notificación enviada exitosamente para Android e iOS.',
 
-                    'option-type'               => [
+                    'option-type' => [
                         'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category'
+                        'product'  => 'Producto',
+                        'category' => 'Categoría'
                     ],
-                ]
+                ],
             ],
 
             'exchange_rates' => [
-                'error-invalid-target-currency' => 'Warning: Invaid target currency provided.',
-                'delete-success'                => 'Success: Exchange rate deleted successfully.',
-            ]
+                'error-invalid-target-currency' => 'Advertencia: Se proporcionó una moneda de destino no válida.',
+                'delete-success'                => 'Éxito: Tipo de cambio eliminado correctamente.',
+            ],
         ],
 
-        'customer'      => [
-            'no-customer-found' => 'No customer found',
+        'customer' => [
+            'no-customer-found' => 'No se encontró ningún cliente',
         ],
 
-        'response'      => [
-            'delete-success'          => 'Success: User deleted successfuly.',
-            'last-delete-error'       => 'Warning: Atleast on user is  required',
-            'delete-failed'           => 'Warning: Admin user is not deleted',
-            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
-            'success-login'           => 'Success: User login successfuly.',
-            'error-login'             => 'Warning: Admin user is not login.',
-            'session-expired'         => 'Warning: Session has expired. Please login again to your account.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'success-logout'          => 'Success: User logout successfully.',
-            'no-login-user'           => 'Warning: No login user found.',
-            'error-customer-group'    => 'Warning: You are not authorize to delete system created attribute group.',
-            'password-invalid'        => 'Warning: Please enter the correct password.',
-            'password-match'          => 'Warning: Password doesn\'t matched.',
-            'success-registered'      => 'Success: User created successfuly.',
-            'cancel-error'            => 'Order can not be canceled.',
-            'creation-error'          => 'Refund can not be created for this order.',
-            'channel-failure'         => 'Channel Not Found.',
-            'script-delete-success'   => 'Script deleted successfuly.',
+        'response' => [
+            'delete-success'          => 'Éxito: Usuario eliminado correctamente.',
+            'last-delete-error'       => 'Advertencia: Se requiere al menos un usuario',
+            'delete-failed'           => 'Advertencia: No se eliminó el usuario administrador',
+            'error-invalid-parameter' => 'Advertencia: Se proporcionaron parámetros no válidos.',
+            'success-login'           => 'Éxito: Usuario conectado exitosamente.',
+            'error-login'             => 'Advertencia: El usuario administrador no ha iniciado sesión.',
+            'session-expired'         => 'Advertencia: La sesión ha expirado. Por favor, vuelve a iniciar sesión en tu cuenta.',
+            'invalid-header'          => 'Advertencia: Token de encabezado no válido.',
+            'success-logout'          => 'Éxito: Usuario desconectado exitosamente.',
+            'no-login-user'           => 'Advertencia: No se encontró usuario conectado.',
+            'error-customer-group'    => 'Advertencia: No estás autorizado para eliminar el grupo de atributos creado por el sistema.',
+            'password-invalid'        => 'Advertencia: Por favor, introduce la contraseña correcta.',
+            'password-match'          => 'Advertencia: Las contraseñas no coinciden.',
+            'success-registered'      => 'Éxito: Usuario creado exitosamente.',
+            'cancel-error'            => 'No se puede cancelar el pedido.',
+            'creation-error'          => 'No se puede crear un reembolso para este pedido.',
+            'channel-failure'         => 'Canal no encontrado.',
+            'script-delete-success'   => 'Script eliminado exitosamente.',
         ],
 
-        'shop'          => [
-
+        'shop' => [
             'response' => [
-                'no-address-found'         => 'Wanring: No address found.',
-                'invalid-address'          => 'Wanring: No address found for provided addressId.',
-                'invalid-product'          => 'Warning: You are requesting for invalid product.',
-                'already-exist-inwishlist' => 'Information: This product is already exist in wishlist.',
-                'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
-            ]
+                'no-address-found'         => 'Advertencia: No se encontró ninguna dirección.',
+                'invalid-address'          => 'Advertencia: No se encontró ninguna dirección para el ID de dirección proporcionado.',
+                'invalid-product'          => 'Advertencia: Estás solicitando un producto no válido.',
+                'already-exist-inwishlist' => 'Información: Este producto ya existe en la lista de deseos.',
+                'un-authorized-access'     => 'Advertencia: No estás autorizado para usar esta sección.',
+            ],
         ],
 
-        'validation'    => [
-            'unique'   => 'This :field has already been taken.',
-            'required' => 'The :field field is required.',
-            'same'     => 'The :field and password must match.',
+        'validation' => [
+            'unique'   => 'Este :field ya ha sido tomado.',
+            'required' => 'El campo :field es obligatorio.',
+            'same'     => 'El campo :field y la contraseña deben coincidir.',
         ],
 
-        'mail'          => [
+        'mail' => [
             'customer' => [
                 'password' => [
-                    'heading' => config('app.name') . ' - Password Reset',
-                    'reset'   => 'Password Reset Email',
-                    'summary' => 'This email related to your account password reset, Your password has been changed successfully.
-                    Kindly login to your account using below mentioned password.',
+                    'heading' => config('app.name') . ' - Restablecimiento de contraseña',
+                    'reset'   => 'Correo electrónico de restablecimiento de contraseña',
+                    'summary' => 'Este correo electrónico está relacionado con el restablecimiento de la contraseña de tu cuenta. Tu contraseña se ha cambiado correctamente.
+                    Por favor, inicia sesión en tu cuenta utilizando la contraseña mencionada a continuación.',
                 ],
             ],
         ],
@@ -168,121 +166,119 @@ return [
 
     'shop' => [
         'checkout' => [
-            'save-cart-address'         => 'Success: Cart address save successfully.',
-            'error-payment-selection'   => 'Warning: There is some error in fetching payment methods.',
-            'selected-shipment'         => 'Success: Shipment has been selected successfully.',
-            'warning-empty-cart'        => 'Warning: There is no product added to the cart.',
-            'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
-            'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
-            'invalid-guest-access'      => 'Warning: Guest customer are not allow to get addresses with the help of billing/shipping address id.',
-            'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without Authorization token.',
-            'wrong-error'               => 'Wanring: There is some error with your cart, try again.',
-            'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing id.',
-            'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping id.',
-            'error-invalid-parameter'   => 'Warning: Invaid parameters provided.',
-            'already-applied'           => 'Coupon code already applied.',
-            'success-apply'             => 'Coupon code applied successfully.',
-            'coupon-removed'            => 'Success: coupon removed from cart successfully.',
-            'coupon-remove-failed'      => 'Warning: there are some error in removing coupon from cart or coupon not found.',
-            'error-placing-order'       => 'Warning: There is some error in order placing.',
-            'selected-payment'          => 'Success: Payment method selected successfully.',
-            'error-payment-save'        => 'Warning: There is some error in saving payment method.',
+            'save-cart-address'         => 'Éxito: Dirección del carrito guardada correctamente.',
+            'error-payment-selection'   => 'Advertencia: Hay un error al obtener los métodos de pago.',
+            'selected-shipment'         => 'Éxito: Envío seleccionado correctamente.',
+            'warning-empty-cart'        => 'Advertencia: No hay productos agregados al carrito.',
+            'billing-address-missing'   => 'Advertencia: Falta la dirección de facturación para el checkout.',
+            'shipping-address-missing'  => 'Advertencia: Falta la dirección de envío para el checkout.',
+            'invalid-guest-access'      => 'Advertencia: Los clientes invitados no pueden obtener direcciones con la ayuda del ID de dirección de facturación/envío.',
+            'guest-address-warning'     => 'Advertencia: Si estás intentando como invitado, intenta sin un token de autorización.',
+            'wrong-error'               => 'Advertencia: Hay un error en tu carrito, inténtalo de nuevo.',
+            'no-billing-address-found'  => 'Advertencia: No se encontró registro de dirección de facturación con ID de facturación :address_id.',
+            'no-shipping-address-found' => 'Advertencia: No se encontró registro de dirección de envío con ID de envío :address_id.',
+            'error-invalid-parameter'   => 'Advertencia: Se han proporcionado parámetros inválidos.',
+            'already-applied'           => 'El código de cupón ya ha sido aplicado.',
+            'success-apply'             => 'Código de cupón aplicado correctamente.',
+            'coupon-removed'            => 'Éxito: cupón eliminado del carrito con éxito.',
+            'coupon-remove-failed'      => 'Advertencia: hay algunos errores al eliminar el cupón del carrito o el cupón no se encontró.',
+            'error-placing-order'       => 'Advertencia: Hay un error al realizar el pedido.',
+            'selected-payment'          => 'Éxito: Método de pago seleccionado correctamente.',
+            'error-payment-save'        => 'Advertencia: Hay un error al guardar el método de pago.',
 
             'cart' => [
                 'item' => [
-                    'success-all-remove'       => 'All items successfully removed from cart.',
-                    'fail-all-remove'          => 'Error in removing items from cart.',
-                    'error-invalid-parameter'  => 'Warning: Invaid parameters provided.',
-                    'success-moved-cart-item'  => 'Success: Cart item moved to wishlist successfully.',
-                    'fail-moved-cart-item'     => 'Fail: Cart item is not moved to wishlist.',
-                    'success-add-to-cart'      => 'Success: Product added to cart successfully.',
-                    'fail-add-to-cart'         => 'Fail: Product is not added to cart.',
-                    'success-update-to-cart'   => 'Success: Cart item has been updated successfully.',
-                    'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
-                    'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
-                    'fail-delete-cart-item'    => 'Fail: Cart item not found.',
+                    'success-all-remove'       => 'Todos los artículos se han eliminado correctamente del carrito.',
+                    'fail-all-remove'          => 'Error al eliminar artículos del carrito.',
+                    'error-invalid-parameter'  => 'Advertencia: Se han proporcionado parámetros inválidos.',
+                    'success-moved-cart-item'  => 'Éxito: Artículo del carrito movido a la lista de deseos correctamente.',
+                    'fail-moved-cart-item'     => 'Error: El artículo del carrito no se ha movido a la lista de deseos.',
+                    'success-add-to-cart'      => 'Éxito: Producto agregado al carrito correctamente.',
+                    'fail-add-to-cart'         => 'Error: El producto no se ha agregado al carrito.',
+                    'success-update-to-cart'   => 'Éxito: El artículo del carrito se ha actualizado correctamente.',
+                    'fail-update-to-cart'      => 'Error: El artículo del carrito no se ha actualizado.',
+                    'success-delete-cart-item' => 'Éxito: El artículo del carrito se ha eliminado correctamente.',
+                    'fail-delete-cart-item'    => 'Error: No se encontró el artículo del carrito.',
                 ],
             ],
         ],
 
         'customer' => [
-            'success-login'         => 'Success: Customer login successfully.',
-            'success-logout'        => 'Success: Customer logout successfully.',
-            'no-login-customer'     => 'Warning: No login customer found.',
-            'address-list'          => 'Success: Customer\'s address details fetched',
-            'not-authorized'        => 'Warning: You are not authorized to update this address.',
-            'no-address-list'       => 'Warning: No customer\'s address found.',
-            'text-password'         => 'Your Password is: :password',
-            'not-exists'            => 'Warning: No customer found for the provided data.',
-            'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
-            'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
-            'password-reset-failed' => 'Warning: We already sent you password reset email, try after sometime.',
-            'no-login-user'         => 'Warning: No login user found.',
-            'customer-details'      => 'Success: Customer details fetched successfully.',
+            'success-login'         => 'Éxito: Inicio de sesión del cliente exitoso.',
+            'success-logout'        => 'Éxito: Cierre de sesión del cliente exitoso.',
+            'no-login-customer'     => 'Advertencia: No se encontró ningún cliente logueado.',
+            'address-list'          => 'Éxito: Detalles de direcciones del cliente obtenidos.',
+            'not-authorized'        => 'Advertencia: No estás autorizado para actualizar esta dirección.',
+            'no-address-list'       => 'Advertencia: No se encontraron direcciones del cliente.',
+            'text-password'         => 'Tu contraseña es: :password',
+            'not-exists'            => 'Advertencia: No se encontró ningún cliente con los datos proporcionados.',
+            'success-address-list'  => 'Éxito: Direcciones del cliente obtenidas exitosamente.',
+            'reset-link-sent'       => 'Éxito: Se ha enviado el correo electrónico de restablecimiento de contraseña correctamente.',
+            'password-reset-failed' => 'Advertencia: Ya te enviamos un correo electrónico para restablecer la contraseña, intenta nuevamente después de un tiempo.',
+            'no-login-user'         => 'Advertencia: No se encontró ningún usuario logueado.',
+            'customer-details'      => 'Éxito: Detalles del cliente obtenidos exitosamente.',
 
-            'account'               => [
-                'not-found' => 'Wanring: No :name found.',
+            'account' => [
+                'not-found' => 'Advertencia: No se encontró ningún :name.',
 
-                'profile'   => [
-                    'edit-success'   => 'Profile Updated Successfully',
-                    'edit-fail'      => 'Profile not updated',
-                    'unmatch'        => 'The old password does not match.',
-                    'order-pending'  => 'Cannot delete customer account because some Order(s) are pending or processing state.',
-                    'delete-success' => 'Customer deleted successfully',
-                    'wrong-password' => 'Wrong Password !',
+                'profile' => [
+                    'edit-success'   => 'Perfil actualizado exitosamente',
+                    'edit-fail'      => 'Perfil no actualizado',
+                    'unmatch'        => 'La contraseña anterior no coincide.',
+                    'order-pending'  => 'No se puede eliminar la cuenta del cliente porque hay Pedido(s) pendiente(s) o en estado de procesamiento.',
+                    'delete-success' => 'Cliente eliminado exitosamente',
+                    'wrong-password' => '¡Contraseña incorrecta!',
                 ],
 
                 'order' => [
-                    'no-order-found' => 'Wanring: No order found.',
-                    'cancel-success' => 'Order cancelled successfully',
-
+                    'no-order-found' => 'Advertencia: No se encontraron pedidos.',
+                    'cancel-success' => 'Pedido cancelado exitosamente',
                 ],
 
-                'review'    => [
-                    'success' => 'Success: Review is submitted successfully, please wait for the approval.',
+                'review' => [
+                    'success' => 'Éxito: La reseña se ha enviado correctamente, espera la aprobación.',
                 ],
 
                 'wishlist' => [
-                    'removed'            => 'Item Successfully Removed From Wishlist',
-                    'remove-fail'        => 'Item Cannot Be Removed From Wishlist',
-                    'remove-all-success' => 'All the items from your wishlist have been removed',
-                    'success'            => 'Item Successfully Added To Wishlist',
-                    'already-exist'      => 'Product already exist in wishlist',
-                    'move-to-cart'       => 'Move To Cart',
-                    'moved-success'      => 'Item Successfully Moved to Cart',
-                    'error-move-to-cart' => 'Warning: This product might have some required options, not able to move to cart.',
-                    'no-item-found'      => 'Warning: There is no product found.',
-
+                    'removed'            => 'Artículo eliminado con éxito de la lista de deseos',
+                    'remove-fail'        => 'No se pudo quitar el artículo de la lista de deseos',
+                    'remove-all-success' => 'Se han eliminado todos los artículos de tu lista de deseos',
+                    'success'            => 'Artículo agregado con éxito a la lista de deseos',
+                    'already-exist'      => 'El producto ya existe en la lista de deseos',
+                    'move-to-cart'       => 'Mover al carrito',
+                    'moved-success'      => 'Artículo movido con éxito al carrito',
+                    'error-move-to-cart' => 'Advertencia: Este producto puede tener algunas opciones requeridas, no se puede mover al carrito.',
+                    'no-item-found'      => 'Advertencia: No se encontraron productos.',
                 ],
 
-                'addressess' => [
-                    'delete-success' => 'Customer\'s Address deleted successfully'
-                ]
-            ],
-
-            'signup-form'           => [
-                'error-registration'       => 'Warning: customer registration failed.',
-                'warning-num-already-used' => 'Warning: This :phone number is registered using different email address.',
-                'success-verify'           => 'Account created successfully, an e-mail has been sent for verification.',
-                'invalid-creds'            => 'Please check your credentials and try again.',
-
-                'validation'               => [
-                    'unique'   => 'This :field has already been taken.',
-                    'required' => 'The :field field is required.',
-                    'same'     => 'The :field and password must match.',
+                'addresses' => [
+                    'delete-success' => 'Dirección del cliente eliminada exitosamente',
                 ],
             ],
 
-            'login-form'            => [
-                'not-activated' => 'Your activation seeks admin approval',
-                'invalid-creds' => 'Please check your credentials and try again.',
+            'signup-form' => [
+                'error-registration'       => 'Advertencia: Falló el registro del cliente.',
+                'warning-num-already-used' => 'Advertencia: Este :phone número ya está registrado con una dirección de correo electrónico diferente.',
+                'success-verify'           => 'Cuenta creada exitosamente, se ha enviado un correo electrónico para verificación.',
+                'invalid-creds'            => 'Por favor verifica tus credenciales e inténtalo de nuevo.',
+
+                'validation' => [
+                    'unique'   => 'Este :field ya ha sido tomado.',
+                    'required' => 'El campo :field es obligatorio.',
+                    'same'     => 'El campo :field y la contraseña deben coincidir.',
+                ],
+            ],
+
+            'login-form' => [
+                'not-activated' => 'Tu activación requiere aprobación del administrador',
+                'invalid-creds' => 'Por favor verifica tus credenciales e inténtalo de nuevo.',
             ],
         ],
 
         'response' => [
-            'error-invalid-parameter' => 'Warning: Invaid parameters provided.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'cancel-error'            => 'Order can not be canceled.',
+            'error-invalid-parameter' => 'Advertencia: Se han proporcionado parámetros inválidos.',
+            'invalid-header'          => 'Advertencia: Token de encabezado inválido.',
+            'cancel-error'            => 'No se puede cancelar el pedido.',
         ],
     ]
 ];

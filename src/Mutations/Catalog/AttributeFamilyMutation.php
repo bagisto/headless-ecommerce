@@ -39,13 +39,7 @@ class AttributeFamilyMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-                )
-        ) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -65,7 +59,6 @@ class AttributeFamilyMutation extends Controller
         }
 
         try {
-
             Event::dispatch('catalog.attributeFamily.create.before');
 
             $attributeFamily = $this->attributeFamilyRepository->create($data);
@@ -85,18 +78,17 @@ class AttributeFamilyMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id'])
-            || ! isset($args['input'])
-            || (
-                isset($args['input'])
-                && ! $args['input']
-               )
+        if (
+            empty($args['id'])
+            || empty($args['input'])
         ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'code' => ['required', 'unique:attribute_families,code,' . $id, new Code],
             'name' => 'required',
@@ -107,9 +99,10 @@ class AttributeFamilyMutation extends Controller
         }
 
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
+
         $attribute_groups = [];
 
-        if (isset($data['attribute_groups']) && $data['attribute_groups']) {
+        if (! empty($data['attribute_groups'])) {
             $previousAttributeGroupIds = $attributeGroupArray = $attributeFamily->attribute_groups()->pluck('id');
 
             foreach ($attributeGroupArray->toArray() as $key => $attributeGroupId) {
@@ -122,6 +115,7 @@ class AttributeFamilyMutation extends Controller
 
             foreach ($data['attribute_groups'] as $key => $attributeGroup) {
                 $index = $key + 1;
+
                 $attribute_groups[$index] = $attributeGroup;
             }
 
@@ -148,31 +142,32 @@ class AttributeFamilyMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || (isset($args['id']) && !$args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-        $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
 
         if ($this->attributeFamilyRepository->count() == 1) {
             throw new Exception(trans('admin::app.response.last-delete-error', ['name' => 'Family']));
+        }
 
-        } elseif ($attributeFamily->products()->count()) {
+        $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
+
+        if ($attributeFamily->products()->count()) {
             throw new Exception(trans('admin::app.response.attribute-product-error', ['name' => 'Attribute family']));
-        } else {
+        }
 
-            try {
-                Event::dispatch('catalog.attributeFamily.delete.before', $id);
+        try {
+            Event::dispatch('catalog.attributeFamily.delete.before', $id);
 
-                $this->attributeFamilyRepository->delete($id);
+            $this->attributeFamilyRepository->delete($id);
 
-                Event::dispatch('catalog.attributeFamily.delete.after', $id);
+            Event::dispatch('catalog.attributeFamily.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Family'])];
-            } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Family']));
-            }
+            return ['success' => trans('admin::app.response.delete-success', ['name' => 'Family'])];
+        } catch(\Exception $e) {
+            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Family']));
         }
     }
 }
