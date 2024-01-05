@@ -9,12 +9,12 @@ extend type Mutation @guard(with: ["api"]) {
     createAddress(
         input: CreateAddressInput!
     ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
-  
+
     updateAddress(
         id: ID!,
         input: UpdateAddressInput!
     ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
-  
+
     deleteAddress(id: ID!): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
 }
 

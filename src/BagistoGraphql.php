@@ -763,11 +763,11 @@ class BagistoGraphql
 
             $extension = explode("/", $getImgMime)[1];
 
-            $imageName = $field . '_review.' . $extension;
+            $imageName = $field . '_avatar.' . $extension;
 
             $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
-            $pathValidate = $this->validatePath($data[$field], 'images');
+            $pathValidate = $this->validatePath($data[$field], 'image');
         }
 
         if ($base64Validate || $pathValidate) {
@@ -782,7 +782,6 @@ class BagistoGraphql
             }
 
             $collection->{$keyIndex[0]} = null;
-
             $collection->save();
 
             $path = $data['save_path'] . '/';

@@ -111,4 +111,27 @@ class CustomerOrderQuery
     {
         return core()->getConfigData('sales.payment_methods.' . $rootValue->method . '.title');
     }
+
+    /**
+     * Get Translated Order Status.
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @return mixed
+     */
+    public function getTranslatedOrderStatus($rootValue, array $args, GraphQLContext $context)
+    {
+        $statusLabel = [
+            'pending'         => trans('shop::app.customers.account.orders.status.options.pending'),
+            'pending_payment' => trans('shop::app.customers.account.orders.status.options.pending-payment'),
+            'processing'      => trans('shop::app.customers.account.orders.status.options.processing'),
+            'completed'       => trans('shop::app.customers.account.orders.status.options.completed'),
+            'canceled'        => trans('shop::app.customers.account.orders.status.options.canceled'),
+            'closed'          => trans('shop::app.customers.account.orders.status.options.closed'),
+            'fraud'           => trans('shop::app.customers.account.orders.status.options.fraud'),
+        ];
+
+        return $statusLabel[$rootValue->status];
+    }
 }

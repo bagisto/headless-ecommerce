@@ -5,11 +5,11 @@ namespace Webkul\GraphQLAPI\Http\Controllers\Admin;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
