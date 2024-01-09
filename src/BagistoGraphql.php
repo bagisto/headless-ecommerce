@@ -13,7 +13,7 @@ use Webkul\Product\Repositories\{
     ProductDownloadableSampleRepository,
     ProductGroupedProductRepository,
     ProductImageRepository,
-    ProductVideoRepository,
+    ProductVideoRepository
 };
 
 class BagistoGraphql
@@ -64,7 +64,7 @@ class BagistoGraphql
         protected ProductDownloadableSampleRepository $productDownloadableSampleRepository,
         protected ProductGroupedProductRepository $productGroupedProductRepository,
         protected ProductImageRepository $productImageRepository,
-        protected ProductVideoRepository $productVideoRepository,
+        protected ProductVideoRepository $productVideoRepository
     ) {
     }
 
@@ -99,15 +99,9 @@ class BagistoGraphql
         $validateUser = $this->apiAuth($token, $guard);
 
         return (
-            ! $token ||
-            (
-                ! isset($validateUser['success']) ||
-                (
-                    isset($validateUser['success']) &&
-                    ! $validateUser['success']
-                )
-            )
-        ) ? false : true;
+                ! $token
+                || empty($validateUser['success'])
+            ) ? false : true;
 
     }
 
@@ -127,40 +121,44 @@ class BagistoGraphql
             $customerFromToken = JWTAuth::toUser($setToken);
 
             if (
-                isset($setToken) &&
-                isset($customerFromToken)
-                && $loggedAdmin != NULL) {
+                isset($setToken)
+                && isset($customerFromToken)
+                && $loggedAdmin != NULL
+            ) {
                 if ($customerFromToken->id == $loggedAdmin->id) {
                     return [
                         'success' => true,
                         'message' => trans('bagisto_graphql::app.admin.response.success-login'),
                     ];
                 }
-            } else {
-                return [
-                    'success' => false,
-                    'message' => trans('bagisto_graphql::app.admin.response.error-login'),
-                ];
             }
+
+            return [
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.admin.response.error-login'),
+            ];
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return [
-                'success'   => false,
-                'message'   => $e->getMessage(),
+                'success' => false,
+                'message' => $e->getMessage(),
             ];
         } catch (\Exception $e) {
             //In case customer's session has expired
-            if ($token !== 0 && $loggedAdmin == null) {
+            if (
+                $token !== 0
+                && $loggedAdmin == null
+            ) {
                 return [
                     'success'    => false,
                     'message'    => trans('bagisto_graphql::app.admin.response.session-expired'),
                     'otherError' => 'User Not Exist',
                 ];
-            } else {
-                return [
-                    'success' => false,
-                    'message' => $e->getMessage(),
-                ];
             }
+
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
         }
     }
 
@@ -183,7 +181,7 @@ class BagistoGraphql
             mkdir(storage_path('app/public/' . $modelPath), 0777, true);
         }
 
-        if (isset($imageUrl) && $imageUrl) {
+        if (! empty($imageUrl)) {
             $valoidateImg = $this->validatePath($imageUrl, 'images');
 
             if ($valoidateImg) {
@@ -232,8 +230,7 @@ class BagistoGraphql
 
                 if ($data['data_type'] == 'videos') {
                     $this->productVideoRepository->delete($productImageId);
-                }
-                else {
+                } else {
                     $this->productImageRepository->delete($productImageId);
                 }
             }
@@ -298,8 +295,7 @@ class BagistoGraphql
 
                     if ($data['data_type'] == 'videos') {
                         $this->productImageRepository->delete($imageId);
-                    }
-                    else {
+                    } else {
                         $this->productVideoRepository->delete($imageId);
                     }
                 }
@@ -424,9 +420,8 @@ class BagistoGraphql
 
         foreach ($data as $localeArray) {
             if (! empty($localeArray['code'])) {
-
                 foreach ($fields as $field) {
-                    if (isset($localeArray[$field]) && $localeArray[$field]) {
+                    if (! empty($localeArray[$field])) {
                         if (! isset($result[$localeArray['code']][$field])) {
                             $result[$localeArray['code']][$field] = $localeArray[$field];
                         }
@@ -451,11 +446,13 @@ class BagistoGraphql
         foreach ($data['variants'] as $variant) {
             if (! empty($variant['variant_id'])) {
                 if (! empty($variant['inventories'])) {
-
                     $inventories = [];
 
                     foreach ($variant['inventories'] as $inventory) {
-                        if (isset($inventory['inventory_source_id']) && isset($inventory['qty'])) {
+                        if (
+                            isset($inventory['inventory_source_id'])
+                            && isset($inventory['qty'])
+                        ) {
                             $inventories[$inventory['inventory_source_id']] = $inventory['qty'];
                         }
                     }
@@ -524,10 +521,14 @@ class BagistoGraphql
         foreach ($data['downloadable_links'] as $key => $link) {
             if (isset($link['locales'])) {
                 foreach ($link['locales'] as $locale) {
-                    if (isset($locale['code']) && isset($locale['title'])) {
+                    if (
+                        isset($locale['code'])
+                        && isset($locale['title'])
+                    ) {
                         $link[$locale['code']] = ['title' => $locale['title']];
                     }
                 }
+
                 unset($link['locales']);
             }
 
@@ -541,10 +542,11 @@ class BagistoGraphql
                 $previousLinkIds = $linkArray = $product->downloadable_links()->pluck('id');
 
                 foreach ($linkArray->toArray() as $key => $linkId) {
-                    if (is_numeric($index = $previousLinkIds->search($linkId))) {
-                        if (! isset($downloadableLinks[$linkId])) {
-                            $previousLinkIds->forget($index);
-                        }
+                    if (
+                        is_numeric($index = $previousLinkIds->search($linkId))
+                        && ! isset($downloadableLinks[$linkId])
+                    ) {
+                        $previousLinkIds->forget($index);
                     }
 
                     if (! isset($downloadableLinks[$linkId])) {
@@ -552,7 +554,7 @@ class BagistoGraphql
                     }
                 }
 
-                if (isset($link['type']) && $link['type']) {
+                if (! empty($link['type'])) {
                     $downloadableLinks['link_' . $key] = $link;
                 }
             }
@@ -574,14 +576,17 @@ class BagistoGraphql
         foreach ($data['downloadable_samples'] as $key => $sample) {
             if (isset($sample['locales'])) {
                 foreach ($sample['locales'] as $locale) {
-                    if (isset($locale['code']) && isset($locale['title'])) {
+                    if (
+                        isset($locale['code'])
+                        && isset($locale['title'])
+                    ) {
                         $sample[$locale['code']] = ['title' => $locale['title']];
                     }
                 }
                 unset($sample['locales']);
             }
 
-            if (isset($sample['sample_product_id']) && $sample['sample_product_id']) {
+            if (! empty($sample['sample_product_id'])) {
                 $sampleProductId = $sample['sample_product_id'];
 
                 unset($sample['sample_product_id']);
@@ -591,11 +596,13 @@ class BagistoGraphql
                 $previousLinkIds = $sampleArray = $product->downloadable_samples()->pluck('id');
 
                 foreach ($sampleArray->toArray() as $key => $sampleId) {
-                    if (is_numeric($index = $previousLinkIds->search($sampleId))) {
-                        if (! isset($downloadableSamples[$sampleId])) {
-                            $previousLinkIds->forget($index);
-                        }
+                    if (
+                        is_numeric($index = $previousLinkIds->search($sampleId))
+                        && ! isset($downloadableSamples[$sampleId])
+                    ) {
+                        $previousLinkIds->forget($index);
                     }
+
                     if (! isset($downloadableSamples[$sampleId])) {
                         $this->productDownloadableSampleRepository->delete($sampleId);
                     }
@@ -625,7 +632,10 @@ class BagistoGraphql
 
             if (isset($option['locales'])) {
                 foreach ($option['locales'] as $locale) {
-                    if (isset($locale['code']) && isset($locale['label'])) {
+                    if (
+                        isset($locale['code'])
+                        && isset($locale['label'])
+                    ) {
                         $option[$locale['code']] = ['label' => $locale['label']];
                     }
                 }
@@ -652,11 +662,13 @@ class BagistoGraphql
                             $previousBundleOptionProductIds = $bundleOptionProductArray = $productBundleOption->bundle_option_products()->pluck('id');
 
                             foreach ($bundleOptionProductArray->toArray() as $key => $bundleOptionProductId) {
-                                if (is_numeric($index = $previousBundleOptionProductIds->search($bundleOptionProductId))) {
-                                    if (! isset($bundleOptions[$bundleOptionProductId])) {
-                                        $previousBundleOptionProductIds->forget($index);
-                                    }
+                                if (
+                                    is_numeric($index = $previousBundleOptionProductIds->search($bundleOptionProductId))
+                                    && ! isset($bundleOptions[$bundleOptionProductId])
+                                ) {
+                                    $previousBundleOptionProductIds->forget($index);
                                 }
+
                                 if (! isset($bundleOptions[$bundleOptionProductId])) {
                                     $this->productBundleOptionProductRepository->delete($bundleOptionProductId);
                                 }
@@ -676,10 +688,11 @@ class BagistoGraphql
                 $previousBundleOptionIds = $optionArray = $product->bundle_options()->pluck('id');
 
                 foreach ($optionArray->toArray() as $key => $optionId) {
-                    if (is_numeric($index = $previousBundleOptionIds->search($optionId))) {
-                        if (! isset($bundleOptions[$optionId])) {
-                            $previousBundleOptionIds->forget($index);
-                        }
+                    if (
+                        is_numeric($index = $previousBundleOptionIds->search($optionId))
+                        && ! isset($bundleOptions[$optionId])
+                    ) {
+                        $previousBundleOptionIds->forget($index);
                     }
 
                     if (! isset($bundleOptions[$optionId])) {
@@ -689,10 +702,11 @@ class BagistoGraphql
 
                 if (! empty($option['products'])) {
                     foreach ($option['products'] as $index => $prod) {
-                        if (isset($prod['product_id']) && $prod['product_id']) {
+                        if (! empty($prod['product_id'])) {
                             $products['product_' . $index] = $prod;
                         }
                     }
+
                     $option['products'] = $products;
                 }
 

@@ -17,14 +17,8 @@ class TaxRateMutation extends Controller
      * @param  \Webkul\Tax\Repositories\TaxRateRepository  $taxRateRepository
      * @return void
      */
-    public function __construct(
-        protected  TaxRateRepository $taxRateRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected  TaxRateRepository $taxRateRepository)
+    {
     }
 
     /**
@@ -34,12 +28,12 @@ class TaxRateMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
             'is_zip'     => 'sometimes',
@@ -81,14 +75,16 @@ class TaxRateMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier,' . $id,
             'is_zip'     => 'sometimes',
@@ -123,13 +119,13 @@ class TaxRateMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-        $taxRate = $this->taxRateRepository->findOrFail($id);
+
+        $this->taxRateRepository->findOrFail($id);
 
         try {
             Event::dispatch('tax.tax_rate.delete.before', $id);

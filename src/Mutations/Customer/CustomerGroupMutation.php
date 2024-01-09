@@ -18,15 +18,8 @@ class CustomerGroupMutation extends Controller
      * @param  \Webkul\Customer\Repositories\CustomerGroupRepository  $customerGroupRepository
      * @return void
      */
-    public function __construct(
-       protected CustomerGroupRepository $customerGroupRepository
-    )
+    public function __construct(protected CustomerGroupRepository $customerGroupRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-    
-        $this->_config = request('_config');
     }
 
     /**
@@ -36,8 +29,7 @@ class CustomerGroupMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -46,20 +38,20 @@ class CustomerGroupMutation extends Controller
             'code' => ['required', 'unique:customer_groups,code', new Code],
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
-            $data['is_user_defined'] = (isset($data['is_user_defined']) && $data['is_user_defined']) ? $data['is_user_defined'] : 0;
+            $data['is_user_defined'] = ! empty($data['is_user_defined']) ? $data['is_user_defined'] : 0;
 
             Event::dispatch('customer.customer_group.create.before');
 
             $customerGroup = $this->customerGroupRepository->create($data);
 
             Event::dispatch('customer.customer_group.create.after', $customerGroup);
-            
+
             return $customerGroup;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -74,32 +66,34 @@ class CustomerGroupMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'code' => ['required', 'unique:customer_groups,code,' . $id, new Code],
             'name' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
-            $data['is_user_defined'] = (isset($data['is_user_defined']) && $data['is_user_defined']) ? $data['is_user_defined'] : 0;
+            $data['is_user_defined'] = ! empty($data['is_user_defined']) ? $data['is_user_defined'] : 0;
 
             Event::dispatch('customer.customer_group.update.before', $id);
-    
+
             $customerGroup = $this->customerGroupRepository->update($data, $id);
 
             $customerGroup = $this->customerGroupRepository->find($id);
-    
+
             Event::dispatch('customer.customer_group.update.after', $customerGroup);
 
             return $customerGroup;
@@ -116,30 +110,33 @@ class CustomerGroupMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $customerGroup = $this->customerGroupRepository->findOrFail($id);
 
         if ($customerGroup->is_user_defined == 0) {
             throw new Exception(trans('admin::app.customers.customers.group-default'));
-        } elseif ($customerGroup->customers && count($customerGroup->customers) > 0) {
+        } elseif (
+            $customerGroup->customers
+            && count($customerGroup->customers)
+        ) {
             throw new Exception(trans('admin::app.response.customer-associate', ['name' => 'Customer Group']));
-        } else {
-            try {
-                Event::dispatch('customer.customer_group.delete.before', $id);
+        }
 
-                $this->customerGroupRepository->delete($id);
+        try {
+            Event::dispatch('customer.customer_group.delete.before', $id);
 
-                Event::dispatch('customer.customer_group.delete.after', $id);
+            $this->customerGroupRepository->delete($id);
 
-                return ['success' => trans('admin::app.customers.groups.index.edit.delete-success', ['name' => 'Customer Group'])];
-            } catch(\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Customer Group']));
-            }
+            Event::dispatch('customer.customer_group.delete.after', $id);
+
+            return ['success' => trans('admin::app.customers.groups.index.edit.delete-success', ['name' => 'Customer Group'])];
+        } catch(\Exception $e) {
+            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Customer Group']));
         }
     }
 }

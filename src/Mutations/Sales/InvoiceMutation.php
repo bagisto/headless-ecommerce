@@ -11,13 +11,6 @@ use Webkul\Sales\Repositories\InvoiceRepository;
 class InvoiceMutation extends Controller
 {
     /**
-     * Initialize _config, a default request parameter with route
-     *
-     * @param array
-     */
-    protected $_config;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
@@ -28,11 +21,6 @@ class InvoiceMutation extends Controller
         protected OrderRepository $orderRepository,
         protected InvoiceRepository $invoiceRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -42,13 +30,13 @@ class InvoiceMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $orderId = $params['order_id'];
+
         $order = $this->orderRepository->findOrFail($orderId);
 
         if (! $order->canInvoice()) {
@@ -56,33 +44,35 @@ class InvoiceMutation extends Controller
         }
 
         try {
-            $invoiceData = [];
-            if (isset($params['invoice_data'])) {
-                foreach ($params['invoice_data'] as $data) {
-                    $invoiceData = $invoiceData + [
-                        $data['order_item_id'] => $data['quantity']
-                    ];
-                }
-
-                $invoice['invoice']['items'] =  $invoiceData;
-                $haveProductToInvoice = false;
-                foreach ($invoice['invoice']['items'] as $itemId => $qty) {
-                    if ($qty) {
-                        $haveProductToInvoice = true;
-                        break;
-                    }
-                }
-
-                if (! $haveProductToInvoice) {
-                    throw new Exception(trans('admin::app.sales.invoices.product-error'));
-                }
-
-                $invoicedData = $this->invoiceRepository->create(array_merge($invoice, ['order_id' => $orderId]));
-
-                return $invoicedData;
-            } else {
+            if (empty($params['invoice_data'])) {
                 throw new Exception(trans('admin::app.sales.invoices.product-error'));
             }
+
+            $invoiceData = [];
+
+            foreach ($params['invoice_data'] as $data) {
+                $invoiceData = $invoiceData + [
+                    $data['order_item_id'] => $data['quantity']
+                ];
+            }
+
+            $invoice['invoice']['items'] =  $invoiceData;
+            $haveProductToInvoice = false;
+
+            foreach ($invoice['invoice']['items'] as $qty) {
+                if ($qty) {
+                    $haveProductToInvoice = true;
+                    break;
+                }
+            }
+
+            if (! $haveProductToInvoice) {
+                throw new Exception(trans('admin::app.sales.invoices.product-error'));
+            }
+
+            $invoicedData = $this->invoiceRepository->create(array_merge($invoice, ['order_id' => $orderId]));
+
+            return $invoicedData;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

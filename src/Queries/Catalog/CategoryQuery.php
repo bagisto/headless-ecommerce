@@ -22,10 +22,8 @@ class CategoryQuery extends BaseFilter
         protected ProductFlatRepository $productFlatRepository
     )
     {
-
-        $this->_config = request('_config');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -43,12 +41,12 @@ class CategoryQuery extends BaseFilter
             ->where('pf.status', 1)
             ->where('pf.visible_individually', 1)
             ->where('pc.category_id', $categoryId);
-            
+
         $result = $queryBuilder->first();
-        
+
         return isset($result->count) ? $result->count : 0;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -76,10 +74,10 @@ class CategoryQuery extends BaseFilter
                 }
             }
         }
-        
+
         return $breadcrumbs;
     }
-    
+
     /**
      * Get product maximum price based on category.
      *
@@ -88,5 +86,5 @@ class CategoryQuery extends BaseFilter
     public function getCategoryProductMaxPrice($rootValue, array $args, GraphQLContext $context)
     {
         return core()->convertPrice($this->productFlatRepository->getCategoryProductMaximumPrice($rootValue));
-    }    
+    }
 }

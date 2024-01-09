@@ -11,26 +11,13 @@ use Webkul\Marketing\Repositories\TemplateRepository;
 class EmailTemplateMutation extends Controller
 {
     /**
-     * Initialize _config, a default request parameter with route
-     *
-     * @param array
-     */
-    protected $_config;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Marketing\Repositories\TemplateRepository $templateRepository
      * @return void
      */
-    public function __construct(
-        protected TemplateRepository $templateRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected TemplateRepository $templateRepository)
+    {
     }
 
     /**
@@ -40,16 +27,16 @@ class EmailTemplateMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
+
         $validator = Validator::make($params, [
-            'name'      => 'required',
-            'content'   => 'required',
-            'status'    => 'required',
+            'name'    => 'required',
+            'content' => 'required',
+            'status'  => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -73,14 +60,16 @@ class EmailTemplateMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($params, [
             'name'      => 'required',
             'content'   => 'required',
@@ -109,30 +98,29 @@ class EmailTemplateMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $template = $this->templateRepository->find($id);
 
         try {
-            if ($template != Null) {
+            if ($template ) {
                 $template->delete();
 
                 return [
                     'status' => true,
                     'message' => trans('admin::app.marketing.communications.templates.delete-success', ['name' => 'Email Template'])
                 ];
-            } else {
-                return [
-                    'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Email Template'])
-                ];
             }
-        } catch (Exception $e) {
 
+            return [
+                'status' => false,
+                'message' => trans('admin::app.response.delete-failed', ['name' => 'Email Template'])
+            ];
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

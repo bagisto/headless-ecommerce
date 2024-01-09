@@ -282,7 +282,6 @@
 
                 methods: {
                     showHideOptions: function (event) {
-
                         this.notificationType = event.target.value;
 
                         this.showProductCategory = false;
@@ -303,7 +302,7 @@
 
                         if (spaceCount > 0) {
                             this.isValid = true;
-                            
+
                             return false;
                         }
 

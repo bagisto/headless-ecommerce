@@ -6,7 +6,6 @@ use Exception;
 use Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;

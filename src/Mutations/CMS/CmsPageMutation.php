@@ -17,14 +17,8 @@ class CmsPageMutation extends Controller
      * @param \Webkul\CMS\Repositories\CmsRepository  $CmsRepository
      * @return void
      */
-    public function __construct(
-        protected CmsRepository $cmsRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected CmsRepository $cmsRepository)
+    {
     }
 
     /**
@@ -34,8 +28,10 @@ class CmsPageMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['input'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -68,19 +64,23 @@ class CmsPageMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $locale = $args['input']['locale'] ?: app()->getLocale();
+
         $data[$locale] = $args['input'];
         $data['channels'] = $args['input']['channels'];
         $data['locale'] = $args['input']['locale'];
+
         $id = $args['id'];
 
         unset($data[$locale]['channels']);
+
         unset($data[$locale]['locale']);
 
         $validator = Validator::make($data, [
@@ -93,7 +93,7 @@ class CmsPageMutation extends Controller
             $locale . '.html_content' => 'required',
             'channels'                => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -114,15 +114,14 @@ class CmsPageMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
-        $id = $args['id'];
-        $page = $this->cmsRepository->find($id);
+        $page = $this->cmsRepository->find($args['id']);
+
         try {
-            if ($page != Null) {
+            if ($page) {
                 $page->delete();
 
                 return ['success' => trans('admin::app.cms.delete-success', ['name' => 'CMS Page'])];

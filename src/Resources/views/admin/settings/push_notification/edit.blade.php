@@ -397,7 +397,10 @@
 
                         this.showProductCategory = false;
 
-                        if (event.target.value == 'product' || event.target.value == 'category' ) {
+                        if (
+                            event.target.value == 'product'
+                            || event.target.value == 'category'
+                        ) {
                             this.showProductCategory = true;
                         }
                     },
@@ -410,6 +413,7 @@
 
                         if (spaceCount > 0) {
                             this.isValid = true;
+
                             return false;
                         }
 

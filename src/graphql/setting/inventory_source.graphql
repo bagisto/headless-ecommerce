@@ -5,7 +5,7 @@ extend type Query @guard(with: ["admin-api"]) {
     inventorySource(id: ID @eq): InventorySource @find(model: "Webkul\\Inventory\\Models\\InventorySource")
 }
 
-extend type Mutation {
+extend type Mutation @guard(with: ["admin-api"]) {
     createInventorySource(
         input: createInventorySourceInput!
     ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\InventorySourceMutation@store")
@@ -14,7 +14,7 @@ extend type Mutation {
         id: ID!,
         input: createInventorySourceInput!
     ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\InventorySourceMutation@update")
-    
+
     deleteInventorySource(id: ID!): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\InventorySourceMutation@delete")
 }
 

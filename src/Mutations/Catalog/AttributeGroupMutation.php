@@ -24,13 +24,7 @@ class AttributeGroupMutation extends Controller
         protected AttributeGroupRepository $attributeGroupRepository,
     )
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:' . $this->guard);
-
-        $this->_config = request('_config');
+        $this->middleware('auth:admin-api');
     }
 
     /**

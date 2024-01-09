@@ -11,26 +11,13 @@ use Webkul\Sitemap\Repositories\SitemapRepository;
 class SiteMapMutation extends Controller
 {
     /**
-     * Initialize _config, a default request parameter with route
-     *
-     * @param array
-     */
-    protected $_config;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Sitemap\Repositories\SitemapRepository $sitemapRepository
      * @return void
      */
-    public function __construct(
-        protected SitemapRepository $sitemapRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected SitemapRepository $sitemapRepository)
+    {
     }
 
     /**
@@ -40,15 +27,15 @@ class SiteMapMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
+
         $validator = Validator::make($params, [
-            'file_name'   => 'required',
-            'path'        => 'required',
+            'file_name' => 'required',
+            'path'      => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -71,17 +58,19 @@ class SiteMapMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($params, [
-            'file_name'   => 'required',
-            'path'        => 'required',
+            'file_name' => 'required',
+            'path'      => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -105,31 +94,29 @@ class SiteMapMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $sitemap = $this->sitemapRepository->find($id);
 
         try {
-            if ($sitemap != Null) {
+            if ($sitemap) {
                 $sitemap->delete();
 
                 return [
                     'status' => true,
                     'message' => trans('admin::app.marketing.sitemaps.index.edit.delete-success', ['name' => 'SiteMap'])
                 ];
-            } else {
-
-                return [
-                    'status' => false,
-                    'message' => trans('admin::app.marketing.sitemaps.delete-failed', ['name' => 'SiteMap'])
-                ];
             }
-        } catch (Exception $e) {
 
+            return [
+                'status' => false,
+                'message' => trans('admin::app.marketing.sitemaps.delete-failed', ['name' => 'SiteMap'])
+            ];
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

@@ -57,20 +57,24 @@ class NotificationRepository extends Repository
             $model = app()->make($this->model());
 
             foreach (core()->getAllChannels() as $channel) {
-                if (in_array($channel->code, $data['channels'])) {
-                    foreach ($channel->locales as $locale) {
-                        $param = [];
-                        foreach ($model->translatedAttributes as $attribute) {
-                            if (isset($data[$attribute])) {
-                                $param[$attribute] = $data[$attribute];
-                            }
-                        }
-                        $param['channel'] = $channel->code;
-                        $param['locale'] = $locale->code;
-                        $param['push_notification_id'] = $notification->id;
+                if (! in_array($channel->code, $data['channels'])) {
+                    continue;
+                }
 
-                        $this->notificationTranslationRepository->create($param);
+                foreach ($channel->locales as $locale) {
+                    $param = [];
+
+                    foreach ($model->translatedAttributes as $attribute) {
+                        if (isset($data[$attribute])) {
+                            $param[$attribute] = $data[$attribute];
+                        }
                     }
+
+                    $param['channel'] = $channel->code;
+                    $param['locale'] = $locale->code;
+                    $param['push_notification_id'] = $notification->id;
+
+                    $this->notificationTranslationRepository->create($param);
                 }
             }
         }
@@ -98,13 +102,13 @@ class NotificationRepository extends Repository
 
         $notification->update($data);
 
-        if (isset($data['channel']) && isset($data['locale'])) {
+        if (! empty($data['channel'])) {
             $model = app()->make($this->model());
 
             $notificationTranslation = $this->notificationTranslationRepository->findOneWhere([
-                'channel'               => $data['channel'],
-                'locale'                => $data['locale'],
-                'push_notification_id'  => $id,
+                'channel'              => $data['channel'],
+                'locale'               => $data['locale'],
+                'push_notification_id' => $id,
             ]);
 
             if ($notificationTranslation) {
@@ -113,6 +117,7 @@ class NotificationRepository extends Repository
                         $notificationTranslation->{$attribute} = $data[$attribute];
                     }
                 }
+
                 $notificationTranslation->save();
             }
         }
@@ -136,9 +141,11 @@ class NotificationRepository extends Repository
     {
         if (isset($data[$type])) {
             $request = request();
+
             foreach ($data[$type] as $imageId => $image) {
                 $file = $type . '.' . $imageId;
                 $dir = 'notification/images/' . $notification->id;
+
                 if ($request->hasFile($file)) {
                     if ($notification->{$type}) {
                         Storage::delete('public'.$notification->{$type});
@@ -171,19 +178,19 @@ class NotificationRepository extends Repository
             ['locale', '=', core()->getRequestedLocaleCode()]
         ])->first();
 
-        if ($notificationTranslations ) {
+        if ($notificationTranslations) {
             $notification->title = $notificationTranslations->title;
             $notification->content = $notificationTranslations->content;
         }
 
         $fieldData = [
-            'banner_url'        => asset('storage/'.$notification->image),
-            'id'                => $notification->id,
-            'body'              => $notification->content,
-            'sound'             => 'default',
-            'title'             => $notification->title,
-            'message'           => $notification->content,
-            'notificationType'  => $notification->type,
+            'banner_url'       => asset('storage/'.$notification->image),
+            'id'               => $notification->id,
+            'body'             => $notification->content,
+            'sound'            => 'default',
+            'title'            => $notification->title,
+            'message'          => $notification->content,
+            'notificationType' => $notification->type,
         ];
 
         switch ($notification->type) {
@@ -191,9 +198,9 @@ class NotificationRepository extends Repository
                 $product = $this->productRepository->findOrFail($notification->product_category_id);
 
                 $fieldData = array_merge($fieldData, [
-                    'click_action'      => route('shop.product_or_category.index', $product->url_key),
-                    'productName'       => $product->name ?? '',
-                    'productId'         => $product->id ?? '',
+                    'click_action' => route('shop.product_or_category.index', $product->url_key),
+                    'productName'  => $product->name ?? '',
+                    'productId'    => $product->id ?? '',
                 ]);
             break;
 
@@ -201,15 +208,15 @@ class NotificationRepository extends Repository
                 $category = $this->categoryRepository->findOrFail($notification->product_category_id);
 
                 $fieldData = array_merge($fieldData, [
-                    'click_action'      => route('shop.product_or_category.index', $category->slug),
-                    'categoryName'      => $category->name ?? '',
-                    'categoryId'        => $category->id ?? '',
+                    'click_action' => route('shop.product_or_category.index', $category->slug),
+                    'categoryName' => $category->name ?? '',
+                    'categoryId'   => $category->id ?? '',
                 ]);
             break;
 
             case 'others':
                 $fieldData = array_merge($fieldData, [
-                    'click_action'      => route('shop.home.index'),
+                    'click_action' => route('shop.home.index'),
                 ]);
             break;
         }
@@ -230,7 +237,7 @@ class NotificationRepository extends Repository
         $url        = "https://fcm.googleapis.com/fcm/send";
         $authKey    = core()->getConfigData('general.api.pushnotification.server_key');
         $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
-        $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
+        // $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
 
         if (! $authKey) {
             return  ['error' => 'Warning: Server key is missing.'];

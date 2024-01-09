@@ -18,14 +18,8 @@ class LocaleMutation extends Controller
      * @param  \Webkul\Core\Repositories\LocaleRepository  $localeRepository
      * @return void
      */
-    public function __construct(
-        protected LocaleRepository $localeRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected LocaleRepository $localeRepository)
+    {
     }
 
     /**
@@ -35,12 +29,12 @@ class LocaleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
@@ -53,8 +47,10 @@ class LocaleMutation extends Controller
 
         try {
             $image_url = '';
+
             if (isset($data['image'])) {
                 $image_url = $data['image'];
+
                 unset($data['image']);
             }
 
@@ -64,7 +60,7 @@ class LocaleMutation extends Controller
 
             Event::dispatch('core.locale.create.after', $locale);
 
-            if (isset($locale->id)) {
+            if ($locale) {
                 bagisto_graphql()->uploadImage($locale, $image_url, 'velocity/locale/', 'locale_image');
 
                 return $locale;
@@ -81,14 +77,16 @@ class LocaleMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code,' . $id, new Code],
             'name'      => 'required',
@@ -101,8 +99,10 @@ class LocaleMutation extends Controller
 
         try {
             $image_url = '';
+
             if (isset($data['image'])) {
                 $image_url = $data['image'];
+
                 unset($data['image']);
             }
 
@@ -112,7 +112,7 @@ class LocaleMutation extends Controller
 
             Event::dispatch('core.locale.update.after', $locale);
 
-            if (isset($locale->id)) {
+            if ($locale) {
                 bagisto_graphql()->uploadImage($locale, $image_url, 'velocity/locale/', 'locale_image');
 
                 return $locale;
@@ -130,28 +130,28 @@ class LocaleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-        $locale = $this->localeRepository->findOrFail($id);
+
+        $this->localeRepository->findOrFail($id);
 
         if ($this->localeRepository->count() == 1) {
             throw new Exception(trans('admin::app.settings.locales.last-delete-error'));
-        } else {
-            try {
-                Event::dispatch('core.locale.delete.before', $id);
+        }
 
-                $this->localeRepository->delete($id);
+        try {
+            Event::dispatch('core.locale.delete.before', $id);
 
-                Event::dispatch('core.locale.delete.after', $id);
+            $this->localeRepository->delete($id);
 
-                return ['success' => trans('admin::app.settings.locales.index.delete-success')];
-            } catch (\Exception $e) {
-                throw new Exception(trans('app.settings.locales.index.delete-success', ['name' => 'Locale']));
-            }
+            Event::dispatch('core.locale.delete.after', $id);
+
+            return ['success' => trans('admin::app.settings.locales.index.delete-success')];
+        } catch (\Exception $e) {
+            throw new Exception(trans('app.settings.locales.index.delete-success', ['name' => 'Locale']));
         }
     }
 }
