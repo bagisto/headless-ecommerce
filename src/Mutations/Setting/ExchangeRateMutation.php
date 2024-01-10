@@ -23,11 +23,6 @@ class ExchangeRateMutation extends Controller
         protected CurrencyRepository $currencyRepository,
         protected ExchangeRateRepository $exchangeRateRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -37,12 +32,12 @@ class ExchangeRateMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency'],
             'rate'            => 'required|numeric',
@@ -54,7 +49,7 @@ class ExchangeRateMutation extends Controller
 
         $currency = $this->currencyRepository->findOrFail($data['target_currency']);
 
-        if (! isset($currency->id)) {
+        if (! $currency) {
             throw new Exception(trans('bagisto_graphql::app.admin.settings.exchange_rates.error-invalid-target-currency'));
         }
 
@@ -79,14 +74,16 @@ class ExchangeRateMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency,' . $id],
             'rate'            => 'required|numeric',
@@ -117,30 +114,30 @@ class ExchangeRateMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-        $exchangeRate = $this->exchangeRateRepository->findOrFail($id);
+
+        $this->exchangeRateRepository->findOrFail($id);
 
         if ($this->exchangeRateRepository->count() == 1) {
             throw new Exception(trans('admin::app.settings.exchange_rates.last-delete-error'));
-        } else {
-            try {
-                Event::dispatch('core.exchange_rate.delete.before', $id);
+        }
 
-                $this->exchangeRateRepository->delete($id);
+        try {
+            Event::dispatch('core.exchange_rate.delete.before', $id);
 
-                session()->flash('success', trans('admin::app.settings.exchange_rates.delete-success'));
+            $this->exchangeRateRepository->delete($id);
 
-                Event::dispatch('core.exchange_rate.delete.after', $id);
+            session()->flash('success', trans('admin::app.settings.exchange_rates.delete-success'));
 
-                return ['success' => trans('bagisto_graphql::app.admin.settings.exchange_rates.delete-success')];
-            } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.response.delete-error', ['name' => 'Exchange rate']));
-            }
+            Event::dispatch('core.exchange_rate.delete.after', $id);
+
+            return ['success' => trans('bagisto_graphql::app.admin.settings.exchange_rates.delete-success')];
+        } catch (\Exception $e) {
+            throw new Exception(trans('admin::app.response.delete-error', ['name' => 'Exchange rate']));
         }
     }
 }

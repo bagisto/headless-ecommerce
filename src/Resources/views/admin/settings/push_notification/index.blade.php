@@ -30,6 +30,5 @@
 
             window.location.href = url.href;
         }
-
     </script>
 @endpush

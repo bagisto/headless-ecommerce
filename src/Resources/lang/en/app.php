@@ -100,7 +100,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Product',
-                        'category' => 'Category'
+                        'category' => 'Category',
                     ],
                 ],
             ],

@@ -32,14 +32,8 @@ class CategoryMutation extends Controller
      * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
      * @return void
      */
-    public function __construct(
-        protected CategoryRepository $categoryRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected CategoryRepository $categoryRepository)
+    {
     }
 
     /**
@@ -49,8 +43,10 @@ class CategoryMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['input'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -69,14 +65,18 @@ class CategoryMutation extends Controller
 
         try {
             $image_url = '';
+
             if (isset($data['logo_path'])) {
                 $image_url =  current($data['logo_path']);
+
                 unset($data['logo_path']);
             }
 
             $banner_path = '';
+
             if (isset($data['banner_path'])) {
                 $banner_path = current($data['banner_path']);
+
                 unset($data['banner_path']);
             }
 
@@ -104,28 +104,28 @@ class CategoryMutation extends Controller
     public function update($rootValue, array $args, GraphQLContext $context)
     {
         if (
-            ! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) 
-            && ! $args['input'])
-            ) {
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
         $locale = (isset($data['locale']) && $data['locale'] != 'all') ? $data['locale'] : app()->getLocale();
+
         $data[$locale] = [];
 
         foreach ($this->localeFields as $field) {
             if (isset($data[$field])) {
                 $data[$locale][$field] = $data[$field];
+
                 unset($data[$field]);
             }
         }
 
         $validator = Validator::make($data, [
-            $locale . '.slug' => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
+            $locale . '.slug' => ['required', new Slug, function ($value, $fail) use ($id) {
                 if (! $this->categoryRepository->isSlugUnique($id, $value)) {
                     $fail(trans('admin::app.response.already-taken', ['name' => 'Category']));
                 }
@@ -140,14 +140,18 @@ class CategoryMutation extends Controller
 
         try {
             $image_url = '';
+
             if (isset($data['logo_path'])) {
                 $image_url =  current($data['logo_path']);
+
                 unset($data['logo_path']);
             }
 
             $banner_path = '';
+
             if (isset($data['banner_path'])) {
                 $banner_path = current($data['banner_path']);
+
                 unset($data['banner_path']);
             }
 
@@ -174,8 +178,7 @@ class CategoryMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 

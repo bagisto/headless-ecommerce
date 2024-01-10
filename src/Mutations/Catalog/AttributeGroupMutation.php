@@ -24,13 +24,7 @@ class AttributeGroupMutation extends Controller
         protected AttributeGroupRepository $attributeGroupRepository,
     )
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:' . $this->guard);
-
-        $this->_config = request('_config');
+        $this->middleware('auth:admin-api');
     }
 
     /**
@@ -141,7 +135,7 @@ class AttributeGroupMutation extends Controller
 
         $attributeGroup = $this->attributeGroupRepository->findOrFail($id);
 
-        if(! empty($attributeGroup->is_user_defined)) {
+        if (! empty($attributeGroup->is_user_defined)) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-customer-group'));
         }
 

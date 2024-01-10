@@ -11,26 +11,13 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class EventMutation extends Controller
 {
     /**
-     * Initialize _config, a default request parameter with route
-     *
-     * @param array
-     */
-    protected $_config;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Marketing\Repositories\EventRepository $eventRepository
      * @return void
      */
-    public function __construct(
-        protected EventRepository $eventRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected EventRepository $eventRepository)
+    {
     }
 
     /**
@@ -40,17 +27,16 @@ class EventMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
 
         $validator = Validator::make($params, [
-            'name'          => 'required',
-            'description'   => 'required',
-            'date'         => 'required',
+            'name'        => 'required',
+            'description' => 'required',
+            'date'        => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +44,6 @@ class EventMutation extends Controller
         }
 
         try {
-
             $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
 
             $event = $this->eventRepository->create($params);
@@ -77,9 +62,10 @@ class EventMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -87,9 +73,9 @@ class EventMutation extends Controller
         $id = $args['id'];
 
         $validator = Validator::make($params, [
-            'name'           => 'required',
-            'description'    => 'required',
-            'date'         => 'required',
+            'name'        => 'required',
+            'description' => 'required',
+            'date'        => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -97,7 +83,6 @@ class EventMutation extends Controller
         }
 
         try {
-
             $event = $this->eventRepository->findOrFail($id);
 
             $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
@@ -118,8 +103,7 @@ class EventMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -128,8 +112,7 @@ class EventMutation extends Controller
         $event = $this->eventRepository->find($id);
 
         try {
-
-            if ($event != Null) {
+            if ($event) {
 
                 $event->delete();
 
@@ -137,15 +120,13 @@ class EventMutation extends Controller
                     'status' => true,
                     'message' => trans('admin::app.marketing.communications.events.delete-success', ['name' => 'Event'])
                 ];
-            } else {
-
-                return [
-                    'status' => false,
-                    'message' => trans('admin::app.response.delete-failed', ['name' => 'Event'])
-                ];
             }
-        } catch (Exception $e) {
 
+            return [
+                'status' => false,
+                'message' => trans('admin::app.response.delete-failed', ['name' => 'Event'])
+            ];
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

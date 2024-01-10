@@ -32,10 +32,9 @@ class UserMutation extends Controller
     public function __construct(
        protected AdminRepository $adminRepository,
        protected RoleRepository $roleRepository
-    ) {
+    )
+    {
         $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -45,21 +44,20 @@ class UserMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'name'     => 'required',
-            'email'    => 'email|unique:admins,email',
-            'password' => 'nullable',
+            'name'                  => 'required',
+            'email'                 => 'email|unique:admins,email',
+            'password'              => 'nullable',
             'password_confirmation' => 'nullable|required_with:password|same:password',
-            'status'   => 'sometimes',
-            'role_id'  => 'required',
-            'image'    => 'sometimes'
+            'status'                => 'sometimes',
+            'role_id'               => 'required',
+            'image'                 => 'sometimes',
         ]);
 
         if ($validator->fails()) {
@@ -67,16 +65,19 @@ class UserMutation extends Controller
         }
 
         try {
-            if (isset($data['password']) && $data['password']) {
+            if (! empty($data['password'])) {
                 $data['password'] = bcrypt($data['password']);
+
                 $data['api_token'] = Str::random(80);
             }
 
             Event::dispatch('user.admin.create.before');
 
             $image_url = '';
+
             if (isset($data['image'])) {
                 $image_url = current($data['image']);
+                
                 unset($data['image']);
             }
 
@@ -104,8 +105,8 @@ class UserMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
+        if (! isset($args['id']) ||
+            ! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -176,7 +177,7 @@ class UserMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
+        if (! isset($args['id']) ||
             (isset($args['id']) && ! $args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
@@ -208,7 +209,7 @@ class UserMutation extends Controller
      */
     public function login($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
+        if (! isset($args['input']) ||
             (isset($args['input']) && ! $args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }

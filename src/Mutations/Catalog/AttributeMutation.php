@@ -19,7 +19,7 @@ class AttributeMutation extends Controller
      * @var Array
      */
     protected $localeFields = [
-        'name'
+        'name',
     ];
 
     /**
@@ -33,11 +33,6 @@ class AttributeMutation extends Controller
         protected AttributeRepository $attributeRepository,
         protected AttributeOptionRepository $attributeOptionRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -47,12 +42,12 @@ class AttributeMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'code'       => ['required', 'unique:attributes,code', new Code],
             'admin_name' => 'required',
@@ -64,18 +59,24 @@ class AttributeMutation extends Controller
         }
 
         try {
-            if (isset($data['translations']) && is_array($data['translations'])) {
+            if (
+                isset($data['translations'])
+                && is_array($data['translations'])
+            ) {
                 $localeFields = bagisto_graphql()->manageLocaleFields($data['translations'], $this->localeFields);
 
                 $data = array_merge($data, $localeFields);
+
                 unset($data['translations']);
             }
 
             $swatch_type = isset($data['swatch_type']) ? $data['swatch_type'] : '';
+
             $swatch_value = [];
 
-            if (isset($data['options']) && $data['options']) {
+            if (! empty($data['options'])) {
                 $options = $this->manageAttribnuteOptions($data);
+
                 $data['options'] = (isset($options['options']) && $options['options']) ? $options['options'] : [];
                 $swatch_value = (isset($options['swatch_value']) && $options['swatch_value']) ? $options['swatch_value'] : [];
             }
@@ -86,9 +87,16 @@ class AttributeMutation extends Controller
 
             $attribute = $this->attributeRepository->create($data);
 
-            if (isset($attribute->id) && $swatch_type == 'image') {
-                foreach ($attribute->options as $key => $option) {
-                    if (isset($option->admin_name) && isset($swatch_value[$option->admin_name]) && $swatch_value[$option->admin_name]) {
+            if (
+                isset($attribute->id)
+                && $swatch_type == 'image'
+            ) {
+                foreach ($attribute->options as $option) {
+                    if (
+                        isset($option->admin_name)
+                        && isset($swatch_value[$option->admin_name])
+                        && $swatch_value[$option->admin_name]
+                    ) {
                         bagisto_graphql()->uploadImage($option, $swatch_value[$option->admin_name], 'attribute_option/', 'swatch_value');
                     }
                 }
@@ -110,14 +118,16 @@ class AttributeMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'code'       => ['required', 'unique:attributes,code,' . $id, new Code],
             'admin_name' => 'required',
@@ -129,18 +139,24 @@ class AttributeMutation extends Controller
         }
 
         try {
-            if (isset($data['translations']) && is_array($data['translations'])) {
+            if (
+                isset($data['translations'])
+                && is_array($data['translations'])
+            ) {
                 $localeFields = bagisto_graphql()->manageLocaleFields($data['translations'], $this->localeFields);
 
                 $data = array_merge($data, $localeFields);
+
                 unset($data['translations']);
             }
 
             $swatch_type = isset($data['swatch_type']) ? $data['swatch_type'] : '';
+
             $swatch_value = [];
 
-            if (isset($data['options']) && $data['options']) {
+            if (! empty($data['options'])) {
                 $options = $this->manageAttribnuteOptions($data);
+
                 $data['options'] = (isset($options['options']) && $options['options']) ? $options['options'] : [];
                 $swatch_value = (isset($options['swatch_value']) && $options['swatch_value']) ? $options['swatch_value'] : [];
             }
@@ -151,9 +167,16 @@ class AttributeMutation extends Controller
 
             $attribute = $this->attributeRepository->update($data, $id);
 
-            if (isset($attribute->id) && $swatch_type == 'image') {
+            if (
+                isset($attribute->id)
+                && $swatch_type == 'image'
+            ) {
                 foreach ($attribute->options as $key => $option) {
-                    if (isset($option->admin_name) && isset($swatch_value[$option->admin_name]) && $swatch_value[$option->admin_name]) {
+                    if (
+                        isset($option->admin_name)
+                        && isset($swatch_value[$option->admin_name])
+                        && $swatch_value[$option->admin_name]
+                    ) {
                         bagisto_graphql()->uploadImage($option, $swatch_value[$option->admin_name], 'attribute_option/', 'swatch_value');
                     }
                 }
@@ -175,12 +198,15 @@ class AttributeMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (
+            empty($args['id'])
+            || empty($args['id'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $attribute = $this->attributeRepository->findOrFail($id);
 
         if (! $attribute->is_user_defined) {
@@ -210,42 +236,47 @@ class AttributeMutation extends Controller
     {
         $response = [];
         $options = [];
+
         foreach ($data['options'] as $index => $option) {
-            if ((isset($option['admin_name']) && 
-                $option['admin_name']) && 
-                (isset($option['translations']) && is_array($option['translations']))) {
-                $key = strtolower(str_replace(" ", "_", $option['admin_name']));
-
-                if ($attributeOption = $this->attributeOptionRepository->where('admin_name', $option['admin_name'])->first()) {
-                    $key = $attributeOption->id;
-                }
-
-                $options[$key] = [
-                    'admin_name' => $option['admin_name'],
-                    'sort_order' => isset($option['sort_order']) ? $option['sort_order'] : ($index + 1),
-                    'isNew'      => isset($option['isNew']) ? $option["isNew"] : false,
-                    'isDelete'   => isset($opfalsetion['isDelete']) ? $option['isDelete'] : false
-                ];
-
-                if (isset($option['swatch_value']) && $option['swatch_value']) {
-                    if (isset($data['swatch_type']) && $data['swatch_type'] == 'image') {
-                        $swatch_value[$option['admin_name']] = $option['swatch_value'];
-                        unset($option['swatch_value']);
-                    } else {
-                        $options[$key]['swatch_value'] = $option['swatch_value'];
-                    }
-                }
-
-                $localeFields = bagisto_graphql()->manageLocaleFields($option['translations'], ['label']);
-                $options[$key] = array_merge($options[$key], $localeFields);
+            if (
+                empty($option['admin_name'])
+                || !  is_array($option['translations'])
+            ) {
+                continue;
             }
+
+            $key = strtolower(str_replace(" ", "_", $option['admin_name']));
+
+            if ($attributeOption = $this->attributeOptionRepository->where('admin_name', $option['admin_name'])->first()) {
+                $key = $attributeOption->id;
+            }
+
+            $options[$key] = [
+                'admin_name' => $option['admin_name'],
+                'sort_order' => isset($option['sort_order']) ? $option['sort_order'] : ($index + 1),
+                'isNew'      => isset($option['isNew']) ? $option["isNew"] : false,
+                'isDelete'   => isset($opfalsetion['isDelete']) ? $option['isDelete'] : false,
+            ];
+
+            if (! empty($option['swatch_value'])) {
+                if ($data['swatch_type'] == 'image') {
+                    $swatch_value[$option['admin_name']] = $option['swatch_value'];
+
+                    unset($option['swatch_value']);
+                } else {
+                    $options[$key]['swatch_value'] = $option['swatch_value'];
+                }
+            }
+
+            $localeFields = bagisto_graphql()->manageLocaleFields($option['translations'], ['label']);
+            $options[$key] = array_merge($options[$key], $localeFields);
         }
 
         $response = [
-            'options'       => $options,
-            'swatch_value'  => $swatch_value
+            'options'      => $options,
+            'swatch_value' => $swatch_value,
         ];
-        
+
         return $response;
     }
 }

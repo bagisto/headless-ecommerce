@@ -9,32 +9,23 @@ use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
 use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
+use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 
 class CatalogRuleMutation extends Controller
 {
-    /**
-     * Initialize _config, a default request parameter with route
-     *
-     * @param array
-     */
-    protected $_config;
-
     /**
      * Create a new controller instance.
      *
      * @param  \Webkul\CatalogRule\Repositories\CatalogRuleRepository  $catalogRuleRepository
      * @param  \Webkul\CatalogRule\Helpers\CatalogRuleIndex  $catalogRuleIndexHelper
+     * @param  \Webkul\CatalogRule\Helpers\CartRuleCouponRepository  $cartRuleCouponRepository
      * @return void
      */
     public function __construct(
         protected CatalogRuleRepository $catalogRuleRepository,
-        protected CatalogRuleIndex $catalogRuleIndexHelper
+        protected CatalogRuleIndex $catalogRuleIndexHelper,
+        protected CartRuleCouponRepository $cartRuleCouponRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -44,12 +35,12 @@ class CatalogRuleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
+
         $validator = Validator::make($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1',
@@ -74,7 +65,6 @@ class CatalogRuleMutation extends Controller
             $this->catalogRuleIndexHelper->reindexComplete();
 
             return $catalogRule;
-
         } catch(\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -87,14 +77,16 @@ class CatalogRuleMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1',
@@ -121,7 +113,6 @@ class CatalogRuleMutation extends Controller
             $this->catalogRuleIndexHelper->reindexComplete();
 
             return $catalogRule;
-
         } catch(\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -134,16 +125,16 @@ class CatalogRuleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $catalogRule = $this->catalogRuleRepository->find($id);
 
         try {
-            if ($catalogRule != Null) {
+            if ($catalogRule) {
                 Event::dispatch('promotions.catalog_rule.delete.before', $id);
 
                 $catalogRule->delete($id);
@@ -151,11 +142,10 @@ class CatalogRuleMutation extends Controller
                 Event::dispatch('promotions.catalog_rule.delete.after', $id);
 
                 return ['success' => trans('admin::app.response.delete-success', ['name' => 'Catalog Rule'])];
-            } else {
-                throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Catalog Rule']));
             }
-        } catch (Exception $e) {
 
+            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Catalog Rule']));
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -167,7 +157,7 @@ class CatalogRuleMutation extends Controller
      */
     public function generateCoupons($params, $id)
     {
-        $validator = Validator::make($params, [
+        Validator::make($params, [
             'coupon_qty'  => 'required|integer|min:1',
             'code_length' => 'required|integer|min:10',
             'code_format' => 'required',

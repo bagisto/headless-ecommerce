@@ -6,10 +6,10 @@ use Webkul\Checkout\Cart as BaseCart;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartAddressRepository;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
-use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class Cart extends BaseCart
 {
@@ -19,20 +19,20 @@ class Cart extends BaseCart
      * @param  \Webkul\Checkout\Repositories\CartRepository             $cartRepository
      * @param  \Webkul\Checkout\Repositories\CartItemRepository         $cartItemRepository
      * @param  \Webkul\Checkout\Repositories\CartAddressRepository      $cartAddressRepository
+     * @param  \Webkul\Customer\Repositories\CustomerAddressRepository  $customerAddressRepository
+     * @param  \Webkul\Customer\Repositories\WishlistRepository         $wishlistRepository
      * @param  \Webkul\Product\Repositories\ProductRepository           $productRepository
      * @param  \Webkul\Tax\Repositories\TaxCategoryRepository           $taxCategoryRepository
-     * @param  \Webkul\Customer\Repositories\WishlistRepository         $wishlistRepository
-     * @param  \Webkul\Customer\Repositories\CustomerAddressRepository  $customerAddressRepository
      * @return void
      */
     public function __construct(
         protected CartRepository $cartRepository,
         protected CartItemRepository $cartItemRepository,
         protected CartAddressRepository $cartAddressRepository,
-        protected ProductRepository $productRepository,
-        protected TaxCategoryRepository $taxCategoryRepository,
+        protected CustomerAddressRepository $customerAddressRepository,
         protected WishlistRepository $wishlistRepository,
-        protected CustomerAddressRepository $customerAddressRepository
+        protected ProductRepository $productRepository,
+        protected TaxCategoryRepository $taxCategoryRepository
     ) {
         parent::__construct(
             $cartRepository,
@@ -57,7 +57,7 @@ class Cart extends BaseCart
         if (request()->hasHeader('authorization')) {
             $headerValue = explode('Bearer ', request()->header('authorization'));
 
-            if (isset($headerValue[1]) && $headerValue[1]) {
+            if (! empty($headerValue[1])) {
                 $token = $headerValue[1];
             }
         }

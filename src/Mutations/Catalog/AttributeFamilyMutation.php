@@ -25,11 +25,6 @@ class AttributeFamilyMutation extends Controller
         protected AttributeGroupRepository $attributeGroupRepository,
     )
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -45,7 +40,7 @@ class AttributeFamilyMutation extends Controller
 
         $data = $args['input'];
 
-        if(! isset($data['attribute_groups'])) {
+        if (! isset($data['attribute_groups'])) {
             $data['attribute_groups'] = [];
         }
 

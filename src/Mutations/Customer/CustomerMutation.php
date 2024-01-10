@@ -25,11 +25,6 @@ class CustomerMutation extends Controller
         protected CustomerGroupRepository $customerGroupRepository
     )
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -39,12 +34,12 @@ class CustomerMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
@@ -53,23 +48,24 @@ class CustomerMutation extends Controller
             'date_of_birth'     => 'string|before:today',
             'customer_group_id' => 'required|numeric',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         $password = rand(100000, 10000000);
+
         $data['password'] = bcrypt($password);
         $data['is_verified'] = 1;
-        $data['date_of_birth'] = (isset($data['date_of_birth']) && $data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
+        $data['date_of_birth'] = ! empty($data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
 
         try {
             Event::dispatch('customer.registration.before');
-    
+
             $customer = $this->customerRepository->create($data);
-    
+
             Event::dispatch('customer.registration.after', $customer);
-                    
+
             return $customer;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -83,14 +79,16 @@ class CustomerMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
@@ -99,13 +97,13 @@ class CustomerMutation extends Controller
             'date_of_birth'     => 'date|before:today',
             'customer_group_id' => 'required|numeric',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
-            $data['status'] = ! isset($data['status']) ? 0 : 1;
+            $data['status'] = ! empty($data['status']) ? $data['status'] : 0;
 
             Event::dispatch('customer.customer.update.before');
 
@@ -127,28 +125,26 @@ class CustomerMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
+
         $customer = $this->customerRepository->findOrFail($id);
 
         try {
-            if (! $this->customerRepository->checkIfCustomerHasOrderPendingOrProcessing($customer)) {
-                Event::dispatch('customer.customer.delete.before', $id);
-
-                $this->customerRepository->delete($id);
-
-                Event::dispatch('customer.customer.delete.after', $id);
-
-                return ['success' => trans('admin::app.customers.customers.delete-success', ['name' => 'Customer'])];
-            
-            } else {
+            if ($this->customerRepository->checkIfCustomerHasOrderPendingOrProcessing($customer)) {
                 throw new Exception(trans('admin::app.response.order-pending', ['name' => 'Customer']));
-
             }
+
+            Event::dispatch('customer.customer.delete.before', $id);
+
+            $this->customerRepository->delete($id);
+
+            Event::dispatch('customer.customer.delete.after', $id);
+
+            return ['success' => trans('admin::app.customers.customers.delete-success', ['name' => 'Customer'])];
         } catch(\Exception $e) {
             throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Customer']));
         }

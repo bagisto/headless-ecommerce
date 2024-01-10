@@ -397,7 +397,10 @@
 
                         this.showProductCategory = false;
 
-                        if (event.target.value == 'product' || event.target.value == 'category' ) {
+                        if (
+                            event.target.value == 'product'
+                            || event.target.value == 'category'
+                        ) {
                             this.showProductCategory = true;
                         }
                     },
@@ -410,6 +413,7 @@
 
                         if (spaceCount > 0) {
                             this.isValid = true;
+
                             return false;
                         }
 
@@ -417,7 +421,7 @@
                             .then(response => {
                                 var productCategory = document.getElementById('product_category');
 
-                                if(response.data.value) {
+                                if (response.data.value) {
                                     productCategory.classList.remove('has-error');
                                     this.isValid = response.data.value;
                                     this.message = response.data.message;

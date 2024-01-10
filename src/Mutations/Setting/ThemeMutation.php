@@ -14,13 +14,6 @@ use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 class ThemeMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\User\Repositories\AdminRepository  $adminRepository
@@ -30,10 +23,8 @@ class ThemeMutation extends Controller
     public function __construct(
         protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected ChannelRepository $channelRepository,
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
+    )
+    {
     }
 
     /**
@@ -43,8 +34,7 @@ class ThemeMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
@@ -74,7 +64,7 @@ class ThemeMutation extends Controller
             'sort_order' => $data['sort_order'],
             'type'       => $data['type'],
             'status'     => $data['status'],
-            'channel_id' => $data['channel_id']
+            'channel_id' => $data['channel_id'],
         ]);
 
         return $theme;
@@ -88,14 +78,16 @@ class ThemeMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
@@ -108,7 +100,9 @@ class ThemeMutation extends Controller
         }
 
         $locale = core()->getRequestedLocaleCode();
+
         $themeData = $this->themeCustomizationRepository->find($args['id']);
+
         $data['type'] = $themeData->type;
 
         if ($data['type'] == 'static_content') {
@@ -140,16 +134,16 @@ class ThemeMutation extends Controller
 
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
 
         Event::dispatch('theme_customization.delete.before', $id);
-        
+
         $theme = $this->themeCustomizationRepository->find($id);
+
         $theme?->delete();
 
         Storage::deleteDirectory('theme/' . $theme->id);

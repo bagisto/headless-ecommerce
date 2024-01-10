@@ -13,13 +13,6 @@ use Webkul\Sales\Repositories\ShipmentRepository;
 class ShipmentMutation extends Controller
 {
     /**
-     * Initialize _config, a default request parameter with route
-     *
-     * @param array
-     */
-    protected $_config;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Sales\Repositories\ShipmentRepository   $shipmentRepository
@@ -32,11 +25,6 @@ class ShipmentMutation extends Controller
         protected OrderRepository $orderRepository,
         protected OrderItemRepository $orderItemRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -46,13 +34,13 @@ class ShipmentMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $params = $args['input'];
         $orderId = $params['order_id'];
+
         $order = $this->orderRepository->findOrFail($orderId);
 
         if (! $order->canShip()) {
@@ -60,37 +48,39 @@ class ShipmentMutation extends Controller
         }
 
         try {
-            $shipmentData = [];
-            if (isset($params['shipment_data'])) {
-                foreach ($params['shipment_data'] as $data) {
-                    $shipmentData[$data['order_item_id']] = [
-                        $params['inventory_source_id'] => $data['quantity']
-                    ];
-                }
-               
-                $shipment['shipment']['carrier_title'] = $params['carrier_title'];
-                $shipment['shipment']['track_number']  = $params['track_number'];
-                $shipment['shipment']['source']        = $params['inventory_source_id'];
-                $shipment['shipment']['items']         =  $shipmentData;
-                $validator = Validator::make($shipment, [
-                    'shipment.source'        => 'required',
-                    'shipment.items.*.*'     => 'required|numeric|min:0',
-                ]);
-
-                if ($validator->fails()) {
-                    throw new Exception($validator->messages());
-                }
-
-                if (! $this->isInventoryValidate($shipment)) {
-                    throw new Exception(trans('admin::app.sales.shipments.quantity-invalid'));
-                }
-
-                $shipmentData = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $orderId]));
-
-                return $shipmentData;
-            } else {
+            if (! isset($params['shipment_data'])) {
                 throw new Exception(trans('admin::app.sales.invoices.product-error'));
             }
+
+            $shipmentData = [];
+
+            foreach ($params['shipment_data'] as $data) {
+                $shipmentData[$data['order_item_id']] = [
+                    $params['inventory_source_id'] => $data['quantity']
+                ];
+            }
+
+            $shipment['shipment']['carrier_title'] = $params['carrier_title'];
+            $shipment['shipment']['track_number'] = $params['track_number'];
+            $shipment['shipment']['source'] = $params['inventory_source_id'];
+            $shipment['shipment']['items'] =  $shipmentData;
+
+            $validator = Validator::make($shipment, [
+                'shipment.source'    => 'required',
+                'shipment.items.*.*' => 'required|numeric|min:0',
+            ]);
+
+            if ($validator->fails()) {
+                throw new Exception($validator->messages());
+            }
+
+            if (! $this->isInventoryValidate($shipment)) {
+                throw new Exception(trans('admin::app.sales.shipments.quantity-invalid'));
+            }
+
+            $shipmentData = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $orderId]));
+
+            return $shipmentData;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -112,42 +102,51 @@ class ShipmentMutation extends Controller
         $inventorySourceId = $data['shipment']['source'];
 
         foreach ($data['shipment']['items'] as $itemId => $inventorySource) {
-            if ($qty = $inventorySource[$inventorySourceId]) {
-                $orderItem = $this->orderItemRepository->find($itemId);
+            if (! $qty = $inventorySource[$inventorySourceId]) {
+                unset($data['shipment']['items'][$itemId]);
 
-                if ($orderItem->qty_to_ship < $qty) {
-                    return false;
-                }
+                continue;
+            }
 
-                if ($orderItem->getTypeInstance()->isComposite()) {
-                    foreach ($orderItem->children as $child) {
-                        if (! $child->qty_ordered) {
-                            continue;
-                        }
+            $orderItem = $this->orderItemRepository->find($itemId);
 
-                        $finalQty = ($child->qty_ordered / $orderItem->qty_ordered) * $qty;
-                        $availableQty = $child->product->inventories()
-                            ->where('inventory_source_id', $inventorySourceId)
-                            ->sum('qty');
+            if ($orderItem->qty_to_ship < $qty) {
+                return false;
+            }
 
-                        if ($child->qty_to_ship < $finalQty || $availableQty < $finalQty) {
-                            return false;
-                        }
+            if ($orderItem->getTypeInstance()->isComposite()) {
+                foreach ($orderItem->children as $child) {
+                    if (! $child->qty_ordered) {
+                        continue;
                     }
-                } else {
-                    $availableQty = $orderItem->product->inventories()
+
+                    $finalQty = ($child->qty_ordered / $orderItem->qty_ordered) * $qty;
+
+                    $availableQty = $child->product->inventories()
                         ->where('inventory_source_id', $inventorySourceId)
                         ->sum('qty');
 
-                    if ($orderItem->qty_to_ship < $qty || $availableQty < $qty) {
+                    if (
+                        $child->qty_to_ship < $finalQty
+                        || $availableQty < $finalQty
+                    ) {
                         return false;
                     }
                 }
-
-                $valid = true;
             } else {
-                unset($data['shipment']['items'][$itemId]);
+                $availableQty = $orderItem->product->inventories()
+                    ->where('inventory_source_id', $inventorySourceId)
+                    ->sum('qty');
+
+                if (
+                    $orderItem->qty_to_ship < $qty
+                    || $availableQty < $qty
+                ) {
+                    return false;
+                }
             }
+
+            $valid = true;
         }
 
         return $valid;

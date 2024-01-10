@@ -17,15 +17,8 @@ class TaxCategoryMutation extends Controller
      * @param  \Webkul\Tax\Repositories\TaxCategoryRepository  $taxCategoryRepository
      * @return void
      */
-    public function __construct(
-       protected TaxCategoryRepository $taxCategoryRepository
-    )
+    public function __construct(protected TaxCategoryRepository $taxCategoryRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
     }
 
     /**
@@ -35,33 +28,33 @@ class TaxCategoryMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'code'        => 'required|string|unique:tax_categories,code',
             'name'        => 'required|string',
             'description' => 'required|string',
             'taxrates'    => 'array|required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
 
         try {
             Event::dispatch('tax.tax_category.create.before');
-    
+
             $taxCategory = $this->taxCategoryRepository->create($data);
-    
+
             //attach the categories in the tax map table
             $taxCategory->tax_rates()->sync($data['taxrates']);
 
             Event::dispatch('tax.tax_category.create.after', $taxCategory);
-            
+
             return $taxCategory;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -75,21 +68,23 @@ class TaxCategoryMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'code'        => 'required|string|unique:tax_categories,code,' . $id,
             'name'        => 'required|string',
             'description' => 'required|string',
             'taxrates'    => 'array|required',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -98,13 +93,13 @@ class TaxCategoryMutation extends Controller
             Event::dispatch('tax.tax_category.update.before', $id);
 
             $taxCategory = $this->taxCategoryRepository->update($data, $id);
-    
+
             Event::dispatch('tax.tax_category.update.after', $taxCategory);
 
             if (! $taxCategory) {
                 throw new Exception(trans('admin::app.settings.tax-categories.update-error'));
             }
-        
+
             //attach the categories in the tax map table
             $taxCategory->tax_rates()->sync($data['taxrates']);
 
@@ -121,14 +116,14 @@ class TaxCategoryMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-        $taxCategory = $this->taxCategoryRepository->findOrFail($id);
-    
+
+        $this->taxCategoryRepository->findOrFail($id);
+
         try {
             Event::dispatch('tax.tax_category.delete.before', $id);
 

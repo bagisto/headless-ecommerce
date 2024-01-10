@@ -12,7 +12,10 @@ class CustomException extends Exception implements ClientAware
     */
     protected $reason;
 
-    public function __construct(string $message, string $reason)
+    public function __construct(
+        string $message,
+        string $reason
+    )
     {
         parent::__construct($message);
 

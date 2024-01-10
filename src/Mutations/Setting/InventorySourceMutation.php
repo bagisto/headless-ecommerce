@@ -18,14 +18,8 @@ class InventorySourceMutation extends Controller
      * @param  \Webkul\Inventory\Repositories\InventorySourceRepository  $inventorySourceRepository
      * @return void
      */
-    public function __construct(
-        protected InventorySourceRepository $inventorySourceRepository
-    ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->_config = request('_config');
+    public function __construct(protected InventorySourceRepository $inventorySourceRepository)
+    {
     }
 
     /**
@@ -35,12 +29,12 @@ class InventorySourceMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
+
         $validator = Validator::make($data, [
             'code'           => ['required', 'unique:inventory_sources,code', new Code],
             'name'           => 'required',
@@ -59,7 +53,7 @@ class InventorySourceMutation extends Controller
         }
 
         try {
-            $data['status'] = !isset($data['status']) ? 0 : 1;
+            $data['status'] = empty($data['status']) ? 0 : $data['status'];
 
             Event::dispatch('inventory.inventory_source.create.before');
 
@@ -80,14 +74,16 @@ class InventorySourceMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (!isset($args['id']) || 
-            ! isset($args['input']) || 
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            empty($args['id'])
+            || empty($args['input'])
+        ) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $data = $args['input'];
         $id = $args['id'];
+
         $validator = Validator::make($data, [
             'code'           => ['required', 'unique:inventory_sources,code,' . $id, new Code],
             'name'           => 'required',
@@ -106,7 +102,7 @@ class InventorySourceMutation extends Controller
         }
 
         try {
-            $data['status'] = ! isset($data['status']) ? 0 : 1;
+            $data['status'] = empty($data['status']) ? 0 : $data['status'];
 
             Event::dispatch('inventory.inventory_source.update.before', $id);
 
@@ -128,28 +124,28 @@ class InventorySourceMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! isset($args['id']) || 
-            (isset($args['id']) && ! $args['id'])) {
+        if (empty($args['id'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
         $id = $args['id'];
-        $inventorySource = $this->inventorySourceRepository->findOrFail($id);
+
+        $this->inventorySourceRepository->findOrFail($id);
 
         if ($this->inventorySourceRepository->count() == 1) {
             throw new Exception(trans('admin::app.settings.inventory_sources.last-delete-error'));
-        } else {
-            try {
-                Event::dispatch('inventory.inventory_source.delete.before', $id);
+        }
 
-                $this->inventorySourceRepository->delete($id);
+        try {
+            Event::dispatch('inventory.inventory_source.delete.before', $id);
 
-                Event::dispatch('inventory.inventory_source.delete.after', $id);
+            $this->inventorySourceRepository->delete($id);
 
-                return ['success' => trans('admin::app.settings.inventory-sources.delete-success')];
-            } catch (\Exception $e) {
-                throw new Exception(trans('admin::app.settings.inventory-sources.delete-failed', ['name' => 'Inventory source']));
-            }
+            Event::dispatch('inventory.inventory_source.delete.after', $id);
+
+            return ['success' => trans('admin::app.settings.inventory-sources.delete-success')];
+        } catch (\Exception $e) {
+            throw new Exception(trans('admin::app.settings.inventory-sources.delete-failed', ['name' => 'Inventory source']));
         }
     }
 }
