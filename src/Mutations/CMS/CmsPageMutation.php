@@ -28,10 +28,7 @@ class CmsPageMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['input'])
-            || empty($args['input'])
-        ) {
+        if (empty($args['input'])) {
             throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
         }
 
