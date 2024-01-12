@@ -125,38 +125,38 @@ class HomePageQuery extends BaseFilter
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      * @return void
      */
-    public function getCategories($rootValue, array $args, GraphQLContext $context)
-    {
-        $filters = array_filter($args['input']);
-        $params = [];
+    // public function getCategories($rootValue, array $args, GraphQLContext $context)
+    // {
+    //     $filters = array_filter($args['input']);
+    //     $params = [];
 
-        foreach ($filters as $input) {
-            $params[$input['key']] = $input['value'];
-        }
+    //     foreach ($filters as $input) {
+    //         $params[$input['key']] = $input['value'];
+    //     }
 
-        /**
-         * These are the default parameters. By default, only the enabled category
-         * will be shown in the current locale.
-         */
-        if (! isset($params['status'])) {
-            $params = array_merge(['status' => 1], $params);
-        }
+    //     /**
+    //      * These are the default parameters. By default, only the enabled category
+    //      * will be shown in the current locale.
+    //      */
+    //     if (! isset($params['status'])) {
+    //         $params = array_merge(['status' => 1], $params);
+    //     }
 
-        if (! isset($params['locale'])) {
-            $params = array_merge(['locale' => app()->getLocale()], $params);
-        }
+    //     if (! isset($params['locale'])) {
+    //         $params = array_merge(['locale' => app()->getLocale()], $params);
+    //     }
 
-        $categories = $this->categoryRepository->getAll($params);
+    //     $categories = $this->categoryRepository->getAll($params);
 
-        return $categories;
-    }
+    //     return $categories;
+    // }
 
     /**
      * Get all categories in tree format.
      */
-    public function getCategoriesTree()
+    public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
-        $categories = $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
+        $categories = $this->categoryRepository->getVisibleCategoryTree($args['id']);
 
         return $categories;
     }

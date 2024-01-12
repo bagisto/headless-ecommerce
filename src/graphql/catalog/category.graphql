@@ -65,7 +65,6 @@ type Category {
     Rgt: Int @rename(attribute: "_rgt")
     categoryId: Int @rename(attribute: "category_id")
     localeId: Int @rename(attribute: "locale_id")
-    locale: String
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     filterableAttributes: [filterableAttributes!] @belongsToMany
