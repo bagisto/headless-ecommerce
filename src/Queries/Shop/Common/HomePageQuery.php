@@ -120,43 +120,40 @@ class HomePageQuery extends BaseFilter
     }
 
     /**
+     * Get all categories in tree format.
+     * And 
      * @param mixed $rootValue
      * @param array $args
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
-     * @return void
-     */
-    // public function getCategories($rootValue, array $args, GraphQLContext $context)
-    // {
-    //     $filters = array_filter($args['input']);
-    //     $params = [];
-
-    //     foreach ($filters as $input) {
-    //         $params[$input['key']] = $input['value'];
-    //     }
-
-    //     /**
-    //      * These are the default parameters. By default, only the enabled category
-    //      * will be shown in the current locale.
-    //      */
-    //     if (! isset($params['status'])) {
-    //         $params = array_merge(['status' => 1], $params);
-    //     }
-
-    //     if (! isset($params['locale'])) {
-    //         $params = array_merge(['locale' => app()->getLocale()], $params);
-    //     }
-
-    //     $categories = $this->categoryRepository->getAll($params);
-
-    //     return $categories;
-    // }
-
-    /**
-     * Get all categories in tree format.
      */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
-        $categories = $this->categoryRepository->getVisibleCategoryTree($args['id']);
+        if (! empty($args['id'])) {
+            $categories = $this->categoryRepository->getVisibleCategoryTree($args['id']);
+        }
+
+        if (! empty($args['input'])) {
+            $filters = array_filter($args['input']);
+            $params = [];
+
+            foreach ($filters as $input) {
+                $params[$input['key']] = $input['value'];
+            }
+
+            /**
+             * These are the default parameters. By default, only the enabled category
+             * will be shown in the current locale.
+             */
+            if (! isset($params['status'])) {
+                $params = array_merge(['status' => 1], $params);
+            }
+
+            if (! isset($params['locale'])) {
+                $params = array_merge(['locale' => app()->getLocale()], $params);
+            }
+
+            $categories = $this->categoryRepository->getAll($params);
+        }
 
         return $categories;
     }
