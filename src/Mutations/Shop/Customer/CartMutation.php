@@ -214,6 +214,8 @@ class CartMutation extends Controller
 
                 $this->cartItemRepository->delete($cartItem->id);
 
+                Cart::collectTotals();
+
                 Event::dispatch('checkout.cart.delete.after', $args['id']);
 
                 return [
