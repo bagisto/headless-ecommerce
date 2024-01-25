@@ -6,12 +6,12 @@ extend type Query {
 
     cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")
 
-    cmsPageTranslations(input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")): [CmsTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
+    cmsPageTranslations(input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")): [CmsTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPageTranslation")
 
     cmsPageTranslation(
         id: ID @eq,
         input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Cms\\FilterCmsPageTranslation")
-    ): CmsTranslation @find(model: "Webkul\\CMS\\MOdels\\CmsPageTranslation")
+    ): CmsTranslation @find(model: "Webkul\\CMS\\Models\\CmsPageTranslation")
 }
 
 extend type Mutation @guard {
@@ -31,7 +31,6 @@ input FilterCmsPageInput {
     id: Int
     pageTitle: String @rename(attribute: "page_title")
     urlKey: String @rename(attribute: "url_key")
-    
 }
 
 input FilterCmsPageTranslationInput {
