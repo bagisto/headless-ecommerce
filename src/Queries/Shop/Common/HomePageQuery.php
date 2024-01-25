@@ -121,10 +121,12 @@ class HomePageQuery extends BaseFilter
 
     /**
      * Get all categories in tree format.
-     * And 
+     * 
      * @param mixed $rootValue
      * @param array $args
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     *
+     * @return mixed
      */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {

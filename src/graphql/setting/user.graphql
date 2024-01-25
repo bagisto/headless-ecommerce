@@ -14,7 +14,7 @@ extend type Mutation {
         id: ID!,
         input: CreateUserInput!
     ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@update")
-    
+
     deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Setting\\UserMutation@delete")
 
     userLogin(
