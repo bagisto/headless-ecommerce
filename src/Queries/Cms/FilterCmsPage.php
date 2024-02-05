@@ -29,14 +29,14 @@ class FilterCmsPage extends BaseFilter
             unset($arguments['url_key']);
 
             return $query->whereHas('translations',function ($q) use ($pageTitle,$urlKey) {
-        
+
                 $q->where([
                     "page_title" => $pageTitle,
                     "url_key"    => $urlKey
                 ]);
-                
+
             })->where($arguments);
-        }  
+        }
 
         // get the page_title value and store in $pageTitle variable
         if (isset($arguments['page_title'])) {
@@ -46,11 +46,11 @@ class FilterCmsPage extends BaseFilter
             unset($arguments['page_title']);
 
             return $query->whereHas('translations',function ($q) use ($pageTitle) {
-               
+
                 $q->where("page_title", $pageTitle);
-                
+
             })->where($arguments);
-        }     
+        }
 
         // get the url_key value and store in $urlKey variable
         if (isset($arguments['url_key'])) {
@@ -60,12 +60,12 @@ class FilterCmsPage extends BaseFilter
             unset($arguments['url_key']);
 
             return $query->whereHas('translations',function ($q) use ($urlKey) {
-    
-                $q->where("url_key", $urlKey);
-                
-            })->where($arguments);
-        } 
 
+                $q->where("url_key", $urlKey);
+
+            })->where($arguments);
+        }
+dd($query);
         return $query->where($arguments);
-    } 
-}  
+    }
+}

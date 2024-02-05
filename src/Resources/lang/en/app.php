@@ -11,6 +11,34 @@ return [
             'send'              => 'Send',
         ],
 
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'Order cannot be canceled.',
+                'cancel-success' => 'Order canceled successfully',
+                'not-found'      => 'Warning: Order not found.',
+            ],
+
+            'shipments' => [
+                'not-found'        => 'Warning: Shipment not found.',
+                'shipment-error'   => 'Order shipment creation is not allowed.',
+                'creation-error'   => 'Shipment can not be created for this order.',
+                'quantity-invalid' => 'Requested quantity is invalid or not available.',
+            ],
+
+            'invoices' => [
+                'not-found'      => 'Warning: Invoice not found.',
+                'creation-error' => 'Order invoice creation is not allowed.',
+                'product-error'  => 'Invoice can not be created without products.',
+            ],
+
+            'refunds' => [
+                'invalid-refund-amount-error' => 'Refund amount should be non zero.',
+                'refund-limit-error'          => 'The most money available to refund is :amount.',
+                'creation-error'    => 'Refund can not be created for this order.',
+                'create-success'    => 'Refund created successfully for this order.',
+            ]
+        ],
+
         'configuration' => [
             'index' => [
                 'general' => [

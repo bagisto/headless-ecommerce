@@ -40,8 +40,7 @@ class HomePageQuery extends BaseFilter
         protected CustomerRepository $customerRepository,
         protected WishlistRepository $wishlistRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -121,7 +120,7 @@ class HomePageQuery extends BaseFilter
 
     /**
      * Get all categories in tree format.
-     * 
+     *
      * @param mixed $rootValue
      * @param array $args
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
@@ -207,6 +206,13 @@ class HomePageQuery extends BaseFilter
                     $join->on('products.id', '=', 'product_price_indices.product_id')
                         ->where('product_price_indices.customer_group_id', $customerGroup->id);
                 });
+
+        if (!empty($params['category_slug'])) {
+            $categoryIds = $this->categoryRepository->findBySlug($params['category_slug'])->id;
+
+            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
+            ->where('product_categories.category_id', $categoryIds);
+        }
 
         if (! empty($params['category_id'])) {
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')

@@ -70,3 +70,6 @@ type Channel {
     allowedIps: String @rename(attribute: "allowed_ips")
     isMaintenanceOn: Boolean @rename(attribute: "is_maintenance_on")
 }
+
+# homePageContent
+# footerContent
