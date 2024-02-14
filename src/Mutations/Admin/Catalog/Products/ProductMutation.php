@@ -1,17 +1,17 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Mutations\Catalog;
+namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
-use Webkul\Product\Helpers\ProductType;
+use App\Http\Controllers\Controller;
 use Webkul\Core\Rules\Slug;
+use Webkul\Product\Helpers\ProductType;
+use Webkul\Product\Models\ProductAttributeValue;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
-use Webkul\Product\Models\ProductAttributeValue;
 
 class ProductMutation extends Controller
 {
@@ -55,13 +55,15 @@ class ProductMutation extends Controller
 
         $super_attributes = [];
 
-        foreach ($data['super_attributes'] as $super_attribute) {
-            if (
-                isset($super_attribute['attribute_code'])
-                && isset($super_attribute['values'])
-                && is_array($super_attribute['values'])
-            ) {
-                $super_attributes[$super_attribute['attribute_code']] = $super_attribute['values'];
+        if (isset($data['super_attributes'])) {
+            foreach ($data['super_attributes'] as $super_attribute) {
+                if (
+                    isset($super_attribute['attribute_code'])
+                    && isset($super_attribute['values'])
+                    && is_array($super_attribute['values'])
+                ) {
+                    $super_attributes[$super_attribute['attribute_code']] = $super_attribute['values'];
+                }
             }
         }
 

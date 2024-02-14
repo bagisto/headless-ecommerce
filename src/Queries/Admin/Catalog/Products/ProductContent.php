@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Queries\Catalog;
+namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Products;
 
 use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -13,13 +13,6 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ProductContent extends BaseFilter
 {
-    /**
-     * Contains route related configuration.
-     *
-     * @var array
-     */
-    protected $_config;
-
     /**
      * Contains current guard
      *
@@ -45,8 +38,6 @@ class ProductContent extends BaseFilter
         protected ProductConfigurableHelper $productConfigurableHelper
     ) {
         $this->guard = 'api';
-
-        $this->_config = request('_config');
     }
 
     /**

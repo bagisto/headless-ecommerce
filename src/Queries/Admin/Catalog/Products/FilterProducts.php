@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Queries\Catalog;
+namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Products;
 
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 

@@ -12,11 +12,11 @@ extend type Query {
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
-    createProduct(input: CreateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@store")
+    createProduct(input: CreateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@store")
 
-    updateProduct(id: ID!, input: UpdateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@update")
+    updateProduct(id: ID!, input: UpdateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@update")
 
-    deleteProduct(id: ID!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\ProductMutation@delete")
+    deleteProduct(id: ID!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@delete")
 }
 
 input CreateProductInput {
@@ -130,8 +130,8 @@ type Product {
     parentId: ID @rename(attribute: "parent_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    configutableData: ConfigutableProductData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getConfigurableData")
-    shareURL: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductShareUrl")
+    configutableData: ConfigutableProductData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getConfigurableData")
+    shareURL: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getProductShareUrl")
     productFlats: [ProductFlat!] @hasMany(relation: "product_flats")
     variants: [Product] @hasMany
     parent: Product @belongsTo(relation: "parent")
@@ -141,17 +141,17 @@ type Product {
     categories: [Category!] @belongsToMany(relation: "categories")
     inventories: [Inventory!] @hasMany
     images: [Image] @hasMany
-    cacheBaseImage: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductBaseImage")
-    cacheGalleryImages: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getCacheGalleryImages")
+    cacheBaseImage: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getProductBaseImage")
+    cacheGalleryImages: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getCacheGalleryImages")
     videos: [Video!] @hasMany
-    additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAdditionalData")
-    isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInWishlist")
-    isInSale: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@checkIsInSale")
-    priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getProductPriceHtml")
+    additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getAdditionalData")
+    isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@checkIsInWishlist")
+    isInSale: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@checkIsInSale")
+    priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getProductPriceHtml")
     orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
-    reviews: [Review] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getReviews")
-    averageRating: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getAverageRating")
-    percentageRating: [Int] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getPercentageRating")
+    reviews: [Review] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getReviews")
+    averageRating: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getAverageRating")
+    percentageRating: [Int] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getPercentageRating")
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
     downloadableSamples: [ProductDownloadableSample] @hasMany(relation: "downloadable_samples")
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
@@ -243,7 +243,7 @@ type ProductPriceHtml {
     finalPrice: String
     formattedFinalPrice: String
     currencyCode: String
-    bundlePrice: BundlePrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\ProductContent@getBundleProductPrice")
+    bundlePrice: BundlePrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getBundleProductPrice")
 }
 
 type BundlePrice {
