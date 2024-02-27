@@ -19,9 +19,9 @@ scalar Upload
 #import /admin/catalog/attributes/*.graphql
 #import /admin/catalog/attribute-families/*.graphql
 
-#import /admin/customers/customers/*.graphql
-#import /admin/customers/groups/*.graphql
-#import /admin/customers/reviews/*.graphql
+#import /admin/customer/customers/*.graphql
+#import /admin/customer/groups/*.graphql
+#import /admin/customer/reviews/*.graphql
 
 #import /admin/cms/*.graphql
 

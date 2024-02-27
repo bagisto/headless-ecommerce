@@ -31,8 +31,7 @@ class WishlistMutation extends Controller
     public function __construct(
        protected WishlistRepository $wishlistRepository,
        protected ProductRepository $productRepository
-    )
-    {
+    ) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
@@ -306,7 +305,11 @@ class WishlistMutation extends Controller
                 'customer_id' => $customer->id,
             ]);
 
-            if (isset($wishlist->id) && $wishlist->id) {
+            if (! empty($wishlist->id)) {
+                request()->merge([
+                    'quantity' => $args['quantity'],
+                ]);
+
                 $result = Cart::moveToCart($wishlist);
 
                 if ($result ) {
