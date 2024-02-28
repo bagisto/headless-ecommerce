@@ -14,13 +14,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class CurrencyMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Core\Repositories\CurrencyRepository  $currencyRepository
@@ -28,9 +21,6 @@ class CurrencyMutation extends Controller
      */
     public function __construct(protected CurrencyRepository $currencyRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -64,7 +54,7 @@ class CurrencyMutation extends Controller
 
             return $currency;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -109,7 +99,7 @@ class CurrencyMutation extends Controller
 
             return $currency;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -145,7 +135,7 @@ class CurrencyMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.currencies.delete-success')];
         } catch(\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.currencies.delete-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.delete-error'));
         }
     }
 }

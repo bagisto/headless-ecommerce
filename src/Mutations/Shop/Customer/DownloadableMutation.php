@@ -31,7 +31,7 @@ class DownloadableMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
+        $this->middleware('auth:'.$this->guard);
     }
 
     /**
@@ -82,11 +82,11 @@ class DownloadableMutation extends Controller
                 }
 
                 if (isset($params['product_name']) && $params['product_name']) {
-                    $qb->where('downloadable_link_purchased.product_name', 'like', '%' . urldecode($params['product_name']) . '%');
+                    $qb->where('downloadable_link_purchased.product_name', 'like', '%'.urldecode($params['product_name']).'%');
                 }
 
                 if (isset($params['link_name']) && $params['link_name']) {
-                    $qb->where('downloadable_link_purchased.name', 'like', '%' . urldecode($params['link_name']) . '%');
+                    $qb->where('downloadable_link_purchased.name', 'like', '%'.urldecode($params['link_name']).'%');
                 }
 
                 if (isset($params['status']) && $params['status']) {
@@ -220,7 +220,7 @@ class DownloadableMutation extends Controller
 
                 $base64_code = base64_encode(file_get_contents($downloadableLinkPurchased->url));
 
-                $base64_str = 'data:image/' . $type . ';base64,' . $base64_code;
+                $base64_str = 'data:image/'.$type.';base64,'.$base64_code;
 
                 return [
                     'status'   => true,
@@ -242,7 +242,7 @@ class DownloadableMutation extends Controller
 
             $type = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
-            $base64_str = 'data:image/' . $type . ';base64,' . base64_encode(file_get_contents($pathToFile));
+            $base64_str = 'data:image/'.$type.';base64,'.base64_encode(file_get_contents($pathToFile));
 
             return [
                 'status'   => true,

@@ -261,7 +261,7 @@ class NotificationController extends Controller
             return response()->json([
                 'value'   => false,
                 'message' => 'Product not exist',
-                'type'    => $data['selectedType']
+                'type'    => $data['selectedType'],
             ], 200);
         }
 
@@ -275,7 +275,11 @@ class NotificationController extends Controller
                 return response()->json(['value' => true], 200);
             }
 
-            return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
+            return response()->json([
+                'value'   => false,
+                'message' => 'Product not exist',
+                'type'    => 'product',
+            ], 200);
         }
 
         //category case
@@ -284,7 +288,11 @@ class NotificationController extends Controller
                 return response()->json(['value' => true] ,200);
             }
 
-            return response()->json(['value' => false, 'message' => 'Category not exist', 'type' => 'category'] ,200);
+            return response()->json([
+                'value'   => false,
+                'message' => 'Category not exist',
+                'type'    => 'category',
+            ] ,200);
         }
     }
 }

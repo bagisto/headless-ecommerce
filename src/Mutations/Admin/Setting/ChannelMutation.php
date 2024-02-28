@@ -14,13 +14,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class ChannelMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Core\Repositories\ChannelRepository  $channelRepository
@@ -28,9 +21,6 @@ class ChannelMutation extends Controller
      */
     public function __construct(protected ChannelRepository $channelRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -99,7 +89,7 @@ class ChannelMutation extends Controller
                 return $channel;
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -180,7 +170,7 @@ class ChannelMutation extends Controller
                 return $channel;
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -204,7 +194,7 @@ class ChannelMutation extends Controller
         }
 
         if ($channel->code == config('app.channel')) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.channels.last-delete-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.last-delete-error'));
         }
 
         try {
@@ -218,7 +208,7 @@ class ChannelMutation extends Controller
                 'success' => trans('bagisto_graphql::app.admin.settings.channels.delete-success'),
             ];
         } catch (\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.channels.delete-failed'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.delete-failed'));
         }
     }
 }

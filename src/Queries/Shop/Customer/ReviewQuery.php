@@ -23,8 +23,8 @@ class ReviewQuery extends Controller
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
-        
-        $this->middleware('auth:' . $this->guard);
+
+        $this->middleware('auth:'.$this->guard);
     }
 
     /**
@@ -35,14 +35,14 @@ class ReviewQuery extends Controller
     public function getReviews($query, $input)
     {
         $params = $input;
-        
+
         $channel = core()->getRequestedChannelCode();
         $locale = core()->getRequestedLocaleCode();
 
         if (bagisto_graphql()->guard($this->guard)->check()) {
             $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
         }
-        
+
         $qb = $query->distinct()
             ->addSelect('product_reviews.*')
             ->addSelect('product_flat.name as product_name')
@@ -55,25 +55,25 @@ class ReviewQuery extends Controller
         }
 
         if (! empty($params['title'])) {
-            $qb->where('product_reviews.title', 'like', '%' . urldecode($params['title']) . '%');
+            $qb->where('product_reviews.title', 'like', '%'.urldecode($params['title']).'%');
         }
-        
+
         if (! empty($params['rating'])) {
             $qb->where('product_reviews.rating', $params['rating']);
         }
-        
+
         if (! empty($params['customer_id'])) {
             $qb->where('product_reviews.customer_id', $params['customer_id']);
         }
 
         if (! empty($params['customer_name'])) {
-            $qb->where('product_reviews.name', 'like', '%' . urldecode($params['customer_name']) . '%');
+            $qb->where('product_reviews.name', 'like', '%'.urldecode($params['customer_name']).'%');
         }
 
         if (! empty($params['product_name'])) {
-            $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
+            $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
         }
-        
+
         if (! empty($params['product_id'])) {
             $qb->where('product_reviews.product_id', $params['product_id']);
         }

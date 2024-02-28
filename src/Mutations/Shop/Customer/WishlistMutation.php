@@ -36,7 +36,7 @@ class WishlistMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
+        $this->middleware('auth:'.$this->guard);
     }
 
     /**
@@ -82,7 +82,7 @@ class WishlistMutation extends Controller
                 }
 
                 if (isset($params['product_name']) && $params['product_name']) {
-                    $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
+                    $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
                 }
 
                 if (isset($params['product_id']) && $params['product_id']) {

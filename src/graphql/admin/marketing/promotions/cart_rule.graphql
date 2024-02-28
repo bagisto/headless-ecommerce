@@ -1,18 +1,21 @@
 #Promition\CartRule Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    cartRules(input : FilterCartRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCartRules")): [CartRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CartRule\\Models\\CartRule")
+    cartRules(input: FilterCartRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCartRules")): [CartRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CartRule\\Models\\CartRule")
+
     cartRule(id: ID @eq): CartRule @find(model: "Webkul\\CartRule\\Models\\CartRule")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createCartRule(
         input: CreateCartRuleInput!
-    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Promotion\\CartRuleMutation@store")
+    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@store")
+
     updateCartRule(
         id: ID!,
         input: UpdateCartRuleInput!
-    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Promotion\\CartRuleMutation@update")
-    deleteCartRule (id: ID!): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Promotion\\CartRuleMutation@delete")
+    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@update")
+
+    deleteCartRule (id: ID!): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@delete")
 }
 
 input CreateCartRuleInput {

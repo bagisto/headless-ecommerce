@@ -14,13 +14,6 @@ use Webkul\Inventory\Repositories\InventorySourceRepository;
 class InventorySourceMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Inventory\Repositories\InventorySourceRepository  $inventorySourceRepository
@@ -28,9 +21,6 @@ class InventorySourceMutation extends Controller
      */
     public function __construct(protected InventorySourceRepository $inventorySourceRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -74,7 +64,7 @@ class InventorySourceMutation extends Controller
 
             return $inventorySource;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -129,7 +119,7 @@ class InventorySourceMutation extends Controller
 
             return $inventorySource;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -166,7 +156,7 @@ class InventorySourceMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-success')];
         } catch (\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-failed'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-failed'));
         }
     }
 }

@@ -5,7 +5,7 @@ extend type Query @guard(with: ["admin-api"]) {
     taxCategory(id: ID @eq): TaxCategory @find(model: "Webkul\\Tax\\Models\\TaxCategory")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createTaxCategory(
         input: createTaxCategoryInput!
     ): TaxCategory  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@store")

@@ -1,4 +1,35 @@
 #Catalog\ProductDownloadableSample Related API
+input UpdateDownloadableLinksInput {
+    linkProductId: ID @rename(attribute: "link_product_id")
+    locales: [DownloadableLocaleInput!]
+    price: Float!
+    type: String!
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    url: String
+    sampleType: String! @rename(attribute: "sample_type")
+    sampleFile: String @rename(attribute: "sample_file")
+    sampleFileName: String @rename(attribute: "sample_file_name")
+    sampleUrl: String @rename(attribute: "sample_url")
+    downloads: Int!
+    sortOrder: Int! @rename(attribute: "sort_order")
+}
+
+input UpdateDownloadableSamplesInput {
+    sampleProductId: ID @rename(attribute: "sample_product_id")
+    locales: [DownloadableLocaleInput!]
+    type: String!
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    url: String
+    sortOrder: Int! @rename(attribute: "sort_order")
+}
+
+input DownloadableLocaleInput {
+    code: String!
+    title: String!
+}
+
 type ProductDownloadableSample {
     id: ID!
     url: String
@@ -49,33 +80,3 @@ type LinkTranslation {
     productDownloadableLinkId: ID! @rename(attribute: "product_downloadable_link_id")
 }
 
-input UpdateDownloadableLinksInput {
-    linkProductId: ID @rename(attribute: "link_product_id")
-    locales: [DownloadableLocaleInput!]
-    price: Float!
-    type: String!
-    file: String
-    fileName: String @rename(attribute: "file_name")
-    url: String
-    sampleType: String! @rename(attribute: "sample_type")
-    sampleFile: String @rename(attribute: "sample_file")
-    sampleFileName: String @rename(attribute: "sample_file_name")
-    sampleUrl: String @rename(attribute: "sample_url")
-    downloads: Int!
-    sortOrder: Int! @rename(attribute: "sort_order")
-}
-
-input UpdateDownloadableSamplesInput {
-    sampleProductId: ID @rename(attribute: "sample_product_id")
-    locales: [DownloadableLocaleInput!]
-    type: String!
-    file: String
-    fileName: String @rename(attribute: "file_name")
-    url: String
-    sortOrder: Int! @rename(attribute: "sort_order")
-}
-
-input DownloadableLocaleInput {
-    code: String!
-    title: String!
-}

@@ -3,6 +3,7 @@ extend type Query {
     cartDetail: Cart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cart")
 
     # cartAddresses: [CartAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartAddress")
+
     # cartAddress(id: ID @eq): CartAddress @find(model: "Webkul\\Checkout\\Models\\CartAddress")
 }
 

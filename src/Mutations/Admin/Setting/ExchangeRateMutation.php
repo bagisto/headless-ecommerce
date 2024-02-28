@@ -14,13 +14,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class ExchangeRateMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Core\Repositories\CurrencyRepository  $currencyRepository
@@ -31,9 +24,6 @@ class ExchangeRateMutation extends Controller
         protected CurrencyRepository $currencyRepository,
         protected ExchangeRateRepository $exchangeRateRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -73,7 +63,7 @@ class ExchangeRateMutation extends Controller
 
             return $exchangeRate;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -89,7 +79,7 @@ class ExchangeRateMutation extends Controller
             empty($args['id'])
             || empty($args['input'])
         ) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
         $data = $args['input'];
@@ -101,7 +91,7 @@ class ExchangeRateMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new CustomException($validator->messages());
         }
 
         $currency = $this->currencyRepository->find($data['target_currency']);
@@ -119,7 +109,7 @@ class ExchangeRateMutation extends Controller
 
             return $exchangeRate;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -132,7 +122,7 @@ class ExchangeRateMutation extends Controller
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
         $id = $args['id'];
@@ -144,7 +134,7 @@ class ExchangeRateMutation extends Controller
         }
 
         if ($this->exchangeRateRepository->count() == 1) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.exchange-rates.last-delete-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.last-delete-error'));
         }
 
         try {
@@ -158,7 +148,7 @@ class ExchangeRateMutation extends Controller
                 'success' => trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-success'),
             ];
         } catch (\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-error'));
         }
     }
 }

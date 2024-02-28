@@ -34,8 +34,6 @@ class UserMutation extends Controller
        protected RoleRepository $roleRepository
     ) {
         $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**

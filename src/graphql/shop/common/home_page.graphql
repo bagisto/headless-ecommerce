@@ -7,7 +7,7 @@ extend type Query {
     # homeCategories(input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
     homeCategories(id: ID input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
-    getCategoriesTree: [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategoriesTree")
+    # getCategoriesTree: [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategoriesTree")
 
     allProducts(
         input: [FilterAllProductsInput]

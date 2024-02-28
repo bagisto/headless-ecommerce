@@ -5,17 +5,17 @@ extend type Query @guard(with: ["admin-api"]){
     theme(id: ID @eq): Theme @find(model: "Webkul\\Shop\\Models\\ThemeCustomization")
 }
 
-extend type Mutation {
+extend type Mutation @guard(with: ["admin-api"]) {
     createTheme(
         input: CreateThemeInput!
-    ): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@store")
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@store")
 
     updateTheme(
         id: ID!,
         input: UpdateThemeInput!
-    ): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@update")
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@update")
 
-    deleteTheme(id: ID!): Theme @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@delete")
+    deleteTheme(id: ID!): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@delete")
 }
 
 input CreateThemeInput {

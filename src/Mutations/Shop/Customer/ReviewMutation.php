@@ -36,7 +36,7 @@ class ReviewMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
+        $this->middleware('auth:'.$this->guard);
     }
 
     /**
@@ -75,7 +75,7 @@ class ReviewMutation extends Controller
             }
 
             if (! empty($params['title'])) {
-                $qb->where('product_reviews.title', 'like', '%' . urldecode($params['title']) . '%');
+                $qb->where('product_reviews.title', 'like', '%'.urldecode($params['title']).'%');
             }
 
             if (! empty($params['rating'])) {
@@ -87,11 +87,11 @@ class ReviewMutation extends Controller
             }
 
             if (! empty($params['customer_name'])) {
-                $qb->where('product_reviews.name', 'like', '%' . urldecode($params['customer_name']) . '%');
+                $qb->where('product_reviews.name', 'like', '%'.urldecode($params['customer_name']).'%');
             }
 
             if (! empty($params['product_name'])) {
-                $qb->where('product_flat.name', 'like', '%' . urldecode($params['product_name']) . '%');
+                $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
             }
 
             if (! empty($params['product_id'])) {
@@ -99,7 +99,7 @@ class ReviewMutation extends Controller
             }
 
             if (! empty($params['status'])) {
-                $qb->where('product_reviews.status', 'like', '%' . urldecode($params['status']) . '%');
+                $qb->where('product_reviews.status', 'like', '%'.urldecode($params['status']).'%');
             }
 
             return $qb;
@@ -158,7 +158,7 @@ class ReviewMutation extends Controller
 
                 if (! empty($attachment['upload_type'])) {
                     if ($attachment['upload_type'] == 'base64') {
-                        $attachment['save_path'] = 'review/' . $review->id;
+                        $attachment['save_path'] = 'review/'.$review->id;
 
                         $records = bagisto_graphql()->storeReviewAttachment($attachment);
 

@@ -5,7 +5,7 @@ extend type Query @guard(with: ["admin-api"]) {
     role(id: ID @eq): Role @find(model: "Webkul\\User\\Models\\Role")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createRole(
         input: CreateRoleInput!
     ): Role  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\RoleMutation@store")

@@ -91,7 +91,7 @@ class RefundMutation extends Controller
             }
 
             if ($refundAmount > $maxRefundAmount) {
-                throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.refund-limit-error') . core()->formatBasePrice($maxRefundAmount));
+                throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.refund-limit-error').core()->formatBasePrice($maxRefundAmount));
             }
 
             $refundedData = $this->refundRepository->create(array_merge($refund, ['order_id' => $orderId]));

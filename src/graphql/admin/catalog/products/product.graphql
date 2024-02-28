@@ -12,11 +12,18 @@ extend type Query {
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
-    createProduct(input: CreateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@store")
+    createProduct(
+        input: CreateProductInput!
+    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@store")
 
-    updateProduct(id: ID!, input: UpdateProductInput!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@update")
+    updateProduct(
+        id: ID!,
+        input: UpdateProductInput!
+    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@update")
 
-    deleteProduct(id: ID!): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@delete")
+    deleteProduct(
+        id: ID!
+    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@delete")
 }
 
 input CreateProductInput {

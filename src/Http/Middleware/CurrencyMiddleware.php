@@ -27,7 +27,10 @@ class CurrencyMiddleware
     {
         $currencyCode = $request->header('x-currency');
 
-        if ($currencyCode && $this->currencyRepository->findOneByField('code', $currencyCode)) {
+        if (
+            $currencyCode
+            && $this->currencyRepository->findOneByField('code', $currencyCode)
+        ) {
             core()->setCurrentCurrency($currencyCode);
 
             return $next($request);

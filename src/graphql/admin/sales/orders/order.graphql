@@ -17,7 +17,7 @@ extend type Query @guard(with: ["admin-api"]) {
     orderRefund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
 }
 
-extend type Mutation  @guard(with: ["admin-api"]) {
+extend type Mutation @guard(with: ["admin-api"]) {
     cancelOrder(
         id: ID!
     ): DeleteOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@cancel")

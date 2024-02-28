@@ -12,17 +12,17 @@ extend type Mutation {
 
     createUser(
         input: CreateUserInput!
-    ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@store")
+    ): User @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@store")
 
     updateUser(
         id: ID!,
         input: CreateUserInput!
-    ): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@update")
+    ): User @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@update")
 
 
-    userLogout: LogoutResponse @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@logout")
+    userLogout: LogoutResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@logout")
 
-    deleteUser(id: ID!): User @guard @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@delete")
+    deleteUser(id: ID!): User @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@delete")
 }
 
 input FilterUserInput {

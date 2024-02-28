@@ -14,13 +14,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class TaxCategoryMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Tax\Repositories\TaxCategoryRepository  $taxCategoryRepository
@@ -32,9 +25,6 @@ class TaxCategoryMutation extends Controller
         protected TaxCategoryRepository $taxCategoryRepository,
         protected TaxRateRepository $taxRateRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -81,7 +71,7 @@ class TaxCategoryMutation extends Controller
 
             return $taxCategory;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -143,7 +133,7 @@ class TaxCategoryMutation extends Controller
 
             return $taxCategory;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -155,7 +145,7 @@ class TaxCategoryMutation extends Controller
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
         $id = $args['id'];
@@ -177,7 +167,7 @@ class TaxCategoryMutation extends Controller
                 'success' => trans('bagisto_graphql::app.admin.settings.tax-category.delete-success'),
             ];
         } catch(\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.tax-category.delete-failed'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-category.delete-failed'));
         }
     }
 }

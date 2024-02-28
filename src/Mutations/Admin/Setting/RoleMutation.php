@@ -13,13 +13,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class RoleMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
@@ -27,9 +20,6 @@ class RoleMutation extends Controller
      */
     public function __construct(protected RoleRepository $roleRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -63,7 +53,7 @@ class RoleMutation extends Controller
 
             return $role;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -109,7 +99,7 @@ class RoleMutation extends Controller
 
             return $role;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -146,7 +136,7 @@ class RoleMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.roles.delete-success', ['name' => 'Role'])];
         } catch(\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.roles.delete-failed', ['name' => 'Role']));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.delete-failed', ['name' => 'Role']));
         }
     }
 }

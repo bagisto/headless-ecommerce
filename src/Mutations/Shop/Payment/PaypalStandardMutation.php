@@ -53,9 +53,9 @@ class PaypalStandardMutation
     /**
      * Returns paypal url & form fields.
      *
-     * @param                                                     $rootValue
-     * @param array                                               $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @param  $rootValue
+     * @param array  $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      *
      * @return array
      * @throws \Exception
@@ -117,9 +117,9 @@ class PaypalStandardMutation
                         ];
                     }
 
-                    $paypalFields['return'] = request()->server('PROTOCOL') . '://'.$company->domain.'/success';
-                    $paypalFields['cancel_return'] = request()->server('PROTOCOL') . '://'.$company->domain.'/paypal/standard/cancel';
-                    $paypalFields['notify_url'] = request()->server('PROTOCOL') . '://'.$company->domain.'/paypal/standard/ipn';
+                    $paypalFields['return'] = request()->server('PROTOCOL').'://'.$company->domain.'/success';
+                    $paypalFields['cancel_return'] = request()->server('PROTOCOL').'://'.$company->domain.'/paypal/standard/cancel';
+                    $paypalFields['notify_url'] = request()->server('PROTOCOL').'://'.$company->domain.'/paypal/standard/ipn';
 
                     return [
                         'success'               => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-form-field', ['module_name'    => 'Paypal Standard']),
@@ -178,7 +178,7 @@ class PaypalStandardMutation
                     return [
                         'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
                         'order'         => $order,
-                        'redirect_url'  => request()->server('PROTOCOL') . '://'.$company->domain.'/checkout/success',
+                        'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
                     ];
                 } else {
                     throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
@@ -223,7 +223,7 @@ class PaypalStandardMutation
         try {
             return [
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'),
-                'redirect_url'  => request()->server('PROTOCOL') . '://'.$company->domain.'/checkout/cart',
+                'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/cart',
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -270,7 +270,7 @@ class PaypalStandardMutation
 
             return [
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
-                'redirect_url'  => request()->server('PROTOCOL') . '://'.$company->domain.'/checkout/success',
+                'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

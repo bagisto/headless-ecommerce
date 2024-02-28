@@ -1,18 +1,21 @@
 #Promition\CatalogRule Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    catalogRules(input : FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+    catalogRules(input: FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+
     catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createCatalogRule(
         input: CreateCatalogRuleInput!
-    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Promotion\\CatalogRuleMutation@store")
+    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@store")
+
     updateCatalogRule(
         id: ID!,
         input: CreateCatalogRuleInput!
-    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Promotion\\CatalogRuleMutation@update")
-    deleteCatalogRule (id: ID!): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Promotion\\CatalogRuleMutation@delete")
+    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@update")
+
+    deleteCatalogRule(id: ID!): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@delete")
 }
 
 input CreateCatalogRuleInput {

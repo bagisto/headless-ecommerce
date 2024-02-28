@@ -1,21 +1,25 @@
 # Customer\Customer Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    customers(input: FilterCustomerInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Customer\\FilterCustomer")): [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
+    customers(input: FilterCustomerInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomer")): [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
 
     customer(id: ID @eq): Customer @find(model: "Webkul\\Customer\\Models\\Customer")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createCustomer(
         input: CreateCustomerInput!
-    ): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerMutation@store")
+    ): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@store")
 
     updateCustomer(
         id: ID!,
         input: CreateCustomerInput!
-    ): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerMutation@update")
-    
-    deleteCustomer(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Customer\\CustomerMutation@delete")
+    ): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@update")
+
+    unSubscribe(
+        token: String!
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@unsubscribe")
+
+    deleteCustomer(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
 }
 
 input CreateCustomerInput {
@@ -57,6 +61,7 @@ type Customer {
     apiToken: String @rename(attribute: "api_token")
     customerGroupId: Int @rename(attribute: "customer_group_id")
     subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
+    newsLetterSubscription: NewsLetterSubscription @hasOne(relation: "subscription")
     isVerified: Boolean @rename(attribute: "is_verified")
     isSuspended: Boolean @rename(attribute: "is_suspended")
     token: String
@@ -68,4 +73,15 @@ type Customer {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     success: String
+}
+
+type NewsLetterSubscription {
+    id: ID
+    email: String
+    is_subscribed: Boolean
+    token: String
+    customer_id: ID
+    channel_id: ID
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
 }

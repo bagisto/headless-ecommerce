@@ -108,7 +108,7 @@ class PushNotificationDataGrid extends DataGrid
             'filterable' => true,
             'sortable'   => true,
             'closure'    => function ($value) {
-                return '<img src=' . Storage::url($value->image) . ' class="img-thumbnail" width="100px" height="70px" />';
+                return '<img src='.Storage::url($value->image).' class="img-thumbnail" width="100px" height="70px" />';
             },
         ]);
 
@@ -157,10 +157,10 @@ class PushNotificationDataGrid extends DataGrid
             'sortable'   => true,
             'closure'    => function ($value) {
                 if ($value->status) {
-                    return '<span class="badge badge-md badge-success">' . trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled') . '</span>';
+                    return '<span class="badge badge-md badge-success">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled').'</span>';
                 }
 
-                return '<span class="badge badge-md badge-danger">' . trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.disabled') . '</span>';
+                return '<span class="badge badge-md badge-danger">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.disabled').'</span>';
             },
         ]);
 

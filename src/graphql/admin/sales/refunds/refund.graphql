@@ -12,10 +12,10 @@ extend type Query @guard(with: ["admin-api"]) {
     ): RefundItem @find(model: "Webkul\\Sales\\Models\\RefundItem")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createRefund(
         input: CreateRefundInput!
-    ): Refund  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Refunds\\RefundMutation@store")
+    ): Refund @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Refunds\\RefundMutation@store")
 }
 
 input FilterRefundInput {

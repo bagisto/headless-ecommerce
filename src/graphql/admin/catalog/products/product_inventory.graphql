@@ -1,4 +1,9 @@
 #Catalog\Inventory Related API
+input InventoriesInput {
+    inventorySourceId: ID! @rename(attribute: "inventory_source_id")
+    qty: Int!
+}
+
 type Inventory {
     id: ID!
     qty: Int!
@@ -7,9 +12,4 @@ type Inventory {
     vendorId: Int! @rename(attribute: "vendor_id")
     inventorySource: InventorySource! @belongsTo(relation: "inventory_source")
     product: Product! @belongsTo(relation: "product")
-}
-
-input InventoriesInput {
-    inventorySourceId: ID! @rename(attribute: "inventory_source_id")
-    qty: Int!
 }

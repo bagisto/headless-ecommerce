@@ -46,7 +46,7 @@ class AccountMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
+        $this->middleware('auth:'.$this->guard);
     }
 
     /**
@@ -114,7 +114,7 @@ class AccountMutation extends Controller
             'last_name'             => 'string|required',
             'gender'                => 'required',
             'date_of_birth'         => 'string|before:today',
-            'email'                 => 'email|unique:customers,email,' . $customer->id,
+            'email'                 => 'email|unique:customers,email,'.$customer->id,
             'oldpassword'           => 'required_with:password',
             'password'              => 'confirmed|min:6|required_with:oldpassword',
             'password_confirmation' => 'required_with:password',
@@ -136,7 +136,7 @@ class AccountMutation extends Controller
         }
 
         try {
-            $data['date_of_birth'] = ! empty($data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']) . '00:00:01')->format('Y-m-d') : '';
+            $data['date_of_birth'] = ! empty($data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']).'00:00:01')->format('Y-m-d') : '';
 
             if (! empty($data['oldpassword'])) {
 
@@ -168,7 +168,7 @@ class AccountMutation extends Controller
                     && in_array($data['upload_type'], ['path', 'base64'])
                     && ! empty($data['image_url'])
                 ) {
-                    $data['save_path'] = 'customer/' . $customer->id;
+                    $data['save_path'] = 'customer/'.$customer->id;
 
                     bagisto_graphql()->saveImageByURL($customer, $data, 'image_url');
                 }

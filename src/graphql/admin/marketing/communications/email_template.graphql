@@ -1,23 +1,21 @@
 #Marketing\EmailTemplate Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    
-    emailTemplates(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Marketing\\FilterEmailTemplate")): [EmailTemplate!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Template")
-    
+    emailTemplates(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterEmailTemplate")): [EmailTemplate!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Template")
+
     emailTemplate(id: ID @eq): EmailTemplate @find(model: "Webkul\\Marketing\\Models\\Template")
 }
 
-extend type Mutation @guard {
-
+extend type Mutation @guard(with: ["admin-api"]) {
     createEmailTemplate(
         input: CreateEmailTemplateInput!
-    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EmailTemplateMutation@store")
-    
+    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\EmailTemplateMutation@store")
+
     updateEmailTemplate(
         id: ID!,
         input: CreateEmailTemplateInput!
-    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EmailTemplateMutation@update")
-    
-    deleteEmailTemplate(id: ID!): DeleteEmailTemplateResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Marketing\\EmailTemplateMutation@delete")
+    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\EmailTemplateMutation@update")
+
+    deleteEmailTemplate(id: ID!): DeleteEmailTemplateResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\EmailTemplateMutation@delete")
 }
 
 input FilterEmailTemplateInput {
@@ -28,7 +26,13 @@ input FilterEmailTemplateInput {
 input CreateEmailTemplateInput {
     name: String!
     content: String!
-    status: String!
+    status: Status!
+}
+
+enum Status {
+    ACTIVE @enum(value: "active")
+    INACTIVE @enum(value: "inactive")
+    DRAFT @enum(value: "draft")
 }
 
 type EmailTemplate {

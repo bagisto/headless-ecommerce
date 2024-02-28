@@ -39,6 +39,68 @@ return [
             ]
         ],
 
+        'catalog' => [
+            'products' => [
+                'create' => [
+                    'configurable-error'      => 'Please select atleast one configurable attribute.',
+                    'grouped-error-not-added' => 'is not added to Grouped product',
+                    'grouped-error-not-added' => 'is not a added to Bundle product',
+                ],
+
+                'delete-success' => 'Product deleted successfully.',
+                'delete-failed'  => 'Warning: Product is not deleted',
+            ],
+
+            'categories' => [
+                'already-taken'        => 'The Category has already been taken.',
+                'delete-category-root' => 'The Root category can not be deleted.',
+                'delete-success'       => 'Category deleted successfully.',
+                'delete-failed'        => 'Warning: Category is not deleted',
+            ],
+
+            'attributes' => [
+                'delete-success'    => 'Attribute deleted successfully.',
+                'delete-failed'     => 'Warning: Attribute is not deleted',
+                'user-define-error' => 'Warning: You are not authorized to delete system-created attribute group.',
+            ],
+
+            'attribute-families' => [
+                'last-delete-error'       => 'Last Attribute Family delete failed',
+                'attribute-product-error' => 'family is used in products.',
+                'delete-success'          => 'Family deleted successfully.',
+                'delete-failed'           => 'Warning: Family is not deleted',
+            ],
+
+            'attribute-groups' => [
+                'delete-success'       => 'Family Group deleted successfully.',
+                'delete-failed'        => 'Warning: Family Group is not deleted',
+                'error-customer-group' => 'Warning: You are not authorized to delete system-created attribute group.',
+            ],
+        ],
+
+        'customers' => [
+            'no-customer-found'      => 'Customer not found',
+            'address-delete-success' => 'Customer\'s Address deleted successfully',
+            'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
+            'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
+            'delete-success'          => 'Customer deleted successfully',
+        ],
+
+        'cms' => [
+            'already-taken'  => 'CMS Page URL already taken',
+            'delete-success' => 'CMS Page deleted successfully.',
+            'delete-failed'  => 'Warning: CMS Page is not deleted',
+        ],
+
+        'marketing' => [
+            'communications' => [
+                'campaigns' => [
+                    'delete-success' => 'Campaign deleted successfully',
+                    'delete-failed'  => 'Campaign: CMS Page is not deleted',
+                ],
+            ],
+        ],
+
         'configuration' => [
             'index' => [
                 'general' => [
@@ -52,6 +114,13 @@ return [
                         'ios-topic'                       => 'IOS Topic',
                     ],
                 ],
+            ],
+
+            'custom-scripts' => [
+                'channel-not-found' => 'Warning: Channel not found.',
+                'create-success'    => 'Custom Script added successfully.',
+                'update-success'    => 'Custom Script updated successfully.',
+                'delete-success'    => 'Custom Script removed successfully.',
             ],
         ],
 
@@ -99,7 +168,7 @@ return [
                 'success-logout'    => 'Success: User logout successfully.',
                 'last-delete-error' => 'Last User delete failed',
                 'delete-success'    => 'User deleted successfully.',
-                'delete-error'     => 'User deleted failed.',
+                'delete-error'      => 'User deleted failed.',
                 'create-success'    => 'User created successfully.',
                 'not-found'         => 'Warning: User not found.',
             ],
@@ -153,10 +222,6 @@ return [
         //     'channel-failure'         => 'Channel Not Found.',
         //     'script-delete-success'   => 'Script deleted successfully.',
         // ],
-
-
-
-
 
         // 'settings' => [
         //     'notification' => [
@@ -239,10 +304,6 @@ return [
         //
         // ],
 
-        // 'customer' => [
-        //     'no-customer-found' => 'No customer found',
-        // ],
-
 
 
         // 'shop' => [
@@ -264,7 +325,7 @@ return [
         // 'mail' => [
         //     'customer' => [
         //         'password' => [
-        //             'heading' => config('app.name') . ' - Password Reset',
+        //             'heading' => config('app.name').' - Password Reset',
         //             'reset'   => 'Password Reset Email',
         //             'summary' => 'This email is related to your account password reset. Your password has been changed successfully.
         //             Kindly log in to your account using the below-mentioned password.',

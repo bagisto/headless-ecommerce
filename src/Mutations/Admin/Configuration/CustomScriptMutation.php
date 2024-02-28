@@ -9,16 +9,10 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\Core\Repositories\LocaleRepository;
+use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
 class CustomScriptMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -30,9 +24,6 @@ class CustomScriptMutation extends Controller
         protected CoreConfigRepository $coreConfigRepository,
         protected LocaleRepository $localeRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -43,11 +34,7 @@ class CustomScriptMutation extends Controller
     public function store($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
         $data = $args['input'];
@@ -55,7 +42,7 @@ class CustomScriptMutation extends Controller
         $channel = $this->channelRepository->findOneByField('id', $data['channel']);
 
         if (! $channel) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.channel-failure'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.configuration.custom-scripts.channel-not-found'));
         }
 
         $validator = Validator::make($data, [
@@ -64,7 +51,7 @@ class CustomScriptMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new CustomException($validator->messages());
         }
 
         try {
@@ -73,9 +60,7 @@ class CustomScriptMutation extends Controller
                 'locale'  => app()->getLocale(),
                 'general' => [
                     'content' => [
-                        'custom_scripts' => [
-
-                        ],
+                        'custom_scripts' => [],
                     ],
                 ],
             ];
@@ -90,9 +75,9 @@ class CustomScriptMutation extends Controller
 
             $this->coreConfigRepository->create($customData);
 
-            return ['success' => trans('admin::app.response.create-success', ['name' => 'Custom Script'])];
+            return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.create-success')];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -105,11 +90,7 @@ class CustomScriptMutation extends Controller
     public function update($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['input'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
         $data = $args['input'];
@@ -117,7 +98,7 @@ class CustomScriptMutation extends Controller
         $channel = $this->channelRepository->findOneByField('id', $data['channel']);
 
         if (! $channel) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.channel-failure'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.configuration.custom-scripts.channel-not-found'));
         }
 
         $validator = Validator::make($data, [
@@ -125,41 +106,33 @@ class CustomScriptMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new CustomException($validator->messages());
         }
 
         try {
+            $customData = [
+                'channel' => $channel->code,
+                'locale'  => app()->getLocale(),
+                'general' => [
+                    'content' => [
+                        'custom_scripts' => [],
+                    ],
+                ],
+            ];
+
             if (isset($data['customCSS'])) {
-                $customData = [
-                    'channel' => $channel->code,
-                    'locale'  => app()->getLocale(),
-                    'general' => [
-                        'content' => [
-                            'custom_scripts' => [
-                                'custom_css' => $data['customCSS']
-                            ],
-                        ],
-                    ],
-                ];
-            } else {
-                $customData = [
-                    'channel' => $channel->code,
-                    'locale'  => app()->getLocale(),
-                    'general' => [
-                        'content' => [
-                            'custom_scripts' => [
-                                'custom_javascript' => $data['customJS']
-                            ],
-                        ],
-                    ],
-                ];
+                $customData['general']['content']['custom_scripts']['custom_css'] = $data['customCSS'];
+            }
+
+            if (isset($data['customJS'])) {
+                $customData['general']['content']['custom_scripts']['custom_javascript'] = $data['customJS'];
             }
 
             $this->coreConfigRepository->create($customData);
 
-            return ['success' => trans('admin::app.response.update-success', ['name' => 'Custom Script'])];
+            return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.update-success')];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -172,11 +145,7 @@ class CustomScriptMutation extends Controller
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['id'])) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.error-invalid-parameter'));
-        }
-
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
         $id = $args['id'];
@@ -186,9 +155,9 @@ class CustomScriptMutation extends Controller
         try {
             $this->coreConfigRepository->delete($id);
 
-            return ['success' => trans('bagisto_graphql::app.admin.response.script-delete-success')];
+            return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.delete-success')];
         } catch(\Exception $e) {
-            throw new Exception(trans('admin::app.response.delete-failed', ['name' => 'Custom Scripts']));
+            throw new CustomException($e->getMessage());
         }
     }
 }

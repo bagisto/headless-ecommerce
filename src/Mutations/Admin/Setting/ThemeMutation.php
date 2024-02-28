@@ -9,18 +9,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 use Webkul\Shop\Repositories\ThemeCustomizationRepository;
+use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
 class ThemeMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -32,9 +25,6 @@ class ThemeMutation extends Controller
         protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected ChannelRepository $channelRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -164,7 +154,7 @@ class ThemeMutation extends Controller
 
         $theme?->delete();
 
-        Storage::deleteDirectory('theme/' . $theme->id);
+        Storage::deleteDirectory('theme/'.$theme->id);
 
         Event::dispatch('theme_customization.delete.after', $id);
 

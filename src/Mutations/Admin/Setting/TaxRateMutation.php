@@ -13,13 +13,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class TaxRateMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Tax\Repositories\TaxRateRepository  $taxRateRepository
@@ -27,9 +20,6 @@ class TaxRateMutation extends Controller
      */
     public function __construct(protected TaxRateRepository $taxRateRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -74,7 +64,7 @@ class TaxRateMutation extends Controller
 
             return $taxRate;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -124,7 +114,7 @@ class TaxRateMutation extends Controller
 
             return $taxRate;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -157,7 +147,7 @@ class TaxRateMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.tax-rates.delete-success')];
         } catch (\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.tax-rate.delete-failed'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-rate.delete-failed'));
         }
     }
 }

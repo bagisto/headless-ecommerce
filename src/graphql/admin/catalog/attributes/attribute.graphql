@@ -1,6 +1,6 @@
 # Catalog\Attribute Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    attributes(input: FilterAttributesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterableAttributesQuery")): [Attribute!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\Attribute")
+    attributes(input: FilterAttributesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Attributes\\FilterableAttributesQuery")): [Attribute!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\Attribute")
 
     attribute(id: ID @eq): Attribute @find(model: "Webkul\\Attribute\\Models\\Attribute")
 
@@ -16,20 +16,22 @@ extend type Query @guard(with: ["admin-api"]) {
 
     attributeOptionTranslation(id: ID @eq): AttributeOptionTranslation @find(model: "Webkul\\Attribute\\Models\\AttributeOptionTranslation")
 
-    filterableAttributes: [Attribute!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Catalog\\FilterableAttributesQuery@getFilterableAttributes")
+    filterableAttributes: [Attribute!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Attributes\\FilterableAttributesQuery@getFilterableAttributes")
 }
 
-extend type Mutation @guard {
+extend type Mutation @guard(with: ["admin-api"]) {
     createAttribute(
         input: CreateAttributeInput!
-    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\AttributeMutation@store")
+    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Attributes\\AttributeMutation@store")
 
     updateAttribute(
         id: ID!,
         input: CreateAttributeInput!
-    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\AttributeMutation@update")
+    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Attributes\\AttributeMutation@update")
 
-    deleteAttribute(id: ID!): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Catalog\\AttributeMutation@delete")
+    deleteAttribute(
+        id: ID!
+    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Attributes\\AttributeMutation@delete")
 }
 
 input CreateAttributeInput {

@@ -34,7 +34,7 @@ class OrderMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard);
+        $this->middleware('auth:'.$this->guard);
     }
 
     /**
@@ -206,7 +206,7 @@ class OrderMutation extends Controller
                 }
 
                 if (isset($params['carrier_title']) && $params['carrier_title']) {
-                    $qb->where('shipments.carrier_title', 'like', '%' . urldecode($params['carrier_title']) . '%');
+                    $qb->where('shipments.carrier_title', 'like', '%'.urldecode($params['carrier_title']).'%');
                 }
 
                 if (isset($params['track_number']) && $params['track_number']) {

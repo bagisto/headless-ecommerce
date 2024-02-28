@@ -43,7 +43,7 @@ class OrderMutation extends Controller
             ! $order->canCancel()
             || ! $order->canInvoice()
         ) {
-            throw new Exception(trans('bagisto_graphql::app.admin.sales.orders.cancel-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.sales.orders.cancel-error'));
         }
 
         try {
@@ -55,7 +55,7 @@ class OrderMutation extends Controller
                 'message' => $result ? trans('bagisto_graphql::app.admin.sales.orders.cancel-success') : trans('bagisto_graphql::app.admin.sales.orders.cancel-error')
             ];
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 }

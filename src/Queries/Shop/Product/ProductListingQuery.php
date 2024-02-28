@@ -77,7 +77,7 @@ class ProductListingQuery extends BaseFilter
             $lastSlugs = end($slugs);
 
             $category = $this->categoryRepository->whereHas('translation', function ($q) use ($lastSlugs) {
-                $q->where('slug', 'like', '%' . urldecode($lastSlugs) . '%');
+                $q->where('slug', 'like', '%'.urldecode($lastSlugs).'%');
             })->first();
 
             if ($category) {

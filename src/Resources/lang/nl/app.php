@@ -155,7 +155,7 @@ return [
         'mail' => [
             'customer' => [
                 'password' => [
-                    'heading' => config('app.name') . ' - Wachtwoord Reset',
+                    'heading' => config('app.name').' - Wachtwoord Reset',
                     'reset'   => 'E-mail voor wachtwoordreset',
                     'summary' => 'Deze e-mail heeft betrekking op het opnieuw instellen van het wachtwoord van uw account. Uw wachtwoord is succesvol gewijzigd.
                     Log alstublieft in op uw account met het onderstaande wachtwoord.',

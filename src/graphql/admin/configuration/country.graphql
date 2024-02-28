@@ -10,6 +10,14 @@ extend type Query {
     countrieState(id: ID! @eq): CountryState @find(model: "Webkul\\Core\\Models\\CountryState")
 }
 
+input FilterCountryStateInput {
+    id: Int
+    defaultName: String @rename(attribute: "default_name")
+    code: String
+    countryId: ID @rename(attribute: "country_id")
+    countryCode: String @rename(attribute: "country_code")
+}
+
 type Country {
     id: ID!
     code: String!
@@ -39,12 +47,4 @@ type CountryStateTranslation {
     locale: String!
     defaultName: String @rename(attribute: "default_name")
     countryStateId: ID! @rename(attribute: "country_state_id")
-}
-
-input FilterCountryStateInput {
-    id: Int
-    defaultName: String @rename(attribute: "default_name")
-    code: String
-    countryId: ID @rename(attribute: "country_id")
-    countryCode: String @rename(attribute: "country_code")
 }

@@ -14,13 +14,6 @@ use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 class LocaleMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Core\Repositories\LocaleRepository  $localeRepository
@@ -28,9 +21,6 @@ class LocaleMutation extends Controller
      */
     public function __construct(protected LocaleRepository $localeRepository)
     {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -77,7 +67,7 @@ class LocaleMutation extends Controller
                 return $locale;
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -135,7 +125,7 @@ class LocaleMutation extends Controller
                 return $locale;
             }
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -174,7 +164,7 @@ class LocaleMutation extends Controller
                 'success' => trans('bagisto_graphql::app.admin.settings.locales.delete-success'),
             ];
         } catch (\Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.locales.delete-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.delete-error'));
         }
     }
 }

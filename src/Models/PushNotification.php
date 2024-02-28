@@ -51,14 +51,15 @@ class PushNotification extends Model implements PushNotificationContract
     {
         return $this->hasMany(PushNotificationTranslationProxy::modelClass(),'push_notification_id');
     }
-    
+
     /**
      * Get image url for the Banner image.
      */
     public function image_url()
     {
-        if (! $this->image)
+        if (! $this->image) {
             return;
+        }
 
         return Storage::url($this->image);
     }
@@ -77,19 +78,20 @@ class PushNotification extends Model implements PushNotificationContract
     public function notificationChannelsArray()
     {
         $channels   = [];
-        
+
         foreach ($this->translations as $translation) {
             $channelList = Channel::query()->pluck('code')->toArray();
-            $channelDetail = Channel::query()->where('code', $translation->channel)->first();
             
+            $channelDetail = Channel::query()->where('code', $translation->channel)->first();
+
             if (
-                in_array($translation->channel, $channelList) 
-                && isset($channelDetail->code) 
+                in_array($translation->channel, $channelList)
+                && isset($channelDetail->code)
                 && ! in_array($channelDetail->code, $channels)) {
                 array_push($channels, $channelDetail->code);
             }
         }
-        
+
         return $channels;
     }
 }

@@ -34,7 +34,7 @@ class SessionMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard, ['except' => ['login']]);
+        $this->middleware('auth:'.$this->guard, ['except' => ['login']]);
     }
 
     /**
@@ -44,8 +44,13 @@ class SessionMutation extends Controller
      */
     public function login($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) ||
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            ! isset($args['input'])
+            || (
+                isset($args['input'])
+                && ! $args['input']
+            )
+        ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
@@ -55,8 +60,8 @@ class SessionMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'email'     => 'required|email',
-            'password'  => 'required',
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -107,7 +112,7 @@ class SessionMutation extends Controller
             return [
                 'status'        => true,
                 'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),
-                'access_token'  => 'Bearer ' . $jwtToken,
+                'access_token'  => 'Bearer '.$jwtToken,
                 'token_type'    => 'Bearer',
                 'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
                 'customer'      => $this->customerRepository->find($customer->id),

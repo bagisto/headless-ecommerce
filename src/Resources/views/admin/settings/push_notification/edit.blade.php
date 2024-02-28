@@ -267,8 +267,8 @@
                                             type="checkbox"
                                             name="channels[]"
                                             :value="$channel->code"
-                                            :id="'channels_' . $channel->id"
-                                            :for="'channels_' . $channel->id"
+                                            :id="'channels_'.$channel->id"
+                                            :for="'channels_'.$channel->id"
                                             rules="required"
                                             :label="trans('bagisto_graphql::app.admin.settings.notification.edit.store-view')"
                                             :checked="(boolean) $selectedOption"
@@ -276,7 +276,7 @@
                                         </x-admin::form.control-group.control>
 
                                         <x-admin::form.control-group.label
-                                            :for="'channels_' . $channel->id"
+                                            :for="'channels_'.$channel->id"
                                             class="!text-[14px] !text-gray-600 dark:!text-gray-300 font-semibold cursor-pointer"
                                         >
                                             {{ core()->getChannelName($channel) }}
