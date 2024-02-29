@@ -41,9 +41,9 @@ class NewsletterSubscriberMutation extends Controller
                 return $subscriber;
             }
 
-            throw new CustomException(trans('bagisto_graphql::app.admin.customer.no-subscriber-found'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.no-subscriber-found'));
         } catch(\Exception $e) {
-            throw new CustomException(trans('admin::app.response.delete-failed', ['name' => 'Subscriber']));
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ class NewsletterSubscriberMutation extends Controller
         $alreadySubscribed = $this->subscriptionRepository->findWhere(['email' => $data['email']]);
 
         if ($alreadySubscribed->count()) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.customer.already-subscriber'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.already-subscriber'));
         }
 
         try {
@@ -90,7 +90,7 @@ class NewsletterSubscriberMutation extends Controller
                 return $subscription;
             }
 
-            throw new CustomException(trans('shop::app.subscription.not-subscribed'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.not-subscribed'));
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -120,11 +120,11 @@ class NewsletterSubscriberMutation extends Controller
             $subscriber = $this->subscriptionRepository->findOneByField('token', $args['token']);
 
             if (! $subscriber) {
-                throw new CustomException(trans('bagisto_graphql::app.admin.customer.no-subscriber-found'));
+                throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.no-subscriber-found'));
             }
 
             if (! $subscriber->is_subscribed) {
-                throw new CustomException(trans('shop::app.subscription.already-unsub'));
+                throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.already-unsubscribed'));
             }
 
             Event::dispatch('customer.subscribe.update.before');
@@ -133,7 +133,7 @@ class NewsletterSubscriberMutation extends Controller
 
             Event::dispatch('customer.subscribe.update.after', $subscriber);
 
-            $subscriber->success = trans('shop::app.subscription.unsubscribed');
+            $subscriber->success = trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.unsubscribed');
 
             return $subscriber;
         } catch (Exception $e) {
@@ -157,18 +157,18 @@ class NewsletterSubscriberMutation extends Controller
 
         try {
             if (! $subscriber) {
-                throw new CustomException(trans('bagisto_graphql::app.admin.customer.no-subscriber-found'));
+                throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.no-subscriber-found'));
             }
-            
+
             Event::dispatch('customer.subscriber.delete.before', $subscriber->id);
 
             $this->subscriptionRepository->delete($subscriber->id);
 
             Event::dispatch('customer.customer.delete.after', $subscriber->id);
 
-            return ['success' => trans('admin::app.response.delete-success', ['name' => 'Subscriber'])];
+            return ['success' => trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.delete-success')];
         } catch(\Exception $e) {
-            throw new CustomException(trans('admin::app.response.delete-failed', ['name' => 'Subscriber']));
+            throw new CustomException($e->getMessage());
         }
     }
 }

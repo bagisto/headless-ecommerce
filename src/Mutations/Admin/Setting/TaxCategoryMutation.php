@@ -167,7 +167,7 @@ class TaxCategoryMutation extends Controller
                 'success' => trans('bagisto_graphql::app.admin.settings.tax-category.delete-success'),
             ];
         } catch(\Exception $e) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-category.delete-failed'));
+            throw new CustomException($e->getMessage());
         }
     }
 }

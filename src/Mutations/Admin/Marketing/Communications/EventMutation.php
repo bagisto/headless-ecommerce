@@ -118,13 +118,13 @@ class EventMutation extends Controller
 
                 return [
                     'status'  => true,
-                    'message' => trans('admin::app.marketing.communications.events.delete-success', ['name' => 'Event']),
+                    'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.delete-success'),
                 ];
             }
 
             return [
                 'status'  => false,
-                'message' => trans('admin::app.response.delete-failed', ['name' => 'Event']),
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.delete-failed'),
             ];
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());

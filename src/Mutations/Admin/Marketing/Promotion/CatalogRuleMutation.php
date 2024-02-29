@@ -142,10 +142,10 @@ class CatalogRuleMutation extends Controller
 
                 Event::dispatch('promotions.catalog_rule.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Catalog Rule'])];
+                return ['success' => trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.delete-success')];
             }
 
-            throw new CustomException(trans('admin::app.response.delete-failed', ['name' => 'Catalog Rule']));
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.delete-failed'));
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -166,7 +166,7 @@ class CatalogRuleMutation extends Controller
 
         try {
             if (! $id) {
-                throw new CustomException(trans('admin::app.promotions.cart-rules.cart-rule-not-defind-error'));
+                throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.cart-rules.cart-rule-not-defind'));
             }
 
             $coupon = $this->cartRuleCouponRepository->generateCoupons($params, $id);

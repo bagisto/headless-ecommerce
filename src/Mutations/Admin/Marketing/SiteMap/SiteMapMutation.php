@@ -108,14 +108,14 @@ class SiteMapMutation extends Controller
                 $sitemap->delete();
 
                 return [
-                    'status' => true,
-                    'message' => trans('admin::app.marketing.sitemaps.index.edit.delete-success', ['name' => 'SiteMap'])
+                    'status'  => true,
+                    'message' => trans('bagisto_graphql::app.admin.marketing.sitemaps.delete-success'),
                 ];
             }
 
             return [
-                'status' => false,
-                'message' => trans('admin::app.marketing.sitemaps.delete-failed', ['name' => 'SiteMap'])
+                'status'  => false,
+                'message' => trans('bagisto_graphql::app.admin.marketing.sitemaps.delete-failed'),
             ];
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());

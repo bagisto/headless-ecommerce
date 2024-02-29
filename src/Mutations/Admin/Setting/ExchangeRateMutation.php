@@ -148,7 +148,7 @@ class ExchangeRateMutation extends Controller
                 'success' => trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-success'),
             ];
         } catch (\Exception $e) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-error'));
+            throw new CustomException($e->getMessage());
         }
     }
 }

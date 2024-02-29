@@ -114,13 +114,13 @@ class EmailTemplateMutation extends Controller
 
                 return [
                     'status'  => true,
-                    'message' => trans('admin::app.marketing.communications.templates.delete-success', ['name' => 'Email Template']),
+                    'message' => trans('bagisto_graphql::app.admin.marketing.communications.templates.delete-success'),
                 ];
             }
 
             return [
                 'status'  => false,
-                'message' => trans('admin::app.response.delete-failed', ['name' => 'Email Template']),
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.templates.delete-failed'),
             ];
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());

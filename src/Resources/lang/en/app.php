@@ -34,8 +34,8 @@ return [
             'refunds' => [
                 'invalid-refund-amount-error' => 'Refund amount should be non zero.',
                 'refund-limit-error'          => 'The most money available to refund is :amount.',
-                'creation-error'    => 'Refund can not be created for this order.',
-                'create-success'    => 'Refund created successfully for this order.',
+                'creation-error'              => 'Refund can not be created for this order.',
+                'create-success'              => 'Refund created successfully for this order.',
             ]
         ],
 
@@ -83,7 +83,7 @@ return [
             'address-delete-success' => 'Customer\'s Address deleted successfully',
             'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
             'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-            'delete-success'          => 'Customer deleted successfully',
+            'delete-success'         => 'Customer deleted successfully',
         ],
 
         'cms' => [
@@ -96,7 +96,45 @@ return [
             'communications' => [
                 'campaigns' => [
                     'delete-success' => 'Campaign deleted successfully',
-                    'delete-failed'  => 'Campaign: CMS Page is not deleted',
+                    'delete-failed'  => 'Warning: Campaign is not deleted',
+                ],
+
+                'templates' => [
+                    'delete-success' => 'Email Template deleted successfully',
+                    'delete-failed'  => 'Warning: Email Template is not deleted',
+                ],
+
+                'events' => [
+                    'delete-success' => 'Event deleted successfully',
+                    'delete-failed'  => 'Warning: Event is not deleted',
+                ],
+
+                'subscriptions' => [
+                    'no-subscriber-found'  => 'Subscriber not found',
+                    'already-subscriber'   => 'You are already subscribed to our subscription list.',
+                    'not-subscribed'       => 'You can not be subscribed to subscription emails, please try again later.',
+                    'already-unsubscribed' => 'You are already unsubscribed.',
+                    'delete-success'       => 'Subscription deleted successfully',
+                    'unsubscribe'          => 'Unsubcribe',
+                    'subscribe'            => 'Subscribe',
+                ],
+            ],
+
+            'promotions' => [
+                'cart-rules' => [
+                    'delete-success' => 'Cart Rule deleted successfully',
+                    'delete-failed'  => 'Warning: Cart Rule is not deleted',
+                    'cart-rule-not-defind' => 'Cart rule is not defined',
+                ],
+
+                'catalog-rules' => [
+                    'delete-success' => 'Catalog Rule deleted successfully',
+                    'delete-failed'  => 'Warning: Catalog Rule is not deleted',
+                ],
+
+                'sitemaps' => [
+                    'delete-success' => 'Site Map deleted successfully',
+                    'delete-failed'  => 'Warning: Site Map is not deleted',
                 ],
             ],
         ],
@@ -206,132 +244,16 @@ return [
             ],
         ],
 
-        // 'response' => [
-        //     'delete-success'          => 'Success: User deleted successfully.',
-        //     'last-delete-error'       => 'Warning: At least one user is required',
-        //     'delete-failed'           => 'Warning: Admin user is not deleted',
-        //     'error-login'             => 'Warning: Admin user is not logged in.',
-        //     'session-expired'         => 'Warning: Session has expired. Please log in again to your account.',
-        //     'invalid-header'          => 'Warning: Invalid header token.',
-        //     'error-customer-group'    => 'Warning: You are not authorized to delete system-created attribute group.',
-        //     'password-invalid'        => 'Warning: Please enter the correct password.',
-        //     'password-match'          => 'Warning: Passwords don\'t match.',
-        //     'success-registered'      => 'Success: User created successfully.',
-        //     'cancel-error'            => 'Order cannot be canceled.',
-        //     'creation-error'          => 'Refund cannot be created for this order.',
-        //     'channel-failure'         => 'Channel Not Found.',
-        //     'script-delete-success'   => 'Script deleted successfully.',
-        // ],
-
-        // 'settings' => [
-        //     'notification' => [
-        //         'index' => [
-        //             'title'               => 'Push Notification',
-        //             'add-title'           => 'Add Notification',
-        //             'delete-success'      => 'Notification deleted successfully',
-        //             'mass-update-success' => 'Selected Notifications updated successfully',
-        //             'mass-delete-success' => 'Selected Notifications deleted successfully',
-
-        //             'datagrid' => [
-        //                 'id'                   => 'Id',
-        //                 'image'                => 'Image',
-        //                 'text-title'           => 'Title',
-        //                 'notification-content' => 'Notification Content',
-        //                 'notification-type'    => 'Notification Type',
-        //                 'store-view'           => 'Channels',
-        //                 'notification-status'  => 'Notification Status',
-        //                 'created-at'           => 'Created Time',
-        //                 'updated-at'           => 'Updated Time',
-        //                 'delete'               => 'Delete',
-        //                 'update'               => 'Update',
-
-        //                 'status' => [
-        //                     'enabled'  => 'Enabled',
-        //                     'disabled' => 'Disabled',
-        //                 ],
-        //             ],
-        //         ],
-
-        //         'create' => [
-        //             'new-notification'     => 'New Notification',
-        //             'back-btn'             => 'Back',
-        //             'create-btn-title'     => 'Save Notification',
-        //             'general'              => 'General',
-        //             'title'                => 'Push Notification',
-        //             'content-and-image'    => 'Notification Content And Image',
-        //             'notification-content' => 'Notification Content',
-        //             'image'                => 'Image',
-        //             'settings'             => 'Settings',
-        //             'status'               => 'Status',
-        //             'store-view'           => 'Channels',
-        //             'notification-type'    => 'Notification Type',
-        //             'product-cat-id'       => 'Product/Category Id',
-        //             'success'              => 'Notification created successfully',
-
-        //             'option-type' => [
-        //                 'others'   => 'Simple',
-        //                 'product'  => 'Product',
-        //                 'category' => 'Category',
-        //             ],
-        //         ],
-
-        //         'edit' => [
-        //             'edit-notification'         => 'Edit Notification',
-        //             'back-btn'                  => 'Back',
-        //             'send-title'                => 'Send Notification',
-        //             'update-btn-title'          => 'Update Notification',
-        //             'general'                   => 'General',
-        //             'title'                     => 'Push Notification',
-        //             'content-and-image'         => 'Notification Content And Image',
-        //             'notification-content'      => 'Notification Content',
-        //             'image'                     => 'Image',
-        //             'settings'                  => 'Settings',
-        //             'status'                    => 'Status',
-        //             'store-view'                => 'Channels',
-        //             'notification-type'         => 'Notification Type',
-        //             'product-cat-id'            => 'Product/Category Id',
-        //             'success'                   => 'Notification updated successfully',
-        //             'notification-send-success' => 'Notification send successfully for Android and iOS.',
-
-        //             'option-type' => [
-        //                 'others'   => 'Simple',
-        //                 'product'  => 'Product',
-        //                 'category' => 'Category',
-        //             ],
-        //         ],
-        //     ],
-
-        //
-        // ],
-
-
-
-        // 'shop' => [
-        //     'response' => [
-        //         'no-address-found'         => 'Warning: No address found.',
-        //         'invalid-address'          => 'Warning: No address found for provided address ID.',
-        //         'invalid-product'          => 'Warning: You are requesting an invalid product.',
-        //         'already-exist-inwishlist' => 'Information: This product already exists in the wishlist.',
-        //         'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
-        //     ],
-        // ],
-
-        // 'validation' => [
-        //     'unique'   => 'This :field has already been taken.',
-        //     'required' => 'The :field field is required.',
-        //     'same'     => 'The :field and password must match.',
-        // ],
-
-        // 'mail' => [
-        //     'customer' => [
-        //         'password' => [
-        //             'heading' => config('app.name').' - Password Reset',
-        //             'reset'   => 'Password Reset Email',
-        //             'summary' => 'This email is related to your account password reset. Your password has been changed successfully.
-        //             Kindly log in to your account using the below-mentioned password.',
-        //         ],
-        //     ],
-        // ],
+        'alerts' => [
+            'notifications' => [
+                'create-success'      => 'Notifications created successfully',
+                'update-success'      => 'Notifications updated successfully',
+                'delete-success'      => 'Notifications deleted successfully',
+                'delete-failed'       => 'Notifications deleted failed',
+                'sended-successfully' => 'Notifications pushed successfully for android and iOS.',
+                'no-value-selected'   => 'there are no existing value',
+            ],
+        ],
     ],
 
     'shop' => [

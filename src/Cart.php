@@ -16,13 +16,13 @@ class Cart extends BaseCart
     /**
      * Create a new class instance.
      *
-     * @param  \Webkul\Checkout\Repositories\CartRepository             $cartRepository
-     * @param  \Webkul\Checkout\Repositories\CartItemRepository         $cartItemRepository
-     * @param  \Webkul\Checkout\Repositories\CartAddressRepository      $cartAddressRepository
+     * @param  \Webkul\Checkout\Repositories\CartRepository  $cartRepository
+     * @param  \Webkul\Checkout\Repositories\CartItemRepository  $cartItemRepository
+     * @param  \Webkul\Checkout\Repositories\CartAddressRepository  $cartAddressRepository
      * @param  \Webkul\Customer\Repositories\CustomerAddressRepository  $customerAddressRepository
-     * @param  \Webkul\Customer\Repositories\WishlistRepository         $wishlistRepository
-     * @param  \Webkul\Product\Repositories\ProductRepository           $productRepository
-     * @param  \Webkul\Tax\Repositories\TaxCategoryRepository           $taxCategoryRepository
+     * @param  \Webkul\Customer\Repositories\WishlistRepository  $wishlistRepository
+     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
+     * @param  \Webkul\Tax\Repositories\TaxCategoryRepository  $taxCategoryRepository
      * @return void
      */
     public function __construct(

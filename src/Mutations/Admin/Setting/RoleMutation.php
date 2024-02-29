@@ -124,7 +124,7 @@ class RoleMutation extends Controller
         }
 
         if ($role->admins->count() == 1) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.last-delete-error', ['name' => 'Role']));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.last-delete-error'));
         }
 
         try {
@@ -134,9 +134,9 @@ class RoleMutation extends Controller
 
             Event::dispatch('user.role.delete.after', $id);
 
-            return ['success' => trans('bagisto_graphql::app.admin.settings.roles.delete-success', ['name' => 'Role'])];
+            return ['success' => trans('bagisto_graphql::app.admin.settings.roles.delete-success')];
         } catch(\Exception $e) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.delete-failed', ['name' => 'Role']));
+            throw new CustomException($e->getMessage());
         }
     }
 }

@@ -151,10 +151,10 @@ class CartRuleMutation extends Controller
 
                 Event::dispatch('promotions.cart_rule.delete.after', $id);
 
-                return ['success' => trans('admin::app.response.delete-success', ['name' => 'Cart Rule'])];
+                return ['success' => trans('bagisto_graphql::app.admin.marketing.promotions.cart-rules.delete-success')];
             }
 
-            throw new CustomException(trans('admin::app.response.delete-failed', ['name' => 'Cart Rule']));
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.cart-rules.delete-failed'));
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -175,7 +175,7 @@ class CartRuleMutation extends Controller
 
         try {
             if (! $id) {
-                throw new CustomException(trans('admin::app.promotions.cart-rules.cart-rule-not-defind-error'));
+                throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.cart-rules.cart-rule-not-defind'));
             }
 
             $coupon = $this->cartRuleCouponRepository->generateCoupons($params, $id);

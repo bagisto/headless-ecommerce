@@ -97,7 +97,7 @@ class RefundMutation extends Controller
             $refundedData = $this->refundRepository->create(array_merge($refund, ['order_id' => $orderId]));
 
             if (isset($refundedData->id)) {
-                $refundedData->success = trans('bagisto_graphql::app.admin.sales.refunds.create-success', ['name' => 'Refund']);
+                $refundedData->success = trans('bagisto_graphql::app.admin.sales.refunds.create-success');
 
                 return $refundedData;
             }
