@@ -5,16 +5,14 @@ namespace Webkul\GraphQLAPI;
 use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Webkul\Product\Repositories\{
-    ProductBundleOptionRepository,
-    ProductBundleOptionProductRepository,
-    ProductCustomerGroupPriceRepository,
-    ProductDownloadableLinkRepository,
-    ProductDownloadableSampleRepository,
-    ProductGroupedProductRepository,
-    ProductImageRepository,
-    ProductVideoRepository
-};
+use Webkul\Product\Repositories\ProductBundleOptionRepository;
+use Webkul\Product\Repositories\ProductBundleOptionProductRepository;
+use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
+use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
+use Webkul\Product\Repositories\ProductDownloadableSampleRepository;
+use Webkul\Product\Repositories\ProductGroupedProductRepository;
+use Webkul\Product\Repositories\ProductImageRepository;
+use Webkul\Product\Repositories\ProductVideoRepository;
 
 class BagistoGraphql
 {
@@ -142,7 +140,7 @@ class BagistoGraphql
                 'success' => false,
                 'message' => $e->getMessage(),
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             //In case customer's session has expired
             if (
                 $token !== 0

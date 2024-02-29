@@ -198,7 +198,7 @@ class CategoryMutation extends Controller
             Event::dispatch('catalog.category.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.categories.delete-success')];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

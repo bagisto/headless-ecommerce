@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\SiteMap;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sitemap\Repositories\SitemapRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
@@ -47,7 +47,7 @@ class SiteMapMutation extends Controller
             $sitemap = $this->sitemapRepository->create($params);
 
             return $sitemap;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -83,7 +83,7 @@ class SiteMapMutation extends Controller
             $sitemap = $this->sitemapRepository->find($id);
 
             return $sitemap;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

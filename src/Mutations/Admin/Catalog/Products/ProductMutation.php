@@ -315,7 +315,7 @@ class ProductMutation extends Controller
                 array_push($validations, function ($field, $value, $fail) use ($attribute, $id) {
                     $column = ProductAttributeValue::$attributeTypeFields[$attribute->type];
 
-                    if (!$this->productAttributeValueRepository->isValueUnique($id, $attribute->id, $column, request($attribute->code))) {
+                    if (! $this->productAttributeValueRepository->isValueUnique($id, $attribute->id, $column, request($attribute->code))) {
                         $fail('The :attribute has already been taken.');
                     }
                 });
@@ -345,7 +345,7 @@ class ProductMutation extends Controller
             $this->productRepository->delete($args['id']);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.products.delete-success')];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

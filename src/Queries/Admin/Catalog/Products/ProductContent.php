@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Products;
 
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;

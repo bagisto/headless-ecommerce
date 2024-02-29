@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Marketing\Repositories\TemplateRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
@@ -48,7 +48,7 @@ class EmailTemplateMutation extends Controller
             $template = $this->templateRepository->create($params);
 
             return $template;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -87,7 +87,7 @@ class EmailTemplateMutation extends Controller
             $template = $this->templateRepository->update($params, $id);
 
             return $template;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

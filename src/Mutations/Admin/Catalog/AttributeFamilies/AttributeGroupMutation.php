@@ -22,7 +22,7 @@ class AttributeGroupMutation extends Controller
      */
     public function __construct(
         protected AttributeFamilyRepository $attributeFamilyRepository,
-        protected AttributeGroupRepository $attributeGroupRepository,
+        protected AttributeGroupRepository $attributeGroupRepository
     ) {
     }
 
@@ -146,7 +146,7 @@ class AttributeGroupMutation extends Controller
             Event::dispatch('catalog.attributeGroup.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.attribute-groups.delete-success')];
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

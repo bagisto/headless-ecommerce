@@ -27,9 +27,7 @@ class OrderMutation extends Controller
      * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
      * @return void
      */
-    public function __construct(
-        protected OrderRepository $orderRepository
-    ) {
+    public function __construct(protected OrderRepository $orderRepository) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);

@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Marketing\Repositories\CampaignRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
@@ -50,7 +50,7 @@ class CampaignMutation extends Controller
             $campaign = $this->campaignRepository->create($args['input']);
 
             return $campaign;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -88,7 +88,7 @@ class CampaignMutation extends Controller
             $campaign = $this->campaignRepository->update($args['input'], $args['id']);
 
             return $campaign;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

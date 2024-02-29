@@ -58,7 +58,7 @@ class UserMutation extends Controller
             throw new CustomException($validator->messages());
         }
 
-        $remember = isset($data['remember']) ? $data['remember'] : 0;
+        $remember = $data['remember'] ?? 0;
 
         if (! $jwtToken = JWTAuth::attempt([
                 'email'    => $data['email'],
@@ -264,7 +264,7 @@ class UserMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.users.delete-success'),
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new Exception(trans('bagisto_graphql::app.admin.settings.users.delete-error'));
         }
     }

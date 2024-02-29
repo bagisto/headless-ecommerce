@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
@@ -30,8 +30,7 @@ class ReviewMutation extends Controller
     public function __construct(
        protected ProductReviewRepository $productReviewRepository,
        protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
-    )
-    {
+    ) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);

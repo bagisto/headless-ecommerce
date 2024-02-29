@@ -146,7 +146,7 @@ class TaxRateMutation extends Controller
             Event::dispatch('tax.tax_rate.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.tax-rates.delete-success')];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

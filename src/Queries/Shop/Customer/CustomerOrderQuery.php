@@ -22,9 +22,6 @@ class CustomerOrderQuery
     public function __construct()
     {
         $this->guard = 'api';
-
-        auth()->setDefaultDriver($this->guard);
-        // $this->middleware('auth:'.$this->guard);
     }
 
     /**

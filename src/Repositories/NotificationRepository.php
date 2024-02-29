@@ -273,7 +273,7 @@ class NotificationRepository extends Repository
             Log::info('sendNotification: ', ['response' => json_decode($result)]);
 
             return json_decode($result);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             session()->flash('error', $e);
 
             Log::error('sendNotification Error: ', $e->getMessage());

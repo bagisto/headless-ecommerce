@@ -154,7 +154,7 @@ class CustomerAddressMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.address-delete-success')];
 
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

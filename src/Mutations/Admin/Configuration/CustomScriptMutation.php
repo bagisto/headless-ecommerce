@@ -156,7 +156,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->delete($id);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.delete-success')];
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

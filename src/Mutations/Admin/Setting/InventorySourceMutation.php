@@ -155,7 +155,7 @@ class InventorySourceMutation extends Controller
             Event::dispatch('inventory.inventory_source.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-success')];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

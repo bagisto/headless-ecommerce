@@ -207,7 +207,7 @@ class ChannelMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.channels.delete-success'),
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.delete-failed'));
         }
     }

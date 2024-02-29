@@ -2,17 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Webkul\Core\Models\Channel;
+use Webkul\Core\Eloquent\TranslatableModel;
 use Webkul\GraphQLAPI\Contracts\PushNotification as PushNotificationContract;
 
-class PushNotification extends Model implements PushNotificationContract
+class PushNotification extends TranslatableModel implements PushNotificationContract
 {
-    protected $table = 'push_notifications';
-
-    public $timestamps = true;
-
     protected $guarded = ['_token'];
 
     /**
@@ -79,16 +74,14 @@ class PushNotification extends Model implements PushNotificationContract
     {
         $channels   = [];
 
-        foreach ($this->translations as $translation) {
-            $channelList = Channel::query()->pluck('code')->toArray();
-            
-            $channelDetail = Channel::query()->where('code', $translation->channel)->first();
+        $channelList = core()->getAllChannels()->pluck('code')->toArray();
 
+        foreach ($this->translations as $translation) {
             if (
                 in_array($translation->channel, $channelList)
-                && isset($channelDetail->code)
-                && ! in_array($channelDetail->code, $channels)) {
-                array_push($channels, $channelDetail->code);
+                && ! in_array($translation->channel, $channels))
+            {
+                array_push($channels, $translation->channel);
             }
         }
 

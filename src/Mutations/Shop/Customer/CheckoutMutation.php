@@ -827,26 +827,26 @@ class CheckoutMutation extends Controller
     /**
      * Validate order before creation
      *
-     * @return void|\Exception
+     * @return void|Exception
      */
     public function validateOrder()
     {
         $cart = Cart::getCart();
 
         if ($cart->haveStockableItems() && ! $cart->shipping_address) {
-            throw new \Exception(trans('Please check shipping address.'));
+            throw new Exception(trans('Please check shipping address.'));
         }
 
         if (! $cart->billing_address) {
-            throw new \Exception(trans('Please check billing address.'));
+            throw new Exception(trans('Please check billing address.'));
         }
 
         if ($cart->haveStockableItems() && ! $cart->selected_shipping_rate) {
-            throw new \Exception(trans('Please specify shipping method.'));
+            throw new Exception(trans('Please specify shipping method.'));
         }
 
         if (! $cart->payment) {
-            throw new \Exception(trans('Please specify payment method.'));
+            throw new Exception(trans('Please specify payment method.'));
         }
     }
 

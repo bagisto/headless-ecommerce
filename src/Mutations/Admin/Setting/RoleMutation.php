@@ -135,7 +135,7 @@ class RoleMutation extends Controller
             Event::dispatch('user.role.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.roles.delete-success')];
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

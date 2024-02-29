@@ -224,7 +224,7 @@ class AttributeMutation extends Controller
             Event::dispatch('catalog.attribute.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.attributes.delete-success')];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

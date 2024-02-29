@@ -47,8 +47,7 @@ class RegistrationMutation extends Controller
     public function __construct(
         protected CustomerRepository $customerRepository,
         protected CustomerGroupRepository $customerGroupRepository
-    )
-    {
+    ) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
@@ -316,7 +315,7 @@ class RegistrationMutation extends Controller
 
             try {
                 Mail::queue(new SocialLoginPasswordResetEmail($data));
-            } catch(\Exception $e) {}
+            } catch(Exception $e) {}
 
         }
 

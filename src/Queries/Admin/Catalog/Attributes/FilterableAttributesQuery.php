@@ -13,9 +13,7 @@ class FilterableAttributesQuery extends BaseFilter
      * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
      * @return void
      */
-    public function __construct(
-        protected AttributeRepository $attributeRepository
-    )
+    public function __construct(protected AttributeRepository $attributeRepository)
     {
         $this->_config = request('_config');
     }

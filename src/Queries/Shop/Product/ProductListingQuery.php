@@ -3,12 +3,12 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Product;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Product\Repositories\{ProductRepository, ProductFlatRepository};
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Product\Helpers\Toolbar;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
@@ -31,9 +31,8 @@ class ProductListingQuery extends BaseFilter
         protected CustomerRepository $customerRepository,
         protected ProductRepository $productRepository,
         protected ProductFlatRepository $productFlatRepository,
-        protected Toolbar $productHelperToolbar,
-    )
-    {
+        protected Toolbar $productHelperToolbar
+    ) {
     }
 
     /**

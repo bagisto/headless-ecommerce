@@ -50,7 +50,7 @@ class EventMutation extends Controller
             $event = $this->eventRepository->create($params);
 
             return $event;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -91,7 +91,7 @@ class EventMutation extends Controller
             $event = $this->eventRepository->update($params, $id);
 
             return $event;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

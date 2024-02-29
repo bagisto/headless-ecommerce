@@ -19,9 +19,7 @@ class WishlistQuery extends Controller
      *
      * @return void
      */
-    public function __construct(
-        protected WishlistRepository $wishlistRepository
-    )
+    public function __construct(protected WishlistRepository $wishlistRepository)
     {
         $this->guard = 'api';
 

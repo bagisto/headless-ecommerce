@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Carbon\Carbon;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
@@ -146,7 +146,7 @@ class CustomerMutation extends Controller
             Event::dispatch('customer.customer.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.delete-success')];
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

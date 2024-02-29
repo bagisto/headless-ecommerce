@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
+use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Paypal\Payment\Standard;
@@ -36,7 +36,7 @@ class PaypalStandardMutation
         protected Standard $paypal_standard,
         protected Ipn $ipnHelper,
         protected OrderRepository $orderRepository
-    )   {
+    ) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
@@ -58,7 +58,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function redirect($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -144,7 +144,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function success($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -199,7 +199,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function cancel($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -238,7 +238,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function ipn($rootValue, array $args, GraphQLContext $context) : array
     {

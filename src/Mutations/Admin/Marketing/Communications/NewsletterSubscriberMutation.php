@@ -42,7 +42,7 @@ class NewsletterSubscriberMutation extends Controller
             }
 
             throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.no-subscriber-found'));
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -167,7 +167,7 @@ class NewsletterSubscriberMutation extends Controller
             Event::dispatch('customer.customer.delete.after', $subscriber->id);
 
             return ['success' => trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.delete-success')];
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

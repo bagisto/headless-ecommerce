@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 

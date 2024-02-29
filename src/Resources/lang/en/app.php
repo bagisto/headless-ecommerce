@@ -84,6 +84,12 @@ return [
             'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
             'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
             'delete-success'         => 'Customer deleted successfully',
+
+            'groups' => [
+                'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
+                'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
+                'delete-success'     => 'Customer deleted successfully',
+            ]
         ],
 
         'cms' => [

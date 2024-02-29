@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Core\Rules\Code;
@@ -121,14 +121,14 @@ class CustomerGroupMutation extends Controller
         $customerGroup = $this->customerGroupRepository->findOrFail($id);
 
         if ($customerGroup->is_user_defined == 0) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.customers.user-define-error'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.user-define-error'));
         }
 
         if (
             $customerGroup->customers
             && count($customerGroup->customers)
         ) {
-            throw new CustomException(trans('admin::app.response.customer-associate', ['name' => 'Customer Group']));
+            throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.customer-associate'));
         }
 
         try {
@@ -138,9 +138,9 @@ class CustomerGroupMutation extends Controller
 
             Event::dispatch('customer.customer_group.delete.after', $id);
 
-            return ['success' => trans('admin::app.customers.groups.index.edit.delete-success', ['name' => 'Customer Group'])];
-        } catch(\Exception $e) {
-            throw new CustomException(trans('admin::app.response.delete-failed', ['name' => 'Customer Group']));
+            return ['success' => trans('bagisto_graphql::app.admin.customers.customers.groups.delete-success')];
+        } catch(Exception $e) {
+            throw new CustomException($e->getMessage());
         }
     }
 }

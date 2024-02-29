@@ -249,7 +249,7 @@ class DownloadableMutation extends Controller
                 'string'   => $base64_str,
                 'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id']),
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Failed: Downloadable purchased link.'

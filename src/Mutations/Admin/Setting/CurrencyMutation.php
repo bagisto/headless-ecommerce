@@ -134,7 +134,7 @@ class CurrencyMutation extends Controller
             Event::dispatch('core.currency.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.currencies.delete-success')];
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.delete-error'));
         }
     }

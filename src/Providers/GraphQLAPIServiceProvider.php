@@ -5,11 +5,9 @@ namespace Webkul\GraphQLAPI\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Webkul\Product\Type\Configurable as BaseConfigurableType;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Type\Configurable as GraphQLAPIConfigurableType;
 use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
 class GraphQLAPIServiceProvider extends ServiceProvider

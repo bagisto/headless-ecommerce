@@ -20,8 +20,7 @@ class CategoryQuery extends BaseFilter
     public function __construct(
         protected CategoryRepository $categoryRepository,
         protected ProductFlatRepository $productFlatRepository
-    )
-    {
+    ) {
     }
 
     /**

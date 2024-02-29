@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Promotion;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
 use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
@@ -66,7 +66,7 @@ class CatalogRuleMutation extends Controller
             $this->catalogRuleIndexHelper->reindexComplete();
 
             return $catalogRule;
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -114,7 +114,7 @@ class CatalogRuleMutation extends Controller
             $this->catalogRuleIndexHelper->reindexComplete();
 
             return $catalogRule;
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

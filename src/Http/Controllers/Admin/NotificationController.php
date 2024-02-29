@@ -16,13 +16,6 @@ use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 class NotificationController extends Controller
 {
     /**
-     * Contains route related configuration.
-     *
-     * @var array
-     */
-    protected $_config;
-
-    /**
      * Create a new controller instance.
      *
      * @param \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
@@ -36,8 +29,6 @@ class NotificationController extends Controller
         protected ProductRepository $productRepository,
         protected NotificationRepository $notificationRepository
     ) {
-        $this->_config = request('_config');
-
         $this->middleware('admin');
     }
 
@@ -157,7 +148,7 @@ class NotificationController extends Controller
             return new JsonResponse([
                 'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
             ]);
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
         }
 
         return new JsonResponse([

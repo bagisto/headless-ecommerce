@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Promotion;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
@@ -66,7 +66,7 @@ class CartRuleMutation extends Controller
             Event::dispatch('promotions.cart_rule.create.after', $cartRule);
 
             return $cartRule;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -123,7 +123,7 @@ class CartRuleMutation extends Controller
             Event::dispatch('promotions.cart_rule.update.after', $cartRule);
 
             return $cartRule;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

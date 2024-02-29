@@ -163,7 +163,7 @@ class LocaleMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.locales.delete-success'),
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

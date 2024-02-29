@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;

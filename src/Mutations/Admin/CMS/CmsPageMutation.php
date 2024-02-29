@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\CMS;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CMS\Repositories\CmsRepository;
 use Webkul\Core\Rules\Slug;
@@ -48,7 +48,7 @@ class CmsPageMutation extends Controller
 
         try {
             return $this->cmsRepository->create($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -100,7 +100,7 @@ class CmsPageMutation extends Controller
             $page = $this->cmsRepository->update($data, $id);
 
             return $page;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

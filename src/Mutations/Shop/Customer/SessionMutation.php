@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use JWTAuth;
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Exception;
-use JWTAuth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
@@ -26,9 +26,7 @@ class SessionMutation extends Controller
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @return void
      */
-    public function __construct(
-       protected CustomerRepository $customerRepository
-    )
+    public function __construct(protected CustomerRepository $customerRepository)
     {
         $this->guard = 'api';
 

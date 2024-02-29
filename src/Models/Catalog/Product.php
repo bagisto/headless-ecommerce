@@ -14,7 +14,7 @@ class Product extends BaseModel
      * Retrieve type instance
      *
      * @return AbstractType
-	 * @throws \Exception
+	 * @throws Exception
      */
     public function getTypeInstance(): AbstractType
     {
@@ -23,7 +23,7 @@ class Product extends BaseModel
         }
 
         $this->typeInstance = app(config('product_types.'.$this->type.'.class'));
-        
+
         if (! $this->typeInstance instanceof AbstractType) {
             throw new Exception(
                 "Please ensure the product type '{$this->type}' is configured in your application."

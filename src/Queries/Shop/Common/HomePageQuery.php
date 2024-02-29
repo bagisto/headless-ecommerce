@@ -39,7 +39,7 @@ class HomePageQuery extends BaseFilter
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
         protected WishlistRepository $wishlistRepository,
-        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        protected ThemeCustomizationRepository $themeCustomizationRepository
     ) {
     }
 
