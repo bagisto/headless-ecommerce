@@ -1,0 +1,48 @@
+#Marketing\EmailTemplate Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    emailTemplates(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterEmailTemplate")): [EmailTemplate!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Template")
+
+    emailTemplate(id: ID @eq): EmailTemplate @find(model: "Webkul\\Marketing\\Models\\Template")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createEmailTemplate(
+        input: CreateEmailTemplateInput!
+    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\EmailTemplateMutation@store")
+
+    updateEmailTemplate(
+        id: ID!,
+        input: CreateEmailTemplateInput!
+    ): EmailTemplate  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\EmailTemplateMutation@update")
+
+    deleteEmailTemplate(id: ID!): DeleteEmailTemplateResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\EmailTemplateMutation@delete")
+}
+
+input FilterEmailTemplateInput {
+    id: ID
+    name: String
+}
+
+input CreateEmailTemplateInput {
+    name: String!
+    content: String!
+    status: Status!
+}
+
+enum Status {
+    ACTIVE @enum(value: "active")
+    INACTIVE @enum(value: "inactive")
+    DRAFT @enum(value: "draft")
+}
+
+type EmailTemplate {
+    id: ID!
+    content: String!
+    name: String!
+    status: String!
+}
+
+type DeleteEmailTemplateResponse{
+    status: String
+    message: String
+}

@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use JWTAuth;
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Exception;
-use JWTAuth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
@@ -26,15 +26,13 @@ class SessionMutation extends Controller
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @return void
      */
-    public function __construct(
-       protected CustomerRepository $customerRepository
-    )
+    public function __construct(protected CustomerRepository $customerRepository)
     {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard, ['except' => ['login']]);
+        $this->middleware('auth:'.$this->guard, ['except' => ['login']]);
     }
 
     /**
@@ -44,8 +42,13 @@ class SessionMutation extends Controller
      */
     public function login($rootValue, array $args , GraphQLContext $context)
     {
-        if (! isset($args['input']) ||
-            (isset($args['input']) && ! $args['input'])) {
+        if (
+            ! isset($args['input'])
+            || (
+                isset($args['input'])
+                && ! $args['input']
+            )
+        ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
                 trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
@@ -55,8 +58,8 @@ class SessionMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'email'     => 'required|email',
-            'password'  => 'required',
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -69,8 +72,8 @@ class SessionMutation extends Controller
         $remember = isset($data['remember']) ? $data['remember'] : 0;
 
         if (! $jwtToken = JWTAuth::attempt([
-            'email'     => $data['email'],
-            'password'  => $data['password'],
+            'email'    => $data['email'],
+            'password' => $data['password'],
         ], $remember)) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.login-form.invalid-creds'),
@@ -107,7 +110,7 @@ class SessionMutation extends Controller
             return [
                 'status'        => true,
                 'success'       => trans('bagisto_graphql::app.shop.customer.success-login'),
-                'access_token'  => 'Bearer ' . $jwtToken,
+                'access_token'  => 'Bearer '.$jwtToken,
                 'token_type'    => 'Bearer',
                 'expires_in'    => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
                 'customer'      => $this->customerRepository->find($customer->id),

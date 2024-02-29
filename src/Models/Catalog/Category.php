@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Models\Catalog;
 
+use Illuminate\Support\Facades\DB;
 use Webkul\Category\Models\Category as BaseModel;
-use DB;
 
 class Category extends BaseModel
 {
@@ -16,6 +16,7 @@ class Category extends BaseModel
     public function getCountAttribute()
     {
         $data = DB::table('product_categories')->where("category_id",$this->id)->get();
+
         return count($data);
     }
 }

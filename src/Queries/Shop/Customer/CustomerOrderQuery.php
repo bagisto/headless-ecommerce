@@ -22,9 +22,6 @@ class CustomerOrderQuery
     public function __construct()
     {
         $this->guard = 'api';
-
-        auth()->setDefaultDriver($this->guard);
-        // $this->middleware('auth:' . $this->guard);
     }
 
     /**
@@ -68,7 +65,7 @@ class CustomerOrderQuery
         }
 
         if (! empty($params['input']['order_date'])) {
-            $qb->where('orders.created_at', 'like', '%' . urldecode($params['input']['order_date']) . '%');
+            $qb->where('orders.created_at', 'like', '%'.urldecode($params['input']['order_date']).'%');
         }
 
         if (! empty($params['input']['start_order_date']) && ! empty($params['input']['end_order_date'])) {
@@ -109,7 +106,7 @@ class CustomerOrderQuery
      */
     public function getOrderPaymentTitle($rootValue, array $args, GraphQLContext $context)
     {
-        return core()->getConfigData('sales.payment_methods.' . $rootValue->method . '.title');
+        return core()->getConfigData('sales.payment_methods.'.$rootValue->method.'.title');
     }
 
     /**

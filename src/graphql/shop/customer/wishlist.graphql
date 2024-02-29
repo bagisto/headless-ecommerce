@@ -18,7 +18,7 @@ extend type Mutation @guard(with: ["api"]) {
         input: AddToWishlistInput!
     ): RemoveWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@delete")
 
-    moveToCart(id: ID @eq): MoveToCartResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
+    moveToCart(id: ID @eq quantity: String!): MoveToCartResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
 
     removeAllWishlists: RemoveWishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")
 

@@ -11,6 +11,140 @@ return [
             'send'              => 'Send',
         ],
 
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'Order cannot be canceled.',
+                'cancel-success' => 'Order canceled successfully',
+                'not-found'      => 'Warning: Order not found.',
+            ],
+
+            'shipments' => [
+                'not-found'        => 'Warning: Shipment not found.',
+                'shipment-error'   => 'Order shipment creation is not allowed.',
+                'creation-error'   => 'Shipment can not be created for this order.',
+                'quantity-invalid' => 'Requested quantity is invalid or not available.',
+            ],
+
+            'invoices' => [
+                'not-found'      => 'Warning: Invoice not found.',
+                'creation-error' => 'Order invoice creation is not allowed.',
+                'product-error'  => 'Invoice can not be created without products.',
+            ],
+
+            'refunds' => [
+                'invalid-refund-amount-error' => 'Refund amount should be non zero.',
+                'refund-limit-error'          => 'The most money available to refund is :amount.',
+                'creation-error'              => 'Refund can not be created for this order.',
+                'create-success'              => 'Refund created successfully for this order.',
+            ]
+        ],
+
+        'catalog' => [
+            'products' => [
+                'create' => [
+                    'configurable-error'      => 'Please select atleast one configurable attribute.',
+                    'grouped-error-not-added' => 'is not added to Grouped product',
+                    'grouped-error-not-added' => 'is not a added to Bundle product',
+                ],
+
+                'delete-success' => 'Product deleted successfully.',
+                'delete-failed'  => 'Warning: Product is not deleted',
+            ],
+
+            'categories' => [
+                'already-taken'        => 'The Category has already been taken.',
+                'delete-category-root' => 'The Root category can not be deleted.',
+                'delete-success'       => 'Category deleted successfully.',
+                'delete-failed'        => 'Warning: Category is not deleted',
+            ],
+
+            'attributes' => [
+                'delete-success'    => 'Attribute deleted successfully.',
+                'delete-failed'     => 'Warning: Attribute is not deleted',
+                'user-define-error' => 'Warning: You are not authorized to delete system-created attribute group.',
+            ],
+
+            'attribute-families' => [
+                'last-delete-error'       => 'Last Attribute Family delete failed',
+                'attribute-product-error' => 'family is used in products.',
+                'delete-success'          => 'Family deleted successfully.',
+                'delete-failed'           => 'Warning: Family is not deleted',
+            ],
+
+            'attribute-groups' => [
+                'delete-success'       => 'Family Group deleted successfully.',
+                'delete-failed'        => 'Warning: Family Group is not deleted',
+                'error-customer-group' => 'Warning: You are not authorized to delete system-created attribute group.',
+            ],
+        ],
+
+        'customers' => [
+            'no-customer-found'      => 'Customer not found',
+            'address-delete-success' => 'Customer\'s Address deleted successfully',
+            'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
+            'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
+            'delete-success'         => 'Customer deleted successfully',
+
+            'groups' => [
+                'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
+                'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
+                'delete-success'     => 'Customer deleted successfully',
+            ]
+        ],
+
+        'cms' => [
+            'already-taken'  => 'CMS Page URL already taken',
+            'delete-success' => 'CMS Page deleted successfully.',
+            'delete-failed'  => 'Warning: CMS Page is not deleted',
+        ],
+
+        'marketing' => [
+            'communications' => [
+                'campaigns' => [
+                    'delete-success' => 'Campaign deleted successfully',
+                    'delete-failed'  => 'Warning: Campaign is not deleted',
+                ],
+
+                'templates' => [
+                    'delete-success' => 'Email Template deleted successfully',
+                    'delete-failed'  => 'Warning: Email Template is not deleted',
+                ],
+
+                'events' => [
+                    'delete-success' => 'Event deleted successfully',
+                    'delete-failed'  => 'Warning: Event is not deleted',
+                ],
+
+                'subscriptions' => [
+                    'no-subscriber-found'  => 'Subscriber not found',
+                    'already-subscriber'   => 'You are already subscribed to our subscription list.',
+                    'not-subscribed'       => 'You can not be subscribed to subscription emails, please try again later.',
+                    'already-unsubscribed' => 'You are already unsubscribed.',
+                    'delete-success'       => 'Subscription deleted successfully',
+                    'unsubscribe'          => 'Unsubcribe',
+                    'subscribe'            => 'Subscribe',
+                ],
+            ],
+
+            'promotions' => [
+                'cart-rules' => [
+                    'delete-success' => 'Cart Rule deleted successfully',
+                    'delete-failed'  => 'Warning: Cart Rule is not deleted',
+                    'cart-rule-not-defind' => 'Cart rule is not defined',
+                ],
+
+                'catalog-rules' => [
+                    'delete-success' => 'Catalog Rule deleted successfully',
+                    'delete-failed'  => 'Warning: Catalog Rule is not deleted',
+                ],
+
+                'sitemaps' => [
+                    'delete-success' => 'Site Map deleted successfully',
+                    'delete-failed'  => 'Warning: Site Map is not deleted',
+                ],
+            ],
+        ],
+
         'configuration' => [
             'index' => [
                 'general' => [
@@ -25,141 +159,105 @@ return [
                     ],
                 ],
             ],
+
+            'custom-scripts' => [
+                'channel-not-found' => 'Warning: Channel not found.',
+                'create-success'    => 'Custom Script added successfully.',
+                'update-success'    => 'Custom Script updated successfully.',
+                'delete-success'    => 'Custom Script removed successfully.',
+            ],
         ],
 
         'settings' => [
-            'notification' => [
-                'index' => [
-                    'title'               => 'Push Notification',
-                    'add-title'           => 'Add Notification',
-                    'delete-success'      => 'Notification deleted successfully',
-                    'mass-update-success' => 'Selected Notifications updated successfully',
-                    'mass-delete-success' => 'Selected Notifications deleted successfully',
-
-                    'datagrid' => [
-                        'id'                   => 'Id',
-                        'image'                => 'Image',
-                        'text-title'           => 'Title',
-                        'notification-content' => 'Notification Content',
-                        'notification-type'    => 'Notification Type',
-                        'store-view'           => 'Channels',
-                        'notification-status'  => 'Notification Status',
-                        'created-at'           => 'Created Time',
-                        'updated-at'           => 'Updated Time',
-                        'delete'               => 'Delete',
-                        'update'               => 'Update',
-
-                        'status' => [
-                            'enabled'  => 'Enabled',
-                            'disabled' => 'Disabled',
-                        ],
-                    ],
-                ],
-
-                'create' => [
-                    'new-notification'     => 'New Notification',
-                    'back-btn'             => 'Back',
-                    'create-btn-title'     => 'Save Notification',
-                    'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Settings',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
-                    'success'              => 'Notification created successfully',
-
-                    'option-type' => [
-                        'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category',
-                    ],
-                ],
-
-                'edit' => [
-                    'edit-notification'         => 'Edit Notification',
-                    'back-btn'                  => 'Back',
-                    'send-title'                => 'Send Notification',
-                    'update-btn-title'          => 'Update Notification',
-                    'general'                   => 'General',
-                    'title'                     => 'Push Notification',
-                    'content-and-image'         => 'Notification Content And Image',
-                    'notification-content'      => 'Notification Content',
-                    'image'                     => 'Image',
-                    'settings'                  => 'Settings',
-                    'status'                    => 'Status',
-                    'store-view'                => 'Channels',
-                    'notification-type'         => 'Notification Type',
-                    'product-cat-id'            => 'Product/Category Id',
-                    'success'                   => 'Notification updated successfully',
-                    'notification-send-success' => 'Notification send successfully for Android and iOS.',
-
-                    'option-type' => [
-                        'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category',
-                    ],
-                ],
+            'locales' => [
+                'last-delete-error' => 'Last Locale delete failed',
+                'delete-success'    => 'Locale deleted successfully.',
+                'delete-error'      => 'Locale deleted failed.',
+                'not-found'         => 'Warning: Locale not found.',
             ],
 
-            'exchange_rates' => [
-                'error-invalid-target-currency' => 'Warning: Invalid target currency provided.',
-                'delete-success'                => 'Success: Exchange rate deleted successfully.',
+            'currencies' => [
+                'last-delete-error' => 'Last Currency delete failed',
+                'delete-success'    => 'Currency deleted successfully.',
+                'delete-error'      => 'Currency deleted failed.',
+                'not-found'         => 'Warning: Currency not found.',
             ],
-        ],
 
-        'customer' => [
-            'no-customer-found' => 'No customer found',
+            'exchange-rates' => [
+                'invalid-target-currency' => 'Warning: Invalid target currency provided.',
+                'delete-success'          => 'Success: Exchange rate deleted successfully.',
+                'last-delete-error'       => 'Last Exchange rate delete failed',
+                'delete-error'            => 'Exchange rate deleted failed.',
+                'not-found'               => 'Warning: Exchange rate not found.',
+            ],
+
+            'inventory-sources' => [
+                'last-delete-error' => 'Last Inventory delete failed',
+                'delete-success'    => 'Inventory deleted successfully.',
+                'delete-error'      => 'Inventory deleted failed.',
+                'not-found'         => 'Warning: Inventory not found.',
+            ],
+
+            'channels' => [
+                'last-delete-error' => 'Last Channel delete failed',
+                'delete-success'    => 'Channel deleted successfully.',
+                'delete-error'      => 'Channel deleted failed.',
+                'not-found'         => 'Warning: Channel not found.',
+            ],
+
+            'users' => [
+                'login-error'       => 'Please check your credentials and try again.',
+                'activate-warning'  => 'Your account is yet to be activated, please contact administrator.',
+                'success-login'     => 'Success: User login successfully.',
+                'success-logout'    => 'Success: User logout successfully.',
+                'last-delete-error' => 'Last User delete failed',
+                'delete-success'    => 'User deleted successfully.',
+                'delete-error'      => 'User deleted failed.',
+                'create-success'    => 'User created successfully.',
+                'not-found'         => 'Warning: User not found.',
+            ],
+
+            'roles' => [
+                'last-delete-error' => 'Last Role delete failed',
+                'delete-success'    => 'Role deleted successfully.',
+                'delete-error'      => 'Role deleted failed.',
+                'not-found'         => 'Warning: Role not found.',
+            ],
+
+            'themes' => [
+                'delete-success' => 'Theme deleted successfully.',
+                'not-found'      => 'Warning: User not found.',
+            ],
+
+            'tax-rate' => [
+                'delete-success' => 'Tax Rate deleted successfully.',
+                'delete-error'   => 'Tax Rate deleted failed.',
+                'not-found'      => 'Warning: Tax Rate not found.',
+            ],
+
+            'tax-category' => [
+                'delete-success'     => 'Tax Category deleted successfully.',
+                'delete-error'       => 'Tax Category deleted failed.',
+                'not-found'          => 'Warning: Tax Category not found.',
+                'tax-rate-not-found' => 'The Given ids not found. Ids:- :ids',
+            ],
         ],
 
         'response' => [
-            'delete-success'          => 'Success: User deleted successfully.',
-            'last-delete-error'       => 'Warning: At least one user is required',
-            'delete-failed'           => 'Warning: Admin user is not deleted',
-            'error-invalid-parameter' => 'Warning: Invalid parameters provided.',
-            'success-login'           => 'Success: User login successfully.',
-            'error-login'             => 'Warning: Admin user is not logged in.',
-            'session-expired'         => 'Warning: Session has expired. Please log in again to your account.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'success-logout'          => 'Success: User logout successfully.',
-            'no-login-user'           => 'Warning: No login user found.',
-            'error-customer-group'    => 'Warning: You are not authorized to delete system-created attribute group.',
-            'password-invalid'        => 'Warning: Please enter the correct password.',
-            'password-match'          => 'Warning: Passwords don\'t match.',
-            'success-registered'      => 'Success: User created successfully.',
-            'cancel-error'            => 'Order cannot be canceled.',
-            'creation-error'          => 'Refund cannot be created for this order.',
-            'channel-failure'         => 'Channel Not Found.',
-            'script-delete-success'   => 'Script deleted successfully.',
-        ],
-
-        'shop' => [
-            'response' => [
-                'no-address-found'         => 'Warning: No address found.',
-                'invalid-address'          => 'Warning: No address found for provided address ID.',
-                'invalid-product'          => 'Warning: You are requesting an invalid product.',
-                'already-exist-inwishlist' => 'Information: This product already exists in the wishlist.',
-                'un-authorized-access'     => 'Warning: You are not authorized to use this section.',
+            'error' => [
+                'invalid-parameter' => 'Warning: Invalid parameters provided.',
+                'no-login-user'     => 'Warning: No login user found.',
             ],
         ],
 
-        'validation' => [
-            'unique'   => 'This :field has already been taken.',
-            'required' => 'The :field field is required.',
-            'same'     => 'The :field and password must match.',
-        ],
-
-        'mail' => [
-            'customer' => [
-                'password' => [
-                    'heading' => config('app.name') . ' - Password Reset',
-                    'reset'   => 'Password Reset Email',
-                    'summary' => 'This email is related to your account password reset. Your password has been changed successfully.
-                    Kindly log in to your account using the below-mentioned password.',
-                ],
+        'alerts' => [
+            'notifications' => [
+                'create-success'      => 'Notifications created successfully',
+                'update-success'      => 'Notifications updated successfully',
+                'delete-success'      => 'Notifications deleted successfully',
+                'delete-failed'       => 'Notifications deleted failed',
+                'sended-successfully' => 'Notifications pushed successfully for android and iOS.',
+                'no-value-selected'   => 'there are no existing value',
             ],
         ],
     ],

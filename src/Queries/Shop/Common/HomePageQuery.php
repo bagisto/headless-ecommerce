@@ -39,9 +39,8 @@ class HomePageQuery extends BaseFilter
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
         protected WishlistRepository $wishlistRepository,
-        protected ThemeCustomizationRepository $themeCustomizationRepository,
-    )
-    {
+        protected ThemeCustomizationRepository $themeCustomizationRepository
+    ) {
     }
 
     /**
@@ -121,10 +120,12 @@ class HomePageQuery extends BaseFilter
 
     /**
      * Get all categories in tree format.
-     * And 
+     *
      * @param mixed $rootValue
      * @param array $args
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     *
+     * @return mixed
      */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
@@ -198,13 +199,20 @@ class HomePageQuery extends BaseFilter
 
         $qb = app(ProductRepository::class)->distinct()
                 ->select('products.*')
-                ->leftJoin('products as variants', DB::raw('COALESCE(' . $prefix . 'variants.parent_id, ' . $prefix . 'variants.id)'), '=', 'products.id')
+                ->leftJoin('products as variants', DB::raw('COALESCE('.$prefix.'variants.parent_id, '.$prefix.'variants.id)'), '=', 'products.id')
                 ->leftJoin('product_price_indices', function ($join) {
                     $customerGroup = $this->customerRepository->getCurrentGroup();
 
                     $join->on('products.id', '=', 'product_price_indices.product_id')
                         ->where('product_price_indices.customer_group_id', $customerGroup->id);
                 });
+
+        if (!empty($params['category_slug'])) {
+            $categoryIds = $this->categoryRepository->findBySlug($params['category_slug'])->id;
+
+            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
+            ->where('product_categories.category_id', $categoryIds);
+        }
 
         if (! empty($params['category_id'])) {
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
@@ -246,25 +254,25 @@ class HomePageQuery extends BaseFilter
          * Filter collection by required attributes.
          */
         foreach ($attributes as $attribute) {
-            $alias = $attribute->code . '_product_attribute_values';
+            $alias = $attribute->code.'_product_attribute_values';
 
-            $qb->leftJoin('product_attribute_values as ' . $alias, 'products.id', '=', $alias . '.product_id')
-                ->where($alias . '.attribute_id', $attribute->id);
+            $qb->leftJoin('product_attribute_values as '.$alias, 'products.id', '=', $alias.'.product_id')
+                ->where($alias.'.attribute_id', $attribute->id);
 
             if ($attribute->code == 'name') {
-                $qb->where($alias . '.text_value', 'like', '%' . urldecode($params['name']) . '%');
+                $qb->where($alias.'.text_value', 'like', '%'.urldecode($params['name']).'%');
             } elseif ($attribute->code == 'url_key') {
                 if (empty($params['url_key'])) {
-                    $qb->whereNotNull($alias . '.text_value');
+                    $qb->whereNotNull($alias.'.text_value');
                 } else {
-                    $qb->where($alias . '.text_value', 'like', '%' . urldecode($params['url_key']) . '%');
+                    $qb->where($alias.'.text_value', 'like', '%'.urldecode($params['url_key']).'%');
                 }
             } else {
                 if (is_null($params[$attribute->code])) {
                     continue;
                 }
 
-                $qb->where($alias . '.' . $attribute->column_name, 1);
+                $qb->where($alias.'.'.$attribute->column_name, 1);
             }
         }
 
@@ -293,12 +301,12 @@ class HomePageQuery extends BaseFilter
                         $values = explode(',', $params[$attribute->code]);
 
                         if ($attribute->type == 'price') {
-                            $attributeQuery->whereBetween('product_attribute_values.' . $attribute->column_name, [
+                            $attributeQuery->whereBetween('product_attribute_values.'.$attribute->column_name, [
                                 core()->convertToBasePrice(current($values)),
                                 core()->convertToBasePrice(end($values)),
                             ]);
                         } else {
-                            $attributeQuery->whereIn('product_attribute_values.' . $attribute->column_name, $values);
+                            $attributeQuery->whereIn('product_attribute_values.'.$attribute->column_name, $values);
                         }
                     });
                 }
@@ -311,7 +319,7 @@ class HomePageQuery extends BaseFilter
              * To Do (@devansh): Need to monitor this.
              */
             $qb->groupBy('products.id');
-            $qb->havingRaw('COUNT(*) = ' . count($attributes));
+            $qb->havingRaw('COUNT(*) = '.count($attributes));
         }
 
         /**
@@ -328,13 +336,13 @@ class HomePageQuery extends BaseFilter
                 } else {
                     $alias = 'sort_product_attribute_values';
 
-                    $qb->leftJoin('product_attribute_values as ' . $alias, function ($join) use ($alias, $attribute) {
-                        $join->on('products.id', '=', $alias . '.product_id')
-                            ->where($alias . '.attribute_id', $attribute->id)
-                            ->where($alias . '.channel', core()->getRequestedChannelCode())
-                            ->where($alias . '.locale', core()->getRequestedLocaleCode());
+                    $qb->leftJoin('product_attribute_values as '.$alias, function ($join) use ($alias, $attribute) {
+                        $join->on('products.id', '=', $alias.'.product_id')
+                            ->where($alias.'.attribute_id', $attribute->id)
+                            ->where($alias.'.channel', core()->getRequestedChannelCode())
+                            ->where($alias.'.locale', core()->getRequestedLocaleCode());
                     })
-                        ->orderBy($alias . '.' . $attribute->column_name, $sortOptions['order']);
+                        ->orderBy($alias.'.'.$attribute->column_name, $sortOptions['order']);
                 }
             } else {
                 /* `created_at` is not an attribute so it will be in else case */

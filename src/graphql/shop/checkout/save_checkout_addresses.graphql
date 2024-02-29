@@ -31,7 +31,7 @@ input NewAddressInput {
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
     additional: [String]
     customerId: Int  @rename(attribute: "customer_id")
-    defaultAddress : Boolean  @rename(attribute: "default_address")
+    defaultAddress: Boolean  @rename(attribute: "default_address")
 }
 
 type ShippingMethodsResponse {

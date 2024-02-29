@@ -5,11 +5,9 @@ namespace Webkul\GraphQLAPI\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Webkul\Product\Type\Configurable as BaseConfigurableType;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Type\Configurable as GraphQLAPIConfigurableType;
 use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
 class GraphQLAPIServiceProvider extends ServiceProvider
@@ -22,15 +20,15 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        include __DIR__ . '/../Http/helpers.php';
+        include __DIR__.'/../Http/helpers.php';
 
-        $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'bagisto_graphql');
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'bagisto_graphql');
 
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'bagisto_graphql');
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'bagisto_graphql');
 
         // Model observer for admin user of Bagisto.
         $this->overrideModels();
@@ -112,15 +110,15 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     protected function publishesDefault()
     {
         $this->publishes([
-            __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => resource_path('themes/default/views/emails/customer/registration.blade.php'),
+            __DIR__.'/../Resources/views/shop/default/emails/customer/registration.blade.php' => resource_path('themes/default/views/emails/customer/registration.blade.php'),
         ]);
 
         $this->publishes([
-            __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => __DIR__ .'/../../../../../packages/Webkul/Shop/src/Resources/views/emails/customer/registration.blade.php',
+            __DIR__.'/../Resources/views/shop/default/emails/customer/registration.blade.php' => __DIR__ .'/../../../../../packages/Webkul/Shop/src/Resources/views/emails/customer/registration.blade.php',
         ]);
 
         $this->publishes([
-            __DIR__ . '/../Config/lighthouse.php' => config_path('lighthouse.php'),
+            __DIR__.'/../Config/lighthouse.php' => config_path('lighthouse.php'),
         ], ['graphql-api-lighthouse']);
     }
 
@@ -180,17 +178,17 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/menu.php',
+            dirname(__DIR__).'/Config/menu.php',
             'menu.admin'
         );
 
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/acl.php',
+            dirname(__DIR__).'/Config/acl.php',
             'acl'
         );
 
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/system.php',
+            dirname(__DIR__).'/Config/system.php',
             'core'
         );
     }

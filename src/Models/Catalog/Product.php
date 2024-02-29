@@ -14,18 +14,15 @@ class Product extends BaseModel
      * Retrieve type instance
      *
      * @return AbstractType
-	 * @throws \Exception
+	 * @throws Exception
      */
     public function getTypeInstance(): AbstractType
     {
         if ($this->typeInstance) {
             return $this->typeInstance;
         }
-        if ($this->type !== 'booking') {
-            $this->typeInstance = app(config('product_types.' . $this->type . '.class'));
-        } else {
-            $this->typeInstance = app('Webkul\GraphQLAPI\Type\Booking');
-        }
+
+        $this->typeInstance = app(config('product_types.'.$this->type.'.class'));
 
         if (! $this->typeInstance instanceof AbstractType) {
             throw new Exception(

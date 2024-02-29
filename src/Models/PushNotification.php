@@ -2,17 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Webkul\Core\Models\Channel;
+use Webkul\Core\Eloquent\TranslatableModel;
 use Webkul\GraphQLAPI\Contracts\PushNotification as PushNotificationContract;
 
-class PushNotification extends Model implements PushNotificationContract
+class PushNotification extends TranslatableModel implements PushNotificationContract
 {
-    protected $table = 'push_notifications';
-
-    public $timestamps = true;
-
     protected $guarded = ['_token'];
 
     /**
@@ -51,14 +46,15 @@ class PushNotification extends Model implements PushNotificationContract
     {
         return $this->hasMany(PushNotificationTranslationProxy::modelClass(),'push_notification_id');
     }
-    
+
     /**
      * Get image url for the Banner image.
      */
     public function image_url()
     {
-        if (! $this->image)
+        if (! $this->image) {
             return;
+        }
 
         return Storage::url($this->image);
     }
@@ -77,19 +73,18 @@ class PushNotification extends Model implements PushNotificationContract
     public function notificationChannelsArray()
     {
         $channels   = [];
-        
+
+        $channelList = core()->getAllChannels()->pluck('code')->toArray();
+
         foreach ($this->translations as $translation) {
-            $channelList = Channel::query()->pluck('code')->toArray();
-            $channelDetail = Channel::query()->where('code', $translation->channel)->first();
-            
             if (
-                in_array($translation->channel, $channelList) 
-                && isset($channelDetail->code) 
-                && ! in_array($channelDetail->code, $channels)) {
-                array_push($channels, $channelDetail->code);
+                in_array($translation->channel, $channelList)
+                && ! in_array($translation->channel, $channels))
+            {
+                array_push($channels, $translation->channel);
             }
         }
-        
+
         return $channels;
     }
 }

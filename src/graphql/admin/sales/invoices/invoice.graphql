@@ -1,0 +1,130 @@
+# Seles\Invoice Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    invoices(input: FilterInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Invoices\\FilterInvoice")): [Invoice!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
+
+    invoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
+
+    invoiceItems(input: FilterInvoiceItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Invoices\\FilterInvoiceItem")): [InvoiceItem!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\InvoiceItem")
+
+    invoiceItem(
+        id: ID @eq,
+        input: FilterInvoiceItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Invoices\\FilterInvoiceItem")
+    ): InvoiceItem @find(model: "Webkul\\Sales\\Models\\InvoiceItem")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createInvoice(
+        input: CreateInvoiceInput!
+    ): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Invoices\\InvoiceMutation@store")
+}
+
+input FilterInvoiceInput {
+    id: Int
+    orderId: Int @rename(attribute: "order_id")
+    grandTotal: Float @rename(attribute: "grand_total")
+    invoiceDate: String @rename(attribute: "invoice_date")
+}
+
+input FilterInvoiceItemInput {
+    invoiceId: Int! @rename(attribute: "invoice_id")
+    id: Int
+    name: String
+    sku: String
+    qty: Int
+    price: Float
+    orderItemId: Int @rename(attribute: "order_item_id")
+}
+
+input CreateInvoiceInput {
+    orderId: Int! @rename(attribute: "order_id")
+    invoiceData: [InvoiceDataInput!]! @rename(attribute: "invoice_data")
+}
+
+input InvoiceDataInput {
+    orderItemId: Int! @rename(attribute: "order_item_id")
+    quantity: Int!
+}
+
+type Invoice {
+    id: Int!
+    incrementId: String @rename(attribute: "increment_id")
+    state: String
+    emailSent: Int @rename(attribute: "email_sent")
+    totalQty: Int @rename(attribute: "total_qty")
+    baseCurrencyCode: String @rename(attribute: "base_currency_code")
+    channelCurrencyCode: String @rename(attribute: "channel_currency_code")
+    orderCurrencyCode: String @rename(attribute: "order_currency_code")
+    subTotal: Float @rename(attribute: "sub_total")
+    baseSubTotal: Float @rename(attribute: "base_sub_total")
+    grandTotal: Float @rename(attribute: "grand_total")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    shippingAmount: Float @rename(attribute: "shipping_amount")
+    baseShippingAmount: Float @rename(attribute: "base_shipping_amount")
+    taxAmount: Float @rename(attribute: "tax_amount")
+    baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    orderId: Int @rename(attribute: "order_id")
+    orderAddressId: Int @rename(attribute: "order_address_id")
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+    formattedPrice: FormattedInvoicePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoicePriceData")
+    transactionId: String @rename(attribute: "transaction_id")
+    items: [InvoiceItem!] @hasMany
+    order: Order! @belongsTo
+}
+
+type InvoiceItem {
+    id: ID!
+    sku: String
+    type: String
+    name: String
+    description: String
+    qty:Int
+    price: Float!
+    basePrice: Float! @rename(attribute: "base_price")
+    total: Float!
+    baseTotal: Float! @rename(attribute: "base_total")
+    taxAmount: Float @rename(attribute: "tax_amount")
+    baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    productId: ID! @rename(attribute: "product_id")
+    productType: String @rename(attribute: "product_type")
+    orderItemId: ID! @rename(attribute: "order_item_id")
+    invoiceId: ID! @rename(attribute: "invoice_id")
+    parentId:Int @rename(attribute: "parent_id")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    discountPercent: Float @rename(attribute: "discount_percent")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt:DateTime @rename(attribute: "updated_at")
+    formattedPrice: FormattedInvoiceItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoiceItemPriceData")
+    invoice: Invoice @belongsTo(relation: "invoice")
+    orderItem: OrderItem @belongsTo(relation: "order_item")
+    product: Product! @belongsTo(relation: "product")
+    children: [InvoiceItem] @hasMany
+}
+
+type FormattedInvoicePriceData {
+    subTotal: String @rename(attribute: "sub_total")
+    baseSubTotal: String @rename(attribute: "base_sub_total")
+    grandTotal: String @rename(attribute: "grand_total")
+    baseGrandTotal: String @rename(attribute: "base_grand_total")
+    shippingAmount: String @rename(attribute: "shipping_amount")
+    baseShippingAmount: String @rename(attribute: "base_shipping_amount")
+    taxAmount: String @rename(attribute: "tax_amount")
+    baseTaxAmount: String @rename(attribute: "base_tax_amount")
+    discountAmount: String @rename(attribute: "discount_amount")
+    baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+}
+
+type FormattedInvoiceItemPriceData {
+    price: String @rename(attribute: "price")
+    basePrice: String @rename(attribute: "base_price")
+    total: String @rename(attribute: "total")
+    baseTotal: String @rename(attribute: "base_total")
+    taxAmount: String @rename(attribute: "tax_amount")
+    baseTaxAmount: String @rename(attribute: "base_tax_amount")
+    grandTotal: String @rename(attribute: "grand_total")
+    baseGrandTotal: String @rename(attribute: "base_grand_total")
+}

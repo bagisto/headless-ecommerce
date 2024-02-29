@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Exception;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
@@ -35,11 +35,11 @@ class NotificationMutation extends Controller
     public function send($rootValue, array $args, GraphQLContext $context)
     {
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
             'id'    => 'required|numeric',
         ]);
-        
+
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
@@ -50,9 +50,9 @@ class NotificationMutation extends Controller
 
             if (isset($result->message_id)) {
                 return [
-                    'success'       => trans('bagisto_graphql::app.admin.alert.sended-successfully', ['name' => 'Notification']),
-                    'status'        => true,
-                    'message_id'    => $result->message_id
+                    'success'    => trans('bagisto_graphql::app.admin.alerts.notifications.sended-successfully'),
+                    'status'     => true,
+                    'message_id' => $result->message_id
                 ];
             } else {
                 $message = $result;

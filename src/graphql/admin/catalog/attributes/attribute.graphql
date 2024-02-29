@@ -1,0 +1,135 @@
+# Catalog\Attribute Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    attributes(input: FilterAttributesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Attributes\\FilterableAttributesQuery")): [Attribute!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\Attribute")
+
+    attribute(id: ID @eq): Attribute @find(model: "Webkul\\Attribute\\Models\\Attribute")
+
+    attributeOptions: [AttributeOption!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeOption")
+
+    attributeOption(id: ID @eq): AttributeOption @find(model: "Webkul\\Attribute\\Models\\AttributeOption")
+
+    attributeTranslations: [AttributeTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeTranslation")
+
+    attributeTranslation(id: ID @eq): AttributeTranslation @find(model: "Webkul\\Attribute\\Models\\AttributeTranslation")
+
+    attributeOptionTranslations: [AttributeOptionTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeOptionTranslation")
+
+    attributeOptionTranslation(id: ID @eq): AttributeOptionTranslation @find(model: "Webkul\\Attribute\\Models\\AttributeOptionTranslation")
+
+    filterableAttributes: [Attribute!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Attributes\\FilterableAttributesQuery@getFilterableAttributes")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createAttribute(
+        input: CreateAttributeInput!
+    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Attributes\\AttributeMutation@store")
+
+    updateAttribute(
+        id: ID!,
+        input: CreateAttributeInput!
+    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Attributes\\AttributeMutation@update")
+
+    deleteAttribute(
+        id: ID!
+    ): Attribute @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Attributes\\AttributeMutation@delete")
+}
+
+input CreateAttributeInput {
+    code: String!
+    type: String!
+    adminName: String! @rename(attribute: "admin_name")
+    isRequired: Boolean! @rename(attribute: "is_required")
+    isUnique: Boolean! @rename(attribute: "is_unique")
+    validation: String
+    defaultValue: String @rename(attribute: "default_value")
+    valuePerLocale: Boolean @rename(attribute: "value_per_locale")
+    valuePerChannel: Boolean @rename(attribute: "value_per_channel")
+    isFilterable: Boolean @rename(attribute: "is_filterable")
+    isConfigurable: Boolean! @rename(attribute: "is_configurable")
+    isVisibleOnFront: Boolean @rename(attribute: "is_visible_on_front")
+    isComparable: Boolean! @rename(attribute: "is_comparable")
+    translations: [AttributeTranslationInput]
+    swatchType: String @rename(attribute: "swatch_type")
+    options: [OptionInput]
+}
+
+input AttributeTranslationInput {
+    code: String!
+    name: String!
+}
+
+input OptionTranslationInput {
+    code: String!
+    label: String!
+}
+
+input OptionInput {
+    swatchValue: String @rename(attribute: "swatch_value")
+    adminName: String! @rename(attribute: "admin_name")
+    isNew: String
+    isDelete: String
+    translations: [OptionTranslationInput]
+    position: String
+}
+
+input FilterAttributesInput {
+    id: ID
+    code: String
+    adminName: String @rename(attribute: "admin_name")
+    type: String
+    isRequired: Int @rename(attribute: "is_required")
+    isUnique: Int @rename(attribute: "is_unique")
+    valuePerLocale: Int @rename(attribute: "value_per_locale")
+    valuePerChannel: Int @rename(attribute: "value_per_channel")
+}
+
+type Attribute {
+    id: ID!
+    code: String!
+    adminName: String! @rename(attribute: "admin_name")
+    type: String!
+    position: Int
+    defaultValue: String @rename(attribute: "default_value")
+    isRequired: Boolean! @rename(attribute: "is_required")
+    isUnique: Boolean! @rename(attribute: "is_unique")
+    validation: String
+    valuePerLocale: Boolean @rename(attribute: "value_per_locale")
+    valuePerChannel: Boolean @rename(attribute: "value_per_channel")
+    isFilterable: Boolean @rename(attribute: "is_filterable")
+    isConfigurable: Boolean! @rename(attribute: "is_configurable")
+    isVisibleOnFront: Boolean @rename(attribute: "is_visible_on_front")
+    isUserDefined: Boolean @rename(attribute: "is_user_defined")
+    swatchType: String @rename(attribute: "swatch_type")
+    isComparable: Boolean! @rename(attribute: "is_comparable")
+    options: [AttributeOption!] @hasMany
+    translations: [AttributeTranslation!] @hasMany
+    success: String
+}
+
+type AttributeOption {
+    id: ID!
+    adminName: String! @rename(attribute: "admin_name")
+    swatchValue: String @rename(attribute: "swatch_value")
+    sortOrder: Int! @rename(attribute: "sort_order")
+    attributeId: ID! @rename(attribute: "attribute_id")
+    attribute: Attribute! @belongsTo(relation: "attribute")
+    isNew: Boolean
+    isDelete: Boolean
+    position: String
+    translations: [AttributeOptionTranslation!] @hasMany
+}
+
+type AttributeOptionTranslation {
+    id: ID!
+    locale: String!
+    label: String!
+    attributeOptionId: ID! @rename(attribute: "attribute_option_id")
+}
+
+type AttributeTranslation {
+    id: ID!
+    locale: String!
+    name: String!
+    attributeId: ID! @rename(attribute: "attribute_id")
+    attribute: Attribute! @belongsTo(relation: "attribute")
+}

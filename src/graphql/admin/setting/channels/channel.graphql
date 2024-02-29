@@ -1,0 +1,75 @@
+# Setting\Channel Related APIs
+extend type Query @guard(with: ["admin-api"]){
+    channels(input: FilterChannelInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterChannel")) : [Channel!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\Channel")
+
+    channel(id: ID @eq): Channel @find(model: "Webkul\\Core\\Models\\Channel")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createChannel(
+        input: CreateChannelInput!
+    ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@store")
+
+    updateChannel(
+        id: ID!,
+        input: CreateChannelInput!
+    ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@update")
+
+    deleteChannel(id: ID!): Channel  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@delete")
+}
+
+input FilterChannelInput {
+    id: Int
+    code: String
+    name: String
+    hostname: String
+}
+
+input CreateChannelInput {
+    code: String!
+    name: String!
+    description: String
+    theme: String!
+    hostname: String
+    defaultLocaleId: String! @rename(attribute: "default_locale_id")
+    baseCurrencyId: String! @rename(attribute: "base_currency_id")
+    rootCategoryId: String! @rename(attribute: "root_category_id")
+    locales: [String!]!
+    currencies: [String!]!
+    inventorySources: [Int!] @rename(attribute: "inventory_sources")
+    logo: String
+    favicon:String
+    seoTitle: String! @rename(attribute: "seo_title")
+    seoDescription: String! @rename(attribute: "seo_description")
+    seoKeywords: String! @rename(attribute: "seo_keywords")
+    maintenanceModeText: String @rename(attribute: "maintenance_mode_text")
+    allowedIps: String @rename(attribute: "allowed_ips")
+    isMaintenanceOn: Boolean @rename(attribute: "is_maintenance_on")
+}
+
+type Channel {
+    id: ID!
+    code: String!
+    name: String!
+    description: String
+    theme: String!
+    hostname: String
+    defaultLocaleId: Int! @rename(attribute: "default_locale_id")
+    baseCurrencyId: Int! @rename(attribute: "base_currency_id")
+    rootCategoryId: Int! @rename(attribute: "root_category_id")
+    locales: [Locale!] @belongsTo(relation: "locales")
+    defaultLocale: Locale @rename(attribute: "default_locale")
+    currencies: [Currency!] @belongsTo(relation: "currencies")
+    baseCurrency: Currency! @rename(attribute: "base_currency")
+    inventorySources: [InventorySource!] @belongsTo(relation: "inventory_sources")
+    rootCategory: Category! @rename(attribute: "root_category")
+    logoUrl: String @rename(attribute: "logo_url")
+    faviconUrl: String @rename(attribute: "favicon_url")
+    success: String
+    maintenanceModeText: String @rename(attribute: "maintenance_mode_text")
+    allowedIps: String @rename(attribute: "allowed_ips")
+    isMaintenanceOn: Boolean @rename(attribute: "is_maintenance_on")
+}
+
+# homePageContent
+# footerContent

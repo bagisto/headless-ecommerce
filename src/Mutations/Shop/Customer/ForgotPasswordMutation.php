@@ -32,7 +32,7 @@ class ForgotPasswordMutation extends Controller
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard, ['except' => ['forgot']]);
+        $this->middleware('auth:'.$this->guard, ['except' => ['forgot']]);
     }
 
     /**

@@ -155,7 +155,7 @@ return [
         'mail' => [
             'customer' => [
                 'password' => [
-                    'heading' => config('app.name') . ' - Restablecimiento de contraseña',
+                    'heading' => config('app.name').' - Restablecimiento de contraseña',
                     'reset'   => 'Correo electrónico de restablecimiento de contraseña',
                     'summary' => 'Este correo electrónico está relacionado con el restablecimiento de la contraseña de tu cuenta. Tu contraseña se ha cambiado correctamente.
                         Por favor, inicia sesión en tu cuenta utilizando la contraseña mencionada a continuación.',

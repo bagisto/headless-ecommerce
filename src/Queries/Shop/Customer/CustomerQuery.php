@@ -19,8 +19,7 @@ class CustomerQuery extends BaseFilter
     public function __construct(
         protected CustomerRepository $customerRepository,
         protected InvoiceRepository $invoiceRepository
-    )
-    {
+    ) {
     }
 
     public function getTransactions($rootValue, array $args, GraphQLContext $context){

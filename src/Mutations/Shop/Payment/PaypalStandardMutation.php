@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
+use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Paypal\Payment\Standard;
@@ -36,7 +36,7 @@ class PaypalStandardMutation
         protected Standard $paypal_standard,
         protected Ipn $ipnHelper,
         protected OrderRepository $orderRepository
-    )   {
+    ) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
@@ -53,12 +53,12 @@ class PaypalStandardMutation
     /**
      * Returns paypal url & form fields.
      *
-     * @param                                                     $rootValue
-     * @param array                                               $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @param  $rootValue
+     * @param array  $args
+     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function redirect($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -117,9 +117,9 @@ class PaypalStandardMutation
                         ];
                     }
 
-                    $paypalFields['return'] = request()->server('PROTOCOL') . '://'.$company->domain.'/success';
-                    $paypalFields['cancel_return'] = request()->server('PROTOCOL') . '://'.$company->domain.'/paypal/standard/cancel';
-                    $paypalFields['notify_url'] = request()->server('PROTOCOL') . '://'.$company->domain.'/paypal/standard/ipn';
+                    $paypalFields['return'] = request()->server('PROTOCOL').'://'.$company->domain.'/success';
+                    $paypalFields['cancel_return'] = request()->server('PROTOCOL').'://'.$company->domain.'/paypal/standard/cancel';
+                    $paypalFields['notify_url'] = request()->server('PROTOCOL').'://'.$company->domain.'/paypal/standard/ipn';
 
                     return [
                         'success'               => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-form-field', ['module_name'    => 'Paypal Standard']),
@@ -144,7 +144,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function success($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -178,7 +178,7 @@ class PaypalStandardMutation
                     return [
                         'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
                         'order'         => $order,
-                        'redirect_url'  => request()->server('PROTOCOL') . '://'.$company->domain.'/checkout/success',
+                        'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
                     ];
                 } else {
                     throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
@@ -199,7 +199,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function cancel($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -223,7 +223,7 @@ class PaypalStandardMutation
         try {
             return [
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'),
-                'redirect_url'  => request()->server('PROTOCOL') . '://'.$company->domain.'/checkout/cart',
+                'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/cart',
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -238,7 +238,7 @@ class PaypalStandardMutation
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function ipn($rootValue, array $args, GraphQLContext $context) : array
     {
@@ -270,7 +270,7 @@ class PaypalStandardMutation
 
             return [
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
-                'redirect_url'  => request()->server('PROTOCOL') . '://'.$company->domain.'/checkout/success',
+                'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

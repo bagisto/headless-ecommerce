@@ -28,7 +28,10 @@ class LocaleMiddleware
     {
         $localeCode = $request->header('x-locale');
 
-        if ($localeCode && $this->localeRepository->findOneByField('code', $localeCode)) {
+        if (
+            $localeCode
+            && $this->localeRepository->findOneByField('code', $localeCode)
+        ) {
             app()->setLocale($localeCode);
 
             return $next($request);

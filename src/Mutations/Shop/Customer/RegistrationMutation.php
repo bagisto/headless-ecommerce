@@ -47,13 +47,12 @@ class RegistrationMutation extends Controller
     public function __construct(
         protected CustomerRepository $customerRepository,
         protected CustomerGroupRepository $customerGroupRepository
-    )
-    {
+    ) {
         $this->guard = 'api';
 
         auth()->setDefaultDriver($this->guard);
 
-        $this->middleware('auth:' . $this->guard, ['except' => ['register']]);
+        $this->middleware('auth:'.$this->guard, ['except' => ['register']]);
     }
 
     /**
@@ -86,7 +85,7 @@ class RegistrationMutation extends Controller
             foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
 
-                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error, ['field' => $index]) : $error;
+                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.'.$error, ['field' => $index]) : $error;
             }
 
             throw new CustomException(
@@ -175,7 +174,7 @@ class RegistrationMutation extends Controller
         return [
             'status'       => true,
             'success'      => trans('bagisto_graphql::app.shop.customer.success-login'),
-            'access_token' => 'Bearer ' . $jwtToken,
+            'access_token' => 'Bearer '.$jwtToken,
             'token_type'   => 'Bearer',
             'expires_in'   => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
             'customer'     => $this->customerRepository->find($loginCustomer->id),
@@ -204,7 +203,7 @@ class RegistrationMutation extends Controller
             foreach ($validator->messages()->toArray() as $index => $message) {
                 $error = is_array($message) ? $message[0] : $message;
 
-                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.' . $error, ['field' => $index]) : $error;
+                $errorMessage[] = in_array($error, $this->errorCode) ? trans('bagisto_graphql::app.'.$error, ['field' => $index]) : $error;
             }
 
             throw new CustomException(
@@ -316,7 +315,7 @@ class RegistrationMutation extends Controller
 
             try {
                 Mail::queue(new SocialLoginPasswordResetEmail($data));
-            } catch(\Exception $e) {}
+            } catch(Exception $e) {}
 
         }
 
@@ -342,7 +341,7 @@ class RegistrationMutation extends Controller
         return [
             'status'       => true,
             'success'      => trans('bagisto_graphql::app.shop.customer.success-login'),
-            'access_token' => 'Bearer ' . $jwtToken,
+            'access_token' => 'Bearer '.$jwtToken,
             'token_type'   => 'Bearer',
             'expires_in'   => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
             'customer'     => $this->customerRepository->find($customer->id),

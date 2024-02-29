@@ -143,8 +143,8 @@ class NotificationRepository extends Repository
             $request = request();
 
             foreach ($data[$type] as $imageId => $image) {
-                $file = $type . '.' . $imageId;
-                $dir = 'notification/images/' . $notification->id;
+                $file = $type.'.'.$imageId;
+                $dir = 'notification/images/'.$notification->id;
 
                 if ($request->hasFile($file)) {
                     if ($notification->{$type}) {
@@ -244,7 +244,7 @@ class NotificationRepository extends Repository
         }
 
         $fields = array(
-            'to'    => '/topics/' . $androidTopic,
+            'to'    => '/topics/'.$androidTopic,
             'data'  => $fieldData,
             'notification' =>  [
                 'body'  => $data['content'],
@@ -254,7 +254,7 @@ class NotificationRepository extends Repository
 
         $headers = array(
             'Content-Type:application/json',
-            'Authorization:key=' . $authKey,
+            'Authorization:key='.$authKey,
         );
 
         try {
@@ -273,7 +273,7 @@ class NotificationRepository extends Repository
             Log::info('sendNotification: ', ['response' => json_decode($result)]);
 
             return json_decode($result);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             session()->flash('error', $e);
 
             Log::error('sendNotification Error: ', $e->getMessage());

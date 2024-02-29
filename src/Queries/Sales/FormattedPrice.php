@@ -35,7 +35,6 @@ class FormattedPrice extends BaseFilter
         protected RefundRepository $refundRepository,
         protected RefundItemRepository $refundItemRepository
     ) {
-        $this->_config = request('_config');
     }
 
     /**
@@ -133,7 +132,7 @@ class FormattedPrice extends BaseFilter
     public function getInvoicePriceData($rootValue, array $args, GraphQLContext $context)
     {
         $invoice = $this->invoiceRepository->find($rootValue->id);
-        
+
         return  [
             'sub_total' => core()->formatPrice($invoice->sub_total, $invoice->order_currency_code),
             'base_sub_total' => core()->formatBasePrice($invoice->base_sub_total),

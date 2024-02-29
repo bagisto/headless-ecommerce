@@ -1,0 +1,50 @@
+# Setting\Country Related APIs
+extend type Query {
+    countries: [Country!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
+    # countries: [Country!] @all(model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
+
+    country(id: ID! @eq): Country @find(model: "Webkul\\GraphQLAPI\\Models\\Core\\Country")
+
+    countrieStates(input: FilterCountryStateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterCountryState")): [CountryState!] @all(model: "Webkul\\Core\\Models\\CountryState")
+
+    countrieState(id: ID! @eq): CountryState @find(model: "Webkul\\Core\\Models\\CountryState")
+}
+
+input FilterCountryStateInput {
+    id: Int
+    defaultName: String @rename(attribute: "default_name")
+    code: String
+    countryId: ID @rename(attribute: "country_id")
+    countryCode: String @rename(attribute: "country_code")
+}
+
+type Country {
+    id: ID!
+    code: String!
+    name: String!
+    translations: [CountryTranslation!] @hasMany
+    states: [CountryState] @hasMany
+}
+
+type CountryTranslation {
+    id: ID!
+    locale: String!
+    name: String
+    countryId: ID! @rename(attribute: "country_id")
+}
+
+type CountryState {
+    id: ID!
+    countryCode: String! @rename(attribute: "country_code")
+    code: String!
+    defaultName: String @rename(attribute: "default_name")
+    countryId: ID! @rename(attribute: "country_id")
+    translations: [CountryStateTranslation!] @hasMany
+}
+
+type CountryStateTranslation {
+    id: ID!
+    locale: String!
+    defaultName: String @rename(attribute: "default_name")
+    countryStateId: ID! @rename(attribute: "country_state_id")
+}

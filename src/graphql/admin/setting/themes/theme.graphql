@@ -1,0 +1,71 @@
+# Setting\Theme Related APIs
+extend type Query @guard(with: ["admin-api"]){
+    themes(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTheme")): [Theme!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Shop\\Models\\ThemeCustomization")
+
+    theme(id: ID @eq): Theme @find(model: "Webkul\\Shop\\Models\\ThemeCustomization")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createTheme(
+        input: CreateThemeInput!
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@store")
+
+    updateTheme(
+        id: ID!,
+        input: UpdateThemeInput!
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@update")
+
+    deleteTheme(id: ID!): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@delete")
+}
+
+input CreateThemeInput {
+    name: String!
+    sortOrder: Int! @rename(attribute: "sort_order")
+    type: String!
+    channelId: ID! @rename(attribute: "channel_id")
+    status: Boolean
+}
+
+input UpdateThemeInput {
+    name: String!
+    sortOrder: Int! @rename(attribute: "sort_order")
+    channelId: ID! @rename(attribute: "channel_id")
+    status: Boolean
+    options: OptionInputTheme!
+}
+
+input OptionInputTheme {
+    title: String!
+    filters: FilterInput
+}
+
+input FilterInput {
+    sort: String!
+    limit: String!
+    key: String @rename(attribute: "Key")
+    value: String @rename(attribute: "Value")
+}
+
+type Theme {
+    id: ID!
+    type: String
+    sortOrder: Int  @rename(attribute: "sort_order")
+    channelId: ID @rename(attribute: "channel_id")
+    channelName: String @rename(attribute: "channel_name")
+    status: Boolean
+    name: String
+    options: Option
+    success: String
+}
+
+type Option {
+    title: String!
+    filters: Filter
+}
+
+type Filter {
+    sort: String!
+    limit: String!
+    key: String @rename(attribute: "Key")
+    value: String @rename(attribute: "Value")
+}
