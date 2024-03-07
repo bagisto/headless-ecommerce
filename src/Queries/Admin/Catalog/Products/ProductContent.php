@@ -246,6 +246,12 @@ class ProductContent extends BaseFilter
         return false;
     }
 
+    public function checkIsSaleable($rootValue, array $args, GraphQLContext $context): bool
+    {
+        return $rootValue->getTypeInstance()
+            ->isSaleable();
+    }
+
     /**
      * Get configurable data.
      *

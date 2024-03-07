@@ -2,14 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Hash;
+use Exception;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Event;
+use Webkul\Core\Rules\AlphaNumericSpace;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Customer\Repositories\CustomerRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class AccountMutation extends Controller
@@ -110,16 +112,17 @@ class AccountMutation extends Controller
         $isPasswordChanged = false;
 
         $validator = Validator::make($data, [
-            'first_name'            => 'string|required',
-            'last_name'             => 'string|required',
-            'gender'                => 'required',
-            'date_of_birth'         => 'string|before:today',
-            'email'                 => 'email|unique:customers,email,'.$customer->id,
-            'oldpassword'           => 'required_with:password',
-            'password'              => 'confirmed|min:6|required_with:oldpassword',
-            'password_confirmation' => 'required_with:password',
-            'upload_type'           => 'in:file,path,base64',
-            'image.*'               => 'mimes:bmp,jpeg,jpg,png,webp',
+            'first_name'                => 'required',
+            'last_name'                 => 'required',
+            'gender'                    => 'required|in:Other,Male,Female',
+            'date_of_birth'             => 'date|before:today',
+            'email'                     => 'email|unique:customers,email,' . $customer->id,
+            'new_password'              => 'confirmed|min:6|required_with:current_password',
+            'new_password_confirmation' => 'required_with:new_password',
+            'current_password'          => 'required_with:new_password',
+            'image.*'                   => 'mimes:bmp,jpeg,jpg,png,webp',
+            'phone'                     => 'required|unique:customers,phone,' . $customer->id,
+            'subscribed_to_news_letter' => 'nullable',
         ]);
 
         if ($validator->fails()) {

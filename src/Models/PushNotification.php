@@ -39,15 +39,6 @@ class PushNotification extends TranslatableModel implements PushNotificationCont
     protected $with = ['translations'];
 
     /**
-     * Get the Notification translation and channels entries that are associated with Notification.
-     * May be one for each locale and each channel.
-     */
-    public function translations()
-    {
-        return $this->hasMany(PushNotificationTranslationProxy::modelClass(),'push_notification_id');
-    }
-
-    /**
      * Get image url for the Banner image.
      */
     public function image_url()

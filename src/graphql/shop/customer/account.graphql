@@ -29,7 +29,7 @@ input UpdateAccountInput {
     gender: String!
     email: String!
     dateOfBirth: String @rename(attribute: "date_of_birth")
-    phone: String
+    phone: String!
     oldpassword: String
     password: String
     passwordConfirmation: String @rename(attribute: "password_confirmation")

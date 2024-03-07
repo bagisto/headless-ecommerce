@@ -11,6 +11,7 @@ use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shipping\Facades\Shipping;
+use Illuminate\Support\Facades\Validator;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class CartMutation extends Controller
@@ -94,6 +95,17 @@ class CartMutation extends Controller
         }
 
         $data = $args['input'];
+
+        $validator = Validator::make($data, [
+            'quantity' => 'required|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            throw new CustomException(
+                $validator->messages(),
+                $validator->messages()
+            );
+        }
 
         if (empty($data['product_id'])) {
             throw new CustomException(

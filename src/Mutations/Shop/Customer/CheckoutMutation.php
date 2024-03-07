@@ -134,15 +134,15 @@ class CheckoutMutation extends Controller
             ]);
         } else {
             $rules = array_merge($rules, [
-                "billing.first_name" => ['required'],
-                "billing.last_name"  => ['required', new AlphaNumericSpace],
-                "billing.email"      => ['required'],
-                "billing.address1"   => ['required'],
-                "billing.city"       => ['required'],
-                "billing.country"    => [new AlphaNumericSpace],
-                "billing.state"      => [new AlphaNumericSpace],
-                "billing.postcode"   => ['numeric'],
-                "billing.phone"      => ['required', new PhoneNumber],
+                "billing.first_name" => 'required',
+                "billing.last_name"  => 'required',
+                "billing.email"      => 'required',
+                "billing.address1"   => 'required',
+                "billing.city"       => 'required',
+                "billing.country"    => 'required',
+                "billing.state"      => 'required',
+                "billing.postcode"   => 'numeric',
+                "billing.phone"      => 'required',
             ]);
         }
 
