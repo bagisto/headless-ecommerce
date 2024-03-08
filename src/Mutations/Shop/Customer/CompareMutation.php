@@ -84,6 +84,11 @@ class CompareMutation extends Controller
             if (($compareProducts && isset($compareProducts->first()->id)) || isset($compareProducts->id)) {
                 return $compareProducts;
             }
+
+            throw new CustomException(
+                'You have no items in your compare list',
+                'You have no items in your compare list'
+            );
         } catch (Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
