@@ -24,14 +24,14 @@ input AddToCompareInput {
 type AddToCompareResponse {
     success: String
     compareProduct: [CustomerCompareProduct]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
 
 type RemoveCompareResponse {
     status: Boolean
     success: String
     compareProduct: [CustomerCompareProduct]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
 
 input FilterCompareProductsInput {
@@ -51,5 +51,5 @@ type CustomerCompareProduct {
     updatedAt: DateTime! @rename(attribute: "updated_at")
     product: Product! @belongsTo(relation: "product")
     customer: Customer!
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
