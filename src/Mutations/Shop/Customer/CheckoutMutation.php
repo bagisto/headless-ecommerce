@@ -630,7 +630,7 @@ class CheckoutMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'payment' => 'array|required',
+            'payment' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -649,7 +649,7 @@ class CheckoutMutation extends Controller
         try {
             if (
                 Cart::hasError()
-                || ! Cart::savePaymentMethod($data['payment'])
+                || ! Cart::savePaymentMethod($data)
             ) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.checkout.error-payment-save'),
