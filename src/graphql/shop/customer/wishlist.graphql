@@ -40,7 +40,7 @@ type Wishlist {
     customer: Customer @belongsTo(relation: "customer")
     product: Product! @belongsTo(relation: "product")
     channel: Channel! @belongsTo(relation: "channel")
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
 
 input FilterWislistInput {
@@ -57,21 +57,21 @@ input AddToWishlistInput {
 type AddToWishlistResponse {
     success: String
     wishlist: [Wishlist]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
 
 type RemoveWishlistResponse {
     status: Boolean
     success: String
     wishlist: [Wishlist]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
 
 type MoveToCartResponse {
     status: Boolean
     success: String
     wishlist: [Wishlist]
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
 }
 
 type ShareWishlistResponse {
