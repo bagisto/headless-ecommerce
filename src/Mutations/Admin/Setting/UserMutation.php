@@ -110,8 +110,8 @@ class UserMutation extends Controller
         $validator = Validator::make($data, [
             'name'                  => 'required',
             'email'                 => 'email|unique:admins,email',
-            'password'              => 'nullable',
-            'password_confirmation' => 'nullable|required_with:password|same:password',
+            'password'              => 'required',
+            'password_confirmation' => 'required',
             'role_id'               => 'required',
             'status'                => 'sometimes',
             'image'                 => 'sometimes',
@@ -131,7 +131,7 @@ class UserMutation extends Controller
 
                 $data['api_token'] = Str::random(80);
             }
-
+            
             Event::dispatch('user.admin.create.before');
 
             $imageUrl = $data['image'][0] ?? '';
