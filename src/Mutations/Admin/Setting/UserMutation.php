@@ -121,6 +121,10 @@ class UserMutation extends Controller
             throw new CustomException($validator->messages());
         }
 
+        if (! $this->roleRepository->find($data['role_id'])) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
+        }
+
         try {
             if (! empty($data['password'])) {
                 $data['password'] = bcrypt($data['password']);
