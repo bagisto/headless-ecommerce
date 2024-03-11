@@ -134,15 +134,15 @@ class CheckoutMutation extends Controller
             ]);
         } else {
             $rules = array_merge($rules, [
-                "billing.first_name" => ['required'],
-                "billing.last_name"  => ['required', new AlphaNumericSpace],
-                "billing.email"      => ['required'],
-                "billing.address1"   => ['required'],
-                "billing.city"       => ['required'],
-                "billing.country"    => [new AlphaNumericSpace],
-                "billing.state"      => [new AlphaNumericSpace],
-                "billing.postcode"   => ['numeric'],
-                "billing.phone"      => ['required', new PhoneNumber],
+                "billing.first_name" => 'required',
+                "billing.last_name"  => 'required',
+                "billing.email"      => 'required',
+                "billing.address1"   => 'required',
+                "billing.city"       => 'required',
+                "billing.country"    => 'required',
+                "billing.state"      => 'required',
+                "billing.postcode"   => 'numeric',
+                "billing.phone"      => 'required',
             ]);
         }
 
@@ -630,7 +630,7 @@ class CheckoutMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'payment' => 'array|required',
+            'payment' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -649,7 +649,7 @@ class CheckoutMutation extends Controller
         try {
             if (
                 Cart::hasError()
-                || ! Cart::savePaymentMethod($data['payment'])
+                || ! Cart::savePaymentMethod($data)
             ) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.checkout.error-payment-save'),

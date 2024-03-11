@@ -229,7 +229,7 @@ class ReviewMutation extends Controller
             return [
                 'status'    => (isset($customerReview->id)) ? true : false,
                 'reviews'   => $customer->all_reviews,
-                'message'   => ($customerReview->id) ? trans('admin::app.reviews.datagrid.delete-success', ['name' => 'Customer\'s Review']) : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
+                'message'   => ($customerReview->id) ? trans('bagisto_graphql::app.shop.customer.account.review.success-delete') : trans('bagisto_graphql::app.shop.customer.account.review.not-found')
             ];
         } catch (Exception $e) {
             throw new CustomException(

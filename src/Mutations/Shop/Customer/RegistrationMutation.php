@@ -78,7 +78,7 @@ class RegistrationMutation extends Controller
             'password'              => 'min:6|required',
             'password_confirmation' => 'required|required_with:password|same:password',
         ]);
-
+        
         if ($validator->fails()) {
             $errorMessage = [];
 

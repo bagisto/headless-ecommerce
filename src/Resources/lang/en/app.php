@@ -335,6 +335,8 @@ return [
 
                 'review' => [
                     'success' => 'Success: Review is submitted successfully, please wait for the approval.',
+                    'success-delete' => 'Review deleted successfully',
+                    'not-found' => 'Review not found',
                 ],
 
                 'wishlist' => [

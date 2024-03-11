@@ -69,7 +69,7 @@ class ProductListingQuery extends BaseFilter
     public function getFilterAttributes($rootValue, array $args, GraphQLContext $context)
     {
         $category = $maxPrice = null;
-        $filterAttributes = null;
+        $filterAttributes = [];
 
         if (! empty($args['categorySlug'])) {
             $slugs = explode("/", $args['categorySlug']);
