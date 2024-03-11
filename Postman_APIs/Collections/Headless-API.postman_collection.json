@@ -2338,7 +2338,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query getFilterAttribute {\n\tgetFilterAttribute(categorySlug: \"test-category\") {\n        minPrice\n        maxPrice\n        filterData {\n            key\n            value\n        }\n        filterAttributes {\n            id\n            code\n            adminName\n            type\n            options {\n                id\n                adminName\n                swatchValue\n                sortOrder\n                isNew\n                translations {\n                    id\n                    label\n                    locale\n                }\n            }\n        }\n        sortOrders {\n            key\n            title\n            value\n            sort\n            order\n            position\n        }\n    }\n}",
+										"query": "query getFilterAttribute {\n\tgetFilterAttribute(categorySlug: \"test\") {\n        minPrice\n        maxPrice\n        filterData {\n            key\n            value\n        }\n        filterAttributes {\n            id\n            code\n            adminName\n            type\n            options {\n                id\n                adminName\n                swatchValue\n                sortOrder\n                isNew\n                translations {\n                    id\n                    label\n                    locale\n                }\n            }\n        }\n        sortOrders {\n            key\n            title\n            value\n            sort\n            order\n            position\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -6870,7 +6870,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteEmailTemplate{\n    deleteEmailTemplate(id: 1) {\n        status\n        message\n    }\n}",
+												"query": "mutation deleteSiteMap{\n    deleteSiteMap(id: 1) {\n        status\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
