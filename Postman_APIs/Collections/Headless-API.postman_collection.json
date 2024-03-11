@@ -7173,7 +7173,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"MXN\"\n        name: \"Mexican Peso\"\n        symbol: \"$\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
+												"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"aaa\"\n        name: \"Mexican Peso\"\n        symbol: \"$\"\n        decimal: 2\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
 												"variables": ""
 											}
 										},

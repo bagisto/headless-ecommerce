@@ -28,6 +28,7 @@ input CreateCurrencyInput {
     name: String!
     code: String!
     symbol: String
+    decimal: Int
 }
 
 type Currency {
