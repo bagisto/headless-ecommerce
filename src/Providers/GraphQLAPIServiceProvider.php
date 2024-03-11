@@ -80,12 +80,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         // CatalogRuleProduct Models
         $this->app->concord->registerModel(\Webkul\CatalogRule\Contracts\CatalogRuleProduct::class, \Webkul\GraphQLAPI\Models\CatalogRule\CatalogRuleProduct::class);
 
-        // Country Models
-        $this->app->concord->registerModel(\Webkul\Core\Contracts\Country::class, \Webkul\GraphQLAPI\Models\Core\Country::class);
-
-        // CountryState Models
-        $this->app->concord->registerModel(\Webkul\Core\Contracts\CountryTranslation::class, \Webkul\GraphQLAPI\Models\Core\CountryTranslation::class);
-
         // CartRule Coupon Models
         $this->app->concord->registerModel(\Webkul\CartRule\Contracts\CartRuleCoupon::class, \Webkul\GraphQLAPI\Models\CartRule\CartRuleCoupon::class);
 
