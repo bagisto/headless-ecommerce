@@ -2237,7 +2237,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation sendNotification {\n    sendNotification(input: {\n        id: 3\n    }) {\n        success\n        status\n        messageId\n    }\n}",
+										"query": "mutation sendNotification {\n    sendNotification(input: {\n        id: 311\n    }) {\n        success\n        status\n        messageId\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -6977,7 +6977,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"ar1\"\n        name: \"Arabic Locale11\"\n        direction: \"rtl\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}",
+												"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"ar1\"\n        direction: RTL\n        name: \"Arabic Locale11\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}",
 												"variables": ""
 											}
 										},
