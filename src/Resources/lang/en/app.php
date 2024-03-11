@@ -143,6 +143,11 @@ return [
                     'delete-failed'  => 'Warning: Site Map is not deleted',
                 ],
             ],
+
+            'sitemaps' => [
+                'delete-success' => 'Site Map deleted successfully',
+                'delete-failed'  => 'Warning: Site Map is not deleted',
+            ]
         ],
 
         'configuration' => [

@@ -28,8 +28,13 @@ input FilterLocaleInput {
 input CreateLocaleInput {
     code: String!
     name: String!
-    direction: String!
+    direction: Direction!
     image: String
+}
+
+enum Direction {
+    LTR @enum(value: "ltr")
+    RTL @enum(value: "rtl")
 }
 
 type Locale {
