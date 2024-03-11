@@ -7016,7 +7016,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateLocale {\n    updateLocale(id: 11, input: {\n    \tcode: \"arc\"\n        name: \"Arabic lang\"\n        direction: \"RTL\"\n    \timage: \"http://graphqlnew.com/storage/category/4/NnPWmwMBRDcpPSfZCIhgska892t9f4zaI10nrMDu.jpg\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
+												"query": "mutation updateLocale {\n    updateLocale(id: 12, input: {\n    \tcode: \"arc\"\n        name: \"Arabic lang\"\n        direction: RTL\n    \timage: \"https://via.placeholder.com/300/09f/fff.png\"\n    }) {\n        id\n        name\n        code\n        direction\n        createdAt\n        updatedAt\n    }\n}\n",
 												"variables": ""
 											}
 										},

@@ -62,7 +62,7 @@ class LocaleMutation extends Controller
             Event::dispatch('core.locale.create.after', $locale);
 
             if ($locale) {
-                bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'locale_image');
+                bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
 
                 return $locale;
             }
@@ -120,7 +120,7 @@ class LocaleMutation extends Controller
             Event::dispatch('core.locale.update.after', $locale);
 
             if ($locale) {
-                bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'locale_image');
+                bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
 
                 return $locale;
             }
