@@ -2270,27 +2270,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "Get Categories Tree",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "graphql",
-									"graphql": {
-										"query": "query getCategoriesTree {\n    getCategoriesTree {\n        id\n        categoryId\n        position\n        logoPath\n        logoUrl\n        status\n        displayMode\n        Lft\n        Rgt\n        parentId\n        additional\n        bannerPath\n        bannerUrl\n        name\n        slug\n        urlPath\n        description\n        metaTitle\n        metaDescription\n        metaKeywords\n        localeId\n        createdAt\n        updatedAt\n        filterableAttributes {\n            id\n            adminName\n            code\n            type\n            position\n        }\n        children {\n            id\n            name\n            description\n            slug\n            urlPath\n            logoPath\n            logoUrl\n            bannerPath\n            bannerUrl\n            metaTitle\n            metaDescription\n            metaKeywords\n            position\n            status\n            displayMode\n            parentId\n        }\n    }\n}",
-										"variables": ""
-									}
-								},
-								"url": {
-									"raw": "{{url}}",
-									"host": [
-										"{{url}}"
-									]
-								}
-							},
-							"response": []
 						}
 					],
 					"auth": {
@@ -6746,7 +6725,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query sitemaps{\n    sitemaps(\n        first:11\n        page: 1\n    input: {\n        # id: 1\n        # fileName: \"test\"\n        # path: \"test\"\n    }) {\n        data {\n            id\n            fileName\n            path\n        }\n    }\n}",
+												"query": "query sitemaps{\n    sitemaps(\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # fileName: \"test\"\n        # path: \"test\"\n    }) {\n        data {\n            id\n            fileName\n            path\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -6870,7 +6849,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteSiteMap{\n    deleteSiteMap(id: 1) {\n        status\n        message\n    }\n}",
+												"query": "mutation deleteSiteMap{\n    deleteSiteMap(id: 2) {\n        status\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
