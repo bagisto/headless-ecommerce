@@ -60,7 +60,7 @@ class AttributeFamilyMutation extends Controller
 
             Event::dispatch('catalog.attributeFamily.create.before', $attributeFamily);
 
-            return $attributeFamily;
+            return $this->attributeFamilyRepository->findOrFail($attributeFamily->id);
         } catch (Exception $e) {
             throw new CustomException($e->getMessage());
         }

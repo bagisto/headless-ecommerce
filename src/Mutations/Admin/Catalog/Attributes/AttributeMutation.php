@@ -203,7 +203,6 @@ class AttributeMutation extends Controller
     {
         if (
             empty($args['id'])
-            || empty($args['id'])
         ) {
             throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
@@ -212,7 +211,7 @@ class AttributeMutation extends Controller
 
         $attribute = $this->attributeRepository->findOrFail($id);
 
-        if ($attribute->is_user_defined) {
+        if (! $attribute->is_user_defined) {
             throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attributes.user-define-error'));
         }
 

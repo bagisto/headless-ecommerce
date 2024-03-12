@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]){
     themes(input: FilterUserInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTheme")): [Theme!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Shop\\Models\\ThemeCustomization")
 
-    theme(id: ID @eq): Theme @find(model: "Webkul\\Shop\\Models\\ThemeCustomization")
+    theme(id: ID @eq): FrontTheme @find(model: "Webkul\\Shop\\Models\\ThemeCustomization")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
@@ -51,7 +51,7 @@ type Theme {
     type: String
     sortOrder: Int  @rename(attribute: "sort_order")
     channelId: ID @rename(attribute: "channel_id")
-    channelName: String @rename(attribute: "channel_name")
+    channelName: String @rename(attribute: "channel")
     status: Boolean
     name: String
     options: Option

@@ -23,15 +23,15 @@ input CreateCustomerAddressInput {
     companyName: String @rename(attribute: "company_name")
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
-    email: String
-    gender: String
+    email: String!
+    gender: String!
     address1: String!
     address2: String
     country: String!
     state: String!
     city: String!
-    postcode: String!
-    phone: String!
+    postcode: String! @rules(apply: ["integer"])
+    phone: String! @rules(apply: ["integer"])
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
 }
