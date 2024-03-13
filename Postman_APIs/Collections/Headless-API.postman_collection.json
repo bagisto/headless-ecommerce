@@ -7122,7 +7122,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query currencies {\n    currencies (\n        first:11\n        page: 1\n    ){\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            symbol\n            exchangeRate {\n                id\n                rate\n            }\n        }\n    }\n}",
+												"query": "query currencies {\n    currencies (\n        first:11\n        page: 1\n    ){\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            symbol\n            decimal\n            exchangeRate {\n                id\n                rate\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -7154,7 +7154,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nquery currency {\n    currency(id: 1) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            targetCurrency\n            rate\n            currency {\n                id\n                name\n                code\n            }\n        }\n    }\n}",
+												"query": "\nquery currency {\n    currency(id: 1) {\n        id\n        name\n        code\n        symbol\n        decimal\n        exchangeRate {\n            id\n            targetCurrency\n            rate\n            currency {\n                id\n                name\n                code\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -7218,7 +7218,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateCurrency {\n    updateCurrency(id: 3, input: {\n    \tcode:\"INRws\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
+												"query": "\nmutation updateCurrency {\n    updateCurrency(id: 3, input: {\n    \tcode:\"INRws\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n        decimal: 2\n    }) {\n        id\n        name\n        code\n        symbol\n        exchangeRate {\n            id\n            rate\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
