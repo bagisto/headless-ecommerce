@@ -2,7 +2,43 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
-## **v2.0.0 (30th of Nov, 2023)** - *Release*
+## **v2.0.0 (18th of Mar, 2024)** - *Release*
+
+* [Issue Fixed] - Getitng issue with getFilterAttribute API.
+
+* [Issue Fixed] - Method 'getCategoriesTree' does not exist on class
+
+* [Issue Fixed] - Getting issue after run composer command on terminal while installing the bagisto headless.
+
+* [Issue Fixed] - Admin is not able to login with valid credentials.
+
+* [Issue Fixed] - Able to update gender wrong text in update account detail.
+
+* [Issue Fixed] - Able to update account detail without phone number.
+
+* [Issue Fixed] - Improve success message when review is deleted.
+
+* [Issue Fixed] - Customer Wishlists API's not working getting 500 error.
+
+* [Issue Fixed] - Compare Products APIs not working getting 500 error.
+
+* [Issue Fixed] - Getting error in result but show response 200 in the Cart Item Detail API.
+
+* [Issue Fixed] - Getting "Internal Server Error" if enter unavailable categorySlug.
+
+* [Issue Fixed] - Getting wrong max price filter value.
+
+* [Issue Fixed] - Getting "internal Server Error" in Get Categories Tree API.
+
+* [Issue Fixed] - Sitemap is not deleting.
+
+* [Issue Fixed] - Direction parameter should be required to fill.
+
+* [Issue Fixed] - Countries api response is not correct.
+
+* [Issue Fixed] - Description parameter is not available for inventory source create and update APIs.
+
+* [Issue Fixed] - Email should be required field while creating user.
 
 * [Issue Fixed] - Category is created but image not updated on category.
 

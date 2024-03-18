@@ -80,7 +80,7 @@ class ProductListingQuery extends BaseFilter
             })->first();
 
             if ($category) {
-                $maxPrice = $this->productRepository->getMaxPrice($category);
+                $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category->id]);
 
                 if (empty($filterAttributes = $category->filterableAttributes)) {
                     $filterAttributes = $this->attributeRepository->getFilterAttributes();

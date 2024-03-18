@@ -1,9 +1,9 @@
 # Shop\Payment\PaypalStandard Related API
-extend type Query {
+extend type Query @guard(with: ["api"]) {
     paypalStandard: PaypalStandardResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@redirect")
 }
 
-extend type Mutation {
+extend type Mutation @guard(with: ["api"]) {
     paypalStandardSuccess: paypalStandardSuccessResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@success")
 
     paypalStandardCancel: paypalStandardCancelResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@cancel")

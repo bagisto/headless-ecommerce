@@ -23,7 +23,7 @@ input FilterRoleInput {
 
 input CreateRoleInput {
     name: String!
-    description: String
+    description: String!
     permissionType: String! @rename(attribute: "permission_type")
     permissions: [String!]
 }

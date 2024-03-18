@@ -27,7 +27,7 @@ input UpdateAccountInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     gender: String!
-    email: String!
+    email: String! @rules(apply: ["email"])
     dateOfBirth: String @rename(attribute: "date_of_birth")
     phone: String!
     oldpassword: String

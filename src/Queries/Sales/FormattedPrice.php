@@ -17,13 +17,6 @@ class FormattedPrice extends BaseFilter
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
-     * @param  \Webkul\Sales\Repositories\OrderItemRepository  $orderItemRepository
-     * @param  \Webkul\Sales\Repositories\InvoiceRepository  $invoiceRepository
-     * @param  \Webkul\Sales\Repositories\InvoiceItemRepository  $invoiceItemRepository
-     * @param  \Webkul\Sales\Repositories\ShipmentItemRepository  $shipmentItemRepository
-     * @param  \Webkul\Sales\Repositories\RefundRepository  $refundRepository
-     * @param  \Webkul\Sales\Repositories\RefundItemRepository  $refundItemRepository
      * @return void
      */
     public function __construct(

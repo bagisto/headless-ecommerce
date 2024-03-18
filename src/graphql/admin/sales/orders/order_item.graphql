@@ -4,12 +4,12 @@ extend type Query @guard(with: ["admin-api"]) {
 
     orderItem(
         id: ID @eq,
-        input: FilterOrderItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
+        input: FilterOrderItemInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
     ): OrderItem @find(model: "Webkul\\Sales\\Models\\OrderItem")
 }
 
 input FilterOrderItemInput {
-    orderId: Int! @rename(attribute: "order_id")
+    orderId: Int @rename(attribute: "order_id")
     id: Int
     sku: String
     type: String

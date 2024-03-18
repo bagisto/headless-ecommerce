@@ -15,39 +15,20 @@ use Webkul\Paypal\Helpers\Ipn;
 
 class PaypalStandardMutation
 {
-
-    /**
-     * Contains current guard
-     *
-     * @var string
-     */
-    protected string $guard;
-
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Paypal\Payment\Standard   $paypal_standard
+     * @param \Webkul\Paypal\Payment\Standard   $paypalStandard
      * @param \Webkul\Paypal\Helpers\Ipn   $ipnHelper
      * @param \Webkul\Sales\Repositories\OrderRepository   $orderRepository
      *
      * @return void
      */
     public function __construct(
-        protected Standard $paypal_standard,
+        protected Standard $paypalStandard,
         protected Ipn $ipnHelper,
         protected OrderRepository $orderRepository
     ) {
-        $this->guard = 'api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
-
-        $this->paypal_standard = $paypal_standard;
-
-        $this->ipnHelper = $ipnHelper;
-
-        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -87,9 +68,9 @@ class PaypalStandardMutation
                 $cart->payment->method != 'paypal_standard') ) {
                 throw new Exception(trans('bagisto_graphql::app.shop.payment.invalid-request'));
             } else {
-                if ($this->paypal_standard->getConfigData('active') && $this->paypal_standard->getConfigData('business_account')) {
+                if ($this->paypalStandard->getConfigData('active') && $this->paypalStandard->getConfigData('business_account')) {
 
-                    $paypalFields = $this->paypal_standard->getFormFields();
+                    $paypalFields = $this->paypalStandard->getFormFields();
                     foreach ($paypalFields as $index => $fieldValue) {
                         if ((Str::contains($index, 'item_number_') ||
                             Str::contains($index, 'item_name_') ||
@@ -99,7 +80,7 @@ class PaypalStandardMutation
                         }
                     }
 
-                    foreach ($this->paypal_standard->getCartItems() as $item) {
+                    foreach ($this->paypalStandard->getCartItems() as $item) {
                         $paypalFields['paypal_item'][] = [
                             'item_number'   => $item->id,
                             'item_name'     => $item->name,
@@ -124,7 +105,7 @@ class PaypalStandardMutation
                     return [
                         'success'               => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-form-field', ['module_name'    => 'Paypal Standard']),
                         'cart'                  => $cart ? $cart : null,
-                        'paypal_redirect_url'   => $this->paypal_standard->getPaypalUrl(),
+                        'paypal_redirect_url'   => $this->paypalStandard->getPaypalUrl(),
                         'paypal_form_field'     => $paypalFields,
                     ];
                 } else {

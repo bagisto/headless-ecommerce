@@ -36,6 +36,7 @@ type Currency {
     name: String!
     code: String!
     symbol: String!
+    decimal: Int
     exchangeRate: ExchangeRate @hasOne(relation: "exchange_rate")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")

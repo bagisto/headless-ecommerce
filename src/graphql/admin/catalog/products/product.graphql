@@ -166,7 +166,7 @@ type Product {
     groupedProducts: [ProductGroupedProduct] @hasMany(relation: "grouped_products")
     bundleOptions: [ProductBundleOption] @hasMany(relation: "bundle_options")
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
-    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Velocity\\Cart@getCart")
+    cart: Cart @field(resolver: "Webkul\\GraphQLAPI\\Cart@getCart")
     # up_sells: [Product] @belongsToMany
     # cross_sells: [Product] @belongsToMany
     success: String

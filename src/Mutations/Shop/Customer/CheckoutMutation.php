@@ -630,7 +630,7 @@ class CheckoutMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'payment' => 'required',
+            'method' => 'required',
         ]);
 
         if ($validator->fails()) {

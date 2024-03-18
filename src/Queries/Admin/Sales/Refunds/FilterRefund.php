@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Queries\Sales;
+namespace Webkul\GraphQLAPI\Queries\Admin\Sales\Refunds;
 
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 

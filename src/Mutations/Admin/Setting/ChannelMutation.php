@@ -40,6 +40,7 @@ class ChannelMutation extends Controller
             'code'              => ['required', 'unique:channels,code', new Code],
             'name'              => 'required',
             'locales'           => 'required|array|min:1',
+            'inventory_sources' => 'required|array|min:1',
             'default_locale_id' => 'required|numeric',
             'currencies'        => 'required|array|min:1',
             'base_currency_id'  => 'required|numeric',

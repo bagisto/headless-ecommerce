@@ -246,6 +246,78 @@ return [
                 'not-found'          => 'Warning: Tax Category not found.',
                 'tax-rate-not-found' => 'The Given ids not found. Ids:- :ids',
             ],
+
+            'notification' => [
+                'index' => [
+                    'title'     => 'Push Notification',
+                    'add-title' => 'Add Notification',
+                    'general'   => 'General',
+
+                    'datagrid' => [
+                        'id'                   => 'Id',
+                        'image'                => 'Image',
+                        'text-title'           => 'Title',
+                        'notification-content' => 'Notification Content',
+                        'notification-type'    => 'Notification Type',
+                        'notification-status'  => 'Notification Status',
+                        'created-at'           => 'Created Time',
+                        'updated-at'           => 'Updated Time',
+                        'delete'               => 'Delete',
+                        'update'               => 'Update',
+                        'store-view'           => 'Channels',
+
+                        'status' => [
+                            'enabled'  => 'Enabled',
+                            'disabled' => 'Disabled',
+                        ],
+                    ],
+                ],
+
+                'create' => [
+                    'new-notification'     => 'New Notification',
+                    'back-btn'             => 'Back',
+                    'create-btn-title'     => 'Save Notification',
+                    'general'              => 'General',
+                    'title'                => 'Push Notification',
+                    'content-and-image'    => 'Notification Content And Image',
+                    'notification-content' => 'Notification Content',
+                    'image'                => 'Image',
+                    'settings'             => 'Setting',
+                    'status'               => 'Status',
+                    'store-view'           => 'Channels',
+                    'notification-type'    => 'Notification Type',
+                    'product-cat-id'       => 'Product/Category Id',
+
+                    'option-type' => [
+                        'others'   => 'Simple',
+                        'product'  => 'Product',
+                        'category' => 'Category'
+                    ],
+                ],
+
+                'edit' => [
+                    'edit-notification'    => 'Edit Notification',
+                    'back-btn'             => 'Back',
+                    'send-title'           => 'Send Notification',
+                    'update-btn-title'     => 'Update',
+                    'general'              => 'General',
+                    'title'                => 'Push Notification',
+                    'content-and-image'    => 'Notification Content And Image',
+                    'notification-content' => 'Notification Content',
+                    'image'                => 'Image',
+                    'settings'             => 'Setting',
+                    'status'               => 'Status',
+                    'store-view'           => 'Channels',
+                    'notification-type'    => 'Notification Type',
+                    'product-cat-id'       => 'Product/Category Id',
+
+                    'option-type' => [
+                        'others'   => 'Simple',
+                        'product'  => 'Product',
+                        'category' => 'Category'
+                    ],
+                ],
+            ],
         ],
 
         'response' => [

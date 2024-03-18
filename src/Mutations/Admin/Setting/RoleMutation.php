@@ -38,6 +38,7 @@ class RoleMutation extends Controller
         $validator = Validator::make($data, [
             'name'            => 'required',
             'permission_type' => 'required',
+            'description'     => 'required',
         ]);
 
         if ($validator->fails()) {

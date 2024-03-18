@@ -36,7 +36,7 @@ extend type Mutation @guard(with: ["admin-api"]) {
 
 input CreateAttributeInput {
     code: String!
-    type: String!
+    type: AttributeType!
     adminName: String! @rename(attribute: "admin_name")
     isRequired: Boolean! @rename(attribute: "is_required")
     isUnique: Boolean! @rename(attribute: "is_unique")
@@ -45,12 +45,27 @@ input CreateAttributeInput {
     valuePerLocale: Boolean @rename(attribute: "value_per_locale")
     valuePerChannel: Boolean @rename(attribute: "value_per_channel")
     isFilterable: Boolean @rename(attribute: "is_filterable")
+    isUserDefined: Boolean @rename(attribute: "is_user_defined")
     isConfigurable: Boolean! @rename(attribute: "is_configurable")
     isVisibleOnFront: Boolean @rename(attribute: "is_visible_on_front")
     isComparable: Boolean! @rename(attribute: "is_comparable")
     translations: [AttributeTranslationInput]
     swatchType: String @rename(attribute: "swatch_type")
     options: [OptionInput]
+}
+
+enum AttributeType {
+    TEXT @enum(value: "text")
+    TEXTAREA @enum(value: "textarea")
+    PRICE @enum(value: "price")
+    BOOLEAN @enum(value: "boolean")
+    SELECT @enum(value: "select")
+    MULTISELECT @enum(value: "multiselect")
+    DATETIME @enum(value: "datetime")
+    DATE @enum(value: "date")
+    IMAGE @enum(value: "image")
+    FILE @enum(value: "file")
+    CHECKBOX @enum(value: "checkbox")
 }
 
 input AttributeTranslationInput {
