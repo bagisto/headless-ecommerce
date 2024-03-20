@@ -110,8 +110,8 @@ class UserMutation extends Controller
         $validator = Validator::make($data, [
             'name'                  => 'required',
             'email'                 => 'required|email|unique:admins,email',
-            'password'              => 'required',
-            'password_confirmation' => 'required',
+            'password'              => 'nullable',
+            'password_confirmation' => 'nullable|required_with:password|same:password',
             'role_id'               => 'required',
             'status'                => 'sometimes',
             'image'                 => 'sometimes',

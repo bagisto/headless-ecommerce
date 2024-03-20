@@ -42,8 +42,8 @@ input CreateUserLoginInput {
 input CreateUserInput {
     name: String!
     email: String!
-    password: String!
-    passwordConfirmation: String @rename(attribute: "password_confirmation")
+    password: String @rules(apply: ["min:6"])
+    passwordConfirmation: String @rename(attribute: "password_confirmation") @rules(apply: ["min:6"])
     roleId: String! @rename(attribute: "role_id")
     status: Boolean!
     image: [String]
@@ -53,8 +53,8 @@ type User {
     id: ID!
     name: String!
     email: String!
-    password: String!
-    apiToken: String! @rename(attribute: "api_token")
+    password: String
+    apiToken: String @rename(attribute: "api_token")
     roleId: Int! @rename(attribute: "role_id")
     image: String
     status: Boolean!

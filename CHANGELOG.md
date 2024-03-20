@@ -2,89 +2,120 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
-## **v2.0.0 (18th of Mar, 2024)** - *Release*
+## **v2.0.0 (20th of Mar, 2024)** - *Release*
 
-* [Issue Fixed] - Getitng issue with getFilterAttribute API.
+* [Fixed] - Getitng issue with getFilterAttribute API.
 
-* [Issue Fixed] - Method 'getCategoriesTree' does not exist on class
+* [Fixed] - Method 'getCategoriesTree' does not exist on class
 
-* [Issue Fixed] - Getting issue after run composer command on terminal while installing the bagisto headless.
+* [Fixed] - Getting issue after run composer command on terminal while installing the bagisto headless.
 
-* [Issue Fixed] - Admin is not able to login with valid credentials.
+* [Fixed] - Admin is not able to login with valid credentials.
 
-* [Issue Fixed] - Able to update gender wrong text in update account detail.
+* [Fixed] - Able to update gender wrong text in update account detail.
 
-* [Issue Fixed] - Able to update account detail without phone number.
+* [Fixed] - Able to update account detail without phone number.
 
-* [Issue Fixed] - Improve success message when review is deleted.
+* [Fixed] - Improve success message when review is deleted.
 
-* [Issue Fixed] - Customer Wishlists API's not working getting 500 error.
+* [Fixed] - Customer Wishlists API's not working getting 500 error.
 
-* [Issue Fixed] - Compare Products APIs not working getting 500 error.
+* [Fixed] - Compare Products APIs not working getting 500 error.
 
-* [Issue Fixed] - Getting error in result but show response 200 in the Cart Item Detail API.
+* [Fixed] - Getting error in result but show response 200 in the Cart Item Detail API.
 
-* [Issue Fixed] - Getting "Internal Server Error" if enter unavailable categorySlug.
+* [Fixed] - Getting "Internal Server Error" if enter unavailable categorySlug.
 
-* [Issue Fixed] - Getting wrong max price filter value.
+* [Fixed] - Getting wrong max price filter value.
 
-* [Issue Fixed] - Getting "internal Server Error" in Get Categories Tree API.
+* [Fixed] - Getting "internal Server Error" in Get Categories Tree API.
 
-* [Issue Fixed] - Sitemap is not deleting.
+* [Fixed] - Sitemap is not deleting.
 
-* [Issue Fixed] - Direction parameter should be required to fill.
+* [Fixed] - Direction parameter should be required to fill.
 
-* [Issue Fixed] - Countries api response is not correct.
+* [Fixed] - Countries api response is not correct.
 
-* [Issue Fixed] - Description parameter is not available for inventory source create and update APIs.
+* [Fixed] - Description parameter is not available for inventory source create and update APIs.
 
-* [Issue Fixed] - Email should be required field while creating user.
+* [Fixed] - Email should be required field while creating user.
 
-* [Issue Fixed] - Category is created but image not updated on category.
+* [Fixed] - Category is created but image not updated on category.
 
-* [Issue Fixed] - Unable to add the video to the product 
+* [Fixed] - Unable to add the video to the product 
 
-* [Issue Fixed] - Getting an exception while opening the Channel
+* [Fixed] - Getting an exception while opening the Channel
 
-* [Issue Fixed] - Getting issue in Shop -> Products API
+* [Fixed] - Getting issue in Shop -> Products API
 
-* [Issue Fixed] - Getting issue on Compare Products API
+* [Fixed] - Getting issue on Compare Products API
 
-* [Issue Fixed] - Getting issue while Hitting Apply Coupon and Shipping method API
+* [Fixed] - Getting issue while Hitting Apply Coupon and Shipping method API
 
-* [Issue Fixed] - Unable to remove the customer account.
+* [Fixed] - Unable to remove the customer account.
 
-* [Issue Fixed] - Getting issue in Get and Post CMS Page API
+* [Fixed] - Getting issue in Get and Post CMS Page API
 
-* [Issue Fixed] - Getting exception in Attribute API
+* [Fixed] - Getting exception in Attribute API
 
-* [Issue Fixed] - In Email Template API Status is not updated
+* [Fixed] - In Email Template API Status is not updated
 
-* [Issue Fixed] - Getting exception in Categories API
+* [Fixed] - Getting exception in Categories API
 
-* [Issue Fixed] - Getting exception in Downloadable Product API
+* [Fixed] - Getting exception in Downloadable Product API
 
-* [Issue Fixed] - Getting exception in Update Group Product
+* [Fixed] - Getting exception in Update Group Product
 
-* [Issue Fixed] - Getting exception on Config Product API
+* [Fixed] - Getting exception on Config Product API
 
-* [Issue Fixed] - Getting exception in Simple Product API
+* [Fixed] - Getting exception in Simple Product API
 
-* [Issue Fixed] - Please change API method to GET 
+* [Fixed] - Please change API method to GET 
 
-* [Issue Fixed] - Getting exception in the Theme API
+* [Fixed] - Getting exception in the Theme API
 
-* [Issue Fixed] - Getting exception in Channel API
+* [Fixed] - Getting exception in Channel API
 
-* [Issue Fixed] - Getting exception in TaxCategory API
+* [Fixed] - Getting exception in TaxCategory API
 
-* [Issue Fixed] - Getting exception in Tax Rate API
+* [Fixed] - Getting exception in Tax Rate API
 
-* [Issue Fixed] - Getting exception in Inventory Source API
+* [Fixed] - Getting exception in Inventory Source API
 
-* [Issue Fixed] - Unable to Install the Headless GraphQL API
+* [Fixed] - Unable to Install the Headless GraphQL API
 
-* [Issue Fixed] - If we give an input value [which does not exist] then we get an internal server error but need to get the proper message data not found on the console
+* [Fixed] - If we give an input value [which does not exist] then we get an internal server error but need to get the proper message data not found on the console
+
+* [Fixed] - Customer is able to update account detail without email address.
+
+* [Fixed] - Payment should be required field. 
+
+* [Fixed] - Inventory sources should be required option. 
+
+* [Fixed] - Getting error in response for the Order's Item api request.
+
+* [Fixed] - Getting "Internal Server Error" in response if request with refunds api.
+
+* [Fixed] -  Getting error in response for the refund's item api.
+
+* [Fixed] - Getting "500 Internal Server Error" in response for the products api request.
+
+* [Fixed] - Getting error message in response for related products request.
+
+* [Fixed] – Not able to remove the attribute getting warning message.
+
+* [Fixed] - Show status "null" when request for create new attributeFamily.
+
+* [Fixed] - Able to create or update address phone number and postcode with alphabetic parameters.
+
+* [Fixed] - Image is not uploaded while create new locale.
+
+* [Fixed] - Decimal parameter is not available in the API Request.
+
+* [Fixed] - Getting "Internal Server Error" in response if request for create or update user without  password and confirm password parameters.
+
+* [Fixed] - Able to create or update attributes with invalid "type" parameter.
+
 
 ## **v1.4.6 (29th of Jun, 2023)** - *Release*
 
