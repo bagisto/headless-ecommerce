@@ -7885,7 +7885,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query users {\n    users( \n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"Tom Martin\"\n        # email: \"tom_martin@example.com\"\n        # role: \"Administrator\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n            status\n        }\n    }\n}",
+												"query": "query users {\n    users( \n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"Tom Martin\"\n        # email: \"tom_martin@example.com\"\n        # role: \"Administrator\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            status\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -7949,7 +7949,7 @@
 											"mode": "graphql",
 											"graphql": {
 												"query": "mutation createUser ($input : CreateUserInput!){\n    createUser(input: $input) {\n        id\n        name\n        email\n        password\n        apiToken\n        roleId\n        role {\n            name\n            description\n            permissionType\n            permissions\n        }\n        status\n        image\n    }\n}",
-												"variables": "{\n    \"input\": {\n        \"name\": \"Test Eva\",\n        \"email\": \"aaa@example.com\",\n    \t\"password\": \"\",\n    \t\"passwordConfirmation\": \"\",\n    \t\"roleId\": \"111\",\n    \t\"status\": true,\n        \"image\": [\"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"]\n    }\n}"
+												"variables": "{\n    \"input\": {\n        \"name\": \"Test Eva\",\n        \"email\": \"test_admin@example.com\",\n    \t\"password\": \"admin123\",\n    \t\"passwordConfirmation\": \"admin123\",\n    \t\"roleId\": \"1\",\n    \t\"status\": true,\n        \"image\": [\"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"]\n    }\n}"
 											}
 										},
 										"url": {
