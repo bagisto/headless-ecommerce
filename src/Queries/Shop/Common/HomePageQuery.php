@@ -10,7 +10,7 @@ use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\Shop\Repositories\ThemeCustomizationRepository;
+use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter

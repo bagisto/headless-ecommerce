@@ -2,11 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Webkul\Core\Repositories\ExchangeRateRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
@@ -16,8 +15,6 @@ class ExchangeRateMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\CurrencyRepository  $currencyRepository
-     * @param  \Webkul\Core\Repositories\ExchangeRateRepository  $exchangeRateRepository
      * @return void
      */
     public function __construct(
@@ -61,8 +58,10 @@ class ExchangeRateMutation extends Controller
 
             Event::dispatch('core.exchange_rate.create.after', $exchangeRate);
 
+            $exchangeRate->success = trans('bagisto_graphql::app.admin.settings.exchange-rates.create-success');
+
             return $exchangeRate;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -83,6 +82,7 @@ class ExchangeRateMutation extends Controller
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -92,6 +92,12 @@ class ExchangeRateMutation extends Controller
 
         if ($validator->fails()) {
             throw new CustomException($validator->messages());
+        }
+
+        $exchangeRate = $this->exchangeRateRepository->find($id);
+
+        if (! $exchangeRate) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.not-found'));
         }
 
         $currency = $this->currencyRepository->find($data['target_currency']);
@@ -107,8 +113,10 @@ class ExchangeRateMutation extends Controller
 
             Event::dispatch('core.exchange_rate.update.after', $exchangeRate);
 
+            $exchangeRate->success = trans('bagisto_graphql::app.admin.settings.exchange-rates.create-success');
+
             return $exchangeRate;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -133,10 +141,6 @@ class ExchangeRateMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.not-found'));
         }
 
-        if ($this->exchangeRateRepository->count() == 1) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.last-delete-error'));
-        }
-
         try {
             Event::dispatch('core.exchange_rate.delete.before', $id);
 
@@ -147,7 +151,7 @@ class ExchangeRateMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-success'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

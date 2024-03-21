@@ -1,4 +1,0 @@
-# Customer\Review Related APIs
-extend type Query {
-    review(id: ID @eq): Review @find(model: "Webkul\\Product\\Models\\ProductReview")
-}

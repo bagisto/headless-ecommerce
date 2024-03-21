@@ -1,0 +1,1452 @@
+{
+	"info": {
+		"_postman_id": "eeea6bf4-fa4e-4c65-810c-acc955f2675f",
+		"name": "GraphQL-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "Locales",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query locales {\n    locales (\n        first:11\n        page: 1\n        input: {\n        # id: 2\n        # name: \"Tom Martin\"\n        # code: \"tom_martin@example.com\"\n        # direction: \"ltr\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Locales"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query locale {\n    locale(id: 1) {\n        id\n        code\n        name\n        direction\n        logoUrl\n        createdAt\n        updatedAt\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Locale Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"ss\"\n        direction: RTL\n        name: \"Arabic Locale11\"\n    \timage: \"https://web.dev/images/authors/jlwagner.jpg\"\n    }) {\n        id\n        code\n        name\n        direction\n        logoUrl\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": "",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Create Locale"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateLocale {\n    updateLocale(id: 4, input: {\n    \tcode: \"ar\"\n        name: \"Arabic\"\n        direction: RTL\n    \timage: \"https://via.placeholder.com/300/09f/fff.png\"\n    }) {\n        id\n        code\n        name\n        direction\n        logoUrl\n        createdAt\n        updatedAt\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Locale Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteLocale {\n    deleteLocale(id: 4) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Locale"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Currencies",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query currencies {\n    currencies (\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # code: \"Tom Martin\"\n        # name: \"tom_martin@example.com\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Currencies"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nquery currency {\n    currency(id: 2) {\n        id\n        code\n        name\n        symbol\n        decimal\n        createdAt\n        updatedAt\n        exchangeRate {\n            id\n            targetCurrency\n            rate\n            createdAt\n            updatedAt\n            currency {\n                id\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Locale Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"INR\"\n        name: \"Indian Rupee\"\n        symbol: \"$\"\n        decimal: 2\n    }) {\n        id\n        code\n        name\n        symbol\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create Currency"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation updateCurrency {\n    updateCurrency(id: 3, input: {\n    \tcode:\"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n        decimal: 2\n    }) {\n        id\n        code\n        name\n        symbol\n        createdAt\n        updatedAt\n        exchangeRate {\n            id\n            targetCurrency\n            rate\n            createdAt\n            updatedAt\n            currency {\n                id\n            }\n        }\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Currency"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Exchange Rates",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query exchangeRates {\n    exchangeRates (\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # targetCurrency: 2\n        # rate: 22.22\n        # currency: \"EURO\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            rate\n            targetCurrency\n            createdAt\n            updatedAt\n            currency {\n                id\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Exchange Rates"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query exchangeRate {\n    exchangeRate(\n        id: 1\n    ) {\n\t    id\n        rate\n        targetCurrency\n        createdAt\n        updatedAt\n        currency {\n            id\n        }\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Exchange Rate Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createExchangeRate {\n    createExchangeRate(input: {\n    \ttargetCurrency: 2\n        rate: 12.2\n    }) {\n        id\n        rate\n    \ttargetCurrency\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New Exchange Rate"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateExchangeRate {\n    updateExchangeRate(id: 2, input: {\n    \ttargetCurrency: 2\n        rate: 11\n    }) {\n        id\n        rate\n    \ttargetCurrency\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Exchange Rate"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteExchangeRate {\n    deleteExchangeRate(id: 2) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": "",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Remove Exchange Rate"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Inventory Sources",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query inventorySources {\n    inventorySources (\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # code: \"Test\"\n        # name: \"custom\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Inventory Sources"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query inventorySource {\n    inventorySource(id: 1) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Inventory Source Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createInventorySource {\n    createInventorySource(input: {\n        code: \"ncr\",\n        name: \"NCRStore\",\n        description: \"test\"\n        contactName: \"TomMartin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"4792645441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 3,\n        latitude: \"123.123.123.123\",\n        longitude: \"444.444.444.444\",\n        status: false\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n        createdAt\n        updatedAt\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New Inventory Source"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateInventorySource {\n    updateInventorySource(id: 3, input: {\n        code: \"ncrss\",\n        name: \"NCR Store\",\n        description: \"test\"\n        contactName: \"Tom Martin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"479-264-5441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 2,\n        latitude: \"444.444.444.444\",\n        longitude: \"123.123.123.123\",\n        status: true\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Inventory Source"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteInventorySource {\n    deleteInventorySource(id: 3) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Inventory Source"
+									},
+									"response": []
+								}
+							],
+							"description": "Inventory Sources",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Channels",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query channels {\n    channels (\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            timezone\n            theme\n            hostname\n            logoUrl\n            faviconUrl\n            homeSeo {\n                metaTitle\n                metaKeywords\n                metaDescription\n            }\n            isMaintenanceOn\n            allowedIps\n            rootCategoryId\n            defaultLocaleId\n            baseCurrencyId\n            createdAt\n            updatedAt\n            maintenanceModeText\n            description\n            locales {\n                id\n                code\n                name\n                direction\n                logoUrl\n                createdAt\n                updatedAt\n            }\n            defaultLocale {\n                id\n                code\n                name\n                direction\n                logoUrl\n                createdAt\n                updatedAt\n            }\n            currencies {\n                id\n                code\n                name\n                symbol\n                decimal\n                createdAt\n                updatedAt\n                exchangeRate {\n                    id\n                    targetCurrency\n                    rate\n                    createdAt\n                    updatedAt\n                    currency {\n                        id\n                    }\n                }\n            }\n            baseCurrency {\n                id\n                code\n                name\n                symbol\n                decimal\n                createdAt\n                updatedAt\n                exchangeRate {\n                    id\n                    targetCurrency\n                    rate\n                    createdAt\n                    updatedAt\n                    currency {\n                        id\n                    }\n                }\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            rootCategory {\n                id\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Channels"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query channel {\n    channel(id: 1) {\n        id\n        code\n        name\n        description\n        timezone\n        theme\n        hostname\n        logoUrl\n        faviconUrl\n        homeSeo {\n            metaTitle\n            metaKeywords\n            metaDescription\n        }\n        isMaintenanceOn\n        allowedIps\n        rootCategoryId\n        defaultLocaleId\n        baseCurrencyId\n        createdAt\n        updatedAt\n        maintenanceModeText\n        description\n        locales {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n        defaultLocale {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n        currencies {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n        baseCurrency {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n        inventorySources {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n        rootCategory {\n            id\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Channel Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createChannel {\n    createChannel(input: {\n        code: \"test_channel\"\n        name: \"Test Channel\"\n        description: \"E-Comm clothing house\"\n        inventorySources: [\"1\"]\n        rootCategoryId: 1\n        hostname: \"http://192.168.15.204/test_channel\"\n        locales: [\"1\"]\n        defaultLocaleId: 1\n        currencies: [\"1\"]\n        baseCurrencyId: 1\n        theme: \"default\"\n        logo: \"http://graphqlnew.com/storage/channel/1/gdNLcKZrc3PbGXMThHygPFBijLXa1z0sEaBi7LFj.jpg\"\n        favicon: \"http://graphqlnew.com/storage/channel/1/YZBH5Ow7whEivfmMHLTjqaObTgb5behn01fsaYzB.jpg\"\n        seoTitle: \"sdfsdf\"\n        seoDescription: \"sdfsdfsdf\"\n        seoKeywords: \"sfsdfdsx\"\n        maintenanceModeText: \"ertwretwrt\"\n        allowedIps: \"\"\n        isMaintenanceOn: true\n    }) {\n        id\n        code\n        name\n        description\n        timezone\n        theme\n        hostname\n        logoUrl\n        faviconUrl\n        homeSeo {\n            metaTitle\n            metaKeywords\n            metaDescription\n        }\n        isMaintenanceOn\n        allowedIps\n        rootCategoryId\n        defaultLocaleId\n        baseCurrencyId\n        createdAt\n        updatedAt\n        maintenanceModeText\n        description\n        locales {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n        defaultLocale {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n        currencies {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n        baseCurrency {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n        inventorySources {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n        rootCategory {\n            id\n        }\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New Channel"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation updateChannel {\n    updateChannel(id: 9, input: {\n        code: \"fashion\"\n        name: \"Today's Fashion\"\n        description: \"E-Comm clothing house\"\n        inventorySources: [\"1\"]\n        rootCategoryId: 1\n        hostname: \"velocity.com\"\n        locales: [\"1\"]\n        defaultLocaleId: 1\n        currencies: [\"2\"]\n        baseCurrencyId: 1\n        theme: \"default\"\n        logo: \"http://graphqlnew.com/storage/channel/1/gdNLcKZrc3PbGXMThHygPFBijLXa1z0sEaBi7LFj.jpg\"\n        favicon: \"http://graphqlnew.com/storage/channel/1/YZBH5Ow7whEivfmMHLTjqaObTgb5behn01fsaYzB.jpg\"\n        seoTitle: \"sdfsdf\"\n        seoDescription: \"sdfsdfsdf\"\n        seoKeywords: \"sfsdfdsx\"\n        maintenanceModeText:\"ertwretwrt\"\n        allowedIps:\"\"\n        isMaintenanceOn:false\n    }) {\n        id\n        code\n        name\n        description\n        timezone\n        theme\n        hostname\n        logoUrl\n        faviconUrl\n        homeSeo {\n            metaTitle\n            metaKeywords\n            metaDescription\n        }\n        isMaintenanceOn\n        allowedIps\n        rootCategoryId\n        defaultLocaleId\n        baseCurrencyId\n        createdAt\n        updatedAt\n        maintenanceModeText\n        description\n        locales {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n        defaultLocale {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n        currencies {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n        baseCurrency {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n        inventorySources {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n        rootCategory {\n            id\n        }\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Channel Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteChannel {\n    deleteChannel(id: 10) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Channel"
+									},
+									"response": []
+								}
+							],
+							"description": "Channels",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Users",
+							"item": [
+								{
+									"name": "Sessions",
+									"item": [
+										{
+											"name": "Login",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation userLogin($input: CreateUserLoginInput!) {\n    userLogin(input: $input) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        user {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            image\n            status\n            createdAt\n            updatedAt\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n        }\n    }\n}\n",
+														"variables": "{\n    \"input\" : {\n        \"email\": \"admin@example.com\",\n        \"password\": \"admin123\",\n        \"remember\": true\n    }\n}"
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "User Logout",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation userLogout {\n    userLogout {\n        status\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "User Logout"
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query users {\n    users( \n        first:20\n        page: 1\n        input: {\n        # id: 1\n        # name: \"Tom Martin\"\n        # email: \"tom_martin@example.com\"\n        # roleId: 1\n        # role: \"Administrator\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            email\n            password\n            apiToken\n            status\n            roleId\n            image\n            rememberToken\n            createdAt\n            updatedAt\n            role {\n                id\n                name\n                description\n                permissionType\n                permissions\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Users"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query user {\n    user(id: 1) {\n        id\n        name\n        email\n        password\n        apiToken\n        status\n        roleId\n        image\n        rememberToken\n        createdAt\n        updatedAt\n        role {\n            id\n            name\n            description\n            permissionType\n            permissions\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createUser ($input : CreateUserInput!){\n    createUser(input: $input) {\n        id\n        name\n        email\n        password\n        apiToken\n        status\n        roleId\n        image\n        rememberToken\n        createdAt\n        updatedAt\n        role {\n            id\n            name\n            description\n            permissionType\n            permissions\n            createdAt\n            updatedAt\n        }\n        success\n    }\n}",
+												"variables": "{\n    \"input\": {\n        \"name\": \"Test Eva\",\n        \"email\": \"tests_aevaaa@example.com\",\n    \t\"password\": \"admin123\",\n    \t\"passwordConfirmation\": \"admin123\",\n    \t\"roleId\": 1,\n    \t\"status\": true,\n        \"image\": \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    }\n}"
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New User"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateUser {\n    updateUser(id: 2, input: {\n        name: \"Admin2\"\n        email: \"admin2@example.com\"\n        password: \"admin123\"\n        passwordConfirmation: \"admin123\"\n        roleId: 1\n        status: true\n        image: \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\"\n    }) {\n        id\n        name\n        email\n        password\n        apiToken\n        status\n        roleId\n        image\n        rememberToken\n        createdAt\n        updatedAt\n        role {\n            id\n            name\n            description\n            permissionType\n            permissions\n            createdAt\n            updatedAt\n        }\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update User"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteUser {\n    deleteUser(id: 27) {\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove User"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Roles",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query roles {\n    roles(\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"Test\"\n        # permissionType: \"custom\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            permissionType\n            permissions\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Roles"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query role {\n    role(id: 2) {\n        id\n        name\n        description\n        permissionType\n        permissions\n        createdAt\n        updatedAt\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Role Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Get ACL Permissions",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query getAclPermissions {\n    getAclPermissions {\n        key\n        name\n        route\n        sort\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createRole {\n    createRole(input: {\n        name: \"Testing Again\"\n        description: \"TEST CASES IS CHECKED\"\n        # Value sholud be\n        # CUSTOM or ALL\n        permissionType: CUSTOM\n        permissions: [\n            \"catalog\",\n            \"catalog.families\",\n            \"catalog.families.edit\",\n            \"customers\",\n            \"customers.customers\",\n            \"customers.customers.create\",\n            \"customers.customers.delete\",\n            \"customers.groups\",\n            \"customers.groups.create\",\n            \"customers.groups.edit\",\n            \"customers.groups.delete\",\n            \"customers.reviews\",\n            \"customers.reviews.edit\",\n            \"customers.reviews.delete\"\n        ]\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n        createdAt\n        updatedAt\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New Role"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateRole {\n    updateRole(id: 6, input: {\n        name: \"Custom Rules\"\n        description: \"\"\n        permissionType: ALL\n    }) {\n        id\n        name\n        description\n        permissionType\n        permissions\n        createdAt\n        updatedAt\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Role"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteRole {\n    deleteRole(id: 3) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Role"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Theme",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query themes {\n    themes (\n        first:11\n        page: 1\n        input: {\n            # id: 3\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            type\n            name\n            sortOrder\n            status\n            channelId\n            createdAt\n            updatedAt\n            translations {\n                id\n                themeCustomizationId\n                localeCode\n                options {\n                    title\n                    css\n                    html\n                    images {\n                        link\n                        imageTitle\n                        image\n                    }\n                    filters {\n                        value\n                        key\n                    }\n                    column_1 {\n                        url\n                        title\n                        sortOrder\n                    }\n                    column_2 {\n                        url\n                        title\n                        sortOrder\n                    }\n                    column_3 {\n                        url\n                        title\n                        sortOrder\n                    }\n                }\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query theme{\n    theme(id: 1) {\n        id\n        type\n        name\n        sortOrder\n        status\n        channelId\n        createdAt\n        updatedAt\n        translations {\n            id\n            themeCustomizationId\n            localeCode\n            options {\n                title\n                css\n                html\n                images {\n                    link\n                    imageTitle\n                    image\n                }\n                filters {\n                    value\n                    key\n                }\n                column_1 {\n                    url\n                    title\n                    sortOrder\n                }\n                column_2 {\n                    url\n                    title\n                    sortOrder\n                }\n                column_3 {\n                    url\n                    title\n                    sortOrder\n                }\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createTheme {\n    createTheme(input: {\n        name: \"test theme\"\n        sortOrder: 14\n        type: ProductCarousel\n        channelId: 1\n    }){\n        id\n        name\n        sortOrder\n        type\n        channelId\n        status\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateTheme {\n    updateTheme(id: 13, input: {\n        name: \"Test Input\"\n        sortOrder: 13\n        channelId: 1\n        status: true\n        options: {\n            title: \"Test Tiler\"\n            filtersInput : [\n                {\n                   key: \"sort\"\n                   value: \"created_at-desc\"\n                }, {\n                   key: \"limit\"\n                   value: \"12\"\n                }, {\n                   key: \"key\"\n                   value: \"testjh\"\n                }\n            ]\n        }\n    }){\n        id\n        type\n        name\n        sortOrder\n        status\n        channelId\n        createdAt\n        updatedAt\n        translations {\n            id\n            themeCustomizationId\n            localeCode\n            options {\n                title\n                css\n                html\n                images {\n                    link\n                    imageTitle\n                    image\n                }\n                filters {\n                    value\n                    key\n                }\n                column_1 {\n                    url\n                    title\n                    sortOrder\n                }\n                column_2 {\n                    url\n                    title\n                    sortOrder\n                }\n                column_3 {\n                    url\n                    title\n                    sortOrder\n                }\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteTheme {\n    deleteTheme(id: 16) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -2,11 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
-use Webkul\Core\Rules\Code;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
+use Webkul\Core\Rules\Code;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
@@ -16,7 +15,6 @@ class CurrencyMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\CurrencyRepository  $currencyRepository
      * @return void
      */
     public function __construct(protected CurrencyRepository $currencyRepository)
@@ -52,8 +50,10 @@ class CurrencyMutation extends Controller
 
             Event::dispatch('core.currency.create.after', $currency);
 
+            $currency->success = trans('bagisto_graphql::app.admin.settings.currencies.create-success');
+
             return $currency;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -73,6 +73,7 @@ class CurrencyMutation extends Controller
         }
 
         $data = $args['input'];
+        
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -97,8 +98,10 @@ class CurrencyMutation extends Controller
 
             Event::dispatch('core.currency.update.after', $currency);
 
+            $currency->success = trans('bagisto_graphql::app.admin.settings.currencies.update-success');
+
             return $currency;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -126,6 +129,14 @@ class CurrencyMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.last-delete-error'));
         }
 
+        if (core()->getBaseCurrencyCode() == $currency->code) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.default-delete-error'));
+        }
+
+        if ($this->currencyRepository->count() == 1) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.last-delete-error'));
+        }
+
         try {
             Event::dispatch('core.currency.delete.before', $id);
 
@@ -134,7 +145,9 @@ class CurrencyMutation extends Controller
             Event::dispatch('core.currency.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.currencies.delete-success')];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
+            report($e);
+
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.delete-error'));
         }
     }

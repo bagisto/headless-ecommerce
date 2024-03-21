@@ -2,12 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
-use Webkul\Core\Rules\Code;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
+use Webkul\Core\Rules\Code;
 use Webkul\Core\Repositories\LocaleRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
@@ -16,7 +15,6 @@ class LocaleMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\LocaleRepository  $localeRepository
      * @return void
      */
     public function __construct(protected LocaleRepository $localeRepository)
@@ -39,7 +37,7 @@ class LocaleMutation extends Controller
         $validator = Validator::make($data, [
             'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
-            'direction' => 'in:ltr,rtl,LTR,RTL',
+            'direction' => 'required|in:ltr,rtl,LTR,RTL',
         ]);
 
         if ($validator->fails()) {
@@ -47,11 +45,9 @@ class LocaleMutation extends Controller
         }
 
         try {
-            $imageUrl = '';
+            $imageUrl = $data['image'] ?? '';
 
             if (isset($data['image'])) {
-                $imageUrl = $data['image'];
-
                 unset($data['image']);
             }
 
@@ -61,12 +57,12 @@ class LocaleMutation extends Controller
 
             Event::dispatch('core.locale.create.after', $locale);
 
-            if ($locale) {
-                bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
+            bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
 
-                return $locale;
-            }
-        } catch (Exception $e) {
+            $locale->success = trans('bagisto_graphql::app.admin.settings.locales.create-success');
+
+            return $locale;
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -86,6 +82,7 @@ class LocaleMutation extends Controller
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -119,12 +116,12 @@ class LocaleMutation extends Controller
 
             Event::dispatch('core.locale.update.after', $locale);
 
-            if ($locale) {
-                bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
+            bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
 
-                return $locale;
-            }
-        } catch (Exception $e) {
+            $locale->success = trans('bagisto_graphql::app.admin.settings.locales.update-success');
+
+            return $locale;
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -149,6 +146,10 @@ class LocaleMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.not-found'));
         }
 
+        if (core()->getCurrentLocale()->code == $locale->code) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.default-delete-error'));
+        }
+
         if ($this->localeRepository->count() == 1) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.last-delete-error'));
         }
@@ -163,7 +164,7 @@ class LocaleMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.locales.delete-success'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

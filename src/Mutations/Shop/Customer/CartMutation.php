@@ -97,7 +97,7 @@ class CartMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'quantity' => 'required|min:1',
+            'quantity' => 'required|max:1',
         ]);
 
         if ($validator->fails()) {

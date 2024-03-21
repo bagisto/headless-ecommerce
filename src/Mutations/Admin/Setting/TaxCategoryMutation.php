@@ -16,9 +16,6 @@ class TaxCategoryMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Tax\Repositories\TaxCategoryRepository  $taxCategoryRepository
-     * @param  \Webkul\Tax\Repositories\TaxRateRepository  $taxRateRepository
-     *
      * @return void
      */
     public function __construct(

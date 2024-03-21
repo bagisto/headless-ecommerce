@@ -15,7 +15,6 @@ class TaxRateMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Tax\Repositories\TaxRateRepository  $taxRateRepository
      * @return void
      */
     public function __construct(protected TaxRateRepository $taxRateRepository)

@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
 use JWTAuth;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
 use Webkul\User\Repositories\AdminRepository;
 use Webkul\User\Repositories\RoleRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
@@ -25,8 +24,6 @@ class UserMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\AdminRepository  $adminRepository
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(
@@ -36,8 +33,6 @@ class UserMutation extends Controller
         $this->guard = 'admin-api';
 
         auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard, ['except' => ['login']]);
     }
 
     /**
@@ -55,7 +50,7 @@ class UserMutation extends Controller
 
         $validator = Validator::make($data, [
             'email'    => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ]);
 
         if ($validator->fails()) {
@@ -73,10 +68,10 @@ class UserMutation extends Controller
         }
 
         try {
-            $admin = bagisto_graphql()->guard($this->guard)->user();
+            $admin = auth()->guard()->user();
 
             if (! $admin->status) {
-                bagisto_graphql()->guard($this->guard)->logout();
+                auth()->guard()->logout();
 
                 throw new CustomException(trans('bagisto_graphql::app.admin.settings.users.activate-warning'));
             }
@@ -86,11 +81,11 @@ class UserMutation extends Controller
                 'success'      => trans('bagisto_graphql::app.admin.settings.users.success-login'),
                 'access_token' => 'Bearer '.$jwtToken,
                 'token_type'   => 'Bearer',
-                'expires_in'   => bagisto_graphql()->guard($this->guard)->factory()->getTTL() * 60,
+                'expires_in'   => auth()->guard()->factory()->getTTL() * 60,
                 'user'         => $admin,
             ];
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -110,7 +105,7 @@ class UserMutation extends Controller
         $validator = Validator::make($data, [
             'name'                  => 'required',
             'email'                 => 'required|email|unique:admins,email',
-            'password'              => 'nullable',
+            'password'              => 'nullable|min:6',
             'password_confirmation' => 'nullable|required_with:password|same:password',
             'role_id'               => 'required',
             'status'                => 'sometimes',
@@ -128,35 +123,28 @@ class UserMutation extends Controller
         try {
             if (! empty($data['password'])) {
                 $data['password'] = bcrypt($data['password']);
-
                 $data['api_token'] = Str::random(80);
             }
 
             Event::dispatch('user.admin.create.before');
 
-            $imageUrl = $data['image'][0] ?? '';
+            $imageUrl = $data['image'] ?? '';
 
-            if (isset($data['image'])) {
+            if (! empty($data['image'])) {
                 unset($data['image']);
             }
 
             $admin = $this->adminRepository->create($data);
 
-            if (isset($admin->id)) {
-                bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
-
-                return $admin;
-            }
+            bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
 
             Event::dispatch('user.admin.create.after', $admin);
 
-            return [
-                'success' => trans('bagisto_graphql::app.admin.settings.users.create-success'),
-                'user'    => $admin,
-            ];
+            $admin->success = trans('bagisto_graphql::app.admin.settings.users.create-success');
+
             return $admin;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -199,32 +187,30 @@ class UserMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.users.not-found'));
         }
 
+        if (! $this->roleRepository->find($data['role_id'])) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
+        }
+
         try {
-            if (! $data['password']) {
-                unset($data['password']);
-            } else {
+            if (! empty($data['password'])) {
                 $isPasswordChanged = true;
 
                 $data['password'] = bcrypt($data['password']);
             }
 
-            $data['status'] = ! empty($data['status']) ? $data['status'] : 0;
+            $data['status'] = $data['status'] ?? 0;
 
             Event::dispatch('user.admin.update.before', $id);
 
-            $admin = $this->adminRepository->update($data, $id);
+            $imageUrl = $data['image'] ?? '';
 
-            $imageUrl = $data['image'][0] ?? '';
-
-            if (isset($data['image'])) {
+            if (! empty($data['image'])) {
                 unset($data['image']);
             }
 
-            if (isset($admin->id)) {
-                bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
+            $admin = $this->adminRepository->update($data, $id);
 
-                return $admin;
-            }
+            bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
 
             if ($isPasswordChanged) {
                 Event::dispatch('user.admin.update-password', $admin);
@@ -232,9 +218,11 @@ class UserMutation extends Controller
 
             Event::dispatch('user.admin.update.after', $admin);
 
+            $admin->success = trans('bagisto_graphql::app.admin.settings.users.update-success');
+
             return $admin;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -272,8 +260,8 @@ class UserMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.users.delete-success'),
             ];
-        } catch (Exception $e) {
-            throw new Exception(trans('bagisto_graphql::app.admin.settings.users.delete-error'));
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -284,8 +272,8 @@ class UserMutation extends Controller
      */
     public function logout()
     {
-        if (auth()->guard($this->guard)->check()) {
-            auth()->guard($this->guard)->logout();
+        if (auth()->guard()->check()) {
+            auth()->guard()->logout();
 
             return [
                 'status'  => true,

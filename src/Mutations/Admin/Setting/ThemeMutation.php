@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Shop\Repositories\ThemeCustomizationRepository;
+use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
 class ThemeMutation extends Controller
@@ -16,8 +16,6 @@ class ThemeMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\AdminRepository  $adminRepository
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(
@@ -39,16 +37,10 @@ class ThemeMutation extends Controller
 
         $data = $args['input'];
 
-        if (request()->has('id')) {
-            $theme = $this->themeCustomizationRepository->find(request()->input('id'));
-
-            return $this->themeCustomizationRepository->uploadImage(request()->all(), $theme);
-        }
-
         $validator = Validator::make($data, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
-            'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
+            'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
         ]);
 
@@ -62,9 +54,12 @@ class ThemeMutation extends Controller
             'name'       => $data['name'],
             'sort_order' => $data['sort_order'],
             'type'       => $data['type'],
-            'status'     => $data['status'],
             'channel_id' => $data['channel_id'],
         ]);
+
+        Event::dispatch('theme_customization.create.after');
+
+        $theme->success = trans('bagisto_graphql::app.admin.settings.themes.create-success');
 
         return $theme;
     }
@@ -85,6 +80,7 @@ class ThemeMutation extends Controller
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -98,7 +94,7 @@ class ThemeMutation extends Controller
             throw new CustomException($validator->messages());
         }
 
-        $locale = core()->getRequestedLocaleCode();
+        $data['locale'] = $locale = core()->getRequestedLocaleCode();
 
         $themeData = $this->themeCustomizationRepository->find($id);
 
@@ -108,12 +104,22 @@ class ThemeMutation extends Controller
 
         $data['type'] = $themeData->type;
 
+        if ($data['type'] == 'product_carousel') {
+            $data[$locale]['options']['title'] = $data['options']['title'];
+
+            $data[$locale]['options']['filters'] = [];
+
+            foreach ($data['options']['filtersInput'] as $filtersInput) {
+                $data[$locale]['options']['filters'][$filtersInput['key']] = $filtersInput['value'];
+            }
+
+            unset($data['options']);
+        }
+
         if ($data['type'] == 'static_content') {
             $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['html']);
             $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['css']);
         }
-
-        $data['status'] = $args['input']['status'] == 'true';
 
         if ($data['type'] == 'image_carousel') {
             unset($data['options']);
@@ -130,7 +136,10 @@ class ThemeMutation extends Controller
                 request()->input('deleted_sliders', [])
             );
         }
+
         Event::dispatch('theme_customization.update.after', $theme);
+
+        $theme->success = trans('bagisto_graphql::app.admin.settings.themes.update-success');
 
         return $theme;
     }

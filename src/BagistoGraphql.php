@@ -43,15 +43,6 @@ class BagistoGraphql
     /**
      * Create a new instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductBundleOptionRepository $productBundleOptionRepository
-     * @param  \Webkul\Product\Repositories\ProductBundleOptionProductRepository $productBundleOptionProductRepository
-     * @param  \Webkul\Product\Repositories\ProductCustomerGroupPriceRepository  $productCustomerGroupPriceRepository
-     * @param  \Webkul\Product\Repositories\ProductDownloadableLinkRepository $productDownloadableLinkRepository
-     * @param  \Webkul\Product\Repositories\ProductDownloadableSampleRepository $productDownloadableSampleRepository
-     * @param  \Webkul\Product\Repositories\ProductGroupedProductRepository $productGroupedProductRepository
-     * @param  \Webkul\Product\Repositories\ProductImageRepository  $productImageRepository
-     * @param  \Webkul\Product\Repositories\ProductVideoRepository  $productVideoRepository
-     *
      * @return void
      */
     public function __construct(
@@ -99,8 +90,9 @@ class BagistoGraphql
         return (
                 ! $token
                 || empty($validateUser['success'])
-            ) ? false : true;
-
+            )
+            ? false
+            : true;
     }
 
     /**

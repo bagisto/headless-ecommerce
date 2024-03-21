@@ -2,11 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
 use Webkul\User\Repositories\RoleRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
@@ -15,11 +14,20 @@ class RoleMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(protected RoleRepository $roleRepository)
     {
+    }
+
+    /**
+     * ACL
+     *
+     * @return array
+     */
+    public function getAclPermissions()
+    {
+        return config('acl');
     }
 
     /**
@@ -52,8 +60,10 @@ class RoleMutation extends Controller
 
             Event::dispatch('user.role.create.after', $role);
 
+            $role->success = trans('bagisto_graphql::app.admin.settings.roles.create-success');
+
             return $role;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -98,8 +108,10 @@ class RoleMutation extends Controller
 
             Event::dispatch('user.role.update.after', $role);
 
+            $role->success = trans('bagisto_graphql::app.admin.settings.roles.update-success');
+
             return $role;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -136,7 +148,7 @@ class RoleMutation extends Controller
             Event::dispatch('user.role.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.roles.delete-success')];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

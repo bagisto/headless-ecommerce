@@ -123,6 +123,16 @@ class AccountMutation extends Controller
             'image.*'                   => 'mimes:bmp,jpeg,jpg,png,webp',
             'phone'                     => 'required|unique:customers,phone,' . $customer->id,
             'subscribed_to_news_letter' => 'nullable',
+            // 'first_name'            => 'string|required',
+            // 'last_name'             => 'string|required',
+            // 'gender'                => 'required',
+            // 'date_of_birth'         => 'string|before:today',
+            // 'email'                 => 'email|required|unique:customers,email,'.$customer->id,
+            // 'oldpassword'           => 'required_with:password',
+            // 'password'              => 'confirmed|min:6|required_with:oldpassword',
+            // 'password_confirmation' => 'required_with:password',
+            // 'upload_type'           => 'in:file,path,base64',
+            // 'image.*'               => 'mimes:bmp,jpeg,jpg,png,webp',
         ]);
 
         if ($validator->fails()) {
