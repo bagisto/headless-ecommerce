@@ -15,8 +15,6 @@ class FilterReview extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

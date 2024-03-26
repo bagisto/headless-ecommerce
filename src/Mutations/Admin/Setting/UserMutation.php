@@ -113,7 +113,13 @@ class UserMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         if (! $this->roleRepository->find($data['role_id'])) {
@@ -178,7 +184,13 @@ class UserMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         $admin = $this->adminRepository->find($id);

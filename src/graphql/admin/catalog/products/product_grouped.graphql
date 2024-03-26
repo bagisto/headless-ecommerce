@@ -1,0 +1,17 @@
+#Catalog\ProductGroupedProduct Related API
+input UpdateGroupedProductInput {
+    groupProductId: ID @rename(attribute: "group_product_id")
+    associatedProductId: ID! @rename(attribute: "associated_product_id")
+    qty: Int!
+    sortOrder: Int @rename(attribute: "sort_order")
+}
+
+type ProductGroupedProduct {
+    id: ID!
+    qty: Int!
+    sortOrder: Int! @rename(attribute: "sort_order")
+    productId: ID! @rename(attribute: "product_id")
+    associatedProductId: ID! @rename(attribute: "associated_product_id")
+    product: Product! @belongsTo(relation: "product")
+    associatedProduct: Product! @belongsTo(relation: "associated_product")
+}

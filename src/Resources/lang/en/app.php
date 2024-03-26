@@ -36,6 +36,47 @@ return [
             ],
         ],
 
+        'customers' => [
+            'customers' => [
+                'create-success'       => 'Customer created successfully.',
+                'not-found'            => 'Warning: Customer not found.',
+                'update-success'       => 'Customer updated successfully.',
+                'delete-order-pending' => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
+                'delete-success'       => 'Customer deleted successfully',
+                'note-created-success' => 'Note created successfully',
+            ],
+
+            'addressess' => [
+                'create-success'         => 'Customer\'s address created successfully.',
+                'not-found'              => 'Warning: Customer\'s address not found.',
+                'update-success'         => 'Customer\'s address updated successfully.',
+                'delete-success'         => 'Customer\'s Address deleted successfully',
+                'default-update-success' => 'Address is setted as default',
+            ],
+
+            'groups' => [
+                'create-success'     => 'Customer Group created successfully.',
+                'not-found'          => 'Warning: Customer Group not found.',
+                'update-success'     => 'Customer Group updated successfully.',
+                'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
+                'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
+                'delete-success'     => 'Customer deleted successfully',
+            ],
+
+            'reviews' => [
+                'not-found'      => 'Warning: Review not found.',
+                'update-success' => 'Review updated successfully.',
+                'delete-success' => 'Review deleted successfully',
+            ],
+        ],
+
+        'cms' => [
+            'not-found'      => 'Warning: CMS not found.',
+            'update-success' => 'CMS updated successfully.',
+            'create-success' => 'CMS created successfully.',
+            'delete-success' => 'CMS deleted successfully',
+        ],
+
         'settings' => [
             'locales' => [
                 'create-success'       => 'Locale created successfully.',
@@ -113,6 +154,23 @@ return [
                 'update-success' => 'Theme updated successfully.',
                 'delete-success' => 'Theme deleted successfully.',
                 'not-found'      => 'Warning: Theme not found.',
+            ],
+
+            'tax-rates' => [
+                'create-success' => 'Tax Rate created successfully.',
+                'update-success' => 'Tax Rate updated successfully.',
+                'delete-success' => 'Tax Rate deleted successfully.',
+                'delete-error'   => 'Tax Rate deleted failed.',
+                'not-found'      => 'Warning: Tax Rate not found.',
+            ],
+
+            'tax-category' => [
+                'create-success'     => 'Tax Category created successfully.',
+                'update-success'     => 'Tax Category updated successfully.',
+                'delete-success'     => 'Tax Category deleted successfully.',
+                'delete-error'       => 'Tax Category deleted failed.',
+                'not-found'          => 'Warning: Tax Category not found.',
+                'tax-rate-not-found' => 'The Given ids not found. Ids:- :ids',
             ],
 
             'notification' => [

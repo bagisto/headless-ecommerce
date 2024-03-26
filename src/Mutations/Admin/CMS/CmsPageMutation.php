@@ -2,12 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\CMS;
 
-use Exception;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\CMS\Repositories\CmsRepository;
+use Webkul\CMS\Repositories\PageRepository;
 use Webkul\Core\Rules\Slug;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
 class CmsPageMutation extends Controller
@@ -15,11 +16,12 @@ class CmsPageMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\CMS\Repositories\CmsRepository  $CmsRepository
      * @return void
      */
-    public function __construct(protected CmsRepository $cmsRepository)
-    {
+    public function __construct(
+        protected PageRepository $pageRepository,
+        protected ChannelRepository $channelRepository
+    ) {
     }
 
     /**
@@ -38,17 +40,31 @@ class CmsPageMutation extends Controller
         $validator = Validator::make($data, [
             'url_key'      => ['required', 'unique:cms_page_translations,url_key', new Slug],
             'page_title'   => 'required',
-            'channels'     => 'required',
+            'channels'     => 'required|array|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
             'html_content' => 'required',
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         try {
-            return $this->cmsRepository->create($data);
-        } catch (Exception $e) {
+            Event::dispatch('cms.page.create.before');
+
+            $page = $this->pageRepository->create($data);
+
+            Event::dispatch('cms.page.create.after', $page);
+
+            $page->success = trans('bagisto_graphql::app.admin.cms.create-success');
+
+            return $page;
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -67,40 +83,50 @@ class CmsPageMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
-        $locale = $args['input']['locale'] ?: app()->getLocale();
+        $locale = core()->getRequestedLocaleCode();
 
         $data[$locale] = $args['input'];
 
         $data['channels'] = $args['input']['channels'];
 
-        $data['locale'] = $args['input']['locale'];
+        $data['locale'] = $locale;
 
         $id = $args['id'];
 
-        unset($data[$locale]['channels']);
-
-        unset($data[$locale]['locale']);
+        unset($data[$locale]['channels'], $data[$locale]['locale']);
 
         $validator = Validator::make($data, [
             $locale.'.url_key'      => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
-                if (!$this->cmsRepository->isUrlKeyUnique($id, $value)) {
+                if (!$this->pageRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('bagisto_graphql::app.admin.cms.already-taken'));
                 }
             }],
             $locale.'.page_title'   => 'required',
             $locale.'.html_content' => 'required',
-            'channels'              => 'required',
+            'channels'              => 'required|array|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         try {
-            $page = $this->cmsRepository->update($data, $id);
+            Event::dispatch('cms.page.create.before', $id);
+
+            $page = $this->pageRepository->update($data, $id);
+
+            Event::dispatch('cms.page.create.after', $page);
+
+            $page->success = trans('bagisto_graphql::app.admin.cms.update-success');
 
             return $page;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -116,17 +142,21 @@ class CmsPageMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
-        $page = $this->cmsRepository->find($args['id']);
+        $id = $args['id'];
+
+        $page = $this->pageRepository->find($id);
+
+        if (! $page) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.cms.not-found'));
+        }
 
         try {
-            if ($page) {
-                $page->delete();
+            Event::dispatch('cms.page.delete.before', $id);
 
-                return ['success' => trans('bagisto_graphql::app.admin.cms.delete-success')];
-            } else {
-                throw new CustomException(trans('bagisto_graphql::app.admin.cms.delete-failed'));
-            }
-        } catch (Exception $e) {
+            $this->pageRepository->delete($id);
+
+            return ['success' => trans('bagisto_graphql::app.admin.cms.delete-success')];
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

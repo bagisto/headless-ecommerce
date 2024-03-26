@@ -40,7 +40,13 @@ class CurrencyMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         try {
@@ -73,7 +79,7 @@ class CurrencyMutation extends Controller
         }
 
         $data = $args['input'];
-        
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -82,7 +88,13 @@ class CurrencyMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         $currency = $this->currencyRepository->find($id);

@@ -1,0 +1,17 @@
+#Catalog\Image Related API
+type Image {
+    id: ID!
+    type: String
+    path: String
+    url: String
+    variants:[Image]
+    productId: ID @rename(attribute: "product_id")
+    product: Product @belongsTo(relation: "product")
+}
+
+type CacheImage {
+    smallImageUrl: String @rename(attribute: "small_image_url")
+    mediumImageUrl: String @rename(attribute: "medium_image_url")
+    largeImageUrl: String @rename(attribute: "large_image_url")
+    originalImageUrl: String @rename(attribute: "original_image_url")
+}

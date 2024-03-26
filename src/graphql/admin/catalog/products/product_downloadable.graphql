@@ -1,0 +1,82 @@
+#Catalog\ProductDownloadableSample Related API
+input UpdateDownloadableLinksInput {
+    linkProductId: ID @rename(attribute: "link_product_id")
+    locales: [DownloadableLocaleInput!]
+    price: Float!
+    type: String!
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    url: String
+    sampleType: String! @rename(attribute: "sample_type")
+    sampleFile: String @rename(attribute: "sample_file")
+    sampleFileName: String @rename(attribute: "sample_file_name")
+    sampleUrl: String @rename(attribute: "sample_url")
+    downloads: Int!
+    sortOrder: Int! @rename(attribute: "sort_order")
+}
+
+input UpdateDownloadableSamplesInput {
+    sampleProductId: ID @rename(attribute: "sample_product_id")
+    locales: [DownloadableLocaleInput!]
+    type: String!
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    url: String
+    sortOrder: Int! @rename(attribute: "sort_order")
+}
+
+input DownloadableLocaleInput {
+    code: String!
+    title: String!
+}
+
+type ProductDownloadableSample {
+    id: ID!
+    url: String
+    fileUrl: String @rename(attribute: "file_url")
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    type: String
+    sortOrder: Int @rename(attribute: "sort_order")
+    productId: ID! @rename(attribute: "product_id")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+    product: Product! @belongsTo(relation: "product")
+    translations: [SampleTranslation!] @hasMany
+}
+
+type SampleTranslation {
+    id: ID!
+    locale: String
+    title: String
+    productDownloadableSampleId: ID! @rename(attribute: "product_downloadable_sample_id")
+}
+
+type ProductDownloadableLink {
+    id: ID!
+    title: String
+    price: Float!
+    url: String
+    fileUrl: String @rename(attribute: "file_url")
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    type: String
+    sampleUrl: String @rename(attribute: "sample_url")
+    sampleFile: String @rename(attribute: "sample_file")
+    sampleFileUrl: String @rename(attribute: "sample_file_url")
+    sampleFileName: String @rename(attribute: "sample_file_name")
+    sampleType: String @rename(attribute: "sample_type")
+    sortOrder: Int @rename(attribute: "sort_order")
+    productId: ID! @rename(attribute: "product_id")
+    downloads: Int!
+    product: Product! @belongsTo(relation: "product")
+    translations: [LinkTranslation!] @hasMany
+}
+
+type LinkTranslation {
+    id: ID!
+    locale: String
+    title: String
+    productDownloadableLinkId: ID! @rename(attribute: "product_downloadable_link_id")
+}
+

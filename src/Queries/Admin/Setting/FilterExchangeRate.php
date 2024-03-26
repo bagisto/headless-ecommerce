@@ -16,7 +16,7 @@ class FilterExchangeRate extends BaseFilter
     public function __invoke($query, $input)
     {
         // filter the relationship Currency
-        if (! empty($input['currency'])) {
+        if (isset($input['currency'])) {
             $query = $query->whereHas('currency', function ($q) use ($input) {
                 $q->where('name', $input['currency']);
             });

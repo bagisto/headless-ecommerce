@@ -1,0 +1,20 @@
+#Catalog\CustomerGroupPrice Related API
+input CustomerGroupPriceInput {
+    customerGroupId: ID @rename(attribute: "customer_group_id")
+    qty: Int!
+    valueType: String! @rename(attribute: "value_type")
+    value: Float!
+}
+
+type CustomerGroupPrice {
+    id: ID!
+    qty: Int!
+    valueType: String! @rename(attribute: "value_type")
+    value: Int!
+    productId: ID! @rename(attribute: "product_id")
+    customerGroupId: ID @rename(attribute: "customer_group_id")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+    product: Product! @belongsTo(relation: "product")
+    customerGroup: CustomerGroup @belongsTo(relation: "customer_group")
+}

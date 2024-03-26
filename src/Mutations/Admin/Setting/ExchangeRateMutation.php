@@ -42,7 +42,13 @@ class ExchangeRateMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         $currency = $this->currencyRepository->find($data['target_currency']);
@@ -91,7 +97,13 @@ class ExchangeRateMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         $exchangeRate = $this->exchangeRateRepository->find($id);

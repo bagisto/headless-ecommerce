@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]){
     channels(
         input: FilterChannelInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterChannel")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterChannel")
     ) : [Channel!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\Channel")
 
     channel(

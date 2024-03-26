@@ -15,17 +15,18 @@ class FilterTaxRate extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
-        // check the value for the input state *
-        if (isset($arguments['state']) && $input['state']  == "*") {
-            unset($arguments['state']);
-
-            return $query->where(function ($q) {
+        // filter the relationship Role
+        if (
+            isset($arguments['state'])
+            && $input['state']  == "*"
+        ) {
+            $query = $query->where(function ($q) {
                 $q->where('state', "");
-            })->where($arguments);
+            });
+
+            unset($input['state']);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

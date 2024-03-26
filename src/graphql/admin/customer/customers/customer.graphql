@@ -1,0 +1,117 @@
+# Customer\Customer Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    customers(
+        input: FilterCustomerInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomer")
+    ): [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
+
+    customer(
+        id: ID @eq
+    ): Customer @find(model: "Webkul\\Customer\\Models\\Customer")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createCustomer(
+        input: CreateCustomerInput!
+    ): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@store")
+
+    updateCustomer(
+        id: ID!,
+        input: CreateCustomerInput!
+    ): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@update")
+
+    storeNotes(
+        id: ID!,
+        input: CreateCustomerNoteInput!
+    ): Note @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@storeNotes")
+
+    unSubscribe(
+        token: String!
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@unsubscribe")
+
+    deleteCustomer(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
+}
+
+input FilterCustomerInput {
+    id: Int
+    name: String
+    gender: Gender
+    email: String
+    dateOfBirth: String @rename(attribute: "date_of_birth")
+    groupName: String @rename(attribute: "group_name")
+    phone: String
+    status: Boolean
+}
+
+input CreateCustomerInput {
+    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
+    gender: Gender! @rules(apply: ["required"])
+    email: String! @rules(apply: ["required","email"])
+    dateOfBirth: String @rename(attribute: "date_of_birth")
+    customerGroupId: Int! @rename(attribute: "customer_group_id")
+    phone: String
+    status: Boolean
+    isSuspended: Boolean @rename(attribute: "is_suspended")
+}
+
+input CreateCustomerNoteInput {
+    note: String! @rules(apply: ["required"])
+    customerNotified: Boolean @rename(attribute: "customer_notified")
+}
+
+enum Gender {
+    MALE @enum(value: "Male")
+    FEMALE @enum(value: "Female")
+    OTHER @enum(value: "Other")
+}
+
+type Customer {
+    id: ID!
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    name: String
+    gender: String
+    dateOfBirth: String @rename(attribute: "date_of_birth")
+    email: String!
+    phone: String
+    image: String
+    imageUrl: String @rename(attribute: "image_url")
+    status: Boolean
+    password: String!
+    apiToken: String @rename(attribute: "api_token")
+    customerGroupId: Int @rename(attribute: "customer_group_id")
+    subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
+    isVerified: Boolean @rename(attribute: "is_verified")
+    isSuspended: Boolean @rename(attribute: "is_suspended")
+    token: String
+    notes: [Note] @hasMany
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    newsLetterSubscription: NewsLetterSubscription @hasOne(relation: "subscription")
+    customerGroup: CustomerGroup @belongsTo(relation: "group")
+    addresses: [CustomerAddress] @hasMany
+    defaultAddress: CustomerAddress @hasOne(relation: "default_address")
+    success: String
+}
+
+type Note {
+    id: ID
+    customerId: ID @rename(attribute: "customer_id")
+    note: String
+    customerNotified: Boolean @rename(attribute: "customer_notified")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    success: String
+}
+
+type NewsLetterSubscription {
+    id: ID
+    email: String
+    is_subscribed: Boolean
+    token: String
+    customer_id: ID
+    channel_id: ID
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+}

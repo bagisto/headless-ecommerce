@@ -1,0 +1,89 @@
+# Customer\CustomerAddress Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    customerAddresses(
+        input: FilterCustomerAddressInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerAddress")
+    ): [CustomerAddress!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+
+    customerAddress(
+        id: ID @eq
+    ): CustomerAddress @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createCustomerAddress(
+        input: CreateCustomerAddressInput!
+    ): CustomerAddress  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@store")
+
+    updateCustomerAddress(
+        id: ID!,
+        input: CreateCustomerAddressInput!
+    ): CustomerAddress  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@update")
+
+    setAsDefaultAddress(
+        id: ID!
+        customerId: ID! @rename(attribute: "customer_id")
+    ): CustomerAddress  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@setAsDefaultAddress")
+
+    deleteCustomerAddress(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@delete")
+}
+
+input FilterCustomerAddressInput {
+    id: Int
+    customerId: Int @rename(attribute: "customer_id")
+    companyName: String @rename(attribute: "company_name")
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    address: String
+    country: String
+    state: String
+    city: String
+    postcode: String
+    phone: String
+    vatId: String @rename(attribute: "vat_id")
+    defaultAddress: Boolean @rename(attribute: "default_address")
+}
+
+input CreateCustomerAddressInput {
+    customerId: Int! @rename(attribute: "customer_id") @rules(apply: ["required"])
+    companyName: String @rename(attribute: "company_name")
+    vatId: String @rename(attribute: "vat_id")
+    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
+    address: String! @rules(apply: ["required"])
+    city: String! @rules(apply: ["required"])
+    postcode: String! @rules(apply: ["integer","required"])
+    country: String! @rules(apply: ["required"])
+    state: String! @rules(apply: ["required"])
+    phone: String! @rules(apply: ["integer"])
+    email: String! @rules(apply: ["required"])
+    defaultAddress: Boolean @rename(attribute: "default_address")
+}
+
+type CustomerAddress {
+    id: ID!
+    addressType: String @rename(attribute: "address_type")
+    parentAddressId: ID @rename(attribute: "parent_address_id")
+    useForShipping: Boolean @rename(attribute: "use_for_shipping")
+    customerId: ID! @rename(attribute: "customer_id")
+    cartId: ID @rename(attribute: "cart_id")
+    orderId: ID @rename(attribute: "order_id")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    gender: String
+    companyName: String @rename(attribute: "company_name")
+    address: String!
+    city: String!
+    state: String!
+    country: String!
+    postcode: String!
+    email: String
+    phone: String!
+    vatId: String @rename(attribute: "vat_id")
+    defaultAddress: Boolean @rename(attribute: "default_address")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    countryName: String! @rename(attribute: "country_name")
+    stateName: String @rename(attribute: "state_name")
+    success: String
+}

@@ -41,7 +41,13 @@ class LocaleMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         try {
@@ -92,7 +98,13 @@ class LocaleMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         $locale = $this->localeRepository->find($id);

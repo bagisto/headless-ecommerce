@@ -10,4 +10,15 @@ scalar Upload
 
 #import /admin/catalog/categories/*.graphql
 
+#import /admin/customer/customers/*.graphql
+#import /admin/customer/groups/*.graphql
+#import /admin/customer/reviews/*.graphql
+
+#import /admin/cms/*.graphql
+
+#import /admin/marketing/promotions/*.graphql
+
 #import /admin/setting/*.graphql
+#import /admin/configuration/*.graphql
+
+

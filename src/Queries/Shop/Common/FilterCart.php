@@ -21,19 +21,19 @@ class FilterCart extends BaseFilter
         if (isset($arguments['customer_name'])) {
             $customer_name = $input['customer_name'];
             $customerName =$this->nameSplitter($customer_name);
-            $arguments['customer_first_name'] = $customerName['firstname']; 
+            $arguments['customer_first_name'] = $customerName['firstname'];
             $arguments['customer_last_name'] = $customerName['lastname'];
 
             unset($arguments['customer_name']);
 
         }
 
-        return $query->where($arguments); 
+        return $query->where($arguments);
     }
 
     public function additional($data, $type)
     {
-        $param = (isset($type['directive']) && $type['directive'] == 'conditions') ? 'conditions' : 'additional';
+        $param = (isset($type['directive']) && $type['directive'] == 'conditions') ? 'conditions' : 'conditions';
 
         $addition = $data->{$param};
 
@@ -49,7 +49,7 @@ class FilterCart extends BaseFilter
 
         if ($data->type == 'configurable') {
             $additionalDate['selected_configurable_option'] = $addition['selected_configurable_option'];
-            
+
             if (! empty($addition['super_attribute'])) {
                 foreach ($addition['super_attribute'] as $attributeId => $optionId) {
                     $additionalDate['super_attribute'][] = [
@@ -65,7 +65,7 @@ class FilterCart extends BaseFilter
                 }
             }
         }
-        
+
         return $additionalDate;
     }
 }

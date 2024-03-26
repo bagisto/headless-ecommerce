@@ -9,6 +9,2371 @@
 			"name": "Admin",
 			"item": [
 				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "Customers",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query customers {\n    customers(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # name: \"test\"\n            # gender: MALE\n            # email: \"test@test.com\"\n            # dateOfBirth: \"1993-07-11\"\n            # groupName: \"VIP\"\n            # phone: \"9876543210\"\n            # status: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            image\n            imageUrl\n            status\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            isSuspended\n            token\n            notes {\n                id\n                customerId\n                note\n                customerNotified\n                createdAt\n                updatedAt\n            }\n            createdAt\n            updatedAt\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Customers"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query customer {\n    customer(id: 3) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Customer Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createCustomer {\n    createCustomer(input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"johndoe@example.com\"\n      \tgender: MALE\n      \tdateOfBirth: \"11/07/1993\"\n        customerGroupId: 1\n        phone: \"9876543210\"\n    }) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New Customer"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation updateCustomer {\n    updateCustomer(id: 7, input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"johndoe@example.com\"\n      \tgender: FEMALE\n      \tdateOfBirth: \"1996-05-10\"\n        customerGroupId: 2\n        phone: \"9876543210\"\n        status: true\n        isSuspended: false\n    }) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Customer Detail"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation deleteCustomer {\n    deleteCustomer(id: 1) {\n        success\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Customer"
+									},
+									"response": []
+								},
+								{
+									"name": "Store Notes",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation storeNotes {\n    storeNotes(id: 7, input: {\n        note: \"John Test\"\n        customerNotified: true\n    }) {\n        id\n        customerId\n        note\n        customerNotified\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Customer Detail"
+									},
+									"response": []
+								}
+							],
+							"description": "Customer",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Customer's Addresses",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query customerAddresses {\n    customerAddresses(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # customerId: 1\n            # companyName: \"Test\"\n            # firstName: \"Jhon\"\n            # lastName: \"Doe\"\n            # address1: \"h-28 arv park\"\n            # country: \"IN\"\n            # state: \"UP\"\n            # city: \"AGRA\"\n            # postcode: \"201301\"\n            # phone: \"9876543210\"\n            # vatId: \"989898\"\n            # defaultAddress: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query customerAddress {\n    customerAddress(id: 2) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createCustomerAddress {\n    createCustomerAddress(input: {\n        customerId: 7\n        companyName: \"Stark Industries\"\n        vatId: \"INV12345678902\"\n        firstName: \"John\"\n        lastName: \"Doe\"\n        address: \"3180 Bluff Street\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"555\"\n        country: \"US\"\n        state: \"PA\"\n        phone: \"987654321\"\n        email: \"johndoe@example.com\"\n        defaultAddress: true\n    }) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(id: 7, input: {\n        customerId: 7\n        companyName: \"Stark Industries\"\n        vatId: \"INV12345678902\"\n        firstName: \"John\"\n        lastName: \"Doe\"\n        address: \"3180 Bluff Street\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"555\"\n        country: \"US\"\n        state: \"PA\"\n        phone: \"987654321\"\n        email: \"johndoe@example.com\"\n        defaultAddress: true\n    }) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteCustomerAddress {\n    deleteCustomerAddress(id: 7) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Set As Default Address",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation setAsDefaultAddress {\n    setAsDefaultAddress(\n        id: 8\n        customerId: 7\n    ) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Customer Groups",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query customerGroups {\n    customerGroups(\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All CustomerGroups"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query customerGroup {\n    customerGroup(id: 4) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get CustomerGroup Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createCustomerGroup {\n    createCustomerGroup(input: {\n        name: \"VIP Group\"\n        code: \"vip2\"\n        isUserDefined: true\n    }) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Create New CustomerGroup"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(id: 5, input: {\n        name: \"VIP Customers\"\n        code: \"vip1\"\n        isUserDefined: true\n    }) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update CustomerGroup Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteCustomerGroup {\n    deleteCustomerGroup(id: 5) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove CustomerGroup"
+									},
+									"response": []
+								}
+							],
+							"description": "CustomerGroups",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Reviews",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query reviews {\n    reviews(\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            createdAt\n            updatedAt\n            images {\n                id\n                reviewId\n                type\n                mimeType\n                path\n                url\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query review {\n    review(id: 1) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "\nmutation updateReview {\n    updateReview(\n        id: 1\n        status: APPROVED\n    ) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n            createdAt\n            updatedAt\n        }\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update CustomerGroup Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteReview {\n    deleteReview(id: 1) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove CustomerGroup"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Cms",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cmsPages {\n    cmsPages (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # pageTitle: \"test\"\n            # urlKey: \"test\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            layout\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            translations {\n                id\n                urlKey\n                metaDescription\n                metaTitle\n                pageTitle\n                metaKeywords\n                htmlContent\n                locale\n                cmsPageId\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cmsPage {\n    cmsPage(id: 1) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Translations",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cmsPageTranslations {\n    cmsPageTranslations(input: {\n        cmsPageId: 1\n        # id: 1\n        # pageTitle: \"test\"\n        # urlKey: \"test\"\n        # metaTitle: \"test\"\n        # metaKeywords: \"test\"\n        # locale: \"en\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Translation",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cmsPageTranslation {\n    cmsPageTranslation(\n        id: 1,\n        input: {\n            cmsPageId: 1\n            # id: 1\n            # pageTitle: \"test\"\n            # urlKey: \"test\"\n            # metaTitle: \"test\"\n            # metaKeywords: \"test\"\n            # locale: \"en\"\n        }\n    ) {\n        id\n        urlKey\n        metaDescription\n        metaTitle\n        pageTitle\n        metaKeywords\n        htmlContent\n        locale\n        cmsPageId\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createCmsPage {\n    createCmsPage(input: {\n    \tpageTitle: \"Term And Condition\"\n        channels: [1, 9]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        success\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation updateCmsPage {\n    updateCmsPage(id: 12 , input: {\n    \tpageTitle: \"Update Term & Condition\"\n        channels: [1, 9]\n        htmlContent: \"Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        success\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation deleteCmsPage {\n    deleteCmsPage(id: 15) {\n        success\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Marketing",
+					"item": [
+						{
+							"name": "Promotions",
+							"item": [
+								{
+									"name": "Catalog Rule",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query catalogRules {\n    catalogRules(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # name: \"test\"\n            # start: \"2024-03-26\"\n            # end: \"2024-03-28\"\n            # status: true\n            # priority: 1\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            conditionType\n            conditions\n            endOtherRules\n            actionType\n            discountAmount\n            sortOrder\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            customerGroups {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query catalogRule {\n    catalogRule(id: 2) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createCatalogRule {\n    createCatalogRule(input: {\n        name: \"First Catalog Rule\"\n        status: false\n        description: \"First Catalog Rule 10% off\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n        conditionType: 1\n        conditions: [{\n                    attribute: \"product|category_ids\",\n                    operator: \"{}\",\n                    attributeType: \"multiselect\",\n                    value: [\"1\", \"3\"]\n                },\t{\n                    attribute: \"product|sku\",\n                    operator: \"==\",\n                    attributeType: \"text\",\n                    value: [\"phone\"]\n                }]\n        sortOrder: 1\n        actionType: \"by_percent\"\n        discountAmount: 10.5\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        catalogRuleProducts {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n        }\n        catalogRuleProductPrices {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateCatalogRule {\n    updateCatalogRule(id: 2, input: {\n        name: \"First Catalog Rule Update\"\n        status: false\n        description: \"First Catalog Rule 10% off update\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-25 13:43:32\"\n        endsTill: \"2021-12-30 13:43:32\"\n        conditionType: 1\n        conditions: [{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"product|sku\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"phone\"]\n        },\t{\n            attribute: \"product|weight\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"1.5\"]\n        }]\n        sortOrder: 0\n        actionType: \"by_percent\"\n        discountAmount: 5.8\n        endOtherRules: false\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        catalogRuleProducts {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n        }\n        catalogRuleProductPrices {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteCatalogRule {\n    deleteCatalogRule(id: 2) {\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get CatalogRule Product List",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query catalogRuleProducts {\n    catalogRuleProducts(input: {\n        catalogRuleId: 1\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get CatalogRule Product Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query catalogRuleProduct {\n    catalogRuleProduct(\n        id: 15,\n        input: {\n            catalogRuleId: 1\n        }\n    ) {\n        id\n        startsFrom\n        endsTill\n        discountAmount\n        actionType\n        endOtherRules\n        sortOrder\n        catalogRuleId\n        channelId\n        customerGroupId\n        productId\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            variants {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get CatalogRule Product Price List",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query catalogRuleProductPrices {\n    catalogRuleProductPrices(input: {\n        catalogRuleId: 1,\n        productId: 15,\n        customerGroupId: 1,\n        channelId: 1\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get CatalogRule Product Price Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query catalogRuleProductPrice {\n    catalogRuleProductPrice(\n        id: 1,\n        input: {\n            catalogRuleId: 1,\n            productId: 15,\n            customerGroupId: 1,\n            channelId: 1\n        }\n    ) {\n        id\n        price\n        ruleDate\n        startsFrom\n        endsTill\n        productId\n        catalogRuleId\n        channelId\n        customerGroupId\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Cart Rule",
+									"item": [
+										{
+											"name": "Get All Cart Rule List",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query cartRules {\n    cartRules (\n        first:11\n        page: 1\n    ){\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            couponType\n            useAutoGeneration\n            usagePerCustomer\n            usesPerCoupon\n            timesUsed\n            conditionType\n            conditions\n            actions\n            endOtherRules\n            usesAttributeConditions\n            actionType\n            discountAmount\n            discountQuantity\n            discountStep\n            applyToShipping\n            freeShipping\n            sortOrder\n            createdAt\n            updatedAt\n            cartRuleChannels {\n                id\n                code\n                name\n                description\n                theme\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n            }\n            cartRuleCustomerGroups {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            cartRuleCoupon {\n                id\n                code\n                usageLimit\n                usagePerCustomer\n                isPrimary\n                timesUsed\n                expiredAt\n                type\n                cartRuleId\n                createdAt\n                updatedAt\n                couponUsage {\n                    id\n                    timesUsed\n                    cartRuleCouponId\n                }\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get CartRule Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query cartRule {\n    cartRule(id: 1) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        actions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        cartRuleChannels {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        cartRuleCustomerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        cartRuleCoupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            isPrimary\n            timesUsed\n            expiredAt\n            type\n            cartRuleId\n            createdAt\n            updatedAt\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create Cart Rule",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createCartRule {\n    createCartRule(input: {\n        name: \"First Cart Rule (10%)\"\n        description: \"You can avail 10% off by using this cart rule.\"\n        channels: [1]\n        customerGroups: [1, 2]\n        status: false\n        couponType: 1\n        useAutoGeneration: false\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 2\n        usagePerCustomer: 3\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n        sortOrder: 1\n        timesUsed: 2\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"3\"]\n        }]\n        usesAttributeConditions: true\n        actionType: \"by_percent\"\n        discountAmount: 5\n        discountQuantity: 1\n        discountStep: 2\n        applyToShipping: false\n        freeShipping: false\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        actions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        cartRuleChannels {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        cartRuleCustomerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        cartRuleCoupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            isPrimary\n            timesUsed\n            expiredAt\n            type\n            cartRuleId\n            createdAt\n            updatedAt\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Cart Rule",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateCartRule {\n    updateCartRule(id: 1, input: {\n        name: \"First Cart Rule (5%)\"\n        description: \"You can avail 5% off by using this cart rule.\"\n        channels: [1]\n        customerGroups: [1, 2, 3]\n        status: true\n        couponType: 1\n        useAutoGeneration: true\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 1\n        usagePerCustomer: 1\n        startsFrom: \"2021-11-19 13:43:32\"\n        endsTill: \"2021-12-25 13:43:32\"\n        sortOrder: 0\n        timesUsed: 1\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"5\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"cart|payment_method\",\n            operator: \"==\",\n            attributeType: \"select\",\n            value: \"cashondelivery\"\n        },\t{\n            attribute: \"cart|items_qty\",\n            operator: \"==\",\n            attributeType: \"integer\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|children::sku\",\n            operator: \"!{}\",\n            attributeType: \"text\",\n            value: \"home-decor\"\n        }]\n        usesAttributeConditions: true\n        actionType: \"by_percent\"\n        discountAmount: 5\n        discountQuantity: 2\n        discountStep: 1\n        applyToShipping: true\n        freeShipping: true\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        actions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        cartRuleChannels {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        cartRuleCustomerGroups {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        cartRuleCoupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            isPrimary\n            timesUsed\n            expiredAt\n            type\n            cartRuleId\n            createdAt\n            updatedAt\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Remove Cart Rule",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteCartRule {\n    deleteCartRule(id: 2) {\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Communications",
+							"item": [
+								{
+									"name": "Email Templates",
+									"item": [
+										{
+											"name": "Get All Email Templates",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query emailTemplates{\n    emailTemplates(\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data{\n            id\n            name\n            content\n            status\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Email Template Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query emailTemplates{\n    emailTemplate(id: 1){\n            id\n            name\n            content\n            status\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create Email Template",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createEmailTemplate{\n    createEmailTemplate(input: {\n        name: \"Birthday Greetings\"\n        content: \"Birthday Greetings Card\"\n        status: ACTIVE\n    }){\n        id\n        name\n        content\n        status\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Email Template",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createEmailTemplate{\n    updateEmailTemplate(id: 1, input: {\n        name: \"Birthday Card\"\n        content: \"Hi! This is your birthday card.\"\n        status: ACTIVE\n    }){\n        id\n        name\n        content\n        status\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Remove Email Template",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteEmailTemplate{\n    deleteEmailTemplate(id: 2) {\n        status\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Events",
+									"item": [
+										{
+											"name": "Get All Events",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query events{\n    events(\n        first:11\n        page: 1\n    input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data{\n            id\n            name\n            description\n            date\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Event Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query events{\n    event(id: 1) {\n        id\n        name\n        description\n        date\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create Event",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createEvent{\n    createEvent(input: {\n        name: \"Rock Show\"\n        description: \"Street Rock Show\"\n        date: \"20-10-1996\"\n    }) {\n        id\n        name\n        description\n        date\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Event",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateEvent{\n    updateEvent(id: 2, input: {\n        name: \"event\"\n        description: \"event\"\n        date: \"20-10-1996\"\n    }){\n        id\n        name\n        description\n        date\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Remove Event",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteEvent{\n    deleteEvent(id: 2) {\n        status\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Campaign",
+									"item": [
+										{
+											"name": "Get All Campaign",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query campaigns{\n    campaigns(\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"test\"\n        # subject: \"test\"\n        # event: 1\n        # emailTemplate: 1 \n        # channel: 1\n        # customerGroup: 1\n    }){\n        data{\n            id\n            name\n            subject \n            status\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n                success \n            }\n            emailTemplate{\n                id\n                name\n                content\n                status\n            }\n            event{\n                 id\n                name\n                description\n                date\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Campaign Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query campaign{\n    campaign(id: 1) {\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create Campaign",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createCampaign{\n    createCampaign(input: {\n        name: \"New Campaign\"\n        subject: \"New Campaign Subject\"\n        eventId: 1\n        emailTemplateId: 1\n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }){\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n    \n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Campaign",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createCampaign{\n    updateCampaign(id: 6, input: {\n        name: \"New Campaign\"\n        subject: \"New Campaign Subject\"\n        eventId: 1\n        emailTemplateId: 1\n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }){\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Remove Campaign",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteCampaign{\n    deleteCampaign(id: 6) {\n        status\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Subscribers",
+									"item": [
+										{
+											"name": "Get All NewsletterSubscribers",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query newsletterSubscribers {\n\tnewsletterSubscribers(\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            email\n            isSubscribed\n            token\n            channelId\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Subscriber Details",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query newsletterSubscriber {\n    newsletterSubscriber(email: \"test@test.com\") {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "UnSubscribe",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation unSubscribe {\n    unSubscribe(token: \"65deca558a7a1\") {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Remove Subscriber",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteSubscriber {\n    deleteSubscriber(email: \"test@test.com\") {\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "SiteMap",
+							"item": [
+								{
+									"name": "Get All SiteMaps",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query sitemaps{\n    sitemaps(\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # fileName: \"test\"\n        # path: \"test\"\n    }) {\n        data {\n            id\n            fileName\n            path\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get SiteMap Detail",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query sitemap{\n    sitemap(id: 1) {\n        id\n        fileName\n        path\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create SiteMap",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createSiteMap{\n    createSiteMap(input: {\n        fileName: \"Contact Us\"\n        path: \"page/contact-us\"\n    }) {\n        id\n        fileName\n        path\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update SiteMap",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateSiteMap{\n    updateSiteMap(id: 2, input: {\n        fileName: \"Updated ContactUs\"\n        path: \"page/contact-us\"\n    }){\n        id\n        fileName\n        path\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Remove SiteMap",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteSiteMap{\n    deleteSiteMap(id: 2) {\n        status\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						}
+					]
+				},
+				{
 					"name": "Settings",
 					"item": [
 						{
@@ -32,7 +2397,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query locales {\n    locales (\n        first:11\n        page: 1\n        input: {\n        # id: 2\n        # name: \"Tom Martin\"\n        # code: \"tom_martin@example.com\"\n        # direction: \"ltr\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "query locales {\n    locales (\n        first:11\n        page: 1\n        input: {\n            # id: 2\n            # code: \"tom_martin@example.com\"\n            # name: \"Tom Martin\"\n            # direction: \"ltr\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -204,7 +2569,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query currencies {\n    currencies (\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # code: \"Tom Martin\"\n        # name: \"tom_martin@example.com\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n    }\n}",
+												"query": "query currencies {\n    currencies (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # name: \"tom_martin@example.com\"\n            # code: \"Tom Martin\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            symbol\n            decimal\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -337,7 +2702,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query exchangeRates {\n    exchangeRates (\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # targetCurrency: 2\n        # rate: 22.22\n        # currency: \"EURO\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            rate\n            targetCurrency\n            createdAt\n            updatedAt\n            currency {\n                id\n            }\n        }\n    }\n}",
+												"query": "query exchangeRates {\n    exchangeRates (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # targetCurrency: 2\n            # currency: \"EURO\"\n            # rate: 22.22\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            rate\n            targetCurrency\n            createdAt\n            updatedAt\n            currency {\n                id\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -401,7 +2766,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createExchangeRate {\n    createExchangeRate(input: {\n    \ttargetCurrency: 2\n        rate: 12.2\n    }) {\n        id\n        rate\n    \ttargetCurrency\n    }\n}",
+												"query": "mutation createExchangeRate {\n    createExchangeRate(input: {\n    \ttargetCurrency: 2\n        rate: 12.2\n    }) {\n        id\n        rate\n    \ttargetCurrency\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -433,7 +2798,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateExchangeRate {\n    updateExchangeRate(id: 2, input: {\n    \ttargetCurrency: 2\n        rate: 11\n    }) {\n        id\n        rate\n    \ttargetCurrency\n    }\n}\n",
+												"query": "mutation updateExchangeRate {\n    updateExchangeRate(id: 2, input: {\n    \ttargetCurrency: 2\n        rate: 11\n    }) {\n        id\n        rate\n    \ttargetCurrency\n        success\n    }\n}\n",
 												"variables": ""
 											}
 										},
@@ -509,7 +2874,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query inventorySources {\n    inventorySources (\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # code: \"Test\"\n        # name: \"custom\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n    }\n}",
+												"query": "query inventorySources {\n    inventorySources (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # code: \"Test\"\n            # name: \"custom\"\n            # status: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -698,7 +3063,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query channels {\n    channels (\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            timezone\n            theme\n            hostname\n            logoUrl\n            faviconUrl\n            homeSeo {\n                metaTitle\n                metaKeywords\n                metaDescription\n            }\n            isMaintenanceOn\n            allowedIps\n            rootCategoryId\n            defaultLocaleId\n            baseCurrencyId\n            createdAt\n            updatedAt\n            maintenanceModeText\n            description\n            locales {\n                id\n                code\n                name\n                direction\n                logoUrl\n                createdAt\n                updatedAt\n            }\n            defaultLocale {\n                id\n                code\n                name\n                direction\n                logoUrl\n                createdAt\n                updatedAt\n            }\n            currencies {\n                id\n                code\n                name\n                symbol\n                decimal\n                createdAt\n                updatedAt\n                exchangeRate {\n                    id\n                    targetCurrency\n                    rate\n                    createdAt\n                    updatedAt\n                    currency {\n                        id\n                    }\n                }\n            }\n            baseCurrency {\n                id\n                code\n                name\n                symbol\n                decimal\n                createdAt\n                updatedAt\n                exchangeRate {\n                    id\n                    targetCurrency\n                    rate\n                    createdAt\n                    updatedAt\n                    currency {\n                        id\n                    }\n                }\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            rootCategory {\n                id\n            }\n        }\n    }\n}",
+												"query": "query channels {\n    channels (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # code: \"Test\"\n            # name: \"custom\"\n            # hostname: \"test\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            timezone\n            theme\n            hostname\n            logoUrl\n            faviconUrl\n            homeSeo {\n                metaTitle\n                metaKeywords\n                metaDescription\n            }\n            isMaintenanceOn\n            allowedIps\n            rootCategoryId\n            defaultLocaleId\n            baseCurrencyId\n            createdAt\n            updatedAt\n            maintenanceModeText\n            description\n            locales {\n                id\n                code\n                name\n                direction\n                logoUrl\n                createdAt\n                updatedAt\n            }\n            defaultLocale {\n                id\n                code\n                name\n                direction\n                logoUrl\n                createdAt\n                updatedAt\n            }\n            currencies {\n                id\n                code\n                name\n                symbol\n                decimal\n                createdAt\n                updatedAt\n                exchangeRate {\n                    id\n                    targetCurrency\n                    rate\n                    createdAt\n                    updatedAt\n                    currency {\n                        id\n                    }\n                }\n            }\n            baseCurrency {\n                id\n                code\n                name\n                symbol\n                decimal\n                createdAt\n                updatedAt\n                exchangeRate {\n                    id\n                    targetCurrency\n                    rate\n                    createdAt\n                    updatedAt\n                    currency {\n                        id\n                    }\n                }\n            }\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            rootCategory {\n                id\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -945,7 +3310,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query users {\n    users( \n        first:20\n        page: 1\n        input: {\n        # id: 1\n        # name: \"Tom Martin\"\n        # email: \"tom_martin@example.com\"\n        # roleId: 1\n        # role: \"Administrator\"\n        # status: true\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            email\n            password\n            apiToken\n            status\n            roleId\n            image\n            rememberToken\n            createdAt\n            updatedAt\n            role {\n                id\n                name\n                description\n                permissionType\n                permissions\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"query": "query users {\n    users( \n        first:20\n        page: 1\n        input: {\n            # id: 1\n            # name: \"Tom Martin\"\n            # email: \"tom_martin@example.com\"\n            # roleId: 1\n            # role: \"Administrator\"\n            # status: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            email\n            password\n            apiToken\n            status\n            roleId\n            image\n            rememberToken\n            createdAt\n            updatedAt\n            role {\n                id\n                name\n                description\n                permissionType\n                permissions\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -1109,7 +3474,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query roles {\n    roles(\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"Test\"\n        # permissionType: \"custom\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            permissionType\n            permissions\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "query roles {\n    roles(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # name: \"Test\"\n            # permissionType: \"custom\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            description\n            permissionType\n            permissions\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -1305,7 +3670,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query themes {\n    themes (\n        first:11\n        page: 1\n        input: {\n            # id: 3\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            type\n            name\n            sortOrder\n            status\n            channelId\n            createdAt\n            updatedAt\n            translations {\n                id\n                themeCustomizationId\n                localeCode\n                options {\n                    title\n                    css\n                    html\n                    images {\n                        link\n                        imageTitle\n                        image\n                    }\n                    filters {\n                        value\n                        key\n                    }\n                    column_1 {\n                        url\n                        title\n                        sortOrder\n                    }\n                    column_2 {\n                        url\n                        title\n                        sortOrder\n                    }\n                    column_3 {\n                        url\n                        title\n                        sortOrder\n                    }\n                }\n            }\n        }\n    }\n}",
+												"query": "query themes {\n    themes (\n        first:11\n        page: 1\n        input: {\n            # id: 3\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            type\n            name\n            sortOrder\n            status\n            channelId\n            createdAt\n            updatedAt\n            translations {\n                id\n                themeCustomizationId\n                localeCode\n                options {\n                    title\n                    css\n                    html\n                    images {\n                        link\n                        imageTitle\n                        image\n                    }\n                    filters {\n                        value\n                        key\n                    }\n                    column_1 {\n                        url\n                        title\n                        sortOrder\n                    }\n                    column_2 {\n                        url\n                        title\n                        sortOrder\n                    }\n                    column_3 {\n                        url\n                        title\n                        sortOrder\n                    }\n                }\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -1430,6 +3795,627 @@
 											"mode": "graphql",
 											"graphql": {
 												"query": "mutation deleteTheme {\n    deleteTheme(id: 16) {\n        success\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Tax",
+							"item": [
+								{
+									"name": "Tax Rates",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query taxRates {\n    taxRates (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # identifier: \"test\"\n            # isZip: true\n            # zipCode: \"201301\"\n            # zipFrom: \"201300\"\n            # zipTo: \"201310\"\n            # state: \"UP\"\n            # country: \"IN\"\n            # taxRate: \"10\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            identifier\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            state\n            country\n            taxRate\n            taxCategories {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Get All TaxRates"
+											},
+											"response": []
+										},
+										{
+											"name": "Get",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query taxRate {\n    taxRate(id: 1) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Get TaxRate Detail"
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createTaxRate {\n    createTaxRate(input: {\n        identifier: \"test is ip\",\n        country: \"IN\",\n        state: \"\",\n        # isZip: \"\",\n        zipCode:\"\",\n        # zipFrom: \"\",\n        # zipTo: \"\",\n        taxRate: 4.33,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Create New TaxRate"
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateTaxRate {\n    updateTaxRate(id: 1, input: {\n        identifier: \"update new\",\n        isZip: \"1\",\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        zipCode:\"\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Update TaxRate Details"
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteTaxRate {\n    deleteTaxRate(id: 2) {\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Remove TaxRate"
+											},
+											"response": []
+										}
+									],
+									"description": "Tax Rates",
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Tax Categories",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query taxCategories {\n    taxCategories (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # code: \"Test\"\n            # name: \"custom\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            name\n            description\n            taxRates {\n                id\n                identifier\n                country\n                state\n                isZip\n                zipCode\n                zipFrom\n                zipTo\n                taxRate\n            }\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Get All TaxCategories"
+											},
+											"response": []
+										},
+										{
+											"name": "Get",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "{{adminToken}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query taxCategory {\n    taxCategory(id: 1) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Get TaxCategory Detail"
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createTaxCategory {\n    createTaxCategory(input: {\n        code: \"service tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Create New TaxCategory"
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "\nmutation updateTaxCategory {\n    updateTaxCategory(id: 3, input: {\n        code: \"service-tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Update TaxCategory Details"
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "{{adminToken}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteTaxCategory {\n    deleteTaxCategory(id: 3) {\n        success\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												},
+												"description": "Remove TaxCategory"
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Configurations",
+					"item": [
+						{
+							"name": "Core Config",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query coreConfigs {\n    coreConfigs (\n        first: 1000\n        page: 1\n        input: {\n            # id: 1\n            # code: \"catalog.products.guest_checkout.allow_guest_checkout\"\n            # value: \"1\"\n            # channelCode: \"default\"\n            # localeCode: \"en\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            code\n            value\n            channelCode\n            localeCode\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Config"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Config",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query coreConfig {\n    coreConfig(\n        code: \"customer.settings.social_login.enable_twitter\"\n    ) {\n        id\n        code\n        value\n        channelCode\n        localeCode\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Config"
+									},
+									"response": []
+								}
+							],
+							"description": "Core Config",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Countries",
+							"item": [
+								{
+									"name": "Countries",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query countries {\n    countries (\n        first: 1000\n        page: 1\n    ){\n        data {\n            id\n            code\n            name\n            translations {\n                id\n                locale\n                name\n                countryId\n            }\n            states {\n                id\n                countryCode\n                code\n                defaultName\n                countryId\n                translations {\n                    id\n                    locale\n                    defaultName\n                    countryStateId\n                }\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Country",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query country {\n    country(id: 1) {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CountryStates",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query countrieStates {\n    countrieStates(input: {\n        # id: 65\n        # defaultName: \"Wyoming\"\n        # code: \"WY\"\n        # countryId: \"106\"\n        # countryCode: \"IN\"\n    }) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CountryState",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query countrieState {\n    countrieState(id: 1) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
