@@ -66,6 +66,12 @@ class GraphQLAPIServiceProvider extends ServiceProvider
             \Webkul\Customer\Contracts\Customer::class,
             \Webkul\GraphQLAPI\Models\Customer\Customer::class
         );
+
+        // Customer Models
+        $this->app->concord->registerModel(
+            \Webkul\CartRule\Contracts\CartRule::class,
+            \Webkul\GraphQLAPI\Models\CartRule\CartRule::class
+        );
     }
 
     /**

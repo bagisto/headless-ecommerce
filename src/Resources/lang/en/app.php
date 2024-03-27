@@ -77,6 +77,26 @@ return [
             'delete-success' => 'CMS deleted successfully',
         ],
 
+        'marketing' => [
+            'promotions' => [
+                'catalog-rules' => [
+                    'not-found'      => 'Warning: Catalog Rule not found.',
+                    'update-success' => 'Catalog Rule updated successfully.',
+                    'create-success' => 'Catalog Rule created successfully.',
+                    'delete-success' => 'Catalog Rule deleted successfully',
+                    'delete-failed'  => 'Warning: Catalog Rule is not deleted',
+                ],
+
+                'cart-rules' => [
+                    'delete-success' => 'Cart Rule deleted successfully',
+                    'delete-failed'  => 'Warning: Cart Rule is not deleted',
+                    'not-found'      => 'Cart rule is not found',
+                    'update-success' => 'Cart Rule updated successfully.',
+                    'create-success' => 'Cart Rule created successfully.',
+                ],
+            ],
+        ],
+
         'settings' => [
             'locales' => [
                 'create-success'       => 'Locale created successfully.',
@@ -260,5 +280,32 @@ return [
                 'no-login-user'     => 'Warning: No login user found.',
             ],
         ],
+    ],
+
+    'shop' => [
+        'response' => [
+            'error' => [
+                'invalid-parameter' => 'Warning: Invalid parameters provided.',
+            ],
+        ],
+
+        'customer' => [
+            'success-login' => 'Success: Customer login successful.',
+
+            'login-form' => [
+                'not-activated' => 'Your activation requires admin approval',
+                'invalid-creds' => 'Please check your credentials and try again.',
+
+                'validation' => [
+                    'unique'   => 'This :field has already been taken.',
+                    'required' => 'The :field field is required.',
+                    'same'     => 'The :field and password must match.',
+                ],
+            ],
+
+            'signup-form' => [
+                'error-registration' => 'Warning: Customer registration failed.',
+            ],
+        ]
     ],
 ];

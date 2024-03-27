@@ -5,7 +5,7 @@ namespace Webkul\GraphQLAPI\Validators\Customer;
 use Exception;
 use GraphQL\Error\ClientAware;
 
-class CustomException extends Exception implements ClientAware
+class CustomExceptionReason extends Exception implements ClientAware
 {
     /**
      * @param string $message — [optional] The Exception message to throw.
@@ -14,6 +14,7 @@ class CustomException extends Exception implements ClientAware
      */
     public function __construct(
         string $message,
+        protected string $reason
     ) {
         parent::__construct($message);
     }
@@ -52,7 +53,7 @@ class CustomException extends Exception implements ClientAware
     {
         return [
             'some'   => 'Customer Login Attempt',
-            'reason' => $this->message,
+            'reason' => $this->reason,
         ];
     }
 }

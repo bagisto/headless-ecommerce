@@ -1,0 +1,181 @@
+# Shop\Cart\CartDetail Related APIs
+extend type Query {
+    cartDetail: Cart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cart")
+
+    # cartAddresses: [CartAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartAddress")
+
+    # cartAddress(id: ID @eq): CartAddress @find(model: "Webkul\\Checkout\\Models\\CartAddress")
+}
+
+extend type Mutation {
+    addItemToCart(
+        input: AddItemToCartInput!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@store")
+
+    updateItemToCart(
+        input: UpdateItemToCartInput!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@update")
+
+    removeCartItem(id: ID!): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@delete")
+
+    removeAllCartItem: CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
+
+    moveToWishlist(id: ID!): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@move")
+}
+
+input AddItemToCartInput {
+    isBuyNow: Boolean @rename(attribute: "is_buy_now")
+    productId: ID! @rename(attribute: "product_id")
+    quantity: Int!
+
+    # Used in case of adding Grouped Product to Cart
+    selectedConfigurableOption: Int @rename(attribute: "selected_configurable_option")
+    superAttribute: [ConfigurableProductInput!] @rename(attribute: "super_attribute")
+
+    # Used in case of adding Grouped Product to Cart
+    qty: [GroupedProductInput!]
+
+    # Used in case of adding Downloadable Product to Cart
+    links: [Int!]
+
+    # Used in case of adding Bundled Product to Cart
+    bundleOptionQuantity: [Int]   @rename(attribute: "bundle_option_qty")
+    bundleOptions: [BundledOptionsInput!] @rename(attribute: "bundle_options")
+}
+
+input ConfigurableProductInput {
+    attributeId: Int! @rename(attribute: "attribute_id")
+    attributeOptionId: Int! @rename(attribute: "attribute_option_id")
+}
+
+input GroupedProductInput {
+    productId: Int! @rename(attribute: "product_id")
+    quantity: Int!
+}
+
+input BundledOptionsInput {
+    bundleOptionId: Int! @rename(attribute: "bundle_option_id")
+    bundleOptionProductId: [Int!] @rename(attribute: "bundle_option_product_id")
+    qty: Int
+}
+
+input UpdateItemToCartInput {
+    qty: [UpdateItemsQty!]
+}
+
+input UpdateItemsQty {
+    cartItemId: ID! @rename(attribute: "cart_item_id")
+    quantity: Int!
+}
+
+type CartItemResponse {
+    status: Boolean
+    message: String
+    cart: Cart
+}
+
+type Cart {
+    id: ID!
+    customerEmail: String @rename(attribute: "customer_email")
+    customerFirstName: String @rename(attribute: "customer_first_name")
+    customerLastName: String @rename(attribute: "customer_last_name")
+    shippingMethod: String @rename(attribute: "shipping_method")
+    couponCode: String @rename(attribute: "coupon_code")
+    isGift: Boolean! @rename(attribute: "is_gift")
+    itemsCount: Int @rename(attribute: "items_count")
+    itemsQty: Int @rename(attribute: "items_qty")
+    exchangeRate: Float @rename(attribute: "exchange_rate")
+    globalCurrencyCode: String @rename(attribute: "global_currency_code")
+    baseCurrencyCode: String @rename(attribute: "base_currency_code")
+    channelCurrencyCode: String @rename(attribute: "channel_currency_code")
+    cartCurrencyCode: String @rename(attribute: "cart_currency_code")
+    grandTotal: Float @rename(attribute: "grand_total")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    subTotal: Float @rename(attribute: "sub_total")
+    baseSubTotal: Float @rename(attribute: "base_sub_total")
+    taxTotal: Float @rename(attribute: "tax_total")
+    baseTaxTotal: Float @rename(attribute: "base_tax_total")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    checkoutMethod: String @rename(attribute: "checkout_method")
+    isGuest: Boolean @rename(attribute: "is_guest")
+    isActive: Boolean @rename(attribute: "is_active")
+    conversionTime: DateTime @rename(attribute: "conversion_time")
+    customerId: ID @rename(attribute: "customer_id")
+    channelId: ID! @rename(attribute: "channel_id")
+    appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    formattedPrice: FormattedCartPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
+    items: [CartItem!] @hasMany
+    allItems: [CartItem!] @hasMany(relation: "all_items")
+    shippingAddress: CartAddress @rename(attribute: "shipping_address")
+    billingAddress: CartAddress @rename(attribute: "billing_address")
+    selectedShippingRate: CartShippingRate @rename(attribute: "selected_shipping_rate")
+    addresses: [CartAddress!] @hasMany
+    payment: CartPayment @hasOne
+}
+
+type CartAddress {
+    id: ID!
+    addressType: String @rename(attribute: "address_type")
+    customerId: ID @rename(attribute: "customer_id")
+    cartId: ID @rename(attribute: "cart_id")
+    orderId:ID @rename(attribute: "order_id")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    gender: String
+    companyName: String @rename(attribute: "company_name")
+    address1: String!
+    address2: String
+    postcode: String!
+    city: String!
+    state: String!
+    country: String!
+    email: String
+    phone: String
+    defaultAddress: Boolean! @rename(attribute: "default_address")
+    vatId: String @rename(attribute: "vat_id")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    cart: Cart @belongsTo(relation: "cart")
+    shippingRates: [CartShippingRate] @hasMany(relation: "shipping_rates")
+    customer: Customer @belongsTo(relation: "customer")
+}
+
+type CartShippingRate {
+    id: ID!
+    carrier: String!
+    carrierTitle: String! @rename(attribute: "carrier_title")
+    method: String!
+    methodTitle: String! @rename(attribute: "method_title")
+    methodDescription: String @rename(attribute: "method_description")
+    price: Float
+    basePrice: Float @rename(attribute: "base_price")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    cartAddressId: ID @rename(attribute: "cart_address_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    shippingAddress: CartAddress @belongsTo(relation: "shipping_address")
+    formattedPrice: FormattedCartShippingRatePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
+}
+
+type FormattedCartPriceData {
+    grandTotal: String @rename(attribute: "grand_total")
+    baseGrandTotal: String @rename(attribute: "base_grand_total")
+    subTotal: String @rename(attribute: "sub_total")
+    baseSubTotal: String @rename(attribute: "base_sub_total")
+    taxTotal: String @rename(attribute: "tax_total")
+    baseTaxTotal: String @rename(attribute: "base_tax_total")
+    discount: String @rename(attribute: "discount")
+    baseDiscount: String @rename(attribute: "base_discount")
+    discountedSubTotal: String @rename(attribute: "discounted_sub_total")
+    baseDiscountedSubTotal: String @rename(attribute: "base_discounted_sub_total")
+}
+
+type FormattedCartShippingRatePriceData {
+    price: String
+    basePrice: String @rename(attribute: "base_price")
+}

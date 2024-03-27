@@ -21,4 +21,7 @@ scalar Upload
 #import /admin/setting/*.graphql
 #import /admin/configuration/*.graphql
 
+#import /shop/customer/*.graphql
+
+
 

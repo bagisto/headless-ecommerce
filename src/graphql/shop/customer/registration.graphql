@@ -1,0 +1,39 @@
+#Shop\Customer\Registration Related APIs
+extend type Mutation {
+    customerRegister(
+        input: CreateRegisterInput!
+    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@register")
+
+    customerSocialSignIn(
+        input: CreateSocialSignInInput! @spread
+    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@socialSignIn")
+}
+
+input CreateRegisterInput {
+    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
+    email: String! @rules(apply: ["unique:customers,email","email","required"])
+    password: String! @rules(apply: ["required","min:6"])
+    passwordConfirmation: String! @rules(apply: ["required","min:6"]) @rename(attribute: "password_confirmation")
+    subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
+}
+
+input CreateSocialSignInInput {
+    firstName: String @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String @rename(attribute: "last_name") @rules(apply: ["required"])
+    email: String! @rules(apply: ["email"]) @rules(apply: ["required"])
+    phone: String
+    signUpType: SocialSignInType! @rename(attribute: "signup_type") @rules(apply: ["required"])
+    password: String
+    passwordConfirmation: String
+    remember: Boolean
+}
+
+enum SocialSignInType {
+    TRUECALLER @enum(value: "truecaller")
+    FACEBOOK @enum(value: "facebook")
+    TWITTER @enum(value: "twitter")
+    GOOGLE @enum(value: "google")
+    LINKEDIN @enum(value: "linkedin")
+    GITHUB @enum(value: "github")
+}

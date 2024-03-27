@@ -1,0 +1,52 @@
+#Catalog\ProductBundleOption Related API
+input UpdateBundleOptionsInput {
+    bundleOptionId: ID @rename(attribute: "bundle_option_id")
+    locales: [BundleOptionLocaleInput!]
+    type: String!
+    isRequired: Boolean! @rename(attribute: "is_required")
+    sortOrder: Int @rename(attribute: "sort_order")
+    products: [BundleProductInput!]
+}
+
+input BundleOptionLocaleInput {
+    code: String!
+    label: String!
+}
+
+input BundleProductInput {
+    bundleOptionProductId: ID @rename(attribute: "bundle_option_product_id")
+    isDefault: Boolean @rename(attribute: "is_default")
+    productId: ID! @rename(attribute: "product_id")
+    qty: Int!
+    sortOrder: Int @rename(attribute: "sort_order")
+}
+
+type ProductBundleOption {
+    id: ID!
+    type: String!
+    isRequired: Boolean! @rename(attribute: "is_required")
+    sortOrder: Int! @rename(attribute: "sort_order")
+    productId: ID! @rename(attribute: "product_id")
+    product: Product! @belongsTo(relation: "product")
+    bundleOptionProducts: [ProductBundleOptionProduct!] @hasMany(relation: "bundle_option_products")
+    translations: [BundleOptionTranslation!] @hasMany
+}
+
+type ProductBundleOptionProduct {
+    id: ID!
+    qty: Int!
+    isUserDefined: Boolean! @rename(attribute: "is_user_defined")
+    sortOrder: Int @rename(attribute: "sort_order")
+    isDefault: Boolean! @rename(attribute: "is_default")
+    productBundleOptionId: ID! @rename(attribute: "product_bundle_option_id")
+    productId: ID! @rename(attribute: "product_id")
+    product: Product! @belongsTo(relation: "product")
+    bundleOption: ProductBundleOption! @belongsTo(relation: "bundle_option")
+}
+
+type BundleOptionTranslation {
+    id: ID!
+    locale: String
+    label: String
+    productBundleOptionId: ID! @rename(attribute: "product_bundle_option_id")
+}

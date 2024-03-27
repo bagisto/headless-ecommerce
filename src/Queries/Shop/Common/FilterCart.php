@@ -15,20 +15,20 @@ class FilterCart extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
         // Split the name into firstname and lastname
-        if (isset($arguments['customer_name'])) {
+        if (isset($input['customer_name'])) {
             $customer_name = $input['customer_name'];
+
             $customerName =$this->nameSplitter($customer_name);
-            $arguments['customer_first_name'] = $customerName['firstname'];
-            $arguments['customer_last_name'] = $customerName['lastname'];
 
-            unset($arguments['customer_name']);
+            $input['customer_first_name'] = $customerName['firstname'];
 
+            $input['customer_last_name'] = $customerName['lastname'];
+
+            unset($input['customer_name']);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 
     public function additional($data, $type)
@@ -37,14 +37,17 @@ class FilterCart extends BaseFilter
 
         $addition = $data->{$param};
 
-        if (! isset($data->cart_id) || isset($data->address_type)) {
+        if (
+            ! isset($data->cart_id)
+            || isset($data->address_type)
+        ) {
             return json_encode($addition);
         }
 
         $additionalDate = [
-            'is_buy_now'    => $addition['is_buy_now'] ?? false,
-            'product_id'    => $addition['product_id'],
-            'quantity'      => $addition['quantity'],
+            'is_buy_now' => $addition['is_buy_now'] ?? false,
+            'product_id' => $addition['product_id'],
+            'quantity'   => $addition['quantity'],
         ];
 
         if ($data->type == 'configurable') {
