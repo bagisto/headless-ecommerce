@@ -17,13 +17,6 @@ use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 class RegistrationMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -33,11 +26,7 @@ class RegistrationMutation extends Controller
         protected CustomerGroupRepository $customerGroupRepository,
         protected SubscribersListRepository $subscriptionRepository
     ) {
-        $this->guard = 'api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard, ['except' => ['register']]);
+        auth()->setDefaultDriver('api');
     }
 
     /**
@@ -61,15 +50,7 @@ class RegistrationMutation extends Controller
             'password_confirmation' => 'required|required_with:password|same:password',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $this->create($data);
 
@@ -99,19 +80,11 @@ class RegistrationMutation extends Controller
             'signup_type' => 'string|required',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         if ($data['signup_type'] == 'truecaller') {
             if (empty($data['phone'])) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.customer.login-form.validation.required', ['field' => 'phone number']));
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.login-form.validation.required', ['field' => 'phone number']));
             }
 
             $customer = $this->customerRepository->findOneByField('phone', $data['phone']);
@@ -121,7 +94,7 @@ class RegistrationMutation extends Controller
                 && $customer->email != $data['email']
             ) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.login-form.validation.unique', ['phone' => $data['phone']])
+                    trans('bagisto_graphql::app.shop.customers.login-form.validation.unique', ['phone' => $data['phone']])
                 );
             }
         } else {
@@ -166,7 +139,7 @@ class RegistrationMutation extends Controller
         if (! $customer) {
             return [
                 'status'  => false,
-                'success' => trans('bagisto_graphql::app.shop.customer.signup-form.error-registration'),
+                'success' => trans('bagisto_graphql::app.shop.customers.signup-form.error-registration'),
             ];
         }
 
@@ -204,18 +177,23 @@ class RegistrationMutation extends Controller
                 'password' => $data['password_confirmation'],
             ], $data['remember'] ?? 0)
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.login-form.invalid-creds'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.login-form.invalid-creds'));
         }
 
-        $loginCustomer = auth()->guard()->user();
+        $loginCustomer = auth()->user();
 
         if (! empty($password)) {
             $this->customerRepository->update([
                 'password' => $password,
             ], $loginCustomer->id);
         } else {
+
+            request()->merge([
+                'token' => $jwtToken,
+            ]);
+
             if (! $loginCustomer->status) {
-                auth()->guard()->logout();
+                auth()->logout();
 
                 return [
                     'status'  => false,
@@ -228,7 +206,7 @@ class RegistrationMutation extends Controller
 
                 Cookie::queue(Cookie::make('email-for-resend', $loginCustomer->email, 1));
 
-                auth()->guard()->logout();
+                auth()->logout();
 
                 return [
                     'status'  => false,
@@ -241,10 +219,10 @@ class RegistrationMutation extends Controller
 
         return [
             'status'       => true,
-            'success'      => trans('bagisto_graphql::app.shop.customer.success-login'),
+            'success'      => trans('bagisto_graphql::app.shop.customers.success-login'),
             'access_token' => 'Bearer '.$jwtToken,
             'token_type'   => 'Bearer',
-            'expires_in'   => auth()->guard()->factory()->getTTL() * 60,
+            'expires_in'   => auth()->factory()->getTTL() * 60,
             'customer'     => $this->customerRepository->find($loginCustomer->id),
         ];
     }

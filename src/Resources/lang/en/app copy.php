@@ -259,7 +259,7 @@ return [
             'wrong-error'               => 'Warning: There is an error with your cart, try again.',
             'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing ID.',
             'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping ID.',
-            'error-invalid-parameter'   => 'Warning: Invalid parameters provided.',
+            'error.invalid-parameter'   => 'Warning: Invalid parameters provided.',
             'already-applied'           => 'Coupon code already applied.',
             'success-apply'             => 'Coupon code applied successfully.',
             'coupon-removed'            => 'Success: coupon removed from the cart successfully.',
@@ -272,7 +272,7 @@ return [
                 'item' => [
                     'success-all-remove'       => 'All items successfully removed from the cart.',
                     'fail-all-remove'          => 'Error in removing items from the cart.',
-                    'error-invalid-parameter'  => 'Warning: Invalid parameters provided.',
+                    'error.invalid-parameter'  => 'Warning: Invalid parameters provided.',
                     'success-moved-cart-item'  => 'Success: Cart item moved to the wishlist successfully.',
                     'fail-moved-cart-item'     => 'Fail: Cart item is not moved to the wishlist.',
                     'success-add-to-cart'      => 'Success: Product added to the cart successfully.',
@@ -360,7 +360,7 @@ return [
         ],
 
         'response' => [
-            'error-invalid-parameter' => 'Warning: Invalid parameters provided.',
+            'error.invalid-parameter' => 'Warning: Invalid parameters provided.',
             'invalid-header'          => 'Warning: Invalid header token.',
             'cancel-error'            => 'Order cannot be canceled.',
         ],

@@ -44,15 +44,7 @@ class TaxRateMutation extends Controller
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         if (isset($data['is_zip'])) {
             $data['is_zip'] = 1;
@@ -103,15 +95,7 @@ class TaxRateMutation extends Controller
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $taxRate = $this->taxRateRepository->find($id);
 

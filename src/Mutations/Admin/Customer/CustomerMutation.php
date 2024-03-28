@@ -49,15 +49,7 @@ class CustomerMutation extends Controller
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $data['password'] = bcrypt(rand(100000, 10000000));
 
@@ -108,15 +100,7 @@ class CustomerMutation extends Controller
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($id);
 
@@ -203,15 +187,7 @@ class CustomerMutation extends Controller
             'note' => 'string|required',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($id);
 
@@ -220,7 +196,6 @@ class CustomerMutation extends Controller
         }
 
         try {
-
             Event::dispatch('customer.note.create.before', $id);
 
             $customerNote = $this->customerNoteRepository->create([

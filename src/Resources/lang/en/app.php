@@ -289,8 +289,19 @@ return [
             ],
         ],
 
-        'customer' => [
-            'success-login' => 'Success: Customer login successful.',
+        'subscription' => [
+            'already'             => 'You are already subscribed to our newsletter.',
+            'not-found'           => 'Warning: No subscribtion found.',
+            'subscribe-success'   => 'You have successfully subscribed to our newsletter.',
+            'unsubscribe-success' => 'You have successfully unsubscribed to our newsletter.',
+            'already-unsubscribe' => 'You are already unsubscribed to our newsletter.',
+        ],
+
+        'customers' => [
+            'success-login'     => 'Success: Customer login successful.',
+            'success-logout'    => 'Success: Customer logout successful.',
+            'no-login-customer' => 'Warning: No login customer found.',
+            'customer-details'  => 'Success: Customer details fetched successfully.',
 
             'login-form' => [
                 'not-activated' => 'Your activation requires admin approval',
@@ -306,6 +317,12 @@ return [
             'signup-form' => [
                 'error-registration' => 'Warning: Customer registration failed.',
             ],
+
+            'account' => [
+                'profile' => [
+                    'edit-fail' => 'Warning: Profile not updated',
+                ]
+            ]
         ]
     ],
 ];

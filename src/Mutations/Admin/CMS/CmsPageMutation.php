@@ -44,15 +44,7 @@ class CmsPageMutation extends Controller
             'html_content' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('cms.page.create.before');
@@ -106,15 +98,7 @@ class CmsPageMutation extends Controller
             'channels'              => 'required|array|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('cms.page.create.before', $id);

@@ -40,15 +40,7 @@ class LocaleMutation extends Controller
             'direction' => 'required|in:ltr,rtl,LTR,RTL',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $imageUrl = $data['image'] ?? '';
@@ -97,15 +89,7 @@ class LocaleMutation extends Controller
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $locale = $this->localeRepository->find($id);
 

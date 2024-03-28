@@ -119,8 +119,8 @@ class CheckoutMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
-                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter')
+                trans('bagisto_graphql::app.shop.checkout.error.invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error.invalid-parameter')
             );
         }
 
@@ -561,7 +561,7 @@ class CheckoutMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error.invalid-parameter'),
                 'Invalid request parameters.'
             );
         }
@@ -622,7 +622,7 @@ class CheckoutMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error.invalid-parameter'),
                 'Invalid request parameters.'
             );
         }
@@ -681,8 +681,8 @@ class CheckoutMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter'),
-                trans('bagisto_graphql::app.shop.checkout.error-invalid-parameter')
+                trans('bagisto_graphql::app.shop.checkout.error.invalid-parameter'),
+                trans('bagisto_graphql::app.shop.checkout.error.invalid-parameter')
             );
         }
 

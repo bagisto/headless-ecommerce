@@ -44,15 +44,7 @@ class TaxCategoryMutation extends Controller
             'taxrates'    => 'required|array|in:'.implode(',', $this->taxRateRepository->pluck('id')->toArray()),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('tax.tax_category.create.before');
@@ -97,15 +89,7 @@ class TaxCategoryMutation extends Controller
             'taxrates'    => 'required|array|in:'.implode(',', $this->taxRateRepository->pluck('id')->toArray()),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $taxCategory = $this->taxCategoryRepository->find($id);
 

@@ -8,7 +8,10 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Upload
   @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
+#import /admin/catalog/products/*.graphql
 #import /admin/catalog/categories/*.graphql
+#import /admin/catalog/attributes/*.graphql
+#import /admin/catalog/attribute-families/*.graphql
 
 #import /admin/customer/customers/*.graphql
 #import /admin/customer/groups/*.graphql
@@ -17,10 +20,12 @@ scalar Upload
 #import /admin/cms/*.graphql
 
 #import /admin/marketing/promotions/*.graphql
+#import /admin/marketing/communications/*.graphql
 
 #import /admin/setting/*.graphql
 #import /admin/configuration/*.graphql
 
+#import /shop/common/*.graphql
 #import /shop/customer/*.graphql
 
 

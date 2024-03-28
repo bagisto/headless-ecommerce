@@ -3,15 +3,14 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Illuminate\Support\Facades\DB;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Attribute\Repositories\AttributeRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Customer\Repositories\WishlistRepository;
+use Webkul\Attribute\Repositories\AttributeRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class HomePageQuery extends BaseFilter
 {
@@ -23,22 +22,13 @@ class HomePageQuery extends BaseFilter
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\AttributeRepository  $attributeRepository
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
-     * @param  \Webkul\Category\Repositories\CategoryRepository $categoryRepository
-     * @param  \Webkul\Customer\Repositories\CustomerRepository $customerRepository
-     * @param  \Webkul\Customer\Repositories\WishlistRepository $wishlistRepository
-     * @param  \Webkul\Velocity\Repositories\VelocityMetadataRepository $velocityMetadataRepository
-    * @return void
+     * @return void
      */
     public function __construct(
         protected AttributeRepository $attributeRepository,
         protected ProductRepository $productRepository,
-        protected ProductFlatRepository $productFlatRepository,
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
-        protected WishlistRepository $wishlistRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository
     ) {
     }
@@ -72,7 +62,6 @@ class HomePageQuery extends BaseFilter
         $result = $customizations->map(function ($item) {
 
             if ($item->type == 'image_carousel') {
-
                 $images['images'] = [];
 
                 foreach ($item->options['images'] as $i => $element) {
@@ -83,8 +72,8 @@ class HomePageQuery extends BaseFilter
             }
 
             if ($item->type == 'static_content') {
-
                 $staticContent['css'] = $item->options['css'];
+
                 $staticContent['html'] = [];
 
                 $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
@@ -92,10 +81,12 @@ class HomePageQuery extends BaseFilter
                 $item->options = $staticContent;
             }
 
-            if ($item->type == 'product_carousel' || $item->type == 'category_carousel') {
-
+            if (
+                $item->type == 'product_carousel'
+                || $item->type == 'category_carousel'
+            ) {
                 if (isset($item->options['title'])) {
-                    $options['title'] =  $item->options['title'];
+                    $options['title'] = $item->options['title'];
                 }
 
                 $options['filters'] =  [];
@@ -104,6 +95,7 @@ class HomePageQuery extends BaseFilter
 
                 foreach ($item->options['filters'] as $key => $value) {
                     $options['filters'][$i]['key'] = $key;
+
                     $options['filters'][$i]['value'] = $value;
 
                     $i++;
@@ -129,12 +121,13 @@ class HomePageQuery extends BaseFilter
      */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
-        if (! empty($args['id'])) {
-            $categories = $this->categoryRepository->getVisibleCategoryTree($args['id']);
+        if (! empty($args['get_category_tree'])) {
+            return $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
         }
 
         if (! empty($args['input'])) {
             $filters = array_filter($args['input']);
+
             $params = [];
 
             foreach ($filters as $input) {
@@ -153,10 +146,10 @@ class HomePageQuery extends BaseFilter
                 $params = array_merge(['locale' => app()->getLocale()], $params);
             }
 
-            $categories = $this->categoryRepository->getAll($params);
+            return $this->categoryRepository->getAll($params);
         }
 
-        return $categories;
+        throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
     }
 
     /**
@@ -168,7 +161,7 @@ class HomePageQuery extends BaseFilter
      */
     public function getAllProducts($query, $input)
     {
-        return $this->searchFromDatabase($query, $input);
+        return $this->searchFromDatabase($input);
     }
 
     /**
@@ -177,7 +170,7 @@ class HomePageQuery extends BaseFilter
      *
      * @return \Illuminate\Support\Collection
      */
-    public function searchFromDatabase($query, $input)
+    public function searchFromDatabase($input)
     {
         $params = [
             'status'               => 1,

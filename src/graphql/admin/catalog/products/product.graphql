@@ -1,8 +1,8 @@
 #Catalog\Product Related API
 extend type Query {
-    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\FilterProducts")): [Product!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\FilterProducts")): [Product!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\Product\\Models\\Product")
 
-    product(id: ID @eq): Product @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product")
+    product(id: ID @eq): Product @find(model: "Webkul\\Product\\Models\\Product")
 
     productFlats: [ProductFlat!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\Product\\Models\\ProductFlat")
 

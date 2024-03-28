@@ -47,15 +47,7 @@ class InventorySourceMutation extends Controller
             'postcode'       => 'required',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $data['status'] = $data['status'] ?? 0;
@@ -105,9 +97,7 @@ class InventorySourceMutation extends Controller
             'postcode'       => 'required',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $inventorySource = $this->inventorySourceRepository->find($id);
 

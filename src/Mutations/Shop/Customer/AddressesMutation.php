@@ -51,8 +51,8 @@ class AddressesMutation extends Controller
     {
         if (empty($args['id'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter')
             );
         }
 
@@ -129,7 +129,7 @@ class AddressesMutation extends Controller
     {
         if (! bagisto_graphql()->validateAPIUser($this->guard)) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
                 'Invalid request parameter.'
             );
         }
@@ -213,7 +213,7 @@ class AddressesMutation extends Controller
             || empty($args['input'])
         ) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
                 'Invalid request parameter.'
             );
         }
@@ -310,7 +310,7 @@ class AddressesMutation extends Controller
     {
         if (empty($args['id'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
                 'Invalid request parameter.'
             );
         }

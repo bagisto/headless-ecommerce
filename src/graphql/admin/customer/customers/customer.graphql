@@ -25,11 +25,7 @@ extend type Mutation @guard(with: ["admin-api"]) {
         input: CreateCustomerNoteInput!
     ): Note @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@storeNotes")
 
-    unSubscribe(
-        token: String!
-    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@unsubscribe")
-
-    deleteCustomer(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
+    deleteCustomer(id: ID!): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
 }
 
 input FilterCustomerInput {
@@ -88,7 +84,7 @@ type Customer {
     notes: [Note] @hasMany
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    newsLetterSubscription: NewsLetterSubscription @hasOne(relation: "subscription")
+    newsLetterSubscription: Subscriber @hasOne(relation: "subscription")
     customerGroup: CustomerGroup @belongsTo(relation: "group")
     addresses: [CustomerAddress] @hasMany
     defaultAddress: CustomerAddress @hasOne(relation: "default_address")
@@ -103,15 +99,4 @@ type Note {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     success: String
-}
-
-type NewsLetterSubscription {
-    id: ID
-    email: String
-    is_subscribed: Boolean
-    token: String
-    customer_id: ID
-    channel_id: ID
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
 }

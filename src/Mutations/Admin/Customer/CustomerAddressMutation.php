@@ -57,15 +57,7 @@ class CustomerAddressMutation extends Controller
             'vat_id'       => new VatIdRule(),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($data['customer_id']);
 
@@ -124,15 +116,7 @@ class CustomerAddressMutation extends Controller
             'vat_id'       => new VatIdRule(),
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
-            }
-
-            throw new CustomException(implode(", ", $errorMessage));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($data['customer_id']);
 

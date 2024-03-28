@@ -194,7 +194,7 @@ class ReviewMutation extends Controller
         if (! isset($args['id']) ||
             (isset($args['id']) && ! $args['id'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
                 'Invalid request parameter.'
             );
         }

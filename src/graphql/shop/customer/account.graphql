@@ -1,0 +1,45 @@
+#Shop\Customer\Account Related APIs
+extend type Query @guard(with: ["api"]) {
+    accountInfo: AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
+}
+
+extend type Mutation {
+    subscribe(
+        email: String! @rules(apply: ["email"])
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@subscribe")
+
+    updateAccount(
+        input: UpdateAccountInput!
+    ): AccountInfoResult @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
+
+    deleteAccount(
+        password: String! @rules(apply: ["required"])
+    ): StatusResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@delete")
+}
+
+input UpdateAccountInput {
+    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
+    email: String! @rules(apply: ["email"])
+    phone: String! @rules(apply: ["required"])
+    gender: Gender! @rules(apply: ["required"])
+    dateOfBirth: String @rename(attribute: "date_of_birth")
+    currentPassword: String @rename(attribute: "current_password")
+    password: String
+    passwordConfirmation: String @rename(attribute: "password_confirmation")
+    uploadType: UploadType @rename(attribute: "upload_type")
+    imageUrl: String @rename(attribute: "image_url")
+    image: Upload
+}
+
+type AccountInfoResult {
+    status: Boolean
+    message: String
+    customer: Customer
+}
+
+enum UploadType {
+    FILE @enum(value: "file")
+    PATH @enum(value: "path")
+    BASE64 @enum(value: "base64")
+}
