@@ -8,7 +8,7 @@ use Webkul\GraphQLAPI\Http\Controllers\Admin\NotificationController;
  */
 Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_url')], function () {
     Route::prefix('settings/api_notification')->group(function () {
-
+        
         Route::controller(NotificationController::class)->group(function () {
             Route::get('', 'index')->name('admin.settings.push_notification.index');
 
@@ -22,11 +22,11 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_ur
 
             Route::post('delete/{id}', 'destroy')->name('admin.settings.push_notification.delete');
 
-            Route::post('massdelete', 'massDestroy')->name('admin.settings.push_notification.mass-delete');
+            Route::post('massdelete', 'massDestroy')->name('admin.settings.push_notification.mass_delete');
 
-            Route::post('massupdate', 'massUpdate')->name('admin.settings.push_notification.mass-update');
+            Route::post('massupdate', 'massUpdate')->name('admin.settings.push_notification.mass_update');
 
-            Route::get('send/{id}', 'sendNotification')->name('admin.settings.push_notification.send-notification');
+            Route::get('send/{id}', 'sendNotification')->name('admin.settings.push_notification.send_notification');
 
             Route::post('exist', 'exist')->name('admin.settings.push_notification.cat-product-id');
         });

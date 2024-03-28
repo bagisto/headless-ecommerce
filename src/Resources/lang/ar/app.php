@@ -119,7 +119,7 @@ return [
             'delete-success'          => 'نجاح: تم حذف المستخدم بنجاح.',
             'last-delete-error'       => 'تحذير: يجب أن يكون هناك مستخدم واحد على الأقل',
             'delete-failed'           => 'تحذير: لم يتم حذف مستخدم الإدارة',
-            'error-invalid-parameter' => 'تحذير: تم توفير معلمات غير صالحة.',
+            'error.invalid-parameter' => 'تحذير: تم توفير معلمات غير صالحة.',
             'success-login'           => 'نجاح: تم تسجيل دخول المستخدم بنجاح.',
             'error-login'             => 'تحذير: مستخدم الإدارة غير مسجل الدخول.',
             'session-expired'         => 'تحذير: انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى إلى حسابك.',
@@ -177,7 +177,7 @@ return [
             'wrong-error'               => 'تحذير: هناك خطأ في سلة التسوق، حاول مرة أخرى.',
             'no-billing-address-found'  => 'تحذير: لم يتم العثور على سجل عنوان الفواتير بمعرف الفاتورة :address_id.',
             'no-shipping-address-found' => 'تحذير: لم يتم العثور على سجل عنوان الشحن بمعرف الشحن :address_id.',
-            'error-invalid-parameter'   => 'تحذير: توجد معلمات غير صالحة.',
+            'error.invalid-parameter'   => 'تحذير: توجد معلمات غير صالحة.',
             'already-applied'           => 'تم تطبيق رمز الكوبون بالفعل.',
             'success-apply'             => 'تم تطبيق رمز الكوبون بنجاح.',
             'coupon-removed'            => 'نجاح: تمت إزالة الكوبون من السلة بنجاح.',
@@ -190,7 +190,7 @@ return [
                 'item' => [
                     'success-all-remove'       => 'تمت إزالة جميع العناصر بنجاح من السلة.',
                     'fail-all-remove'          => 'خطأ في إزالة العناصر من السلة.',
-                    'error-invalid-parameter'  => 'تحذير: توجد معلمات غير صالحة.',
+                    'error.invalid-parameter'  => 'تحذير: توجد معلمات غير صالحة.',
                     'success-moved-cart-item'  => 'نجاح: تم نقل عنصر السلة إلى قائمة الأمنيات بنجاح.',
                     'fail-moved-cart-item'     => 'فشل: لم يتم نقل عنصر السلة إلى قائمة الأمنيات.',
                     'success-add-to-cart'      => 'نجاح: تمت إضافة المنتج إلى السلة بنجاح.',
@@ -276,7 +276,7 @@ return [
         ],
 
         'response' => [
-            'error-invalid-parameter' => 'تحذير: توجد معلمات غير صالحة.',
+            'error.invalid-parameter' => 'تحذير: توجد معلمات غير صالحة.',
             'invalid-header'          => 'تحذير: رمز الرأس غير صالح.',
             'cancel-error'            => 'لا يمكن إلغاء الطلب.',
         ],

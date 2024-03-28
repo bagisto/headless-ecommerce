@@ -119,7 +119,7 @@ return [
             'delete-success'          => 'Éxito: Usuario eliminado correctamente.',
             'last-delete-error'       => 'Advertencia: Se requiere al menos un usuario',
             'delete-failed'           => 'Advertencia: No se eliminó el usuario administrador',
-            'error-invalid-parameter' => 'Advertencia: Se proporcionaron parámetros no válidos.',
+            'error.invalid-parameter' => 'Advertencia: Se proporcionaron parámetros no válidos.',
             'success-login'           => 'Éxito: Usuario conectado exitosamente.',
             'error-login'             => 'Advertencia: El usuario administrador no ha iniciado sesión.',
             'session-expired'         => 'Advertencia: La sesión ha expirado. Por favor, vuelve a iniciar sesión en tu cuenta.',
@@ -177,7 +177,7 @@ return [
             'wrong-error'               => 'Advertencia: Hay un error en tu carrito, inténtalo de nuevo.',
             'no-billing-address-found'  => 'Advertencia: No se encontró registro de dirección de facturación con el ID :address_id.',
             'no-shipping-address-found' => 'Advertencia: No se encontró registro de dirección de envío con el ID :address_id.',
-            'error-invalid-parameter'   => 'Advertencia: Se proporcionaron parámetros no válidos.',
+            'error.invalid-parameter'   => 'Advertencia: Se proporcionaron parámetros no válidos.',
             'already-applied'           => 'El código de cupón ya ha sido aplicado.',
             'success-apply'             => 'Código de cupón aplicado correctamente.',
             'coupon-removed'            => 'Éxito: cupón eliminado del carrito correctamente.',
@@ -190,7 +190,7 @@ return [
                 'item' => [
                     'success-all-remove'       => 'Todos los elementos eliminados correctamente del carrito.',
                     'fail-all-remove'          => 'Error al eliminar elementos del carrito.',
-                    'error-invalid-parameter'  => 'Advertencia: Se proporcionaron parámetros no válidos.',
+                    'error.invalid-parameter'  => 'Advertencia: Se proporcionaron parámetros no válidos.',
                     'success-moved-cart-item'  => 'Éxito: Elemento del carrito movido a la lista de deseos correctamente.',
                     'fail-moved-cart-item'     => 'Error: El elemento del carrito no se ha movido a la lista de deseos.',
                     'success-add-to-cart'      => 'Éxito: Producto agregado al carrito correctamente.',
@@ -276,7 +276,7 @@ return [
         ],
 
         'response' => [
-            'error-invalid-parameter' => 'Attention : Paramètres invalides fournis.',
+            'error.invalid-parameter' => 'Attention : Paramètres invalides fournis.',
             'invalid-header'          => 'Attention : Jeton d\'en-tête invalide.',
             'cancel-error'            => 'La commande ne peut pas être annulée.',
         ],

@@ -1,13 +1,19 @@
 #Promition\CatalogRuleProduct Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    catalogRuleProducts(input: FilterCatalogRuleProductInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRuleProduct")): [CatalogRuleProduct!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
+    catalogRuleProducts(
+        input: FilterCatalogRuleProductInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRuleProduct")
+    ): [CatalogRuleProduct!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRuleProduct")
 
     catalogRuleProduct(
         id: ID @eq,
         input: FilterCatalogRuleProductInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRuleProduct")
-    ): CatalogRuleProduct @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRuleProduct")
+    ): CatalogRuleProduct @find(model: "Webkul\\CatalogRule\\Models\\CatalogRuleProduct")
 
-    catalogRuleProductPrices(input: FilterCatalogRuleProductPriceInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRuleProductPrice")):[CatalogRuleProductPrice!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
+    catalogRuleProductPrices(
+        input: FilterCatalogRuleProductPriceInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRuleProductPrice")
+    ):[CatalogRuleProductPrice!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRuleProductPrice")
 
     catalogRuleProductPrice(
         id: ID @eq,

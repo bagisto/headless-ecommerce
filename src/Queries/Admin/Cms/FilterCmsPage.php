@@ -15,57 +15,23 @@ class FilterCmsPage extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
+        // filter the relationship Role
+        if (isset($input['page_title'])) {
+            $query = $query->whereHas('page_title', function ($q) use ($input) {
+                $q->where('page_title', $input['page_title']);
+            });
 
-        //filter Both the relationship Address for page_title and url_key
-       if (isset($arguments['page_title']) && isset($arguments['url_key']) ) {
-
-            $pageTitle = $input['page_title'];
-
-            $urlKey = $input['url_key'];
-
-            unset($arguments['page_title']);
-
-            unset($arguments['url_key']);
-
-            return $query->whereHas('translations',function ($q) use ($pageTitle,$urlKey) {
-
-                $q->where([
-                    "page_title" => $pageTitle,
-                    "url_key"    => $urlKey
-                ]);
-
-            })->where($arguments);
+            unset($input['page_title']);
         }
 
-        // get the page_title value and store in $pageTitle variable
-        if (isset($arguments['page_title'])) {
+        if (isset($input['url_key'])) {
+            $query = $query->whereHas('url_key', function ($q) use ($input) {
+                $q->where('url_key', $input['url_key']);
+            });
 
-            $pageTitle = $arguments['page_title'];
-
-            unset($arguments['page_title']);
-
-            return $query->whereHas('translations',function ($q) use ($pageTitle) {
-
-                $q->where("page_title", $pageTitle);
-
-            })->where($arguments);
+            unset($input['url_key']);
         }
 
-        // get the url_key value and store in $urlKey variable
-        if (isset($arguments['url_key'])) {
-
-            $urlKey = $arguments['url_key'];
-
-            unset($arguments['url_key']);
-
-            return $query->whereHas('translations',function ($q) use ($urlKey) {
-
-                $q->where("url_key", $urlKey);
-
-            })->where($arguments);
-        }
-dd($query);
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

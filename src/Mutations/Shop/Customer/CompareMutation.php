@@ -106,8 +106,8 @@ class CompareMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter')
             );
         }
 
@@ -171,8 +171,8 @@ class CompareMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter')
             );
         }
 

@@ -1,36 +1,30 @@
 #Shop\Customer\Account Related APIs
 extend type Query @guard(with: ["api"]) {
     accountInfo: AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
-
-    newsletterCustomerSubscriber(email: String!): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@get")
 }
 
-extend type Mutation @guard(with: ["api"]) {
+extend type Mutation {
     subscribe(
-        input: SubscriberInput!
+        email: String! @rules(apply: ["email"])
     ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@subscribe")
-
-    unSubscribeCustomer(
-        token: String!
-    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@unsubscribe")
 
     updateAccount(
         input: UpdateAccountInput!
-    ): AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
+    ): AccountInfoResult @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
 
     deleteAccount(
-        input: DeleteAccountInput!
-    ): AccountDeleteResponse  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@delete")
+        password: String! @rules(apply: ["required"])
+    ): StatusResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@delete")
 }
 
 input UpdateAccountInput {
-    firstName: String! @rename(attribute: "first_name")
-    lastName: String! @rename(attribute: "last_name")
-    gender: String!
+    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
     email: String! @rules(apply: ["email"])
+    phone: String! @rules(apply: ["required"])
+    gender: Gender! @rules(apply: ["required"])
     dateOfBirth: String @rename(attribute: "date_of_birth")
-    phone: String!
-    oldpassword: String
+    currentPassword: String @rename(attribute: "current_password")
     password: String
     passwordConfirmation: String @rename(attribute: "password_confirmation")
     uploadType: UploadType @rename(attribute: "upload_type")
@@ -38,19 +32,10 @@ input UpdateAccountInput {
     image: Upload
 }
 
-input DeleteAccountInput {
-    password: String!
-}
-
 type AccountInfoResult {
     status: Boolean
     message: String
     customer: Customer
-}
-
-type AccountDeleteResponse {
-    status: Boolean
-    success: String
 }
 
 enum UploadType {

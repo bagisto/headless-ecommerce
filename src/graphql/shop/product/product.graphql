@@ -1,3 +1,0 @@
-extend type Query {
-    productBySlug(slug: String): ProductFlat @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Product\\ProductListingQuery@findBySlugOrFail")
-}

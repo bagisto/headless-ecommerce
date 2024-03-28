@@ -9,7 +9,7 @@ class CustomException extends Exception implements ClientAware
 {
     /**
      * @param string $message — [optional] The Exception message to throw.
-     * 
+     *
      * @return void
      */
     public function __construct(string $message)

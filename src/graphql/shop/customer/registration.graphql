@@ -10,16 +10,17 @@ extend type Mutation {
 }
 
 input CreateRegisterInput {
-    firstName: String! @rename(attribute: "first_name")
-    lastName: String! @rename(attribute: "last_name")
+    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
     email: String! @rules(apply: ["unique:customers,email","email"])
     password: String! @rules(apply: ["min:6"])
     passwordConfirmation: String! @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
+    subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
 }
 
 input CreateSocialSignInInput {
-    firstName: String @rename(attribute: "first_name")
-    lastName: String @rename(attribute: "last_name")
+    firstName: String @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String @rename(attribute: "last_name") @rules(apply: ["required"])
     email: String! @rules(apply: ["email"])
     phone: String
     signUpType: SocialSignInType! @rename(attribute: "signup_type")

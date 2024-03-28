@@ -55,11 +55,6 @@ class Install extends Command
         $this->info($configuration);
 
         // running `php artisan vendor:publish --tag=lighthouse-config`
-        $this->warn('Step: Publishing Lighthouse Configuration File...');
-        $lighthouseConfig = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
-        $this->info($lighthouseConfig);
-
-        // running `php artisan vendor:publish --tag=lighthouse-config`
         $this->warn('Step: Publishing GraphiQL Configuration File...');
         $graphiqlConfig = shell_exec('php artisan vendor:publish --tag=graphiql-config');
         $this->info($graphiqlConfig);

@@ -4,7 +4,7 @@ extend type Mutation {
         input: LoginInput!
     ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@login")
 
-    customerLogout: CustomerLogoutResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@logout")
+    customerLogout: StatusResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@logout")
 }
 
 input LoginInput {
@@ -22,7 +22,7 @@ type CustomerLoginResult {
     customer: Customer
 }
 
-type CustomerLogoutResponse {
+type StatusResponse {
     status: Boolean
     success: String
 }

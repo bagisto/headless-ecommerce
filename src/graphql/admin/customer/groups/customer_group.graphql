@@ -1,8 +1,13 @@
 # Customer\CustomerGroup Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    customerGroups(input: FilterCustomerGroupInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerGroup")): [CustomerGroup!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerGroup")
+    customerGroups(
+        input: FilterCustomerGroupInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerGroup")
+    ): [CustomerGroup!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerGroup")
 
-    customerGroup(id: ID @eq): CustomerGroup @find(model: "Webkul\\Customer\\Models\\CustomerGroup")
+    customerGroup(
+        id: ID @eq
+    ): CustomerGroup @find(model: "Webkul\\Customer\\Models\\CustomerGroup")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
@@ -18,16 +23,16 @@ extend type Mutation @guard(with: ["admin-api"]) {
     deleteCustomerGroup(id: ID!): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@delete")
 }
 
-input CreateCustomerGroupInput {
-    name: String!
-    code: String!
-    isUserDefined: Boolean @rename(attribute: "is_user_defined")
-}
-
 input FilterCustomerGroupInput {
     id: Int
     name: String
     code: String
+}
+
+input CreateCustomerGroupInput {
+    name: String! @rules(apply: ["required"])
+    code: String! @rules(apply: ["required"])
+    isUserDefined: Boolean @rename(attribute: "is_user_defined")
 }
 
 type CustomerGroup {

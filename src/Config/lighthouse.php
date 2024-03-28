@@ -27,14 +27,14 @@ return [
          * make sure to return spec-compliant responses in case an error is thrown.
          */
         'middleware' => [
-            // \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
+            \Nuwave\Lighthouse\Http\Middleware\AcceptJson::class,
 
             // Logs in a user if they are authenticated. In contrast to Laravel's 'auth'
             // middleware, this delegates auth and permission checks to the field level.
-            // \Nuwave\Lighthouse\Support\Http\Middleware\AttemptAuthentication::class,
+            \Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
 
             // Logs every incoming GraphQL query.
-            // \Nuwave\Lighthouse\Support\Http\Middleware\LogGraphQLQueries::class,
+            \Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
 
             // Validate Locale in request
             \Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
@@ -72,7 +72,7 @@ return [
     | Additional schema files may be imported from within that file.
     |
     */
-    'schema_path'=>base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
+    'schema_path' => base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,15 +168,25 @@ return [
     |
     */
     'namespaces' => [
-        'models'        => ['App', 'Webkul\\GraphQLAPI\\Models'],
         'queries'       => 'Webkul\\GraphQLAPI\\Queries',
         'mutations'     => 'Webkul\\GraphQLAPI\\Mutations',
         'subscriptions' => 'Webkul\\GraphQLAPI\\Subscriptions',
         'interfaces'    => 'Webkul\\GraphQLAPI\\Interfaces',
         'unions'        => 'Webkul\\GraphQLAPI\\Unions',
         'scalars'       => 'Webkul\\GraphQLAPI\\Scalars',
-        'directives'    => ['Webkul\\GraphQLAPI\\Directives'],
-        'validators'    => ['Webkul\\GraphQLAPI\\Validators'],
+
+        'directives'    => [
+            'Webkul\\GraphQLAPI\\Directives',
+        ],
+
+        'validators'    => [
+            'Webkul\\GraphQLAPI\\Validators',
+        ],
+
+        'models'        => [
+            'App',
+            'Webkul\\GraphQLAPI\\Models',
+        ],
     ],
 
     /*
@@ -435,11 +445,13 @@ return [
             'log' => [
                 'driver' => 'log',
             ],
+
             'pusher' => [
                 'driver'     => 'pusher',
                 'routes'     => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class.'@pusher',
                 'connection' => 'pusher',
             ],
+
             'echo' => [
                 'driver'     => 'echo',
                 'connection' => env('LIGHTHOUSE_SUBSCRIPTION_REDIS_CONNECTION', 'default'),

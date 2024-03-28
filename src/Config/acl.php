@@ -17,33 +17,33 @@ return [
         'sort'  => 9,
     ], [
         'key'   => 'settings.push_notification.create',
-        'name'  => 'admin::app.acl.create',
+        'name'  => 'bagisto_graphql::app.admin.acl.create',
         'route' => 'admin.settings.push_notification.create',
         'sort'  => 1,
     ], [
         'key'   => 'settings.push_notification.edit',
-        'name'  => 'admin::app.acl.edit',
+        'name'  => 'bagisto_graphql::app.admin.acl.edit',
         'route' => 'admin.settings.push_notification.edit',
         'sort'  => 2,
     ], [
         'key'   => 'settings.push_notification.delete',
-        'name'  => 'admin::app.acl.delete',
+        'name'  => 'bagisto_graphql::app.admin.acl.delete',
         'route' => 'admin.settings.push_notification.delete',
         'sort'  => 3,
     ], [
         'key'   => 'settings.push_notification.massdelete',
-        'name'  => 'admin::app.acl.mass-delete',
-        'route' => 'admin.settings.push_notification.mass-delete',
+        'name'  => 'bagisto_graphql::app.admin.acl.mass-delete',
+        'route' => 'admin.settings.push_notification.mass_delete',
         'sort'  => 4,
     ], [
         'key'   => 'settings.push_notification.massupdate',
-        'name'  => 'admin::app.acl.mass-update',
-        'route' => 'admin.settings.push_notification.mass-update',
+        'name'  => 'bagisto_graphql::app.admin.acl.mass-update',
+        'route' => 'admin.settings.push_notification.mass_update',
         'sort'  => 5,
     ], [
         'key'   => 'settings.push_notification.send',
         'name'  => 'bagisto_graphql::app.admin.acl.send',
-        'route' => 'admin.settings.push_notification.send-notification',
+        'route' => 'admin.settings.push_notification.send_notification',
         'sort'  => 6,
     ],
 ];

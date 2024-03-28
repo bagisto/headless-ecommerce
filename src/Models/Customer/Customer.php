@@ -26,6 +26,4 @@ class Customer extends BaseModel implements  JWTSubject
     {
         return [];
     }
-
-
 }
