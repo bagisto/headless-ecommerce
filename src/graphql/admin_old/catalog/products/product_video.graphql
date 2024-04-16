@@ -1,0 +1,9 @@
+#Catalog\Video Related API
+type Video {
+    id: ID!
+    type: String
+    path: String
+    url: String
+    productId: ID @rename(attribute: "product_id")
+    product: Product @belongsTo(relation: "product")
+}

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
-use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -112,7 +111,7 @@ class PaypalStandardMutation
                     throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.disable-module', ['module_name'    => 'Paypal Standard']));
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -167,7 +166,7 @@ class PaypalStandardMutation
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -206,7 +205,7 @@ class PaypalStandardMutation
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'),
                 'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/cart',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -253,7 +252,7 @@ class PaypalStandardMutation
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
                 'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

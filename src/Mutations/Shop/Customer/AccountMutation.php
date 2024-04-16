@@ -3,13 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Carbon\Carbon;
-use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Core\Rules\AlphaNumericSpace;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Sales\Models\Order;

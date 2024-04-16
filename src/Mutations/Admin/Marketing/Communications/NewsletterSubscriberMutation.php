@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -47,7 +46,7 @@ class NewsletterSubscriberMutation extends Controller
             }
 
             return $subscriber;
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -100,7 +99,7 @@ class NewsletterSubscriberMutation extends Controller
             $subscription->success = trans('shop::app.subscription.subscribe-success');
 
             return $subscription;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -132,7 +131,7 @@ class NewsletterSubscriberMutation extends Controller
                 'status'  => true,
                 'success' => trans('shop::app.subscription.unsubscribe-success'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

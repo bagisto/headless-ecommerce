@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Orders;
 
-use Exception;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -54,7 +53,7 @@ class OrderMutation extends Controller
                 'order'   => $this->orderRepository->find($orderId),
                 'message' => $result ? trans('bagisto_graphql::app.admin.sales.orders.cancel-success') : trans('bagisto_graphql::app.admin.sales.orders.cancel-error')
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

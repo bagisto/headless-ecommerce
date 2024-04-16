@@ -1,0 +1,73 @@
+#Promition\CatalogRule Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    catalogRules(input: FilterCatalogRulesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRules")): [CatalogRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+
+    catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\GraphQLAPI\\Models\\CatalogRule\\CatalogRule")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createCatalogRule(
+        input: CreateCatalogRuleInput!
+    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@store")
+
+    updateCatalogRule(
+        id: ID!,
+        input: CreateCatalogRuleInput!
+    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@update")
+
+    deleteCatalogRule(id: ID!): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@delete")
+}
+
+input CreateCatalogRuleInput {
+    name: String!
+    status: Boolean
+    description: String
+    channels: [Int!]
+    customerGroups: [Int!] @rename(attribute: "customer_groups")
+    startsFrom: DateTime @rename(attribute: "starts_from")
+    endsTill: DateTime @rename(attribute: "ends_till")
+    conditionType: Int @rename(attribute: "condition_type")
+    sortOrder: Int @rename(attribute: "sort_order")
+    conditions: [CatalogRuleConditionInput]
+    actionType: String! @rename(attribute: "action_type")
+    discountAmount: Float! @rename(attribute: "discount_amount")
+    endOtherRules: Boolean! @rename(attribute: "end_other_rules")
+}
+
+input CatalogRuleConditionInput {
+    attribute: String!
+    operator: String!
+    attributeType: String! @rename(attribute: "attribute_type")
+    value: [String]
+}
+
+input FilterCatalogRulesInput {
+    id: ID
+    name: String
+    start: String
+    end: String
+    status: Boolean
+    priority: Int
+}
+
+type CatalogRule {
+    id: ID!
+    name: String!
+    description: String
+    startsFrom: Date @rename(attribute: "starts_from")
+    endsTill: Date @rename(attribute: "ends_till")
+    status: Boolean!
+    conditionType: Boolean! @rename(attribute: "condition_type")
+    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional" args: "conditions")
+    endOtherRules: Boolean! @rename(attribute: "end_other_rules")
+    actionType: String @rename(attribute: "action_type")
+    discountAmount: Float! @rename(attribute: "discount_amount")
+    sortOrder: Int! @rename(attribute: "sort_order")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime! @rename(attribute: "updated_at")
+    channels: [Channel!] @belongsToMany
+    customerGroups: [CustomerGroup!] @belongsToMany(relation: "customer_groups")
+    catalogRuleProducts: [CatalogRuleProduct!] @hasMany(relation: "catalog_rule_products")
+    catalogRuleProductPrices: [CatalogRuleProductPrice!] @hasMany(relation: "catalog_rule_product_prices")
+    success: String
+}

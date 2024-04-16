@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Validators\Admin;
 
-use Exception;
 use GraphQL\Error\ClientAware;
 
 class CustomException extends Exception implements ClientAware

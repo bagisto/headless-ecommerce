@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
-use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -83,7 +82,7 @@ class ProductMutation extends Controller
             Event::dispatch('catalog.product.create.after', $product);
 
             return $product;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -262,7 +261,7 @@ class ProductMutation extends Controller
 
                 return $product;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -345,7 +344,7 @@ class ProductMutation extends Controller
             $this->productRepository->delete($args['id']);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.products.delete-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

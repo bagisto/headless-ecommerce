@@ -1,0 +1,9 @@
+#Catalog\OrderInventory Related API
+type OrderInventory {
+    id: ID!
+    qty: Int!
+    productId: ID! @rename(attribute: "product_id")
+    channelId: ID! @rename(attribute: "channel_id")
+    product: Product! @belongsTo(relation: "product")
+    channel: Channel! @belongsTo(relation: "channel")
+}

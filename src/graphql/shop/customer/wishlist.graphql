@@ -1,0 +1,58 @@
+#Shop\Customer\Wishlist Related APIs
+extend type Query @guard(with: ["api"]) {
+    wishlists(
+        first: Int
+        page: Int
+        input: FilterWislistInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery")
+    ): [Wishlist!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\Customer\\Models\\Wishlist")
+
+    wishlist(
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery")
+    ): Wishlist @find(model: "Webkul\\Customer\\Models\\Wishlist")
+}
+
+extend type Mutation @guard(with: ["api"]) {
+    addToWishlist(
+        productId: ID! @rename(attribute: "product_id") @rules(apply: ["required"])
+    ): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@store")
+
+    removeFromWishlist(
+        productId: ID! @rename(attribute: "product_id") @rules(apply: ["required"])
+    ): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@delete")
+
+    moveToCart(
+        id: ID @eq @rules(apply: ["min:1","required"])
+        quantity: Int! @rules(apply: ["min:1","required"])
+    ): MoveToCart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
+
+    removeAllWishlists: Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")
+}
+
+input FilterWislistInput {
+    id: Int
+    productId: Int @rename(attribute: "product_id")
+    productName: String @rename(attribute: "product_name")
+    channelId: Int @rename(attribute: "channel_id")
+}
+
+type Wishlist {
+    id: ID!
+    channelId: ID! @rename(attribute: "channel_id")
+    productId: ID! @rename(attribute: "product_id")
+    customerId: ID @rename(attribute: "customer_id")
+    additional: [FilterOption] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getAdditionData")
+    movedToCart: Boolean @rename(attribute: "moved_to_cart")
+    shared: Boolean
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    customer: Customer @belongsTo(relation: "customer")
+    product: Product! @belongsTo(relation: "product")
+    channel: Channel! @belongsTo(relation: "channel")
+    success: String
+}
+
+type MoveToCart {
+    success: String!
+    wishlist: [Wishlist] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists")
+}

@@ -1,0 +1,266 @@
+#Catalog\Product Related API
+extend type Query {
+    products(input: FilterProductsInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\FilterProducts")): [Product!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\Product\\Models\\Product")
+
+    product(id: ID @eq): Product @find(model: "Webkul\\Product\\Models\\Product")
+
+    productFlats: [ProductFlat!] @paginate(type: "PAGINATOR", defaultCount: 10, model: "Webkul\\Product\\Models\\ProductFlat")
+
+    productFlat(id: ID @eq): ProductFlat @find(model: "Webkul\\Product\\Models\\ProductFlat")
+
+    relatedProducts(productId: ID!): [Product] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getRelatedProducts")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createProduct(
+        input: CreateProductInput!
+    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@store")
+
+    updateProduct(
+        id: ID!,
+        input: UpdateProductInput!
+    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@update")
+
+    deleteProduct(
+        id: ID!
+    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@delete")
+}
+
+input CreateProductInput {
+    type: String!
+    attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
+    sku: String!
+    superAttributes: [SuperAttributesInput] @rename(attribute: "super_attributes")
+    family: Int
+}
+
+input SuperAttributesInput {
+    attributeCode: String! @rename(attribute: "attribute_code")
+    values: [Int!]
+}
+
+input UpdateProductInput {
+    channel: String!
+    locale: String!
+    sku: String!
+    name: String!
+    productNumber: String @rename(attribute: "product_number")
+    urlKey: String! @rename(attribute: "url_key")
+    taxCategoryId: ID @rename(attribute: "tax_category_id")
+    new: Boolean
+    featured: Boolean
+    visibleIndividually: Boolean @rename(attribute: "visible_individually")
+    status: Boolean
+    guestCheckout: Boolean @rename(attribute: "guest_checkout")
+    color: Int
+    size: Int
+    customAttributes: [CustomAttributeInput] @rename(attribute: "custom_attributes")
+    shortDescription: String! @rename(attribute: "short_description")
+    description: String!
+    metaTitle: String @rename(attribute: "meta_title")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    metaDescription: String @rename(attribute: "meta_description")
+    price: Float!
+    cost: Float
+    specialPrice: Float @rename(attribute: "special_price")
+    specialPriceFrom: String @rename(attribute: "special_price_from")
+    specialPriceTo: String @rename(attribute: "special_price_to")
+    length: Float
+    width: Float
+    height: Float
+    depth: Float
+    weight: Float!
+    customerGroupPrices: [CustomerGroupPriceInput] @rename(attribute: "customer_group_prices")
+    inventories: [InventoriesInput!]
+    categories: [Int!]
+    channels: [Int!]
+    relatedProducts: [Int] @rename(attribute: "related_products")
+    upSell: [Int] @rename(attribute: "up_sell")
+    crossSells: [Int] @rename(attribute: "cross_sells")
+    images: [String]
+    videos: [String]
+    uploadType: UploadType @rename(attribute: "upload_type")
+    defaultVariantId: ID @rename(attribute: "default_variant_id")
+    variants: [UpdateVariantInput!]
+    links: [UpdateGroupedProductInput!]
+    downloadableLinks: [UpdateDownloadableLinksInput!] @rename(attribute: "downloadable_links")
+    downloadableSamples: [UpdateDownloadableSamplesInput!] @rename(attribute: "downloadable_samples")
+    bundleOptions: [UpdateBundleOptionsInput!] @rename(attribute: "bundle_options")
+}
+
+input UpdateVariantInput {
+    variantId: ID! @rename(attribute: "variant_id")
+    sku: String!
+    name: String!
+    color: Int
+    size: Int
+    inventories: [VariantInventoryInput!]
+    price: Float!
+    weight: Float!
+    status: Boolean!
+    images: [String]
+}
+
+input VariantInventoryInput {
+    inventorySourceId: ID! @rename(attribute: "inventory_source_id")
+    qty: Int!
+}
+
+input CustomAttributeInput {
+    name: String!
+    value: String
+}
+
+input FilterProductsInput {
+    id: ID
+    type: String
+    sku: String
+    parentId: ID @rename(attribute: "parent_id")
+    attributeFamily: String @rename(attribute: "attribute_family")
+    qty: Int
+}
+
+type Product {
+    id: ID!
+    type: String!
+    attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
+    sku: String!
+    urlKey: String! @rename(attribute: "url_key")
+    name: String
+    description: String
+    shortDescription: String @rename(attribute: "short_description")
+    new: Boolean
+    featured: Boolean
+    status: Boolean
+    visibleIndividually: Boolean @rename(attribute: "visible_individually")
+    guestCheckout: Boolean @rename(attribute: "guest_checkout")
+    parentId: ID @rename(attribute: "parent_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    configutableData: ConfigutableProductData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getConfigurableData")
+    shareURL: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getProductShareUrl")
+    productFlats: [ProductFlat!] @hasMany(relation: "product_flats")
+    variants: [Product] @hasMany
+    parent: Product @belongsTo(relation: "parent")
+    attributeFamily: AttributeFamily! @belongsTo(relation: "attribute_family")
+    attributeValues: [ProductAttributeValue!] @hasMany(relation: "attribute_values")
+    superAttributes: [Attribute!] @belongsToMany(relation: "super_attributes")
+    categories: [Category!] @belongsToMany(relation: "categories")
+    inventories: [Inventory!] @hasMany
+    images: [Image] @hasMany
+    cacheBaseImage: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getProductBaseImage")
+    cacheGalleryImages: [CacheImage] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getCacheGalleryImages")
+    videos: [Video!] @hasMany
+    additionalData: [ProductAdditionalData] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getAdditionalData")
+    isInWishlist: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@checkIsInWishlist")
+    isInSale: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@checkIsInSale")
+    isSaleable: Boolean @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@checkIsSaleable")
+    priceHtml: ProductPriceHtml @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getProductPriceHtml")
+    orderedInventories: [OrderInventory!] @hasMany(relation: "ordered_inventories")
+    reviews: [Review] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getReviews")
+    averageRating: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getAverageRating")
+    percentageRating: [Int] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getPercentageRating")
+    customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
+    downloadableSamples: [ProductDownloadableSample] @hasMany(relation: "downloadable_samples")
+    downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
+    groupedProducts: [ProductGroupedProduct] @hasMany(relation: "grouped_products")
+    bundleOptions: [ProductBundleOption] @hasMany(relation: "bundle_options")
+    relatedProducts: [Product!] @belongsToMany(relation: "related_products")
+    cart: Cart @field(resolver: "Webkul\\Checkout\\Cart@getCart")
+    # up_sells: [Product] @belongsToMany
+    # cross_sells: [Product] @belongsToMany
+    success: String
+}
+
+type ProductFlat {
+    id: ID!
+    sku: String!
+    productNumber: String @rename(attribute: "product_number")
+    name: String
+    description: String
+    shortDescription: String @rename(attribute: "short_description")
+    urlKey: String @rename(attribute: "url_key")
+    new: Boolean
+    featured: Boolean
+    status: Boolean
+    visibleIndividually: Boolean @rename(attribute: "visible_individually")
+    thumbnail: String
+    price: Float
+    cost: Float
+    specialPrice: Float @rename(attribute: "special_price")
+    specialPriceFrom: String @rename(attribute: "special_price_from")
+    specialPriceTo: String @rename(attribute: "special_price_to")
+    weight: Float
+    color: Int
+    colorLabel: String @rename(attribute: "color_label")
+    size: Int
+    sizeLabel: String @rename(attribute: "size_label")
+    locale: String!
+    channel: String!
+    productId: ID! @rename(attribute: "product_id")
+    parentId: ID @rename(attribute: "parent_id")
+    minPrice: Float @rename(attribute: "min_price")
+    maxPrice: Float @rename(attribute: "max_price")
+    metaTitle: String @rename(attribute: "meta_title")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    metaDescription: String @rename(attribute: "meta_description")
+    width: Float
+    height: Float
+    depth: Float
+    product: Product! @belongsTo(relation: "product")
+    variants: [ProductFlat] @hasMany
+    parent: ProductFlat @belongsTo(relation: "parent")
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+}
+
+type ProductAttributeValue {
+    id: ID!
+    productId: ID! @rename(attribute: "product_id")
+    attributeId: ID! @rename(attribute: "attribute_id")
+    locale: String
+    channel: String
+    textValue: String @rename(attribute: "text_value")
+    booleanValue: Boolean @rename(attribute: "boolean_value")
+    integerValue: Int @rename(attribute: "integer_value")
+    floatValue: Float @rename(attribute: "float_value")
+    dateTimeValue: String @rename(attribute: "datetime_value")
+    dateValue: String @rename(attribute: "date_value")
+    jsonValue: String @rename(attribute: "json_value")
+    attribute: Attribute! @belongsTo(relation: "attribute")
+    product: Product! @belongsTo(relation: "product")
+}
+
+type ProductAdditionalData {
+    id: ID
+    code: String
+    label: String
+    value: String
+    admin_name: String
+    type: String
+}
+
+type ProductPriceHtml {
+    id: ID!
+    type: String
+    minPrice: String
+    priceHtml: String
+    priceWithoutHtml: String
+    regularPrice: String
+    formattedRegularPrice: String
+    finalPrice: String
+    formattedFinalPrice: String
+    currencyCode: String
+    bundlePrice: BundlePrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getBundleProductPrice")
+}
+
+type BundlePrice {
+    finalPriceFrom: String
+    formattedFinalPriceFrom: String
+    regularPriceFrom: String
+    formattedRegularPriceFrom: String
+    finalPriceTo: String
+    formattedFinalPriceTo: String
+    regularPriceTo: String
+    formattedRegularPriceTo: String
+}

@@ -1,0 +1,59 @@
+#Shop\Customer\Downloadable Related APIs
+extend type Query @guard(with: ["api"]){
+    downloadableLinkPurchases(input: FilterDownloadablePurchaseInput): [DownloadableLinkPurchased!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+
+    downloadableLinkPurchase(id: ID @eq): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+}
+
+extend type Mutation @guard(with: ["api"]) {
+    downloadLink(
+        id: ID!
+    ): DownloadLinkResponse 
+    @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@download")
+}
+
+input FilterDownloadablePurchaseInput {
+    page: Int
+    limit: Int
+    id: Int
+    orderId: Int @rename(attribute: "order_id")
+    orderItemId: Int @rename(attribute: "order_item_id")
+    productName: String @rename(attribute: "product_name")
+    linkName: String @rename(attribute: "link_name")
+    status: DownloadLinkStatusEnum
+    downloadBought: Int @rename(attribute: "download_bought")
+    downloadUsed: Int @rename(attribute: "download_used")
+}
+
+type DownloadableLinkPurchased {
+    id: ID!
+    productName: String @rename(attribute: "product_name")
+    name: String
+    url: String
+    file: String
+    fileName: String @rename(attribute: "file_name")
+    type: String!
+    downloadBought: Int! @rename(attribute: "download_bought")
+    downloadUsed: Int! @rename(attribute: "download_used")
+    status: Boolean
+    customerId: ID! @rename(attribute: "customer_id")
+    orderId: ID! @rename(attribute: "order_id")
+    orderItemId: ID! @rename(attribute: "order_item_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    customer: Customer @belongsTo(relation: "customer")
+    order: Order! @belongsTo(relation: "order")
+    orderItem: OrderItem @belongsTo(relation: "order_item")
+}
+
+type DownloadLinkResponse {
+    status: Boolean
+    string: String
+    download: DownloadableLinkPurchased
+}
+
+enum DownloadLinkStatusEnum {
+    PENDING @enum(value: "pending")
+    AVAILABLE @enum(value: "available")
+    EXPIRED @enum(value: "expired")
+}

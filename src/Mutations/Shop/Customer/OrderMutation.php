@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Pagination\Paginator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
@@ -163,7 +162,7 @@ class OrderMutation extends Controller
                 'order'   => $this->orderRepository->find($orderId),
                 'message' => $result ? trans('bagisto_graphql::app.shop.customer.account.order.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.shop.response.cancel-error'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()

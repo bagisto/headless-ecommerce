@@ -1,0 +1,18 @@
+# Shop\Checkout\Coupon Related API
+extend type Mutation {
+    applyCoupon(
+        input: ApplyCouponInput!
+    ): CouponResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@applyCoupon")
+
+    removeCoupon: CouponResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@removeCoupon")
+}
+
+input ApplyCouponInput {
+    code: String!
+}
+
+type CouponResponse {
+    success: Boolean!
+    message: String!
+    cart: Cart
+}

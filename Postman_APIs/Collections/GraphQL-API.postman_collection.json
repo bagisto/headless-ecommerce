@@ -64,7 +64,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customer {\n    customer(id: 3) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n    }\n}",
+												"query": "query customer {\n    customer(\n        id: 3\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -96,7 +96,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCustomer {\n    createCustomer(input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"johndoe@example.com\"\n      \tgender: MALE\n      \tdateOfBirth: \"11/07/1993\"\n        customerGroupId: 1\n        phone: \"9876543210\"\n    }) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        success\n    }\n}",
+												"query": "mutation createCustomer {\n    createCustomer(\n        input: {\n            firstName: \"John\"\n            lastName: \"Doe\"\n            email: \"johndoe@example.com\"\n            gender: MALE\n            dateOfBirth: \"11/07/1993\"\n            customerGroupId: 1\n            phone: \"9876543210\"\n        }\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -128,7 +128,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateCustomer {\n    updateCustomer(id: 7, input: {\n        firstName: \"John\"\n        lastName: \"Doe\"\n        email: \"johndoe@example.com\"\n      \tgender: FEMALE\n      \tdateOfBirth: \"1996-05-10\"\n        customerGroupId: 2\n        phone: \"9876543210\"\n        status: true\n        isSuspended: false\n    }) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        success\n    }\n}",
+												"query": "\nmutation updateCustomer {\n    updateCustomer(\n        id: 7\n        input: {\n            firstName: \"John\"\n            lastName: \"Doe\"\n            email: \"johndoe@example.com\"\n            gender: FEMALE\n            dateOfBirth: \"1996-05-10\"\n            customerGroupId: 2\n            phone: \"9876543210\"\n            status: true\n            isSuspended: false\n        }\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -160,7 +160,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation deleteCustomer {\n    deleteCustomer(id: 1) {\n        success\n    }\n}\n",
+												"query": "\nmutation deleteCustomer {\n    deleteCustomer(\n        id: 1\n    ) {\n        success\n    }\n}\n",
 												"variables": ""
 											}
 										},
@@ -192,7 +192,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation storeNotes {\n    storeNotes(id: 7, input: {\n        note: \"John Test\"\n        customerNotified: true\n    }) {\n        id\n        customerId\n        note\n        customerNotified\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "\nmutation storeNotes {\n    storeNotes(\n        id: 7\n            input: {\n            note: \"John Test\"\n            customerNotified: true\n        }\n    ) {\n        id\n        customerId\n        note\n        customerNotified\n        createdAt\n        updatedAt\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -284,7 +284,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customerAddress {\n    customerAddress(id: 2) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+												"query": "query customerAddress {\n    customerAddress(\n        id: 2\n    ) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -315,7 +315,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCustomerAddress {\n    createCustomerAddress(input: {\n        customerId: 7\n        companyName: \"Stark Industries\"\n        vatId: \"INV12345678902\"\n        firstName: \"John\"\n        lastName: \"Doe\"\n        address: \"3180 Bluff Street\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"555\"\n        country: \"US\"\n        state: \"PA\"\n        phone: \"987654321\"\n        email: \"johndoe@example.com\"\n        defaultAddress: true\n    }) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation createCustomerAddress {\n    createCustomerAddress(\n        input: {\n            customerId: 7\n            companyName: \"Stark Industries\"\n            vatId: \"INV12345678902\"\n            firstName: \"John\"\n            lastName: \"Doe\"\n            address: \"3180 Bluff Street\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"555\"\n            country: \"US\"\n            state: \"PA\"\n            phone: \"987654321\"\n            email: \"johndoe@example.com\"\n            defaultAddress: true\n        }\n    ) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -346,7 +346,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(id: 7, input: {\n        customerId: 7\n        companyName: \"Stark Industries\"\n        vatId: \"INV12345678902\"\n        firstName: \"John\"\n        lastName: \"Doe\"\n        address: \"3180 Bluff Street\"\n        city: \"GLEN CAMPBELL\"\n        postcode: \"555\"\n        country: \"US\"\n        state: \"PA\"\n        phone: \"987654321\"\n        email: \"johndoe@example.com\"\n        defaultAddress: true\n    }) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(\n        id: 7\n        input: {\n            customerId: 7\n            companyName: \"Stark Industries\"\n            vatId: \"INV12345678902\"\n            firstName: \"John\"\n            lastName: \"Doe\"\n            address: \"3180 Bluff Street\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"555\"\n            country: \"US\"\n            state: \"PA\"\n            phone: \"987654321\"\n            email: \"johndoe@example.com\"\n            defaultAddress: true\n        }\n    ) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -377,7 +377,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteCustomerAddress {\n    deleteCustomerAddress(id: 7) {\n        success\n    }\n}",
+												"query": "mutation deleteCustomerAddress {\n    deleteCustomerAddress(\n        id: 7\n    ) {\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -499,7 +499,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customerGroup {\n    customerGroup(id: 4) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
+												"query": "query customerGroup {\n    customerGroup(\n        id: 4\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -531,7 +531,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCustomerGroup {\n    createCustomerGroup(input: {\n        name: \"VIP Group\"\n        code: \"vip2\"\n        isUserDefined: true\n    }) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation createCustomerGroup {\n    createCustomerGroup(\n        input: {\n            name: \"VIP Group\"\n            code: \"vip2\"\n            isUserDefined: true\n        }\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -563,7 +563,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(id: 5, input: {\n        name: \"VIP Customers\"\n        code: \"vip1\"\n        isUserDefined: true\n    }) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(\n        id: 5\n        input: {\n            name: \"VIP Customers\"\n            code: \"vip1\"\n            isUserDefined: true\n        }\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -606,7 +606,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteCustomerGroup {\n    deleteCustomerGroup(id: 5) {\n        success\n    }\n}",
+												"query": "mutation deleteCustomerGroup {\n    deleteCustomerGroup(\n        id: 5\n    ) {\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -698,7 +698,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query review {\n    review(id: 1) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "query review {\n    review(\n        id: 1\n    ) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -772,7 +772,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteReview {\n    deleteReview(id: 1) {\n        success\n    }\n}",
+												"query": "mutation deleteReview {\n    deleteReview(\n        id: 1\n    ) {\n        success\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -828,7 +828,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query cmsPage {\n    cmsPage(id: 1) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n    }\n}",
+										"query": "query cmsPage {\n    cmsPage(\n        id: 1\n    ) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -852,7 +852,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query cmsPageTranslations {\n    cmsPageTranslations(input: {\n        cmsPageId: 1\n        # id: 1\n        # pageTitle: \"test\"\n        # urlKey: \"test\"\n        # metaTitle: \"test\"\n        # metaKeywords: \"test\"\n        # locale: \"en\"\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n    }\n}",
+										"query": "query cmsPageTranslations {\n    cmsPageTranslations(\n        input: {\n            cmsPageId: 1\n            # id: 1\n            # pageTitle: \"test\"\n            # urlKey: \"test\"\n            # metaTitle: \"test\"\n            # metaKeywords: \"test\"\n            # locale: \"en\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -876,7 +876,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query cmsPageTranslation {\n    cmsPageTranslation(\n        id: 1,\n        input: {\n            cmsPageId: 1\n            # id: 1\n            # pageTitle: \"test\"\n            # urlKey: \"test\"\n            # metaTitle: \"test\"\n            # metaKeywords: \"test\"\n            # locale: \"en\"\n        }\n    ) {\n        id\n        urlKey\n        metaDescription\n        metaTitle\n        pageTitle\n        metaKeywords\n        htmlContent\n        locale\n        cmsPageId\n    }\n}",
+										"query": "query cmsPageTranslation {\n    cmsPageTranslation(\n        id: 1\n        input: {\n            cmsPageId: 1\n            # id: 1\n            # pageTitle: \"test\"\n            # urlKey: \"test\"\n            # metaTitle: \"test\"\n            # metaKeywords: \"test\"\n            # locale: \"en\"\n        }\n    ) {\n        id\n        urlKey\n        metaDescription\n        metaTitle\n        pageTitle\n        metaKeywords\n        htmlContent\n        locale\n        cmsPageId\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -907,7 +907,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation createCmsPage {\n    createCmsPage(input: {\n    \tpageTitle: \"Term And Condition\"\n        channels: [1, 9]\n        htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        success\n    }\n}",
+										"query": "mutation createCmsPage {\n    createCmsPage(\n        input: {\n            pageTitle: \"Term And Condition\"\n            channels: [1, 9]\n            htmlContent: \"What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\"\n            metaTitle: \"Why do we use it?\"\n            urlKey: \"term-and-condition\"\n            metaKeywords: \"Why do we use it?\"\n            metaDescription: \"Why do we use it?\"\n        }\n    ) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        success\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -938,7 +938,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation updateCmsPage {\n    updateCmsPage(id: 12 , input: {\n    \tpageTitle: \"Update Term & Condition\"\n        channels: [1, 9]\n        htmlContent: \"Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\"\n        metaTitle: \"Why do we use it?\"\n        urlKey: \"term-and-condition\"\n        metaKeywords: \"Why do we use it?\"\n        metaDescription: \"Why do we use it?\"\n    }) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        success\n    }\n}\n",
+										"query": "mutation updateCmsPage {\n    updateCmsPage(\n        id: 12\n        input: {\n            pageTitle: \"Update Term & Condition\"\n            channels: [1, 9]\n            htmlContent: \"Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\"\n            metaTitle: \"Why do we use it?\"\n            urlKey: \"term-and-condition\"\n            metaKeywords: \"Why do we use it?\"\n            metaDescription: \"Why do we use it?\"\n        }\n    ) {\n        id\n        layout\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        translations {\n            id\n            urlKey\n            metaDescription\n            metaTitle\n            pageTitle\n            metaKeywords\n            htmlContent\n            locale\n            cmsPageId\n        }\n        success\n    }\n}\n",
 										"variables": ""
 									}
 								},
@@ -969,7 +969,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation deleteCmsPage {\n    deleteCmsPage(id: 15) {\n        success\n    }\n}",
+										"query": "mutation deleteCmsPage {\n    deleteCmsPage(\n        id: 15\n    ) {\n        success\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -4244,7 +4244,7 @@
 									"response": []
 								},
 								{
-									"name": "Get Config",
+									"name": "Get",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -4322,7 +4322,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query countries {\n    countries (\n        first: 1000\n        page: 1\n    ){\n        data {\n            id\n            code\n            name\n            translations {\n                id\n                locale\n                name\n                countryId\n            }\n            states {\n                id\n                countryCode\n                code\n                defaultName\n                countryId\n                translations {\n                    id\n                    locale\n                    defaultName\n                    countryStateId\n                }\n            }\n        }\n    }\n}",
+												"query": "query countries {\n    countries (\n        first: 1000\n        page: 1\n    ) {\n        data {\n            id\n            code\n            name\n            translations {\n                id\n                locale\n                name\n                countryId\n            }\n            states {\n                id\n                countryCode\n                code\n                defaultName\n                countryId\n                translations {\n                    id\n                    locale\n                    defaultName\n                    countryStateId\n                }\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -4353,7 +4353,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query country {\n    country(id: 1) {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
+												"query": "query country {\n    country(\n        id: 1\n    ) {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -4384,7 +4384,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query countrieStates {\n    countrieStates(input: {\n        # id: 65\n        # defaultName: \"Wyoming\"\n        # code: \"WY\"\n        # countryId: \"106\"\n        # countryCode: \"IN\"\n    }) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
+												"query": "query countrieStates {\n    countrieStates(\n        input: {\n            # id: 65\n            # defaultName: \"Wyoming\"\n            # code: \"WY\"\n            # countryId: \"106\"\n            # countryCode: \"IN\"\n        }\n    ) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -4415,7 +4415,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query countrieState {\n    countrieState(id: 1) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
+												"query": "query countrieState {\n    countrieState(\n        id: 1\n    ) {\n        id\n        countryCode\n        code\n        defaultName\n        countryId\n        translations {\n            id\n            locale\n            defaultName\n            countryStateId\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -4518,6 +4518,30 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "query allProducts {\n\tallProducts(\n        page: 1,\n        first: 15,\n        input: [\n        {\n            # key: \"name\"\n            # value: \"test\"\n        }, {\n            # key: \"new\"\n            # value: \"1\"\n        }, {\n            # key: \"featured\"\n            # value: \"1\"\n        }, {\n            # key: \"type\"\n            # value: \"simple\"\n        }, {\n            # key: \"limit\"\n            # value: \"2\"\n        }, {\n            # key: \"sort\"\n            # value: \"name-asc\"\n        }, {\n            # key: \"category_id\"\n            # value: \"2\"\n        }, {\n            # key: \"category_slug\"\n            # value: \"configutable-1\"\n        }, {\n            # key: \"price\"\n            # value: \"5,10\"\n        }, {\n            # key: \"url_key\"\n            # value: \"simple-1\"\n        }, {\n            # key: \"limit\"\n            # value: \"10\"\n        }, {\n            # key: \"sort\"\n            # value: \"desc\"\n        }, {\n            # key: \"attribute_id\"\n            # value: \"23\"\n        }\n    ]) { \n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        } data {\n            id\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Catalog Filters",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query getFilterAttribute {\n\tgetFilterAttribute(\n        categorySlug: \"\"\n        # categorySlug: \"test\"\n    ) {\n        minPrice\n        maxPrice\n        filterData {\n            key\n            value\n        }\n        filterAttributes {\n            id\n            code\n            adminName\n            type\n            options {\n                id\n                adminName\n                swatchValue\n                sortOrder\n                isNew\n                translations {\n                    id\n                    label\n                    locale\n                }\n            }\n        }\n        sortOrders {\n            key\n            title\n            value\n            sort\n            order\n            position\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -4868,6 +4892,969 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation unSubscribe {\n    unSubscribe(\n        token: \"6605557d45f22\"\n    ) {\n        status\n        success\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Customer Wishlists",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query wishlists {\n    wishlists(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # productId: 1\n            # productName: \"Music Show\"\n            # channelId: 1\n        }\n    ) {\n        data {\n            id\n            channelId\n            productId\n            customerId\n            additional {\n                key\n                value\n            }\n            movedToCart\n            shared\n            createdAt\n            updatedAt\n            customer {\n                id\n            }\n            product {\n                id\n            }\n            channel {\n                id\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query wishlist {\n    wishlist(\n        id: 19\n    ) {\n        id\n        channelId\n        productId\n        customerId\n        additional {\n            key\n            value\n        }\n        movedToCart\n        shared\n        createdAt\n        updatedAt\n        customer {\n            id\n        }\n        product {\n            id\n        }\n        channel {\n            id\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation addToWishlist {\n    addToWishlist(\n        productId: 3\n    ) {\n        success\n        id\n        channelId\n        productId\n        customerId\n        additional {\n            key\n            value\n        }\n        movedToCart\n        shared\n        createdAt\n        updatedAt\n        customer {\n            id\n        }\n        product {\n            id\n        }\n        channel {\n            id\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Move To Cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation moveToCart {\n    moveToCart(\n        id: 18\n        quantity: 1\n    ) {\n        success\n        wishlist {\n            id\n            channelId\n            productId\n            customerId\n            additional {\n                key\n                value\n            }\n            movedToCart\n            shared\n            createdAt\n            updatedAt\n            customer {\n                id\n            }\n            product {\n                id\n            }\n            channel {\n                id\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeFromWishlist {\n    removeFromWishlist(\n        productId: 1\n    ) {\n        success\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeAllWishlists {\n    removeAllWishlists {\n        success\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Customer's Addresses",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{customerToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query addresses {\n    addresses (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # gender: MALE\n            # email: \"test@test.com\"\n            # phone: \"9876543210\"\n            # companyName: \"test\"\n            # firstName: \"test\"\n            # lastName: \"\"\n            # address: \"h-28\"\n            # country: \"IN\"\n            # state: \"UP\"\n            # city: \"NOIDA\"\n            # postcode: \"282010\"\n            # vatId: \"\"\n            # defaultAddress true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data { \n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query address {\n    address(\n        id: 12\n    ) {\n        id\n        addressType\n        parentAddressId\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        useForShipping\n        createdAt\n        updatedAt\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createAddress {\n    createAddress(\n        input: {\n            companyName: \"Webkul\"\n            firstName: \"Kim\"\n            lastName: \"Thomson\"\n            email: \"test@address.com\"\n            vatId: \"INV12345678904\"\n            address: \"3180 Bluff Street\"\n            country: \"US\"\n            state: \"PA\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"15742\"\n            phone: \"234343544\"\n            defaultAddress: true\n        }\n    ) {\n      status\n      message\n      addresses{\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n      }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation updateAddress {\n    updateAddress(\n        id: 11\n        input: {\n            companyName: \"Webkul\"\n            firstName: \"Kim\"\n            lastName: \"Thomson\"\n            email: \"test@address.com\"\n            vatId: \"INV12345678904\"\n            address: \"3180 Bluff Street\"\n            country: \"US\"\n            state: \"PA\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"15742\"\n            phone: \"234343544\"\n            defaultAddress: true\n        }\n    ) {\n       status\n       message\n       addresses {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n       }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation deleteAddress {\n    deleteAddress(\n        id: 14\n    ) {\n        status\n        message\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Cart",
+					"item": [
+						{
+							"name": "Cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cartDetail {\n    cartDetail {\n        id\n        customerEmail\n        customerFirstName\n        customerLastName\n        shippingMethod\n        couponCode\n        isGift\n        itemsCount\n        itemsQty\n        exchangeRate\n        globalCurrencyCode\n        baseCurrencyCode\n        channelCurrencyCode\n        cartCurrencyCode\n        grandTotal\n        baseGrandTotal\n        subTotal\n        baseSubTotal\n        taxTotal\n        baseTaxTotal\n        discountAmount\n        baseDiscountAmount\n        checkoutMethod\n        isGuest\n        isActive\n        appliedCartRuleIds\n        customerId\n        channelId\n        createdAt\n        updatedAt\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cart Items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cartItems {\n    cartItems {\n        id\n        quantity\n        sku\n        type\n        name\n        couponCode\n        weight\n        totalWeight\n        baseTotalWeight\n        price\n        basePrice\n        customPrice\n        total\n        baseTotal\n        taxPercent\n        taxAmount\n        baseTaxAmount\n        discountPercent\n        discountAmount\n        baseDiscountAmount\n        parentId\n        productId\n        cartId\n        taxCategoryId\n        appliedCartRuleIds\n        createdAt\n        updatedAt\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cart Item Detail",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{customerToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query cartItem {\n    cartItem(id: 121) {\n        id\n        quantity\n        sku\n        type\n        name\n        couponCode\n        weight\n        totalWeight\n        baseTotalWeight\n        price\n        basePrice\n        customPrice\n        total\n        baseTotal\n        taxPercent\n        taxAmount\n        baseTaxAmount\n        discountPercent\n        discountAmount\n        baseDiscountAmount\n        parentId\n        productId\n        cartId\n        taxCategoryId\n        appliedCartRuleIds\n        createdAt\n        updatedAt\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "REMAIN Add To Cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation addItemToCart {\n    addItemToCart(input: {\n        productId: 51\n        quantity: 0\n        # Only use while adding configurable product to cart\n        # selectedConfigurableOption: 29\n        # superAttribute: [{\n        #     attributeId: 23\n        #     attributeOptionId: 1\n        # },  {\n        #     attributeId: 24\n        #     attributeOptionId: 6\n        # }]\n\n        # Only use while adding configurable product to cart\n        # selectedConfigurableOption: 29\n        # superAttribute: [{\n        #     attributeId: 23\n        #     attributeOptionId: 1\n        # },  {\n        #     attributeId: 24\n        #     attributeOptionId: 6\n        # }]\n\n        # Only use while adding grouped product to cart\n        # qty: [{\n        #     productId: 15\n        #     quantity: 2\n        # }]\n\n        # Only use while adding downloadable product to cart\n        links: [4,5]\n\n        # Only use while adding bundled product to cart\n        # bundleOptions: [{\n        #     bundleOptionId: 2\n        #     bundleOptionProductId: [3, 4]\n        # },  {\n        #     bundleOptionId: 3\n        #     bundleOptionProductId: [5]\n        # }]\n        # bundleOptionQuantity: 3\n    }) {\n        status\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt \n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "REMAIN Update Items",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation updateItemToCart {\n    updateItemToCart(input: {\n        qty: [{\n            cartItemId: 7444\n            quantity: 3\n        }]\n    }) {\n        status\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt \n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Move Item To Wishlist",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation moveToWishlist {\n    moveToWishlist(id: 14) {\n        status\n        message\n        cart {\n            id\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Item",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeCartItem {\n    removeCartItem(id: 17) {\n        status\n        message\n        cart {\n            id\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeAllCartItem {\n    removeAllCartItem {\n        status\n        message\n        cart {\n            id\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Checkout",
+					"item": [
+						{
+							"name": "Checkout Addresses",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xNS4yMDQvQmFnaXN0bzIuMC9sb2NhbC9oZWFkbGVzc18yLjAvcHVibGljL2dyYXBocWwiLCJpYXQiOjE3MDQzNjYzNDAsImV4cCI6MTczNTkwMjM0MCwibmJmIjoxNzA0MzY2MzQwLCJqdGkiOiJBUXdwTnZuRm83Yk1mMEtWIiwic3ViIjoiOCIsInBydiI6ImM4OWIwZTUwMTM1MzZiNDA0OTA0ZmJiMzM3ZmVjMjhiMTQ0ODJiN2YifQ.5_-c3sDYExTGDq783DxC2ZPAa3-sUlvIkuu2bTFipHI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query checkoutAddresses {\n    checkoutAddresses {\n        success\n        isGuest\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            token\n            notes\n            status\n            createdAt\n            updatedAt\n        }\n        addresses {\n            id\n            address\n        }\n        addressList {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address1\n            address2\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            createdAt\n            updatedAt\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n        defaultCountry\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Shipping Methods",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-locale",
+										"value": "ar",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation saveCheckoutAddresses {\n    saveCheckoutAddresses(input: {\n    billingAddressId: 0\n    shippingAddressId: 0\n    billing: {\n        customerId: 2\n        defaultAddress : false\n        companyName: \"C. Trades\"\n        firstName: \"Doug\"\n        lastName: \"D Nelson\"\n        email: \"doug@example.com\"\n        address1: \"836 Hog\"\n        address2: \" Camp Road\"\n        city: \"Wheeling\"\n        country: \"US\"\n        state: \"Illinois\"\n        postcode: \"60090\"\n        phone: \"0987654321\"\n        useForShipping: false\n        isSaved: true\n    }\n    shipping: {\n        customerId: 2\n        defaultAddress : false\n        companyName: \"C. Trades\"\n        firstName: \"Doug\"\n        lastName: \"D Nelson\"\n        email: \"doug@example.com\"\n        address1: \"2252 Charmaine Lane\"\n        address2: \"\"\n        city: \"ROCKLEDGE\"\n        country: \"US\"\n        state: \"Georgia\"\n        postcode: \"30454\"\n        phone: \"0987654321\"\n        isSaved: true\n    }\n    type: \"shipping\"\n    }) {\n        success\n        shippingMethods {\n            title\n            methods {\n                code\n                label\n                price\n                formattedPrice\n                basePrice\n                formattedBasePrice\n            }\n        }\n        paymentMethods {\n            method\n            methodTitle\n            description\n            sort\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n        jumpToSection\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Payment Methods",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation paymentMethods {\n    paymentMethods(input: {\n        shippingMethod: \"flatrate_flatrate\"\n    }) {\n        success\n        paymentMethods {\n            method\n            methodTitle\n            description\n            sort\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Review & Save Payment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation savePayment {\n    savePayment(input: {\n        method: \"cashondelivery\"\n    }) {\n        success\n        jumpToSection\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                # additional {\n                #     productId\n                # }\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                customPrice\n                appliedCartRuleIds\n                createdAt\n                updatedAt\n                product {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            shippingAddress {\n                id\n                addressType\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                defaultAddress\n                vatId\n                additional\n                createdAt\n                updatedAt\n            }\n            billingAddress {\n                id\n                addressType\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                defaultAddress\n                vatId\n                additional\n                createdAt\n                updatedAt\n            }\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                cartAddressId\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apply Coupon Code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation applyCoupon {\n    applyCoupon(input: {\n        code: \"FLAT10\"\n    }) {\n        success\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                customPrice\n                appliedCartRuleIds\n                createdAt\n                updatedAt\n                product {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            shippingAddress {\n                id\n                addressType\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                defaultAddress\n                vatId\n                additional\n                createdAt\n                updatedAt\n            }\n            billingAddress {\n                id\n                addressType\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                defaultAddress\n                vatId\n                additional\n                createdAt\n                updatedAt\n            }\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                cartAddressId\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Place Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation placeOrder {\n    placeOrder {\n        success\n        redirectUrl\n        selectedMethod\n        order {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Shipping Methods",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query shippingMethods {\n    shippingMethods {\n        success\n        shippingMethods {\n            title\n            methods {\n                code\n                label\n                price\n                formattedPrice\n                basePrice\n                formattedBasePrice                                          \n            }\n        }\n        paymentMethods {\n            method\n            # method_title\n            description\n            sort\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n        jumpToSection\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Coupon",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeCoupon {\n    removeCoupon {\n        success\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            conversionTime\n            customerId\n            channelId\n            appliedCartRuleIds\n            createdAt\n            updatedAt\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                customPrice\n                appliedCartRuleIds\n                createdAt\n                updatedAt\n                product {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            shippingAddress {\n                id\n                addressType\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                defaultAddress\n                vatId\n                additional\n                createdAt\n                updatedAt\n            }\n            billingAddress {\n                id\n                addressType\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address1\n                address2\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                defaultAddress\n                vatId\n                additional\n                createdAt\n                updatedAt\n            }\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                cartAddressId\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 										"variables": ""
 									}
 								},

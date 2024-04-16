@@ -125,8 +125,8 @@ class PushNotificationDataGrid extends DataGrid
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
-            'closure'    => function ($value) {
-                if ($value->status) {
+            'closure'    => function ($row) {
+                if ($row->status) {
                     return '<span class="badge badge-md badge-success">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled').'</span>';
                 }
 

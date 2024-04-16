@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
@@ -175,7 +174,7 @@ class ReviewMutation extends Controller
                 'success'   => trans('bagisto_graphql::app.shop.customer.account.review.success'),
                 'review'    => $review
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
@@ -231,7 +230,7 @@ class ReviewMutation extends Controller
                 'reviews'   => $customer->all_reviews,
                 'message'   => ($customerReview->id) ? trans('bagisto_graphql::app.shop.customer.account.review.success-delete') : trans('bagisto_graphql::app.shop.customer.account.review.not-found')
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Review remove Failed.'
@@ -271,7 +270,7 @@ class ReviewMutation extends Controller
                 'status'    => $customerReviews->count() ? true : false,
                 'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'All review remove Failed.'

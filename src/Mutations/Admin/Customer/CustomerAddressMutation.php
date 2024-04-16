@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
-use Exception;
 use Webkul\Customer\Rules\VatIdRule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
@@ -75,7 +74,7 @@ class CustomerAddressMutation extends Controller
             $customerAddress->success = trans('bagisto_graphql::app.admin.customers.addressess.create-success');
 
             return $customerAddress;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -140,7 +139,7 @@ class CustomerAddressMutation extends Controller
             $customerAddress->success = trans('bagisto_graphql::app.admin.customers.addressess.update-success');
 
             return $customerAddress;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -190,7 +189,7 @@ class CustomerAddressMutation extends Controller
             $customerAddress->success = trans('bagisto_graphql::app.admin.customers.addressess.default-update-success');
 
             return $customerAddress;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -223,7 +222,7 @@ class CustomerAddressMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.addressess.delete-success')];
 
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

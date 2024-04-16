@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Configuration;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
@@ -76,7 +75,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->create($customData);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.create-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -131,7 +130,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->create($customData);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.update-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -156,7 +155,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->delete($id);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.delete-success')];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

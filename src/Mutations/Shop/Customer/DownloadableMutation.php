@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -122,7 +121,7 @@ class DownloadableMutation extends Controller
                     'Resource not found'
                 );
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Error: Downloadable Purchase Link'
@@ -249,7 +248,7 @@ class DownloadableMutation extends Controller
                 'string'   => $base64_str,
                 'download' => $this->downloadableLinkPurchasedRepository->findOrFail($args['id']),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Failed: Downloadable purchased link.'

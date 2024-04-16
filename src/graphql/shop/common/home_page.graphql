@@ -13,6 +13,10 @@ extend type Query {
         input: [FilterAllProductsInput]
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
     ): [Product!] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Product\\Models\\Product")
+
+    getFilterAttribute(
+        categorySlug: String! @rename (attribute: "category_slug")
+    ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFilterAttributes")
 }
 
 input FilterHomeCategoriesInput {
@@ -60,13 +64,30 @@ type Link {
     imageUrl: String @rename(attribute: "image_url")
 }
 
-type FilterOption {
-    value: String
-    key: String
-}
-
 type ColumOption {
     url: String
     title: String
     sortOrder: String @rename(attribute: "sort_order")
+}
+
+type FilterAttribute {
+    minPrice: Float @rename(attribute: "min_price")
+    maxPrice: Float @rename(attribute: "max_price")
+    filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
+    filterData: [FilterAttributeDataList] @rename(attribute: "filter_data")
+    sortOrders: [CatalogSortOrder!] @rename(attribute: "sort_orders")
+}
+
+type FilterAttributeDataList {
+    key: String
+    value: [String]
+}
+
+type CatalogSortOrder {
+    key: String
+    title: String
+    value: String
+    sort: String
+    order: String
+    position: String
 }

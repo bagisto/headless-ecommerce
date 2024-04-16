@@ -1,0 +1,79 @@
+# Shop\Payment\PaypalStandard Related API
+extend type Query @guard(with: ["api"]) {
+    paypalStandard: PaypalStandardResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@redirect")
+}
+
+extend type Mutation @guard(with: ["api"]) {
+    paypalStandardSuccess: paypalStandardSuccessResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@success")
+
+    paypalStandardCancel: paypalStandardCancelResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@cancel")
+
+    paypalStandardIpn(
+        input: PaypalIpnInput!
+    ): paypalStandardIpnResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@ipn")
+}
+
+input PaypalIpnInput {
+    testIpn: Int! @rename(attribute: "test_ipn")
+    invoice: ID!
+}
+
+type PaypalStandardResponse {
+    success: String
+    cart: Cart
+    paypalRedirectUrl: String @rename(attribute: "paypal_redirect_url")
+    paypalFormField: PaypalFormFieldResponse @rename(attribute: "paypal_form_field")
+    jumpToSection: String @rename(attribute: "jump_to_section")
+}
+
+type PaypalFormFieldResponse {
+    business: String!
+    invoice: Int!
+    currencyCode: String! @rename(attribute: "currency_code")
+    paymentaction: String!
+    return: String!
+    cancelReturn: String! @rename(attribute: "cancel_return")
+    notifyUrl: String @rename(attribute: "notify_url")
+    charset: String!
+    itemName: String! @rename(attribute: "item_name")
+    amount: Float!
+    tax: Float!
+    shipping: Float!
+    discountAmount: Float! @rename(attribute: "discount_amount")
+    cmd: String!
+    upload: Boolean!
+    taxCart: Float @rename(attribute: "tax_cart")
+    discountAmountCart: Float @rename(attribute: "discount_amount_cart")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    email: String!
+    address: String!
+    state: String!
+    country: String!
+    zip: String!
+    addressOverride: Boolean! @rename(attribute: "address_override")
+    paypalItem: [PaypalCartItem!] @rename(attribute: "paypal_item")
+}
+
+type PaypalCartItem {
+    itemNumber: String! @rename(attribute: "item_number")
+    itemName: String! @rename(attribute: "item_name")
+    quantity: Int!
+    amount: Float!
+}
+
+type paypalStandardSuccessResponse {
+    success: String
+    order: Order!
+    redirectUrl: String! @rename(attribute: "redirect_url")
+}
+
+type paypalStandardCancelResponse {
+    success: String
+    redirectUrl: String! @rename(attribute: "redirect_url")
+}
+
+type paypalStandardIpnResponse {
+    success: String
+    redirectUrl: String! @rename(attribute: "redirect_url")
+}

@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
@@ -85,7 +84,7 @@ class CheckoutMutation extends Controller
                         $formattedAddresses[$key] = [
                             'id'        => $address->id,
                             'address'   => "{$customer->first_name} {$customer->last_name}
-                            {$address->address1}, {$address->city}, {$address->state}, {$address->country},
+                            {$address->address}, {$address->city}, {$address->state}, {$address->country},
                             {$address->postcode}
                             T: {$address->phone}",
                         ];
@@ -102,7 +101,7 @@ class CheckoutMutation extends Controller
                 'cart'            => Cart::getCart(),
                 'default_country' => config('app.default_country') ?? 'IN',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Error in fetching addresses.'
@@ -137,7 +136,7 @@ class CheckoutMutation extends Controller
                 "billing.first_name" => 'required',
                 "billing.last_name"  => 'required',
                 "billing.email"      => 'required',
-                "billing.address1"   => 'required',
+                "billing.address"    => 'required',
                 "billing.city"       => 'required',
                 "billing.country"    => 'required',
                 "billing.state"      => 'required',
@@ -156,7 +155,7 @@ class CheckoutMutation extends Controller
                     "shipping.first_name" => ['required', new AlphaNumericSpace],
                     "shipping.last_name"  => ['required', new AlphaNumericSpace],
                     "shipping.email"      => ['required'],
-                    "shipping.address1"   => ['required'],
+                    "shipping.address"    => ['required'],
                     "shipping.city"       => ['required'],
                     "shipping.country"    => [new AlphaNumericSpace],
                     "shipping.state"      => [new AlphaNumericSpace],
@@ -267,7 +266,7 @@ class CheckoutMutation extends Controller
             try {
                 $data = [
                     'billing'   => [
-                        'address1'   => '',
+                        'address'    => '',
                         'first_name' => $cart->customer_first_name,
                         'last_name'  => $cart->customer_last_name,
                         'email'      => $cart->customer_email,
@@ -275,7 +274,7 @@ class CheckoutMutation extends Controller
                     ],
 
                     'shipping'   => [
-                        'address1'   => '',
+                        'address'    => '',
                         'first_name' => $cart->customer_first_name,
                         'last_name'  => $cart->customer_last_name,
                         'email'      => $cart->customer_email,
@@ -295,7 +294,7 @@ class CheckoutMutation extends Controller
 
                         $data['billing']['last_name'] = $billingAddress->last_name;
 
-                        $data['billing']['address1'] = $billingAddress->address1;
+                        $data['billing']['address'] = $billingAddress->address;
 
                         if (
                             isset($params['billing']['use_for_shipping'])
@@ -324,7 +323,7 @@ class CheckoutMutation extends Controller
                     ]);
 
                     if (isset($shippingAddress->id)) {
-                        $data['shipping']['address1'] = $shippingAddress->address1;
+                        $data['shipping']['address'] = $shippingAddress->address;
                     } else {
                         throw new CustomException(
                             trans('bagisto_graphql::app.shop.checkout.no-shipping-address-found', ['address_id' => $shippingAddressId]),
@@ -338,7 +337,7 @@ class CheckoutMutation extends Controller
                 if ($address_flag == true) {
                     if (
                         ! $billingAddressId
-                        && isset($params['billing']['address1'])
+                        && isset($params['billing']['address'])
                     ) {
                         if (
                             isset($params['billing']['isSaved'])
@@ -359,7 +358,7 @@ class CheckoutMutation extends Controller
 
                     if (
                         ! $shippingAddressId
-                        && isset($params['shipping']['address1'])
+                        && isset($params['shipping']['address'])
                     ) {
                         if (
                             isset($params['shipping']['isSaved'])
@@ -436,7 +435,7 @@ class CheckoutMutation extends Controller
                     'payment_methods' => Payment::getPaymentMethods(),
                     'jump_to_section' => 'payment',
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 throw new CustomException(
                     $e->getMessage(),
                     'Error in saving shipping/billing address.'
@@ -543,7 +542,7 @@ class CheckoutMutation extends Controller
                         'guest-address-warning.'
                     );
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Error in saving shipping/billing address.'
@@ -604,7 +603,7 @@ class CheckoutMutation extends Controller
                 'payment_methods' => Payment::getPaymentMethods(),
                 'jump_to_section' => 'payment',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Error in saving shipping method.'
@@ -664,7 +663,7 @@ class CheckoutMutation extends Controller
                 'cart'            => Cart::getCart(),
                 'jump_to_section' => 'review',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Error in saving payment method.'
@@ -737,7 +736,7 @@ class CheckoutMutation extends Controller
                 'message' => trans('bagisto_graphql::app.shop.checkout.invalid-coupon'),
                 'cart'    => Cart::getCart(),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
@@ -768,7 +767,7 @@ class CheckoutMutation extends Controller
                 'message' => trans('bagisto_graphql::app.shop.checkout.coupon-remove-failed'),
                 'cart'    => Cart::getCart(),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
@@ -816,7 +815,7 @@ class CheckoutMutation extends Controller
                 'redirect_url' => null,
                 'order'        => $order,
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 'Error found in order processing.'

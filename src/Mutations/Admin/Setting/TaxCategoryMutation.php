@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
@@ -59,7 +58,7 @@ class TaxCategoryMutation extends Controller
             $taxCategory->success = trans('bagisto_graphql::app.admin.settings.tax-categories.create-success');
 
             return $taxCategory;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -110,7 +109,7 @@ class TaxCategoryMutation extends Controller
             $taxCategory->success = trans('bagisto_graphql::app.admin.settings.tax-categories.update-success');
 
             return $taxCategory;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -144,7 +143,7 @@ class TaxCategoryMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.tax-category.delete-success'),
             ];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

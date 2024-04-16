@@ -1,0 +1,78 @@
+# `Shop\Customer\Orders` related APIs.
+extend type Query @guard(with: ["api"]) {
+    ordersList(input: FilterCustomerOrderInput, first: Int, page: Int): [Order!] @paginate(type: "PAGINATOR", builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders", defaultCount: 10)
+
+    orderDetail(id: ID @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
+
+    viewShipments(input: OrderShipmentInput): [Shipment!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
+
+    viewShipment(id: ID @eq): Shipment @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
+
+    viewInvoices(input: OrderInvoiceInput): [Invoice!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
+
+    viewInvoice(id: ID @eq): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
+
+    viewRefunds(input: OrderRefundInput): [Refund!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
+
+    viewRefund(id: ID @eq): Refund @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
+}
+
+extend type Mutation @guard(with: ["api"]) {
+    cancelCustomerOrder(
+        id: ID!
+    ): DeleteOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@cancel")
+}
+
+input FilterCustomerOrderInput {
+    id: Int
+    incrementId: String @rename(attribute: "increment_id")
+    customerId: ID @rename(attribute: "customer_id")
+    subTotal: Float @rename(attribute: "sub_total")
+    grandTotal: Float @rename(attribute: "grand_total")
+    baseSubTotal: Float @rename(attribute: "base_sub_total")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    orderDate: String @rename(attribute: "order_date")
+    startOrderDate: String @rename(attribute: "start_order_date")
+    endOrderDate: String @rename(attribute: "end_order_date")
+    channelName: String @rename(attribute: "channel_name")
+    status: String
+}
+
+input OrderShipmentInput {
+    page: Int
+    limit: Int
+    id: Int
+    orderId: Int @rename(attribute: "order_id")
+    shipmentDateFrom: String @rename(attribute: "shipment_date_from")
+    shipmentDateTo: String @rename(attribute: "shipment_date_to")
+    shipmentDate: String @rename(attribute: "shipment_date")
+    carrierTitle: String @rename(attribute: "carrier_title")
+    trackNumber: String @rename(attribute: "track_number")
+}
+
+input OrderInvoiceInput {
+    page: Int
+    limit: Int
+    id: Int
+    orderId: Int @rename(attribute: "order_id")
+    quantity: Int
+    grandTotal: Float @rename(attribute: "grand_total")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    invoiceDate: String @rename(attribute: "invoice_date")
+}
+
+input OrderRefundInput {
+    page: Int
+    limit: Int
+    id: Int
+    orderId: Int @rename(attribute: "order_id")
+    quantity: Int
+    adjustmentRefund: Float @rename(attribute: "adjustment_refund")
+    adjustmentFee: Float @rename(attribute: "adjustment_fee")
+    shippingAmount: Float @rename(attribute: "shipping_amount")
+    taxAmount: Float @rename(attribute: "tax_amount")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    grandTotal: Float @rename(attribute: "grand_total")
+    baseGrandTotal: Float @rename(attribute: "base_grand_total")
+    refundDate: String @rename(attribute: "refund_date")
+}

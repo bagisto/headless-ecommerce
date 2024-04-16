@@ -3,14 +3,15 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Illuminate\Support\Facades\DB;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\Product\Repositories\ProductRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Attribute\Repositories\AttributeRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\Product\Helpers\Toolbar;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class HomePageQuery extends BaseFilter
 {
@@ -29,7 +30,8 @@ class HomePageQuery extends BaseFilter
         protected ProductRepository $productRepository,
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
-        protected ThemeCustomizationRepository $themeCustomizationRepository
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        protected Toolbar $productHelperToolbar
     ) {
     }
 
@@ -200,7 +202,7 @@ class HomePageQuery extends BaseFilter
                         ->where('product_price_indices.customer_group_id', $customerGroup->id);
                 });
 
-        if (!empty($params['category_slug'])) {
+        if (! empty($params['category_slug'])) {
             $categoryIds = $this->categoryRepository->findBySlug($params['category_slug'])->id;
 
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
@@ -362,5 +364,61 @@ class HomePageQuery extends BaseFilter
     public function getSortOptions(array $params): array
     {
         return product_toolbar()->getOrder($params);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getFilterAttributes($rootValue, array $args, GraphQLContext $context)
+    {
+        $slug = $args['category_slug'];
+
+        $filterData = [];
+
+        $availableSortOrders = [];
+
+        $category = $this->categoryRepository->whereHas('translation', function ($q) use ($slug) {
+            $q->where('slug', urldecode($slug));
+        })->first();
+
+        if (empty($filterableAttributes = $category?->filterableAttributes)) {
+            $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+        }
+
+        $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
+
+        foreach ($filterableAttributes as $key => $filterAttribute) {
+            if ($filterAttribute->code == 'price') {
+                continue;
+            }
+
+            $optionIds = $filterAttribute->options->pluck('id')->toArray();
+
+            $filterData[$filterAttribute->code] = [
+                'key' => $filterAttribute->code,
+                'value'  => $optionIds,
+            ];
+        }
+
+        foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
+            $availableSortOrders[$key] = [
+                "key"      => $key,
+                "title"    => $label['title'],
+                "value"    => $label['value'],
+                "sort"     => $label['sort'],
+                "order"    => $label['order'],
+                "position" => $label['position'],
+            ];
+        }
+
+        return [
+            'min_price'         => 0,
+            'max_price'         => $maxPrice,
+            'filter_attributes' => $filterableAttributes,
+            'filter_data'       => $filterData,
+            'sort_orders'       => $availableSortOrders,
+        ];
     }
 }
