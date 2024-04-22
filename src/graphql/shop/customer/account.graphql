@@ -9,7 +9,7 @@ extend type Mutation {
     ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@subscribe")
 
     updateAccount(
-        input: UpdateAccountInput!
+        input: UpdateAccountInput! @spread
     ): AccountInfoResult @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
 
     deleteAccount(
@@ -27,6 +27,7 @@ input UpdateAccountInput {
     currentPassword: String @rename(attribute: "current_password")
     password: String
     passwordConfirmation: String @rename(attribute: "password_confirmation")
+    newsletterSubscriber: Boolean @rename(attribute: "subscribed_to_news_letter")
     uploadType: UploadType @rename(attribute: "upload_type")
     imageUrl: String @rename(attribute: "image_url")
     image: Upload
@@ -36,10 +37,4 @@ type AccountInfoResult {
     status: Boolean
     message: String
     customer: Customer
-}
-
-enum UploadType {
-    FILE @enum(value: "file")
-    PATH @enum(value: "path")
-    BASE64 @enum(value: "base64")
 }

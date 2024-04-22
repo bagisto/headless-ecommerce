@@ -17,6 +17,13 @@ use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 class RegistrationMutation extends Controller
 {
     /**
+     * Contains current guard
+     *
+     * @var array
+     */
+    protected $guard;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -26,7 +33,9 @@ class RegistrationMutation extends Controller
         protected CustomerGroupRepository $customerGroupRepository,
         protected SubscribersListRepository $subscriptionRepository
     ) {
-        auth()->setDefaultDriver('api');
+        $this->guard = 'api';
+
+        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -34,34 +43,28 @@ class RegistrationMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function register($rootValue, array $args , GraphQLContext $context)
+    public function signUp($rootValue, array $args , GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),);
-        }
-
-        $data = $args['input'];
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($args, [
+            'email'                 => 'email|required|unique:customers,email',
             'first_name'            => 'string|required',
             'last_name'             => 'string|required',
-            'email'                 => 'email|required|unique:customers,email',
             'password'              => 'min:6|required',
             'password_confirmation' => 'required|required_with:password|same:password',
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
 
-        $this->create($data);
+        $this->create($args);
 
         if (core()->getConfigData('customer.settings.email.verification')) {
             return [
                 'status'  => false,
-                'success' => trans('shop::app.customers.signup-form.success-verify'),
+                'success' => trans('bagisto_graphql::app.shop.customers.signup.success-verify'),
             ];
         }
 
-        return $this->login($data);
+        return $this->login($args);
     }
 
     /**
@@ -71,49 +74,41 @@ class RegistrationMutation extends Controller
      */
     public function socialSignIn($rootValue, array $args , GraphQLContext $context)
     {
-        $data = $args;
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($args, [
+            'email'       => 'email|required',
             'first_name'  => 'string|required',
             'last_name'   => 'string|required',
-            'email'       => 'email|required',
             'signup_type' => 'string|required',
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
 
-        if ($data['signup_type'] == 'truecaller') {
-            if (empty($data['phone'])) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.customers.login-form.validation.required', ['field' => 'phone number']));
+        if ($args['signup_type'] == 'truecaller') {
+            if (empty($args['phone'])) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.login.validation.required', ['field' => 'phone number']));
             }
 
-            $customer = $this->customerRepository->findOneByField('phone', $data['phone']);
+            $customer = $this->customerRepository->findOneByField('phone', $args['phone']);
 
             if (
                 $customer
-                && $customer->email != $data['email']
+                && $customer->email != $args['email']
             ) {
                 throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customers.login-form.validation.unique', ['phone' => $data['phone']])
+                    trans('bagisto_graphql::app.shop.customers.login.validation.unique', ['phone' => $args['phone']])
                 );
             }
         } else {
-            $customer = $this->customerRepository->findOneByField('email', $data['email']);
+            $customer = $this->customerRepository->findOneByField('email', $args['email']);
         }
 
-        $data['password'] = $data['password_confirmation'] = rand(000000,999999);
+        $args['password'] = $args['password_confirmation'] = $password = rand(000000,999999);
 
         if (! $customer) {
-            $customer = $this->create($data);
+            $customer = $this->create($args);
         }
 
-        $password = $customer->password;
-
-        $customer->update([
-            'password' => bcrypt($data['password']),
-        ]);
-
-        return $this->login($data, $password);
+        return $this->login($args, $password);
     }
 
     /**
@@ -124,11 +119,11 @@ class RegistrationMutation extends Controller
     public function create($data)
     {
         $data = array_merge($data, [
-            'password'                  => bcrypt($data['password']),
             'api_token'                 => Str::random(80),
-            'is_verified'               => ! core()->getConfigData('customer.settings.email.verification'),
-            'subscribed_to_news_letter' => $data['subscribed_to_news_letter'] ?? 0,
             'customer_group_id'         => $this->customerGroupRepository->findOneByField('code', 'general')->id,
+            'is_verified'               => ! core()->getConfigData('customer.settings.email.verification'),
+            'password'                  => bcrypt($data['password']),
+            'subscribed_to_news_letter' => $data['subscribed_to_news_letter'] ?? 0,
             'token'                     => md5(uniqid(rand(), true)),
         ]);
 
@@ -139,7 +134,7 @@ class RegistrationMutation extends Controller
         if (! $customer) {
             return [
                 'status'  => false,
-                'success' => trans('bagisto_graphql::app.shop.customers.signup-form.error-registration'),
+                'success' => trans('bagisto_graphql::app.shop.customers.signup.error-registration'),
             ];
         }
 
@@ -154,9 +149,9 @@ class RegistrationMutation extends Controller
                 Event::dispatch('customer.subscription.before');
 
                 $subscription = $this->subscriptionRepository->create([
-                    'email'         => $data['email'],
-                    'customer_id'   => $customer->id,
                     'channel_id'    => core()->getCurrentChannel()->id,
+                    'customer_id'   => $customer->id,
+                    'email'         => $data['email'],
                     'is_subscribed' => 1,
                     'token'         => uniqid(),
                 ]);
@@ -177,7 +172,7 @@ class RegistrationMutation extends Controller
                 'password' => $data['password_confirmation'],
             ], $data['remember'] ?? 0)
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.login-form.invalid-creds'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.login.invalid-creds'));
         }
 
         $loginCustomer = auth()->user();
@@ -187,7 +182,6 @@ class RegistrationMutation extends Controller
                 'password' => $password,
             ], $loginCustomer->id);
         } else {
-
             request()->merge([
                 'token' => $jwtToken,
             ]);
@@ -197,7 +191,7 @@ class RegistrationMutation extends Controller
 
                 return [
                     'status'  => false,
-                    'success' => trans('shop::app.customers.login-form.not-activated'),
+                    'success' => trans('bagisto_graphql::app.shop.customers.login.not-activated'),
                 ];
             }
 
@@ -210,7 +204,7 @@ class RegistrationMutation extends Controller
 
                 return [
                     'status'  => false,
-                    'success' => trans('shop::app.customers.login-form.verify-first'),
+                    'success' => trans('bagisto_graphql::app.shop.customers.login.verify-first'),
                 ];
             }
         }

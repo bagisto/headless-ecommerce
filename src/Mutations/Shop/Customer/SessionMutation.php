@@ -13,13 +13,22 @@ use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 class SessionMutation extends Controller
 {
     /**
+     * Contains current guard
+     *
+     * @var array
+     */
+    protected $guard;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(protected CustomerRepository $customerRepository)
     {
-        auth()->setDefaultDriver('api');
+        $this->guard = 'api';
+
+        auth()->setDefaultDriver($this->guard);
     }
 
     /**
@@ -29,13 +38,7 @@ class SessionMutation extends Controller
      */
     public function login($rootValue, array $args , GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($args, [
             'email'    => 'required|email',
             'password' => 'required',
         ]);
@@ -43,35 +46,37 @@ class SessionMutation extends Controller
         bagisto_graphql()->checkValidatorFails($validator);
 
         if (! $jwtToken = JWTAuth::attempt([
-            'email'    => $data['email'],
-            'password' => $data['password'],
-        ], $data['remember'] ?? 0)) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.login-form.invalid-creds'));
+            'email'    => $args['email'],
+            'password' => $args['password'],
+        ], $args['remember'] ?? 0)) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.login.invalid-creds'));
         }
 
         try {
             $customer = auth()->user();
 
-            request()->merge([
-                'token' => $jwtToken,
-            ]);
-
             if (! $customer->status) {
-                auth()->logout();
-
-                throw new CustomException(trans('shop::app.customers.login-form.not-activated'));
+                $message = trans('bagisto_graphql::app.shop.customers.login.not-activated');
             }
-
+            
             if (! $customer->is_verified) {
-                auth()->logout();
-
-                throw new CustomException(trans('shop::app.customers.login-form.verify-first'));
+                $message = trans('bagisto_graphql::app.shop.customers.login.verify-first');
             }
 
+            if (isset($message)) {
+                request()->merge([
+                    'token' => $jwtToken,
+                ]);
+
+                auth()->logout();
+
+                throw new CustomException($message);
+            }
+            
             /**
              * Event passed to prepare cart after login.
              */
-            Event::dispatch('customer.after.login', $data['email']);
+            Event::dispatch('customer.after.login', $args['email']);
 
             return [
                 'status'       => true,
@@ -93,19 +98,19 @@ class SessionMutation extends Controller
      */
     public function logout()
     {
-        if (auth()->check()) {
-            $customer = auth()->user();
-
-            auth()->logout();
-
-            Event::dispatch('customer.after.logout', $customer->id);
-
-            return [
-                'status'  => true,
-                'success' => trans('bagisto_graphql::app.shop.customers.success-logout'),
-            ];
+        if (! auth()->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
-        throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
+        $customer = auth()->user();
+
+        auth()->logout();
+
+        Event::dispatch('customer.after.logout', $customer->id);
+
+        return [
+            'status'  => true,
+            'success' => trans('bagisto_graphql::app.shop.customers.success-logout'),
+        ];
     }
 }

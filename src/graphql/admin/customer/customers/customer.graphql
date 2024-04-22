@@ -56,12 +56,6 @@ input CreateCustomerNoteInput {
     customerNotified: Boolean @rename(attribute: "customer_notified")
 }
 
-enum Gender {
-    MALE @enum(value: "Male")
-    FEMALE @enum(value: "Female")
-    OTHER @enum(value: "Other")
-}
-
 type Customer {
     id: ID!
     firstName: String! @rename(attribute: "first_name")

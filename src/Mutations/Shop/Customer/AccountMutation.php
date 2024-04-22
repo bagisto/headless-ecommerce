@@ -20,11 +20,11 @@ class AccountMutation extends Controller
      *
      */
     protected $allowedImageMimeTypes = [
-        'png'  => 'image/png',
+        'bmp'  => 'image/bmp',
         'jpe'  => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'jpg'  => 'image/jpeg',
-        'bmp'  => 'image/bmp',
+        'png'  => 'image/png',
         'webp' => 'image/webp',
     ];
 
@@ -74,14 +74,12 @@ class AccountMutation extends Controller
         if (! auth()->check()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
-
+        
         $customer = auth()->user();
-
-        $data = $args['input'];
 
         $isPasswordChanged = false;
 
-        $validator = Validator::make($data, [
+        $validator = Validator::make($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
             'gender'                    => 'required|in:Other,Male,Female',
@@ -97,35 +95,35 @@ class AccountMutation extends Controller
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
-
-        $data['subscribed_to_news_letter'] = $data['subscribed_to_news_letter'] ?? 0;
+        
+        $args['subscribed_to_news_letter'] = $args['subscribed_to_news_letter'] ?? 0;
 
         try {
-            $data['date_of_birth'] = ! empty($data['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $data['date_of_birth']).'00:00:01')->format('Y-m-d') : '';
+            $args['date_of_birth'] = ! empty($args['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $args['date_of_birth']).'00:00:01')->format('Y-m-d') : '';
 
-            if (! empty($data['current_password'])) {
-                if (Hash::check($data['current_password'], $customer->password)) {
+            if (! empty($args['current_password'])) {
+                if (Hash::check($args['current_password'], $customer->password)) {
                     $isPasswordChanged = true;
 
-                    $data['password'] = bcrypt($data['password']);
+                    $args['password'] = bcrypt($args['password']);
                 } else {
-                    throw new CustomException(trans('shop::app.customers.account.profile.unmatch'));
+                    throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.profile.password-unmatch'));
                 }
             } else {
-                unset($data['password']);
+                unset($args['password']);
             }
 
             Event::dispatch('customer.update.before');
 
-            if ($customer = $this->customerRepository->update($data, $customer->id)) {
+            if ($customer = $this->customerRepository->update($args, $customer->id)) {
                 if ($isPasswordChanged) {
                     Event::dispatch('user.admin.update-password', $customer);
                 }
 
                 Event::dispatch('customer.update.after', $customer);
 
-                if ($data['subscribed_to_news_letter']) {
-                    $subscription = $this->subscriptionRepository->findOneWhere(['email' => $data['email']]);
+                if ($args['subscribed_to_news_letter']) {
+                    $subscription = $this->subscriptionRepository->findOneWhere(['email' => $args['email']]);
 
                     if ($subscription) {
                         $this->subscriptionRepository->update([
@@ -134,7 +132,7 @@ class AccountMutation extends Controller
                         ], $subscription->id);
                     } else {
                         $this->subscriptionRepository->create([
-                            'email'         => $data['email'],
+                            'email'         => $args['email'],
                             'customer_id'   => $customer->id,
                             'channel_id'    => core()->getCurrentChannel()->id,
                             'is_subscribed' => 1,
@@ -142,7 +140,7 @@ class AccountMutation extends Controller
                         ]);
                     }
                 } else {
-                    $subscription = $this->subscriptionRepository->findOneWhere(['email' => $data['email']]);
+                    $subscription = $this->subscriptionRepository->findOneWhere(['email' => $args['email']]);
 
                     if ($subscription) {
                         $this->subscriptionRepository->update([
@@ -153,11 +151,11 @@ class AccountMutation extends Controller
                 }
 
                 if (
-                    ! empty($data['upload_type'])
-                    && $data['upload_type'] == 'file'
+                    ! empty($args['upload_type'])
+                    && $args['upload_type'] == 'file'
                 ) {
-                    if (! empty($data['image']))  {
-                        $customer->image = $data['image']->storePublicly('customer/'.$customer->id);
+                    if (! empty($args['image']))  {
+                        $customer->image = $args['image']->storePublicly('customer/'.$customer->id);
 
                         $customer->save();
                     } else {
@@ -172,13 +170,13 @@ class AccountMutation extends Controller
                 }
 
                 if (
-                    ! empty($data['upload_type'])
-                    && in_array($data['upload_type'], ['path', 'base64'])
-                    && ! empty($data['image_url'])
+                    ! empty($args['upload_type'])
+                    && in_array($args['upload_type'], ['path', 'base64'])
+                    && ! empty($args['image_url'])
                 ) {
-                    $data['save_path'] = 'customer/'.$customer->id;
+                    $args['save_path'] = 'customer/'.$customer->id;
 
-                    bagisto_graphql()->saveImageByURL($customer, $data, 'image_url');
+                    bagisto_graphql()->saveImageByURL($customer, $args, 'image_url');
                 }
 
                 return [

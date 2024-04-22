@@ -16,7 +16,7 @@ extend type Mutation @guard(with: ["admin-api"]) {
         status: ReviewStatus! @rules(apply: ["required"])
     ): Review @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\ReviewMutation@update")
 
-    deleteReview(id: ID!): Review  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\ReviewMutation@delete")
+    adminDeleteReview(id: ID!): Review  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\ReviewMutation@delete")
 }
 
 input FilterReviewInput {

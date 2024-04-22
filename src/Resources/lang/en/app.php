@@ -1,6 +1,43 @@
 <?php
 
 return [
+    'shop' => [
+        'customers' => [
+            'success-login' => 'Success: Customer login successful.',
+            'success-logout' => 'Success: Customer logout successful.',
+            'no-login-customer' => 'Warning: No login customer found.',
+
+            'signup' => [
+                'success-verify' => 'Account created successfully, an e-mail has been sent for verification.',
+                'error-registration' => 'Warning: Customer registration failed.',
+            ],
+
+            'login' => [
+                'invalid-creds' => 'Please check your credentials and try again.',
+                'not-activated' => 'Your activation requires admin approval',
+                'verify-first'  => 'Please verify your email first.',
+
+                'validation' => [
+                    'required' => 'The :field field is required.',
+                    'same'     => 'The :field and password must match.',
+                    'unique'   => 'This :field has already been taken.',
+                ],
+            ],
+
+            'forgot-password' => [
+                'reset-link-sent' => 'Reset password link sent to your email.',
+                'already-sent'    => 'Reset password link already sent to your email.',
+                'email-not-exist' => 'Email does not exist.',
+            ],
+
+            'accout' => [
+                'profile' => [
+                   'password-unmatch' => 'Password does not match.',
+                ],
+            ],
+        ],
+    ],
+
     'admin' => [
         'acl' => [
             'create'            => 'Create',
@@ -353,7 +390,7 @@ return [
                         'fail-add-to-cart' => 'Warning: Product not added to cart.',
                         'delete-cart-item' => 'Warning: Item is not removed from the cart.',
                         'not-found' => 'Warning: Cart not found.',
-                        'all-remove' => 'Warning: All items not removed from the cart.',removeAllCartItem
+                        'all-remove' => 'Warning: All items not removed from the cart.',
                     ],
                 ],
             ],

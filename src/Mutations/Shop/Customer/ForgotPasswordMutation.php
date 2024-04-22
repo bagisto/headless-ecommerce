@@ -32,20 +32,20 @@ class ForgotPasswordMutation extends Controller
             if ($response == Password::RESET_LINK_SENT) {
                 return [
                     'status'  => true,
-                    'success' => trans('shop::app.customers.forgot-password.reset-link-sent'),
+                    'success' => trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'),
                 ];
             }
 
             if ($response == Password::RESET_THROTTLED) {
                 return [
                     'status'  => false,
-                    'success' => trans('shop::app.customers.forgot-password.already-sent'),
+                    'success' => trans('bagisto_graphql::app.shop.customers.forgot-password.already-sent'),
                 ];
             }
 
-            throw new CustomException(trans('shop::app.customers.forgot-password.email-not-exist'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.forgot-password.email-not-exist'));
         } catch (\Swift_RfcComplianceException $e) {
-            throw new CustomException(trans('shop::app.customers.forgot-password.reset-link-sent'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'));
         } catch (\Exception $e) {
             report($e);
 
