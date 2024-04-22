@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Attributes;
 
-use Exception;
 use Webkul\Core\Rules\Code;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
@@ -107,7 +106,7 @@ class AttributeMutation extends Controller
             Event::dispatch('catalog.attribute.create.after', $attribute);
 
             return $attribute;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -188,7 +187,7 @@ class AttributeMutation extends Controller
             Event::dispatch('catalog.attribute.update.after', $attribute);
 
             return $attribute;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -223,7 +222,7 @@ class AttributeMutation extends Controller
             Event::dispatch('catalog.attribute.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.attributes.delete-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

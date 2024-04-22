@@ -119,7 +119,7 @@ return [
             'delete-success'          => '成功: ユーザーが正常に削除されました。',
             'last-delete-error'       => '警告: 少なくとも1人のユーザーが必要です',
             'delete-failed'           => '警告: 管理ユーザーは削除されていません',
-            'error-invalid-parameter' => '警告: 無効なパラメータが提供されました。',
+            'error.invalid-parameter' => '警告: 無効なパラメータが提供されました。',
             'success-login'           => '成功: ユーザーが正常にログインしました。',
             'error-login'             => '警告: 管理ユーザーはログインしていません。',
             'session-expired'         => '警告: セッションが期限切れです。アカウントに再度ログインしてください。',
@@ -177,7 +177,7 @@ return [
             'wrong-error'               => '警告: カートにエラーがあります。もう一度お試しください。',
             'no-billing-address-found'  => '警告: :address_id 請求先IDで請求先住所レコードが見つかりませんでした。',
             'no-shipping-address-found' => '警告: :address_id 配送先IDで配送先住所レコードが見つかりませんでした。',
-            'error-invalid-parameter'   => '警告: 無効なパラメータが提供されました。',
+            'error.invalid-parameter'   => '警告: 無効なパラメータが提供されました。',
             'already-applied'           => 'クーポンコードはすでに適用されています。',
             'success-apply'             => 'クーポンコードが正常に適用されました。',
             'coupon-removed'            => '成功: カートからクーポンが正常に削除されました。',
@@ -190,7 +190,7 @@ return [
                 'item' => [
                     'success-all-remove'       => 'カートからすべての商品が正常に削除されました。',
                     'fail-all-remove'          => 'カートから商品を削除する際にエラーが発生しました。',
-                    'error-invalid-parameter'  => '警告: 無効なパラメータが提供されました。',
+                    'error.invalid-parameter'  => '警告: 無効なパラメータが提供されました。',
                     'success-moved-cart-item'  => '成功: カートの商品がウィッシュリストに移動されました。',
                     'fail-moved-cart-item'     => '失敗: カートの商品はウィッシュリストに移動されていません。',
                     'success-add-to-cart'      => '成功: 商品がカートに追加されました。',
@@ -276,7 +276,7 @@ return [
         ],
 
         'response' => [
-            'error-invalid-parameter' => '警告: 無効なパラメータが提供されました。',
+            'error.invalid-parameter' => '警告: 無効なパラメータが提供されました。',
             'invalid-header'          => '警告: 無効なヘッダートークンです。',
             'cancel-error'            => '注文はキャンセルできません。',
         ],

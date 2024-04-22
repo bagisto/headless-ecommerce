@@ -18,10 +18,7 @@ class NotificationController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
-     * @param \Webkul\Core\Repositories\ChannelRepository  $channelRepository
-     * @param \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
+     * @return void
      */
     public function __construct(
         protected CategoryRepository $categoryRepository,
@@ -29,7 +26,6 @@ class NotificationController extends Controller
         protected ProductRepository $productRepository,
         protected NotificationRepository $notificationRepository
     ) {
-        $this->middleware('admin');
     }
 
     /**
@@ -64,23 +60,31 @@ class NotificationController extends Controller
     public function store()
     {
         $this->validate(request(), [
-            'title'    => 'string|required',
-            'content'  => 'string|required',
-            'image.*'  => 'mimes:jpeg,jpg,bmp,png',
-            'type'     => 'required',
-            'channels' => 'required',
-            'status'   => 'required',
-        ]);
+            'title'      => 'string|required',
+            'content'    => 'string|required',
+            'image.*'    => 'mimes:jpeg,jpg,bmp,png',
+            'type'       => 'required',
+            'channels.*' => 'required',
+            'status'     => 'required',
 
-        $data = collect(request()->all())->except('_token')->toArray();
+        ]);
 
         Event::dispatch('settings.notification.create.before');
 
-        $notification = $this->notificationRepository->create($data);
+        $notification = $this->notificationRepository->create([
+            "locale"              => request('locale'),
+            "title"               => request('title'),
+            "content"             => request('content'),
+            "status"              => request('status'),
+            "channels"            => request('channels'),
+            "type"                => request('type'),
+            "image"               => request('image'),
+            "product_category_id" => request('product_category_id'),
+        ]);
 
         Event::dispatch('settings.notification.create.after', $notification);
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.create.success'));
+        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.create-success'));
 
         return redirect()->route('admin.settings.push_notification.index');
     }
@@ -95,9 +99,7 @@ class NotificationController extends Controller
     {
         $notification = $this->notificationRepository->findOrFail($id);
 
-        $channels = $this->channelRepository->get();
-
-        return view('bagisto_graphql::admin.settings.push_notification.edit', compact('notification', 'channels'));
+        return view('bagisto_graphql::admin.settings.push_notification.edit', compact('notification'));
     }
 
     /**
@@ -117,15 +119,22 @@ class NotificationController extends Controller
             'status'   => 'required',
         ]);
 
-        $requestData =  request()->all();
-
         Event::dispatch('settings.notification.update.befor', $id);
 
-        $notification = $this->notificationRepository->update($requestData, $id);
+        $notification = $this->notificationRepository->update([
+            "locale"              => request('locale'),
+            "title"               => request('title'),
+            "content"             => request('content'),
+            "status"              => request('status'),
+            "channels"            => request('channels'),
+            "type"                => request('type'),
+            "image"               => request('image'),
+            "product_category_id" => request('product_category_id'),
+        ], $id);
 
         Event::dispatch('settings.notification.update.after', $notification);
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.edit.success'));
+        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.update-success'));
 
         return redirect()->route('admin.settings.push_notification.index');
     }
@@ -138,17 +147,19 @@ class NotificationController extends Controller
      */
     public function destroy($id): JsonResponse
     {
+        $notification = $this->notificationRepository->findOrFail($id);
+
         try {
             Event::dispatch('settings.push-notification.delete.before', $id);
 
-            $this->notificationRepository->delete($id);
+            $notification->delete();
 
             Event::dispatch('settings.push-notification.delete.after', $id);
 
             return new JsonResponse([
                 'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
             ]);
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
         }
 
         return new JsonResponse([
@@ -175,7 +186,7 @@ class NotificationController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-delete-success'),
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.mass-delete-success'),
         ]);
     }
 
@@ -194,9 +205,9 @@ class NotificationController extends Controller
 
             $notification = $this->notificationRepository->find($notificationId);
 
-            $notification->update([
-                'status' => $massUpdateRequest->input('value'),
-            ]);
+            $notification->status = $massUpdateRequest->input('value');
+
+            $notification->save();
 
             Event::dispatch('settings.notification.update.after', $notification);
         }
@@ -218,15 +229,13 @@ class NotificationController extends Controller
         $result = $this->notificationRepository->prepareNotification($notification);
 
         if (isset($result->message_id)) {
-
             session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.edit.notification-send-success'));
         } else {
-
             $message = $result;
 
             if (
                 gettype($result) == 'array'
-                && !empty($result['error'])
+                && ! empty($result['error'])
             ) {
                 $message = $result['error'];
             } elseif (isset($result->error)) {
@@ -246,44 +255,41 @@ class NotificationController extends Controller
      */
     public function exist()
     {
-        $data = request()->all();
-
-        if (substr_count($data['givenValue'], ' ')) {
-            return response()->json([
-                'value'   => false,
-                'message' => 'Product not exist',
-                'type'    => $data['selectedType'],
-            ], 200);
-        }
+        $data = request()->only([
+            'givenValue',
+            'selectedType',
+        ]);
 
         //product case
         if ($data['selectedType'] == 'product') {
             if ($product = $this->productRepository->find($data['givenValue'])) {
-                if (! isset($product->url_key)) {
-                    return response()->json(['value' => false, 'message' => 'Product not exist', 'type' => 'product'], 200);
+                if (isset($product->url_key)) {
+                    return response()->json([
+                        'value' => true,
+                    ], 200);
                 }
-
-                return response()->json(['value' => true], 200);
             }
 
             return response()->json([
                 'value'   => false,
                 'message' => 'Product not exist',
                 'type'    => 'product',
-            ], 200);
+            ], 401);
         }
 
         //category case
         if ($data['selectedType'] == 'category') {
             if ($this->categoryRepository->find($data['givenValue'])) {
-                return response()->json(['value' => true] ,200);
+                return response()->json([
+                    'value' => true,
+                ] ,200);
             }
 
             return response()->json([
                 'value'   => false,
                 'message' => 'Category not exist',
                 'type'    => 'category',
-            ] ,200);
+            ], 401);
         }
     }
 }

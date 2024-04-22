@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
@@ -48,7 +47,7 @@ class EmailTemplateMutation extends Controller
             $template = $this->templateRepository->create($params);
 
             return $template;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -87,7 +86,7 @@ class EmailTemplateMutation extends Controller
             $template = $this->templateRepository->update($params, $id);
 
             return $template;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -122,7 +121,7 @@ class EmailTemplateMutation extends Controller
                 'status'  => false,
                 'message' => trans('bagisto_graphql::app.admin.marketing.communications.templates.delete-failed'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

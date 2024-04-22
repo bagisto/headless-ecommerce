@@ -1,16 +1,10 @@
 #Shop\Customer\Session Related APIs
 extend type Mutation {
     customerLogin(
-        input: LoginInput!
+        input: LoginInput! @spread
     ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@login")
 
-    customerLogout: CustomerLogoutResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@logout")
-}
-
-input LoginInput {
-    email: String! @rules(apply: ["email"])
-    password: String! @rules(apply: ["min:6"])
-    remember: Boolean
+    customerLogout: StatusResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@logout")
 }
 
 type CustomerLoginResult {
@@ -20,9 +14,4 @@ type CustomerLoginResult {
     tokenType: String @rename(attribute: "token_type")
     expiresIn: Int @rename(attribute: "expires_in")
     customer: Customer
-}
-
-type CustomerLogoutResponse {
-    status: Boolean
-    success: String
 }

@@ -4,29 +4,19 @@ extend type Query {
 
     themeCustomization: [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
-    # homeCategories(input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
-    homeCategories(id: ID input: [FilterHomeCategoriesInput]): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
+    homeCategories(
+        getCategoryTree: Boolean @rename (attribute: "get_category_tree")
+        input: [FilterHomeCategoriesInput]
+    ): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
     allProducts(
         input: [FilterAllProductsInput]
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
-    ): [Product!]
-    @paginate(
-        type: "PAGINATOR"
-        defaultCount: 10
-        model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Product"
-    )
+    ): [Product!] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Product\\Models\\Product")
 
-    notificationList(
-        first: Int,
-        page: Int
-    ): [Notification!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\GraphQLAPI\\Models\\PushNotification")
-}
-
-extend type Mutation {
-    sendNotification(
-        input: NotificationInput!
-    ): NotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NotificationMutation@send")
+    getFilterAttribute(
+        categorySlug: String! @rename (attribute: "category_slug")
+    ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFilterAttributes")
 }
 
 input FilterHomeCategoriesInput {
@@ -37,10 +27,6 @@ input FilterHomeCategoriesInput {
 input FilterAllProductsInput {
     key: String
     value: String
-}
-
-input NotificationInput {
-    id: ID!
 }
 
 type FrontTheme {
@@ -78,40 +64,30 @@ type Link {
     imageUrl: String @rename(attribute: "image_url")
 }
 
-type FilterOption {
-    value: String
-    key: String
-}
-
 type ColumOption {
     url: String
     title: String
     sortOrder: String @rename(attribute: "sort_order")
 }
 
-type Notification {
-    id: ID!
-    image: String
-    imageUrl: String @rename(attribute: "image_url")
-    type: String
-    productCategoryId: ID @rename(attribute: "product_category_id")
-    status: Boolean
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
-    translations: [NotificationTranslation!] @hasMany
+type FilterAttribute {
+    minPrice: Float @rename(attribute: "min_price")
+    maxPrice: Float @rename(attribute: "max_price")
+    filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
+    filterData: [FilterAttributeDataList] @rename(attribute: "filter_data")
+    sortOrders: [CatalogSortOrder!] @rename(attribute: "sort_orders")
 }
 
-type NotificationTranslation {
-    id: ID!
-    title: String!
-    content: String!
-    locale: String!
-    channel: String!
-    pushNotificationId: ID! @rename(attribute: "push_notification_id")
+type FilterAttributeDataList {
+    key: String
+    value: [String]
 }
 
-type NotificationResponse {
-    status: Boolean
-    success: String
-    messageId: String @rename(attribute: "message_id")
+type CatalogSortOrder {
+    key: String
+    title: String
+    value: String
+    sort: String
+    order: String
+    position: String
 }

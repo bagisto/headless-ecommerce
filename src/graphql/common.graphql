@@ -1,0 +1,23 @@
+input LoginInput {
+    email: String! @rules(apply: ["email"])
+    password: String! @rules(apply: ["min:6"])
+    remember: Boolean
+}
+
+type StatusResponse {
+    status: Boolean
+    success: String
+}
+
+enum UploadType {
+    FILE @enum(value: "file")
+    PATH @enum(value: "path")
+    BASE64 @enum(value: "base64")
+}
+
+enum Gender {
+    MALE @enum(value: "Male")
+    FEMALE @enum(value: "Female")
+    OTHER @enum(value: "Other")
+}
+

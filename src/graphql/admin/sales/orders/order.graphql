@@ -148,8 +148,7 @@ type OrderAddress {
     lastName: String @rename(attribute: "last_name")
     gender: String
     companyName: String @rename(attribute: "company_name")
-    address1: String
-    address2: String
+    address: String
     postcode: String
     city: String
     state: String

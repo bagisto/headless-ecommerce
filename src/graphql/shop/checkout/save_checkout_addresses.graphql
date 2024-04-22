@@ -20,8 +20,7 @@ input NewAddressInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String!
-    address1: String!
-    address2: String
+    address: String!
     city: String!
     country: String!
     state: String!

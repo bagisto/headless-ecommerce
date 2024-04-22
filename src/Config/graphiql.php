@@ -12,7 +12,6 @@ return [
     | You can add multiple routes pointing to different GraphQL endpoints.
     |
     */
-
     'routes' => [
         '/graphiql' => [
             'name' => 'graphiql',

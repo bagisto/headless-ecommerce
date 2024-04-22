@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Shipments;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -87,7 +86,7 @@ class ShipmentMutation extends Controller
             $shipmentData = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $orderId]));
 
             return $shipmentData;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

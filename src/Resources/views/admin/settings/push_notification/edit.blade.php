@@ -43,7 +43,7 @@
                         </a>
 
                         <!-- Send Notification -->
-                        <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
+                        <a href="{{ route('admin.settings.push_notification.send_notification', $notification['id']) }}"  class="primary-button">
                             {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
                         </a>
 

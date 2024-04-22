@@ -11,25 +11,11 @@ use Webkul\DataGrid\DataGrid;
 class PushNotificationDataGrid extends DataGrid
 {
     /**
-     * Default sort order of datagrid.
-     *
-     * @var string
-     */
-    protected $sortOrder = 'desc';
-
-    /**
      * Set index columns, ex: id.
      *
      * @var string
      */
     protected $primaryColumn = 'notification_id';
-
-    /**
-     * If paginated then value of pagination.
-     *
-     * @var int
-     */
-    protected $itemsPerPage = 10;
 
     /**
      * Prepare query builder.
@@ -38,48 +24,41 @@ class PushNotificationDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
-        if (core()->getRequestedChannelCode() === 'all') {
-            $whereInChannels = Channel::query()->pluck('code')->toArray();
-        } else {
-            $whereInChannels = [core()->getRequestedChannelCode()];
-        }
 
-        if (core()->getRequestedLocaleCode() === 'all') {
-            $whereInLocales = Locale::query()->pluck('code')->toArray();
-        } else {
-            $whereInLocales = [core()->getRequestedLocaleCode()];
-        }
+        $whereInLocales = (core()->getRequestedLocaleCode() === 'all')
+            ? Locale::query()->pluck('code')->toArray()
+            : [core()->getRequestedLocaleCode()];
 
-        $queryBuilder = DB::table('push_notification_translations as pn_trans')
-        ->leftJoin('push_notifications as pn', 'pn_trans.push_notification_id', '=', 'pn.id')
-        ->leftJoin('channels as ch', 'pn_trans.channel', '=', 'ch.code')
-        ->leftJoin('channel_translations as ch_t', 'ch.id', '=', 'ch_t.channel_id')
-        ->addSelect(
-            'pn_trans.push_notification_id as notification_id',
-            'pn_trans.title',
-            'pn_trans.content',
-            'pn_trans.channel',
-            'pn_trans.locale',
-            'pn.image',
-            'pn.type',
-            'pn.product_category_id',
-            'pn.status',
-            'pn.created_at',
-            'pn.updated_at',
-            'ch_t.name as channel_name'
-        );
+        $whereInChannels = (core()->getRequestedChannelCode() === 'all')
+            ? Channel::query()->pluck('code')->toArray()
+            : [core()->getRequestedChannelCode()];
 
-        $queryBuilder->groupBy('pn_trans.push_notification_id', 'pn_trans.channel', 'pn_trans.locale');
+        $queryBuilder = DB::table('push_notifications as pn')
+            ->select(
+                'pn.id as notification_id',
+                'pn.image',
+                'pn.type',
+                'pn.product_category_id',
+                'pn.status',
+                'pn.created_at',
+                'pn.updated_at',
+                'pn_trans.title',
+                'pn_trans.content',
+                'pn_trans.channel',
+                'pn_trans.locale',
+            )
+            ->leftJoin('push_notification_translations as pn_trans', function ($leftJoin) use ($whereInLocales, $whereInChannels) {
+                $leftJoin->on('pn.id', '=', 'pn_trans.push_notification_id')
+                    ->whereIn('pn_trans.locale', $whereInLocales)
+                    ->whereIn('pn_trans.channel', $whereInChannels);
+            })
+            ->groupBy(
+                'pn_trans.push_notification_id',
+                'pn_trans.channel',
+                'pn_trans.locale'
+            );
 
-        $queryBuilder->whereIn('pn_trans.locale', $whereInLocales);
-        $queryBuilder->whereIn('pn_trans.channel', $whereInChannels);
-
-        $this->addFilter('notification_id', 'pn_trans.push_notification_id');
-        $this->addFilter('title', 'pn_trans.title');
-        $this->addFilter('content', 'pn_trans.content');
-        $this->addFilter('channel_name', 'ch_t.name');
-        $this->addFilter('status', 'pn.status');
-        $this->addFilter('type', 'pn.type');
+        $this->addFilter('notification_id', 'pn.id');
 
         return $queryBuilder;
     }
@@ -140,23 +119,14 @@ class PushNotificationDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'channel_name',
-            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.store-view'),
-            'type'       => 'string',
-            'searchable' => false,
-            'filterable' => false,
-            'sortable'   => false,
-        ]);
-
-        $this->addColumn([
             'index'      => 'status',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-status'),
             'type'       => 'boolean',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
-            'closure'    => function ($value) {
-                if ($value->status) {
+            'closure'    => function ($row) {
+                if ($row->status) {
                     return '<span class="badge badge-md badge-success">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled').'</span>';
                 }
 
@@ -229,7 +199,7 @@ class PushNotificationDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.push_notification.massdelete')) {
             $this->addMassAction([
                 'title'  => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.delete'),
-                'url'    => route('admin.settings.push_notification.mass-delete'),
+                'url'    => route('admin.settings.push_notification.mass_delete'),
                 'method' => 'POST',
             ]);
         }
@@ -237,7 +207,7 @@ class PushNotificationDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.push_notification.massupdate')) {
             $this->addMassAction([
                 'title'   => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.update'),
-                'url'     => route('admin.settings.push_notification.mass-update'),
+                'url'     => route('admin.settings.push_notification.mass_update'),
                 'method'  => 'POST',
                 'options' => [
                     [
