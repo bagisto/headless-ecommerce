@@ -20,9 +20,9 @@ extend type Mutation @guard(with: ["admin-api"]) {
         input: UpdateCartRuleInput!
     ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@update")
 
-    createCartCoupon(
-        input: CreateCartCouponInput!
-    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@store")
+    # createCartCoupon(
+    #     input: CreateCartCouponInput!
+    # ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@store")
 
     deleteCartRule (id: ID!): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@delete")
 }

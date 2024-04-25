@@ -65,13 +65,19 @@ type Invoice {
     discountAmount: Float @rename(attribute: "discount_amount")
     baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
     orderId: Int @rename(attribute: "order_id")
-    orderAddressId: Int @rename(attribute: "order_address_id")
+    transactionId: String @rename(attribute: "transaction_id")
+    reminders: String
+    nextReminderAt: String @rename(attribute: "next_reminder_at")
     createdAt: String @rename(attribute: "created_at")
     updatedAt: String @rename(attribute: "updated_at")
-    formattedPrice: FormattedInvoicePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoicePriceData")
-    transactionId: String @rename(attribute: "transaction_id")
-    items: [InvoiceItem!] @hasMany
+
     order: Order! @belongsTo
+    items: [InvoiceItem!] @hasMany
+    customer: Customer! @morphTo
+    channel: Channel! @morphTo
+    address: Address! @belongsTo
+    
+    formattedPrice: FormattedInvoicePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoicePriceData")
 }
 
 type InvoiceItem {

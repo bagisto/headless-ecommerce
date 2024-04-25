@@ -64,7 +64,6 @@ type CustomerAddress {
     id: ID!
     addressType: String @rename(attribute: "address_type")
     parentAddressId: ID @rename(attribute: "parent_address_id")
-    useForShipping: Boolean @rename(attribute: "use_for_shipping")
     customerId: ID! @rename(attribute: "customer_id")
     cartId: ID @rename(attribute: "cart_id")
     orderId: ID @rename(attribute: "order_id")
@@ -81,9 +80,8 @@ type CustomerAddress {
     phone: String!
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
+    useForShipping: Boolean @rename(attribute: "use_for_shipping")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    countryName: String! @rename(attribute: "country_name")
-    stateName: String @rename(attribute: "state_name")
     success: String
 }

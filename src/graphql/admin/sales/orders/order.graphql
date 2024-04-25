@@ -70,8 +70,6 @@ type Order {
     customerEmail: String @rename(attribute: "customer_email")
     customerFirstName: String @rename(attribute: "customer_first_name")
     customerLastName: String @rename(attribute: "customer_last_name")
-    customerCompanyName: String @rename(attribute: "customer_company_name")
-    customerVatId: String @rename(attribute: "customer_vat_id")
     shippingMethod: String @rename(attribute: "shipping_method")
     shippingTitle: String @rename(attribute: "shipping_title")
     shippingDescription: String @rename(attribute: "shipping_description")
@@ -113,28 +111,34 @@ type Order {
     baseShippingInvoiced: Float @rename(attribute: "base_shipping_invoiced")
     shippingRefunded: Float @rename(attribute: "shipping_refunded")
     baseShippingRefunded: Float @rename(attribute: "base_shipping_refunded")
-    formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
+    shippingDiscountAmount: Float @rename(attribute: "shipping_discount_amount")
+    baseShippingDiscountAmount: Float @rename(attribute: "base_shipping_discount_amount")
     customerId: Int @rename(attribute: "customer_id")
     customerType: String @rename(attribute: "customer_type")
     channelId: Int @rename(attribute: "channel_id")
     channelType: String @rename(attribute: "channel_type")
     cartId: ID @rename(attribute: "cart_id")
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
-    shippingDiscountAmount: Float @rename(attribute: "shipping_discount_amount")
-    baseShippingDiscountAmount: Float @rename(attribute: "base_shipping_discount_amount")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    billingAddress: OrderAddress! @rename(attribute: "billing_address")
-    shippingAddress: OrderAddress @rename(attribute: "shipping_address")
-    refunds: [Refund!] @hasMany (relation: "refunds")
-    addresses: [OrderAddress!] @hasMany (relation: "addresses")
     items: [OrderItem!] @hasMany
     comments: [OrderComment] @hasMany
+    downloadableLinkPurchased: String @rename(attribute: "downloadable_link_purchased")
     shipments: [Shipment] @hasMany
     invoices: [Invoice] @hasMany
-    customer: Customer @belongsTo(relation: "customer")
+    refunds: [Refund!] @hasMany (relation: "refunds")
+    transactions: [OrderTransaction] @hasMany
+    customer: Customer @morphTo
+    addresses: [OrderAddress!] @hasMany
     payment: OrderPayment @hasOne
+    billingAddress: OrderAddress! @rename(attribute: "billing_address")
+    shippingAddress: OrderAddress @rename(attribute: "shipping_address")
     channel: Channel @belongsTo(relation: "channel")
+
+
+    customerCompanyName: String @rename(attribute: "customer_company_name")
+    customerVatId: String @rename(attribute: "customer_vat_id")
+    formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
     cart: Cart! @belongsTo(relation: "cart")
     success: String
 }

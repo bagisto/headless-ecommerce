@@ -3,14 +3,15 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Carbon\Carbon;
+use Webkul\Sales\Models\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CustomerRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\SubscribersListRepository;
-use Webkul\Sales\Models\Order;
 use Webkul\GraphQLAPI\Validators\Customer\CustomException;
 
 class AccountMutation extends Controller
@@ -58,7 +59,7 @@ class AccountMutation extends Controller
             'status'   => $isCustomer,
             'customer' => $customer ?? null,
             'message'  => $isCustomer
-                            ? trans('bagisto_graphql::app.shop.customers.customer-details')
+                            ? trans('bagisto_graphql::app.shop.customers.account.profile.customer-details')
                             : trans('bagisto_graphql::app.shop.customers.no-login-customer'),
         ];
     }
@@ -71,14 +72,10 @@ class AccountMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check()) {
+        if (! $customer = auth()->user()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
         
-        $customer = auth()->user();
-
-        $isPasswordChanged = false;
-
         $validator = Validator::make($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
@@ -97,6 +94,8 @@ class AccountMutation extends Controller
         bagisto_graphql()->checkValidatorFails($validator);
         
         $args['subscribed_to_news_letter'] = $args['subscribed_to_news_letter'] ?? 0;
+
+        $isPasswordChanged = false;
 
         try {
             $args['date_of_birth'] = ! empty($args['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $args['date_of_birth']).'00:00:01')->format('Y-m-d') : '';
@@ -122,33 +121,7 @@ class AccountMutation extends Controller
 
                 Event::dispatch('customer.update.after', $customer);
 
-                if ($args['subscribed_to_news_letter']) {
-                    $subscription = $this->subscriptionRepository->findOneWhere(['email' => $args['email']]);
-
-                    if ($subscription) {
-                        $this->subscriptionRepository->update([
-                            'customer_id'   => $customer->id,
-                            'is_subscribed' => 1,
-                        ], $subscription->id);
-                    } else {
-                        $this->subscriptionRepository->create([
-                            'email'         => $args['email'],
-                            'customer_id'   => $customer->id,
-                            'channel_id'    => core()->getCurrentChannel()->id,
-                            'is_subscribed' => 1,
-                            'token'         => uniqid(),
-                        ]);
-                    }
-                } else {
-                    $subscription = $this->subscriptionRepository->findOneWhere(['email' => $args['email']]);
-
-                    if ($subscription) {
-                        $this->subscriptionRepository->update([
-                            'customer_id'   => $customer->id,
-                            'is_subscribed' => 0,
-                        ], $subscription->id);
-                    }
-                }
+                $this->subscriptionCreateOrUpdate($args, $customer);
 
                 if (
                     ! empty($args['upload_type'])
@@ -182,10 +155,10 @@ class AccountMutation extends Controller
                 return [
                     'status'   => ! empty($customer),
                     'customer' => $customer,
-                    'message'  => trans('shop::app.customers.account.profile.edit-success')
+                    'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.update-success')
                 ];
             } else {
-                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.profile.edit-fail'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.profile.update-fail'));
             }
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -200,41 +173,84 @@ class AccountMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check()) {
+        if (! $customer = auth()->user()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
-
+        
         $validator = Validator::make($args, [
             'password' => 'required',
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
 
-        $customer = auth()->user();
-
         try {
             if (Hash::check($args['password'], $customer->password)) {
                 if ($customer->orders->whereIn('status', [Order::STATUS_PENDING, Order::STATUS_PROCESSING])->first()) {
                     return [
                         'status'  => false,
-                        'success' =>  trans('shop::app.customers.account.profile.order-pending'),
+                        'success' =>  trans('bagisto_graphql::app.shop.customers.account.profile.order-pending'),
                     ];
                 } else {
                     $this->customerRepository->delete($customer->id);
 
                     return [
                         'status'  => true,
-                        'success' => trans('shop::app.customers.account.profile.delete-success'),
+                        'success' => trans('bagisto_graphql::app.shop.customers.account.profile.delete-success'),
                     ];
                 }
             }
 
             return [
                 'status'  => false,
-                'success' => trans('shop::app.customers.account.profile.wrong-password'),
+                'success' => trans('bagisto_graphql::app.shop.customers.account.profile.wrong-password'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
+        }
+    }
+
+    /**
+     * Subscription create or update
+     *
+     * @param  array  $args
+     * @param  \Webkul\Customer\Contracts\Customer  $customer
+     * @return void
+     */
+    protected function subscriptionCreateOrUpdate($args, $customer)
+    {
+        $subscription = $this->subscriptionRepository->findOneWhere(['email' => $args['email']]);
+
+        $this->subscriptionRepository->updateOrCreate([
+            'email' => $args['email'],
+        ], [
+            'customer_id'   => $customer->id,
+            'channel_id'    => core()->getCurrentChannel()->id,
+            'is_subscribed' => $args['subscribed_to_news_letter'],
+            'token'         => uniqid(),
+        ]);
+
+        if ($args['subscribed_to_news_letter']) {
+            if ($subscription) {
+                $this->subscriptionRepository->update([
+                    'customer_id'   => $customer->id,
+                    'is_subscribed' => 1,
+                ], $subscription->id);
+            } else {
+                $this->subscriptionRepository->create([
+                    'email'         => $args['email'],
+                    'customer_id'   => $customer->id,
+                    'channel_id'    => core()->getCurrentChannel()->id,
+                    'is_subscribed' => 1,
+                    'token'         => uniqid(),
+                ]);
+            }
+        } else {
+            if ($subscription) {
+                $this->subscriptionRepository->update([
+                    'customer_id'   => $customer->id,
+                    'is_subscribed' => 0,
+                ], $subscription->id);
+            }
         }
     }
 }

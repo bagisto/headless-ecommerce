@@ -37,10 +37,11 @@ input CreateCustomerGroupInput {
 
 type CustomerGroup {
     id: ID!
-    name: String!
     code: String!
+    name: String!
     isUserDefined: Boolean! @rename(attribute: "is_user_defined")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    customers: [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
     success: String
 }

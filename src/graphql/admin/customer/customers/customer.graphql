@@ -75,13 +75,24 @@ type Customer {
     isVerified: Boolean @rename(attribute: "is_verified")
     isSuspended: Boolean @rename(attribute: "is_suspended")
     token: String
-    notes: [Note] @hasMany
+    rememberToken: String @rename(attribute: "remember_token")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    newsLetterSubscription: Subscriber @hasOne(relation: "subscription")
     customerGroup: CustomerGroup @belongsTo(relation: "group")
     addresses: [CustomerAddress] @hasMany
     defaultAddress: CustomerAddress @hasOne(relation: "default_address")
+
+    invoices: [Invoice] @hasMany
+    wishlistItems: [WishlistItem] @hasMany(relation: "wishlist_items")
+    isWishlistShared: Boolean @rename(attribute: "is_wishlist_shared")
+    getWishlistSharedLink: String @rename(attribute: "get_wishlist_shared_link")
+    allCarts: [Cart] @hasMany(relation: "all_carts")
+    inactiveCarts: [Cart] @hasMany(relation: "inactive_carts")
+    activeCarts: [Cart] @hasMany(relation: "active_carts")
+    orders: [Order] @hasMany
+    reviews: [Review] @hasMany
+    notes: [Note] @hasMany
+    subscription: NewsLetterSubscription @hasOne
     success: String
 }
 
