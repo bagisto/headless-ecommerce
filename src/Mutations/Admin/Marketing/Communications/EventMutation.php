@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Marketing\Repositories\EventRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class EventMutation extends Controller
 {

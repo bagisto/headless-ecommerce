@@ -8,7 +8,7 @@ use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ShipmentMutation extends Controller
 {

@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class RegistrationMutation extends Controller
 {

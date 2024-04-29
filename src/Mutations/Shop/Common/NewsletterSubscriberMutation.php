@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
+namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
@@ -44,7 +44,13 @@ class NewsletterSubscriberMutation extends Controller
             if (! $subscriber) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.subscription.not-found'));
             }
-
+            
+            if (
+                $subscriber->customer?->id != auth()->user()?->id
+            ) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.subscription.not-authorized'));
+            }
+            
             return $subscriber;
         } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -77,15 +83,15 @@ class NewsletterSubscriberMutation extends Controller
 
             $customer = $this->customerRepository->findOneByField('email', $email);
             
-            $subscription = $this->subscriptionRepository->updateOrCreate([
-                'email'         => $email,
-                'channel_id'    => core()->getCurrentChannel()->id,
-                'is_subscribed' => 1,
-                'token'         => uniqid(),
-                'customer_id'   => $customer?->id,
-            ], [
-                'email' => $email,
-            ]);
+            $subscription = $this->subscriptionRepository->updateOrCreate(
+                ['email' => $email],
+                [
+                    'channel_id'    => core()->getCurrentChannel()->id,
+                    'is_subscribed' => 1,
+                    'token'         => uniqid(),
+                    'customer_id'   => $customer?->id,
+                ]
+            );
 
             if ($customer) {
                 $customer->subscribed_to_news_letter = 1;

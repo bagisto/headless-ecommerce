@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeFamilyMutation extends Controller
 {

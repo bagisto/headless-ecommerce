@@ -8,7 +8,7 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class RefundMutation extends Controller
 {

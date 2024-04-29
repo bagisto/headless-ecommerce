@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CompareMutation extends Controller
 {

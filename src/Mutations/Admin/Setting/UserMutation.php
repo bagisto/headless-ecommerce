@@ -10,7 +10,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
 use Webkul\User\Repositories\AdminRepository;
 use Webkul\User\Repositories\RoleRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class UserMutation extends Controller
 {

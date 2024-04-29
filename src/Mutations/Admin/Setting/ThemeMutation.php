@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ThemeMutation extends Controller
 {

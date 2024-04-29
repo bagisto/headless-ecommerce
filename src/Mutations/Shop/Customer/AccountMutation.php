@@ -3,16 +3,16 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Carbon\Carbon;
-use Webkul\Sales\Models\Order;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Http\Controllers\Controller;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Core\Repositories\SubscribersListRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\Sales\Models\Order;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AccountMutation extends Controller
 {
@@ -120,8 +120,16 @@ class AccountMutation extends Controller
                 }
 
                 Event::dispatch('customer.update.after', $customer);
-
-                $this->subscriptionCreateOrUpdate($args, $customer);
+                
+                $this->subscriptionRepository->updateOrCreate(
+                    ['email' => $args['email']],
+                    [
+                        'customer_id'   => $customer->id,
+                        'channel_id'    => core()->getCurrentChannel()->id,
+                        'is_subscribed' => $args['subscribed_to_news_letter'],
+                        'token'         => uniqid(),
+                    ]
+                );
 
                 if (
                     ! empty($args['upload_type'])
@@ -202,55 +210,10 @@ class AccountMutation extends Controller
 
             return [
                 'status'  => false,
-                'success' => trans('bagisto_graphql::app.shop.customers.account.profile.wrong-password'),
+                'message' => trans('bagisto_graphql::app.shop.customers.account.profile.wrong-password'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
-        }
-    }
-
-    /**
-     * Subscription create or update
-     *
-     * @param  array  $args
-     * @param  \Webkul\Customer\Contracts\Customer  $customer
-     * @return void
-     */
-    protected function subscriptionCreateOrUpdate($args, $customer)
-    {
-        $subscription = $this->subscriptionRepository->findOneWhere(['email' => $args['email']]);
-
-        $this->subscriptionRepository->updateOrCreate([
-            'email' => $args['email'],
-        ], [
-            'customer_id'   => $customer->id,
-            'channel_id'    => core()->getCurrentChannel()->id,
-            'is_subscribed' => $args['subscribed_to_news_letter'],
-            'token'         => uniqid(),
-        ]);
-
-        if ($args['subscribed_to_news_letter']) {
-            if ($subscription) {
-                $this->subscriptionRepository->update([
-                    'customer_id'   => $customer->id,
-                    'is_subscribed' => 1,
-                ], $subscription->id);
-            } else {
-                $this->subscriptionRepository->create([
-                    'email'         => $args['email'],
-                    'customer_id'   => $customer->id,
-                    'channel_id'    => core()->getCurrentChannel()->id,
-                    'is_subscribed' => 1,
-                    'token'         => uniqid(),
-                ]);
-            }
-        } else {
-            if ($subscription) {
-                $this->subscriptionRepository->update([
-                    'customer_id'   => $customer->id,
-                    'is_subscribed' => 0,
-                ], $subscription->id);
-            }
         }
     }
 }

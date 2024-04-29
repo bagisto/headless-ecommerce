@@ -112,65 +112,18 @@ type Cart {
     customerId: ID @rename(attribute: "customer_id")
     channelId: ID! @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")    
-    # items: [CartItem!] @hasMany
-    # allItems: [CartItem!] @hasMany(relation: "all_items")
-    # addresses: [CartAddress!] @hasMany
-    # billingAddress: CartAddress @rename(attribute: "billing_address")
-    # shippingAddress: CartAddress @rename(attribute: "shipping_address")
-    # shippingRates: ShippingRates @rename(attribute: "shipping_rates")
-    # selectedShippingRate: CartShippingRate @rename(attribute: "selected_shipping_rate")
-    # payment: CartPayment @hasOne
-
-    # conversionTime: DateTime @rename(attribute: "conversion_time")
-    # formattedPrice: FormattedCartPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    formattedPrice: FormattedCartPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
+    items: [CartItem!] @hasMany
+    allItems: [CartItem!] @hasMany(relation: "all_items")
+    addresses: [Address!] @hasMany
+    billingAddress: Address @rename(attribute: "billing_address")
+    shippingAddress: Address @rename(attribute: "shipping_address")
+    #shippingRates: ShippingRates @rename(attribute: "shipping_rates")
+    selectedShippingRate: CartShippingRate @rename(attribute: "selected_shipping_rate")
+    payment: CartPayment @hasOne
     status: Boolean
     message: String
-}
-
-type CartAddress {
-    id: ID!
-    addressType: String @rename(attribute: "address_type")
-    customerId: ID @rename(attribute: "customer_id")
-    cartId: ID @rename(attribute: "cart_id")
-    orderId:ID @rename(attribute: "order_id")
-    firstName: String! @rename(attribute: "first_name")
-    lastName: String! @rename(attribute: "last_name")
-    gender: String
-    companyName: String @rename(attribute: "company_name")
-    address: String!
-    postcode: String!
-    city: String!
-    state: String!
-    country: String!
-    email: String
-    phone: String
-    defaultAddress: Boolean! @rename(attribute: "default_address")
-    vatId: String @rename(attribute: "vat_id")
-    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
-    cart: Cart @belongsTo(relation: "cart")
-    shippingRates: [CartShippingRate] @hasMany(relation: "shipping_rates")
-    customer: Customer @belongsTo(relation: "customer")
-}
-
-type CartShippingRate {
-    id: ID!
-    carrier: String!
-    carrierTitle: String! @rename(attribute: "carrier_title")
-    method: String!
-    methodTitle: String! @rename(attribute: "method_title")
-    methodDescription: String @rename(attribute: "method_description")
-    price: Float
-    basePrice: Float @rename(attribute: "base_price")
-    discountAmount: Float @rename(attribute: "discount_amount")
-    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
-    cartAddressId: ID @rename(attribute: "cart_address_id")
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
-    shippingAddress: CartAddress @belongsTo(relation: "shipping_address")
-    formattedPrice: FormattedCartShippingRatePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
 }
 
 type FormattedCartPriceData {
@@ -185,14 +138,6 @@ type FormattedCartPriceData {
     discountedSubTotal: String @rename(attribute: "discounted_sub_total")
     baseDiscountedSubTotal: String @rename(attribute: "base_discounted_sub_total")
 }
-
-type FormattedCartShippingRatePriceData {
-    price: String
-    basePrice: String @rename(attribute: "base_price")
-}
-
-
-
 
 type CartItem {
     id: ID!
@@ -222,18 +167,13 @@ type CartItem {
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
     # additional: [CartItemAdditional] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
-
-    
-    
-    
-    
-    # formattedPrice: FormattedCartItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
+    updatedAt: DateTime @rename(attribute: "updated_at")    
+    formattedPrice: FormattedCartItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
     # product: Product! @hasOne
-    # productFlat: ProductFlat @rename(attribute: "product_flat")
-    # cart: Cart @hasOne
-    # children: CartItem @hasMany
-    # parent: CartItem @belongsTo(relation: "parent")
+    cart: Cart @hasOne
+    child: CartItem @belongsTo(relation: "child")
+    parent: CartItem @belongsTo(relation: "parent")
+    children: CartItem @hasMany
 }
 
 type CartItemAdditional {
@@ -267,4 +207,28 @@ type FormattedCartItemPriceData {
     baseTaxAmount: String @rename(attribute: "base_tax_amount")
     discountAmount: String @rename(attribute: "discount_amount")
     baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+}
+
+type CartShippingRate {
+    id: ID!
+    carrier: String!
+    carrierTitle: String! @rename(attribute: "carrier_title")
+    method: String!
+    methodTitle: String! @rename(attribute: "method_title")
+    methodDescription: String @rename(attribute: "method_description")
+    price: Float
+    basePrice: Float @rename(attribute: "base_price")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    isCalculateTax: Boolean @rename(attribute: "is_calculate_tax")
+    cartAddressId: ID @rename(attribute: "cart_address_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    shippingAddress: Address @belongsTo(relation: "shipping_address")
+    formattedPrice: FormattedCartShippingRatePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
+}
+
+type FormattedCartShippingRatePriceData {
+    price: String
+    basePrice: String @rename(attribute: "base_price")
 }

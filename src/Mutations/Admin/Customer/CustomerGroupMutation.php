@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Core\Rules\Code;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomerGroupMutation extends Controller
 {

@@ -29,7 +29,7 @@ class WishlistQuery extends Controller
             $input = ['id' => $input];
         }
 
-        $input['customer_id'] = auth()->guard()->user()->id;
+        $input['customer_id'] = auth()->user()->id;
         
         return $query->where($input);
     }
@@ -42,7 +42,7 @@ class WishlistQuery extends Controller
     public function getWishlists()
     {
         return $this->wishlistRepository->findWhere([
-            'customer_id' => auth()->guard()->user()->id,
+            'customer_id' => auth()->user()->id,
         ]);
     }
 

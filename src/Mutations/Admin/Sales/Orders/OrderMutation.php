@@ -5,7 +5,7 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Orders;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class OrderMutation extends Controller
 {

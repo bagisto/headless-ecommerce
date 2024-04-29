@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Product\Repositories\ProductReviewRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ReviewMutation extends Controller
 {

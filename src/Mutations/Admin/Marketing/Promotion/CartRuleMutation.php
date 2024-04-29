@@ -10,7 +10,7 @@ use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\CartRule\Repositories\CartRuleRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CartRuleMutation extends Controller
 {

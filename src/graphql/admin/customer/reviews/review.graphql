@@ -40,6 +40,8 @@ type Review {
     customerId: ID @rename(attribute: "customer_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    customer: Customer
+    #product: Product
     images: [ReviewAttachment]
     success: String
 }
@@ -53,4 +55,5 @@ type ReviewAttachment {
     url: String
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    review: Review
 }

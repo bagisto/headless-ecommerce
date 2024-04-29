@@ -6,7 +6,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class InvoiceMutation extends Controller
 {

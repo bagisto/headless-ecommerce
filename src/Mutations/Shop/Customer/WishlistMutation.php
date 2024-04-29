@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class WishlistMutation extends Controller
 {

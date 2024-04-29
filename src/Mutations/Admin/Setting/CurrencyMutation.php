@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Webkul\Core\Rules\Code;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CurrencyMutation extends Controller
 {

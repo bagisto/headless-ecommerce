@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ChannelMutation extends Controller
 {

@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Rules\Slug;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CategoryMutation extends Controller
 {

@@ -11,7 +11,7 @@ use Webkul\Product\Helpers\ProductType;
 use Webkul\Product\Models\ProductAttributeValue;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ProductMutation extends Controller
 {

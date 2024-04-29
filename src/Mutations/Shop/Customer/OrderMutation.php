@@ -9,7 +9,7 @@ use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class OrderMutation extends Controller
 {

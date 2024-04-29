@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Tax\Repositories\TaxRateRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class TaxRateMutation extends Controller
 {

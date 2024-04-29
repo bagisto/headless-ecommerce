@@ -9,7 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ReviewMutation extends Controller
 {

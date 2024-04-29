@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
 use Webkul\Core\Rules\Code;
 use Webkul\Core\Repositories\LocaleRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class LocaleMutation extends Controller
 {

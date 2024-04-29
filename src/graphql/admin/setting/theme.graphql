@@ -101,11 +101,6 @@ type Link {
     imageUrl: String @rename(attribute: "image_url")
 }
 
-type FilterOption {
-    value: String
-    key: String
-}
-
 type ColumOption {
     url: String
     title: String

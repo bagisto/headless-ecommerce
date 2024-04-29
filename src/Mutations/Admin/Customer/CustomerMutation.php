@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Customer\Repositories\CustomerNoteRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 

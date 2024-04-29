@@ -9,7 +9,7 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CMS\Repositories\PageRepository;
 use Webkul\Core\Rules\Slug;
 use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CmsPageMutation extends Controller
 {

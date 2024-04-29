@@ -1,7 +1,8 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Validators\Admin;
+namespace Webkul\GraphQLAPI\Validators;
 
+use Exception;
 use GraphQL\Error\ClientAware;
 
 class CustomException extends Exception implements ClientAware
@@ -11,8 +12,9 @@ class CustomException extends Exception implements ClientAware
      *
      * @return void
      */
-    public function __construct(string $message)
-    {
+    public function __construct(
+        string $message,
+    ) {
         parent::__construct($message);
     }
 

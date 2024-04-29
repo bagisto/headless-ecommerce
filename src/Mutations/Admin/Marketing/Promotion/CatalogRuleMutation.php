@@ -9,7 +9,7 @@ use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
 use Webkul\CartRule\Repositories\CartRuleRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\CatalogRule\Repositories\CatalogRuleRepository;

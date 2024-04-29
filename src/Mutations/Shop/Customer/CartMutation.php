@@ -10,7 +10,7 @@ use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Validator;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CartMutation extends Controller
 {

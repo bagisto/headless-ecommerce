@@ -11,7 +11,7 @@ use Webkul\Product\Helpers\Toolbar;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class HomePageQuery extends BaseFilter
 {

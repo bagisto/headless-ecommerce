@@ -46,9 +46,9 @@ type Wishlist {
     shared: Boolean
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    customer: Customer @belongsTo(relation: "customer")
-    product: Product! @belongsTo(relation: "product")
+    #product: Product! @belongsTo(relation: "product")
     channel: Channel! @belongsTo(relation: "channel")
+    customer: Customer @belongsTo(relation: "customer")
     success: String
 }
 

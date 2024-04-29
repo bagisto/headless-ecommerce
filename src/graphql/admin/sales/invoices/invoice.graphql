@@ -64,28 +64,26 @@ type Invoice {
     baseTaxAmount: Float @rename(attribute: "base_tax_amount")
     discountAmount: Float @rename(attribute: "discount_amount")
     baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    formattedPrice: FormattedInvoicePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoicePriceData")
     orderId: Int @rename(attribute: "order_id")
     transactionId: String @rename(attribute: "transaction_id")
     reminders: String
     nextReminderAt: String @rename(attribute: "next_reminder_at")
     createdAt: String @rename(attribute: "created_at")
     updatedAt: String @rename(attribute: "updated_at")
-
     order: Order! @belongsTo
     items: [InvoiceItem!] @hasMany
     customer: Customer! @morphTo
     channel: Channel! @morphTo
     address: Address! @belongsTo
-    
-    formattedPrice: FormattedInvoicePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoicePriceData")
 }
 
 type InvoiceItem {
     id: ID!
-    sku: String
-    type: String
+    parentId:Int @rename(attribute: "parent_id")
     name: String
     description: String
+    sku: String
     qty:Int
     price: Float!
     basePrice: Float! @rename(attribute: "base_price")
@@ -93,15 +91,14 @@ type InvoiceItem {
     baseTotal: Float! @rename(attribute: "base_total")
     taxAmount: Float @rename(attribute: "tax_amount")
     baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    discountPercent: Float @rename(attribute: "discount_percent")
+    discountAmount: Float @rename(attribute: "discount_amount")
+    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
     productId: ID! @rename(attribute: "product_id")
     productType: String @rename(attribute: "product_type")
     orderItemId: ID! @rename(attribute: "order_item_id")
     invoiceId: ID! @rename(attribute: "invoice_id")
-    parentId:Int @rename(attribute: "parent_id")
-    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
-    discountPercent: Float @rename(attribute: "discount_percent")
-    discountAmount: Float @rename(attribute: "discount_amount")
-    baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    # additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt:DateTime @rename(attribute: "updated_at")
     formattedPrice: FormattedInvoiceItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoiceItemPriceData")

@@ -1,12 +1,20 @@
 #Shop\Customer\Account Related APIs
 extend type Query @guard(with: ["api"]) {
     accountInfo: AccountInfoResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@get")
+
+    getSubscribeDetail(
+        email: String! @rules(apply: ["email"])
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NewsletterSubscriberMutation@get")
 }
 
 extend type Mutation {
     subscribe(
         email: String! @rules(apply: ["email"])
-    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@subscribe")
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NewsletterSubscriberMutation@subscribe")
+
+    unSubscribeSubscription(
+        token: String! @rules(apply: ["required"])
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NewsletterSubscriberMutation@delete")
 
     updateAccount(
         input: UpdateAccountInput! @spread

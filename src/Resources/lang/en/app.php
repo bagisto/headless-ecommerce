@@ -2,14 +2,22 @@
 
 return [
     'shop' => [
+        'subscription' => [
+            'already'             => 'You are already subscribed to our newsletter.',
+            'not-authorized'      => 'Warning: You are not authorized to perform this action.',
+            'not-found'           => 'Warning: No subscribtion found.',
+            'subscribe-success'   => 'You have successfully subscribed to our newsletter.',
+            'unsubscribe-success' => 'You have successfully unsubscribed to our newsletter.',
+        ],
+
         'customers' => [
-            'success-login' => 'Success: Customer login successful.',
-            'success-logout' => 'Success: Customer logout successful.',
             'no-login-customer' => 'Warning: No login customer found.',
+            'success-login'     => 'Success: Customer login successful.',
+            'success-logout'    => 'Success: Customer logout successful.',
 
             'signup' => [
-                'success-verify' => 'Account created successfully, an e-mail has been sent for verification.',
                 'error-registration' => 'Warning: Customer registration failed.',
+                'success-verify'     => 'Account created successfully, an e-mail has been sent for verification.',
             ],
 
             'login' => [
@@ -25,19 +33,27 @@ return [
             ],
 
             'forgot-password' => [
-                'reset-link-sent' => 'Reset password link sent to your email.',
                 'already-sent'    => 'Reset password link already sent to your email.',
                 'email-not-exist' => 'Email does not exist.',
+                'reset-link-sent' => 'Reset password link sent to your email.',
             ],
 
             'account' => [
                 'profile' => [
                     'customer-details' => 'Success: Customer details fetched successfully.',
+                    'delete-success'   => 'Success: Account deleted successfully.',
                     'password-unmatch' => 'Password does not match.',
-                    'update-success' => 'Success: Profile updated successfully.',
-                    'update-fail' => 'Warning: Profile not updated',
-                    'wrong-password' => 'Password is wrong.',
-                    'delete-success' => 'Success: Account deleted successfully.',
+                    'update-fail'      => 'Warning: Profile not updated',
+                    'update-success'   => 'Success: Profile updated successfully.',
+                    'wrong-password'   => 'Password is wrong.',
+                ],
+
+                'addresses' => [
+                    'create-success'         => 'Address created successfully.',
+                    'default-update-success' => 'Address is setted as default',
+                    'delete-success'         => 'Address deleted successfully',
+                    'not-found'              => 'Warning: Address not found.',
+                    'update-success'         => 'Address updated successfully.',
                 ],
             ],
         ],

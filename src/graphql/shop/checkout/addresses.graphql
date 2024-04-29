@@ -8,7 +8,7 @@ type CheckoutAddressesResponse {
     isGuest: Boolean @rename(attribute: "is_guest")
     customer: Customer
     addresses: [FormattedAddresses]
-    addressList: [CustomerAddress] @rename(attribute: "address_list")
+    addressList: [Address] @rename(attribute: "address_list")
     cart: Cart
     defaultCountry: String @rename(attribute: "default_country")
 }

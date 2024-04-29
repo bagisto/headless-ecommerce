@@ -3,35 +3,39 @@ extend type Query @guard(with: ["api"]){
     addresses(
         input: FilterCustomerAddressInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerAddress")
-    ): [CustomerAddress] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+    ): [Address] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Customer\\Models\\CustomerAddress")
 
     address(
         id: ID @eq
-    ): CustomerAddress @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+    ): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
 extend type Mutation @guard(with: ["api"]) {
     createAddress(
-        input: CreateUpdateAddressInput!
+        input: AddressInput!
     ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
 
     updateAddress(
         id: ID!,
-        input: CreateUpdateAddressInput!
+        input: AddressInput!
     ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
+
+    setDefaultAddress(
+        id: ID!
+    ): Address  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
 
     deleteAddress(
         id: ID!
-    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
 }
 
-input CreateUpdateAddressInput {
+input AddressInput {
     companyName: String @rename(attribute: "company_name")
     firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
     lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
     email: String! @rules(apply: ["email"])
     vatId: String @rename(attribute: "vat_id")
-    address: String! @rules(apply: ["required"])
+    address: [String]! @rules(apply: ["required"])
     country: String! @rules(apply: ["required"])
     state: String! @rules(apply: ["required"])
     city: String! @rules(apply: ["required"])
@@ -43,5 +47,5 @@ input CreateUpdateAddressInput {
 type AddressListResult {
     status: Boolean
     message: String
-    addresses: CustomerAddress
+    addresses: Address
 }

@@ -79,11 +79,10 @@ type Customer {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     customerGroup: CustomerGroup @belongsTo(relation: "group")
-    addresses: [CustomerAddress] @hasMany
-    defaultAddress: CustomerAddress @hasOne(relation: "default_address")
-
+    addresses: [Address] @hasMany
+    defaultAddress: Address @hasOne(relation: "default_address")
     invoices: [Invoice] @hasMany
-    wishlistItems: [WishlistItem] @hasMany(relation: "wishlist_items")
+    wishlist: [Wishlist] @hasMany(relation: "wishlist_items")
     isWishlistShared: Boolean @rename(attribute: "is_wishlist_shared")
     getWishlistSharedLink: String @rename(attribute: "get_wishlist_shared_link")
     allCarts: [Cart] @hasMany(relation: "all_carts")
@@ -92,7 +91,7 @@ type Customer {
     orders: [Order] @hasMany
     reviews: [Review] @hasMany
     notes: [Note] @hasMany
-    subscription: NewsLetterSubscription @hasOne
+    subscription: Subscriber @hasOne
     success: String
 }
 
@@ -103,5 +102,6 @@ type Note {
     customerNotified: Boolean @rename(attribute: "customer_notified")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    customer: Customer
     success: String
 }

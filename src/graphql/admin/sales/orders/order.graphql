@@ -121,69 +121,45 @@ type Order {
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
     items: [OrderItem!] @hasMany
     comments: [OrderComment] @hasMany
-    downloadableLinkPurchased: String @rename(attribute: "downloadable_link_purchased")
+    downloadableLinkPurchased: DownloadableLinkPurchased @rename(attribute: "downloadable_link_purchased")
     shipments: [Shipment] @hasMany
     invoices: [Invoice] @hasMany
     refunds: [Refund!] @hasMany (relation: "refunds")
-    transactions: [OrderTransaction] @hasMany
     customer: Customer @morphTo
-    addresses: [OrderAddress!] @hasMany
+    addresses: [Address!] @hasMany
     payment: OrderPayment @hasOne
-    billingAddress: OrderAddress! @rename(attribute: "billing_address")
-    shippingAddress: OrderAddress @rename(attribute: "shipping_address")
+    billingAddress: Address! @rename(attribute: "billing_address")
+    shippingAddress: Address @rename(attribute: "shipping_address")
     channel: Channel @belongsTo(relation: "channel")
-
-
-    customerCompanyName: String @rename(attribute: "customer_company_name")
-    customerVatId: String @rename(attribute: "customer_vat_id")
-    formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
-    cart: Cart! @belongsTo(relation: "cart")
     success: String
-}
-
-type OrderAddress {
-    id: Int
-    customerId: Int @rename(attribute: "customer_id")
-    cartId: Int @rename(attribute: "cart_id")
-    orderId: Int @rename(attribute: "order_id")
-    firstName: String @rename(attribute: "first_name")
-    lastName: String @rename(attribute: "last_name")
-    gender: String
-    companyName: String @rename(attribute: "company_name")
-    address: String
-    postcode: String
-    city: String
-    state: String
-    country: String
-    email: String
-    phone: String
-    vatId: String @rename(attribute: "vat_id")
-    defaultAddress: Int @rename(attribute: "default_address")
 }
 
 type OrderComment {
     id: ID!
+    orderId: ID! @rename(attribute: "order_id")
     comment: String
     customerNotified: Boolean! @rename(attribute: "customer_notified")
-    orderId: ID! @rename(attribute: "order_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
     order: Order! @belongsTo(relation: "order")
+}
+
+type OrderPayment {
+    id: ID!
+    orderId: ID @rename(attribute: "order_id")
+    method: String!
+    methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentTitle")
+    additional: OrderPaymentAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentAdditional")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
 }
 
 type OrderPaymentAdditional {
     title: String
     value: String
-}
-
-type OrderPayment {
-    id: ID!
-    method: String!
-    methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentTitle")
-    orderId: ID @rename(attribute: "order_id")
-    additional: OrderPaymentAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentAdditional")
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
 }
 
 type FormattedOrderPriceData {

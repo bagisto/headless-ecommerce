@@ -6,6 +6,37 @@ input LoginInput {
 
 type StatusResponse {
     status: Boolean
+    message: String
+}
+
+type FilterOption {
+    key: String
+    value: String
+}
+
+type Address {
+    id: ID!
+    addressType: String @rename(attribute: "address_type")
+    parentAddressId: ID @rename(attribute: "parent_address_id")
+    customerId: ID! @rename(attribute: "customer_id")
+    cartId: ID @rename(attribute: "cart_id")
+    orderId: ID @rename(attribute: "order_id")
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    gender: String
+    companyName: String @rename(attribute: "company_name")
+    address: String!
+    city: String!
+    state: String!
+    country: String!
+    postcode: String!
+    email: String
+    phone: String!
+    vatId: String @rename(attribute: "vat_id")
+    defaultAddress: Boolean @rename(attribute: "default_address")
+    useForShipping: Boolean @rename(attribute: "use_for_shipping")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
     success: String
 }
 

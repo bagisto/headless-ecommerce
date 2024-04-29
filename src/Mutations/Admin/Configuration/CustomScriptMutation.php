@@ -8,7 +8,7 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\Core\Repositories\LocaleRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomScriptMutation extends Controller
 {

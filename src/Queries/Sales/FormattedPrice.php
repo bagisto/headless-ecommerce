@@ -43,35 +43,35 @@ class FormattedPrice extends BaseFilter
         $order = $this->orderRepository->find($rootValue->id);
 
         return [
-            'grand_total' => core()->formatPrice($order->grand_total, $order->order_currency_code),
-            'base_grand_total' => core()->formatBasePrice($order->base_grand_total),
-            'grand_total_invoiced' => core()->formatPrice($order->grand_total_invoiced, $order->order_currency_code),
+            'grand_total'               => core()->formatPrice($order->grand_total, $order->order_currency_code),
+            'base_grand_total'          => core()->formatBasePrice($order->base_grand_total),
+            'grand_total_invoiced'      => core()->formatPrice($order->grand_total_invoiced, $order->order_currency_code),
             'base_grand_total_invoiced' => core()->formatBasePrice($order->base_grand_total_invoiced),
-            'grand_total_refunded' => core()->formatPrice($order->grand_total_refunded, $order->order_currency_code),
+            'grand_total_refunded'      => core()->formatPrice($order->grand_total_refunded, $order->order_currency_code),
             'base_grand_total_refunded' => core()->formatBasePrice($order->base_grand_total_refunded),
-            'sub_total' => core()->formatPrice($order->sub_total, $order->order_currency_code),
-            'base_sub_total' => core()->formatBasePrice($order->base_sub_total),
-            'sub_total_invoiced' => core()->formatPrice($order->sub_total_invoiced, $order->order_currency_code),
-            'base_sub_total_invoiced' => core()->formatBasePrice($order->base_sub_total_invoiced),
-            'sub_total_refunded' => core()->formatPrice($order->sub_total_refunded, $order->order_currency_code),
-            'discount_amount' => core()->formatPrice($order->discount_amount, $order->order_currency_code),
-            'base_discount_amount' => core()->formatBasePrice($order->base_discount_amount),
-            'discount_invoiced' => core()->formatPrice($order->discount_invoiced, $order->order_currency_code),
-            'base_discount_invoiced' => core()->formatBasePrice($order->base_discount_invoiced),
-            'discount_refunded' => core()->formatPrice($order->discount_refunded, $order->order_currency_code),
-            'base_discount_refunded' => core()->formatBasePrice($order->base_discount_refunded),
-            'tax_amount' => core()->formatPrice($order->tax_amount, $order->order_currency_code),
-            'base_tax_amount' => core()->formatBasePrice($order->base_tax_amount),
-            'tax_amount_invoiced' => core()->formatPrice($order->tax_amount_invoiced, $order->order_currency_code),
-            'base_tax_amount_invoiced' => core()->formatBasePrice($order->base_tax_amount_invoiced),
-            'tax_amount_refunded' => core()->formatPrice($order->tax_amount_refunded, $order->order_currency_code),
-            'base_tax_amount_refunded' => core()->formatBasePrice($order->base_tax_amount_refunded),
-            'shipping_amount' => core()->formatPrice($order->shipping_amount, $order->order_currency_code),
-            'base_shipping_amount' => core()->formatBasePrice($order->base_shipping_amount),
-            'shipping_invoiced' => core()->formatPrice($order->shipping_invoiced, $order->order_currency_code),
-            'base_shipping_invoiced' => core()->formatBasePrice($order->base_shipping_invoiced),
-            'shipping_refunded' => core()->formatPrice($order->shipping_refunded, $order->order_currency_code),
-            'base_shipping_refunded' => core()->formatBasePrice($order->base_shipping_refunded),
+            'sub_total'                 => core()->formatPrice($order->sub_total, $order->order_currency_code),
+            'base_sub_total'            => core()->formatBasePrice($order->base_sub_total),
+            'sub_total_invoiced'        => core()->formatPrice($order->sub_total_invoiced, $order->order_currency_code),
+            'base_sub_total_invoiced'   => core()->formatBasePrice($order->base_sub_total_invoiced),
+            'sub_total_refunded'        => core()->formatPrice($order->sub_total_refunded, $order->order_currency_code),
+            'discount_amount'           => core()->formatPrice($order->discount_amount, $order->order_currency_code),
+            'base_discount_amount'      => core()->formatBasePrice($order->base_discount_amount),
+            'discount_invoiced'         => core()->formatPrice($order->discount_invoiced, $order->order_currency_code),
+            'base_discount_invoiced'    => core()->formatBasePrice($order->base_discount_invoiced),
+            'discount_refunded'         => core()->formatPrice($order->discount_refunded, $order->order_currency_code),
+            'base_discount_refunded'    => core()->formatBasePrice($order->base_discount_refunded),
+            'tax_amount'                => core()->formatPrice($order->tax_amount, $order->order_currency_code),
+            'base_tax_amount'           => core()->formatBasePrice($order->base_tax_amount),
+            'tax_amount_invoiced'       => core()->formatPrice($order->tax_amount_invoiced, $order->order_currency_code),
+            'base_tax_amount_invoiced'  => core()->formatBasePrice($order->base_tax_amount_invoiced),
+            'tax_amount_refunded'       => core()->formatPrice($order->tax_amount_refunded, $order->order_currency_code),
+            'base_tax_amount_refunded'  => core()->formatBasePrice($order->base_tax_amount_refunded),
+            'shipping_amount'           => core()->formatPrice($order->shipping_amount, $order->order_currency_code),
+            'base_shipping_amount'      => core()->formatBasePrice($order->base_shipping_amount),
+            'shipping_invoiced'         => core()->formatPrice($order->shipping_invoiced, $order->order_currency_code),
+            'base_shipping_invoiced'    => core()->formatBasePrice($order->base_shipping_invoiced),
+            'shipping_refunded'         => core()->formatPrice($order->shipping_refunded, $order->order_currency_code),
+            'base_shipping_refunded'    => core()->formatBasePrice($order->base_shipping_refunded),
         ];
     }
 
@@ -86,31 +86,32 @@ class FormattedPrice extends BaseFilter
     public function getOrderItemPriceData($rootValue, array $args, GraphQLContext $context)
     {
         $orderItem = $this->orderItemRepository->find($rootValue->id);
-        $order = $orderItem->order;
+
+        $orderCurrencyCode = $orderItem->order->order_currency_code;
 
         return  [
-            'price' => core()->formatPrice($orderItem->price, $order->order_currency_code),
-            'base_price' => core()->formatBasePrice($orderItem->base_price),
-            'total' => core()->formatPrice($orderItem->total, $order->order_currency_code),
-            'base_total' => core()->formatBasePrice($orderItem->base_total),
-            'total_invoiced' => core()->formatPrice($orderItem->total_invoiced, $order->order_currency_code),
-            'base_total_invoiced' => core()->formatBasePrice($orderItem->base_total_invoiced),
-            'amount_refunded' => core()->formatPrice($orderItem->amount_refunded, $order->order_currency_code),
-            'base_amount_refunded' => core()->formatBasePrice($orderItem->base_amount_refunded),
-            'discount_amount' => core()->formatPrice($orderItem->discount_amount, $order->order_currency_code),
-            'base_discount_amount' => core()->formatBasePrice($orderItem->base_discount_amount),
-            'discount_invoiced' => core()->formatPrice($orderItem->discount_invoiced, $order->order_currency_code),
-            'base_discount_invoiced' => core()->formatBasePrice($orderItem->base_discount_invoiced),
-            'discount_refunded' => core()->formatPrice($orderItem->discount_refunded, $order->order_currency_code),
-            'base_discount_refunded' => core()->formatBasePrice($orderItem->base_discount_refunded),
-            'tax_amount' => core()->formatPrice($orderItem->tax_amount, $order->order_currency_code),
-            'base_tax_amount' => core()->formatBasePrice($orderItem->base_tax_amount),
-            'tax_amount_invoiced' => core()->formatPrice($orderItem->tax_amount_invoiced, $order->order_currency_code),
+            'price'                    => core()->formatPrice($orderItem->price, $orderCurrencyCode),
+            'base_price'               => core()->formatBasePrice($orderItem->base_price),
+            'total'                    => core()->formatPrice($orderItem->total, $orderCurrencyCode),
+            'base_total'               => core()->formatBasePrice($orderItem->base_total),
+            'total_invoiced'           => core()->formatPrice($orderItem->total_invoiced, $orderCurrencyCode),
+            'base_total_invoiced'      => core()->formatBasePrice($orderItem->base_total_invoiced),
+            'amount_refunded'          => core()->formatPrice($orderItem->amount_refunded, $orderCurrencyCode),
+            'base_amount_refunded'     => core()->formatBasePrice($orderItem->base_amount_refunded),
+            'discount_amount'          => core()->formatPrice($orderItem->discount_amount, $orderCurrencyCode),
+            'base_discount_amount'     => core()->formatBasePrice($orderItem->base_discount_amount),
+            'discount_invoiced'        => core()->formatPrice($orderItem->discount_invoiced, $orderCurrencyCode),
+            'base_discount_invoiced'   => core()->formatBasePrice($orderItem->base_discount_invoiced),
+            'discount_refunded'        => core()->formatPrice($orderItem->discount_refunded, $orderCurrencyCode),
+            'base_discount_refunded'   => core()->formatBasePrice($orderItem->base_discount_refunded),
+            'tax_amount'               => core()->formatPrice($orderItem->tax_amount, $orderCurrencyCode),
+            'base_tax_amount'          => core()->formatBasePrice($orderItem->base_tax_amount),
+            'tax_amount_invoiced'      => core()->formatPrice($orderItem->tax_amount_invoiced, $orderCurrencyCode),
             'base_tax_amount_invoiced' => core()->formatBasePrice($orderItem->base_tax_amount_invoiced),
-            'tax_amount_refunded' => core()->formatPrice($orderItem->tax_amount_refunded, $order->order_currency_code),
+            'tax_amount_refunded'      => core()->formatPrice($orderItem->tax_amount_refunded, $orderCurrencyCode),
             'base_tax_amount_refunded' => core()->formatBasePrice($orderItem->base_tax_amount_refunded),
-            'grant_total' => core()->formatPrice($orderItem->total + $orderItem->tax_amount, $order->order_currency_code),
-            'base_grant_total' => core()->formatPrice($orderItem->base_total + $orderItem->base_tax_amount, $order->order_currency_code),
+            'grant_total'              => core()->formatPrice($orderItem->total + $orderItem->tax_amount, $orderCurrencyCode),
+            'base_grant_total'         => core()->formatPrice($orderItem->base_total + $orderItem->base_tax_amount, $orderCurrencyCode),
         ];
     }
 
@@ -127,15 +128,15 @@ class FormattedPrice extends BaseFilter
         $invoice = $this->invoiceRepository->find($rootValue->id);
 
         return  [
-            'sub_total' => core()->formatPrice($invoice->sub_total, $invoice->order_currency_code),
-            'base_sub_total' => core()->formatBasePrice($invoice->base_sub_total),
-            'grand_total' => core()->formatPrice($invoice->grand_total, $invoice->order_currency_code),
-            'base_grand_total' => core()->formatBasePrice($invoice->base_grand_total),
-            'shipping_amount' => core()->formatPrice($invoice->shipping_amount, $invoice->order_currency_code),
+            'sub_total'            => core()->formatPrice($invoice->sub_total, $invoice->order_currency_code),
+            'base_sub_total'       => core()->formatBasePrice($invoice->base_sub_total),
+            'grand_total'          => core()->formatPrice($invoice->grand_total, $invoice->order_currency_code),
+            'base_grand_total'     => core()->formatBasePrice($invoice->base_grand_total),
+            'shipping_amount'      => core()->formatPrice($invoice->shipping_amount, $invoice->order_currency_code),
             'base_shipping_amount' => core()->formatBasePrice($invoice->base_shipping_amount),
-            'tax_amount' => core()->formatPrice($invoice->tax_amount, $invoice->order_currency_code),
-            'base_tax_amount' => core()->formatBasePrice($invoice->base_tax_amount),
-            'discount_amount' => core()->formatPrice($invoice->discount_amount, $invoice->order_currency_code),
+            'tax_amount'           => core()->formatPrice($invoice->tax_amount, $invoice->order_currency_code),
+            'base_tax_amount'      => core()->formatBasePrice($invoice->base_tax_amount),
+            'discount_amount'      => core()->formatPrice($invoice->discount_amount, $invoice->order_currency_code),
             'base_discount_amount' => core()->formatBasePrice($invoice->base_discount_amount),
         ];
     }
@@ -151,16 +152,17 @@ class FormattedPrice extends BaseFilter
     public function getInvoiceItemPriceData($rootValue, array $args, GraphQLContext $context)
     {
         $invoiceItem = $this->invoiceItemRepository->find($rootValue->id);
-        $invoice = $invoiceItem->invoice;
+
+        $orderCurrencyCode = $invoiceItem->invoice->order_currency_code;
 
         return  [
-            'price' => core()->formatPrice($invoiceItem->price, $invoice->order_currency_code),
-            'base_price' => core()->formatBasePrice($invoiceItem->base_price),
-            'total' => core()->formatPrice($invoiceItem->total, $invoice->order_currency_code),
-            'base_total' => core()->formatBasePrice($invoiceItem->base_total),
-            'tax_amount' => core()->formatPrice($invoiceItem->tax_amount, $invoice->order_currency_code),
-            'base_tax_amount' => core()->formatBasePrice($invoiceItem->base_tax_amount),
-            'grand_total' => core()->formatPrice($invoiceItem->total + $invoiceItem->tax_amount, $invoice->order_currency_code),
+            'price'            => core()->formatPrice($invoiceItem->price, $orderCurrencyCode),
+            'base_price'       => core()->formatBasePrice($invoiceItem->base_price),
+            'total'            => core()->formatPrice($invoiceItem->total, $orderCurrencyCode),
+            'base_total'       => core()->formatBasePrice($invoiceItem->base_total),
+            'tax_amount'       => core()->formatPrice($invoiceItem->tax_amount, $orderCurrencyCode),
+            'base_tax_amount'  => core()->formatBasePrice($invoiceItem->base_tax_amount),
+            'grand_total'      => core()->formatPrice($invoiceItem->total + $invoiceItem->tax_amount, $orderCurrencyCode),
             'base_grand_total' => core()->formatBasePrice($invoiceItem->base_total + $invoiceItem->base_tax_amount),
         ];
     }
@@ -176,12 +178,13 @@ class FormattedPrice extends BaseFilter
     public function getShipmentItemPriceData($rootValue, array $args, GraphQLContext $context)
     {
         $shipmentItem = $this->shipmentItemRepository->find($rootValue->id);
-        $order = $shipmentItem->shipment->order;
+        
+        $orderCurrencyCode = $shipmentItem->shipment->order->order_currency_code;
 
         return  [
-            'price' => core()->formatPrice($shipmentItem->price, $order->order_currency_code),
+            'price'      => core()->formatPrice($shipmentItem->price, $orderCurrencyCode),
             'base_price' => core()->formatBasePrice($shipmentItem->base_price),
-            'total' => core()->formatPrice($shipmentItem->total, $order->order_currency_code),
+            'total'      => core()->formatPrice($shipmentItem->total, $orderCurrencyCode),
             'base_total' => core()->formatBasePrice($shipmentItem->base_total),
         ];
     }
@@ -197,23 +200,24 @@ class FormattedPrice extends BaseFilter
     public function getRefundPriceData($rootValue, array $args, GraphQLContext $context)
     {
         $refund = $this->refundRepository->find($rootValue->id);
-        $order = $refund->order;
+
+        $orderCurrencyCode = $refund->order->order_currency_code;
 
         return  [
-            'sub_total' => core()->formatPrice($refund->sub_total, $order->order_currency_code),
-            'base_sub_total' => core()->formatBasePrice($refund->base_sub_total),
-            'grand_total' => core()->formatPrice($refund->grand_total, $order->order_currency_code),
-            'base_grand_total' => core()->formatBasePrice($refund->base_grand_total),
-            'adjustment_refund' => core()->formatPrice($refund->adjustment_refund, $order->order_currency_code),
+            'sub_total'              => core()->formatPrice($refund->sub_total, $orderCurrencyCode),
+            'base_sub_total'         => core()->formatBasePrice($refund->base_sub_total),
+            'grand_total'            => core()->formatPrice($refund->grand_total, $orderCurrencyCode),
+            'base_grand_total'       => core()->formatBasePrice($refund->base_grand_total),
+            'adjustment_refund'      => core()->formatPrice($refund->adjustment_refund, $orderCurrencyCode),
             'base_adjustment_refund' => core()->formatBasePrice($refund->base_adjustment_refund),
-            'adjustment_fee' => core()->formatPrice($refund->adjustment_fee, $order->order_currency_code),
-            'base_adjustment_fee' => core()->formatBasePrice($refund->base_adjustment_fee),
-            'shipping_amount' => core()->formatPrice($refund->shipping_amount, $order->order_currency_code),
-            'base_shipping_amount' => core()->formatBasePrice($refund->base_shipping_amount),
-            'tax_amount' => core()->formatPrice($refund->tax_amount, $order->order_currency_code),
-            'base_tax_amount' => core()->formatBasePrice($refund->base_tax_amount),
-            'discount_amount' => core()->formatPrice($refund->discount_amount, $order->order_currency_code),
-            'base_discount_amount' => core()->formatBasePrice($refund->base_discount_amount),
+            'adjustment_fee'         => core()->formatPrice($refund->adjustment_fee, $orderCurrencyCode),
+            'base_adjustment_fee'    => core()->formatBasePrice($refund->base_adjustment_fee),
+            'shipping_amount'        => core()->formatPrice($refund->shipping_amount, $orderCurrencyCode),
+            'base_shipping_amount'   => core()->formatBasePrice($refund->base_shipping_amount),
+            'tax_amount'             => core()->formatPrice($refund->tax_amount, $orderCurrencyCode),
+            'base_tax_amount'        => core()->formatBasePrice($refund->base_tax_amount),
+            'discount_amount'        => core()->formatPrice($refund->discount_amount, $orderCurrencyCode),
+            'base_discount_amount'   => core()->formatBasePrice($refund->base_discount_amount),
         ];
     }
 
@@ -228,16 +232,17 @@ class FormattedPrice extends BaseFilter
     public function getRefundItemPriceData($rootValue, array $args, GraphQLContext $context)
     {
         $refundItem = $this->refundItemRepository->find($rootValue->id);
-        $order = $refundItem->refund->order;
+
+        $orderCurrencyCode = $refundItem->refund->order->order_currency_code;
 
         return  [
-            'price' => core()->formatPrice($refundItem->price, $order->order_currency_code),
-            'base_price' => core()->formatBasePrice($refundItem->base_price),
-            'total' => core()->formatPrice($refundItem->total, $order->order_currency_code),
-            'base_total' => core()->formatBasePrice($refundItem->base_total),
-            'tax_amount' => core()->formatPrice($refundItem->tax_amount, $order->order_currency_code),
-            'base_tax_amount' => core()->formatBasePrice($refundItem->base_tax_amount),
-            'discount_amount' => core()->formatPrice($refundItem->discount_amount, $order->order_currency_code),
+            'price'                => core()->formatPrice($refundItem->price, $orderCurrencyCode),
+            'base_price'           => core()->formatBasePrice($refundItem->base_price),
+            'total'                => core()->formatPrice($refundItem->total, $orderCurrencyCode),
+            'base_total'           => core()->formatBasePrice($refundItem->base_total),
+            'tax_amount'           => core()->formatPrice($refundItem->tax_amount, $orderCurrencyCode),
+            'base_tax_amount'      => core()->formatBasePrice($refundItem->base_tax_amount),
+            'discount_amount'      => core()->formatPrice($refundItem->discount_amount, $orderCurrencyCode),
             'base_discount_amount' => core()->formatBasePrice($refundItem->base_discount_amount),
         ];
     }

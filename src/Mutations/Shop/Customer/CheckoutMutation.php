@@ -14,7 +14,7 @@ use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Payment\Facades\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Shipping\Facades\Shipping;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
 class CheckoutMutation extends Controller

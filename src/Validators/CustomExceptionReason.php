@@ -1,7 +1,8 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Validators\Customer;
+namespace Webkul\GraphQLAPI\Validators;
 
+use Exception;
 use GraphQL\Error\ClientAware;
 
 class CustomExceptionReason extends Exception implements ClientAware

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class DownloadableMutation extends Controller
 {
