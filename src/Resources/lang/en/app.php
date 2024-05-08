@@ -55,6 +55,43 @@ return [
                     'not-found'              => 'Warning: Address not found.',
                     'update-success'         => 'Address updated successfully.',
                 ],
+
+                'wishlist' => [
+                    'product-removed' => 'Warning: Product not found.',
+                    'success'         => 'Success: Product added to wishlist successfully.',
+                    'already-exist' => 'Warning: Already added to Wishlist.',
+                    'remove-success' => 'Success: Item is successfully removed from the wishlist.',
+                    'not-found'     => 'Warning: No products found in Wishlist.',
+                    'moved-success' => 'Success: Selected items successfully moved to wishlist.',
+                ],
+            ],
+        ],
+
+        'checkout' => [
+            'cart' => [
+                'item' => [
+                    'error' => [
+                        'invalid-parameter' => 'Warning: Invalid parameters provided.',
+                    ],
+
+                    'success' => [
+                        'add-to-cart'     => 'Success: Product added to cart successfully.',
+                        'update-to-cart'    => 'Success: Product updated to cart successfully.',
+                        'delete-cart-item' => 'Success: Item is successfully removed from the cart.',
+                        'all-remove'      => 'Success: All items removed from the cart.',
+                        'move-to-wishlist' => 'Success: Selected items successfully moved to wishlist.',
+                    ],
+
+                    'fail' => [
+                        'all-remove'      => 'Warning: All items not removed from the cart.',
+                        'update-to-cart'  => 'Warning: Product not updated to cart.',
+                        'delete-cart-item' => 'Warning: Item is not removed from the cart.',
+                        'not-found'       => 'Warning: Cart not found.',
+                        'item-not-found'  => 'Warning: Item not found.',
+                        'all-remove'      => 'Warning: All items not removed from the cart.',
+                        'move-to-wishlist' => 'Warning: Selected items not moved to wishlist.',
+                    ],
+                ],
             ],
         ],
     ],

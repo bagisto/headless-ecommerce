@@ -4,7 +4,7 @@ extend type Query {
 
     cartItems: [CartItem!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cartItems")
 
-    cartItem(id: ID @eq): CartItem @find(model: "Webkul\\Checkout\\Models\\CartItem")
+    # cartItem(id: ID @eq): CartItem @find(model: "Webkul\\Checkout\\Models\\CartItem")
 
     # cartAddresses: [CartAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartAddress")
 
@@ -28,7 +28,7 @@ extend type Mutation {
 
     moveToWishlist(
         id: ID!
-    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@moveToWishlist")
+    ): CartItemResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@moveToWishlist")
 }
 
 input AddItemToCartInput {
@@ -72,8 +72,8 @@ input UpdateItemToCartInput {
 }
 
 input UpdateItemsQty {
-    cartItemId: ID! @rename(attribute: "cart_item_id")
-    quantity: Int!
+    cartItemId: ID! @rename(attribute: "cart_item_id") @rules(apply: ["required"])
+    quantity: Int! @rules(apply: ["min:1","required"])
 }
 
 type CartItemResponse {
@@ -173,7 +173,6 @@ type CartItem {
     cart: Cart @hasOne
     child: CartItem @belongsTo(relation: "child")
     parent: CartItem @belongsTo(relation: "parent")
-    children: CartItem @hasMany
 }
 
 type CartItemAdditional {

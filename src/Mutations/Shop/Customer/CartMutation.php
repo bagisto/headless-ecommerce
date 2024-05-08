@@ -75,24 +75,15 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.invalid-parameter'));
-        }
-
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'quantity' => 'required|max:1',
+            'quantity'   => 'required|min:1',
+            'product_id' => 'required|integer|exists:products,id',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
-
-        if (empty($data['product_id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.invalid-parameter'));
-        }
-
+        bagisto_graphql()->checkValidatorFails($validator);
+        
         try {
             $product = $this->productRepository->findOrFail($data['product_id']);
 
@@ -100,17 +91,11 @@ class CartMutation extends Controller
 
             $cart = Cart::addProduct($data['product_id'], $data);
 
-            if (! empty($cart)) {
-                return [
-                    'status'  => true,
-                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-add-to-cart'),
-                    'cart'    => $cart,
-                ];
-            }
-
             return [
-                'status'  => true,
-                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-add-to-cart'),
+                'status'  => ! empty($cart),
+                'message' => ! empty($cart) 
+                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.add-to-cart')
+                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.add-to-cart'),
                 'cart'    => $cart,
             ];
         } catch (\Exception $e) {
@@ -126,41 +111,34 @@ class CartMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.invalid-parameter'));
-        }
-
         $data = $args['input'];
+        
+        $validator = Validator::make($data, [
+            'qty'   => 'required|max:1',
+        ]);
 
-        if (empty($data['qty'])) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.invalid-parameter'));
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $qty = [];
 
             foreach ($data['qty'] as $item) {
-                if (
-                    isset($item['cart_item_id'])
-                    && $item['quantity']
-                ) {
-                    $qty[$item['cart_item_id']] = $item['quantity'];
+                if (! $this->cartItemRepository->find($item['cart_item_id'])) {
+                    throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.fail.item-not-found'));
                 }
-            }
 
+                $qty[$item['cart_item_id']] = $item['quantity'] ?: 1;
+            }
+            
             $data['qty'] = $qty;
 
-            if (Cart::updateItems($data)) {
-                return [
-                    'status'  => true,
-                    'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success-update-to-cart'),
-                    'cart'    => Cart::getCart(),
-                ];
-            }
+            $cartUpdated = Cart::updateItems($data);
 
             return [
-                'status'  => false,
-                'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.fail-update-to-cart'),
+                'status'  => $cartUpdated,
+                'message' => $cartUpdated 
+                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.update-to-cart')
+                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.update-to-cart'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (\Exception $e) {

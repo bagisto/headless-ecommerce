@@ -39,20 +39,20 @@ class WishlistMutation extends Controller
         $product = $this->productRepository->find($args['product_id']);
 
         if (! $product) {
-            throw new CustomException(trans('shop::app.customers.account.wishlist.product-removed'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.wishlist.product-removed'));
         }
 
         $data = [
             'channel_id'  => core()->getCurrentChannel()->id,
             'product_id'  => $product->id,
-            'customer_id' => auth()->guard()->user()->id,
+            'customer_id' => auth()->user()->id,
         ];
 
         try {
             if (! $wishlist = $this->wishlistRepository->findOneWhere($data)) {
                 $wishlist = $this->wishlistRepository->create($data);
 
-                $wishlist->success = trans('shop::app.customers.account.wishlist.success');
+                $wishlist->success = trans('bagisto_graphql::app.shop.customers.account.wishlist.success');
 
                 return $wishlist;
             }
@@ -82,13 +82,13 @@ class WishlistMutation extends Controller
         $product = $this->productRepository->find($args['product_id']);
 
         if (! $product) {
-            throw new CustomException(trans('shop::app.customers.account.wishlist.product-removed'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.wishlist.product-removed'));
         }
 
         $data = [
             'channel_id'  => core()->getCurrentChannel()->id,
             'product_id'  => $product->id,
-            'customer_id' => auth()->guard()->user()->id,
+            'customer_id' => auth()->user()->id,
         ];
 
         try {
@@ -96,7 +96,7 @@ class WishlistMutation extends Controller
                 $this->wishlistRepository->delete($wishlist->id);
                 
                 return [
-                    'success' => trans('shop::app.customers.account.wishlist.removed'),
+                    'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
                 ];
             }
 
@@ -122,11 +122,8 @@ class WishlistMutation extends Controller
         
         bagisto_graphql()->checkValidatorFails($validator);
 
-        $wishlistItem = $this->wishlistRepository->findOneWhere([
-            'id'          => $args['id'],
-            'customer_id' => auth()->guard()->user()->id,
-        ]);
-
+        $wishlistItem = $this->wishlistRepository->find($args['id']);
+        
         if (! $wishlistItem) {
             return [
                 'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
@@ -137,7 +134,7 @@ class WishlistMutation extends Controller
             $result = Cart::moveToCart($wishlistItem, $args['quantity']);
 
             $message = $result 
-                ? trans('shop::app.customers.account.wishlist.moved-success') 
+                ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-success') 
                 : trans('shop::app.checkout.cart.missing-options');
 
             return [
@@ -158,20 +155,16 @@ class WishlistMutation extends Controller
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
         try {
-            $customerId = auth()->guard()->user()->id;
-            
-            $wishlistItems = $this->wishlistRepository->findWhere(['customer_id' => $customerId]);
-
-            if ($wishlistItems->isEmpty()) {
+            if (! empty(auth()->user()->wishlist_items)) {
                 return [
                     'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
                 ];
             }
 
-            $this->wishlistRepository->deleteWhere(['customer_id' => $customerId]);
+            $this->wishlistRepository->deleteWhere(['customer_id' => auth()->user()->id]);
 
             return [
-                'success' => trans('shop::app.customers.account.wishlist.removed'),
+                'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

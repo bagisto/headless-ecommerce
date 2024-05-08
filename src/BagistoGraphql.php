@@ -3,9 +3,9 @@
 namespace Webkul\GraphQLAPI;
 
 use Illuminate\Support\Facades\Storage;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductBundleOptionRepository;
 use Webkul\Product\Repositories\ProductGroupedProductRepository;
 use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
