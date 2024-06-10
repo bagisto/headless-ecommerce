@@ -38,12 +38,17 @@ class Install extends Command
         $this->warn('Step: Migrating Notification tables into database...');
         $migrate = $this->call('migrate');
         $this->info($migrate);
-
-        // running `php artisan vendor:publish --provider "GraphQLAPIServiceProvider"`
+        
+        // running `php artisan vendor:publish --tag "graphql-api-publish"`
         $this->warn('Step: Publishing GraphQLAPI Provider File...');
+        $result = shell_exec('php artisan vendor:publish --tag=graphql-api-publish --force');
+        $this->info($result);
+        
+        // running `php artisan vendor:publish --tag "graphql-api-lighthouse"`
+        $this->warn('Step: Publishing GraphQLAPI Provider Lighthouse File...');
         $result = shell_exec('php artisan vendor:publish --tag=graphql-api-lighthouse');
         $this->info($result);
-
+        
         // running `php artisan vendor:publish --provider "Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config`
         $this->warn('Step: Publishing Lighthouse Provider File...');
         $configuration = shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config');
@@ -59,7 +64,7 @@ class Install extends Command
         $lighthouseConfig = shell_exec('php artisan vendor:publish --tag=lighthouse-config');
         $this->info($lighthouseConfig);
 
-        // running `php artisan vendor:publish --tag=lighthouse-config`
+        // running `php artisan vendor:publish --tag=graphiql-config`
         $this->warn('Step: Publishing GraphiQL Configuration File...');
         $graphiqlConfig = shell_exec('php artisan vendor:publish --tag=graphiql-config');
         $this->info($graphiqlConfig);
@@ -73,7 +78,7 @@ class Install extends Command
         $this->warn('Step: Clearing the cache...');
         $cacheClear = $this->call('optimize:clear');
         $this->info($cacheClear);
-
+        
         $this->comment('Success: Bagisto GraphQL API has been configured successfully.');
     }
 }

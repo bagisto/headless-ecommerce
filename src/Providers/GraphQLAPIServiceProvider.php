@@ -103,22 +103,23 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      */
     protected function publishesDefault()
     {
+        /**
+         * Publish the package pages.
+         */
         $this->publishes([
             __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => resource_path('themes/default/views/emails/customer/registration.blade.php'),
 
             __DIR__ . '/../Resources/views/shop/default/emails/customer/registration.blade.php' => __DIR__ .'/../../../../../packages/Webkul/Shop/src/Resources/views/emails/customer/registration.blade.php',
-        ]);
 
-        /**
-         * Publish the theme pages.
-         */
-        $this->publishes([
+            /**
+             * Publish the theme pages.
+             */
             __DIR__ . '/../Repositories/Shop/ThemeCustomizationRepository.php' => __DIR__ .'/../../../../../packages/Webkul/Shop/src/Repositories/ThemeCustomizationRepository.php',
 
             __DIR__ . '/../Http/Controllers/Admin/Settings/ThemeController.php' => __DIR__ .'/../../../../../packages/Webkul/Admin/src/Http/Controllers/Settings/ThemeController.php',
 
             __DIR__ . '/../Resources/views/admin/settings/themes/edit.blade.php' => __DIR__ .'/../../../../../packages/Webkul/Admin/src/Resources/views/settings/themes/edit.blade.php',
-        ]);
+        ], ['graphql-api-publish']);
 
         /**
          * Publish the lighthouse config page.
