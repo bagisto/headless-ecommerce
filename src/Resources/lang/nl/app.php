@@ -119,7 +119,7 @@ return [
             'delete-success'          => 'Succes: Gebruiker succesvol verwijderd.',
             'last-delete-error'       => 'Waarschuwing: Ten minste één gebruiker is vereist.',
             'delete-failed'           => 'Waarschuwing: Beheerdersgebruiker is niet verwijderd.',
-            'error-invalid-parameter' => 'Waarschuwing: Ongeldige parameters verstrekt.',
+            'error.invalid-parameter' => 'Waarschuwing: Ongeldige parameters verstrekt.',
             'success-login'           => 'Succes: Gebruiker succesvol ingelogd.',
             'error-login'             => 'Waarschuwing: Beheerdersgebruiker is niet ingelogd.',
             'session-expired'         => 'Waarschuwing: Sessie is verlopen. Log opnieuw in op uw account.',
@@ -177,7 +177,7 @@ return [
             'wrong-error'               => 'Waarschuwing: Er is een fout opgetreden met uw winkelwagen, probeer het opnieuw.',
             'no-billing-address-found'  => 'Waarschuwing: Geen factuuradresrecord gevonden met :address_id factuur-id.',
             'no-shipping-address-found' => 'Waarschuwing: Geen verzendadresrecord gevonden met :address_id verzend-id.',
-            'error-invalid-parameter'   => 'Waarschuwing: Ongeldige parameters verstrekt.',
+            'error.invalid-parameter'   => 'Waarschuwing: Ongeldige parameters verstrekt.',
             'already-applied'           => 'Kortingscode is al toegepast.',
             'success-apply'             => 'Kortingscode succesvol toegepast.',
             'coupon-removed'            => 'Succes: coupon succesvol verwijderd uit winkelwagen.',
@@ -190,7 +190,7 @@ return [
                 'item' => [
                     'success-all-remove'       => 'Alle items succesvol verwijderd uit de winkelwagen.',
                     'fail-all-remove'          => 'Fout bij het verwijderen van items uit de winkelwagen.',
-                    'error-invalid-parameter'  => 'Waarschuwing: Ongeldige parameters verstrekt.',
+                    'error.invalid-parameter'  => 'Waarschuwing: Ongeldige parameters verstrekt.',
                     'success-moved-cart-item'  => 'Succes: Winkelwagenitem succesvol verplaatst naar verlanglijstje.',
                     'fail-moved-cart-item'     => 'Mislukt: Winkelwagenitem is niet verplaatst naar verlanglijstje.',
                     'success-add-to-cart'      => 'Succes: Product succesvol toegevoegd aan winkelwagen.',
@@ -276,7 +276,7 @@ return [
         ],
 
         'response' => [
-            'error-invalid-parameter' => 'Waarschuwing: Ongeldige parameters verstrekt.',
+            'error.invalid-parameter' => 'Waarschuwing: Ongeldige parameters verstrekt.',
             'invalid-header'          => 'Waarschuwing: Ongeldige kopertoken.',
             'cancel-error'            => 'Bestelling kan niet worden geannuleerd.',
         ],

@@ -57,25 +57,4 @@ class PushNotification extends TranslatableModel implements PushNotificationCont
     {
         return $this->image_url();
     }
-
-    /**
-     * Get channels array for the Notification.
-     */
-    public function notificationChannelsArray()
-    {
-        $channels   = [];
-
-        $channelList = core()->getAllChannels()->pluck('code')->toArray();
-
-        foreach ($this->translations as $translation) {
-            if (
-                in_array($translation->channel, $channelList)
-                && ! in_array($translation->channel, $channels))
-            {
-                array_push($channels, $translation->channel);
-            }
-        }
-
-        return $channels;
-    }
 }

@@ -78,13 +78,17 @@ type Refund {
     createdAt: String @rename(attribute: "created_at")
     updatedAt: String @rename(attribute: "updated_at")
     formattedPrice: FormattedRefundPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getRefundPriceData")
-    items: [RefundItem!] @hasMany
     order: Order! @belongsTo(relation: "order")
+    items: [RefundItem!] @hasMany
+    customer: Customer! @belongsTo(relation: "customer")
+    channel: Channel! @belongsTo(relation: "channel")
+    address: Address! @belongsTo(relation: "address")
     success: String
 }
 
 type RefundItem {
     id: Int
+    parentId: Int @rename(attribute: "parent_id")
     name: String
     description: String
     sku: String
@@ -102,8 +106,7 @@ type RefundItem {
     productType: String @rename(attribute: "product_type")
     orderItemId: Int @rename(attribute: "order_item_id")
     refundId: Int @rename(attribute: "refund_id")
-    parentId: Int @rename(attribute: "parent_id")
-    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    # additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     formattedPrice: FormattedRefundItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getRefundItemPriceData")

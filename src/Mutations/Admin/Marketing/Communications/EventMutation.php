@@ -2,12 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Marketing\Repositories\EventRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class EventMutation extends Controller
 {
@@ -50,7 +49,7 @@ class EventMutation extends Controller
             $event = $this->eventRepository->create($params);
 
             return $event;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -91,7 +90,7 @@ class EventMutation extends Controller
             $event = $this->eventRepository->update($params, $id);
 
             return $event;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -126,7 +125,7 @@ class EventMutation extends Controller
                 'status'  => false,
                 'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.delete-failed'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

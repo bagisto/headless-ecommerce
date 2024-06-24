@@ -47,8 +47,7 @@ type PaypalFormFieldResponse {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String!
-    address1: String!
-    city: String!
+    address: String!
     state: String!
     country: String!
     zip: String!

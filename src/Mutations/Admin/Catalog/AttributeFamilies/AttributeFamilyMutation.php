@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\AttributeFamilies;
 
-use Exception;
 use Webkul\Core\Rules\Code;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
@@ -10,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeFamilyMutation extends Controller
 {
@@ -61,7 +60,7 @@ class AttributeFamilyMutation extends Controller
             Event::dispatch('catalog.attributeFamily.create.before', $attributeFamily);
 
             return $this->attributeFamilyRepository->findOrFail($attributeFamily->id);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -125,7 +124,7 @@ class AttributeFamilyMutation extends Controller
             Event::dispatch('catalog.attributeFamily.update.before', $attributeFamily);
 
             return $attributeFamily;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -162,7 +161,7 @@ class AttributeFamilyMutation extends Controller
             Event::dispatch('catalog.attributeFamily.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.attribute-families.delete-success')];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

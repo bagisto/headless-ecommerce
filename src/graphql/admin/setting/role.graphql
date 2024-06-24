@@ -1,0 +1,62 @@
+# Setting\User\Role Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    roles(
+        input: FilterRoleInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterRole")
+    ): [Role!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\User\\Models\\Role")
+
+    role(
+        id: ID @eq
+    ): Role @find(model: "Webkul\\User\\Models\\Role")
+
+    getAclPermissions: [AclPermissions] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\RoleMutation@getAclPermissions")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createRole(
+        input: CreateRoleInput!
+    ): Role  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\RoleMutation@store")
+
+    updateRole(
+        id: ID!,
+        input: CreateRoleInput!
+    ): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\RoleMutation@update")
+
+    deleteRole(id: ID!): Role @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\RoleMutation@delete")
+}
+
+input FilterRoleInput {
+    id: ID
+    name: String
+    permissionType: String @rename(attribute: "permission_type")
+}
+
+input CreateRoleInput {
+    name: String! @rules(apply: ["required"])
+    description: String! @rules(apply: ["required"])
+    permissionType: PermissionType! @rename(attribute: "permission_type") @rules(apply: ["required"])   
+    permissions: [String!]
+}
+
+enum PermissionType {
+    CUSTOM @enum(value: "custom")
+    ALL @enum(value: "all")
+}
+
+type Role {
+    id: ID!
+    name: String!
+    description: String!
+    permissionType: String! @rename(attribute: "permission_type")
+    permissions: [String!]
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    success: String
+}
+
+type AclPermissions {
+    key: String!
+    name: String!
+    route: String
+    sort: Int!
+}

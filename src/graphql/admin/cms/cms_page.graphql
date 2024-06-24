@@ -1,17 +1,24 @@
 #Velocity\CMSPage Related APIs
 extend type Query {
     cmsPages(
-        input: FilterCmsPageInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Cms\\FilterCmsPage"),
-    ): [CmsPage!] @paginate(type: "PAGINATOR" defaultCount:2 model: "Webkul\\CMS\\Models\\CmsPage")
+        input: FilterCmsPageInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Cms\\FilterCmsPage"),
+    ): [CmsPage!] @paginate(type: "PAGINATOR" defaultCount:2 model: "Webkul\\CMS\\Models\\Page")
 
-    cmsPage(id: ID @eq): CmsPage @find(model: "Webkul\\CMS\\Models\\CmsPage")
+    cmsPage(
+        id: ID @eq
+    ): CmsPage @find(model: "Webkul\\CMS\\Models\\Page")
 
-    cmsPageTranslations(input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Cms\\FilterCmsPageTranslation")): [CmsTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\CMS\\Models\\CmsPageTranslation")
+    cmsPageTranslations(
+        input: FilterCmsPageTranslationInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Cms\\FilterCmsPageTranslation")
+    ): [CmsTranslation!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\CMS\\Models\\PageTranslation")
 
     cmsPageTranslation(
         id: ID @eq,
-        input: FilterCmsPageTranslationInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Cms\\FilterCmsPageTranslation")
-    ): CmsTranslation @find(model: "Webkul\\CMS\\Models\\CmsPageTranslation")
+        input: FilterCmsPageTranslationInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Cms\\FilterCmsPageTranslation")
+    ): CmsTranslation @find(model: "Webkul\\CMS\\Models\\PageTranslation")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
@@ -24,7 +31,9 @@ extend type Mutation @guard(with: ["admin-api"]) {
         input: CreateCmsPageInput!
     ): CmsPage @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\CMS\\CmsPageMutation@update")
 
-    deleteCmsPage(id: ID!): CmsPage @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\CMS\\CmsPageMutation@delete")
+    deleteCmsPage(
+        id: ID!
+    ): CmsPage @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\CMS\\CmsPageMutation@delete")
 }
 
 input FilterCmsPageInput {
@@ -52,7 +61,6 @@ input CreateCmsPageInput {
     urlKey: String! @rename(attribute: "url_key")
     metaKeywords: String @rename(attribute: "meta_keywords")
     metaDescription: String @rename(attribute: "meta_description")
-    locale: String
 }
 
 type CmsPage {
@@ -60,8 +68,8 @@ type CmsPage {
     layout: String
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    translations: [CmsTranslation!] @hasMany
     channels: [Channel!] @belongsToMany(relation: "channels")
+    translations: [CmsTranslation!] @hasMany
     success: String
 }
 

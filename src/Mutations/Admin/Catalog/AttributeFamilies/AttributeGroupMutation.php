@@ -2,14 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\AttributeFamilies;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeGroupMutation extends Controller
 {
@@ -61,7 +60,7 @@ class AttributeGroupMutation extends Controller
             Event::dispatch('catalog.attributeGroup.create.before', $attributeGroup);
 
             return $attributeGroup;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -113,7 +112,7 @@ class AttributeGroupMutation extends Controller
 
                 return $attributeGroup;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -146,7 +145,7 @@ class AttributeGroupMutation extends Controller
             Event::dispatch('catalog.attributeGroup.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.attribute-groups.delete-success')];
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

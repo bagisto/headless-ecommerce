@@ -2,14 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Refunds;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class RefundMutation extends Controller
 {
@@ -103,7 +102,7 @@ class RefundMutation extends Controller
             }
 
             throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.creation-error'));
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

@@ -1,8 +1,11 @@
 # Catalog\Category Related APIs
 extend type Query {
-    categories(input: FilterCategoryListInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Categories\\FilterCategory")): [Category!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+    categories(
+        input: FilterCategoryListInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Categories\\FilterCategory")
+    ): [Category!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Category\\Models\\Category")
 
-    category(id: ID @eq): Category @find(model: "Webkul\\GraphQLAPI\\Models\\Catalog\\Category")
+    category(id: ID @eq): Category @find(model: "Webkul\\Category\\Models\\Category")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

@@ -2,14 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Shipments;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
 use Webkul\Sales\Repositories\OrderItemRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ShipmentMutation extends Controller
 {
@@ -87,7 +86,7 @@ class ShipmentMutation extends Controller
             $shipmentData = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $orderId]));
 
             return $shipmentData;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

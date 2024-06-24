@@ -8,24 +8,30 @@ use Webkul\Customer\Repositories\WishlistRepository;
 class WishlistQuery extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(protected WishlistRepository $wishlistRepository)
     {
-        $this->guard = 'api';
+    }
 
-        auth()->setDefaultDriver($this->guard);
+    /**
+     * filter the data .
+     *
+     * @param  object  $query
+     * @param  array $input
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke($query, $input)
+    {
+        if (! is_array($input)) {
+            $input = ['id' => $input];
+        }
 
-        $this->middleware('auth:'.$this->guard);
+        $input['customer_id'] = auth()->user()->id;
+        
+        return $query->where($input);
     }
 
     /**
@@ -33,90 +39,32 @@ class WishlistQuery extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getWishlists($query, $input, $test)
+    public function getWishlists()
     {
-        $params = $input;
-
-        $channel = core()->getRequestedChannelCode();
-        $locale = core()->getRequestedLocaleCode();
-
-        if (bagisto_graphql()->guard($this->guard)->check() ) {
-            $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
-        }
-
-        $qb = $query->distinct()
-        ->addSelect('wishlist_items.*')
-        ->addSelect('product_flat.name as product_name')
-        ->leftJoin('product_flat', 'wishlist_items.product_id', '=', 'product_flat.product_id')
-        ->where('product_flat.channel', $channel)
-        ->where('product_flat.locale', $locale);
-
-        if (isset($params['id']) && $params['id']) {
-            $qb->where('wishlist_items.id', $params['id']);
-        }
-
-        if (isset($params['product_name']) && $params['product_name']) {
-            $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
-        }
-
-        if (isset($params['product_id']) && $params['product_id']) {
-            $qb->where('wishlist_items.product_id', $params['product_id']);
-        }
-
-        if (isset($params['channel_id']) && $params['channel_id']) {
-            $qb->where('wishlist_items.channel_id', $params['channel_id']);
-        }
-
-        if (isset($params['customer_id']) && $params['customer_id']) {
-            $qb->where('wishlist_items.customer_id', $params['customer_id']);
-        }
-
-        return $qb;;
+        return $this->wishlistRepository->findWhere([
+            'customer_id' => auth()->user()->id,
+        ]);
     }
 
     /**
-     * Returns loggedin guest/customer's wishlist data.
+     * This function retrieves additional data for each item in the wishlist.
      *
-     * @return \Illuminate\Http\Response
+     * @param  object  $query
+     * @return \Illuminate\Support\Collection
      */
-    public function getWishlist($query, $input, $test)
+    public function getAdditionData($query)
     {
-        $params = $input;
-
-        $channel = core()->getRequestedChannelCode();
-        $locale = core()->getRequestedLocaleCode();
-
-        if (bagisto_graphql()->guard($this->guard)->check() ) {
-            $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
-        }
-
-        $qb = $query->distinct()
-        ->addSelect('wishlist_items.*')
-        ->addSelect('product_flat.name as product_name')
-        ->leftJoin('product_flat', 'wishlist_items.product_id', '=', 'product_flat.product_id')
-        ->where('product_flat.channel', $channel)
-        ->where('product_flat.locale', $locale);
-
-        if (isset($params['id']) && $params['id']) {
-            $qb->where('wishlist_items.id', $params['id']);
-        }
-
-        if (isset($params['product_name']) && $params['product_name']) {
-            $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
-        }
-
-        if (isset($params['product_id']) && $params['product_id']) {
-            $qb->where('wishlist_items.product_id', $params['product_id']);
-        }
-
-        if (isset($params['channel_id']) && $params['channel_id']) {
-            $qb->where('wishlist_items.channel_id', $params['channel_id']);
-        }
-
-        if (isset($params['customer_id']) && $params['customer_id']) {
-            $qb->where('wishlist_items.customer_id', $params['customer_id']);
-        }
-
-        return $qb;;
+        // The get() method retrieves all records from the database.
+        // The map() method iterates through each item in the collection, 
+        // allowing us to transform the item's value and key.
+        // The flatten() method is used to flatten a multi-dimensional collection into a single dimension.
+        return $query->get()->map(function ($wishlistItem) {
+            return collect($wishlistItem->additional)->transform(function ($additional, $key) {
+                return [
+                    'key'   => $key,
+                    'value' => $additional,
+                ];
+            })->all();
+        })->flatten(1);
     }
 }

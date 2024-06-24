@@ -2,14 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Categories;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Rules\Slug;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CategoryMutation extends Controller
 {
@@ -89,7 +88,7 @@ class CategoryMutation extends Controller
 
                 return $category;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -166,7 +165,7 @@ class CategoryMutation extends Controller
 
                 return $category;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -198,7 +197,7 @@ class CategoryMutation extends Controller
             Event::dispatch('catalog.category.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.categories.delete-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

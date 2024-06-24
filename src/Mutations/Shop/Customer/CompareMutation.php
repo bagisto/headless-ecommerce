@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -10,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CompareMutation extends Controller
 {
@@ -89,7 +88,7 @@ class CompareMutation extends Controller
                 'You have no items in your compare list',
                 'You have no items in your compare list'
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
@@ -106,8 +105,8 @@ class CompareMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter')
             );
         }
 
@@ -153,7 +152,7 @@ class CompareMutation extends Controller
                     'compareProduct' => $this->compareItemRepository->findWhere(['customer_id' => bagisto_graphql()->guard($this->guard)->user()->id]),
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
@@ -171,8 +170,8 @@ class CompareMutation extends Controller
     {
         if (empty($args['input'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.admin.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.admin.response.error.invalid-parameter')
             );
         }
 
@@ -215,7 +214,7 @@ class CompareMutation extends Controller
                     'success' => trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Compare Product']),
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
@@ -247,7 +246,7 @@ class CompareMutation extends Controller
                 'status'  => true,
                 'success' => trans('shop::app.compare.remove-all-success'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()
