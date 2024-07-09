@@ -22,6 +22,8 @@ return [
                         'info-get-server-key'             => 'सूचना: FCM एपीआई क्रेडेंशियल प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहां क्लिक करें</a>',
                         'android-topic'                   => 'एंड्रॉयड विषय',
                         'ios-topic'                       => 'IOS विषय',
+                        'private-key'                     => 'निजी कुंजी JSON फ़ाइल की सामग्री',
+                        'info-get-private-key'            => 'जानकारी: FCM निजी कुंजी JSON फ़ाइल की सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहां क्लिक करें</a>',
                     ],
                 ],
             ],

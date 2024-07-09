@@ -22,6 +22,8 @@ return [
                         'info-get-server-key'             => 'معلومات: للحصول على بيانات اعتماد API FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
                         'android-topic'                   => 'موضوع Android',
                         'ios-topic'                       => 'موضوع iOS',
+                        'private-key'                     => 'محتوى ملف JSON للمفتاح الخاص',
+                        'info-get-private-key'            => 'معلومات: للحصول على محتوى ملف JSON للمفتاح الخاص بـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
                     ],
                 ],
             ],

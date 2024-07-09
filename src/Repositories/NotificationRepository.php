@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Repositories;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
@@ -185,7 +186,7 @@ class NotificationRepository extends Repository
 
         $fieldData = [
             'banner_url'       => asset('storage/'.$notification->image),
-            'id'               => $notification->id,
+            'id'               => (string)$notification->id,
             'body'             => $notification->content,
             'sound'            => 'default',
             'title'            => $notification->title,
@@ -233,18 +234,17 @@ class NotificationRepository extends Repository
      */
     public function sendNotification($fieldData, $data = [])
     {
-        // for android device
-        $url        = "https://fcm.googleapis.com/fcm/send";
-        $authKey    = core()->getConfigData('general.api.pushnotification.server_key');
+        $accessToken = $this->getAccessToken();
+
+        $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))->project_id;
+
+        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+
         $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
         // $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
 
-        if (! $authKey) {
-            return  ['error' => 'Warning: Server key is missing.'];
-        }
-
-        $fields = array(
-            'to'    => '/topics/'.$androidTopic,
+        $fields['message'] = array(
+            'topic' => $androidTopic,
             'data'  => $fieldData,
             'notification' =>  [
                 'body'  => $data['content'],
@@ -254,7 +254,7 @@ class NotificationRepository extends Repository
 
         $headers = array(
             'Content-Type:application/json',
-            'Authorization:key='.$authKey,
+            'Authorization: Bearer '.$accessToken['access_token'],
         );
 
         try {
@@ -278,5 +278,77 @@ class NotificationRepository extends Repository
 
             Log::error('sendNotification Error: ', $e->getMessage());
         }
+    }
+
+    /**
+     * To generate token
+     *
+     * @return Response
+     */
+    public function getAccessToken() 
+    {
+        $privateKeyContent = json_decode(core()->getConfigData('general.api.pushnotification.private_key'));
+
+        $projectId = $privateKeyContent->project_id;
+
+        $clientEmail = $privateKeyContent->client_email;
+
+        $privateKey = str_replace('\n', "\n", $privateKeyContent->private_key);
+
+        $header = json_encode([
+            'typ' => 'JWT',
+            'alg' => 'RS256',
+        ]);
+        
+        $payload = json_encode([
+            "iss"   => $clientEmail,
+            "scope" => "https://www.googleapis.com/auth/firebase.messaging",
+            "aud"   => $privateKeyContent->token_uri,
+            "exp"   => time() + 3600,
+            "iat"   => time() - 60,
+        ]);
+
+        $base64UrlHeader = $this->base64UrlEncode($header);
+
+        $base64UrlPayload = $this->base64UrlEncode($payload);
+
+        openssl_sign("$base64UrlHeader.$base64UrlPayload", $signature, $privateKey, OPENSSL_ALGO_SHA256);
+
+        $base64UrlSignature = $this->base64UrlEncode($signature);
+
+        $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
+        
+        $client = new Client();
+
+        try {
+            $response = $client->post($privateKeyContent->token_uri, [
+                'form_params' => [
+                    'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                    'assertion'  => $jwt,
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
+            ]);
+
+            return json_decode($response->getBody(), true);
+        } catch (Exception $e) {
+            session()->flash('error', $e);
+        }
+    }
+
+    /**
+     * Encode a string into a base64 URL-safe format.
+     *
+     * @param  string  $data 
+     * @return string
+     */
+    public function base64UrlEncode($data)
+    {
+        return str_replace(
+            ['+', '/', '='],
+            ['-', '_', ''],
+            base64_encode($data)
+        );
     }
 }

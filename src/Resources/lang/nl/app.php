@@ -8,20 +8,22 @@ return [
 
         'acl' => [
             'push-notification' => 'Pushmelding',
-            'send' => 'Verzenden',
+            'send'              => 'Verzenden',
         ],
 
         'configuration' => [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title' => 'GraphQL API',
-                        'info' => 'Meldingsgerelateerde configuraties',
+                        'title'                           => 'GraphQL API',
+                        'info'                            => 'Meldingsgerelateerde configuraties',
                         'push-notification-configuration' => 'FCM Pushmeldingsconfiguratie',
-                        'server-key' => 'Server Sleutel',
-                        'info-get-server-key' => 'Info: Om FCM API-gegevens te verkrijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
-                        'android-topic' => 'Android-onderwerp',
-                        'ios-topic' => 'iOS-onderwerp',
+                        'server-key'                      => 'Server Sleutel',
+                        'info-get-server-key'             => 'Info: Om FCM API-gegevens te verkrijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
+                        'android-topic'                   => 'Android-onderwerp',
+                        'ios-topic'                       => 'iOS-onderwerp',
+                        'private-key'                     => 'Inhoud van het JSON-bestand van de privésleutel',
+                        'info-get-private-key'            => 'Informatie: Voor het verkrijgen van de inhoud van het JSON-bestand van de privésleutel voor FCM: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
                     ],
                 ],
             ],
