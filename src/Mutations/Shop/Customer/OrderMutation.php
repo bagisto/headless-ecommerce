@@ -2,24 +2,18 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Pagination\Paginator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\InvoiceRepository;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
-use Webkul\Sales\Repositories\ShipmentRepository;
+use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Sales\Repositories\ShipmentRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class OrderMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -27,11 +21,10 @@ class OrderMutation extends Controller
      * @return void
      */
     public function __construct(protected OrderRepository $orderRepository) {
-        $this->guard = 'api';
 
-        auth()->setDefaultDriver($this->guard);
+        Auth::setDefaultDriver('api');
 
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware('auth:api');
     }
 
     /**
@@ -49,12 +42,10 @@ class OrderMutation extends Controller
             );
         }
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
+        if (auth()->check()) {
             $order = $this->orderRepository->findOneWhere([
                 'id'          => $args['id'],
-                'customer_id' => $customer->id,
+                'customer_id' => auth()->user()->id,
             ]);
 
             if (! empty($order->id)) {
@@ -82,19 +73,17 @@ class OrderMutation extends Controller
     {
         $params = $args['input'];
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
+        if (auth()->check()) {
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
 
-            $orders = app(OrderRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
+            $orders = app(OrderRepository::class)->scopeQuery(function ($query) {
                 return $query->distinct()
                     ->addSelect('orders.*')
-                    ->where('orders.customer_id', $customer->id);
+                    ->where('orders.customer_id', auth()->user()->id);
             })->paginate(isset($params['limit']) ? $params['limit'] : 10);
 
             if (count($orders)) {
@@ -127,7 +116,7 @@ class OrderMutation extends Controller
             );
         }
 
-        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+        if (! auth()->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 trans('bagisto_graphql::app.shop.customer.no-login-customer')
@@ -137,11 +126,9 @@ class OrderMutation extends Controller
         $orderId = $args['id'];
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
             $order = $this->orderRepository->findOneWhere([
                 'id'          => $orderId,
-                'customer_id' => $customer->id,
+                'customer_id' => auth()->user()->id,
             ]);
 
             if (
@@ -179,20 +166,18 @@ class OrderMutation extends Controller
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
+        if (auth()->check()) {
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
 
-            $shipments = app(ShipmentRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
+            $shipments = app(ShipmentRepository::class)->scopeQuery(function ($query) use ($params) {
                 $qb = $query->distinct()
                     ->addSelect('shipments.*')
                     ->leftJoin('orders', 'shipments.order_id', '=', 'orders.id')
-                    ->where('orders.customer_id', $customer->id);
+                    ->where('orders.customer_id', auth()->user()->id);
 
                 if (isset($params['id']) && $params['id']) {
                     $qb->where('shipments.id', $params['id']);
@@ -253,21 +238,19 @@ class OrderMutation extends Controller
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
+        if (auth()->check()) {
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
 
-            $invoices = app(InvoiceRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
+            $invoices = app(InvoiceRepository::class)->scopeQuery(function ($query) use ($params) {
 
                 $qb = $query->distinct()
                     ->addSelect('invoices.*')
                     ->leftJoin('orders', 'invoices.order_id', '=', 'orders.id')
-                    ->where('orders.customer_id', $customer->id);
+                    ->where('orders.customer_id', auth()->user()->id);
 
                 if (! empty($params['id'])) {
                     $qb->where('invoices.id', $params['id']);
@@ -328,21 +311,19 @@ class OrderMutation extends Controller
 
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
+        if (auth()->check()) {
             $currentPage = isset($params['page']) ? $params['page'] : 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
 
-            $invoices = app(RefundRepository::class)->scopeQuery(function ($query) use ($customer, $params) {
+            $invoices = app(RefundRepository::class)->scopeQuery(function ($query) use ($params) {
 
                 $qb = $query->distinct()
                     ->addSelect('refunds.*')
                     ->leftJoin('orders', 'refunds.order_id', '=', 'orders.id')
-                    ->where('orders.customer_id', $customer->id);
+                    ->where('orders.customer_id', auth()->user()->id);
 
                 if (! empty($params['id'])) {
                     $qb->where('refunds.id', $params['id']);

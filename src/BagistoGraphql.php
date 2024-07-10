@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductImageRepository;
@@ -169,7 +170,7 @@ class BagistoGraphql
 
                     $extension = explode("/", $getImgMime)[1];
 
-                    $imgName = \Str::random(30).'.'.$extension;
+                    $imgName = Str::random(30).'.'.$extension;
 
                     $pathValidate = ($getImgMime && in_array($getImgMime, $allowedMimeTypes));
                 } else {

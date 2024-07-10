@@ -3,23 +3,17 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Pagination\Paginator;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ReviewMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -30,11 +24,9 @@ class ReviewMutation extends Controller
        protected ProductReviewRepository $productReviewRepository,
        protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     ) {
-        $this->guard = 'api';
+        Auth::setDefaultDriver('api');
 
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware('auth:api');
     }
 
     /**
@@ -46,8 +38,8 @@ class ReviewMutation extends Controller
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
+        if (auth()->check()) {
+            $params['customer_id'] = auth()->user()->id;
         }
 
         $currentPage = isset($params['page']) ? $params['page'] : 1;
@@ -137,8 +129,8 @@ class ReviewMutation extends Controller
         }
 
         try {
-            if (bagisto_graphql()->guard($this->guard)->check()) {
-                $customer = bagisto_graphql()->guard($this->guard)->user();
+            if (auth()->check()) {
+                $customer = auth()->user();
 
                 $data['customer_id'] = $customer->id;
                 $data['name'] = $customer->name;
@@ -198,7 +190,7 @@ class ReviewMutation extends Controller
             );
         }
 
-        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+        if (! auth()->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 'Customer Not Login.'
@@ -208,11 +200,14 @@ class ReviewMutation extends Controller
         $id = $args['id'];
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
+            $customer = auth()->user();
 
             $customerReview = $this->productReviewRepository->findOrFail($id);
 
-            if (isset($customerReview->customer_id) && $customerReview->customer_id !== $customer->id ) {
+            if (
+                isset($customerReview->customer_id)
+                && $customerReview->customer_id !== $customer->id
+            ) {
                 throw new CustomException(
                     trans('bagisto_graphql::app.shop.customer.not-authorized'),
                     'You are not authorized to perform this action.'
@@ -245,7 +240,7 @@ class ReviewMutation extends Controller
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
-        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+        if (! auth()->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 'Customer Not Login.'
@@ -253,9 +248,7 @@ class ReviewMutation extends Controller
         }
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
-            $customerReviews = $customer->all_reviews;
+            $customerReviews = auth()->user()->all_reviews;
 
             foreach ($customerReviews as $review) {
 

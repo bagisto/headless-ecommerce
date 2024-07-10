@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Calculation\Engineering\Compare;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductFlatRepository;
@@ -14,16 +16,8 @@ use Webkul\GraphQLAPI\Validators\CustomException;
 class CompareMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
      * @return void
      */
     public function __construct(
@@ -31,11 +25,9 @@ class CompareMutation extends Controller
         protected ProductRepository $productRepository,
         protected ProductFlatRepository $productFlatRepository
     ) {
-        $this->guard = 'api';
+        Auth::setDefaultDriver('api');
 
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware("auth:api");
     }
 
     /**
@@ -45,56 +37,42 @@ class CompareMutation extends Controller
      */
     public function compareProducts($rootValue, array $args, GraphQLContext $context)
     {
-        if (! bagisto_graphql()->guard($this->guard)->check()) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                'Invalid request header parameter.'
-            );
+        if (! auth()->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
-
+    
         try {
-            $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
-
+            $params = $args['input'] ?? ($args['id'] ?? []);
+    
             $currentPage = $params['page'] ?? 1;
-
+    
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
 
-            $compareProducts = app(CompareItemRepository::class)->scopeQuery(function ($query) use ($params) {
-
-                $customer = bagisto_graphql()->guard($this->guard)->user();
-
-                $qb = $query->select('compare_items.*')
-                    ->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
-                    ->leftJoin('customers','customers.id','=','compare_items.customer_id')
-                    ->where('customers.id', $customer->id)
-                    ->groupBy('compare_items.product_id');
-
-                return $qb;
-             });
-
-             if (! empty($args['id'])) {
-                $compareProducts = $compareProducts->first();
-            } else {
-                $compareProducts = $compareProducts->paginate(isset($params['limit']) ? $params['limit'] : 10);
+            $compareProducts = app(CompareItemRepository::class)
+                ->getModel()
+                ->with('product')
+                ->withWhereHas('customer', function ($query) {
+                    $query->where('id', auth()->user()->id);
+                })
+                ->when(! empty($args['id']), function ($query) use ($args) {
+                    return $query->where('id', $args['id']);
+                });
+    
+            if ($compareProducts->count()) {
+                if (empty($args['id'])) {
+                    return $compareProducts->paginate($params['limit'] ?? 10);
+                } else {
+                    return $compareProducts->first();
+                }
             }
-
-            if (($compareProducts && isset($compareProducts->first()->id)) || isset($compareProducts->id)) {
-                return $compareProducts;
-            }
-
-            throw new CustomException(
-                'You have no items in your compare list',
-                'You have no items in your compare list'
-            );
+    
+            throw new CustomException('You have no items in your compare list');
         } catch (\Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                $e->getMessage()
-            );
+            throw new CustomException($e->getMessage(), $e->getMessage());
         }
-    }
+    }    
 
     /**
      * Store a newly created resource in storage.
@@ -110,7 +88,7 @@ class CompareMutation extends Controller
             );
         }
 
-        if (! bagisto_graphql()->guard($this->guard)->check()) {
+        if (! auth()->check()) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 trans('bagisto_graphql::app.shop.customer.no-login-customer')
@@ -132,7 +110,7 @@ class CompareMutation extends Controller
 
         try {
             $compareProduct = $this->compareItemRepository->findOneByField([
-                'customer_id' =>  bagisto_graphql()->guard($this->guard)->user()->id,
+                'customer_id' => auth()->user()->id,
                 'product_id'  => $data['product_id'],
             ]);
 
@@ -143,13 +121,15 @@ class CompareMutation extends Controller
                 ];
             } else {
                 $this->compareItemRepository->create([
-                    'customer_id' => bagisto_graphql()->guard($this->guard)->user()->id,
+                    'customer_id' => auth()->user()->id,
                     'product_id'  => $data['product_id'],
                 ]);
 
                 return [
                     'success'        => trans('shop::app.compare.item-add-success'),
-                    'compareProduct' => $this->compareItemRepository->findWhere(['customer_id' => bagisto_graphql()->guard($this->guard)->user()->id]),
+                    'compareProduct' => $this->compareItemRepository->findWhere([
+                        'customer_id' => auth()->user()->id
+                    ]),
                 ];
             }
         } catch (\Exception $e) {
@@ -175,7 +155,7 @@ class CompareMutation extends Controller
             );
         }
 
-        if (! bagisto_graphql()->guard($this->guard)->check()) {
+        if (! auth()->check()) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 trans('bagisto_graphql::app.shop.customer.no-login-customer')
@@ -196,8 +176,6 @@ class CompareMutation extends Controller
         }
 
         try {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
             $compareProduct = $this->compareItemRepository->findOneWhere($data);
 
             if ($compareProduct) {
@@ -206,7 +184,9 @@ class CompareMutation extends Controller
                 return [
                     'status'         => true,
                     'success'        => trans('shop::app.compare.remove-success'),
-                    'compareProduct' => $this->compareItemRepository->findWhere(['customer_id' => $customer->id]),
+                    'compareProduct' => $this->compareItemRepository->findWhere([
+                        'customer_id' => auth()->user()->id
+                    ]),
                 ];
             } else {
                 return [
@@ -230,7 +210,7 @@ class CompareMutation extends Controller
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
-        if (! bagisto_graphql()->guard($this->guard)->check()) {
+        if (! auth()->check()) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 trans('bagisto_graphql::app.shop.customer.no-login-customer')
@@ -239,7 +219,7 @@ class CompareMutation extends Controller
 
         try {
             $this->compareItemRepository->deleteWhere([
-                'customer_id' => bagisto_graphql()->guard($this->guard)->user()->id,
+                'customer_id' => auth()->user()->id,
             ]);
 
             return [

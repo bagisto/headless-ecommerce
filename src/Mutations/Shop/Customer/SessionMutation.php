@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -13,22 +14,13 @@ use Webkul\GraphQLAPI\Validators\CustomException;
 class SessionMutation extends Controller
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(protected CustomerRepository $customerRepository)
     {
-        $this->guard = 'api';
-
-        auth()->setDefaultDriver($this->guard);
+        Auth::setDefaultDriver('api');
     }
 
     /**
@@ -76,12 +68,12 @@ class SessionMutation extends Controller
             /**
              * Event passed to prepare cart after login.
              */
-            Event::dispatch('customer.after.login', $args['email']);
+            Event::dispatch('customer.after.login', $customer);
 
             return [
                 'status'       => true,
                 'success'      => trans('bagisto_graphql::app.shop.customers.success-login'),
-                'access_token' => 'Bearer '.$jwtToken,
+                'access_token' => "Bearer $jwtToken",
                 'token_type'   => 'Bearer',
                 'expires_in'   => auth()->factory()->getTTL() * 60,
                 'customer'     => $this->customerRepository->find($customer->id),

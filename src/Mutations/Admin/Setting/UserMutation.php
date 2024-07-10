@@ -8,19 +8,13 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Webkul\User\Repositories\AdminRepository;
 use Webkul\User\Repositories\RoleRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class UserMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -30,9 +24,7 @@ class UserMutation extends Controller
        protected AdminRepository $adminRepository,
        protected RoleRepository $roleRepository
     ) {
-        $this->guard = 'admin-api';
-
-        auth()->setDefaultDriver($this->guard);
+        Auth::setDefaultDriver('admin-api');
     }
 
     /**

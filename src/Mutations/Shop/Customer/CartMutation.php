@@ -2,25 +2,19 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Facades\Event;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Checkout\Repositories\CartRepository;
-use Webkul\Checkout\Repositories\CartItemRepository;
-use Webkul\Product\Repositories\ProductRepository;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
+use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Checkout\Repositories\CartItemRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CartMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -31,11 +25,9 @@ class CartMutation extends Controller
        protected CartItemRepository $cartItemRepository,
        protected ProductRepository $productRepository
     ) {
-        $this->guard = 'api';
+        Auth::setDefaultDriver('api');
 
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware('auth:api');
     }
 
     /**

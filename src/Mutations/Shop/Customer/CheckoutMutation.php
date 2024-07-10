@@ -2,30 +2,24 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Facades\Validator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
-use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Core\Rules\AlphaNumericSpace;
 use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Payment\Facades\Payment;
-use Webkul\Sales\Repositories\OrderRepository;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\Core\Rules\AlphaNumericSpace;
+use Illuminate\Support\Facades\Validator;
+use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class CheckoutMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -42,13 +36,10 @@ class CheckoutMutation extends Controller
         protected CustomerAddressRepository $customerAddressRepository,
         protected OrderRepository $orderRepository,
         protected NotificationRepository $notificationRepository
-    )
-    {
-        $this->guard = 'api';
+    ) {
+        Auth::setDefaultDriver('api');
 
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware('auth:api');
     }
 
     /**
@@ -138,11 +129,9 @@ class CheckoutMutation extends Controller
             }
         }
 
-        $validateUser = bagisto_graphql()->apiAuth($token, $this->guard);
-
         if (
             $token
-            && empty($validateUser['success'])
+            && ! auth()->check()
         ) {
             if ($billingAddressId || $shippingAddressId) {
                 throw new CustomException(
@@ -165,7 +154,7 @@ class CheckoutMutation extends Controller
             )
         ) {
             if (
-                ! bagisto_graphql()->guard($this->guard)->check()
+                ! auth()->check()
                 && ! Cart::getCart()->hasGuestCheckoutItems()
             ) {
                 throw new CustomException(
@@ -404,7 +393,7 @@ class CheckoutMutation extends Controller
                 )
             ) {
                 if (
-                    ! bagisto_graphql()->guard($this->guard)->check()
+                    ! auth()->check()
                     && ! Cart::getCart()->hasGuestCheckoutItems()
                 ) {
                     throw new CustomException(

@@ -3,21 +3,15 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
 
 class DownloadableMutation extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -26,11 +20,9 @@ class DownloadableMutation extends Controller
      */
     public function __construct(protected DownloadableLinkPurchasedRepository $downloadableLinkPurchasedRepository)
     {
-        $this->guard = 'api';
+        Auth::setDefaultDriver('api');
 
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware('auth:api');
     }
 
     /**
@@ -40,7 +32,7 @@ class DownloadableMutation extends Controller
      */
     public function downloadLinks($rootValue, array $args , GraphQLContext $context)
     {
-        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+        if (! auth()->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 trans('bagisto_graphql::app.shop.customer.no-login-customer')
@@ -59,14 +51,12 @@ class DownloadableMutation extends Controller
             $downloads = app(DownloadableLinkPurchasedRepository::class)->scopeQuery(function ($query) use ($params) {
                 $channel_id = isset($params['channel_id']) ?: (core()->getCurrentChannel()->id ?: core()->getDefaultChannel()->id);
 
-                $customer = bagisto_graphql()->guard($this->guard)->user();
-
                 $qb = $query->distinct()
                     ->addSelect('downloadable_link_purchased.*')
                     ->leftJoin('orders', 'downloadable_link_purchased.order_id', '=', 'orders.id')
                     ->leftJoin('order_items', 'downloadable_link_purchased.order_item_id', '=', 'order_items.id')
                     ->where('orders.channel_id', $channel_id)
-                    ->where('downloadable_link_purchased.customer_id', $customer->id);
+                    ->where('downloadable_link_purchased.customer_id', auth()->user()->id);
 
                 if (isset($params['id']) && $params['id']) {
                     $qb->where('downloadable_link_purchased.id', $params['id']);
@@ -139,26 +129,17 @@ class DownloadableMutation extends Controller
      */
     public function download($rootValue, array $args, GraphQLContext $context)
     {
-        if (! bagisto_graphql()->validateAPIUser($this->guard)) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.admin.response.invalid-header'),
-                'Invalid request header parameter.'
-            );
-        }
-
-        if (! bagisto_graphql()->guard($this->guard)->check() ) {
+        if (! auth()->check() ) {
             throw new CustomException(
                 trans('bagisto_graphql::app.shop.customer.no-login-customer'),
                 'No Login Customer Found.'
             );
         }
 
-        $customer = bagisto_graphql()->guard($this->guard)->user();
-
         try {
             $downloadableLinkPurchased = $this->downloadableLinkPurchasedRepository->findOneByField([
                 'id'          => $args['id'],
-                'customer_id' => $customer->id,
+                'customer_id' => auth()->user()->id,
             ]);
 
             if (

@@ -211,12 +211,10 @@ class ProductContent extends BaseFilter
      */
     public function checkIsInWishlist($rootValue, array $args, GraphQLContext $context)
     {
-        if (bagisto_graphql()->guard($this->guard)->check() ) {
-            $customer = bagisto_graphql()->guard($this->guard)->user();
-
+        if (auth()->check()) {
             $wishlist = $this->wishlistRepository->findOneWhere([
-                'customer_id'   => $customer->id,
-                'product_id'    => $rootValue->id
+                'customer_id' => auth()->user()->id,
+                'product_id'  => $rootValue->id
             ]);
 
             if ($wishlist) {

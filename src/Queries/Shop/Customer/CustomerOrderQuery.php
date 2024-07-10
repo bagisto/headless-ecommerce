@@ -36,13 +36,11 @@ class CustomerOrderQuery
     {
         $params = $input;
 
-        if (! bagisto_graphql()->guard($this->guard)->check()) {
+        if (! auth()->check()) {
             return null;
         }
 
         $qb = app(OrderRepository::class)->query()->distinct()->addSelect('orders.*');
-
-        $params['input']['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
 
         if (! empty($params['input']['id'])) {
             $qb->where('orders.id', $params['input']['id']);
@@ -68,17 +66,18 @@ class CustomerOrderQuery
             $qb->where('orders.created_at', 'like', '%'.urldecode($params['input']['order_date']).'%');
         }
 
-        if (! empty($params['input']['start_order_date']) && ! empty($params['input']['end_order_date'])) {
+        if (
+            ! empty($params['input']['start_order_date'])
+            && ! empty($params['input']['end_order_date'])
+        ) {
             $qb->whereBetween('orders.created_at', [$params['input']['start_order_date'], $params['input']['end_order_date']]);
-        }
-
-        if (! empty($params['input']['customer_id'])) {
-            $qb->where('orders.customer_id', $params['input']['customer_id']);
         }
 
         if (! empty($params['input']['status'])) {
             $qb->where('orders.status', $params['input']['status']);
         }
+
+        $qb->where('orders.customer_id', auth()->user()->id);
 
         return $qb->orderBy('orders.id', 'desc');
     }
