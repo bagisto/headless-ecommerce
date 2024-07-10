@@ -163,6 +163,7 @@ return [
                         'ios-topic'                       => 'IOS Topic',
                         'private-key'                     => 'Private Key JSON File Content',
                         'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
+                        'notification-topic'              => 'Notification Topic',
                     ],
                 ],
             ],

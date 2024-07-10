@@ -24,6 +24,7 @@ return [
                         'ios-topic'                       => 'iOS-onderwerp',
                         'private-key'                     => 'Inhoud van het JSON-bestand van de privésleutel',
                         'info-get-private-key'            => 'Informatie: Voor het verkrijgen van de inhoud van het JSON-bestand van de privésleutel voor FCM: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
+                        'notification-topic'              => 'Onderwerpregel notificatie',
                     ],
                 ],
             ],

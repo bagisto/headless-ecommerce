@@ -14,6 +14,11 @@ use Webkul\Category\Repositories\CategoryRepository;
 class NotificationRepository extends Repository
 {
     /**
+     * @var string
+     */
+    public const SCOPE_URL = "https://www.googleapis.com/auth/firebase.messaging";
+
+    /**
      * Create a new repository instance.
      *
      * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
@@ -201,7 +206,7 @@ class NotificationRepository extends Repository
                 $fieldData = array_merge($fieldData, [
                     'click_action' => route('shop.product_or_category.index', $product->url_key),
                     'productName'  => $product->name ?? '',
-                    'productId'    => $product->id ?? '',
+                    'productId'    => (string)$product->id ?? '',
                 ]);
             break;
 
@@ -211,7 +216,7 @@ class NotificationRepository extends Repository
                 $fieldData = array_merge($fieldData, [
                     'click_action' => route('shop.product_or_category.index', $category->slug),
                     'categoryName' => $category->name ?? '',
-                    'categoryId'   => $category->id ?? '',
+                    'categoryId'   => (string)$category->id ?? '',
                 ]);
             break;
 
@@ -234,17 +239,12 @@ class NotificationRepository extends Repository
      */
     public function sendNotification($fieldData, $data = [])
     {
-        $accessToken = $this->getAccessToken();
-
         $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))->project_id;
 
-        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
-
-        $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
-        // $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
+        $topic = core()->getConfigData('general.api.pushnotification.notification_topic');
 
         $fields['message'] = array(
-            'topic' => $androidTopic,
+            'topic' => $topic,
             'data'  => $fieldData,
             'notification' =>  [
                 'body'  => $data['content'],
@@ -254,13 +254,13 @@ class NotificationRepository extends Repository
 
         $headers = array(
             'Content-Type:application/json',
-            'Authorization: Bearer '.$accessToken['access_token'],
+            'Authorization: Bearer '.$this->getAccessToken(),
         );
 
         try {
             $ch = curl_init();
 
-            curl_setopt( $ch, CURLOPT_URL, $url );
+            curl_setopt( $ch, CURLOPT_URL, "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send");
             curl_setopt( $ch, CURLOPT_POST, true );
             curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -289,10 +289,6 @@ class NotificationRepository extends Repository
     {
         $privateKeyContent = json_decode(core()->getConfigData('general.api.pushnotification.private_key'));
 
-        $projectId = $privateKeyContent->project_id;
-
-        $clientEmail = $privateKeyContent->client_email;
-
         $privateKey = str_replace('\n', "\n", $privateKeyContent->private_key);
 
         $header = json_encode([
@@ -301,8 +297,8 @@ class NotificationRepository extends Repository
         ]);
         
         $payload = json_encode([
-            "iss"   => $clientEmail,
-            "scope" => "https://www.googleapis.com/auth/firebase.messaging",
+            "iss"   => $privateKeyContent->client_email,
+            "scope" => self::SCOPE_URL,
             "aud"   => $privateKeyContent->token_uri,
             "exp"   => time() + 3600,
             "iat"   => time() - 60,
@@ -331,7 +327,7 @@ class NotificationRepository extends Repository
                 ],
             ]);
 
-            return json_decode($response->getBody(), true);
+            return json_decode($response->getBody(), true)['access_token'];
         } catch (Exception $e) {
             session()->flash('error', $e);
         }

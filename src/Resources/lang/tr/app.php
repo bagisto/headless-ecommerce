@@ -24,6 +24,7 @@ return [
                         'ios-topic'                       => 'IOS Konusu',
                         'private-key'                     => 'Özel Anahtar JSON Dosya İçeriği',
                         'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar JSON Dosya İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
+                        'notification-topic'              =>  'Bildirim Konusu',
                     ],
                 ],
             ],

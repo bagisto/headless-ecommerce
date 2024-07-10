@@ -24,6 +24,7 @@ return [
                         'ios-topic'                       => 'iOSトピック',
                         'private-key'                     => 'プライベートキーのJSONファイルの内容',
                         'info-get-private-key'            => '情報: FCMプライベートキーのJSONファイルの内容を取得するには、<a href="https://console.firebase.google.com/" target="_blank">こちらをクリックしてください</a>',
+                        'notification-topic'              => '通知トピック',
                     ],
                 ],
             ],

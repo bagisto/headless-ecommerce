@@ -24,6 +24,7 @@ return [
                         'ios-topic'                       => 'Sujet iOS',
                         'private-key'                     => 'Contenu du fichier JSON de la clé privée',
                         'info-get-private-key'            => 'Info : Pour obtenir le contenu du fichier JSON de la clé privée FCM : <a href="https://console.firebase.google.com/" target="_blank">Cliquez ici</a>',
+                        'notification-topic'              => 'Sujet de notification',
                     ],
                 ],
             ],
