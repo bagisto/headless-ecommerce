@@ -73,7 +73,7 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'notification_id',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.id'),
-            'type'       => 'number',
+            'type'       => 'integer',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
@@ -82,12 +82,16 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'image',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.image'),
-            'type'       => 'html',
+            'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
-            'closure'    => function ($value) {
-                return '<img src='.Storage::url($value->image).' class="img-thumbnail" width="100px" height="70px" />';
+            'closure'    => function ($row) {
+                if ($row->image) {
+                    return '<img src='.Storage::url($row->image).' class="max-h-[65px] min-h-[65px] min-w-[65px] max-w-[65px] rounded" width="65px" height="65px" />';
+                }
+
+                return '<img src='.bagisto_asset('images/product-placeholders/front.svg', 'admin').' class="max-h-[65px] min-h-[65px] min-w-[65px] max-w-[65px] rounded" width="65px" height="65px" />';
             },
         ]);
 
@@ -112,7 +116,7 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'type',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-type'),
-            'type'       => 'price',
+            'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
@@ -127,10 +131,10 @@ class PushNotificationDataGrid extends DataGrid
             'sortable'   => true,
             'closure'    => function ($row) {
                 if ($row->status) {
-                    return '<span class="badge badge-md badge-success">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled').'</span>';
+                    return '<p class="label-active">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.enabled').'</p>';
                 }
 
-                return '<span class="badge badge-md badge-danger">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.disabled').'</span>';
+                return '<p class="label-info">'.trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.status.disabled').'</p>';
             },
         ]);
 
@@ -168,9 +172,6 @@ class PushNotificationDataGrid extends DataGrid
                 'url'    => function ($row) {
                     return route('admin.settings.push_notification.edit', $row->notification_id);
                 },
-                'condition' => function () {
-                    return true;
-                },
             ]);
         }
 
@@ -181,9 +182,6 @@ class PushNotificationDataGrid extends DataGrid
                 'method' => 'POST',
                 'url'    => function ($row) {
                     return route('admin.settings.push_notification.delete', $row->notification_id);
-                },
-                'condition' => function () {
-                    return true;
                 },
             ]);
         }

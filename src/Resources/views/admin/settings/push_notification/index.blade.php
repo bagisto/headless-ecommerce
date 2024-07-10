@@ -1,34 +1,26 @@
 <x-admin::layouts>
+    <!-- Title of the page -->
     <x-slot:title>
         @lang('bagisto_graphql::app.admin.settings.notification.index.title')
-    </x-slot:title>
+    </x-slot>
 
-    <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
-        <p class="text-[20px] text-gray-800 dark:text-white font-bold">
+    <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
+        <!-- Page title -->
+        <p class="text-xl font-bold text-gray-800 dark:text-white">
             @lang('bagisto_graphql::app.admin.settings.notification.index.title')
         </p>
 
-        <div class="flex gap-x-[10px] items-center">
-            @if (bouncer()->hasPermission('settings.push_notification.create'))
-                <a href="{{ route('admin.settings.push_notification.create') }}">
-                    <div class="primary-button">
-                        @lang('bagisto_graphql::app.admin.settings.notification.index.add-title')
-                    </div>
-                </a>
-            @endif
-        </div>
+        <!-- Add button -->
+        @if (bouncer()->hasPermission('settings.push_notification.create'))
+            <a
+                href="{{ route('admin.settings.push_notification.create') }}"
+                class="primary-button"
+            >
+                @lang('bagisto_graphql::app.admin.settings.notification.index.add-title')
+            </a>
+        @endif
     </div>
 
-    <x-admin::datagrid src="{{ route('admin.settings.push_notification.index') }}"></x-admin::datagrid>
+    <!-- Notification Datagrid -->
+    <x-admin::datagrid src="{{ route('admin.settings.push_notification.index') }}" />
 </x-admin::layouts>
-
-@push('scripts')
-    <script>
-        function reloadPage(getVar, getVal) {
-            let url = new URL(window.location.href);
-            url.searchParams.set(getVar, getVal);
-
-            window.location.href = url.href;
-        }
-    </script>
-@endpush
