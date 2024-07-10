@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Shop\Http\Controllers\Controller;
@@ -68,7 +67,7 @@ class NotificationMutation extends Controller
                     'message_id'    => null
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

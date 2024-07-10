@@ -1,0 +1,46 @@
+# Setting\Exchange Rate Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    exchangeRates(
+        input: FilterExchangeRateInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterExchangeRate")
+    ): [ExchangeRate!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\models\\CurrencyExchangeRate")
+
+    exchangeRate(
+        id: ID @eq
+    ): ExchangeRate @find(model: "Webkul\\Core\\models\\CurrencyExchangeRate")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createExchangeRate(
+        input: CreateExchangeRateInput!
+    ): ExchangeRate @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ExchangeRateMutation@store")
+
+    updateExchangeRate(
+        id: ID!,
+        input: CreateExchangeRateInput!
+    ): ExchangeRate @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ExchangeRateMutation@update")
+
+    deleteExchangeRate(id: ID!): ExchangeRate @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ExchangeRateMutation@delete")
+}
+
+input FilterExchangeRateInput {
+    id: Int
+    targetCurrency: Int @rename(attribute: "target_currency")
+    currency: String
+    rate: Float @rules(apply: ["numeric"])
+}
+
+input CreateExchangeRateInput {
+    targetCurrency: Int! @rename(attribute: "target_currency") @rules(apply: ["required"])
+    rate: Float! @rules(apply: ["numeric","required"])
+}
+
+type ExchangeRate {
+    id: ID!
+    rate: Float!
+    targetCurrency: Int! @rename(attribute: "target_currency")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    currency: Currency! @belongsTo
+    success: String
+}

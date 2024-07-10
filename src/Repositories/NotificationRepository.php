@@ -5,7 +5,7 @@ namespace Webkul\GraphQLAPI\Repositories;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Container\Container as App;
+use Illuminate\Container\Container;
 use Webkul\Core\Eloquent\Repository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Category\Repositories\CategoryRepository;
@@ -15,20 +15,15 @@ class NotificationRepository extends Repository
     /**
      * Create a new repository instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
-     * @param  \Webkul\GraphQLAPI\Repositories\NotificationTranslationRepository  $notificationTranslationRepository
-     * @param  \Illuminate\Container\Container  $app
-     *
      * @return void
      */
     public function __construct(
         protected ProductRepository $productRepository,
         protected CategoryRepository $categoryRepository,
         protected NotificationTranslationRepository $notificationTranslationRepository,
-        App $app
+        Container $container
     ) {
-        parent::__construct($app);
+        parent::__construct($container);
     }
 
     /**
@@ -140,18 +135,18 @@ class NotificationRepository extends Repository
     public function uploadImages($data, $notification, $type = "image")
     {
         if (isset($data[$type])) {
-            $request = request();
-
             foreach ($data[$type] as $imageId => $image) {
                 $file = $type.'.'.$imageId;
+
                 $dir = 'notification/images/'.$notification->id;
 
-                if ($request->hasFile($file)) {
+                if (request()->hasFile($file)) {
                     if ($notification->{$type}) {
                         Storage::delete('public'.$notification->{$type});
                     }
 
-                    $notification->{$type} = $request->file($file)->store($dir);
+                    $notification->{$type} = request()->file($file)->store($dir);
+
                     $notification->save();
                 }
             }
@@ -161,6 +156,7 @@ class NotificationRepository extends Repository
             }
 
             $notification->{$type} = null;
+
             $notification->save();
         }
     }
@@ -173,18 +169,18 @@ class NotificationRepository extends Repository
      */
     public function prepareNotification($notification)
     {
-        $notificationTranslations = $notification->translations()->where([
+        $notificationTranslation = $notification->translations()->where([
             ['channel', '=', core()->getRequestedChannelCode()],
             ['locale', '=', core()->getRequestedLocaleCode()]
         ])->first();
 
-        if ($notificationTranslations) {
-            $notification->title = $notificationTranslations->title;
-            $notification->content = $notificationTranslations->content;
+        if ($notificationTranslation) {
+            $notification->title = $notificationTranslation->title;
+            $notification->content = $notificationTranslation->content;
         }
 
         $fieldData = [
-            'banner_url'       => asset('storage/'.$notification->image),
+            'banner_url'       => Storage::url($notification->image),
             'id'               => $notification->id,
             'body'             => $notification->content,
             'sound'            => 'default',
@@ -197,29 +193,31 @@ class NotificationRepository extends Repository
             case 'product' :
                 $product = $this->productRepository->findOrFail($notification->product_category_id);
 
-                $fieldData = array_merge($fieldData, [
+                $extraData = [
                     'click_action' => route('shop.product_or_category.index', $product->url_key),
                     'productName'  => $product->name ?? '',
                     'productId'    => $product->id ?? '',
-                ]);
+                ];
             break;
 
             case 'category':
                 $category = $this->categoryRepository->findOrFail($notification->product_category_id);
 
-                $fieldData = array_merge($fieldData, [
+                $extraData = [
                     'click_action' => route('shop.product_or_category.index', $category->slug),
                     'categoryName' => $category->name ?? '',
                     'categoryId'   => $category->id ?? '',
-                ]);
+                ];
             break;
 
             case 'others':
-                $fieldData = array_merge($fieldData, [
+                $extraData = [
                     'click_action' => route('shop.home.index'),
-                ]);
+                ];
             break;
         }
+
+        $fieldData = array_merge($fieldData, $extraData);
 
         return $this->sendNotification($fieldData, $notification->toArray());
     }
@@ -233,19 +231,23 @@ class NotificationRepository extends Repository
      */
     public function sendNotification($fieldData, $data = [])
     {
-        // for android device
         $url        = "https://fcm.googleapis.com/fcm/send";
+
         $authKey    = core()->getConfigData('general.api.pushnotification.server_key');
+
         $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
+
         // $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
 
         if (! $authKey) {
-            return  ['error' => 'Warning: Server key is missing.'];
+            return  [
+                'error' => 'Warning: Server key is missing.',
+            ];
         }
 
         $fields = array(
-            'to'    => '/topics/'.$androidTopic,
-            'data'  => $fieldData,
+            'to'   => '/topics/'.$androidTopic,
+            'data' => $fieldData,
             'notification' =>  [
                 'body'  => $data['content'],
                 'title' => $data['title'],
@@ -260,20 +262,23 @@ class NotificationRepository extends Repository
         try {
             $ch = curl_init();
 
-            curl_setopt( $ch, CURLOPT_URL, $url );
-            curl_setopt( $ch, CURLOPT_POST, true );
-            curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, true );
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
 
-            $result = curl_exec( $ch );
-            curl_close( $ch );
+            $result = curl_exec($ch);
 
-            Log::info('sendNotification: ', ['response' => json_decode($result)]);
+            curl_close($ch);
+
+            Log::info('sendNotification: ', [
+                'response' => json_decode($result),
+            ]);
 
             return json_decode($result);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             session()->flash('error', $e);
 
             Log::error('sendNotification Error: ', $e->getMessage());

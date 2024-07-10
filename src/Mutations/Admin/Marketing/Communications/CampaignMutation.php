@@ -2,12 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Marketing\Repositories\CampaignRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CampaignMutation extends Controller
 {
@@ -50,7 +49,7 @@ class CampaignMutation extends Controller
             $campaign = $this->campaignRepository->create($args['input']);
 
             return $campaign;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -88,7 +87,7 @@ class CampaignMutation extends Controller
             $campaign = $this->campaignRepository->update($args['input'], $args['id']);
 
             return $campaign;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -122,7 +121,7 @@ class CampaignMutation extends Controller
                 'status' => false,
                 'message' => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.delete-failed'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

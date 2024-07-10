@@ -1,0 +1,108 @@
+# Setting\Theme Related APIs
+extend type Query{
+    themes(
+        input: FilterThemesInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterTheme")
+    ): [Theme!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Theme\\Models\\ThemeCustomization")
+
+    theme(
+        id: ID @eq
+    ): Theme @find(model: "Webkul\\Theme\\Models\\ThemeCustomization")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createTheme(
+        input: CreateThemeInput!
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@store")
+
+    updateTheme(
+        id: ID!,
+        input: UpdateThemeInput!
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@update")
+
+    deleteTheme(
+        id: ID!
+    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@delete")
+}
+
+input FilterThemesInput {
+    id: ID
+}
+
+input CreateThemeInput {
+    name: String! @rules(apply: ["required"])
+    sortOrder: Int! @rename(attribute: "sort_order") @rules(apply: ["required"])
+    type: ThemeType! @rules(apply: ["required"])
+    channelId: ID! @rename(attribute: "channel_id") @rules(apply: ["required"])
+}
+
+enum ThemeType {
+    ProductCarousel @enum(value: "product_carousel")
+    CategoryCarousel @enum(value: "category_carousel")
+    StaticContent @enum(value: "static_content")
+    ImageCarousel @enum(value: "image_carousel")
+    FooterLinks @enum(value: "footer_links")
+    ServicesContent @enum(value: "services_content")
+}
+
+input UpdateThemeInput {
+    name: String! @rules(apply: ["required"])
+    sortOrder: Int! @rename(attribute: "sort_order") @rules(apply: ["required"])
+    channelId: ID! @rename(attribute: "channel_id") @rules(apply: ["required"])
+    status: Boolean
+    options: OptionInputTheme!
+}
+
+input OptionInputTheme {
+    title: String!
+    filtersInput: [FilterInput]
+}
+
+input FilterInput {
+    key: String
+    value: String
+}
+
+type Theme {
+    id: ID!
+    type: String
+    name: String
+    sortOrder: Int  @rename(attribute: "sort_order")
+    status: Boolean
+    channelId: ID @rename(attribute: "channel_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    translations: [Translation!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\ThemeContent@getThemeTranslations")
+    success: String
+}
+
+type Translation {
+    id: ID!
+    themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
+    localeCode: String! @rename(attribute: "locale")
+    options: Options!
+}
+
+type Options {
+    title: String
+    css: String
+    html: String
+    images: [Link]
+    filters: [FilterOption]
+    column_1: [ColumOption]
+    column_2: [ColumOption]
+    column_3: [ColumOption]
+}
+
+type Link {
+    imageTitle: String @rename(attribute: "title")
+    link: String
+    image: String
+    imageUrl: String @rename(attribute: "image_url")
+}
+
+type ColumOption {
+    url: String
+    title: String
+    sortOrder: String @rename(attribute: "sort_order")
+}

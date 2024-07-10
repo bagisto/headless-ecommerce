@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Pagination\Paginator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
@@ -10,7 +9,7 @@ use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
 use Webkul\Sales\Repositories\ShipmentRepository;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class OrderMutation extends Controller
 {
@@ -45,8 +44,8 @@ class OrderMutation extends Controller
     {
         if (empty($args['id'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter')
             );
         }
 
@@ -123,8 +122,8 @@ class OrderMutation extends Controller
     {
         if (empty($args['id'])) {
             throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
+                trans('bagisto_graphql::app.shop.response.error.invalid-parameter')
             );
         }
 
@@ -163,7 +162,7 @@ class OrderMutation extends Controller
                 'order'   => $this->orderRepository->find($orderId),
                 'message' => $result ? trans('bagisto_graphql::app.shop.customer.account.order.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.shop.response.cancel-error'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException(
                 $e->getMessage(),
                 $e->getMessage()

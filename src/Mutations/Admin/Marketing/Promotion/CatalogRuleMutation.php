@@ -2,30 +2,32 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Promotion;
 
-use Exception;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
+use Webkul\CartRule\Repositories\CartRuleRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
 
 class CatalogRuleMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\CatalogRule\Repositories\CatalogRuleRepository  $catalogRuleRepository
-     * @param  \Webkul\CatalogRule\Helpers\CatalogRuleIndex  $catalogRuleIndexHelper
-     * @param  \Webkul\CatalogRule\Helpers\CartRuleCouponRepository  $cartRuleCouponRepository
      * @return void
      */
     public function __construct(
         protected CatalogRuleRepository $catalogRuleRepository,
         protected CatalogRuleIndex $catalogRuleIndexHelper,
-        protected CartRuleCouponRepository $cartRuleCouponRepository
+        protected CartRuleCouponRepository $cartRuleCouponRepository,
+        protected CartRuleRepository $cartRuleRepository,
+        protected ChannelRepository $channelRepository,
+        protected CustomerGroupRepository $customerGroupRepository
     ) {
     }
 
@@ -44,16 +46,33 @@ class CatalogRuleMutation extends Controller
 
         $validator = Validator::make($params, [
             'name'            => 'required',
-            'channels'        => 'required|array|min:1',
-            'customer_groups' => 'required|array|min:1',
+            'channels'        => 'required|array|min:1|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
+            'customer_groups' => 'required|array|min:1|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
             'starts_from'     => 'nullable|date',
             'ends_till'       => 'nullable|date|after_or_equal:starts_from',
             'action_type'     => 'required',
             'discount_amount' => 'required|numeric',
         ]);
 
+        bagisto_graphql()->checkValidatorFails($validator);
+
+        if (
+            $params['action_type']
+            && $params['action_type'] == 'by_percent'
+        ) {
+            $validator = Validator::make($params, [
+                'discount_amount' => 'required|numeric|min:0|max:100',
+            ]);
+        }
+
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
         }
 
         try {
@@ -63,10 +82,10 @@ class CatalogRuleMutation extends Controller
 
             Event::dispatch('promotions.catalog_rule.create.after', $catalogRule);
 
-            $this->catalogRuleIndexHelper->reindexComplete();
+            $catalogRule->success = trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.create-success');
 
             return $catalogRule;
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -86,12 +105,13 @@ class CatalogRuleMutation extends Controller
         }
 
         $params = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($params, [
             'name'            => 'required',
-            'channels'        => 'required|array|min:1',
-            'customer_groups' => 'required|array|min:1',
+            'channels'        => 'required|array|min:1|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
+            'customer_groups' => 'required|array|min:1|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
             'starts_from'     => 'nullable|date',
             'ends_till'       => 'nullable|date|after_or_equal:starts_from',
             'action_type'     => 'required',
@@ -99,22 +119,43 @@ class CatalogRuleMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+            $errorMessage = [];
+
+            foreach ($validator->messages()->toArray() as $field => $message) {
+                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+            }
+
+            throw new CustomException(implode(", ", $errorMessage));
+        }
+
+        if (
+            $params['action_type']
+            && $params['action_type'] == 'by_percent'
+        ) {
+            $validator = Validator::make($params, [
+                'discount_amount' => 'required|numeric|min:0|max:100',
+            ]);
+        }
+
+        bagisto_graphql()->checkValidatorFails($validator);
+
+        $catalogRule = $this->catalogRuleRepository->find($id);
+
+        if (! $catalogRule) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.not-found'));
         }
 
         try {
-            $catalogRule = $this->catalogRuleRepository->findOrFail($id);
-
-            Event::dispatch('promotions.catalog_rule.update.before', $catalogRule);
+            Event::dispatch('promotions.catalog_rule.update.before', $id);
 
             $catalogRule = $this->catalogRuleRepository->update($params, $id);
 
             Event::dispatch('promotions.catalog_rule.update.after', $catalogRule);
 
-            $this->catalogRuleIndexHelper->reindexComplete();
+            $catalogRule->success = trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.create-success');
 
             return $catalogRule;
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -134,45 +175,19 @@ class CatalogRuleMutation extends Controller
 
         $catalogRule = $this->catalogRuleRepository->find($id);
 
-        try {
-            if ($catalogRule) {
-                Event::dispatch('promotions.catalog_rule.delete.before', $id);
-
-                $catalogRule->delete($id);
-
-                Event::dispatch('promotions.catalog_rule.delete.after', $id);
-
-                return ['success' => trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.delete-success')];
-            }
-
-            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.delete-failed'));
-        } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+        if (! $catalogRule) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.not-found'));
         }
-    }
-
-    /**
-     * Generate coupon code for cart rule
-     *
-     * @return Response
-     */
-    public function generateCoupons($params, $id)
-    {
-        Validator::make($params, [
-            'coupon_qty'  => 'required|integer|min:1',
-            'code_length' => 'required|integer|min:10',
-            'code_format' => 'required',
-        ]);
 
         try {
-            if (! $id) {
-                throw new CustomException(trans('bagisto_graphql::app.admin.marketing.promotions.cart-rules.cart-rule-not-defind'));
-            }
+            Event::dispatch('promotions.catalog_rule.delete.before', $id);
 
-            $coupon = $this->cartRuleCouponRepository->generateCoupons($params, $id);
+            $this->catalogRuleRepository->delete($id);
 
-            return $coupon;
-        } catch(Exception $e) {
+            Event::dispatch('promotions.catalog_rule.delete.after', $id);
+
+            return ['success' => trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.delete-success')];
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

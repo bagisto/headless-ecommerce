@@ -30,7 +30,7 @@ class SocialLoginPasswordResetEmail extends Mailable
         return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
             ->to($this->data['email'])
             ->subject(trans('bagisto_graphql::app.mail.customer.password.reset'))
-            ->view('bagisto_graphql::shop.default.emails.customer.password-reset-email')
+            ->view('bagisto_graphql::shop.emails.customer.password-reset-email')
             ->with('data', $this->data);
     }
 }

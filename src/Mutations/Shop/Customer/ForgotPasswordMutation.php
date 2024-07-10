@@ -2,38 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Exception;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
-use Webkul\GraphQLAPI\Validators\Customer\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ForgotPasswordMutation extends Controller
 {
     use SendsPasswordResetEmails;
-
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->guard = 'api';
-
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard, ['except' => ['forgot']]);
-    }
 
     /**
      * Method to reset the customer password
@@ -42,56 +20,36 @@ class ForgotPasswordMutation extends Controller
      */
     public function forgot($rootValue, array $args , GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter'),
-                trans('bagisto_graphql::app.shop.response.error-invalid-parameter')
-            );
-        }
-
-        $data = $args['input'];
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($args, [
             'email' => 'required|email',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $message) {
-                $errorMessage[] = is_array($message) ? $message[0] : $message;
-            }
-
-            throw new CustomException(
-                implode(" ,", $errorMessage),
-                'Invalid ForgotPassword Details.'
-            );
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
-            $response = $this->broker()->sendResetLink($data);
+            $response = $this->broker()->sendResetLink($args);
 
             if ($response == Password::RESET_LINK_SENT) {
                 return [
                     'status'  => true,
-                    'success' => trans('bagisto_graphql::app.shop.customer.reset-link-sent')
+                    'success' => trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'),
                 ];
             }
 
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.not-exists'),
-                'Invalid ForgotPassword Email Details.'
-            );
+            if ($response == Password::RESET_THROTTLED) {
+                return [
+                    'status'  => false,
+                    'success' => trans('bagisto_graphql::app.shop.customers.forgot-password.already-sent'),
+                ];
+            }
+
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.forgot-password.email-not-exist'));
         } catch (\Swift_RfcComplianceException $e) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.reset-link-sent'),
-                'Swift_RfcComplianceException: Invalid ForgotPassword Details.'
-            );
-        } catch (Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                'Exception: invalid forgot password email.'
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'));
+        } catch (\Exception $e) {
+            report($e);
+
+            throw new CustomException($e->getMessage());
         }
     }
 
