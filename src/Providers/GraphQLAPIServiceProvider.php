@@ -32,10 +32,11 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'bagisto_graphql');
 
-        // Model observer for admin user of Bagisto.
         $this->overrideModels();
 
         $this->publishesDefault();
+
+        $this->app->register(ModuleServiceProvider::class);
 
         /* aliases */
         $router->aliasMiddleware('locale', LocaleMiddleware::class);
@@ -45,8 +46,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         if (request()->hasHeader('authorization')) {
             $headerValue = explode('Bearer ', request()->header('authorization'));
 
-            if (isset($headerValue[1]) && $headerValue[1]) {
-                request()->merge(['token' => $headerValue[1]]);
+            if (count($headerValue) == 2) {
+                request()->merge(['token' => end($headerValue)]);
             }
         }
     }

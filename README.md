@@ -18,12 +18,6 @@ The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraf
 composer require bagisto/graphql-api dev-main
 ~~~
 
-* Add the below-line inside the **modules** index in **config/concord.php** file:
-
-~~~
-\Webkul\GraphQLAPI\Providers\ModuleServiceProvider::class,
-~~~
-
 * Find a file **app/Http/Kernel.php** from root and add these two **middlewares** inside the **API** section of **$middlewareGroups** array:
 
 ~~~

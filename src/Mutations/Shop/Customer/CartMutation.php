@@ -81,14 +81,14 @@ class CartMutation extends Controller
 
             $data = bagisto_graphql()->manageInputForCart($product, $data);
 
-            $cart = Cart::addProduct($data['product_id'], $data);
+            $cart = Cart::addProduct($product, $data);
 
             return [
                 'status'  => ! empty($cart),
                 'message' => ! empty($cart)
                                 ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.add-to-cart')
                                 : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.add-to-cart'),
-                'cart'    => $cart,
+                'cart' => $cart,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage(), $e->getMessage());
@@ -106,7 +106,9 @@ class CartMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'qty'   => 'required|max:1',
+            'qty'                => 'required|array',
+            'qty.*.cart_item_id' => 'required|integer|exists:cart_items,id',
+            'qty.*.quantity'     => 'required|integer|min:1',
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
@@ -131,7 +133,7 @@ class CartMutation extends Controller
                 'message' => $cartUpdated
                                 ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.update-to-cart')
                                 : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.update-to-cart'),
-                'cart'    => Cart::getCart(),
+                'cart' => Cart::getCart(),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

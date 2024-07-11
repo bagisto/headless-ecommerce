@@ -3,12 +3,6 @@ extend type Query {
     cartDetail: Cart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cart")
 
     cartItems: [CartItem!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cartItems")
-
-    # cartItem(id: ID @eq): CartItem @find(model: "Webkul\\Checkout\\Models\\CartItem")
-
-    # cartAddresses: [CartAddress!] @paginate(type: "paginator" defaultCount:10 model: "Webkul\\Checkout\\Models\\CartAddress")
-
-    # cartAddress(id: ID @eq): CartAddress @find(model: "Webkul\\Checkout\\Models\\CartAddress")
 }
 
 extend type Mutation {
@@ -47,7 +41,7 @@ input AddItemToCartInput {
     links: [Int!]
 
     # Used in case of adding Bundled Product to Cart
-    bundleOptionQuantity: [Int]   @rename(attribute: "bundle_option_qty")
+    bundleOptionQuantity: [Int] @rename(attribute: "bundle_option_qty")
     bundleOptions: [BundledOptionsInput!] @rename(attribute: "bundle_options")
 }
 
@@ -116,7 +110,6 @@ type Cart {
     formattedPrice: FormattedCartPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
     items: [CartItem!] @hasMany
     allItems: [CartItem!] @hasMany(relation: "all_items")
-    addresses: [Address!] @hasMany
     billingAddress: Address @rename(attribute: "billing_address")
     shippingAddress: Address @rename(attribute: "shipping_address")
     #shippingRates: ShippingRates @rename(attribute: "shipping_rates")
