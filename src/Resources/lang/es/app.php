@@ -15,16 +15,12 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'API GraphQL',
-                        'info'                            => 'Configuraciones relacionadas con notificaciones',
-                        'push-notification-configuration' => 'Configuración de Notificación Push FCM',
-                        'server-key'                      => 'Clave del Servidor',
-                        'info-get-server-key'             => 'Info: Para obtener credenciales de la API FCM: <a href="https://console.firebase.google.com/" target="_blank">Haz clic aquí</a>',
-                        'android-topic'                   => 'Tema de Android',
-                        'ios-topic'                       => 'Tema de iOS',
-                        'private-key'                     => 'Contenido del archivo JSON de la clave privada',
-                        'info-get-private-key'            => 'Información: Para obtener el contenido del archivo JSON de la clave privada de FCM, <a href="https://console.firebase.google.com/" target="_blank">haz clic aquí</a>',
-                        'notification-topic'              => 'Tema de notificación',
+                        'notification-topic'              => 'Tema de Notificación',
+                        'info'                            => 'Configuraciones relacionadas con la notificación',
+                        'push-notification-configuration' => 'Configuración de Notificaciones Push FCM',
+                        'title'                           => 'GraphQL API',
+                        'private-key'                     => 'Contenido del Archivo JSON de la Clave Privada',
+                        'info-get-private-key'            => 'Información: Para Obtener el Contenido del Archivo JSON de la Clave Privada de FCM: <a href="https://console.firebase.google.com/" target="_blank">Haz clic aquí</a>',
                     ],
                 ],
             ],

@@ -10,6 +10,7 @@ use Illuminate\Container\Container;
 use Webkul\Core\Eloquent\Repository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\GraphQLAPI\Contracts\PushNotification;
 
 class NotificationRepository extends Repository
 {
@@ -39,7 +40,7 @@ class NotificationRepository extends Repository
      */
     public function model()
     {
-        return \Webkul\GraphQLAPI\Contracts\PushNotification::class;
+        return PushNotification::class;
     }
 
     /**
@@ -142,13 +143,13 @@ class NotificationRepository extends Repository
     {
         if (isset($data[$type])) {
             foreach ($data[$type] as $imageId => $image) {
-                $file = $type.'.'.$imageId;
+                $file = "$type.$imageId";
 
-                $dir = 'notification/images/'.$notification->id;
+                $dir = "notification/images/$notification->id";
 
                 if (request()->hasFile($file)) {
                     if ($notification->{$type}) {
-                        Storage::delete('public'.$notification->{$type});
+                        Storage::delete($notification->{$type});
                     }
 
                     $notification->{$type} = request()->file($file)->store($dir);
@@ -187,7 +188,7 @@ class NotificationRepository extends Repository
 
         $fieldData = [
             'banner_url'       => Storage::url($notification->image),
-            'id'               => $notification->id,
+            'id'               => (string) $notification->id,
             'body'             => $notification->content,
             'sound'            => 'default',
             'title'            => $notification->title,
@@ -202,7 +203,7 @@ class NotificationRepository extends Repository
                 $extraData = [
                     'click_action' => route('shop.product_or_category.index', $product->url_key),
                     'productName'  => $product->name ?? '',
-                    'productId'    => $product->id ?? '',
+                    'productId'    => (string) $product->id ?? '',
                 ];
             break;
 
@@ -212,7 +213,7 @@ class NotificationRepository extends Repository
                 $extraData = [
                     'click_action' => route('shop.product_or_category.index', $category->slug),
                     'categoryName' => $category->name ?? '',
-                    'categoryId'   => $category->id ?? '',
+                    'categoryId'   => (string) $category->id ?? '',
                 ];
             break;
 
@@ -237,38 +238,28 @@ class NotificationRepository extends Repository
      */
     public function sendNotification($fieldData, $data = [])
     {
-        $url        = "https://fcm.googleapis.com/fcm/send";
+        $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))->project_id;
 
-        $authKey    = core()->getConfigData('general.api.pushnotification.server_key');
+        $topic = core()->getConfigData('general.api.pushnotification.notification_topic');
 
-        $androidTopic = core()->getConfigData('general.api.pushnotification.android_topic');
-
-        // $iosTopic   = core()->getConfigData('general.api.pushnotification.ios_topic');
-
-        if (! $authKey) {
-            return  [
-                'error' => 'Warning: Server key is missing.',
-            ];
-        }
-
-        $fields = array(
-            'to'   => '/topics/'.$androidTopic,
-            'data' => $fieldData,
+        $fields['message'] = [
+            'topic' => $topic,
+            'data'  => $fieldData,
             'notification' =>  [
                 'body'  => $data['content'],
                 'title' => $data['title'],
             ],
-        );
+        ];
 
-        $headers = array(
+        $headers = [
             'Content-Type:application/json',
-            'Authorization: Bearer '.$this->getAccessToken(),
-        );
+            "Authorization: Bearer {$this->getAccessToken()}",
+        ];
 
         try {
             $ch = curl_init();
 
-            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_URL, "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send");
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -306,7 +297,7 @@ class NotificationRepository extends Repository
             'typ' => 'JWT',
             'alg' => 'RS256',
         ]);
-        
+
         $payload = json_encode([
             "iss"   => $privateKeyContent->client_email,
             "scope" => self::SCOPE_URL,
@@ -324,7 +315,7 @@ class NotificationRepository extends Repository
         $base64UrlSignature = $this->base64UrlEncode($signature);
 
         $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
-        
+
         $client = new Client();
 
         try {
@@ -339,7 +330,7 @@ class NotificationRepository extends Repository
             ]);
 
             return json_decode($response->getBody(), true)['access_token'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             session()->flash('error', $e);
         }
     }

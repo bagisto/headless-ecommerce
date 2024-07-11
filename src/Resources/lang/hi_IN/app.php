@@ -15,16 +15,12 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'GraphQL एपीआई',
-                        'info'                            => 'सूचना संबंधित कॉन्फ़िगरेशन',
-                        'push-notification-configuration' => 'FCM पुश अधिसूचना कॉन्फ़िगरेशन',
-                        'server-key'                      => 'सर्वर कुंजी',
-                        'info-get-server-key'             => 'सूचना: FCM एपीआई क्रेडेंशियल प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहां क्लिक करें</a>',
-                        'android-topic'                   => 'एंड्रॉयड विषय',
-                        'ios-topic'                       => 'IOS विषय',
-                        'private-key'                     => 'निजी कुंजी JSON फ़ाइल की सामग्री',
-                        'info-get-private-key'            => 'जानकारी: FCM निजी कुंजी JSON फ़ाइल की सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहां क्लिक करें</a>',
                         'notification-topic'              => 'सूचना विषय',
+                        'info'                            => 'सूचना संबंधित विन्यास',
+                        'push-notification-configuration' => 'FCM पुश सूचना विन्यास',
+                        'title'                           => 'GraphQL API',
+                        'private-key'                     => 'निजी कुंजी JSON फ़ाइल सामग्री',
+                        'info-get-private-key'            => 'जानकारी: FCM निजी कुंजी JSON फ़ाइल सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहां क्लिक करें</a>',
                     ],
                 ],
             ],

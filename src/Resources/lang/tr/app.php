@@ -15,16 +15,12 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
+                        'notification-topic'              => 'Bildirim Konusu',
+                        'info'                            => 'Bildirim ile ilgili yapılandırmalar',
+                        'push-notification-configuration' => 'FCM Anlık Bildirim Yapılandırması',
                         'title'                           => 'GraphQL API',
-                        'info'                            => 'Bildirimle ilgili yapılandırmalar',
-                        'push-notification-configuration' => 'FCM Bildirim Yapılandırması',
-                        'server-key'                      => 'Sunucu Anahtarı',
-                        'info-get-server-key'             => 'Bilgi: FCM API kimlik bilgilerini almak için: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
-                        'android-topic'                   => 'Android Konusu',
-                        'ios-topic'                       => 'IOS Konusu',
                         'private-key'                     => 'Özel Anahtar JSON Dosya İçeriği',
-                        'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar JSON Dosya İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
-                        'notification-topic'              =>  'Bildirim Konusu',
+                        'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar JSON Dosya İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya Tıklayın</a>',
                     ],
                 ],
             ],

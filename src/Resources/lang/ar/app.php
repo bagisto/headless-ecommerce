@@ -15,15 +15,12 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'واجهة برمجة التطبيقات GraphQL',
-                        'info'                            => 'تكوينات ذات صلة بالإشعارات',
-                        'push-notification-configuration' => 'تكوين إشعار FCM للدفع',
-                        'server-key'                      => 'مفتاح الخادم',
-                        'info-get-server-key'             => 'معلومات: للحصول على بيانات اعتماد API FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
-                        'android-topic'                   => 'موضوع Android',
-                        'ios-topic'                       => 'موضوع iOS',
+                        'notification-topic'              => 'موضوع الإشعار',
+                        'info'                            => 'تكوينات متعلقة بالإشعارات',
+                        'push-notification-configuration' => 'تكوين إشعارات الدفع FCM',
+                        'title'                           => 'GraphQL API',
                         'private-key'                     => 'محتوى ملف JSON للمفتاح الخاص',
-                        'info-get-private-key'            => 'معلومات: للحصول على محتوى ملف JSON للمفتاح الخاص بـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
+                        'info-get-private-key'            => 'معلومة: للحصول على محتوى ملف JSON للمفتاح الخاص بـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
                     ],
                 ],
             ],

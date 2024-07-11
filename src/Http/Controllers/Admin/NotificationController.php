@@ -4,12 +4,14 @@ namespace Webkul\GraphQLAPI\Http\Controllers\Admin;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
-use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\GraphQLAPI\Http\Requests\NotificationRequest;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 
@@ -36,7 +38,7 @@ class NotificationController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return app(PushNotificationDataGrid::class)->toJson();
+            return datagrid(PushNotificationDataGrid::class)->process();
         }
 
         return view('bagisto_graphql::admin.settings.push_notification.index');
@@ -55,104 +57,61 @@ class NotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store()
+    public function store(NotificationRequest $request)
     {
-        $this->validate(request(), [
-            'title'      => 'string|required',
-            'content'    => 'string|required',
-            'image.*'    => 'mimes:jpeg,jpg,bmp,png',
-            'type'       => 'required',
-            'channels.*' => 'required',
-            'status'     => 'required',
-
-        ]);
-
         Event::dispatch('settings.notification.create.before');
 
-        $notification = $this->notificationRepository->create([
-            "locale"              => request('locale'),
-            "title"               => request('title'),
-            "content"             => request('content'),
-            "status"              => request('status'),
-            "channels"            => request('channels'),
-            "type"                => request('type'),
-            "image"               => request('image'),
-            "product_category_id" => request('product_category_id'),
-        ]);
+        $notification = $this->notificationRepository->create($request->validated());
 
         Event::dispatch('settings.notification.create.after', $notification);
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.create-success'));
-
-        return redirect()->route('admin.settings.push_notification.index');
+        return to_route('admin.settings.push_notification.index')
+            ->with('success', trans('bagisto_graphql::app.admin.settings.notification.create-success'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $notification = $this->notificationRepository->findOrFail($id);
 
-        return view('bagisto_graphql::admin.settings.push_notification.edit', compact('notification'));
+        return view('bagisto_graphql::admin.settings.push_notification.edit')
+            ->with('notification', $notification);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($id)
+    public function update(NotificationRequest $request, int $id)
     {
-        $this->validate(request(), [
-            'title'    => 'string|required',
-            'content'  => 'string|required',
-            'image.*'  => 'mimes:jpeg,jpg,bmp,png',
-            'type'     => 'required',
-            'channels' => 'required',
-            'status'   => 'required',
-        ]);
-
         Event::dispatch('settings.notification.update.befor', $id);
 
-        $notification = $this->notificationRepository->update([
-            "locale"              => request('locale'),
-            "title"               => request('title'),
-            "content"             => request('content'),
-            "status"              => request('status'),
-            "channels"            => request('channels'),
-            "type"                => request('type'),
-            "image"               => request('image'),
-            "product_category_id" => request('product_category_id'),
-        ], $id);
+        $notification = $this->notificationRepository->update($request->validated(), $id);
 
         Event::dispatch('settings.notification.update.after', $notification);
 
-        session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.update-success'));
-
-        return redirect()->route('admin.settings.push_notification.index');
+        return to_route('admin.settings.push_notification.index')
+            ->with('success', trans('bagisto_graphql::app.admin.settings.notification.update-success'));
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $notification = $this->notificationRepository->findOrFail($id);
-
         try {
             Event::dispatch('settings.push-notification.delete.before', $id);
 
-            $notification->delete();
+            $this->notificationRepository->delete($id);
+
+            Storage::deleteDirectory("notification/images/$id");
 
             Event::dispatch('settings.push-notification.delete.after', $id);
 
@@ -160,18 +119,14 @@ class NotificationController extends Controller
                 'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
             ]);
         } catch(\Exception $e) {
+            return new JsonResponse([
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed'),
+            ], 500);
         }
-
-        return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed'),
-        ], 500);
     }
 
     /**
      * Remove the specified resources from database.
-     *
-     * @param MassDestroyRequest $massDestroyRequest
-     * @return \Illuminate\Http\JsonResponse
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResponse
     {
@@ -181,6 +136,8 @@ class NotificationController extends Controller
             Event::dispatch('settings.push-notification.delete.before', $notificationsId);
 
             $this->notificationRepository->delete($notificationsId);
+
+            Storage::deleteDirectory("notification/images/$notificationsId");
 
             Event::dispatch('settings.push-notification.delete.after', $notificationsId);
         }
@@ -192,22 +149,17 @@ class NotificationController extends Controller
 
     /**
      * Mass update the notifications.
-     *
-     * @param MassUpdateRequest $massUpdateRequest
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResponse
+    public function massUpdate(MassUpdateRequest $request): JsonResponse
     {
-        $notificationIds = $massUpdateRequest->input('indices');
+        $notificationIds = $request->input('indices');
 
         foreach ($notificationIds as $notificationId) {
             Event::dispatch('settings.notification.update.before', $notificationId);
 
-            $notification = $this->notificationRepository->find($notificationId);
-
-            $notification->status = $massUpdateRequest->input('value');
-
-            $notification->save();
+            $notification = $this->notificationRepository
+                ->where('id', $notificationId)
+                ->update(['status' => $request->input('value')]);
 
             Event::dispatch('settings.notification.update.after', $notification);
         }

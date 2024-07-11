@@ -15,16 +15,12 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'API GraphQL',
-                        'info'                            => 'Configurations liées aux notifications',
-                        'push-notification-configuration' => 'Configuration de Notification Push FCM',
-                        'server-key'                      => 'Clé du Serveur',
-                        'info-get-server-key'             => 'Info : Pour obtenir les identifiants de l\'API FCM : <a href="https://console.firebase.google.com/" target="_blank">Cliquez ici</a>',
-                        'android-topic'                   => 'Sujet Android',
-                        'ios-topic'                       => 'Sujet iOS',
-                        'private-key'                     => 'Contenu du fichier JSON de la clé privée',
-                        'info-get-private-key'            => 'Info : Pour obtenir le contenu du fichier JSON de la clé privée FCM : <a href="https://console.firebase.google.com/" target="_blank">Cliquez ici</a>',
-                        'notification-topic'              => 'Sujet de notification',
+                        'notification-topic'              => 'Sujet de Notification',
+                        'info'                            => 'Configurations relatives aux notifications',
+                        'push-notification-configuration' => 'Configuration des Notifications Push FCM',
+                        'title'                           => 'GraphQL API',
+                        'private-key'                     => 'Contenu du Fichier JSON de la Clé Privée',
+                        'info-get-private-key'            => 'Info: Pour Obtenir le Contenu du Fichier JSON de la Clé Privée FCM: <a href="https://console.firebase.google.com/" target="_blank">Cliquez ici</a>',
                     ],
                 ],
             ],

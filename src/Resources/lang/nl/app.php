@@ -8,23 +8,19 @@ return [
 
         'acl' => [
             'push-notification' => 'Pushmelding',
-            'send'              => 'Verzenden',
+            'send' => 'Verzenden',
         ],
 
         'configuration' => [
             'index' => [
                 'general' => [
                     'graphql-api' => [
+                        'notification-topic'              => 'Notificatie Onderwerp',
+                        'info'                            => 'Notificatie gerelateerde configuraties',
+                        'push-notification-configuration' => 'FCM Push Notificatie Configuratie',
                         'title'                           => 'GraphQL API',
-                        'info'                            => 'Meldingsgerelateerde configuraties',
-                        'push-notification-configuration' => 'FCM Pushmeldingsconfiguratie',
-                        'server-key'                      => 'Server Sleutel',
-                        'info-get-server-key'             => 'Info: Om FCM API-gegevens te verkrijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
-                        'android-topic'                   => 'Android-onderwerp',
-                        'ios-topic'                       => 'iOS-onderwerp',
-                        'private-key'                     => 'Inhoud van het JSON-bestand van de privésleutel',
-                        'info-get-private-key'            => 'Informatie: Voor het verkrijgen van de inhoud van het JSON-bestand van de privésleutel voor FCM: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
-                        'notification-topic'              => 'Onderwerpregel notificatie',
+                        'private-key'                     => 'Privésleutel JSON Bestand Inhoud',
+                        'info-get-private-key'            => 'Info: Om de FCM Privésleutel JSON Bestand Inhoud te verkrijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
                     ],
                 ],
             ],

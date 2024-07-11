@@ -119,13 +119,12 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'android-topic'                   => 'Android Topic',
+                        'notification-topic'              => 'Notification Topic',
                         'info'                            => 'Notification related configurations',
-                        'info-get-server-key'             => 'Info: To get FCM API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'ios-topic'                       => 'IOS Topic',
                         'push-notification-configuration' => 'FCM Push Notification Configuration',
-                        'server-key'                      => 'Server Key',
                         'title'                           => 'GraphQL API',
+                        'private-key'                     => 'Private Key JSON File Content',
+                        'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
                     ],
                 ],
             ],

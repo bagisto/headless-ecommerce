@@ -24,8 +24,8 @@ return [
             ], [
                 'name'          => 'notification_topic',
                 'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.notification-topic',
-                'validation'    => 'required',
                 'type'          => 'text',
+                'validation'    => 'required',
                 'channel_based' => true,
             ],
         ],

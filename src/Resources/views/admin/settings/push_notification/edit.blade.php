@@ -215,10 +215,10 @@
                                     name="image"
                                     :uploaded-images="$notification->image ? [
                                         [
-                                            'id' => 'logo_path',
-                                            'url' => $notification->image_url
+                                            'id'  => 'image',
+                                            'url' => Storage::url($notification->image)
                                         ]
-                                    ] : ''"
+                                    ] : []"
                                 />
                             </div>
                         </div>
