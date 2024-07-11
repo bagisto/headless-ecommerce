@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Repositories;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Event;
@@ -12,6 +13,11 @@ use Webkul\Category\Repositories\CategoryRepository;
 
 class NotificationRepository extends Repository
 {
+    /**
+     * @var string
+     */
+    public const SCOPE_URL = "https://www.googleapis.com/auth/firebase.messaging";
+
     /**
      * Create a new repository instance.
      *
@@ -256,7 +262,7 @@ class NotificationRepository extends Repository
 
         $headers = array(
             'Content-Type:application/json',
-            'Authorization:key='.$authKey,
+            'Authorization: Bearer '.$this->getAccessToken(),
         );
 
         try {
@@ -283,5 +289,73 @@ class NotificationRepository extends Repository
 
             Log::error('sendNotification Error: ', $e->getMessage());
         }
+    }
+
+    /**
+     * To generate token
+     *
+     * @return Response
+     */
+    public function getAccessToken() 
+    {
+        $privateKeyContent = json_decode(core()->getConfigData('general.api.pushnotification.private_key'));
+
+        $privateKey = str_replace('\n', "\n", $privateKeyContent->private_key);
+
+        $header = json_encode([
+            'typ' => 'JWT',
+            'alg' => 'RS256',
+        ]);
+        
+        $payload = json_encode([
+            "iss"   => $privateKeyContent->client_email,
+            "scope" => self::SCOPE_URL,
+            "aud"   => $privateKeyContent->token_uri,
+            "exp"   => time() + 3600,
+            "iat"   => time() - 60,
+        ]);
+
+        $base64UrlHeader = $this->base64UrlEncode($header);
+
+        $base64UrlPayload = $this->base64UrlEncode($payload);
+
+        openssl_sign("$base64UrlHeader.$base64UrlPayload", $signature, $privateKey, OPENSSL_ALGO_SHA256);
+
+        $base64UrlSignature = $this->base64UrlEncode($signature);
+
+        $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
+        
+        $client = new Client();
+
+        try {
+            $response = $client->post($privateKeyContent->token_uri, [
+                'form_params' => [
+                    'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                    'assertion'  => $jwt,
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
+            ]);
+
+            return json_decode($response->getBody(), true)['access_token'];
+        } catch (Exception $e) {
+            session()->flash('error', $e);
+        }
+    }
+
+    /**
+     * Encode a string into a base64 URL-safe format.
+     *
+     * @param  string  $data 
+     * @return string
+     */
+    public function base64UrlEncode($data)
+    {
+        return str_replace(
+            ['+', '/', '='],
+            ['-', '_', ''],
+            base64_encode($data)
+        );
     }
 }

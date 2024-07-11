@@ -8,20 +8,23 @@ return [
 
         'acl' => [
             'push-notification' => 'プッシュ通知',
-            'send' => '送信',
+            'send'              => '送信',
         ],
 
         'configuration' => [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title' => 'GraphQL API',
-                        'info' => '通知関連の設定',
+                        'title'                           => 'GraphQL API',
+                        'info'                            => '通知関連の設定',
                         'push-notification-configuration' => 'FCMプッシュ通知の設定',
-                        'server-key' => 'サーバーキー',
-                        'info-get-server-key' => '情報：FCM API資格情報を取得するには：<a href="https://console.firebase.google.com/" target="_blank">こちらをクリック</a>',
-                        'android-topic' => 'Androidトピック',
-                        'ios-topic' => 'iOSトピック',
+                        'server-key'                      => 'サーバーキー',
+                        'info-get-server-key'             => '情報：FCM API資格情報を取得するには：<a href="https://console.firebase.google.com/" target="_blank">こちらをクリック</a>',
+                        'android-topic'                   => 'Androidトピック',
+                        'ios-topic'                       => 'iOSトピック',
+                        'private-key'                     => 'プライベートキーのJSONファイルの内容',
+                        'info-get-private-key'            => '情報: FCMプライベートキーのJSONファイルの内容を取得するには、<a href="https://console.firebase.google.com/" target="_blank">こちらをクリックしてください</a>',
+                        'notification-topic'              => '通知トピック',
                     ],
                 ],
             ],

@@ -15,19 +15,16 @@ return [
 
         'fields' => [
             [
-                'name'          => 'server_key',
-                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.server-key',
-                'type'          => 'text',
-                'info'          => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.info-get-server-key',
+                'name'          => 'private_key',
+                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.private-key',
+                'type'          => 'textarea',
+                'validation'    => 'required',
+                'info'          => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.info-get-private-key',
                 'channel_based' => true,
             ], [
-                'name'          => 'android_topic',
-                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.android-topic',
-                'type'          => 'text',
-                'channel_based' => true,
-            ], [
-                'name'          => 'ios_topic',
-                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.ios-topic',
+                'name'          => 'notification_topic',
+                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.notification-topic',
+                'validation'    => 'required',
                 'type'          => 'text',
                 'channel_based' => true,
             ],

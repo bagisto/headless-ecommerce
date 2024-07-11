@@ -699,7 +699,7 @@ class CheckoutMutation extends Controller
             'message'     => 'Order ('.$order->id.') placed by '. $order->customerFullName .' successfully.',
             'sound'       => 'default',
             'orderStatus' => $order->parcel_status,
-            'orderId'     => $order->id,
+            'orderId'     => (string)$order->id,
             'type'        => 'order',
         ];
 
