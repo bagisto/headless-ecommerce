@@ -2,23 +2,22 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Core\Repositories\SubscribersListRepository;
-use Webkul\Sales\Models\Order;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Sales\Models\Order;
 
 class AccountMutation extends Controller
 {
     /**
      * allowedImageMimeTypes array
-     *
      */
     protected $allowedImageMimeTypes = [
         'bmp'  => 'image/bmp',
@@ -32,14 +31,12 @@ class AccountMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
      * @return void
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
         protected SubscribersListRepository $subscriptionRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Returns a current customer data.
@@ -47,7 +44,7 @@ class AccountMutation extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function get($rootValue, array $args , GraphQLContext $context)
+    public function get($rootValue, array $args, GraphQLContext $context)
     {
         if (auth()->check()) {
             $customer = $this->customerRepository->find(auth()->user()->id);
@@ -75,7 +72,7 @@ class AccountMutation extends Controller
         if (! $customer = auth()->user()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
-        
+
         $validator = Validator::make($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
@@ -92,7 +89,7 @@ class AccountMutation extends Controller
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
-        
+
         $args['subscribed_to_news_letter'] = $args['subscribed_to_news_letter'] ?? 0;
 
         $isPasswordChanged = false;
@@ -120,7 +117,7 @@ class AccountMutation extends Controller
                 }
 
                 Event::dispatch('customer.update.after', $customer);
-                
+
                 $this->subscriptionRepository->updateOrCreate(
                     ['email' => $args['email']],
                     [
@@ -135,7 +132,7 @@ class AccountMutation extends Controller
                     ! empty($args['upload_type'])
                     && $args['upload_type'] == 'file'
                 ) {
-                    if (! empty($args['image']))  {
+                    if (! empty($args['image'])) {
                         $customer->image = $args['image']->storePublicly('customer/'.$customer->id);
 
                         $customer->save();
@@ -163,7 +160,7 @@ class AccountMutation extends Controller
                 return [
                     'status'   => ! empty($customer),
                     'customer' => $customer,
-                    'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.update-success')
+                    'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.update-success'),
                 ];
             } else {
                 throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.profile.update-fail'));
@@ -184,7 +181,7 @@ class AccountMutation extends Controller
         if (! $customer = auth()->user()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
-        
+
         $validator = Validator::make($args, [
             'password' => 'required',
         ]);
@@ -196,14 +193,14 @@ class AccountMutation extends Controller
                 if ($customer->orders->whereIn('status', [Order::STATUS_PENDING, Order::STATUS_PROCESSING])->first()) {
                     return [
                         'status'  => false,
-                        'success' =>  trans('bagisto_graphql::app.shop.customers.account.profile.order-pending'),
+                        'message' => trans('bagisto_graphql::app.shop.customers.account.profile.order-pending'),
                     ];
                 } else {
                     $this->customerRepository->delete($customer->id);
 
                     return [
                         'status'  => true,
-                        'success' => trans('bagisto_graphql::app.shop.customers.account.profile.delete-success'),
+                        'message' => trans('bagisto_graphql::app.shop.customers.account.profile.delete-success'),
                     ];
                 }
             }

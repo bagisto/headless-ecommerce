@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Categories;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Event;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Rules\Slug;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -15,7 +15,7 @@ class CategoryMutation extends Controller
     /**
      * localeFields array
      *
-     * @var Array
+     * @var array
      */
     protected $localeFields = [
         'name',
@@ -29,12 +29,9 @@ class CategoryMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
      * @return void
      */
-    public function __construct(protected CategoryRepository $categoryRepository)
-    {
-    }
+    public function __construct(protected CategoryRepository $categoryRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -141,7 +138,7 @@ class CategoryMutation extends Controller
             $image_url = '';
 
             if (! empty($data['logo_path'])) {
-                $image_url =  current($data['logo_path']);
+                $image_url = current($data['logo_path']);
 
                 unset($data['logo_path']);
             }
@@ -185,7 +182,7 @@ class CategoryMutation extends Controller
 
         $category = $this->categoryRepository->findOrFail($id);
 
-        if (strtolower($category->name) == "root") {
+        if (strtolower($category->name) == 'root') {
             throw new CustomException(trans('bagisto_graphql::app.admin.catalog.categories.delete-category-root'));
         }
 

@@ -3,22 +3,19 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
 use Illuminate\Support\Facades\Validator;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Marketing\Repositories\EventRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Marketing\Repositories\EventRepository;
 
 class EventMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Marketing\Repositories\EventRepository $eventRepository
      * @return void
      */
-    public function __construct(protected EventRepository $eventRepository)
-    {
-    }
+    public function __construct(protected EventRepository $eventRepository) {}
 
     /**
      * Store a newly created resource in storage.

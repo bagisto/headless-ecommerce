@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -15,14 +15,12 @@ class NewsletterSubscriberMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\SubscribersListRepository  $subscriptionRepository
      * @return void
      */
     public function __construct(
         protected SubscribersListRepository $subscriptionRepository,
         protected CustomerRepository $customerRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Remove the specified resource from storage.
@@ -44,15 +42,15 @@ class NewsletterSubscriberMutation extends Controller
             if (! $subscriber) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.subscription.not-found'));
             }
-            
+
             if (
                 $subscriber->customer?->id != auth()->user()?->id
             ) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.subscription.not-authorized'));
             }
-            
+
             return $subscriber;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -71,18 +69,18 @@ class NewsletterSubscriberMutation extends Controller
         bagisto_graphql()->checkValidatorFails($validator);
 
         $email = $args['email'];
-        
+
         $subscription = $this->subscriptionRepository->findOneByField(['email' => $email]);
-        
+
         if ($subscription?->is_subscribed) {
             throw new CustomException(trans('bagisto_graphql::app.shop.subscription.already'));
         }
-        
+
         try {
             Event::dispatch('customer.subscribe.before');
 
             $customer = $this->customerRepository->findOneByField('email', $email);
-            
+
             $subscription = $this->subscriptionRepository->updateOrCreate(
                 ['email' => $email],
                 [
@@ -134,7 +132,7 @@ class NewsletterSubscriberMutation extends Controller
 
             return [
                 'status'  => true,
-                'success' => trans('bagisto_graphql::app.shop.subscription.unsubscribe-success'),
+                'message' => trans('bagisto_graphql::app.shop.subscription.unsubscribe-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

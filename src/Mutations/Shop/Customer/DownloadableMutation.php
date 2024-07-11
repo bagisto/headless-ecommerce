@@ -5,17 +5,16 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Webkul\Shop\Http\Controllers\Controller;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository;
+use Webkul\Shop\Http\Controllers\Controller;
 
 class DownloadableMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Sales\Repositories\DownloadableLinkPurchasedRepository  $downloadableLinkPurchasedRepository
      * @return void
      */
     public function __construct(protected DownloadableLinkPurchasedRepository $downloadableLinkPurchasedRepository)
@@ -30,10 +29,10 @@ class DownloadableMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function downloadLinks($rootValue, array $args , GraphQLContext $context)
+    public function downloadLinks($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check() ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+        if (! auth()->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         try {
@@ -97,10 +96,10 @@ class DownloadableMutation extends Controller
             if (isset($args['id'])) {
                 $downloads = $downloads->first();
             } else {
-                $downloads = $downloads->paginate( isset($params['limit']) ? $params['limit'] : 10);
+                $downloads = $downloads->paginate(isset($params['limit']) ? $params['limit'] : 10);
             }
 
-            if (($downloads && isset($downloads->first()->id)) || isset($downloads->id) ) {
+            if (($downloads && isset($downloads->first()->id)) || isset($downloads->id)) {
                 return $downloads;
             } else {
                 throw new CustomException(trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'downloadable purchase link']));
@@ -115,13 +114,12 @@ class DownloadableMutation extends Controller
      *
      * @param  null  $rootValue
      * @param  array{}  $args
-     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      * @return \Illuminate\Http\Response
      */
     public function download($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check() ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+        if (! auth()->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         try {
@@ -134,7 +132,7 @@ class DownloadableMutation extends Controller
                 ! $downloadableLinkPurchased
                 || $downloadableLinkPurchased->status == 'pending'
             ) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.customer.not-authorized'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.not-auth'));
             }
 
             $totalInvoiceQty = 0;
@@ -155,14 +153,14 @@ class DownloadableMutation extends Controller
                 $downloadableLinkPurchased->download_used == $totalInvoiceQty
                 || $downloadableLinkPurchased->download_used > $totalInvoiceQty
             ) {
-                throw new CustomException(trans('shop::app.customer.account.downloadable_products.payment-error'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.payment-error'));
             }
 
             if (
                 $downloadableLinkPurchased->download_bought
                 && ($downloadableLinkPurchased->download_bought - $totalUsedAndCancelQty) <= 0
             ) {
-                throw new CustomException(trans('shop::app.customer.account.downloadable_products.download-error'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.download-error'));
             }
 
             $remainingDownloads = $downloadableLinkPurchased->download_bought - ($totalUsedAndCancelQty + 1);
@@ -191,7 +189,7 @@ class DownloadableMutation extends Controller
             $privateDisk = Storage::disk('private');
 
             if (! $privateDisk->exists($downloadableLinkPurchased->file)) {
-                throw new CustomException(trans('shop::app.customer.account.downloadable_products.download-error'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.download-error'));
             }
 
             $pathToFile = $privateDisk->path($downloadableLinkPurchased->file);

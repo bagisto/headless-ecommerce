@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ForgotPasswordMutation extends Controller
@@ -18,7 +18,7 @@ class ForgotPasswordMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function forgot($rootValue, array $args , GraphQLContext $context)
+    public function forgot($rootValue, array $args, GraphQLContext $context)
     {
         $validator = Validator::make($args, [
             'email' => 'required|email',
@@ -32,14 +32,14 @@ class ForgotPasswordMutation extends Controller
             if ($response == Password::RESET_LINK_SENT) {
                 return [
                     'status'  => true,
-                    'success' => trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'),
+                    'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'),
                 ];
             }
 
             if ($response == Password::RESET_THROTTLED) {
                 return [
                     'status'  => false,
-                    'success' => trans('bagisto_graphql::app.shop.customers.forgot-password.already-sent'),
+                    'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.already-sent'),
                 ];
             }
 

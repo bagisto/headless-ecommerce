@@ -86,8 +86,6 @@ class CustomerOrderQuery
      * Get order payment additional data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return [type]
      */
     public function getOrderPaymentAdditional($rootValue, array $args, GraphQLContext $context)
@@ -99,8 +97,6 @@ class CustomerOrderQuery
      * Get order payment title.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getOrderPaymentTitle($rootValue, array $args, GraphQLContext $context)
@@ -112,8 +108,6 @@ class CustomerOrderQuery
      * Get Translated Order Status.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getTranslatedOrderStatus($rootValue, array $args, GraphQLContext $context)

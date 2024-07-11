@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Attributes;
 
-use Webkul\Core\Rules\Code;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Attribute\Repositories\AttributeOptionRepository;
+use Webkul\Attribute\Repositories\AttributeRepository;
+use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeMutation extends Controller
@@ -16,7 +16,7 @@ class AttributeMutation extends Controller
     /**
      * localeFields array
      *
-     * @var Array
+     * @var array
      */
     protected $localeFields = [
         'name',
@@ -25,15 +25,12 @@ class AttributeMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
-     * @param  \Webkul\Attribute\Repositories\AttributeOptionRepository  $attributeOptionRepository
      * @return void
      */
     public function __construct(
         protected AttributeRepository $attributeRepository,
         protected AttributeOptionRepository $attributeOptionRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -241,12 +238,12 @@ class AttributeMutation extends Controller
         foreach ($data['options'] as $index => $option) {
             if (
                 empty($option['admin_name'])
-                || !  is_array($option['translations'])
+                || ! is_array($option['translations'])
             ) {
                 continue;
             }
 
-            $key = strtolower(str_replace(" ", "_", $option['admin_name']));
+            $key = strtolower(str_replace(' ', '_', $option['admin_name']));
 
             if ($attributeOption = $this->attributeOptionRepository->where('admin_name', $option['admin_name'])->first()) {
                 $key = $attributeOption->id;
@@ -255,7 +252,7 @@ class AttributeMutation extends Controller
             $options[$key] = [
                 'admin_name' => $option['admin_name'],
                 'sort_order' => $option['sort_order'] ?? ($index + 1),
-                'isNew'      => $option["isNew"] ?? false,
+                'isNew'      => $option['isNew'] ?? false,
                 'isDelete'   => $option['isDelete'] ?? false,
             ];
 

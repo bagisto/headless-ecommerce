@@ -113,6 +113,14 @@ type Order {
     baseShippingRefunded: Float @rename(attribute: "base_shipping_refunded")
     shippingDiscountAmount: Float @rename(attribute: "shipping_discount_amount")
     baseShippingDiscountAmount: Float @rename(attribute: "base_shipping_discount_amount")
+    shippingTaxAmount: Float @rename(attribute: "shipping_tax_amount")
+    baseShippingTaxAmount: Float @rename(attribute: "base_shipping_tax_amount")
+    shippingTaxRefunded: Float @rename(attribute: "shipping_tax_refunded")
+    baseShippingTaxRefunded: Float @rename(attribute: "base_shipping_tax_refunded")
+    subTotalInclTax: Float @rename(attribute: "sub_total_incl_tax")
+    baseSubTotalInclTax: Float @rename(attribute: "base_sub_total_incl_tax")
+    shippingAmountInclTax: Float @rename(attribute: "shipping_amount_incl_tax")
+    baseShippingAmountInclTax: Float @rename(attribute: "base_shipping_amount_incl_tax")
     customerId: Int @rename(attribute: "customer_id")
     customerType: String @rename(attribute: "customer_type")
     channelId: Int @rename(attribute: "channel_id")
@@ -124,7 +132,7 @@ type Order {
     formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
     items: [OrderItem!] @hasMany
     comments: [OrderComment] @hasMany
-    downloadableLinkPurchased: DownloadableLinkPurchased @rename(attribute: "downloadable_link_purchased")
+    downloadableLinkPurchased: DownloadableLinkPurchased @hasMany(relation: "downloadable_link_purchased")
     shipments: [Shipment] @hasMany
     invoices: [Invoice] @hasMany
     refunds: [Refund!] @hasMany (relation: "refunds")

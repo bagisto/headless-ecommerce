@@ -2,16 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Webkul\Checkout\Facades\Cart;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Checkout\Repositories\CartItemRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CartMutation extends Controller
 {
@@ -21,9 +21,9 @@ class CartMutation extends Controller
      * @return void
      */
     public function __construct(
-       protected CartRepository $cartRepository,
-       protected CartItemRepository $cartItemRepository,
-       protected ProductRepository $productRepository
+        protected CartRepository $cartRepository,
+        protected CartItemRepository $cartItemRepository,
+        protected ProductRepository $productRepository
     ) {
         Auth::setDefaultDriver('api');
 
@@ -35,7 +35,7 @@ class CartMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function cart($rootValue, array $args , GraphQLContext $context)
+    public function cart($rootValue, array $args, GraphQLContext $context)
     {
         try {
             return Cart::getCart();
@@ -49,7 +49,7 @@ class CartMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function cartItems($rootValue, array $args , GraphQLContext $context)
+    public function cartItems($rootValue, array $args, GraphQLContext $context)
     {
         try {
             $cart = Cart::getCart();
@@ -75,7 +75,7 @@ class CartMutation extends Controller
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
-        
+
         try {
             $product = $this->productRepository->findOrFail($data['product_id']);
 
@@ -85,7 +85,7 @@ class CartMutation extends Controller
 
             return [
                 'status'  => ! empty($cart),
-                'message' => ! empty($cart) 
+                'message' => ! empty($cart)
                                 ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.add-to-cart')
                                 : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.add-to-cart'),
                 'cart'    => $cart,
@@ -104,7 +104,7 @@ class CartMutation extends Controller
     public function update($rootValue, array $args, GraphQLContext $context)
     {
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
             'qty'   => 'required|max:1',
         ]);
@@ -121,14 +121,14 @@ class CartMutation extends Controller
 
                 $qty[$item['cart_item_id']] = $item['quantity'] ?: 1;
             }
-            
+
             $data['qty'] = $qty;
 
             $cartUpdated = Cart::updateItems($data);
 
             return [
                 'status'  => $cartUpdated,
-                'message' => $cartUpdated 
+                'message' => $cartUpdated
                                 ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.update-to-cart')
                                 : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.update-to-cart'),
                 'cart'    => Cart::getCart(),
@@ -219,10 +219,10 @@ class CartMutation extends Controller
 
         try {
             $isMoved = Cart::moveToWishlist($args['id']);
-                                
+
             return [
                 'status'  => $isMoved,
-                'message' => $isMoved 
+                'message' => $isMoved
                                 ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.move-to-wishlist')
                                 : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.move-to-wishlist'),
                 'cart'    => Cart::getCart(),

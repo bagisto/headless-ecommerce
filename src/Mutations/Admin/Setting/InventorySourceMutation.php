@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
 use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Inventory\Repositories\InventorySourceRepository;
@@ -17,9 +17,7 @@ class InventorySourceMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected InventorySourceRepository $inventorySourceRepository)
-    {
-    }
+    public function __construct(protected InventorySourceRepository $inventorySourceRepository) {}
 
     /**
      * Store a newly created resource in storage.

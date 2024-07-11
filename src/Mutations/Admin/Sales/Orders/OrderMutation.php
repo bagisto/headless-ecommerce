@@ -2,22 +2,19 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Orders;
 
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\OrderRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Sales\Repositories\OrderRepository;
 
 class OrderMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
      * @return void
      */
-    public function __construct(protected OrderRepository $orderRepository)
-    {
-    }
+    public function __construct(protected OrderRepository $orderRepository) {}
 
     /**
      * Remove a resource from storage.
@@ -51,7 +48,7 @@ class OrderMutation extends Controller
             return [
                 'status'  => $result,
                 'order'   => $this->orderRepository->find($orderId),
-                'message' => $result ? trans('bagisto_graphql::app.admin.sales.orders.cancel-success') : trans('bagisto_graphql::app.admin.sales.orders.cancel-error')
+                'message' => $result ? trans('bagisto_graphql::app.admin.sales.orders.cancel-success') : trans('bagisto_graphql::app.admin.sales.orders.cancel-error'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

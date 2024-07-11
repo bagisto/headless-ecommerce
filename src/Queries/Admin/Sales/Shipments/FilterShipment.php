@@ -10,7 +10,7 @@ class FilterShipment extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -18,7 +18,7 @@ class FilterShipment extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // Convert the shipment_date parameter to created_at parameter
-         if (isset($arguments['shipment_date'])) {
+        if (isset($arguments['shipment_date'])) {
             $arguments['created_at'] = $arguments['shipment_date'];
 
             unset($arguments['shipment_date']);
@@ -44,10 +44,10 @@ class FilterShipment extends BaseFilter
             unset($arguments['shipping_to']);
             unset($arguments['order_date']);
 
-            return $query->whereHas('order',function ($q) use ($orderDate, $shippedName) {
+            return $query->whereHas('order', function ($q) use ($orderDate, $shippedName) {
                 $q->where('created_at', $orderDate);
 
-                $q->whereHas('addresses',function ($qry) use ($shippedName) {
+                $q->whereHas('addresses', function ($qry) use ($shippedName) {
                     $qry->where([
                         'first_name' => $shippedName['firstname'],
                         'last_name'  => $shippedName['lastname'],
@@ -62,19 +62,19 @@ class FilterShipment extends BaseFilter
 
             unset($arguments['order_date']);
 
-            return $query->whereHas('order',function ($q) use ($orderDate) {
+            return $query->whereHas('order', function ($q) use ($orderDate) {
                 $q->where('created_at', $orderDate);
             })->where($arguments);
         }
 
-         // filter the relationship addresses for Shipping Address
-         if (isset($arguments['shipping_to'])) {
+        // filter the relationship addresses for Shipping Address
+        if (isset($arguments['shipping_to'])) {
             $shippedTo = $input['shipping_to'];
             $shippedName = $this->nameSplitter($shippedTo);
 
             unset($arguments['shipping_to']);
 
-            return $query->whereHas('order.addresses',function ($q) use ($shippedName) {
+            return $query->whereHas('order.addresses', function ($q) use ($shippedName) {
                 $q->where([
                     'first_name' => $shippedName['firstname'],
                     'last_name'  => $shippedName['lastname'],

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Tax\Repositories\TaxRateRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Tax\Repositories\TaxRateRepository;
 
 class TaxRateMutation extends Controller
 {
@@ -16,9 +16,7 @@ class TaxRateMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected TaxRateRepository $taxRateRepository)
-    {
-    }
+    public function __construct(protected TaxRateRepository $taxRateRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +37,7 @@ class TaxRateMutation extends Controller
             'zip_code'   => 'nullable',
             'zip_from'   => 'nullable|required_with:is_zip',
             'zip_to'     => 'nullable|required_with:is_zip,zip_from',
-            'country'    => 'required|in:'.implode(',', (core()->countries()->pluck("code")->toArray())),
+            'country'    => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
@@ -90,7 +88,7 @@ class TaxRateMutation extends Controller
             'is_zip'     => 'sometimes',
             'zip_from'   => 'nullable|required_with:is_zip',
             'zip_to'     => 'nullable|required_with:is_zip,zip_from',
-            'country'    => 'required|in:'.implode(',', (core()->countries()->pluck("code")->toArray())),
+            'country'    => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 

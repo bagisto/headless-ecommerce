@@ -2,16 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use JWTAuth;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use JWTAuth;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\User\Repositories\AdminRepository;
 use Webkul\User\Repositories\RoleRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 
 class UserMutation extends Controller
 {
@@ -21,8 +21,8 @@ class UserMutation extends Controller
      * @return void
      */
     public function __construct(
-       protected AdminRepository $adminRepository,
-       protected RoleRepository $roleRepository
+        protected AdminRepository $adminRepository,
+        protected RoleRepository $roleRepository
     ) {
         Auth::setDefaultDriver('admin-api');
     }
@@ -50,9 +50,9 @@ class UserMutation extends Controller
         $remember = $data['remember'] ?? 0;
 
         if (! $jwtToken = JWTAuth::attempt([
-                'email'    => $data['email'],
-                'password' => $data['password'],
-            ], $remember)
+            'email'    => $data['email'],
+            'password' => $data['password'],
+        ], $remember)
         ) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.users.login-error'));
         }

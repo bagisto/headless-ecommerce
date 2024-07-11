@@ -18,7 +18,7 @@ type Address {
     id: ID!
     addressType: String @rename(attribute: "address_type")
     parentAddressId: ID @rename(attribute: "parent_address_id")
-    customerId: ID! @rename(attribute: "customer_id")
+    customerId: ID @rename(attribute: "customer_id")
     cartId: ID @rename(attribute: "cart_id")
     orderId: ID @rename(attribute: "order_id")
     firstName: String! @rename(attribute: "first_name")

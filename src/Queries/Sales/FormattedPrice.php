@@ -3,14 +3,14 @@
 namespace Webkul\GraphQLAPI\Queries\Sales;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\Sales\Repositories\InvoiceItemRepository;
-use Webkul\Sales\Repositories\ShipmentItemRepository;
-use Webkul\Sales\Repositories\RefundRepository;
-use Webkul\Sales\Repositories\RefundItemRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Sales\Repositories\InvoiceItemRepository;
+use Webkul\Sales\Repositories\InvoiceRepository;
+use Webkul\Sales\Repositories\OrderItemRepository;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\RefundItemRepository;
+use Webkul\Sales\Repositories\RefundRepository;
+use Webkul\Sales\Repositories\ShipmentItemRepository;
 
 class FormattedPrice extends BaseFilter
 {
@@ -27,15 +27,12 @@ class FormattedPrice extends BaseFilter
         protected ShipmentItemRepository $shipmentItemRepository,
         protected RefundRepository $refundRepository,
         protected RefundItemRepository $refundItemRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Get formatted price for Order data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getOrderPriceData($rootValue, array $args, GraphQLContext $context)
@@ -79,8 +76,6 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for OrderItem data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getOrderItemPriceData($rootValue, array $args, GraphQLContext $context)
@@ -89,7 +84,7 @@ class FormattedPrice extends BaseFilter
 
         $orderCurrencyCode = $orderItem->order->order_currency_code;
 
-        return  [
+        return [
             'price'                    => core()->formatPrice($orderItem->price, $orderCurrencyCode),
             'base_price'               => core()->formatBasePrice($orderItem->base_price),
             'total'                    => core()->formatPrice($orderItem->total, $orderCurrencyCode),
@@ -119,15 +114,13 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Invoice data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getInvoicePriceData($rootValue, array $args, GraphQLContext $context)
     {
         $invoice = $this->invoiceRepository->find($rootValue->id);
 
-        return  [
+        return [
             'sub_total'            => core()->formatPrice($invoice->sub_total, $invoice->order_currency_code),
             'base_sub_total'       => core()->formatBasePrice($invoice->base_sub_total),
             'grand_total'          => core()->formatPrice($invoice->grand_total, $invoice->order_currency_code),
@@ -145,8 +138,6 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Invoice Item data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getInvoiceItemPriceData($rootValue, array $args, GraphQLContext $context)
@@ -155,7 +146,7 @@ class FormattedPrice extends BaseFilter
 
         $orderCurrencyCode = $invoiceItem->invoice->order_currency_code;
 
-        return  [
+        return [
             'price'            => core()->formatPrice($invoiceItem->price, $orderCurrencyCode),
             'base_price'       => core()->formatBasePrice($invoiceItem->base_price),
             'total'            => core()->formatPrice($invoiceItem->total, $orderCurrencyCode),
@@ -171,17 +162,15 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Shipment Item data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getShipmentItemPriceData($rootValue, array $args, GraphQLContext $context)
     {
         $shipmentItem = $this->shipmentItemRepository->find($rootValue->id);
-        
+
         $orderCurrencyCode = $shipmentItem->shipment->order->order_currency_code;
 
-        return  [
+        return [
             'price'      => core()->formatPrice($shipmentItem->price, $orderCurrencyCode),
             'base_price' => core()->formatBasePrice($shipmentItem->base_price),
             'total'      => core()->formatPrice($shipmentItem->total, $orderCurrencyCode),
@@ -193,8 +182,6 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Refund data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getRefundPriceData($rootValue, array $args, GraphQLContext $context)
@@ -203,7 +190,7 @@ class FormattedPrice extends BaseFilter
 
         $orderCurrencyCode = $refund->order->order_currency_code;
 
-        return  [
+        return [
             'sub_total'              => core()->formatPrice($refund->sub_total, $orderCurrencyCode),
             'base_sub_total'         => core()->formatBasePrice($refund->base_sub_total),
             'grand_total'            => core()->formatPrice($refund->grand_total, $orderCurrencyCode),
@@ -225,8 +212,6 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Refund Item data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getRefundItemPriceData($rootValue, array $args, GraphQLContext $context)
@@ -235,7 +220,7 @@ class FormattedPrice extends BaseFilter
 
         $orderCurrencyCode = $refundItem->refund->order->order_currency_code;
 
-        return  [
+        return [
             'price'                => core()->formatPrice($refundItem->price, $orderCurrencyCode),
             'base_price'           => core()->formatBasePrice($refundItem->base_price),
             'total'                => core()->formatPrice($refundItem->total, $orderCurrencyCode),

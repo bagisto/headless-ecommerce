@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
-use Webkul\Core\Rules\Code;
-use Webkul\Core\Repositories\CurrencyRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Repositories\CurrencyRepository;
+use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CurrencyMutation extends Controller
@@ -17,9 +17,7 @@ class CurrencyMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected CurrencyRepository $currencyRepository)
-    {
-    }
+    public function __construct(protected CurrencyRepository $currencyRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -141,7 +139,7 @@ class CurrencyMutation extends Controller
             Event::dispatch('core.currency.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.currencies.delete-success')];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             report($e);
 
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.delete-error'));

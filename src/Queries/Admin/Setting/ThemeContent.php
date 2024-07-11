@@ -13,8 +13,7 @@ class ThemeContent extends BaseFilter
      * @return void
      */
     public function __construct(
-    ) {
-    }
+    ) {}
 
     public function getThemeTranslations($rootValue, array $args, GraphQLContext $context)
     {
@@ -24,10 +23,10 @@ class ThemeContent extends BaseFilter
         ) {
 
             if (isset($rootValue->options['title'])) {
-                $options['title'] =  $rootValue->options['title'];
+                $options['title'] = $rootValue->options['title'];
             }
 
-            $options['filters'] =  [];
+            $options['filters'] = [];
 
             $i = 0;
 
@@ -43,6 +42,4 @@ class ThemeContent extends BaseFilter
 
         return $rootValue->translations;
     }
-
-
 }

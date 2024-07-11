@@ -2,23 +2,22 @@
 
 namespace Webkul\GraphQLAPI;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductBundleOptionProductRepository;
+use Webkul\Product\Repositories\ProductBundleOptionRepository;
+use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
+use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
+use Webkul\Product\Repositories\ProductDownloadableSampleRepository;
+use Webkul\Product\Repositories\ProductGroupedProductRepository;
 use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
-use Webkul\Product\Repositories\ProductBundleOptionRepository;
-use Webkul\Product\Repositories\ProductGroupedProductRepository;
-use Webkul\Product\Repositories\ProductDownloadableLinkRepository;
-use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
-use Webkul\Product\Repositories\ProductDownloadableSampleRepository;
-use Webkul\Product\Repositories\ProductBundleOptionProductRepository;
 
 class BagistoGraphql
 {
     /**
      * allowedImageMimeTypes array
-     *
      */
     protected $allowedImageMimeTypes = [
         'png'  => 'image/png',
@@ -31,7 +30,6 @@ class BagistoGraphql
 
     /**
      * allowedVideoTypes array
-     *
      */
     protected $allowedVideoMimeTypes = [
         'mp4'          => 'video/mp4',
@@ -54,12 +52,10 @@ class BagistoGraphql
         protected ProductGroupedProductRepository $productGroupedProductRepository,
         protected ProductImageRepository $productImageRepository,
         protected ProductVideoRepository $productVideoRepository
-    ) {
-    }
+    ) {}
 
     /**
-     *
-     * @param mixed $validator
+     * @param  mixed  $validator
      * @return void
      */
     public function checkValidatorFails($validator)
@@ -68,20 +64,20 @@ class BagistoGraphql
             $errorMessage = [];
 
             foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+                $errorMessage[] = is_array($message) ? $field.': '.$message[0] : $field.': '.$message;
             }
-            
-            throw new CustomException(implode(", ", $errorMessage));
+
+            throw new CustomException(implode(', ', $errorMessage));
         }
     }
 
     /**
      * To save image through url
      *
-     * @param model $model
-     * @param String|null $image_url
-     * @param String $path
-     * @param String $type
+     * @param  model  $model
+     * @param  string|null  $image_url
+     * @param  string  $path
+     * @param  string  $type
      * @return mixed
      */
     public function uploadImage($model, $imageUrl, $path, $type)
@@ -127,7 +123,7 @@ class BagistoGraphql
 
         $imageDirPath = storage_path('app/public/'.$modelPath);
 
-        if (!file_exists($imageDirPath)) {
+        if (! file_exists($imageDirPath)) {
             mkdir(storage_path('app/public/'.$modelPath), 0777, true);
         }
 
@@ -155,7 +151,7 @@ class BagistoGraphql
 
                 if ($data['upload_type'] == 'base64') {
 
-                    $validate = explode("base64,", $imageUrl);
+                    $validate = explode('base64,', $imageUrl);
 
                     if (
                         ! isset($validate[1])
@@ -168,7 +164,7 @@ class BagistoGraphql
 
                     $getImgMime = mime_content_type($imageUrl);
 
-                    $extension = explode("/", $getImgMime)[1];
+                    $extension = explode('/', $getImgMime)[1];
 
                     $imgName = Str::random(30).'.'.$extension;
 
@@ -219,20 +215,20 @@ class BagistoGraphql
     /**
      * To validate the base64 url
      *
-     * @param String|null $imageURL
-     * @param String|null $type
-     * @return boolean
+     * @param  string|null  $imageURL
+     * @param  string|null  $type
+     * @return bool
      */
-    function is_not_base64($string)
+    public function is_not_base64($string)
     {
-        return !preg_match('/^[a-zA-Z0-9\/+]+={0,2}$/', $string) || base64_encode(base64_decode($string)) !== $string;
+        return ! preg_match('/^[a-zA-Z0-9\/+]+={0,2}$/', $string) || base64_encode(base64_decode($string)) !== $string;
     }
 
     /**
      * format customer group prices
      *
-     * @param array $product
-     * @param array $data
+     * @param  array  $product
+     * @param  array  $data
      * @return array|null
      */
     public function manageCustomerGroupPrices($product, $data)
@@ -264,8 +260,8 @@ class BagistoGraphql
     /**
      * to manage the translation the multilocal fields
      *
-     * @param array $data
-     * @param array $fields
+     * @param  array  $data
+     * @param  array  $fields
      * @return array|null
      */
     public function manageLocaleFields($data, $fields)
@@ -290,7 +286,7 @@ class BagistoGraphql
     /**
      * format the request data for Configurable product
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function manageConfigurableRequest($data)
@@ -328,7 +324,7 @@ class BagistoGraphql
     /**
      *to manage the request data for Grouped product
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function manageGroupedRequest($product, $data)
@@ -365,7 +361,7 @@ class BagistoGraphql
     /**
      *to manage the request data for Downloadable's Links
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function manageDownloadableLinksRequest($product, $data)
@@ -420,7 +416,7 @@ class BagistoGraphql
     /**
      *to manage the request data for Downloadable's Sample
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function manageDownloadableSamplesRequest($product, $data)
@@ -474,7 +470,7 @@ class BagistoGraphql
     /**
      *to manage the request data for Bundle
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function manageBundleRequest($product, $data)
@@ -576,8 +572,8 @@ class BagistoGraphql
     /**
      *to manage the request data for Cart
      *
-     * @param object $product
-     * @param array $data
+     * @param  object  $product
+     * @param  array  $data
      * @return array
      */
     public function manageInputForCart($product, $data)
@@ -641,9 +637,9 @@ class BagistoGraphql
     /**
      * To save image using path/url/base64
      *
-     * @param mixed $collection
-     * @param array $data
-     * @param string $field
+     * @param  mixed  $collection
+     * @param  array  $data
+     * @param  string  $field
      * @return void
      */
     public function saveImageByURL($collection, $data = [], $field = 'image_url')
@@ -657,7 +653,7 @@ class BagistoGraphql
         if ($data['upload_type'] == 'base64') {
             $getImgMime = mime_content_type($data[$field]);
 
-            $extension = explode("/", $getImgMime)[1];
+            $extension = explode('/', $getImgMime)[1];
 
             $imageName = $field.'_avatar.'.$extension;
 
@@ -667,7 +663,7 @@ class BagistoGraphql
         }
 
         if ($base64OrPathValidate) {
-            $keyIndex = explode("_", $field);
+            $keyIndex = explode('_', $field);
 
             if (! isset($keyIndex[0])) {
                 return false;
@@ -703,17 +699,17 @@ class BagistoGraphql
 
         $getImgMime = mime_content_type($data[$field]);
 
-        $extension = explode("/", $getImgMime)[1];
+        $extension = explode('/', $getImgMime)[1];
 
         $imageName = $imageName.'_review.'.$extension;
 
-        $base64Validate =  ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
+        $base64Validate = ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
 
         if (
             $base64Validate
             || $pathValidate
         ) {
-            $keyIndex = explode("_", $field);
+            $keyIndex = explode('_', $field);
 
             if (! isset($keyIndex[0])) {
                 return false;
@@ -725,7 +721,7 @@ class BagistoGraphql
 
             return [
                 'path'        => $path.$imageName,
-                'img_details' => explode("/", mime_content_type($data[$field])),
+                'img_details' => explode('/', mime_content_type($data[$field])),
             ];
         }
     }
@@ -733,9 +729,9 @@ class BagistoGraphql
     /**
      * To validate the image url
      *
-     * @param String|null $imageURL
-     * @param String|null $type
-     * @return boolean
+     * @param  string|null  $imageURL
+     * @param  string|null  $type
+     * @return bool
      */
     public function validatePath(string $imageURL, $type = 'images')
     {
@@ -751,7 +747,7 @@ class BagistoGraphql
         curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
 
         if (
-            curl_exec($chkURL) !== FALSE
+            curl_exec($chkURL) !== false
             && $this->getImageMIMEType($imageURL, $type)
         ) {
             return true;
@@ -763,9 +759,9 @@ class BagistoGraphql
     /**
      * To validate the image's mime type
      *
-     * @param String|null $imageURL
-     * @param String|null $type
-     * @return boolean
+     * @param  string|null  $imageURL
+     * @param  string|null  $type
+     * @return bool
      */
     public function getImageMIMEType($filename, $type = 'images')
     {

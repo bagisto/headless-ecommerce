@@ -2,16 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Pagination\Paginator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PhpOffice\PhpSpreadsheet\Calculation\Engineering\Compare;
 use Webkul\Customer\Repositories\CompareItemRepository;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductFlatRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class CompareMutation extends Controller
 {
@@ -27,7 +27,7 @@ class CompareMutation extends Controller
     ) {
         Auth::setDefaultDriver('api');
 
-        $this->middleware("auth:api");
+        $this->middleware('auth:api');
     }
 
     /**
@@ -38,14 +38,14 @@ class CompareMutation extends Controller
     public function compareProducts($rootValue, array $args, GraphQLContext $context)
     {
         if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
-    
+
         try {
             $params = $args['input'] ?? ($args['id'] ?? []);
-    
+
             $currentPage = $params['page'] ?? 1;
-    
+
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
             });
@@ -59,7 +59,7 @@ class CompareMutation extends Controller
                 ->when(! empty($args['id']), function ($query) use ($args) {
                     return $query->where('id', $args['id']);
                 });
-    
+
             if ($compareProducts->count()) {
                 if (empty($args['id'])) {
                     return $compareProducts->paginate($params['limit'] ?? 10);
@@ -67,12 +67,12 @@ class CompareMutation extends Controller
                     return $compareProducts->first();
                 }
             }
-    
+
             throw new CustomException('You have no items in your compare list');
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -86,7 +86,7 @@ class CompareMutation extends Controller
         }
 
         if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         $data = $args['input'];
@@ -119,7 +119,7 @@ class CompareMutation extends Controller
                 return [
                     'success'        => trans('shop::app.compare.item-add-success'),
                     'compareProduct' => $this->compareItemRepository->findWhere([
-                        'customer_id' => auth()->user()->id
+                        'customer_id' => auth()->user()->id,
                     ]),
                 ];
             }
@@ -131,7 +131,6 @@ class CompareMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
@@ -141,7 +140,7 @@ class CompareMutation extends Controller
         }
 
         if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         $data = $args['input'];
@@ -164,7 +163,7 @@ class CompareMutation extends Controller
                     'status'         => true,
                     'success'        => trans('shop::app.compare.remove-success'),
                     'compareProduct' => $this->compareItemRepository->findWhere([
-                        'customer_id' => auth()->user()->id
+                        'customer_id' => auth()->user()->id,
                     ]),
                 ];
             } else {
@@ -181,13 +180,12 @@ class CompareMutation extends Controller
     /**
      * Remove all the compare entries of customer.
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
         if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         try {

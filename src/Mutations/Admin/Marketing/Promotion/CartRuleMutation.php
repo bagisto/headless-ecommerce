@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\CartRule\Repositories\CartRuleRepository;
-use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
+use Webkul\CartRule\Repositories\CartRuleRepository;
+use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CartRuleMutation extends Controller
@@ -24,8 +24,7 @@ class CartRuleMutation extends Controller
         protected CartRuleCouponRepository $cartRuleCouponRepository,
         protected ChannelRepository $channelRepository,
         protected CustomerGroupRepository $customerGroupRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -191,7 +190,7 @@ class CartRuleMutation extends Controller
             $coupon = $this->cartRuleCouponRepository->generateCoupons($params, $id);
 
             return $coupon;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

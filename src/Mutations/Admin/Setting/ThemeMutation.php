@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
 class ThemeMutation extends Controller
 {
@@ -21,8 +21,7 @@ class ThemeMutation extends Controller
     public function __construct(
         protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected ChannelRepository $channelRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +40,7 @@ class ThemeMutation extends Controller
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
-            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
+            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
@@ -85,7 +84,7 @@ class ThemeMutation extends Controller
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
-            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck("id")->toArray())),
+            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
@@ -113,8 +112,8 @@ class ThemeMutation extends Controller
         }
 
         if ($data['type'] == 'static_content') {
-            $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['html']);
-            $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $data[$locale]['options']['css']);
+            $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $data[$locale]['options']['html']);
+            $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $data[$locale]['options']['css']);
         }
 
         if ($data['type'] == 'image_carousel') {

@@ -4,13 +4,11 @@ Laravel eCommerce headless APIs allow you to experience seamless and easily scal
 
 **Read our documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/1.x/graphql-admin-api/)**
 
-
 The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraft.com/">Ucraft Team</a>
-
 
 ### 1. Requirements:
 
-* **Bagisto**: v2.0.0
+* **Bagisto**: v2.2.0
 
 ### 2. Installation:
 
@@ -26,41 +24,11 @@ composer require bagisto/graphql-api dev-main
 \Webkul\GraphQLAPI\Providers\ModuleServiceProvider::class,
 ~~~
 
-* Find a file **app/Http/Kernel.php** from root and add these two **middlewares** inside the **$middleware** array:
+* Find a file **app/Http/Kernel.php** from root and add these two **middlewares** inside the **API** section of **$middlewareGroups** array:
 
 ~~~
 \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 \Illuminate\Session\Middleware\StartSession::class,
-~~~
-
-* Find a file **config/auth.php** from root and bellow code inside **guard**:
-
-~~~
-    'api' => [
-            'driver'   => 'jwt',
-            'provider' => 'customer',
-        ],
-
-   'admin-api' => [
-            'driver'   => 'jwt',
-            'provider' => 'admin',
-        ],
-
-~~~
-
-* Find a file **config/auth.php** from root and bellow code inside **providers**:
-
-~~~
-    'customer' => [
-            'driver' => 'eloquent',
-            'model'  => Webkul\GraphQLAPI\Models\Customer\Customer::class,
-        ],
-
-    'admin' => [
-            'driver' => 'eloquent',
-            'model'  =>  Webkul\GraphQLAPI\Models\Admin\Admin::class,
-        ],
-
 ~~~
 
 * Add the **JWT_TTL (JWT time to live)** & **JWT_SHOW_BLACKLIST_EXCEPTION** entries in the **.env** file:

@@ -3,31 +3,26 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Checkout\Repositories\CartItemRepository;
+use Webkul\Checkout\Repositories\CartRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FormattedPrice extends BaseFilter
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Checkout\Repositories\CartRepository  $cartRepository
-     * @param  \Webkul\Checkout\Repositories\CartItemRepository  $cartItemRepository
      * @return void
      */
     public function __construct(
         protected CartRepository $cartRepository,
         protected CartItemRepository $cartItemRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Get formatted price for Cart data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getCartPriceData($rootValue, array $args, GraphQLContext $context)
@@ -52,8 +47,6 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Cart data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getCartItemPriceData($rootValue, array $args, GraphQLContext $context)
@@ -62,7 +55,7 @@ class FormattedPrice extends BaseFilter
 
         $cartCurrencyCode = $cartItem->cart->cart_currency_code;
 
-        return  [
+        return [
             'price'                => core()->formatPrice($cartItem->price, $cartCurrencyCode),
             'base_price'           => core()->formatBasePrice($cartItem->base_price),
             'custom_price'         => core()->formatPrice($cartItem->custom_price, $cartCurrencyCode),
@@ -79,17 +72,15 @@ class FormattedPrice extends BaseFilter
      * Get formatted price for Cart Shipping Rate data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getCartShippingRatePriceData($rootValue, array $args, GraphQLContext $context)
     {
         $shippingRate = $rootValue;
 
-        return  [
+        return [
             'price'      => core()->formatPrice($shippingRate->price, $shippingRate->shipping_address->cart->cart_currency_code),
-            'base_price' => core()->formatBasePrice($shippingRate->base_price)
+            'base_price' => core()->formatBasePrice($shippingRate->base_price),
         ];
     }
 }

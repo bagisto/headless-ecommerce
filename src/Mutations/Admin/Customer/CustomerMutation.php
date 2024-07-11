@@ -5,12 +5,12 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Customer\Repositories\CustomerNoteRepository;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Webkul\Customer\Repositories\CustomerNoteRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomerMutation extends Controller
 {
@@ -23,8 +23,7 @@ class CustomerMutation extends Controller
         protected CustomerRepository $customerRepository,
         protected CustomerNoteRepository $customerNoteRepository,
         protected CustomerGroupRepository $customerGroupRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -159,7 +158,7 @@ class CustomerMutation extends Controller
             Event::dispatch('customer.customer.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.customers.delete-success')];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

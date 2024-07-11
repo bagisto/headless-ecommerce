@@ -74,7 +74,7 @@ return [
                     'option-type' => [
                         'others'   => 'साधारण',
                         'product'  => 'उत्पाद',
-                        'category' => 'श्रेणी'
+                        'category' => 'श्रेणी',
                     ],
                 ],
 
@@ -99,7 +99,7 @@ return [
                     'option-type' => [
                         'others'   => 'साधारण',
                         'product'  => 'उत्पाद',
-                        'category' => 'श्रेणी'
+                        'category' => 'श्रेणी',
                     ],
                 ],
             ],
@@ -252,7 +252,7 @@ return [
 
                 'addressess' => [
                     'delete-success' => 'ग्राहक का पता सफलतापूर्वक हटा दिया गया',
-                ]
+                ],
             ],
 
             'signup-form' => [
@@ -279,5 +279,5 @@ return [
             'invalid-header'          => 'चेतावनी: अमान्य हेडर टोकन।',
             'cancel-error'            => 'आर्डर को रद्द नहीं किया जा सकता।',
         ],
-    ]
+    ],
 ];

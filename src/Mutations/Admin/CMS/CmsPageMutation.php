@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CMS\Repositories\PageRepository;
-use Webkul\Core\Rules\Slug;
 use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Core\Rules\Slug;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CmsPageMutation extends Controller
@@ -21,8 +21,7 @@ class CmsPageMutation extends Controller
     public function __construct(
         protected PageRepository $pageRepository,
         protected ChannelRepository $channelRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -89,7 +88,7 @@ class CmsPageMutation extends Controller
 
         $validator = Validator::make($data, [
             $locale.'.url_key'      => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
-                if (!$this->pageRepository->isUrlKeyUnique($id, $value)) {
+                if (! $this->pageRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('bagisto_graphql::app.admin.cms.already-taken'));
                 }
             }],

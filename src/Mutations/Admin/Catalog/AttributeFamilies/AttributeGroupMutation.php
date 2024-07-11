@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
+use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeGroupMutation extends Controller
@@ -15,15 +15,12 @@ class AttributeGroupMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeFamilyRepository  $attributeFamilyRepository
-     * @param  \Webkul\Attribute\Repositories\AttributeGroupRepository  $attributeGroupRepository
      * @return void
      */
     public function __construct(
         protected AttributeFamilyRepository $attributeFamilyRepository,
         protected AttributeGroupRepository $attributeGroupRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -103,7 +100,7 @@ class AttributeGroupMutation extends Controller
 
             $previousAttributeGroupIds = $attributeFamily->attribute_groups()->pluck('id');
 
-            if (is_numeric($previousAttributeGroupIds->search($id)) ) {
+            if (is_numeric($previousAttributeGroupIds->search($id))) {
                 $attributeGroup = $this->attributeGroupRepository->find($id);
 
                 $attributeGroup->update($data);
@@ -145,7 +142,7 @@ class AttributeGroupMutation extends Controller
             Event::dispatch('catalog.attributeGroup.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.attribute-groups.delete-success')];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

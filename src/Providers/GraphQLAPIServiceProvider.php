@@ -2,14 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
+use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -17,6 +17,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      * Bootstrap services.
      *
      * @return void
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot(Router $router)
@@ -102,8 +103,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
     /**
      * Register the console commands of this package.
-     *
-     * @return void
      */
     protected function registerCommands(): void
     {

@@ -1,6 +1,6 @@
 <?php
 
-return  [
+return [
     'api' => [
         'driver'   => 'jwt',
         'provider' => 'customer',

@@ -5,7 +5,7 @@ namespace Webkul\GraphQLAPI\Models\Customer;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Webkul\Customer\Models\Customer as BaseModel;
 
-class Customer extends BaseModel implements  JWTSubject
+class Customer extends BaseModel implements JWTSubject
 {
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -19,8 +19,6 @@ class Customer extends BaseModel implements  JWTSubject
 
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
      */
     public function getJWTCustomClaims(): array
     {

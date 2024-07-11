@@ -4,15 +4,15 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Promotion;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
-use Webkul\CartRule\Repositories\CartRuleRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
+use Webkul\CartRule\Repositories\CartRuleRepository;
+use Webkul\CatalogRule\Helpers\CatalogRuleIndex;
 use Webkul\CatalogRule\Repositories\CatalogRuleRepository;
+use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CatalogRuleMutation extends Controller
 {
@@ -28,8 +28,7 @@ class CatalogRuleMutation extends Controller
         protected CartRuleRepository $cartRuleRepository,
         protected ChannelRepository $channelRepository,
         protected CustomerGroupRepository $customerGroupRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -69,10 +68,10 @@ class CatalogRuleMutation extends Controller
             $errorMessage = [];
 
             foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+                $errorMessage[] = is_array($message) ? $field.': '.$message[0] : $field.': '.$message;
             }
 
-            throw new CustomException(implode(", ", $errorMessage));
+            throw new CustomException(implode(', ', $errorMessage));
         }
 
         try {
@@ -85,7 +84,7 @@ class CatalogRuleMutation extends Controller
             $catalogRule->success = trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.create-success');
 
             return $catalogRule;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -122,10 +121,10 @@ class CatalogRuleMutation extends Controller
             $errorMessage = [];
 
             foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field .': '. $message[0] : $field .': '. $message;
+                $errorMessage[] = is_array($message) ? $field.': '.$message[0] : $field.': '.$message;
             }
 
-            throw new CustomException(implode(", ", $errorMessage));
+            throw new CustomException(implode(', ', $errorMessage));
         }
 
         if (
@@ -155,7 +154,7 @@ class CatalogRuleMutation extends Controller
             $catalogRule->success = trans('bagisto_graphql::app.admin.marketing.promotions.catalog-rules.create-success');
 
             return $catalogRule;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -192,4 +191,3 @@ class CatalogRuleMutation extends Controller
         }
     }
 }
-

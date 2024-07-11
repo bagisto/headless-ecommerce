@@ -99,7 +99,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Produit',
-                        'category' => 'Catégorie'
+                        'category' => 'Catégorie',
                     ],
                 ],
             ],
@@ -251,20 +251,20 @@ return [
                 ],
 
                 'addresses' => [
-                    'delete-success' => 'Dirección del cliente eliminada correctamente'
-                ]
+                    'delete-success' => 'Dirección del cliente eliminada correctamente',
+                ],
             ],
 
             'signup-form' => [
-                'error-registration' => 'Attention : l\'inscription du client a échoué.',
+                'error-registration'       => 'Attention : l\'inscription du client a échoué.',
                 'warning-num-already-used' => 'Attention : Ce numéro de téléphone est déjà enregistré avec une adresse e-mail différente.',
-                'success-verify' => 'Compte créé avec succès, un e-mail a été envoyé pour vérification.',
-                'invalid-creds' => 'Veuillez vérifier vos informations de connexion et réessayer.',
+                'success-verify'           => 'Compte créé avec succès, un e-mail a été envoyé pour vérification.',
+                'invalid-creds'            => 'Veuillez vérifier vos informations de connexion et réessayer.',
 
                 'validation' => [
-                    'unique' => 'Ce :field est déjà utilisé.',
+                    'unique'   => 'Ce :field est déjà utilisé.',
                     'required' => 'Le champ :field est requis.',
-                    'same' => 'Le champ :field et le mot de passe doivent correspondre.',
+                    'same'     => 'Le champ :field et le mot de passe doivent correspondre.',
                 ],
             ],
 
@@ -279,5 +279,5 @@ return [
             'invalid-header'          => 'Attention : Jeton d\'en-tête invalide.',
             'cancel-error'            => 'La commande ne peut pas être annulée.',
         ],
-    ]
+    ],
 ];

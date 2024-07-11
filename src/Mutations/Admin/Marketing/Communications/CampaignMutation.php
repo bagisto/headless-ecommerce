@@ -5,20 +5,17 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Marketing\Repositories\CampaignRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Marketing\Repositories\CampaignRepository;
 
 class CampaignMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Marketing\Repositories\CampaignRepository $campaignRepository
      * @return void
      */
-    public function __construct(protected CampaignRepository $campaignRepository)
-    {
-    }
+    public function __construct(protected CampaignRepository $campaignRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -118,7 +115,7 @@ class CampaignMutation extends Controller
             }
 
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.delete-failed'),
             ];
         } catch (\Exception $e) {

@@ -4,11 +4,11 @@ namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Products;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
-use Webkul\Product\Helpers\View as ProductViewHelper;
-use Webkul\Product\Helpers\Review;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
+use Webkul\Product\Helpers\Review;
+use Webkul\Product\Helpers\View as ProductViewHelper;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductContent extends BaseFilter
 {
@@ -22,11 +22,6 @@ class ProductContent extends BaseFilter
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Customer\Repositories\WishlistRepository  $wishlistRepository
-     * @param  \Webkul\Product\Helpers\View  $productViewHelper
-     * @param  \Webkul\Product\Helpers\Review  $review
-     * @param  \Webkul\Product\Helpers\ConfigurableOption  $productConfigurableHelper
      * @return void
      */
     public function __construct(
@@ -43,8 +38,6 @@ class ProductContent extends BaseFilter
      * Get additional data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getAdditionalData($rootValue, array $args, GraphQLContext $context)
@@ -56,8 +49,6 @@ class ProductContent extends BaseFilter
      * Get related products.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getRelatedProducts($rootValue, array $args, GraphQLContext $context)
@@ -75,8 +66,6 @@ class ProductContent extends BaseFilter
      * Get product price html.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return array
      */
     public function getProductPriceHtml($rootValue, array $args, GraphQLContext $context)
@@ -166,8 +155,6 @@ class ProductContent extends BaseFilter
      * Get bundle type product price.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return array
      */
     public function getBundleProductPrice($rootValue, array $args, GraphQLContext $context)
@@ -205,8 +192,6 @@ class ProductContent extends BaseFilter
      * Check wishlist
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return bool
      */
     public function checkIsInWishlist($rootValue, array $args, GraphQLContext $context)
@@ -214,7 +199,7 @@ class ProductContent extends BaseFilter
         if (auth()->check()) {
             $wishlist = $this->wishlistRepository->findOneWhere([
                 'customer_id' => auth()->user()->id,
-                'product_id'  => $rootValue->id
+                'product_id'  => $rootValue->id,
             ]);
 
             if ($wishlist) {
@@ -229,8 +214,6 @@ class ProductContent extends BaseFilter
      * Check product is in sale
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return bool
      */
     public function checkIsInSale($rootValue, array $args, GraphQLContext $context)
@@ -254,8 +237,6 @@ class ProductContent extends BaseFilter
      * Get configurable data.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getConfigurableData($rootValue, array $args, GraphQLContext $context)
@@ -296,8 +277,8 @@ class ProductContent extends BaseFilter
         foreach ($data['variant_prices'] as $key => $prices) {
             $variantPrices[$key] = [
                 'id'            => $key,
-                'regular' => $prices['regular'],
-                'final'   => $prices['final'],
+                'regular'       => $prices['regular'],
+                'final'         => $prices['final'],
             ];
         }
         $data['variant_prices'] = $variantPrices;
@@ -335,8 +316,6 @@ class ProductContent extends BaseFilter
      * Get cached gallery images.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getCacheGalleryImages($rootValue, array $args, GraphQLContext $context)
@@ -348,8 +327,6 @@ class ProductContent extends BaseFilter
      * Get product's review list.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getReviews($rootValue, array $args, GraphQLContext $context)
@@ -367,8 +344,6 @@ class ProductContent extends BaseFilter
      * Get product base image.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getProductBaseImage($rootValue, array $args, GraphQLContext $context)
@@ -382,8 +357,6 @@ class ProductContent extends BaseFilter
      * Get product avarage rating.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return string
      */
     public function getAverageRating($rootValue, array $args, GraphQLContext $context)
@@ -395,8 +368,6 @@ class ProductContent extends BaseFilter
      * Get product percentage rating.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return array
      */
     public function getPercentageRating($rootValue, array $args, GraphQLContext $context)
@@ -408,8 +379,6 @@ class ProductContent extends BaseFilter
      * Get product share URL.
      *
      * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  GraphQLContext  $context
      * @return mixed
      */
     public function getProductShareUrl($rootValue, array $args, GraphQLContext $context)

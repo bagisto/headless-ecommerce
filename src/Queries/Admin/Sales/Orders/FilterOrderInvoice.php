@@ -10,7 +10,7 @@ class FilterOrderInvoice extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -20,7 +20,7 @@ class FilterOrderInvoice extends BaseFilter
         // Convert the invoice_date parameter to created_at parameter
         if (isset($arguments['invoice_date'])) {
             $arguments['created_at'] = $arguments['invoice_date'];
-            
+
             unset($arguments['invoice_date']);
         }
 
@@ -31,15 +31,15 @@ class FilterOrderInvoice extends BaseFilter
             unset($arguments['amount']);
         }
 
-         // Convert the Status parameter to State parameter
-         if (isset($arguments['status'])) {
+        // Convert the Status parameter to State parameter
+        if (isset($arguments['status'])) {
             $arguments['state'] = $arguments['status'];
 
             unset($arguments['status']);
         }
 
-         // ilter the relationship Customer Name
-         if (isset($arguments['customer_name'])) {
+        // ilter the relationship Customer Name
+        if (isset($arguments['customer_name'])) {
             $nameChanger = $this->nameSplitter($arguments['customer_name']);
 
             $firstname = $nameChanger['firstname'];
@@ -47,7 +47,7 @@ class FilterOrderInvoice extends BaseFilter
 
             unset($arguments['customer_name']);
 
-            return $query->whereHas('order',function ($q) use ($firstname, $lastname) {
+            return $query->whereHas('order', function ($q) use ($firstname, $lastname) {
                 $q->where([
                     'customer_first_name' => $firstname,
                     'customer_last_name'  => $lastname,

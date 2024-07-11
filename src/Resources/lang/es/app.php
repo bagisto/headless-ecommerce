@@ -99,7 +99,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Producto',
-                        'category' => 'Categoría'
+                        'category' => 'Categoría',
                     ],
                 ],
             ],
@@ -279,5 +279,5 @@ return [
             'invalid-header'          => 'Advertencia: Token de encabezado inválido.',
             'cancel-error'            => 'No se puede cancelar el pedido.',
         ],
-    ]
+    ],
 ];

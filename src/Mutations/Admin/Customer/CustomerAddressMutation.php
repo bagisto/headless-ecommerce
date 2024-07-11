@@ -2,14 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
-use Webkul\Customer\Rules\VatIdRule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Customer\Rules\VatIdRule;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomerAddressMutation extends Controller
 {
@@ -21,8 +21,7 @@ class CustomerAddressMutation extends Controller
     public function __construct(
         protected CustomerRepository $customerRepository,
         protected CustomerAddressRepository $customerAddressRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -46,11 +45,11 @@ class CustomerAddressMutation extends Controller
             'company_name' => 'string',
             'first_name'   => 'string|required',
             'last_name'    => 'string|required',
-            'address'     => 'string|required',
+            'address'      => 'string|required',
             'city'         => 'string|required',
             'postcode'     => 'required',
-            'country'      => 'required|in:'.implode(',', (core()->countries()->pluck("code")->toArray())),
-            'state'        => 'required|in:'.implode(',', (core()->states($data['country'])->pluck("code")->toArray())),
+            'country'      => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
+            'state'        => 'required|in:'.implode(',', (core()->states($data['country'])->pluck('code')->toArray())),
             'phone'        => 'required',
             'email'        => 'required|email',
             'vat_id'       => new VatIdRule(),
@@ -105,11 +104,11 @@ class CustomerAddressMutation extends Controller
             'company_name' => 'string',
             'first_name'   => 'string|required',
             'last_name'    => 'string|required',
-            'address'     => 'string|required',
+            'address'      => 'string|required',
             'city'         => 'string|required',
             'postcode'     => 'required',
-            'country'      => 'required|in:'.implode(',', (core()->countries()->pluck("code")->toArray())),
-            'state'        => 'required|in:'.implode(',', (core()->states($data['country'])->pluck("code")->toArray())),
+            'country'      => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
+            'state'        => 'required|in:'.implode(',', (core()->states($data['country'])->pluck('code')->toArray())),
             'phone'        => 'required',
             'email'        => 'required|email',
             'vat_id'       => new VatIdRule(),
@@ -222,7 +221,7 @@ class CustomerAddressMutation extends Controller
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.addressess.delete-success')];
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

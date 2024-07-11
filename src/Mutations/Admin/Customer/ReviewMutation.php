@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductReviewRepository;
 
 class ReviewMutation extends Controller
 {
@@ -17,9 +16,7 @@ class ReviewMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected ProductReviewRepository $productReviewRepository)
-    {
-    }
+    public function __construct(protected ProductReviewRepository $productReviewRepository) {}
 
     /**
      * Update the specified resource in storage.
@@ -94,7 +91,7 @@ class ReviewMutation extends Controller
             Event::dispatch('customer.review.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.reviews.delete-success')];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

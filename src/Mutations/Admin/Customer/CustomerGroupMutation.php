@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Core\Rules\Code;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomerGroupMutation extends Controller
@@ -17,9 +17,7 @@ class CustomerGroupMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected CustomerGroupRepository $customerGroupRepository)
-    {
-    }
+    public function __construct(protected CustomerGroupRepository $customerGroupRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -143,7 +141,7 @@ class CustomerGroupMutation extends Controller
             Event::dispatch('customer.customer_group.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.customers.groups.delete-success')];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

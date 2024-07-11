@@ -10,7 +10,7 @@ class FilterCart extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -19,7 +19,7 @@ class FilterCart extends BaseFilter
         if (isset($input['customer_name'])) {
             $customer_name = $input['customer_name'];
 
-            $customerName =$this->nameSplitter($customer_name);
+            $customerName = $this->nameSplitter($customer_name);
 
             $input['customer_first_name'] = $customerName['firstname'];
 
@@ -57,7 +57,7 @@ class FilterCart extends BaseFilter
                 foreach ($addition['super_attribute'] as $attributeId => $optionId) {
                     $additionalDate['super_attribute'][] = [
                         'attribute_id' => $attributeId,
-                        'option_id' => (int) $optionId,
+                        'option_id'    => (int) $optionId,
                     ];
                 }
             }

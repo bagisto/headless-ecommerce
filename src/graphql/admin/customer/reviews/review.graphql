@@ -41,7 +41,7 @@ type Review {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     customer: Customer
-    #product: Product
+    product: Product
     images: [ReviewAttachment]
     success: String
 }

@@ -6,11 +6,11 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class CustomerTransactionsQuery extends BaseFilter
 {
-     /**
+    /**
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -20,6 +20,3 @@ class CustomerTransactionsQuery extends BaseFilter
         return $query->where($arguments);
     }
 }
-
-
-

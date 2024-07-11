@@ -10,19 +10,19 @@ class FilterProducts extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
     {
         $arguments = $this->getFilterParams($input);
 
-        $attributeFamily = "";
+        $attributeFamily = '';
 
-        $qty = "";
+        $qty = '';
 
         // filter Both the relationship Attribute Family as well the Inventories
-        if (isset($arguments['attribute_family']) && isset($arguments['qty']) ) {
+        if (isset($arguments['attribute_family']) && isset($arguments['qty'])) {
 
             $attributeFamily = $input['attribute_family'];
 
@@ -31,13 +31,13 @@ class FilterProducts extends BaseFilter
             unset($arguments['attribute_family']);
             unset($arguments['qty']);
 
-            return $query->where(function($qry) use($attributeFamily,$qty){
-                $qry->whereHas('attribute_family',function ($q) use ($attributeFamily) {
-                    $q->where('name',$attributeFamily);
+            return $query->where(function ($qry) use ($attributeFamily, $qty) {
+                $qry->whereHas('attribute_family', function ($q) use ($attributeFamily) {
+                    $q->where('name', $attributeFamily);
                 });
 
-                $qry->whereHas('inventories',function ($q) use ($qty) {
-                    $q->where('qty',$qty);
+                $qry->whereHas('inventories', function ($q) use ($qty) {
+                    $q->where('qty', $qty);
                 });
             })->where($arguments);
         }
@@ -48,20 +48,20 @@ class FilterProducts extends BaseFilter
 
             unset($arguments['attribute_family']);
 
-            return $query->whereHas('attribute_family',function ($q) use ($attributeFamily) {
-                $q->where('name',$attributeFamily);
+            return $query->whereHas('attribute_family', function ($q) use ($attributeFamily) {
+                $q->where('name', $attributeFamily);
             })->where($arguments);
         }
 
         // filter the relationship Inventories
-        if (isset($arguments['qty']) || array_key_exists("qty",$input)) {
+        if (isset($arguments['qty']) || array_key_exists('qty', $input)) {
 
             $qty = $input['qty'];
 
             unset($arguments['qty']);
 
-            return $query->whereHas('inventories',function ($q) use ($qty) {
-                $q->where('qty',$qty);
+            return $query->whereHas('inventories', function ($q) use ($qty) {
+                $q->where('qty', $qty);
             })->where($arguments);
         }
 

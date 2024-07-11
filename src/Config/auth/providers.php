@@ -1,6 +1,6 @@
 <?php
 
-return  [
+return [
     'customer' => [
         'driver' => 'eloquent',
         'model'  => Webkul\GraphQLAPI\Models\Customer\Customer::class,
@@ -8,6 +8,6 @@ return  [
 
     'admin' => [
         'driver' => 'eloquent',
-        'model'  =>  Webkul\GraphQLAPI\Models\Admin\Admin::class,
+        'model'  => Webkul\GraphQLAPI\Models\Admin\Admin::class,
     ],
 ];

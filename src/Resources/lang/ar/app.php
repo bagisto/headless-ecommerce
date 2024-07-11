@@ -99,7 +99,7 @@ return [
                     'option-type' => [
                         'others'   => 'بسيط',
                         'product'  => 'منتج',
-                        'category' => 'فئة'
+                        'category' => 'فئة',
                     ],
                 ],
             ],
@@ -252,7 +252,7 @@ return [
 
                 'addressess' => [
                     'delete-success' => 'تم حذف عنوان العميل بنجاح',
-                ]
+                ],
             ],
 
             'signup-form' => [

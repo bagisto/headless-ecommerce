@@ -7,9 +7,6 @@ use Webkul\GraphQLAPI\Contracts\PushNotificationTranslation as PushNotificationT
 
 /**
  * Class NotificationTranslation
- *
- * @package Webkul\GraphQLAPI\Models
- *
  */
 class PushNotificationTranslation extends Model implements PushNotificationTranslationContract
 {

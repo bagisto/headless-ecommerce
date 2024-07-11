@@ -65,7 +65,7 @@ type OrderItem {
     orderId: ID! @rename(attribute: "order_id")
     taxCategoryId: ID @rename(attribute: "tax_category_id")
     parentId: ID @rename(attribute: "parent_id")
-    # additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     order: Order! @belongsTo(relation: "order")

@@ -8,7 +8,7 @@ return [
 
         'acl' => [
             'push-notification' => 'プッシュ通知',
-            'send' => '送信',
+            'send'              => '送信',
         ],
 
         'configuration' => [
@@ -74,7 +74,7 @@ return [
                     'option-type' => [
                         'others'   => 'シンプル',
                         'product'  => '商品',
-                        'category' => 'カテゴリ'
+                        'category' => 'カテゴリ',
                     ],
                 ],
 
@@ -99,15 +99,15 @@ return [
                     'option-type' => [
                         'others'   => 'シンプル',
                         'product'  => '商品',
-                        'category' => 'カテゴリ'
+                        'category' => 'カテゴリ',
                     ],
-                ]
+                ],
             ],
 
             'exchange_rates' => [
                 'error-invalid-target-currency' => '警告: 無効なターゲット通貨が指定されました。',
                 'delete-success'                => '成功: 通貨レートが正常に削除されました。',
-            ]
+            ],
         ],
 
         'customer' => [
@@ -279,5 +279,5 @@ return [
             'invalid-header'          => '警告: 無効なヘッダートークンです。',
             'cancel-error'            => '注文はキャンセルできません。',
         ],
-    ]
+    ],
 ];

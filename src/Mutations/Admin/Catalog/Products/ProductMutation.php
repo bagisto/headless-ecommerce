@@ -2,31 +2,28 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Slug;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Helpers\ProductType;
 use Webkul\Product\Models\ProductAttributeValue;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Product\Repositories\ProductAttributeValueRepository $productAttributeValueRepository
      * @return void
      */
     public function __construct(
         protected ProductRepository $productRepository,
         protected ProductAttributeValueRepository $productAttributeValueRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -186,7 +183,7 @@ class ProductMutation extends Controller
             throw new CustomException($validator->messages());
         }
 
-        $multiselectAttributeCodes = array();
+        $multiselectAttributeCodes = [];
 
         foreach ($product->attribute_family->attribute_groups as $attributeGroup) {
             $customAttributes = $product->getEditableAttributes($attributeGroup);
@@ -205,7 +202,7 @@ class ProductMutation extends Controller
         if (count($multiselectAttributeCodes)) {
             foreach ($multiselectAttributeCodes as $multiselectAttributeCode) {
                 if (! isset($data[$multiselectAttributeCode])) {
-                    $data[$multiselectAttributeCode] = array();
+                    $data[$multiselectAttributeCode] = [];
                 }
             }
         }

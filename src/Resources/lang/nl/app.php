@@ -8,7 +8,7 @@ return [
 
         'acl' => [
             'push-notification' => 'Pushmelding',
-            'send' => 'Verzenden',
+            'send'              => 'Verzenden',
         ],
 
         'configuration' => [
@@ -251,8 +251,8 @@ return [
                 ],
 
                 'addresses' => [
-                    'delete-success' => 'Klantadres succesvol verwijderd'
-                ]
+                    'delete-success' => 'Klantadres succesvol verwijderd',
+                ],
             ],
 
             'signup-form' => [
@@ -279,5 +279,5 @@ return [
             'invalid-header'          => 'Waarschuwing: Ongeldige kopertoken.',
             'cancel-error'            => 'Bestelling kan niet worden geannuleerd.',
         ],
-    ]
+    ],
 ];

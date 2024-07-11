@@ -6,14 +6,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Core\Repositories\ChannelRepository;
-use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
-use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\GraphQLAPI\Http\Requests\NotificationRequest;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
+use Webkul\GraphQLAPI\Http\Requests\NotificationRequest;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class NotificationController extends Controller
 {
@@ -27,8 +27,7 @@ class NotificationController extends Controller
         protected ChannelRepository $channelRepository,
         protected ProductRepository $productRepository,
         protected NotificationRepository $notificationRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
@@ -118,7 +117,7 @@ class NotificationController extends Controller
             return new JsonResponse([
                 'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
             ]);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return new JsonResponse([
                 'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed'),
             ], 500);
@@ -165,7 +164,7 @@ class NotificationController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-update-success')
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-update-success'),
         ], 200);
     }
 
@@ -234,7 +233,7 @@ class NotificationController extends Controller
             if ($this->categoryRepository->find($data['givenValue'])) {
                 return response()->json([
                     'value' => true,
-                ] ,200);
+                ], 200);
             }
 
             return response()->json([

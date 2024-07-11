@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
 use Webkul\Tax\Repositories\TaxRateRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 
 class TaxCategoryMutation extends Controller
 {
@@ -20,8 +20,7 @@ class TaxCategoryMutation extends Controller
     public function __construct(
         protected TaxCategoryRepository $taxCategoryRepository,
         protected TaxRateRepository $taxRateRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -143,7 +142,7 @@ class TaxCategoryMutation extends Controller
             return [
                 'success' => trans('bagisto_graphql::app.admin.settings.tax-category.delete-success'),
             ];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

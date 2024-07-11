@@ -59,11 +59,42 @@ return [
                 'wishlist' => [
                     'product-removed' => 'Warning: Product not found.',
                     'success'         => 'Success: Product added to wishlist successfully.',
-                    'already-exist' => 'Warning: Already added to Wishlist.',
-                    'remove-success' => 'Success: Item is successfully removed from the wishlist.',
-                    'not-found'     => 'Warning: No products found in Wishlist.',
-                    'moved-success' => 'Success: Selected items successfully moved to wishlist.',
+                    'already-exist'   => 'Warning: Already added to Wishlist.',
+                    'remove-success'  => 'Success: Item is successfully removed from the wishlist.',
+                    'not-found'       => 'Warning: No products found in Wishlist.',
+                    'moved-success'   => 'Success: Selected items successfully moved to wishlist.',
                 ],
+
+                'orders' => [
+                    'not-found'      => 'Warning: No orders found.',
+                    'cancel-error'   => 'Warning: Order not canceled.',
+                    'cancel-success' => 'Success: Order canceled successfully.',
+
+                    'shipment' => [
+                        'not-found' => 'Warning: Shipment not found.',
+                    ],
+
+                    'invoice' => [
+                        'not-found' => 'Warning: Invoice not found.',
+                    ],
+
+                    'refund' => [
+                        'not-found' => 'Warning: Refund not found.',
+                    ],
+                ],
+
+                'downloadable-products' => [
+                    'not-auth'       => 'Warning: You are not authorized to perform this action.',
+                    'payment-error'  => 'Payment has not been done for this download.',
+                    'download-error' => 'Download link has been expired.',
+                ],
+            ],
+
+            'reviews' => [
+                'create-success'      => 'Success: Review created successfully.',
+                'delete-success'      => 'Success: Review deleted successfully.',
+                'not-found'           => 'Warning: Review not found.',
+                'mass-delete-success' => 'Success: Selected reviews deleted successfully.',
             ],
         ],
 
@@ -75,20 +106,20 @@ return [
                     ],
 
                     'success' => [
-                        'add-to-cart'     => 'Success: Product added to cart successfully.',
+                        'add-to-cart'       => 'Success: Product added to cart successfully.',
                         'update-to-cart'    => 'Success: Product updated to cart successfully.',
-                        'delete-cart-item' => 'Success: Item is successfully removed from the cart.',
-                        'all-remove'      => 'Success: All items removed from the cart.',
-                        'move-to-wishlist' => 'Success: Selected items successfully moved to wishlist.',
+                        'delete-cart-item'  => 'Success: Item is successfully removed from the cart.',
+                        'all-remove'        => 'Success: All items removed from the cart.',
+                        'move-to-wishlist'  => 'Success: Selected items successfully moved to wishlist.',
                     ],
 
                     'fail' => [
-                        'all-remove'      => 'Warning: All items not removed from the cart.',
-                        'update-to-cart'  => 'Warning: Product not updated to cart.',
+                        'all-remove'       => 'Warning: All items not removed from the cart.',
+                        'update-to-cart'   => 'Warning: Product not updated to cart.',
                         'delete-cart-item' => 'Warning: Item is not removed from the cart.',
-                        'not-found'       => 'Warning: Cart not found.',
-                        'item-not-found'  => 'Warning: Item not found.',
-                        'all-remove'      => 'Warning: All items not removed from the cart.',
+                        'not-found'        => 'Warning: Cart not found.',
+                        'item-not-found'   => 'Warning: Item not found.',
+                        'all-remove'       => 'Warning: All items not removed from the cart.',
                         'move-to-wishlist' => 'Warning: Selected items not moved to wishlist.',
                     ],
                 ],

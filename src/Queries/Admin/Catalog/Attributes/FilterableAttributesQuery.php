@@ -10,7 +10,6 @@ class FilterableAttributesQuery extends BaseFilter
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
      * @return void
      */
     public function __construct(protected AttributeRepository $attributeRepository)
@@ -22,7 +21,7 @@ class FilterableAttributesQuery extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)

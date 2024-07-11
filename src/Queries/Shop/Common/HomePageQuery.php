@@ -7,11 +7,11 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Helpers\Toolbar;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\GraphQLAPI\Validators\CustomException;
 
 class HomePageQuery extends BaseFilter
 {
@@ -32,13 +32,10 @@ class HomePageQuery extends BaseFilter
         protected CustomerRepository $customerRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected Toolbar $productHelperToolbar
-    ) {
-    }
+    ) {}
 
     /**
-     * @param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @param  mixed  $rootValue
      * @return \Webkul\Core\Contracts\Channel
      */
     public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
@@ -47,9 +44,7 @@ class HomePageQuery extends BaseFilter
     }
 
     /**
-     *@param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @param  mixed  $rootValue
      * @return mixed
      */
     public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
@@ -58,7 +53,7 @@ class HomePageQuery extends BaseFilter
 
         $customizations = $this->themeCustomizationRepository->orderBy('sort_order')->findWhere([
             'status'     => self::STATUS,
-            'channel_id' => core()->getCurrentChannel()->id
+            'channel_id' => core()->getCurrentChannel()->id,
         ]);
 
         $result = $customizations->map(function ($item) {
@@ -91,7 +86,7 @@ class HomePageQuery extends BaseFilter
                     $options['title'] = $item->options['title'];
                 }
 
-                $options['filters'] =  [];
+                $options['filters'] = [];
 
                 $i = 0;
 
@@ -115,10 +110,7 @@ class HomePageQuery extends BaseFilter
     /**
      * Get all categories in tree format.
      *
-     * @param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
-     *
+     * @param  mixed  $rootValue
      * @return mixed
      */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
@@ -156,9 +148,10 @@ class HomePageQuery extends BaseFilter
 
     /**
      * Get all products.
-     * @param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      * @return \Illuminate\Support\Collection
      */
     public function getAllProducts($query, $input)
@@ -193,20 +186,20 @@ class HomePageQuery extends BaseFilter
         $prefix = DB::getTablePrefix();
 
         $qb = app(ProductRepository::class)->distinct()
-                ->select('products.*')
-                ->leftJoin('products as variants', DB::raw('COALESCE('.$prefix.'variants.parent_id, '.$prefix.'variants.id)'), '=', 'products.id')
-                ->leftJoin('product_price_indices', function ($join) {
-                    $customerGroup = $this->customerRepository->getCurrentGroup();
+            ->select('products.*')
+            ->leftJoin('products as variants', DB::raw('COALESCE('.$prefix.'variants.parent_id, '.$prefix.'variants.id)'), '=', 'products.id')
+            ->leftJoin('product_price_indices', function ($join) {
+                $customerGroup = $this->customerRepository->getCurrentGroup();
 
-                    $join->on('products.id', '=', 'product_price_indices.product_id')
-                        ->where('product_price_indices.customer_group_id', $customerGroup->id);
-                });
+                $join->on('products.id', '=', 'product_price_indices.product_id')
+                    ->where('product_price_indices.customer_group_id', $customerGroup->id);
+            });
 
         if (! empty($params['category_slug'])) {
             $categoryIds = $this->categoryRepository->findBySlug($params['category_slug'])->id;
 
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
-            ->where('product_categories.category_id', $categoryIds);
+                ->where('product_categories.category_id', $categoryIds);
         }
 
         if (! empty($params['category_id'])) {
@@ -397,19 +390,19 @@ class HomePageQuery extends BaseFilter
             $optionIds = $filterAttribute->options->pluck('id')->toArray();
 
             $filterData[$filterAttribute->code] = [
-                'key' => $filterAttribute->code,
+                'key'    => $filterAttribute->code,
                 'value'  => $optionIds,
             ];
         }
 
         foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
             $availableSortOrders[$key] = [
-                "key"      => $key,
-                "title"    => $label['title'],
-                "value"    => $label['value'],
-                "sort"     => $label['sort'],
-                "order"    => $label['order'],
-                "position" => $label['position'],
+                'key'      => $key,
+                'title'    => $label['title'],
+                'value'    => $label['value'],
+                'sort'     => $label['sort'],
+                'order'    => $label['order'],
+                'position' => $label['position'],
             ];
         }
 

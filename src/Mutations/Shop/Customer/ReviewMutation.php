@@ -7,22 +7,21 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Product\Repositories\ProductReviewRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
+use Webkul\Product\Repositories\ProductReviewRepository;
 
 class ReviewMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductReviewRepository  $productReviewRepository
      * @return void
      */
     public function __construct(
-       protected ProductReviewRepository $productReviewRepository,
-       protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
+        protected ProductReviewRepository $productReviewRepository,
+        protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     ) {
         Auth::setDefaultDriver('api');
 
@@ -34,7 +33,7 @@ class ReviewMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function reviews($rootValue, array $args , GraphQLContext $context)
+    public function reviews($rootValue, array $args, GraphQLContext $context)
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
@@ -98,7 +97,7 @@ class ReviewMutation extends Controller
         if (isset($args['id'])) {
             $reviews = $reviews->first();
         } else {
-            $reviews = $reviews->paginate( isset($params['limit']) ? $params['limit'] : 10);
+            $reviews = $reviews->paginate(isset($params['limit']) ? $params['limit'] : 10);
         }
 
         return $reviews;
@@ -160,8 +159,8 @@ class ReviewMutation extends Controller
             }
 
             return [
-                'success'   => trans('bagisto_graphql::app.shop.customer.account.review.success'),
-                'review'    => $review
+                'success' => trans('bagisto_graphql::app.shop.customers.reviews.create-success'),
+                'review'  => $review,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -181,8 +180,8 @@ class ReviewMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.shop.response.error.invalid-parameter'));
         }
 
-        if (! auth()->check() ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+        if (! auth()->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         $id = $args['id'];
@@ -208,7 +207,7 @@ class ReviewMutation extends Controller
             return [
                 'status'    => (isset($customerReview->id)) ? true : false,
                 'reviews'   => $customer->all_reviews,
-                'message'   => ($customerReview->id) ? trans('bagisto_graphql::app.shop.customer.account.review.success-delete') : trans('bagisto_graphql::app.shop.customer.account.review.not-found')
+                'message'   => ($customerReview->id) ? trans('bagisto_graphql::app.shop.customers.reviews.delete-success') : trans('bagisto_graphql::app.shop.customers.reviews.not-found'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -222,8 +221,8 @@ class ReviewMutation extends Controller
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check() ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
+        if (! auth()->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
         try {
@@ -240,7 +239,7 @@ class ReviewMutation extends Controller
 
             return [
                 'status'    => $customerReviews->count() ? true : false,
-                'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
+                'message'   => $customerReviews->count() ? trans('bagisto_graphql::app.shop.customers.reviews.mass-delete-success') : trans('bagisto_graphql::app.shop.customers.reviews.not-found'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

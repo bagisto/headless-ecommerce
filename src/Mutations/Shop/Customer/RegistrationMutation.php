@@ -2,17 +2,17 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Validator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Customer\Repositories\CustomerRepository;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class RegistrationMutation extends Controller
@@ -35,7 +35,7 @@ class RegistrationMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function signUp($rootValue, array $args , GraphQLContext $context)
+    public function signUp($rootValue, array $args, GraphQLContext $context)
     {
         $validator = Validator::make($args, [
             'email'                 => 'email|required|unique:customers,email',
@@ -64,7 +64,7 @@ class RegistrationMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function socialSignIn($rootValue, array $args , GraphQLContext $context)
+    public function socialSignIn($rootValue, array $args, GraphQLContext $context)
     {
         $validator = Validator::make($args, [
             'email'       => 'email|required',
@@ -94,7 +94,7 @@ class RegistrationMutation extends Controller
             $customer = $this->customerRepository->findOneByField('email', $args['email']);
         }
 
-        $args['password'] = $args['password_confirmation'] = $password = rand(000000,999999);
+        $args['password'] = $args['password_confirmation'] = $password = rand(000000, 999999);
 
         if (! $customer) {
             $customer = $this->create($args);
@@ -104,8 +104,7 @@ class RegistrationMutation extends Controller
     }
 
     /**
-     *
-     * @param mixed $data
+     * @param  mixed  $data
      * @return mixed
      */
     public function create($data)
@@ -130,26 +129,19 @@ class RegistrationMutation extends Controller
             ];
         }
 
-        if (isset($data['is_subscribed'])) {
-            $subscription = $this->subscriptionRepository->findOneWhere(['email' => $data['email']]);
+        if (! empty($data['subscribed_to_news_letter'])) {
+            Event::dispatch('customer.subscription.before');
 
-            if ($subscription) {
-                $this->subscriptionRepository->update([
-                    'customer_id' => $customer->id,
-                ], $subscription->id);
-            } else {
-                Event::dispatch('customer.subscription.before');
+            $subscription = $this->subscriptionRepository->updateOrCreate([
+                'email' => $data['email'],
+            ], [
+                'channel_id'    => core()->getCurrentChannel()->id,
+                'is_subscribed' => 1,
+                'token'         => uniqid(),
+                'customer_id'   => $customer->id,
+            ]);
 
-                $subscription = $this->subscriptionRepository->create([
-                    'channel_id'    => core()->getCurrentChannel()->id,
-                    'customer_id'   => $customer->id,
-                    'email'         => $data['email'],
-                    'is_subscribed' => 1,
-                    'token'         => uniqid(),
-                ]);
-
-                Event::dispatch('customer.subscription.after', $subscription);
-            }
+            Event::dispatch('customer.subscription.after', $subscription);
         }
 
         Event::dispatch('customer.registration.after', $customer);
@@ -160,9 +152,9 @@ class RegistrationMutation extends Controller
     public function login($data, $password = null)
     {
         if (! $jwtToken = JWTAuth::attempt([
-                'email'    => $data['email'],
-                'password' => $data['password_confirmation'],
-            ], $data['remember'] ?? 0)
+            'email'    => $data['email'],
+            'password' => $data['password_confirmation'],
+        ], $data['remember'] ?? 0)
         ) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.login.invalid-creds'));
         }

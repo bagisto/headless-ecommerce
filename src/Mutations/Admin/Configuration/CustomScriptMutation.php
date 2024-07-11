@@ -15,15 +15,13 @@ class CustomScriptMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\ChannelRepository  $channelRepository
      * @return void
      */
     public function __construct(
         protected ChannelRepository $channelRepository,
         protected CoreConfigRepository $coreConfigRepository,
         protected LocaleRepository $localeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -155,7 +153,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->delete($id);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.delete-success')];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

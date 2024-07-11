@@ -12,15 +12,13 @@ class WishlistQuery extends Controller
      *
      * @return void
      */
-    public function __construct(protected WishlistRepository $wishlistRepository)
-    {
-    }
+    public function __construct(protected WishlistRepository $wishlistRepository) {}
 
     /**
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -30,7 +28,7 @@ class WishlistQuery extends Controller
         }
 
         $input['customer_id'] = auth()->user()->id;
-        
+
         return $query->where($input);
     }
 
@@ -55,7 +53,7 @@ class WishlistQuery extends Controller
     public function getAdditionData($query)
     {
         // The get() method retrieves all records from the database.
-        // The map() method iterates through each item in the collection, 
+        // The map() method iterates through each item in the collection,
         // allowing us to transform the item's value and key.
         // The flatten() method is used to flatten a multi-dimensional collection into a single dimension.
         return $query->get()->map(function ($wishlistItem) {

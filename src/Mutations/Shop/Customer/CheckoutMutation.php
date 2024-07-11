@@ -2,21 +2,21 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Webkul\Checkout\Facades\Cart;
-use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Payment\Facades\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\Core\Rules\AlphaNumericSpace;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Core\Rules\AlphaNumericSpace;
+use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Shipping\Facades\Shipping;
 
 class CheckoutMutation extends Controller
 {
@@ -24,10 +24,6 @@ class CheckoutMutation extends Controller
      * Create a new controller instance.
      *
      * @param  \Webkul\Customer\Repositories\CartRuleCouponRepository  $cartRuleCouponRepository
-     * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
-     * @param  \Webkul\Customer\Repositories\CustomerAddressRepository  $customerAddressRepository
-     * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
-     * @param  \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
      * @return void
      */
     public function __construct(
@@ -47,7 +43,7 @@ class CheckoutMutation extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function addresses($rootValue, array $args , GraphQLContext $context)
+    public function addresses($rootValue, array $args, GraphQLContext $context)
     {
         try {
             $customer = [];
@@ -84,7 +80,7 @@ class CheckoutMutation extends Controller
     public function saveCartAddresses($rootValue, array $args, GraphQLContext $context)
     {
         $params = $args['input'];
-        
+
         $rules = [
             'type' => 'required',
         ];
@@ -114,7 +110,7 @@ class CheckoutMutation extends Controller
         if (! $cart = Cart::getCart()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.fail.not-found'));
         }
-        
+
         $billingAddressId = $params['billing_address_id'];
 
         $shippingAddressId = $params['shipping_address_id'];
@@ -122,7 +118,7 @@ class CheckoutMutation extends Controller
         $token = 0;
 
         if (isset(getallheaders()['Authorization'])) {
-            $headerValue = explode("Bearer ", getallheaders()['Authorization']);
+            $headerValue = explode('Bearer ', getallheaders()['Authorization']);
 
             if (! empty($headerValue[1])) {
                 $token = $headerValue[1];
@@ -207,7 +203,7 @@ class CheckoutMutation extends Controller
                 if ($shippingAddressId) {
                     $shippingAddress = $this->customerAddressRepository->findOneWhere([
                         'id'           => $shippingAddressId,
-                        'address_type' => 'customer'
+                        'address_type' => 'customer',
                     ]);
 
                     if (isset($shippingAddress->id)) {
@@ -291,7 +287,7 @@ class CheckoutMutation extends Controller
                                 'price'                => $rate->price,
                                 'formatted_price'      => core()->formatPrice($rate->price),
                                 'base_price'           => $rate->base_price,
-                                'formatted_base_price' => core()->formatBasePrice($rate->base_price)
+                                'formatted_base_price' => core()->formatBasePrice($rate->base_price),
                             ];
                         }
                         $shipping_methods[] = [
@@ -418,10 +414,10 @@ class CheckoutMutation extends Controller
                     'jump_to_section' => 'payment',
                 ];
             } elseif (
-                    $token
-                    && empty($validateUser['success'])
-                ) {
-                    throw new CustomException(trans('bagisto_graphql::app.shop.checkout.guest-address-warning'));
+                $token
+                && empty($validateUser['success'])
+            ) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.guest-address-warning'));
             }
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -431,7 +427,6 @@ class CheckoutMutation extends Controller
     /**
      * get the available payment methods and save the shipping for the current cart.
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function paymentMethods($rootValue, array $args, GraphQLContext $context)
@@ -453,7 +448,7 @@ class CheckoutMutation extends Controller
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
 
-            throw new CustomException(implode(" ,", $errorMessage));
+            throw new CustomException(implode(' ,', $errorMessage));
         }
 
         try {
@@ -480,7 +475,6 @@ class CheckoutMutation extends Controller
     /**
      * Save Payment Method
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function savePayment($rootValue, array $args, GraphQLContext $context)
@@ -502,7 +496,7 @@ class CheckoutMutation extends Controller
                 $errorMessage[] = is_array($message) ? $message[0] : $message;
             }
 
-            throw new CustomException(implode(" ,", $errorMessage));
+            throw new CustomException(implode(' ,', $errorMessage));
         }
 
         try {
@@ -695,15 +689,15 @@ class CheckoutMutation extends Controller
     {
         $data = [
             'title'       => 'New Order Placed',
-            'body'        => 'Order ('.$order->id.') placed by '. $order->customerFullName .' successfully.',
-            'message'     => 'Order ('.$order->id.') placed by '. $order->customerFullName .' successfully.',
+            'body'        => 'Order ('.$order->id.') placed by '.$order->customerFullName.' successfully.',
+            'message'     => 'Order ('.$order->id.') placed by '.$order->customerFullName.' successfully.',
             'sound'       => 'default',
             'orderStatus' => $order->parcel_status,
             'orderId'     => (string) $order->id,
             'type'        => 'order',
         ];
 
-        $notification   = [
+        $notification = [
             'title'   => $data['title'],
             'content' => $data['body'],
         ];

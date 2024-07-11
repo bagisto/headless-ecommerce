@@ -10,7 +10,7 @@ class FilterCatalogRules extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -28,7 +28,6 @@ class FilterCatalogRules extends BaseFilter
 
             unset($input['end']);
         }
-
 
         // Convert the grand_total parameter to base_grand_total parameter
         if (isset($input['priority'])) {

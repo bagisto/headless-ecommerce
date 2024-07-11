@@ -74,7 +74,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Produit',
-                        'category' => 'Catégorie'
+                        'category' => 'Catégorie',
                     ],
                 ],
 
@@ -99,7 +99,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Produit',
-                        'category' => 'Catégorie'
+                        'category' => 'Catégorie',
                     ],
                 ],
             ],
@@ -107,7 +107,7 @@ return [
             'exchange_rates' => [
                 'error-invalid-target-currency' => 'Avertissement : Devise cible invalide fournie.',
                 'delete-success'                => 'Succès : Taux de change supprimé avec succès.',
-            ]
+            ],
         ],
 
         'customer' => [
@@ -142,7 +142,7 @@ return [
                 'invalid-product'          => 'Advertencia: Estás solicitando un producto no válido.',
                 'already-exist-inwishlist' => 'Información: Este producto ya existe en la lista de deseos.',
                 'un-authorized-access'     => 'Advertencia: No tienes autorización para usar esta sección.',
-            ]
+            ],
         ],
 
         'validation'    => [
@@ -251,8 +251,8 @@ return [
                 ],
 
                 'addresses' => [
-                    'delete-success' => 'Dirección del cliente eliminada correctamente'
-                ]
+                    'delete-success' => 'Dirección del cliente eliminada correctamente',
+                ],
             ],
 
             'signup-form' => [
@@ -279,5 +279,5 @@ return [
             'invalid-header'          => 'Advertencia: Token de encabezado inválido.',
             'cancel-error'            => 'No se puede cancelar el pedido.',
         ],
-    ]
+    ],
 ];

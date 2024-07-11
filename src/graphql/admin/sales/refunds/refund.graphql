@@ -106,7 +106,7 @@ type RefundItem {
     productType: String @rename(attribute: "product_type")
     orderItemId: Int @rename(attribute: "order_item_id")
     refundId: Int @rename(attribute: "refund_id")
-    # additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
+    additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     formattedPrice: FormattedRefundItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getRefundItemPriceData")

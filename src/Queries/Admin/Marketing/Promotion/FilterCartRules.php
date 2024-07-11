@@ -10,7 +10,7 @@ class FilterCartRules extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -36,18 +36,17 @@ class FilterCartRules extends BaseFilter
             unset($input['priority']);
         }
 
-         // filter the relationship Coupon Code
-         if (isset($input['coupon_code'])) {
+        // filter the relationship Coupon Code
+        if (isset($input['coupon_code'])) {
             $query = $query->whereHas('cart_rule_coupon', function ($q) use ($input) {
-                 $q->where([
-                    'code' => $input['coupon_code'],
+                $q->where([
+                    'code'       => $input['coupon_code'],
                     'is_primary' => 1,
                 ]);
             });
 
             unset($input['coupon_code']);
         }
-
 
         return $query->where($input);
     }

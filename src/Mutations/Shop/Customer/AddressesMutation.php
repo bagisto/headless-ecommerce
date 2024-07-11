@@ -2,16 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
-use Webkul\Customer\Rules\VatIdRule;
 use Illuminate\Support\Facades\Event;
-use Webkul\Core\Rules\AlphaNumericSpace;
 use Illuminate\Support\Facades\Validator;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Customer\Rules\VatIdRule;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AddressesMutation extends Controller
 {
@@ -21,10 +20,9 @@ class AddressesMutation extends Controller
      * @return void
      */
     public function __construct(
-       protected CustomerRepository $customerRepository,
-       protected CustomerAddressRepository $customerAddressRepository
-    ) {
-    }
+        protected CustomerRepository $customerRepository,
+        protected CustomerAddressRepository $customerAddressRepository
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -38,14 +36,14 @@ class AddressesMutation extends Controller
         }
 
         $data = $args['input'];
-        
+
         $validator = Validator::make($data, [
-            'company_name' => [new AlphaNumericSpace],
-            'first_name'   => ['required', new AlphaNumericSpace],
-            'last_name'    => ['required', new AlphaNumericSpace],
+            'company_name' => ['nullable'],
+            'first_name'   => ['required'],
+            'last_name'    => ['required'],
             'address'      => ['required', 'array', 'min:1'],
-            'country'      => core()->isCountryRequired() ? ['required', new AlphaNumericSpace] : [new AlphaNumericSpace],
-            'state'        => core()->isStateRequired() ? ['required', new AlphaNumericSpace] : [new AlphaNumericSpace],
+            'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
+            'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
             'city'         => ['required', 'string'],
             'postcode'     => core()->isPostCodeRequired() ? ['required', 'numeric'] : ['numeric'],
             'phone'        => ['required', new PhoneNumber],
@@ -54,7 +52,7 @@ class AddressesMutation extends Controller
         ]);
 
         bagisto_graphql()->checkValidatorFails($validator);
-        
+
         try {
             Event::dispatch('customer.address.create.before');
 
@@ -70,7 +68,7 @@ class AddressesMutation extends Controller
             return [
                 'status'    => ! empty($customerAddress),
                 'addresses' => $customerAddress,
-                'message'   => trans('shop::app.customers.account.addresses.create-success'),
+                'message'   => trans('bagisto_graphql::app.shop.customers.account.addresses.create-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -90,7 +88,7 @@ class AddressesMutation extends Controller
         }
 
         $id = $args['id'];
-        
+
         if (! $customer->addresses->find($id)) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.addresses.not-found'));
         }
@@ -98,12 +96,12 @@ class AddressesMutation extends Controller
         $data = $args['input'];
 
         $validator = Validator::make($data, [
-            'company_name' => [new AlphaNumericSpace],
-            'first_name'   => ['required', new AlphaNumericSpace],
-            'last_name'    => ['required', new AlphaNumericSpace],
+            'company_name' => ['nullable'],
+            'first_name'   => ['required'],
+            'last_name'    => ['required'],
             'address'      => ['required', 'array', 'min:1'],
-            'country'      => core()->isCountryRequired() ? ['required', new AlphaNumericSpace] : [new AlphaNumericSpace],
-            'state'        => core()->isStateRequired() ? ['required', new AlphaNumericSpace] : [new AlphaNumericSpace],
+            'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
+            'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
             'city'         => ['required', 'string'],
             'postcode'     => core()->isPostCodeRequired() ? ['required', 'numeric'] : ['numeric'],
             'phone'        => ['required', new PhoneNumber],

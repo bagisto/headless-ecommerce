@@ -8,7 +8,7 @@ use Webkul\GraphQLAPI\Http\Controllers\Admin\NotificationController;
  */
 Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_url')], function () {
     Route::prefix('settings/api_notification')->group(function () {
-        
+
         Route::controller(NotificationController::class)->group(function () {
             Route::get('', 'index')->name('admin.settings.push_notification.index');
 

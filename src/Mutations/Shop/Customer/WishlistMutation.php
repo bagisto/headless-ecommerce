@@ -2,26 +2,25 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
 
 class WishlistMutation extends Controller
 {
     /**
      * Create a new controller instance.
-     * 
+     *
      * @return void
      */
     public function __construct(
-       protected WishlistRepository $wishlistRepository,
-       protected ProductRepository $productRepository
-    ) {
-    }
+        protected WishlistRepository $wishlistRepository,
+        protected ProductRepository $productRepository
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -33,7 +32,7 @@ class WishlistMutation extends Controller
         $validator = Validator::make($args, [
             'product_id' => 'required|integer|exists:products,id',
         ]);
-        
+
         bagisto_graphql()->checkValidatorFails($validator);
 
         $product = $this->productRepository->find($args['product_id']);
@@ -68,7 +67,6 @@ class WishlistMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
@@ -76,7 +74,7 @@ class WishlistMutation extends Controller
         $validator = Validator::make($args, [
             'product_id' => 'required|integer|exists:products,id',
         ]);
-        
+
         bagisto_graphql()->checkValidatorFails($validator);
 
         $product = $this->productRepository->find($args['product_id']);
@@ -94,7 +92,7 @@ class WishlistMutation extends Controller
         try {
             if ($wishlist = $this->wishlistRepository->findOneWhere($data)) {
                 $this->wishlistRepository->delete($wishlist->id);
-                
+
                 return [
                     'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
                 ];
@@ -119,11 +117,11 @@ class WishlistMutation extends Controller
             'id'       => 'required|integer|exists:wishlist_items,id',
             'quantity' => 'required|integer',
         ]);
-        
+
         bagisto_graphql()->checkValidatorFails($validator);
 
         $wishlistItem = $this->wishlistRepository->find($args['id']);
-        
+
         if (! $wishlistItem) {
             return [
                 'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
@@ -133,8 +131,8 @@ class WishlistMutation extends Controller
         try {
             $result = Cart::moveToCart($wishlistItem, $args['quantity']);
 
-            $message = $result 
-                ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-success') 
+            $message = $result
+                ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-success')
                 : trans('shop::app.checkout.cart.missing-options');
 
             return [
@@ -149,13 +147,12 @@ class WishlistMutation extends Controller
     /**
      * Remove all the wishlist entries of customer.
      *
-     * @param  array  $args
      * @return \Illuminate\Http\Response
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
         try {
-            if (! empty(auth()->user()->wishlist_items)) {
+            if (empty(auth()->user()->wishlist_items)) {
                 return [
                     'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
                 ];

@@ -4,8 +4,8 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Shop\Http\Controllers\Controller;
 
 class NotificationMutation extends Controller
 {
@@ -19,12 +19,9 @@ class NotificationMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\GraphQLAPI\Repositories\NotificationRepository  $notificationRepository
      * @return void
      */
-    public function __construct(protected NotificationRepository $notificationRepository)
-    {
-    }
+    public function __construct(protected NotificationRepository $notificationRepository) {}
 
     /**
      * Send notificaiton to the app user.
@@ -51,20 +48,21 @@ class NotificationMutation extends Controller
                 return [
                     'success'    => trans('bagisto_graphql::app.admin.alerts.notifications.sended-successfully'),
                     'status'     => true,
-                    'message_id' => $result->message_id
+                    'message_id' => $result->message_id,
                 ];
             } else {
                 $message = $result;
 
-                if (gettype($result) == 'array' && !empty($result['error']))
+                if (gettype($result) == 'array' && ! empty($result['error'])) {
                     $message = $result['error'];
-                elseif (isset($result->error))
+                } elseif (isset($result->error)) {
                     $message = $result->error;
+                }
 
                 return [
                     'success'       => $message,
                     'status'        => false,
-                    'message_id'    => null
+                    'message_id'    => null,
                 ];
             }
         } catch (\Exception $e) {

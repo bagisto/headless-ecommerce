@@ -2,6 +2,4 @@
 
 namespace Webkul\GraphQLAPI\Contracts;
 
-interface PushNotification
-{
-}
+interface PushNotification {}

@@ -3,12 +3,12 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class SessionMutation extends Controller
@@ -28,7 +28,7 @@ class SessionMutation extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login($rootValue, array $args , GraphQLContext $context)
+    public function login($rootValue, array $args, GraphQLContext $context)
     {
         $validator = Validator::make($args, [
             'email'    => 'required|email',
@@ -50,7 +50,7 @@ class SessionMutation extends Controller
             if (! $customer->status) {
                 $message = trans('bagisto_graphql::app.shop.customers.login.not-activated');
             }
-            
+
             if (! $customer->is_verified) {
                 $message = trans('bagisto_graphql::app.shop.customers.login.verify-first');
             }
@@ -64,7 +64,7 @@ class SessionMutation extends Controller
 
                 throw new CustomException($message);
             }
-            
+
             /**
              * Event passed to prepare cart after login.
              */
@@ -102,7 +102,7 @@ class SessionMutation extends Controller
 
         return [
             'status'  => true,
-            'success' => trans('bagisto_graphql::app.shop.customers.success-logout'),
+            'message' => trans('bagisto_graphql::app.shop.customers.success-logout'),
         ];
     }
 }

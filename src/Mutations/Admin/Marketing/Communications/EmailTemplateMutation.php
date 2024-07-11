@@ -5,20 +5,17 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Marketing\Repositories\TemplateRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Marketing\Repositories\TemplateRepository;
 
 class EmailTemplateMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Marketing\Repositories\TemplateRepository $templateRepository
      * @return void
      */
-    public function __construct(protected TemplateRepository $templateRepository)
-    {
-    }
+    public function __construct(protected TemplateRepository $templateRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -108,7 +105,7 @@ class EmailTemplateMutation extends Controller
         $template = $this->templateRepository->find($id);
 
         try {
-            if ($template ) {
+            if ($template) {
                 $template->delete();
 
                 return [

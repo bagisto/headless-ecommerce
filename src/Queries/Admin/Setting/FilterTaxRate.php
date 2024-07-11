@@ -10,7 +10,7 @@ class FilterTaxRate extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -18,10 +18,10 @@ class FilterTaxRate extends BaseFilter
         // filter the relationship Role
         if (
             isset($arguments['state'])
-            && $input['state']  == "*"
+            && $input['state'] == '*'
         ) {
             $query = $query->where(function ($q) {
-                $q->where('state', "");
+                $q->where('state', '');
             });
 
             unset($input['state']);

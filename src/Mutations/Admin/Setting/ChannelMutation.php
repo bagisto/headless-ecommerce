@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
-use Webkul\Core\Repositories\ChannelRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ChannelMutation extends Controller
@@ -16,9 +16,7 @@ class ChannelMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected ChannelRepository $channelRepository)
-    {
-    }
+    public function __construct(protected ChannelRepository $channelRepository) {}
 
     /**
      * Store a newly created resource in storage.

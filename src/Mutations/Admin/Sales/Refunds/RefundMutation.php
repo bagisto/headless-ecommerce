@@ -5,26 +5,23 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Refunds;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Sales\Repositories\OrderItemRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\RefundRepository;
-use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 
 class RefundMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
-     * @param  \Webkul\Sales\Repositories\RefundRepository  $refundRepository
      * @return void
      */
     public function __construct(
         protected OrderRepository $orderRepository,
         protected OrderItemRepository $orderItemRepository,
         protected RefundRepository $refundRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -56,15 +53,15 @@ class RefundMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.creation-error'));
             }
 
-            $refundData= [];
+            $refundData = [];
 
             foreach ($params['refund_data'] as $data) {
                 $refundData = $refundData + [
-                    $data['order_item_id'] => $data['quantity']
+                    $data['order_item_id'] => $data['quantity'],
                 ];
             }
 
-            $refund['refund']['items'] =  $refundData;
+            $refund['refund']['items'] = $refundData;
             $refund['refund']['shipping'] = $params['refund_shipping'];
             $refund['refund']['adjustment_refund'] = $params['adjustment_refund'];
             $refund['refund']['adjustment_fee'] = $params['adjustment_fee'];
@@ -102,7 +99,7 @@ class RefundMutation extends Controller
             }
 
             throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.creation-error'));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
