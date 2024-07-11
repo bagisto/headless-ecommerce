@@ -36,10 +36,7 @@ class OrderMutation extends Controller
     public function order($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['id'])) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
-                trans('bagisto_graphql::app.shop.response.error.invalid-parameter')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.response.error.invalid-parameter'));
         }
 
         if (auth()->check()) {
@@ -51,16 +48,10 @@ class OrderMutation extends Controller
             if (! empty($order->id)) {
                 return $order;
             } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.account.order.no-order-found'),
-                    trans('bagisto_graphql::app.shop.customer.account.order.no-order-found')
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.customer.account.order.no-order-found'));
             }
         } else {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                trans('bagisto_graphql::app.shop.customer.no-login-customer')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
     }
 
@@ -89,16 +80,10 @@ class OrderMutation extends Controller
             if (count($orders)) {
                 return $orders;
             } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Order']),
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Order'])
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Order']));
             }
         } else {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                trans('bagisto_graphql::app.shop.customer.no-login-customer')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
     }
 
@@ -110,17 +95,11 @@ class OrderMutation extends Controller
     public function cancel($rootValue, array $args, GraphQLContext $context)
     {
         if (empty($args['id'])) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
-                trans('bagisto_graphql::app.shop.response.error.invalid-parameter')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.response.error.invalid-parameter'));
         }
 
         if (! auth()->check() ) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                trans('bagisto_graphql::app.shop.customer.no-login-customer')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
 
         $orderId = $args['id'];
@@ -136,10 +115,7 @@ class OrderMutation extends Controller
                 || ! $order->canCancel()
                 || ! $order->canInvoice()
             ) {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.response.cancel-error'),
-                    trans('bagisto_graphql::app.shop.response.cancel-error')
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.response.cancel-error'));
             }
 
             $result = $this->orderRepository->cancel($orderId);
@@ -150,10 +126,7 @@ class OrderMutation extends Controller
                 'message' => $result ? trans('bagisto_graphql::app.shop.customer.account.order.cancel-success', ['name' => 'Order']) : trans('bagisto_graphql::app.shop.response.cancel-error'),
             ];
         } catch (\Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                $e->getMessage()
-            );
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -216,16 +189,10 @@ class OrderMutation extends Controller
             if (($shipments && isset($shipments->first()->id)) || isset($shipments->id)) {
                 return $shipments;
             } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Shipment']),
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Shipment'])
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Shipment']));
             }
         } else {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                trans('bagisto_graphql::app.shop.customer.no-login-customer')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
     }
 
@@ -288,16 +255,10 @@ class OrderMutation extends Controller
             if (($invoices && isset($invoices->first()->id)) || isset($invoices->id)) {
                 return $invoices;
             } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Invoice']),
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Invoice'])
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Invoice']));
             }
         } else {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                trans('bagisto_graphql::app.shop.customer.no-login-customer')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
     }
 
@@ -378,19 +339,19 @@ class OrderMutation extends Controller
                 $invoices = $invoices->paginate(isset($params['limit']) ? $params['limit'] : 10);
             }
 
-            if (($invoices && isset($invoices->first()->id)) || isset($invoices->id)) {
+            if (
+                (
+                    $invoices
+                    && isset($invoices->first()->id)
+                )
+                || isset($invoices->id)
+            ) {
                 return $invoices;
             } else {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Refund']),
-                    trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Refund'])
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Refund']));
             }
         } else {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                trans('bagisto_graphql::app.shop.customer.no-login-customer')
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
     }
 }

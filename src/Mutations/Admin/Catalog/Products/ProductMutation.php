@@ -132,7 +132,10 @@ class ProductMutation extends Controller
             foreach ($data['links'] as $linkProduct) {
                 $productLink = $this->productRepository->findOrFail($linkProduct['associated_product_id']);
 
-                if ($productLink && $productLink->type != 'simple') {
+                if (
+                    $productLink
+                    && $productLink->type != 'simple'
+                ) {
                     throw new CustomException("$productLink->type trans('bagisto_graphql::app.admin.catalog.products.create.grouped-error-not-added')");
                 }
             }

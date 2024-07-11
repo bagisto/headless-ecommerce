@@ -122,10 +122,7 @@ class ReviewMutation extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new CustomException(
-                $validator->messages(),
-                $validator->messages()
-            );
+            throw new CustomException($validator->messages());
         }
 
         try {
@@ -167,10 +164,7 @@ class ReviewMutation extends Controller
                 'review'    => $review
             ];
         } catch (\Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                $e->getMessage()
-            );
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -184,17 +178,11 @@ class ReviewMutation extends Controller
     {
         if (! isset($args['id']) ||
             (isset($args['id']) && ! $args['id'])) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.response.error.invalid-parameter'),
-                'Invalid request parameter.'
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.response.error.invalid-parameter'));
         }
 
         if (! auth()->check() ) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                'Customer Not Login.'
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
 
         $id = $args['id'];
@@ -208,10 +196,7 @@ class ReviewMutation extends Controller
                 isset($customerReview->customer_id)
                 && $customerReview->customer_id !== $customer->id
             ) {
-                throw new CustomException(
-                    trans('bagisto_graphql::app.shop.customer.not-authorized'),
-                    'You are not authorized to perform this action.'
-                );
+                throw new CustomException(trans('bagisto_graphql::app.shop.customer.not-authorized'));
             }
 
             Event::dispatch('customer.review.delete.before', $id);
@@ -226,10 +211,7 @@ class ReviewMutation extends Controller
                 'message'   => ($customerReview->id) ? trans('bagisto_graphql::app.shop.customer.account.review.success-delete') : trans('bagisto_graphql::app.shop.customer.account.review.not-found')
             ];
         } catch (\Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                'Review remove Failed.'
-            );
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -241,10 +223,7 @@ class ReviewMutation extends Controller
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
         if (! auth()->check() ) {
-            throw new CustomException(
-                trans('bagisto_graphql::app.shop.customer.no-login-customer'),
-                'Customer Not Login.'
-            );
+            throw new CustomException(trans('bagisto_graphql::app.shop.customer.no-login-customer'));
         }
 
         try {
@@ -264,10 +243,7 @@ class ReviewMutation extends Controller
                 'message'   => $customerReviews->count() ? trans('shop::app.reviews.delete-all') : trans('bagisto_graphql::app.shop.customer.account.not-found', ['name'   => 'Review'])
             ];
         } catch (\Exception $e) {
-            throw new CustomException(
-                $e->getMessage(),
-                'All review remove Failed.'
-            );
+            throw new CustomException($e->getMessage());
         }
     }
 }

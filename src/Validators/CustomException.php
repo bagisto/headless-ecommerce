@@ -8,13 +8,12 @@ use GraphQL\Error\ClientAware;
 class CustomException extends Exception implements ClientAware
 {
     /**
-     * @param string $message — [optional] The Exception message to throw.
+     * The Exception message to throw.
      *
      * @return void
      */
-    public function __construct(
-        string $message,
-    ) {
+    public function __construct(string $message)
+    {
         parent::__construct($message);
     }
 
