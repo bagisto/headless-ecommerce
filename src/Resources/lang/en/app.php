@@ -124,6 +124,45 @@ return [
                     ],
                 ],
             ],
+
+            'addresses' => [
+                'guest-address-warning'     => 'Warning: Guest user can not add address.',
+                'guest-checkout-warning'    => 'Warning: Guest user can not checkout.',
+                'no-billing-address-found'  => 'Warning: No billing address found.',
+                'no-shipping-address-found' => 'Warning: No shipping address found.',
+                'address-save-success'      => 'Success: Address saved successfully.',
+            ],
+
+            'shipping' => [
+                'method-not-found' => 'Warning: Shipping method not found.',
+                'method-fetched'   => 'Success: Shipping method fetched successfully.',
+                'save-failed'      => 'Warning: Shipping method not saved.',
+                'save-success'     => 'Success: Shipping method saved successfully.',
+            ],
+
+            'payment' => [
+                'method-not-found' => 'Warning: Payment method not found.',
+                'method-fetched'   => 'Success: Payment method fetched successfully.',
+                'save-failed'      => 'Warning: Payment method not saved.',
+                'save-success'     => 'Success: Payment method saved successfully.',
+            ],
+
+            'coupon' => [
+                'apply-success'   => 'Success: Coupon code applied successfully.',
+                'already-applied' => 'Warning: Coupon code already applied.',
+                'invalid-code'    => 'Warning: Coupon code is invalid.',
+                'remove-success'  => 'Success: Coupon code removed successfully.',
+                'remove-failed'   => 'Warning: Coupon code not removed.',
+            ],
+
+            'something-wrong'          => 'Warning: Something went wrong.',
+            'invalid-guest-user'       => 'Warning: Invalid guest user.',
+            'empty-cart'               => 'Warning: Cart is empty.',
+            'missing-billing-address'  => 'Warning: Missing billing address.',
+            'missing-shipping-address' => 'Warning: Missing shipping address.',
+            'missing-shipping-method'  => 'Warning: Missing shipping method.',
+            'missing-payment-method'   => 'Warning: Missing payment method.',
+            'no-address-found'         => 'Warning: No billing and shipping address found.',
         ],
     ],
 

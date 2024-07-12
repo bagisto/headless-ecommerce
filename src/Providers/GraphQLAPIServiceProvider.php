@@ -42,14 +42,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $router->aliasMiddleware('locale', LocaleMiddleware::class);
 
         $router->aliasMiddleware('currency', CurrencyMiddleware::class);
-
-        if (request()->hasHeader('authorization')) {
-            $headerValue = explode('Bearer ', request()->header('authorization'));
-
-            if (count($headerValue) == 2) {
-                request()->merge(['token' => end($headerValue)]);
-            }
-        }
     }
 
     /**

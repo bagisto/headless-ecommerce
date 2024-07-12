@@ -1,4 +1,3 @@
-
 # Shop\Checkout\ShippingMethods Related API
 extend type Query {
     shippingMethods: ShippingMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@shippingMethods")
@@ -7,7 +6,19 @@ extend type Query {
 type ShippingMethodsResponse {
     success: String
     cart: Cart
-    shippingMethods: [RatesResponse!] @rename(attribute: "shipping_methods")
-    paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
-    jumpToSection: String @rename(attribute: "jump_to_section")
+    shippingMethods: [ShippingResponse!] @rename(attribute: "shipping_methods")
+}
+
+type ShippingResponse {
+    title: String
+    methods: ShippingMethod
+}
+
+type ShippingMethod {
+    code: String
+    label: String
+    price: Float
+    formattedPrice: String @rename(attribute: "formatted_price")
+    basePrice: Float @rename(attribute: "base_price")
+    formattedBasePrice: String @rename(attribute: "formatted_base_price")
 }

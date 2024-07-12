@@ -1,0 +1,24 @@
+# Shop\Checkout\PaymentMethods Related API
+extend type Query {
+    paymentMethods(
+        input: PaymentMethodsInput!
+    ): PaymentMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@paymentMethods")
+}
+
+input PaymentMethodsInput {
+    shippingMethod: String! @rename(attribute: "shipping_method")
+}
+
+type PaymentMethodsResponse {
+    success: String
+    cart: Cart
+    paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
+}
+
+type PaymentResponse {
+    method: String
+    methodTitle: String @rename(attribute: "method_title")
+    description: String
+    sort: Int
+    image: String
+}
