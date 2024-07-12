@@ -87,6 +87,8 @@ type ShipmentItem {
     basePrice: Float @rename(attribute: "base_price")
     total: Float
     baseTotal: Float @rename(attribute: "base_total")
+    priceInclTax: Float @rename(attribute: "price_incl_tax")
+    basePriceInclTax: Float @rename(attribute: "base_price_incl_tax")
     formattedPrice: FormattedShipmentItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getShipmentItemPriceData")
     productId: ID! @rename(attribute: "product_id")
     productType: String @rename(attribute: "product_type")

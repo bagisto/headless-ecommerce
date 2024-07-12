@@ -236,10 +236,10 @@ class NotificationRepository extends Repository
      */
     public function sendNotification($fieldData, $data = [])
     {
-        $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))->project_id;
+        $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))?->project_id;
 
         if (! $projectId) {
-            Log::error('sendNotification Error: ', 'Project ID is not found.');
+            return;
         }
 
         $topic = core()->getConfigData('general.api.pushnotification.notification_topic');

@@ -172,11 +172,7 @@ class CheckoutMutation extends Controller
                     ]);
 
                     if (isset($billingAddress->id)) {
-                        $data['billing']['first_name'] = $billingAddress->first_name;
-
-                        $data['billing']['last_name'] = $billingAddress->last_name;
-
-                        $data['billing']['address'] = [$billingAddress->address];
+                        $data['billing'] = $this->getAddressData($billingAddress);
 
                         if (
                             isset($params['billing']['use_for_shipping'])
@@ -202,7 +198,7 @@ class CheckoutMutation extends Controller
                     ]);
 
                     if (isset($shippingAddress->id)) {
-                        $data['shipping']['address'] = [$shippingAddress->address];
+                        $data['shipping'] = $this->getAddressData($shippingAddress);
                     } else {
                         throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.no-shipping-address-found'));
                     }
@@ -337,6 +333,27 @@ class CheckoutMutation extends Controller
     }
 
     /**
+     * Get address data.
+     *
+     * @return array
+     */
+    private function getAddressData(object $address)
+    {
+        return [
+            'company_name' => $address->company_name,
+            'first_name'   => $address->first_name,
+            'last_name'    => $address->last_name,
+            'email'        => $address->email,
+            'address'      => explode(PHP_EOL, $address->address),
+            'city'         => $address->city,
+            'country'      => $address->country,
+            'state'        => $address->state,
+            'postcode'     => $address->postcode,
+            'phone'        => $address->phone,
+        ];
+    }
+
+    /**
      * get shipping methods based on the cart address.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -403,6 +420,14 @@ class CheckoutMutation extends Controller
                         'success'          => trans('bagisto_graphql::app.shop.checkout.shipping.method-fetched'),
                         'cart'             => Cart::getCart(),
                         'shipping_methods' => $shipping_methods,
+                        'jump_to_section'  => 'shipping',
+                    ];
+                } else {
+                    return [
+                        'success'         => trans('bagisto_graphql::app.shop.checkout.payment.method-fetched'),
+                        'cart'            => Cart::getCart(),
+                        'payment_methods' => Payment::getPaymentMethods(),
+                        'jump_to_section' => 'payment',
                     ];
                 }
             } elseif (
@@ -488,6 +513,7 @@ class CheckoutMutation extends Controller
                 'success'         => trans('bagisto_graphql::app.shop.checkout.payment.method-fetched'),
                 'cart'            => Cart::getCart(),
                 'payment_methods' => Payment::getPaymentMethods(),
+                'jump_to_section' => 'payment',
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -526,7 +552,7 @@ class CheckoutMutation extends Controller
             return [
                 'success'         => trans('bagisto_graphql::app.shop.checkout.payment.save-success'),
                 'cart'            => Cart::getCart(),
-                'jump_to_section' => 'place-order',
+                'jump_to_section' => 'review',
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

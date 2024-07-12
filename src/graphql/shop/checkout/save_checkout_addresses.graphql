@@ -33,21 +33,7 @@ input CheckoutAddressInput {
 type ShippingMethodsResponse {
     success: String
     cart: Cart
-    shippingMethods: [RatesResponse!] @rename(attribute: "shipping_methods")
-    paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
+    shippingMethods: [ShippingMethod!] @rename(attribute: "shipping_methods")
+    paymentMethods: [PaymentMethod!] @rename(attribute: "payment_methods")
     jumpToSection: String @rename(attribute: "jump_to_section")
-}
-
-type RatesResponse {
-    title: String!
-    methods: MethodResponse!
-}
-
-type MethodResponse {
-    code: String!
-    label: String!
-    price: Float!
-    formattedPrice: String! @rename(attribute: "formatted_price")
-    basePrice: Float! @rename(attribute: "base_price")
-    formattedBasePrice: String! @rename(attribute: "formatted_base_price")
 }

@@ -2,20 +2,20 @@
 extend type Query {
     paymentMethods(
         input: PaymentMethodsInput!
-    ): PaymentMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@paymentMethods")
+    ): PaymentMethods @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@paymentMethods")
 }
 
 input PaymentMethodsInput {
     shippingMethod: String! @rename(attribute: "shipping_method")
 }
 
-type PaymentMethodsResponse {
+type PaymentMethods {
     success: String
     cart: Cart
-    paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
+    paymentMethods: [PaymentMethod!] @rename(attribute: "payment_methods")
 }
 
-type PaymentResponse {
+type PaymentMethod {
     method: String
     methodTitle: String @rename(attribute: "method_title")
     description: String
