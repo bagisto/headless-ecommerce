@@ -168,8 +168,8 @@ return [
     |
     */
     'namespaces' => [
-        'queries'       => 'Webkul\\GraphQLAPI\\Queries',
-        'mutations'     => 'Webkul\\GraphQLAPI\\Mutations',
+        'queries'       => ['Webkul\\GraphQLAPI\\Queries'],
+        'mutations'     => ['Webkul\\GraphQLAPI\\Mutations'],
         'subscriptions' => 'Webkul\\GraphQLAPI\\Subscriptions',
         'interfaces'    => 'Webkul\\GraphQLAPI\\Interfaces',
         'unions'        => 'Webkul\\GraphQLAPI\\Unions',
