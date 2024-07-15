@@ -69,7 +69,6 @@ class NotificationController extends Controller
             'image.*'  => 'mimes:jpeg,jpg,bmp,png',
             'type'     => 'required',
             'channels' => 'required',
-            'status'   => 'required',
         ]);
 
         $data = collect(request()->all())->except('_token')->toArray();
@@ -114,7 +113,6 @@ class NotificationController extends Controller
             'image.*'  => 'mimes:jpeg,jpg,bmp,png',
             'type'     => 'required',
             'channels' => 'required',
-            'status'   => 'required',
         ]);
 
         $requestData =  request()->all();

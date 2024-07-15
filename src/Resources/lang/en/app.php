@@ -252,9 +252,11 @@ return [
 
             'notification' => [
                 'index' => [
-                    'title'     => 'Push Notification',
-                    'add-title' => 'Add Notification',
-                    'general'   => 'General',
+                    'title'               => 'Push Notification',
+                    'add-title'           => 'Add Notification',
+                    'general'             => 'General',
+                    'mass-update-success' => 'Selected Push Notification Updated Successfully',
+                    'mass-delete-success' => 'Selected Push Notification Deleted Successfully',
 
                     'datagrid' => [
                         'id'                   => 'Id',
@@ -285,7 +287,7 @@ return [
                     'content-and-image'    => 'Notification Content And Image',
                     'notification-content' => 'Notification Content',
                     'image'                => 'Image',
-                    'settings'             => 'Setting',
+                    'settings'             => 'Settings',
                     'status'               => 'Status',
                     'store-view'           => 'Channels',
                     'notification-type'    => 'Notification Type',
@@ -308,7 +310,7 @@ return [
                     'content-and-image'    => 'Notification Content And Image',
                     'notification-content' => 'Notification Content',
                     'image'                => 'Image',
-                    'settings'             => 'Setting',
+                    'settings'             => 'Settings',
                     'status'               => 'Status',
                     'store-view'           => 'Channels',
                     'notification-type'    => 'Notification Type',

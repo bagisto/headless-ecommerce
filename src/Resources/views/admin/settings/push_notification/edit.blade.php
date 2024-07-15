@@ -43,9 +43,11 @@
                         </a>
 
                         <!-- Send Notification -->
-                        <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
-                            {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
-                        </a>
+                        @if ($notification->status)
+                            <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
+                                {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
+                            </a>
+                        @endif
 
                         <!-- Save Button -->
                         <button
@@ -209,7 +211,7 @@
 
                                     <x-admin::media.images
                                         name="image"
-                                        :uploaded-images="$notification->image ? [['id' => 'logo_path', 'url' => $notification->image_url]] : ''"
+                                        :uploaded-images="$notification->image ? [['id' => 'logo_path', 'url' => $notification->image_url]] : []"
                                     ></x-admin::media.images>
                                 </div>
                             </div>

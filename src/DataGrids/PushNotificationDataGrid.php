@@ -80,6 +80,8 @@ class PushNotificationDataGrid extends DataGrid
         $this->addFilter('channel_name', 'ch_t.name');
         $this->addFilter('status', 'pn.status');
         $this->addFilter('type', 'pn.type');
+        $this->addFilter('created_at', 'pn.created_at');
+        $this->addFilter('updated_at', 'pn.updated_at');
 
         return $queryBuilder;
     }
@@ -103,12 +105,13 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'image',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.image'),
-            'type'       => 'html',
-            'searchable' => true,
-            'filterable' => true,
-            'sortable'   => true,
+            'type'       => 'string',
+            'searchable' => false,
+            'filterable' => false,
+            'sortable'   => false,
             'closure'    => function ($value) {
-                return '<img src='.Storage::url($value->image).' class="img-thumbnail" width="100px" height="70px" />';
+                if($value->image)
+                    return '<img src='.Storage::url($value->image).' class="img-thumbnail" width="100px" height="70px" />';
             },
         ]);
 
@@ -133,10 +136,22 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'type',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-type'),
-            'type'       => 'price',
+            'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
+            'closure'    => function ($value) {
+                switch ($value->type) {
+                    case 'others':
+                        return trans('bagisto_graphql::app.admin.settings.notification.create.option-type.others');
+                        
+                    case 'product':
+                        return trans('bagisto_graphql::app.admin.settings.notification.create.option-type.product');
+                        
+                    case 'category':
+                        return trans('bagisto_graphql::app.admin.settings.notification.create.option-type.category');
+                }
+            }
         ]);
 
         $this->addColumn([
@@ -144,7 +159,7 @@ class PushNotificationDataGrid extends DataGrid
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.store-view'),
             'type'       => 'string',
             'searchable' => false,
-            'filterable' => false,
+            'filterable' => true,
             'sortable'   => false,
         ]);
 
