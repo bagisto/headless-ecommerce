@@ -31,7 +31,6 @@ class NotificationRequest extends FormRequest
             'type'                => 'required',
             'channels'            => 'required|array',
             'channels.*'          => 'required',
-            'status'              => 'required',
             'product_category_id' => 'nullable|integer',
             'locale'              => 'string',
         ];

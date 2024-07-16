@@ -24,7 +24,6 @@ class PushNotificationDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
-
         $whereInLocales = (core()->getRequestedLocaleCode() === 'all')
             ? Locale::query()->pluck('code')->toArray()
             : [core()->getRequestedLocaleCode()];
@@ -83,9 +82,9 @@ class PushNotificationDataGrid extends DataGrid
             'index'      => 'image',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.image'),
             'type'       => 'string',
-            'searchable' => true,
-            'filterable' => true,
-            'sortable'   => true,
+            'searchable' => false,
+            'filterable' => false,
+            'sortable'   => false,
             'closure'    => function ($row) {
                 if ($row->image) {
                     return '<img src='.Storage::url($row->image).' class="max-h-[65px] min-h-[65px] min-w-[65px] max-w-[65px] rounded" width="65px" height="65px" />';
@@ -114,12 +113,48 @@ class PushNotificationDataGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'      => 'type',
-            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-type'),
+            'index'              => 'type',
+            'label'              => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.notification-type'),
+            'type'               => 'string',
+            'filterable'         => true,
+            'filterable_type'    => 'dropdown',
+            'filterable_options' => [
+                [
+                    'label' => trans('bagisto_graphql::app.admin.settings.notification.create.option-type.others'),
+                    'value' => 'others',
+                ],
+                [
+                    'label' => trans('bagisto_graphql::app.admin.settings.notification.create.option-type.product'),
+                    'value' => 'product',
+                ],
+                [
+                    'label' => trans('bagisto_graphql::app.admin.settings.notification.create.option-type.category'),
+                    'value' => 'category',
+                ],
+            ],
+            'sortable'           => true,
+            'closure'            => function ($value) {
+                switch ($value->type) {
+                    case 'others':
+                        return trans('bagisto_graphql::app.admin.settings.notification.create.option-type.others');
+
+                    case 'product':
+                        return trans('bagisto_graphql::app.admin.settings.notification.create.option-type.product');
+
+                    case 'category':
+                        return trans('bagisto_graphql::app.admin.settings.notification.create.option-type.category');
+                }
+            },
+        ]);
+
+        $this->addColumn([
+            'index'      => 'channel',
+            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.channel-name'),
             'type'       => 'string',
-            'searchable' => true,
+            'searchable' => false,
+            'filterable' => false,
             'filterable' => true,
-            'sortable'   => true,
+            'sortable'   => false,
         ]);
 
         $this->addColumn([
@@ -141,7 +176,7 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'created_at',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.created-at'),
-            'type'       => 'datetime',
+            'type'       => 'date',
             'searchable' => false,
             'filterable' => true,
             'sortable'   => true,
@@ -150,7 +185,7 @@ class PushNotificationDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'updated_at',
             'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.updated-at'),
-            'type'       => 'datetime',
+            'type'       => 'date',
             'searchable' => false,
             'filterable' => true,
             'sortable'   => true,

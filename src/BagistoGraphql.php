@@ -155,7 +155,7 @@ class BagistoGraphql
 
                     if (
                         ! isset($validate[1])
-                        || ($this->is_not_base64($validate[1]))
+                        || ($this->isNotBase64($validate[1]))
                     ) {
                         continue;
                     }
@@ -219,7 +219,7 @@ class BagistoGraphql
      * @param  string|null  $type
      * @return bool
      */
-    public function is_not_base64($string)
+    public function isNotBase64($string)
     {
         return ! preg_match('/^[a-zA-Z0-9\/+]+={0,2}$/', $string) || base64_encode(base64_decode($string)) !== $string;
     }

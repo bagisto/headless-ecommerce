@@ -364,6 +364,7 @@ return [
                     'title'     => 'Push Notification',
 
                     'datagrid' => [
+                        'channel-name'         => 'Channel Name',
                         'created-at'           => 'Created Time',
                         'delete'               => 'Delete',
                         'id'                   => 'Id',
