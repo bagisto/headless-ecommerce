@@ -3,71 +3,54 @@
 namespace Webkul\GraphQLAPI\Console\Commands;
 
 use Illuminate\Console\Command;
+use Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider;
 
 class Install extends Command
 {
     /**
-     * Holds the execution signature of the command needed
-     * to be executed for generating super user
+     * The name and signature of the console command.
+     *
+     * @var string
      */
     protected $signature = 'bagisto-graphql:install';
 
     /**
-     * Will inhibit the description related to this
-     * command's role
+     * The console command description.
+     *
+     * @var string
      */
     protected $description = 'Installing Bagisto GraphQL API Extension';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
-     * Does the all sought of lifting required to be performed for
-     * generating a super user
+     * Execute the console command.
+     *
+     * @return mixed
      */
     public function handle()
     {
-        // running `php artisan jwt:secret`
-        $this->warn('Step: Generating JWT Secret token...');
-        $jwtSecret = $this->call('jwt:secret');
-        $this->info($jwtSecret);
+        $this->warn('Step1: Generating JWT Secret token...');
+        $this->call('jwt:secret');
 
-        // running `php artisan migrate`
-        $this->warn('Step: Migrating Notification tables into database...');
-        $migrate = $this->call('migrate');
-        $this->info($migrate);
+        $this->warn('Step2: Migrating Notification tables into database...');
+        $this->call('migrate');
 
-        // running `php artisan vendor:publish --provider "GraphQLAPIServiceProvider"`
-        $this->warn('Step: Publishing GraphQLAPI Provider File...');
-        $result = shell_exec('php artisan vendor:publish --tag=graphql-api-lighthouse');
-        $this->info($result);
+        $this->warn('Step3: Publishing GraphQLAPI Provider File...');
+        $this->info($this->call('vendor:publish', [
+            '--provider' => GraphQLAPIServiceProvider::class,
+            '--force'    => true
+        ]));
 
-        // running `php artisan vendor:publish --provider "Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config`
         $this->warn('Step: Publishing Lighthouse Provider File...');
-        $configuration = shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config');
-        $this->info($configuration);
+        $this->info(shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config'));
 
-        // running `php artisan vendor:publish --provider "MLL\GraphiQL\GraphiQLServiceProvider" --tag=config`
         $this->warn('Step: Publishing GraphiQL Provider File...');
-        $configuration = shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config');
-        $this->info($configuration);
+        $this->info(shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config'));
 
-        // running `php artisan vendor:publish --tag=lighthouse-config`
         $this->warn('Step: Publishing GraphiQL Configuration File...');
-        $graphiqlConfig = shell_exec('php artisan vendor:publish --tag=graphiql-config');
-        $this->info($graphiqlConfig);
+        $this->info(shell_exec('php artisan vendor:publish --tag=graphiql-config'));
 
-        // running `composer dump-autoload`
-        $this->warn('Step: Composer autoload...');
-        $result = shell_exec('composer dump-autoload');
-        $this->info($result);
-
-        // running `php artisan cache:clear`
         $this->warn('Step: Clearing the cache...');
-        $cacheClear = $this->call('optimize:clear');
-        $this->info($cacheClear);
+        $this->call('optimize:clear');
 
         $this->comment('Success: Bagisto GraphQL API has been configured successfully.');
     }

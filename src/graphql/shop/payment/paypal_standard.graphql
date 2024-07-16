@@ -50,6 +50,7 @@ type PaypalFormFieldResponse {
     address: String!
     state: String!
     country: String!
+    city: String!
     zip: String!
     addressOverride: Boolean! @rename(attribute: "address_override")
     paypalItem: [PaypalCartItem!] @rename(attribute: "paypal_item")

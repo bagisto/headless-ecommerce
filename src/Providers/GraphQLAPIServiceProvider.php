@@ -153,6 +153,5 @@ class GraphQLAPIServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/auth/providers.php',
             'auth.providers'
         );
-
     }
 }
