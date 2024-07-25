@@ -807,7 +807,9 @@ class CheckoutMutation extends Controller
 
             $order = $this->orderRepository->create(Cart::prepareDataForOrder());
 
-            $this->prepareNotificationContent($order);
+            if (core()->getConfigData('general.api.pushnotification.private_key')) {
+                $this->prepareNotificationContent($order);
+            }
 
             Cart::deActivateCart();
 
