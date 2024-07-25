@@ -1,6 +1,10 @@
 # Bagisto GraphQL API
 
-[![Latest Stable Version](http://poser.pugx.org/bagisto/graphql-api/v)](https://packagist.org/packages/bagisto/graphql-api) [![Total Downloads](http://poser.pugx.org/bagisto/graphql-api/downloads)](https://packagist.org/packages/bagisto/graphql-api) [![License](http://poser.pugx.org/bagisto/graphql-api/license)](https://packagist.org/packages/bagisto/graphql-api)
+<p align="center">
+    <a href="https://packagist.org/packages/bagisto/graphql-api"><img src="https://poser.pugx.org/bagisto/graphql-api/d/total.svg" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/bagisto/graphql-api"><img src="https://poser.pugx.org/bagisto/graphql-api/v/stable.svg" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/bagisto/graphql-api"><img src="https://poser.pugx.org/bagisto/graphql-api/license.svg" alt="License"></a>
+</p>
 
 Laravel eCommerce headless APIs allow you to experience seamless and easily scalable storefront performance. The [open-source headless laravel](https://bagisto.com/en/headless-ecommerce/) platform built on GraphQL based Rest API delivers ultra-fast, dynamic, and personalized shopping experiences.
 
