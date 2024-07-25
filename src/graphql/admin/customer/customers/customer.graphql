@@ -77,10 +77,10 @@ type Customer {
 type NewsLetterSubscription {
     id: ID
     email: String
-    is_subscribed: Boolean
+    isSubscribed: Boolean @rename(attribute: "is_subscribed")
     token: String
-    customer_id: ID
-    channel_id: ID
+    customerId: ID @rename(attribute: "customer_id")
+    channelId: ID @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
 }

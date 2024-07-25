@@ -121,8 +121,10 @@ return [
                     'not-subscribed'       => 'You can not be subscribed to subscription emails, please try again later.',
                     'already-unsubscribed' => 'You are already unsubscribed.',
                     'delete-success'       => 'Subscription deleted successfully',
-                    'unsubscribe'          => 'Unsubcribe',
+                    'unsubscribe'          => 'Unsubscribe',
                     'subscribe'            => 'Subscribe',
+                    'subscribed-success'   => 'You have successfully subscribed to our subscription list.',
+                    'unsubscribed'         => 'You have successfully unsubscribed from our subscription list.',
                 ],
             ],
 
