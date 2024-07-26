@@ -43,9 +43,11 @@
                         </a>
 
                         <!-- Send Notification -->
-                        <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
-                            {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
-                        </a>
+                        @if (core()->getConfigData('general.api.pushnotification.private_key'))
+                            <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
+                                {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
+                            </a>
+                        @endif
 
                         <!-- Save Button -->
                         <button

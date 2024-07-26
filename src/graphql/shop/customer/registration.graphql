@@ -12,7 +12,7 @@ extend type Mutation {
 input CreateRegisterInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
-    email: String! @rules(apply: ["unique:customers,email","email"])
+    email: String!
     password: String! @rules(apply: ["min:6"])
     passwordConfirmation: String! @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
 }
