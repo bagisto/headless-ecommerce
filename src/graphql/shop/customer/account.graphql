@@ -33,8 +33,8 @@ input UpdateAccountInput {
     gender: Gender! @rules(apply: ["required"])
     dateOfBirth: String @rename(attribute: "date_of_birth")
     currentPassword: String @rename(attribute: "current_password")
-    password: String
-    passwordConfirmation: String @rename(attribute: "password_confirmation")
+    newPassword: String @rename(attribute: "new_password")
+    newPasswordConfirmation: String @rename(attribute: "new_password_confirmation")
     newsletterSubscriber: Boolean @rename(attribute: "subscribed_to_news_letter")
     uploadType: UploadType @rename(attribute: "upload_type")
     imageUrl: String @rename(attribute: "image_url")

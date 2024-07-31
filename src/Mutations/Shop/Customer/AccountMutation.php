@@ -101,12 +101,12 @@ class AccountMutation extends Controller
                 if (Hash::check($args['current_password'], $customer->password)) {
                     $isPasswordChanged = true;
 
-                    $args['password'] = bcrypt($args['password']);
+                    $args['password'] = bcrypt($args['new_password']);
                 } else {
                     throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.profile.password-unmatch'));
                 }
             } else {
-                unset($args['password']);
+                unset($args['new_password']);
             }
 
             Event::dispatch('customer.update.before');

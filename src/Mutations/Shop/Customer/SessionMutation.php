@@ -75,7 +75,7 @@ class SessionMutation extends Controller
                 'success'      => trans('bagisto_graphql::app.shop.customers.success-login'),
                 'access_token' => "Bearer $jwtToken",
                 'token_type'   => 'Bearer',
-                'expires_in'   => auth()->factory()->getTTL() * 60,
+                'expires_in'   => Auth::guard('api')->factory()->getTTL() * 60,
                 'customer'     => $this->customerRepository->find($customer->id),
             ];
         } catch (\Exception $e) {
