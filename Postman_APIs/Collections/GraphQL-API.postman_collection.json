@@ -7675,7 +7675,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query wishlists {\n    wishlists (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # productId: 1\n            # productName: \"Music Show\"\n            # channelId: 1\n        }\n    ) {\n        data {\n            id\n            channelId\n            productId\n            customerId\n            additional {\n                key\n                value\n            }\n            movedToCart\n            shared\n            createdAt\n            updatedAt\n            customer {\n                id\n            }\n            # product {\n            #     id\n            # }\n            channel {\n                id\n            }\n        }\n    }\n}",
+														"query": "query wishlists {\n    wishlists (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # productId: 1\n            # productName: \"Music Show\"\n            # channelId: 1\n        }\n    ) {\n        data {\n            id\n            channelId\n            productId\n            customerId\n            additional {\n                key\n                value\n            }\n            movedToCart\n            shared\n            createdAt\n            updatedAt\n            customer {\n                id\n            }\n            product {\n                id\n            }\n            channel {\n                id\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
