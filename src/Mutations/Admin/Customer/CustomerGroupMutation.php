@@ -2,26 +2,22 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
-use Exception;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Core\Rules\Code;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomerGroupMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Customer\Repositories\CustomerGroupRepository  $customerGroupRepository
      * @return void
      */
-    public function __construct(protected CustomerGroupRepository $customerGroupRepository)
-    {
-    }
+    public function __construct(protected CustomerGroupRepository $customerGroupRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -41,12 +37,10 @@ class CustomerGroupMutation extends Controller
             'name' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
-            $data['is_user_defined'] = ! empty($data['is_user_defined']) ? $data['is_user_defined'] : 0;
+            $data['is_user_defined'] = $data['is_user_defined'] ?? 0;
 
             Event::dispatch('customer.customer_group.create.before');
 
@@ -54,8 +48,10 @@ class CustomerGroupMutation extends Controller
 
             Event::dispatch('customer.customer_group.create.after', $customerGroup);
 
+            $customerGroup->success = trans('bagisto_graphql::app.admin.customers.groups.create-success');
+
             return $customerGroup;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -76,6 +72,7 @@ class CustomerGroupMutation extends Controller
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -83,23 +80,27 @@ class CustomerGroupMutation extends Controller
             'name' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
+        bagisto_graphql()->checkValidatorFails($validator);
+
+        $customerGroup = $this->customerGroupRepository->find($id);
+
+        if (! $customerGroup) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.not-found'));
         }
 
         try {
-            $data['is_user_defined'] = ! empty($data['is_user_defined']) ? $data['is_user_defined'] : 0;
+            $data['is_user_defined'] = $data['is_user_defined'] ?? 0;
 
             Event::dispatch('customer.customer_group.update.before', $id);
 
             $customerGroup = $this->customerGroupRepository->update($data, $id);
 
-            $customerGroup = $this->customerGroupRepository->find($id);
-
             Event::dispatch('customer.customer_group.update.after', $customerGroup);
 
+            $customerGroup->success = trans('bagisto_graphql::app.admin.customers.groups.update-success');
+
             return $customerGroup;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -118,16 +119,17 @@ class CustomerGroupMutation extends Controller
 
         $id = $args['id'];
 
-        $customerGroup = $this->customerGroupRepository->findOrFail($id);
+        $customerGroup = $this->customerGroupRepository->find($id);
 
-        if ($customerGroup->is_user_defined == 0) {
+        if (! $customerGroup) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.not-found'));
+        }
+
+        if (! $customerGroup->is_user_defined) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.user-define-error'));
         }
 
-        if (
-            $customerGroup->customers
-            && count($customerGroup->customers)
-        ) {
+        if (count($customerGroup->customers)) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.customer-associate'));
         }
 
@@ -138,8 +140,8 @@ class CustomerGroupMutation extends Controller
 
             Event::dispatch('customer.customer_group.delete.after', $id);
 
-            return ['success' => trans('bagisto_graphql::app.admin.customers.customers.groups.delete-success')];
-        } catch(Exception $e) {
+            return ['success' => trans('bagisto_graphql::app.admin.customers.groups.delete-success')];
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

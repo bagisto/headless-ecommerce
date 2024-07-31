@@ -10,7 +10,7 @@ class FilterInvoice extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -27,7 +27,7 @@ class FilterInvoice extends BaseFilter
         // Convert the grand_total parameter to base_grand_total parameter
         if (isset($arguments['grand_total'])) {
             $arguments['base_grand_total'] = $arguments['grand_total'];
-            
+
             unset($arguments['grand_total']);
         }
 

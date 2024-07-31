@@ -1,16 +1,19 @@
 # Customer\NewsletterSubscribers Related APIs
-extend type Query @guard(with: ["admin-api"]) {
-    newsletterSubscribers(input: FilterSubscriberInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterSubscriber")): [Subscriber!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\SubscribersList")
+extend type Query {
+    getSubscribers(
+        input: FilterSubscriberInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterSubscriber")
+    ): [Subscriber!] @guard(with: ["admin-api"]) @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\SubscribersList")
 
-    newsletterSubscriber(email: String!): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@get")
+    getSubscriber(
+        email: String! @rules(apply: ["required"])
+    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@get")
 }
 
-extend type Mutation @guard(with: ["admin-api"]) {
-    deleteSubscriber(email: String!): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@delete")
-}
-
-input SubscriberInput {
-    email: String!
+extend type Mutation {
+    unSubscribe(
+        token: String! @rules(apply: ["required"])
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@delete")
 }
 
 input FilterSubscriberInput {
@@ -24,6 +27,7 @@ type Subscriber {
     email: String!
     isSubscribed: Boolean @rename(attribute: "is_subscribed")
     token: String
+    customerId: Int @rename(attribute: "customer_id")
     channelId: Int! @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")

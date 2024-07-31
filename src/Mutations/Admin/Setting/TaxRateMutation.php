@@ -2,25 +2,21 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Tax\Repositories\TaxRateRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
 class TaxRateMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Tax\Repositories\TaxRateRepository  $taxRateRepository
      * @return void
      */
-    public function __construct(protected TaxRateRepository $taxRateRepository)
-    {
-    }
+    public function __construct(protected TaxRateRepository $taxRateRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -37,17 +33,15 @@ class TaxRateMutation extends Controller
 
         $validator = Validator::make($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
-            'is_zip'     => 'sometimes',
+            'is_zip'     => 'nullable',
             'zip_code'   => 'nullable',
             'zip_from'   => 'nullable|required_with:is_zip',
             'zip_to'     => 'nullable|required_with:is_zip,zip_from',
-            'country'    => 'required|string',
+            'country'    => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         if (isset($data['is_zip'])) {
             $data['is_zip'] = 1;
@@ -62,8 +56,10 @@ class TaxRateMutation extends Controller
 
             Event::dispatch('tax.tax_rate.create.after', $taxRate);
 
+            $taxRate->success = trans('bagisto_graphql::app.admin.settings.tax-rates.create-success');
+
             return $taxRate;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -84,6 +80,7 @@ class TaxRateMutation extends Controller
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -91,13 +88,11 @@ class TaxRateMutation extends Controller
             'is_zip'     => 'sometimes',
             'zip_from'   => 'nullable|required_with:is_zip',
             'zip_to'     => 'nullable|required_with:is_zip,zip_from',
-            'country'    => 'required|string',
+            'country'    => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $taxRate = $this->taxRateRepository->find($id);
 
@@ -112,8 +107,10 @@ class TaxRateMutation extends Controller
 
             Event::dispatch('tax.tax_rate.update.after', $taxRate);
 
+            $taxRate->success = trans('bagisto_graphql::app.admin.settings.tax-rates.update-success');
+
             return $taxRate;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -135,7 +132,7 @@ class TaxRateMutation extends Controller
         $taxRate = $this->taxRateRepository->find($id);
 
         if (! $taxRate) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-rate.not-found'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-rates.not-found'));
         }
 
         try {
@@ -146,7 +143,7 @@ class TaxRateMutation extends Controller
             Event::dispatch('tax.tax_rate.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.tax-rates.delete-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

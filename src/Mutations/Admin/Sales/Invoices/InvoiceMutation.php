@@ -2,27 +2,23 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Invoices;
 
-use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\Sales\Repositories\OrderRepository;
 
 class InvoiceMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
-     * @param  \Webkul\Sales\Repositories\InvoiceRepository  $invoiceRepository
      * @return void
      */
     public function __construct(
         protected OrderRepository $orderRepository,
         protected InvoiceRepository $invoiceRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -81,7 +77,7 @@ class InvoiceMutation extends Controller
             $invoicedData = $this->invoiceRepository->create(array_merge($invoice, ['order_id' => $orderId]));
 
             return $invoicedData;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

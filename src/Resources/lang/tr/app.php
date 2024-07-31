@@ -156,6 +156,9 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
+                        'notification-topic'              => 'Bildirim Konusu',
+                        'info'                            => 'Bildirim ile ilgili yapılandırmalar',
+                        'push-notification-configuration' => 'FCM Anlık Bildirim Yapılandırması',
                         'title'                           => 'GraphQL API',
                         'info'                            => 'Notification related configurations',
                         'push-notification-configuration' => 'FCM Push Notification Configuration',

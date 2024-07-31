@@ -10,39 +10,31 @@ class FilterCustomer extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
-        $groupName = "";
-
         // Get first_name and last_name
         if (isset($arguments['name'])) {
+            $nameChanger = $this->nameSplitter($input['name']);
 
-            $nameChanger = $this->nameSplitter($arguments['name']);
+            $input['first_name'] = $nameChanger['firstname'];
 
-            $arguments['first_name'] = $nameChanger['firstname'];
+            $input['last_name'] = $nameChanger['lastname'];
 
-            $arguments['last_name'] = $nameChanger['lastname'];
-
-            unset($arguments['name']);
+            unset($input['name']);
         }
 
         // filter the relationship Customer Group
-        if (isset($arguments['group_name'])) {
+        if (isset($input['group_name'])) {
+            $query = $query->whereHas('group', function ($q) use ($input) {
+                $q->where('state', $input['group_name']);
+            });
 
-            $groupName = $input['group_name'];
-
-            unset($arguments['group_name']);
-
-            return $query->whereHas('group', function ($q) use ($groupName) {
-                $q->where('name', $groupName);
-            })->where($arguments);
+            unset($input['group_name']);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

@@ -39,6 +39,7 @@ type DownloadableLinkPurchased {
     customerId: ID! @rename(attribute: "customer_id")
     orderId: ID! @rename(attribute: "order_id")
     orderItemId: ID! @rename(attribute: "order_item_id")
+    downloadCanceled: Int @rename(attribute: "download_canceled")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     customer: Customer @belongsTo(relation: "customer")

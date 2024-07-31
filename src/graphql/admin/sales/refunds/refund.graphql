@@ -74,17 +74,27 @@ type Refund {
     discountPercent: Float @rename(attribute: "discount_percent")
     discountAmount: Float @rename(attribute: "discount_amount")
     baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    shippingTaxAmount: Float @rename(attribute: "shipping_tax_amount")
+    baseShippingTaxAmount: Float @rename(attribute: "base_shipping_tax_amount")
+    subTotalInclTax: Float @rename(attribute: "sub_total_incl_tax")
+    baseSubTotalInclTax: Float @rename(attribute: "base_sub_total_incl_tax")
+    shippingAmountInclTax: Float @rename(attribute: "shipping_amount_incl_tax")
+    baseShippingAmountInclTax: Float @rename(attribute: "base_shipping_amount_incl_tax")
     orderId: Int @rename(attribute: "order_id")
     createdAt: String @rename(attribute: "created_at")
     updatedAt: String @rename(attribute: "updated_at")
     formattedPrice: FormattedRefundPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getRefundPriceData")
-    items: [RefundItem!] @hasMany
     order: Order! @belongsTo(relation: "order")
+    items: [RefundItem!] @hasMany
+    customer: Customer! @belongsTo(relation: "customer")
+    channel: Channel! @belongsTo(relation: "channel")
+    address: Address! @belongsTo(relation: "address")
     success: String
 }
 
 type RefundItem {
     id: Int
+    parentId: Int @rename(attribute: "parent_id")
     name: String
     description: String
     sku: String
@@ -98,11 +108,14 @@ type RefundItem {
     discountPercent: Float @rename(attribute: "discount_percent")
     discountAmount: Float @rename(attribute: "discount_amount")
     baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    priceInclTax: Float @rename(attribute: "price_incl_tax")
+    basePriceInclTax: Float @rename(attribute: "base_price_incl_tax")
+    totalInclTax: Float @rename(attribute: "total_incl_tax")
+    baseTotalInclTax: Float @rename(attribute: "base_total_incl_tax")
     productId: Int @rename(attribute: "product_id")
     productType: String @rename(attribute: "product_type")
     orderItemId: Int @rename(attribute: "order_item_id")
     refundId: Int @rename(attribute: "refund_id")
-    parentId: Int @rename(attribute: "parent_id")
     additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
@@ -127,6 +140,12 @@ type FormattedRefundPriceData {
     baseTaxAmount: String @rename(attribute: "base_tax_amount")
     discountAmount: String @rename(attribute: "discount_amount")
     baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+    shippingTaxAmount: String @rename(attribute: "shipping_tax_amount")
+    baseShippingTaxAmount: String @rename(attribute: "base_shipping_tax_amount")
+    subTotalInclTax: String @rename(attribute: "sub_total_incl_tax")
+    baseSubTotalInclTax: String @rename(attribute: "base_sub_total_incl_tax")
+    shippingAmountInclTax: String @rename(attribute: "shipping_amount_incl_tax")
+    baseShippingAmountInclTax: String @rename(attribute: "base_shipping_amount_incl_tax")
 }
 
 type FormattedRefundItemPriceData {
@@ -138,4 +157,8 @@ type FormattedRefundItemPriceData {
     baseTaxAmount: String @rename(attribute: "base_tax_amount")
     discountAmount: String @rename(attribute: "discount_amount")
     baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
+    totalInclTax: String @rename(attribute: "total_incl_tax")
+    baseTotalInclTax: String @rename(attribute: "base_total_incl_tax")
 }

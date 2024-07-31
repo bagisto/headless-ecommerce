@@ -1,26 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
-use Exception;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
+use Webkul\Paypal\Helpers\Ipn;
 use Webkul\Paypal\Payment\Standard;
 use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Paypal\Helpers\Ipn;
 
 class PaypalStandardMutation
 {
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Paypal\Payment\Standard   $paypalStandard
-     * @param \Webkul\Paypal\Helpers\Ipn   $ipnHelper
-     * @param \Webkul\Sales\Repositories\OrderRepository   $orderRepository
      *
      * @return void
      */
@@ -28,20 +24,15 @@ class PaypalStandardMutation
         protected Standard $paypalStandard,
         protected Ipn $ipnHelper,
         protected OrderRepository $orderRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Returns paypal url & form fields.
      *
-     * @param  $rootValue
-     * @param array  $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      *
-     * @return array
      * @throws Exception
      */
-    public function redirect($rootValue, array $args, GraphQLContext $context) : array
+    public function redirect($rootValue, array $args, GraphQLContext $context): array
     {
         $data = $args;
 
@@ -65,7 +56,7 @@ class PaypalStandardMutation
 
             if (! isset($cart->payment->method) ||
                 (isset($cart->payment->method) &&
-                $cart->payment->method != 'paypal_standard') ) {
+                $cart->payment->method != 'paypal_standard')) {
                 throw new Exception(trans('bagisto_graphql::app.shop.payment.invalid-request'));
             } else {
                 if ($this->paypalStandard->getConfigData('active') && $this->paypalStandard->getConfigData('business_account')) {
@@ -76,7 +67,7 @@ class PaypalStandardMutation
                             Str::contains($index, 'item_name_') ||
                             Str::contains($index, 'quantity_') ||
                             Str::contains($index, 'amount_')) && $index != 'discount_amount_cart') {
-                                unset($paypalFields[$index]);
+                            unset($paypalFields[$index]);
                         }
                     }
 
@@ -85,7 +76,7 @@ class PaypalStandardMutation
                             'item_number'   => $item->id,
                             'item_name'     => $item->name,
                             'quantity'      => $item->quantity,
-                            'amount'        => $item->price
+                            'amount'        => $item->price,
                         ];
                     }
 
@@ -94,7 +85,7 @@ class PaypalStandardMutation
                             'item_number'   => $cart->selected_shipping_rate->carrier_title,
                             'item_name'     => 'Shipping',
                             'quantity'      => 1,
-                            'amount'        => $cart->selected_shipping_rate->price
+                            'amount'        => $cart->selected_shipping_rate->price,
                         ];
                     }
 
@@ -112,7 +103,7 @@ class PaypalStandardMutation
                     throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.disable-module', ['module_name'    => 'Paypal Standard']));
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -120,14 +111,10 @@ class PaypalStandardMutation
     /**
      * Create Order and returns success url
      *
-     * @param                                                     $rootValue
-     * @param array                                               $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
-     * @return array
      * @throws Exception
      */
-    public function success($rootValue, array $args, GraphQLContext $context) : array
+    public function success($rootValue, array $args, GraphQLContext $context): array
     {
         $data = $args;
 
@@ -167,7 +154,7 @@ class PaypalStandardMutation
             } else {
                 throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -175,14 +162,10 @@ class PaypalStandardMutation
     /**
      * Create Order and returns success url.
      *
-     * @param                                                     $rootValue
-     * @param array                                               $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
-     * @return array
      * @throws Exception
      */
-    public function cancel($rootValue, array $args, GraphQLContext $context) : array
+    public function cancel($rootValue, array $args, GraphQLContext $context): array
     {
         $data = $args;
 
@@ -206,7 +189,7 @@ class PaypalStandardMutation
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'),
                 'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/cart',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -214,14 +197,10 @@ class PaypalStandardMutation
     /**
      * Paypal Ipn listener
      *
-     * @param                                                     $rootValue
-     * @param array                                               $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
      *
-     * @return array
      * @throws Exception
      */
-    public function ipn($rootValue, array $args, GraphQLContext $context) : array
+    public function ipn($rootValue, array $args, GraphQLContext $context): array
     {
         $data = $args['input'];
 
@@ -245,7 +224,7 @@ class PaypalStandardMutation
         try {
             $response = $this->ipnHelper->processIpn($data);
 
-            if ($response == false ) {
+            if ($response == false) {
                 throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'));
             }
 
@@ -253,7 +232,7 @@ class PaypalStandardMutation
                 'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
                 'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

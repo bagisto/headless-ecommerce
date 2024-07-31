@@ -3,16 +3,10 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewQuery extends Controller
 {
-    /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
     /**
      * Create a new controller instance.
      *
@@ -20,11 +14,9 @@ class ReviewQuery extends Controller
      */
     public function __construct()
     {
-        $this->guard = 'api';
+        Auth::setDefaultDriver('api');
 
-        auth()->setDefaultDriver($this->guard);
-
-        $this->middleware('auth:'.$this->guard);
+        $this->middleware('auth:api');
     }
 
     /**
@@ -39,8 +31,8 @@ class ReviewQuery extends Controller
         $channel = core()->getRequestedChannelCode();
         $locale = core()->getRequestedLocaleCode();
 
-        if (bagisto_graphql()->guard($this->guard)->check()) {
-            $params['customer_id'] = bagisto_graphql()->guard($this->guard)->user()->id;
+        if (auth()->check()) {
+            $params['customer_id'] = auth()->user()->id;
         }
 
         $qb = $query->distinct()

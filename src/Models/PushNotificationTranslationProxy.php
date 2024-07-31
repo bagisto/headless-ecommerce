@@ -4,6 +4,4 @@ namespace Webkul\GraphQLAPI\Models;
 
 use Konekt\Concord\Proxies\ModelProxy;
 
-class PushNotificationTranslationProxy extends ModelProxy
-{
-}
+class PushNotificationTranslationProxy extends ModelProxy {}

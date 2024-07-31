@@ -319,7 +319,7 @@ return [
                     'option-type' => [
                         'others'   => 'بسيط',
                         'product'  => 'منتج',
-                        'category' => 'فئة'
+                        'category' => 'فئة',
                     ],
                 ],
             ],

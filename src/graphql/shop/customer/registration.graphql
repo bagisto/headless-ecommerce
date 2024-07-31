@@ -1,28 +1,29 @@
 #Shop\Customer\Registration Related APIs
 extend type Mutation {
-    customerRegister(
-        input: CreateRegisterInput!
-    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@register")
+    customerSignUp(
+        input: SignUpInput! @spread
+    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@signUp")
 
     customerSocialSignIn(
-        input: CreateSocialSignInInput! @spread
+        input: SocialSignInInput! @spread
     ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@socialSignIn")
 }
 
-input CreateRegisterInput {
+input SignUpInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String!
     password: String! @rules(apply: ["min:6"])
     passwordConfirmation: String! @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
+    subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
 }
 
-input CreateSocialSignInInput {
-    firstName: String @rename(attribute: "first_name")
-    lastName: String @rename(attribute: "last_name")
+input SocialSignInInput {
+    firstName: String @rename(attribute: "first_name") @rules(apply: ["required"])
+    lastName: String @rename(attribute: "last_name") @rules(apply: ["required"])
     email: String! @rules(apply: ["email"])
     phone: String
-    signUpType: SocialSignInType! @rename(attribute: "signup_type")
+    signupType: SocialSignInType! @rename(attribute: "signup_type")
     password: String
     passwordConfirmation: String
     remember: Boolean

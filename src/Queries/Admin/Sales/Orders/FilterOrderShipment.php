@@ -10,7 +10,7 @@ class FilterOrderShipment extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -18,7 +18,7 @@ class FilterOrderShipment extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // Convert the shipment_date parameter to created_at parameter
-         if (isset($arguments['shipment_date'])) {
+        if (isset($arguments['shipment_date'])) {
             $arguments['created_at'] = $arguments['shipment_date'];
 
             unset($arguments['shipment_date']);

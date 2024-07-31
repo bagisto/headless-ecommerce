@@ -7,16 +7,11 @@ use Webkul\GraphQLAPI\Contracts\PushNotificationTranslation as PushNotificationT
 
 /**
  * Class NotificationTranslation
- *
- * @package Webkul\GraphQLAPI\Models
- *
  */
 class PushNotificationTranslation extends Model implements PushNotificationTranslationContract
 {
-    protected $table = 'push_notification_translations';
-
     public $timestamps = false;
-    
+
     protected $guarded = [
         'id',
         'created_at',

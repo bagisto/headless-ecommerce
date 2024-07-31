@@ -5,13 +5,13 @@ namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Customer\Repositories\WishlistRepository;
-use Webkul\Shop\Repositories\ThemeCustomizationRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Helpers\Toolbar;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
 class HomePageQuery extends BaseFilter
 {
@@ -23,30 +23,19 @@ class HomePageQuery extends BaseFilter
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\AttributeRepository  $attributeRepository
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
-     * @param  \Webkul\Category\Repositories\CategoryRepository $categoryRepository
-     * @param  \Webkul\Customer\Repositories\CustomerRepository $customerRepository
-     * @param  \Webkul\Customer\Repositories\WishlistRepository $wishlistRepository
-     * @param  \Webkul\Velocity\Repositories\VelocityMetadataRepository $velocityMetadataRepository
-    * @return void
+     * @return void
      */
     public function __construct(
         protected AttributeRepository $attributeRepository,
         protected ProductRepository $productRepository,
-        protected ProductFlatRepository $productFlatRepository,
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
-        protected WishlistRepository $wishlistRepository,
-        protected ThemeCustomizationRepository $themeCustomizationRepository
-    ) {
-    }
+        protected ThemeCustomizationRepository $themeCustomizationRepository,
+        protected Toolbar $productHelperToolbar
+    ) {}
 
     /**
-     * @param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @param  mixed  $rootValue
      * @return \Webkul\Core\Contracts\Channel
      */
     public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
@@ -55,9 +44,7 @@ class HomePageQuery extends BaseFilter
     }
 
     /**
-     *@param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     * @param  mixed  $rootValue
      * @return mixed
      */
     public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
@@ -66,13 +53,12 @@ class HomePageQuery extends BaseFilter
 
         $customizations = $this->themeCustomizationRepository->orderBy('sort_order')->findWhere([
             'status'     => self::STATUS,
-            'channel_id' => core()->getCurrentChannel()->id
+            'channel_id' => core()->getCurrentChannel()->id,
         ]);
 
         $result = $customizations->map(function ($item) {
 
             if ($item->type == 'image_carousel') {
-
                 $images['images'] = [];
 
                 foreach ($item->options['images'] as $i => $element) {
@@ -83,8 +69,8 @@ class HomePageQuery extends BaseFilter
             }
 
             if ($item->type == 'static_content') {
-
                 $staticContent['css'] = $item->options['css'];
+
                 $staticContent['html'] = [];
 
                 $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
@@ -92,18 +78,21 @@ class HomePageQuery extends BaseFilter
                 $item->options = $staticContent;
             }
 
-            if ($item->type == 'product_carousel' || $item->type == 'category_carousel') {
-
+            if (
+                $item->type == 'product_carousel'
+                || $item->type == 'category_carousel'
+            ) {
                 if (isset($item->options['title'])) {
-                    $options['title'] =  $item->options['title'];
+                    $options['title'] = $item->options['title'];
                 }
 
-                $options['filters'] =  [];
+                $options['filters'] = [];
 
                 $i = 0;
 
                 foreach ($item->options['filters'] as $key => $value) {
                     $options['filters'][$i]['key'] = $key;
+
                     $options['filters'][$i]['value'] = $value;
 
                     $i++;
@@ -121,20 +110,18 @@ class HomePageQuery extends BaseFilter
     /**
      * Get all categories in tree format.
      *
-     * @param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
-     *
+     * @param  mixed  $rootValue
      * @return mixed
      */
     public function getCategories($rootValue, array $args, GraphQLContext $context)
     {
-        if (! empty($args['id'])) {
-            $categories = $this->categoryRepository->getVisibleCategoryTree($args['id']);
+        if (! empty($args['get_category_tree'])) {
+            return $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
         }
 
         if (! empty($args['input'])) {
             $filters = array_filter($args['input']);
+
             $params = [];
 
             foreach ($filters as $input) {
@@ -153,22 +140,23 @@ class HomePageQuery extends BaseFilter
                 $params = array_merge(['locale' => app()->getLocale()], $params);
             }
 
-            $categories = $this->categoryRepository->getAll($params);
+            return $this->categoryRepository->getAll($params);
         }
 
-        return $categories;
+        throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
     }
 
     /**
      * Get all products.
-     * @param mixed $rootValue
-     * @param array $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext $context
+     *
+     * @param  mixed  $rootValue
+     * @param  array  $args
+     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      * @return \Illuminate\Support\Collection
      */
     public function getAllProducts($query, $input)
     {
-        return $this->searchFromDatabase($query, $input);
+        return $this->searchFromDatabase($input);
     }
 
     /**
@@ -177,7 +165,7 @@ class HomePageQuery extends BaseFilter
      *
      * @return \Illuminate\Support\Collection
      */
-    public function searchFromDatabase($query, $input)
+    public function searchFromDatabase($input)
     {
         $params = [
             'status'               => 1,
@@ -198,20 +186,20 @@ class HomePageQuery extends BaseFilter
         $prefix = DB::getTablePrefix();
 
         $qb = app(ProductRepository::class)->distinct()
-                ->select('products.*')
-                ->leftJoin('products as variants', DB::raw('COALESCE('.$prefix.'variants.parent_id, '.$prefix.'variants.id)'), '=', 'products.id')
-                ->leftJoin('product_price_indices', function ($join) {
-                    $customerGroup = $this->customerRepository->getCurrentGroup();
+            ->select('products.*')
+            ->leftJoin('products as variants', DB::raw('COALESCE('.$prefix.'variants.parent_id, '.$prefix.'variants.id)'), '=', 'products.id')
+            ->leftJoin('product_price_indices', function ($join) {
+                $customerGroup = $this->customerRepository->getCurrentGroup();
 
-                    $join->on('products.id', '=', 'product_price_indices.product_id')
-                        ->where('product_price_indices.customer_group_id', $customerGroup->id);
-                });
+                $join->on('products.id', '=', 'product_price_indices.product_id')
+                    ->where('product_price_indices.customer_group_id', $customerGroup->id);
+            });
 
-        if (!empty($params['category_slug'])) {
+        if (! empty($params['category_slug'])) {
             $categoryIds = $this->categoryRepository->findBySlug($params['category_slug'])->id;
 
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
-            ->where('product_categories.category_id', $categoryIds);
+                ->where('product_categories.category_id', $categoryIds);
         }
 
         if (! empty($params['category_id'])) {
@@ -369,5 +357,61 @@ class HomePageQuery extends BaseFilter
     public function getSortOptions(array $params): array
     {
         return product_toolbar()->getOrder($params);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getFilterAttributes($rootValue, array $args, GraphQLContext $context)
+    {
+        $slug = $args['category_slug'];
+
+        $filterData = [];
+
+        $availableSortOrders = [];
+
+        $category = $this->categoryRepository->whereHas('translation', function ($q) use ($slug) {
+            $q->where('slug', urldecode($slug));
+        })->first();
+
+        if (empty($filterableAttributes = $category?->filterableAttributes)) {
+            $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+        }
+
+        $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
+
+        foreach ($filterableAttributes as $key => $filterAttribute) {
+            if ($filterAttribute->code == 'price') {
+                continue;
+            }
+
+            $optionIds = $filterAttribute->options->pluck('id')->toArray();
+
+            $filterData[$filterAttribute->code] = [
+                'key'    => $filterAttribute->code,
+                'value'  => $optionIds,
+            ];
+        }
+
+        foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
+            $availableSortOrders[$key] = [
+                'key'      => $key,
+                'title'    => $label['title'],
+                'value'    => $label['value'],
+                'sort'     => $label['sort'],
+                'order'    => $label['order'],
+                'position' => $label['position'],
+            ];
+        }
+
+        return [
+            'min_price'         => 0,
+            'max_price'         => $maxPrice,
+            'filter_attributes' => $filterableAttributes,
+            'filter_data'       => $filterData,
+            'sort_orders'       => $availableSortOrders,
+        ];
     }
 }

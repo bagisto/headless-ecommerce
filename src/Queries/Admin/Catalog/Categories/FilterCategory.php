@@ -10,7 +10,7 @@ class FilterCategory extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -20,7 +20,7 @@ class FilterCategory extends BaseFilter
         $qbConditions = [];
 
         foreach ($arguments as $key => $argument) {
-            if (! $argument ) {
+            if (! $argument) {
                 unset($arguments[$key]);
             }
 

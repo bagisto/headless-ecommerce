@@ -13,15 +13,11 @@ class LocaleMiddleware
      *
      * @return void
      */
-    public function __construct(protected LocaleRepository $localeRepository)
-    {
-    }
+    public function __construct(protected LocaleRepository $localeRepository) {}
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)

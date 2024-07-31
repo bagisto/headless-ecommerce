@@ -10,7 +10,7 @@ class FilterOrderRefund extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -18,7 +18,7 @@ class FilterOrderRefund extends BaseFilter
         $arguments = $this->getFilterParams($input);
 
         // Convert the refund_date parameter to created_at parameter
-         if (isset($arguments['refund_date'])) {
+        if (isset($arguments['refund_date'])) {
             $arguments['created_at'] = $arguments['refund_date'];
 
             unset($arguments['refund_date']);
@@ -47,7 +47,7 @@ class FilterOrderRefund extends BaseFilter
 
             unset($arguments['customer_name']);
 
-            return $query->whereHas('order',function ($q) use ($firstname, $lastname) {
+            return $query->whereHas('order', function ($q) use ($firstname, $lastname) {
                 $q->where([
                     'customer_first_name' => $firstname,
                     'customer_last_name'  => $lastname,

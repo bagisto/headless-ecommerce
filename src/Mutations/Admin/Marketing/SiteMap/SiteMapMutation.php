@@ -2,24 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\SiteMap;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sitemap\Repositories\SitemapRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
 
 class SiteMapMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param \Webkul\Sitemap\Repositories\SitemapRepository $sitemapRepository
      * @return void
      */
-    public function __construct(protected SitemapRepository $sitemapRepository)
-    {
-    }
+    public function __construct(protected SitemapRepository $sitemapRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -47,7 +43,7 @@ class SiteMapMutation extends Controller
             $sitemap = $this->sitemapRepository->create($params);
 
             return $sitemap;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -83,7 +79,7 @@ class SiteMapMutation extends Controller
             $sitemap = $this->sitemapRepository->find($id);
 
             return $sitemap;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -117,7 +113,7 @@ class SiteMapMutation extends Controller
                 'status'  => false,
                 'message' => trans('bagisto_graphql::app.admin.marketing.sitemaps.delete-failed'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

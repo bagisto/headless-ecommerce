@@ -2,11 +2,18 @@
 extend type Query {
     countries: [Country!] @all(model: "Webkul\\Core\\Models\\Country")
 
-    country(id: ID! @eq): Country @find(model: "Webkul\\Core\\Models\\Country")
+    country(
+        id: ID! @eq
+    ): Country @find(model: "Webkul\\Core\\Models\\Country")
 
-    countrieStates(input: FilterCountryStateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterCountryState")): [CountryState!] @all(model: "Webkul\\Core\\Models\\CountryState")
+    countrieStates(
+        input: FilterCountryStateInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterCountryState")
+    ): [CountryState!] @all(model: "Webkul\\Core\\Models\\CountryState")
 
-    countrieState(id: ID! @eq): CountryState @find(model: "Webkul\\Core\\Models\\CountryState")
+    countrieState(
+        id: ID! @eq
+    ): CountryState @find(model: "Webkul\\Core\\Models\\CountryState")
 }
 
 input FilterCountryStateInput {

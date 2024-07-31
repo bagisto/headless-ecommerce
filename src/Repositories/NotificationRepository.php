@@ -3,28 +3,24 @@
 namespace Webkul\GraphQLAPI\Repositories;
 
 use GuzzleHttp\Client;
+use Illuminate\Container\Container;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Container\Container as App;
-use Webkul\Core\Eloquent\Repository;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Core\Eloquent\Repository;
+use Webkul\GraphQLAPI\Contracts\PushNotification;
+use Webkul\Product\Repositories\ProductRepository;
 
 class NotificationRepository extends Repository
 {
     /**
      * @var string
      */
-    public const SCOPE_URL = "https://www.googleapis.com/auth/firebase.messaging";
+    public const SCOPE_URL = 'https://www.googleapis.com/auth/firebase.messaging';
 
     /**
      * Create a new repository instance.
-     *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
-     * @param  \Webkul\GraphQLAPI\Repositories\NotificationTranslationRepository  $notificationTranslationRepository
-     * @param  \Illuminate\Container\Container  $app
      *
      * @return void
      */
@@ -32,9 +28,9 @@ class NotificationRepository extends Repository
         protected ProductRepository $productRepository,
         protected CategoryRepository $categoryRepository,
         protected NotificationTranslationRepository $notificationTranslationRepository,
-        App $app
+        Container $container
     ) {
-        parent::__construct($app);
+        parent::__construct($container);
     }
 
     /**
@@ -44,13 +40,12 @@ class NotificationRepository extends Repository
      */
     public function model()
     {
-        return \Webkul\GraphQLAPI\Contracts\PushNotification::class;
+        return PushNotification::class;
     }
 
     /**
      * Create notification.
      *
-     * @param  array  $data
      * @return \Webkul\GraphQLAPI\Contracts\Notification
      */
     public function create(array $data)
@@ -95,12 +90,11 @@ class NotificationRepository extends Repository
     /**
      * Update notification.
      *
-     * @param  array  $data
      * @param  int  $id
      * @param  string  $attribute
      * @return \Webkul\GraphQLAPI\Contracts\Notification
      */
-    public function update(array $data, $id, $attribute = "id")
+    public function update(array $data, $id, $attribute = 'id')
     {
         Event::dispatch('api.notification.update.before', $id);
 
@@ -140,24 +134,24 @@ class NotificationRepository extends Repository
      *
      * @param  array  $data
      * @param  \Webkul\GraphQLAPI\Contracts\Notification  $notification
-     * @param  string $type
+     * @param  string  $type
      * @return void
      */
-    public function uploadImages($data, $notification, $type = "image")
+    public function uploadImages($data, $notification, $type = 'image')
     {
         if (isset($data[$type])) {
-            $request = request();
-
             foreach ($data[$type] as $imageId => $image) {
-                $file = $type.'.'.$imageId;
-                $dir = 'notification/images/'.$notification->id;
+                $file = "$type.$imageId";
 
-                if ($request->hasFile($file)) {
+                $dir = "notification/images/$notification->id";
+
+                if (request()->hasFile($file)) {
                     if ($notification->{$type}) {
-                        Storage::delete('public'.$notification->{$type});
+                        Storage::delete($notification->{$type});
                     }
 
-                    $notification->{$type} = $request->file($file)->store($dir);
+                    $notification->{$type} = request()->file($file)->store($dir);
+
                     $notification->save();
                 }
             }
@@ -167,6 +161,7 @@ class NotificationRepository extends Repository
             }
 
             $notification->{$type} = null;
+
             $notification->save();
         }
     }
@@ -179,19 +174,19 @@ class NotificationRepository extends Repository
      */
     public function prepareNotification($notification)
     {
-        $notificationTranslations = $notification->translations()->where([
+        $notificationTranslation = $notification->translations()->where([
             ['channel', '=', core()->getRequestedChannelCode()],
-            ['locale', '=', core()->getRequestedLocaleCode()]
+            ['locale', '=', core()->getRequestedLocaleCode()],
         ])->first();
 
-        if ($notificationTranslations) {
-            $notification->title = $notificationTranslations->title;
-            $notification->content = $notificationTranslations->content;
+        if ($notificationTranslation) {
+            $notification->title = $notificationTranslation->title;
+            $notification->content = $notificationTranslation->content;
         }
 
         $fieldData = [
-            'banner_url'       => asset('storage/'.$notification->image),
-            'id'               => (string)$notification->id,
+            'banner_url'       => Storage::url($notification->image),
+            'id'               => (string) $notification->id,
             'body'             => $notification->content,
             'sound'            => 'default',
             'title'            => $notification->title,
@@ -200,32 +195,34 @@ class NotificationRepository extends Repository
         ];
 
         switch ($notification->type) {
-            case 'product' :
+            case 'product':
                 $product = $this->productRepository->findOrFail($notification->product_category_id);
 
-                $fieldData = array_merge($fieldData, [
+                $extraData = [
                     'click_action' => route('shop.product_or_category.index', $product->url_key),
                     'productName'  => $product->name ?? '',
-                    'productId'    => (string)$product->id ?? '',
-                ]);
-            break;
+                    'productId'    => (string) $product->id ?? '',
+                ];
+                break;
 
             case 'category':
                 $category = $this->categoryRepository->findOrFail($notification->product_category_id);
 
-                $fieldData = array_merge($fieldData, [
+                $extraData = [
                     'click_action' => route('shop.product_or_category.index', $category->slug),
                     'categoryName' => $category->name ?? '',
-                    'categoryId'   => (string)$category->id ?? '',
-                ]);
-            break;
+                    'categoryId'   => (string) $category->id ?? '',
+                ];
+                break;
 
             case 'others':
-                $fieldData = array_merge($fieldData, [
+                $extraData = [
                     'click_action' => route('shop.home.index'),
-                ]);
-            break;
+                ];
+                break;
         }
+
+        $fieldData = array_merge($fieldData, $extraData);
 
         return $this->sendNotification($fieldData, $notification->toArray());
     }
@@ -239,41 +236,48 @@ class NotificationRepository extends Repository
      */
     public function sendNotification($fieldData, $data = [])
     {
-        $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))->project_id;
+        $projectId = json_decode(core()->getConfigData('general.api.pushnotification.private_key'))?->project_id;
+
+        if (! $projectId) {
+            return;
+        }
 
         $topic = core()->getConfigData('general.api.pushnotification.notification_topic');
 
-        $fields['message'] = array(
-            'topic' => $topic,
-            'data'  => $fieldData,
-            'notification' =>  [
+        $fields['message'] = [
+            'topic'        => $topic,
+            'data'         => $fieldData,
+            'notification' => [
                 'body'  => $data['content'],
                 'title' => $data['title'],
             ],
-        );
+        ];
 
-        $headers = array(
+        $headers = [
             'Content-Type:application/json',
-            'Authorization: Bearer '.$this->getAccessToken(),
-        );
+            "Authorization: Bearer {$this->getAccessToken()}",
+        ];
 
         try {
             $ch = curl_init();
 
-            curl_setopt( $ch, CURLOPT_URL, "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send");
-            curl_setopt( $ch, CURLOPT_POST, true );
-            curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, true );
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
+            curl_setopt($ch, CURLOPT_URL, "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send");
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
 
-            $result = curl_exec( $ch );
-            curl_close( $ch );
+            $result = curl_exec($ch);
 
-            Log::info('sendNotification: ', ['response' => json_decode($result)]);
+            curl_close($ch);
+
+            Log::info('sendNotification: ', [
+                'response' => json_decode($result),
+            ]);
 
             return json_decode($result);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             session()->flash('error', $e);
 
             Log::error('sendNotification Error: ', $e->getMessage());
@@ -285,7 +289,7 @@ class NotificationRepository extends Repository
      *
      * @return Response
      */
-    public function getAccessToken() 
+    public function getAccessToken()
     {
         $privateKeyContent = json_decode(core()->getConfigData('general.api.pushnotification.private_key'));
 
@@ -295,13 +299,13 @@ class NotificationRepository extends Repository
             'typ' => 'JWT',
             'alg' => 'RS256',
         ]);
-        
+
         $payload = json_encode([
-            "iss"   => $privateKeyContent->client_email,
-            "scope" => self::SCOPE_URL,
-            "aud"   => $privateKeyContent->token_uri,
-            "exp"   => time() + 3600,
-            "iat"   => time() - 60,
+            'iss'   => $privateKeyContent->client_email,
+            'scope' => self::SCOPE_URL,
+            'aud'   => $privateKeyContent->token_uri,
+            'exp'   => time() + 3600,
+            'iat'   => time() - 60,
         ]);
 
         $base64UrlHeader = $this->base64UrlEncode($header);
@@ -313,7 +317,7 @@ class NotificationRepository extends Repository
         $base64UrlSignature = $this->base64UrlEncode($signature);
 
         $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
-        
+
         $client = new Client();
 
         try {
@@ -328,7 +332,7 @@ class NotificationRepository extends Repository
             ]);
 
             return json_decode($response->getBody(), true)['access_token'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             session()->flash('error', $e);
         }
     }
@@ -336,7 +340,7 @@ class NotificationRepository extends Repository
     /**
      * Encode a string into a base64 URL-safe format.
      *
-     * @param  string  $data 
+     * @param  string  $data
      * @return string
      */
     public function base64UrlEncode($data)

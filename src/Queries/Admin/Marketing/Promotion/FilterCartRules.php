@@ -10,41 +10,44 @@ class FilterCartRules extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
         // Convert the invoice_date parameter to created_at parameter
-        if (isset($arguments['start'])) {
-            $arguments['starts_from'] = $arguments['start'];
-            unset($arguments['start']);
+        if (isset($input['start'])) {
+            $input['starts_from'] = $input['start'];
+
+            unset($input['start']);
         }
 
         // Convert the grand_total parameter to base_grand_total parameter
-        if (isset($arguments['end'])) {
-            $arguments['ends_till'] = $arguments['end'];
-            unset($arguments['end']);
+        if (isset($input['end'])) {
+            $input['ends_till'] = $input['end'];
+
+            unset($input['end']);
         }
 
         // Convert the grand_total parameter to base_grand_total parameter
-        if (isset($arguments['priority'])) {
-            $arguments['sort_order'] = $arguments['priority'];
-            unset($arguments['priority']);
+        if (isset($input['priority'])) {
+            $input['sort_order'] = $input['priority'];
+
+            unset($input['priority']);
         }
 
-         // filter the relationship Coupon Code
-         if (isset($arguments['coupon_code'])) {
-            $couponCode = $input['coupon_code'];
-            unset($arguments['coupon_code']);
+        // filter the relationship Coupon Code
+        if (isset($input['coupon_code'])) {
+            $query = $query->whereHas('cart_rule_coupon', function ($q) use ($input) {
+                $q->where([
+                    'code'       => $input['coupon_code'],
+                    'is_primary' => 1,
+                ]);
+            });
 
-            return $query->whereHas('cart_rule_coupon', function ($q) use ($couponCode) {
-                $q->where(['code' => $couponCode , 'is_primary' => 1]);
-            })->where($arguments);
+            unset($input['coupon_code']);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

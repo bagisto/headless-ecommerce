@@ -2,13 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Exception;
-use Webkul\Core\Rules\Code;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\Core\Rules\Code;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Inventory\Repositories\InventorySourceRepository;
 
 class InventorySourceMutation extends Controller
@@ -16,12 +15,9 @@ class InventorySourceMutation extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Inventory\Repositories\InventorySourceRepository  $inventorySourceRepository
      * @return void
      */
-    public function __construct(protected InventorySourceRepository $inventorySourceRepository)
-    {
-    }
+    public function __construct(protected InventorySourceRepository $inventorySourceRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -49,12 +45,10 @@ class InventorySourceMutation extends Controller
             'postcode'       => 'required',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
-            $data['status'] = empty($data['status']) ? 0 : $data['status'];
+            $data['status'] = $data['status'] ?? 0;
 
             Event::dispatch('inventory.inventory_source.create.before');
 
@@ -62,8 +56,10 @@ class InventorySourceMutation extends Controller
 
             Event::dispatch('inventory.inventory_source.create.after', $inventorySource);
 
+            $inventorySource->success = trans('bagisto_graphql::app.admin.settings.inventory-sources.create-success');
+
             return $inventorySource;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -83,6 +79,7 @@ class InventorySourceMutation extends Controller
         }
 
         $data = $args['input'];
+
         $id = $args['id'];
 
         $validator = Validator::make($data, [
@@ -98,9 +95,7 @@ class InventorySourceMutation extends Controller
             'postcode'       => 'required',
         ]);
 
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
+        bagisto_graphql()->checkValidatorFails($validator);
 
         $inventorySource = $this->inventorySourceRepository->find($id);
 
@@ -109,7 +104,7 @@ class InventorySourceMutation extends Controller
         }
 
         try {
-            $data['status'] = empty($data['status']) ? 0 : $data['status'];
+            $data['status'] = $data['status'] ?? 0;
 
             Event::dispatch('inventory.inventory_source.update.before', $id);
 
@@ -117,8 +112,10 @@ class InventorySourceMutation extends Controller
 
             Event::dispatch('inventory.inventory_source.update.after', $inventorySource);
 
+            $inventorySource->success = trans('bagisto_graphql::app.admin.settings.inventory-sources.update-success');
+
             return $inventorySource;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -155,7 +152,7 @@ class InventorySourceMutation extends Controller
             Event::dispatch('inventory.inventory_source.delete.after', $id);
 
             return ['success' => trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

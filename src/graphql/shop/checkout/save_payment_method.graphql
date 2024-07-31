@@ -1,19 +1,15 @@
-# Shop\Checkout\SavePaymentMethod Related API
+# Shop\Checkout\savePaymentMethod Related API
 extend type Mutation {
     savePayment(
-        input: SavePaymentMethodInput!
-    ): ReviewOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@savePayment")
+        input: savePaymentMethodInput!
+    ): PaymentResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@savePayment")
 }
 
-input SavePaymentMethodInput {
+input savePaymentMethodInput {
     method: String!
 }
 
-input PaymentMethodInput {
-    method: String!
-}
-
-type ReviewOrderResponse {
+type PaymentResponse {
     success: String
     cart: Cart
     jumpToSection: String @rename(attribute: "jump_to_section")

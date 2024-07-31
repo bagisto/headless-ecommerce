@@ -2,32 +2,28 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
-use Exception;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Slug;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Helpers\ProductType;
 use Webkul\Product\Models\ProductAttributeValue;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
-     * @param  \Webkul\Product\Repositories\ProductAttributeValueRepository $productAttributeValueRepository
      * @return void
      */
     public function __construct(
         protected ProductRepository $productRepository,
         protected ProductAttributeValueRepository $productAttributeValueRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -83,7 +79,7 @@ class ProductMutation extends Controller
             Event::dispatch('catalog.product.create.after', $product);
 
             return $product;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -133,7 +129,10 @@ class ProductMutation extends Controller
             foreach ($data['links'] as $linkProduct) {
                 $productLink = $this->productRepository->findOrFail($linkProduct['associated_product_id']);
 
-                if ($productLink && $productLink->type != 'simple') {
+                if (
+                    $productLink
+                    && $productLink->type != 'simple'
+                ) {
                     throw new CustomException("$productLink->type trans('bagisto_graphql::app.admin.catalog.products.create.grouped-error-not-added')");
                 }
             }
@@ -184,7 +183,7 @@ class ProductMutation extends Controller
             throw new CustomException($validator->messages());
         }
 
-        $multiselectAttributeCodes = array();
+        $multiselectAttributeCodes = [];
 
         foreach ($product->attribute_family->attribute_groups as $attributeGroup) {
             $customAttributes = $product->getEditableAttributes($attributeGroup);
@@ -203,7 +202,7 @@ class ProductMutation extends Controller
         if (count($multiselectAttributeCodes)) {
             foreach ($multiselectAttributeCodes as $multiselectAttributeCode) {
                 if (! isset($data[$multiselectAttributeCode])) {
-                    $data[$multiselectAttributeCode] = array();
+                    $data[$multiselectAttributeCode] = [];
                 }
             }
         }
@@ -262,7 +261,7 @@ class ProductMutation extends Controller
 
                 return $product;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -345,7 +344,7 @@ class ProductMutation extends Controller
             $this->productRepository->delete($args['id']);
 
             return ['success' => trans('bagisto_graphql::app.admin.catalog.products.delete-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

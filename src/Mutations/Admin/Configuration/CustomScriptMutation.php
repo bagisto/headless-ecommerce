@@ -2,29 +2,26 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Configuration;
 
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\Core\Repositories\LocaleRepository;
-use Webkul\GraphQLAPI\Validators\Admin\CustomException;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class CustomScriptMutation extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\ChannelRepository  $channelRepository
      * @return void
      */
     public function __construct(
         protected ChannelRepository $channelRepository,
         protected CoreConfigRepository $coreConfigRepository,
         protected LocaleRepository $localeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Store a newly created resource in storage.
@@ -76,7 +73,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->create($customData);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.create-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -131,7 +128,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->create($customData);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.update-success')];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
@@ -156,7 +153,7 @@ class CustomScriptMutation extends Controller
             $this->coreConfigRepository->delete($id);
 
             return ['success' => trans('bagisto_graphql::app.admin.configuration.custom-scripts.delete-success')];
-        } catch(Exception $e) {
+        } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }

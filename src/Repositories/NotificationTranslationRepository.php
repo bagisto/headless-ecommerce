@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Repositories;
 
 use Webkul\Core\Eloquent\Repository;
+use Webkul\GraphQLAPI\Contracts\PushNotificationTranslation;
 
 class NotificationTranslationRepository extends Repository
 {
@@ -13,6 +14,6 @@ class NotificationTranslationRepository extends Repository
      */
     public function model()
     {
-        return \Webkul\GraphQLAPI\Contracts\PushNotificationTranslation::class;
+        return PushNotificationTranslation::class;
     }
 }

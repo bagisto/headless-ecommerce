@@ -5,23 +5,20 @@ namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Categories;
 use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Product\Repositories\ProductFlatRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Product\Repositories\ProductFlatRepository;
 
 class CategoryQuery extends BaseFilter
 {
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Category\Repositories\CategoryRepository  $categoryRepository
-     * @param  \Webkul\Product\Repositories\ProductFlatRepository  $productFlatRepository
      * @return void
      */
     public function __construct(
         protected CategoryRepository $categoryRepository,
         protected ProductFlatRepository $productFlatRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
@@ -56,7 +53,7 @@ class CategoryQuery extends BaseFilter
         $breadcrumbs = $categorySlug = [];
 
         if ($rootValue->url_path) {
-            $categorySlug = explode("/", $rootValue->url_path);
+            $categorySlug = explode('/', $rootValue->url_path);
         } else {
             $categorySlug[] = $rootValue->slug;
         }

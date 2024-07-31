@@ -10,13 +10,13 @@ class FilterDownloadablePurchase extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
     {
         $arguments = $this->getFilterParams($input);
-         
+
         // Convert the title parameter to product_name parameter
         if (isset($arguments['title'])) {
             $arguments['product_name'] = $arguments['title'];
@@ -34,9 +34,9 @@ class FilterDownloadablePurchase extends BaseFilter
             $remainingDownload = $arguments['remaining_download'];
             unset($arguments['remaining_download']);
 
-           return $query->whereRaw('download_bought - download_used = ?',[$remainingDownload])
-                  ->where($arguments);
-            
+            return $query->whereRaw('download_bought - download_used = ?', [$remainingDownload])
+                ->where($arguments);
+
         }
 
         return $query->where($arguments);

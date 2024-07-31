@@ -1,0 +1,73 @@
+# Setting\InventorySource Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    inventorySources(
+        input: FilterInventorySourceInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterInventorySources")
+    ): [InventorySource!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Inventory\\Models\\InventorySource")
+
+    inventorySource(
+        id: ID @eq
+    ): InventorySource @find(model: "Webkul\\Inventory\\Models\\InventorySource")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createInventorySource(
+        input: createInventorySourceInput!
+    ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@store")
+
+    updateInventorySource(
+        id: ID!,
+        input: createInventorySourceInput!
+    ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@update")
+
+    deleteInventorySource(id: ID!): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@delete")
+}
+
+input FilterInventorySourceInput {
+    id: Int
+    code: String
+    name: String
+    status: Boolean
+}
+
+input createInventorySourceInput {
+    code: String! @rules(apply: ["required"])
+    name: String! @rules(apply: ["required"])
+    description: String
+    contactName: String! @rename(attribute: "contact_name") @rules(apply: ["required"])
+    contactEmail: String! @rename(attribute: "contact_email") @rules(apply: ["required"])
+    contactNumber: String! @rename(attribute: "contact_number") @rules(apply: ["required"])
+    contactFax: String @rename(attribute: "contact_fax")
+    country: String! @rules(apply: ["required"])
+    state: String! @rules(apply: ["required"])
+    city: String! @rules(apply: ["required"])
+    street: String! @rules(apply: ["required"])
+    postcode: String! @rules(apply: ["required"])
+    priority: Int
+    latitude: String
+    longitude: String
+    status: Boolean
+}
+
+type InventorySource {
+    id: ID!
+    code: String!
+    name: String!
+    description: String
+    contactName: String! @rename(attribute: "contact_name")
+    contactEmail: String! @rename(attribute: "contact_email")
+    contactNumber: String! @rename(attribute: "contact_number")
+    contactFax: String @rename(attribute: "contact_fax")
+    country: String!
+    state: String!
+    city: String!
+    street: String!
+    postcode: String!
+    priority: Int
+    latitude: String
+    longitude: String
+    status: Boolean!
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    success: String
+}

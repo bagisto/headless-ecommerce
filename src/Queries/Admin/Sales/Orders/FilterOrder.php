@@ -10,7 +10,7 @@ class FilterOrder extends BaseFilter
      * filter the data .
      *
      * @param  object  $query
-     * @param  array $input
+     * @param  array  $input
      * @return \Illuminate\Http\Response
      */
     public function __invoke($query, $input)
@@ -23,8 +23,8 @@ class FilterOrder extends BaseFilter
             unset($arguments['order_date']);
         }
 
-       //filter Both the relationship Address for billed_to and shipped_to
-       if (
+        //filter Both the relationship Address for billed_to and shipped_to
+        if (
             isset($arguments['billed_to'])
             && isset($arguments['shipped_to'])
         ) {
@@ -37,15 +37,15 @@ class FilterOrder extends BaseFilter
             unset($arguments['billed_to']);
             unset($arguments['shipped_to']);
 
-            return $query->where(function($qry) use($billingName, $shippedName) {
-                $qry->whereHas('addresses',function ($q) use ($billingName) {
+            return $query->where(function ($qry) use ($billingName, $shippedName) {
+                $qry->whereHas('addresses', function ($q) use ($billingName) {
                     $q->where([
                         'first_name' => $billingName['firstname'],
                         'last_name'  => $billingName['lastname'],
                     ]);
                 });
 
-                $qry->whereHas('addresses',function ($q) use ($shippedName) {
+                $qry->whereHas('addresses', function ($q) use ($shippedName) {
                     $q->where([
                         'first_name' => $shippedName['firstname'],
                         'last_name'  => $shippedName['lastname'],
@@ -61,7 +61,7 @@ class FilterOrder extends BaseFilter
 
             unset($arguments['billed_to']);
 
-            return $query->whereHas('addresses',function ($q) use ($billingName) {
+            return $query->whereHas('addresses', function ($q) use ($billingName) {
                 $q->where([
                     'first_name' => $billingName['firstname'],
                     'last_name'  => $billingName['lastname'],
@@ -76,7 +76,7 @@ class FilterOrder extends BaseFilter
 
             unset($arguments['shipped_to']);
 
-            return $query->whereHas('addresses',function ($q) use ($shippedName) {
+            return $query->whereHas('addresses', function ($q) use ($shippedName) {
                 $q->where([
                     'first_name' => $shippedName['firstname'],
                     'last_name'  => $shippedName['lastname'],

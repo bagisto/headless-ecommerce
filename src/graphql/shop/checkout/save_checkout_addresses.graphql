@@ -1,4 +1,3 @@
-
 # Shop\Checkout\saveCheckoutAddresses Related API
 extend type Mutation {
     saveCheckoutAddresses(
@@ -7,51 +6,34 @@ extend type Mutation {
 }
 
 input SaveShippingAddressInput {
-    currency: String
     billingAddressId: Int! @rename(attribute: "billing_address_id")
     shippingAddressId: Int! @rename(attribute: "shipping_address_id")
-    billing: NewAddressInput
-    shipping: NewAddressInput
     type: String!
+    billing: CheckoutAddressInput
+    shipping: CheckoutAddressInput
 }
 
-input NewAddressInput {
+input CheckoutAddressInput {
+    customerId: Int  @rename(attribute: "customer_id")
     companyName: String @rename(attribute: "company_name")
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String!
-    address1: String!
-    address2: String
-    city: String!
+    address: [String]!
     country: String!
     state: String!
+    city: String!
     postcode: String!
     phone: String!
     isSaved: Boolean
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
-    additional: [String]
-    customerId: Int  @rename(attribute: "customer_id")
     defaultAddress: Boolean  @rename(attribute: "default_address")
 }
 
 type ShippingMethodsResponse {
     success: String
     cart: Cart
-    shippingMethods: [RatesResponse!] @rename(attribute: "shipping_methods")
-    paymentMethods: [PaymentResponse!] @rename(attribute: "payment_methods")
+    shippingMethods: [ShippingMethod!] @rename(attribute: "shipping_methods")
+    paymentMethods: [PaymentMethod!] @rename(attribute: "payment_methods")
     jumpToSection: String @rename(attribute: "jump_to_section")
-}
-
-type RatesResponse {
-    title: String!
-    methods: MethodResponse!
-}
-
-type MethodResponse {
-    code: String!
-    label: String!
-    price: Float!
-    formattedPrice: String! @rename(attribute: "formatted_price")
-    basePrice: Float! @rename(attribute: "base_price")
-    formattedBasePrice: String! @rename(attribute: "formatted_base_price")
 }

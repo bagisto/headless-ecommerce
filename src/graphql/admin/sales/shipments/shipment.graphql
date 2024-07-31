@@ -65,14 +65,15 @@ type Shipment {
     customerType: String @rename(attribute: "customer_type")
     orderId: Int @rename(attribute: "order_id")
     orderAddressId: Int @rename(attribute: "order_address_id")
-    createdAt: String @rename(attribute: "created_at")
-    updatedAt: String @rename(attribute: "updated_at")
     inventorySourceId: Int @rename(attribute: "inventory_source_id")
     inventorySourceName: String @rename(attribute: "inventory_source_name")
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
     order: Order! @belongsTo
     items: [ShipmentItem!] @hasMany
     inventorySource: InventorySource! @belongsTo(relation: "inventory_source")
     customer: Customer @belongsTo(relation: "customer")
+    address: Address @belongsTo(relation: "address")
 }
 
 type ShipmentItem {
@@ -86,6 +87,9 @@ type ShipmentItem {
     basePrice: Float @rename(attribute: "base_price")
     total: Float
     baseTotal: Float @rename(attribute: "base_total")
+    priceInclTax: Float @rename(attribute: "price_incl_tax")
+    basePriceInclTax: Float @rename(attribute: "base_price_incl_tax")
+    formattedPrice: FormattedShipmentItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getShipmentItemPriceData")
     productId: ID! @rename(attribute: "product_id")
     productType: String @rename(attribute: "product_type")
     orderItemId: ID! @rename(attribute: "order_item_id")
@@ -93,7 +97,6 @@ type ShipmentItem {
     additional: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    formattedPrice: FormattedShipmentItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getShipmentItemPriceData")
     shipment: Shipment! @belongsTo(relation: "shipment")
     orderItem: OrderItem! @belongsTo(relation: "order_item")
     product: Product! @belongsTo(relation: "product")
@@ -104,4 +107,6 @@ type FormattedShipmentItemPriceData {
     basePrice: String @rename(attribute: "base_price")
     total: String @rename(attribute: "total")
     baseTotal: String @rename(attribute: "base_total")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
 }
