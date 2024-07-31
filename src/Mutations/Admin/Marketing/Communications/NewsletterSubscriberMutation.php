@@ -80,22 +80,16 @@ class NewsletterSubscriberMutation extends Controller
                 'channel_id'    => core()->getCurrentChannel()->id,
                 'is_subscribed' => 1,
                 'token'         => uniqid(),
-                'customer_id'   => $customer?->id,
-            ], [
-                'email' => $email,
+                'customer_id'   => bagisto_graphql()->guard('api')->user()->id
             ]);
 
-            if ($customer) {
-                $customer->subscribed_to_news_letter = 1;
-
-                $customer->save();
+            if (isset($subscription->id)) {
+                Event::dispatch('customer.subscribe.after', $subscription);
+                
+                $subscription->success = trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.subscribed-success');
+                
+                return $subscription;
             }
-
-            Event::dispatch('customer.subscribe.after', $subscription);
-
-            $subscription->success = trans('bagisto_graphql::app.shop.subscription.subscribe-success');
-
-            return $subscription;
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

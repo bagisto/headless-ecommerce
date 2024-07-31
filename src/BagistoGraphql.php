@@ -91,9 +91,9 @@ class BagistoGraphql
         }
 
         if (! empty($imageUrl)) {
-            $valoidateImg = $this->validatePath($imageUrl, 'images');
+            $validatedImg = $this->validatePath($imageUrl, 'images');
 
-            if ($valoidateImg) {
+            if ($validatedImg) {
                 $imgName = basename($imageUrl);
 
                 $savePath = $imageDirPath.$imgName;

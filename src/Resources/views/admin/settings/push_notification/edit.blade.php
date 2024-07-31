@@ -45,13 +45,10 @@
                             @lang('bagisto_graphql::app.admin.settings.notification.edit.back-btn')
                         </a>
 
-                        <!-- Send Notification button -->
-                        @if ($notification->status)
-                            <a
-                                href="{{ route('admin.settings.push_notification.send_notification', $notification['id']) }}"
-                                class="primary-button"
-                            >
-                                @lang('bagisto_graphql::app.admin.settings.notification.edit.send-title')
+                        <!-- Send Notification -->
+                        @if (core()->getConfigData('general.api.pushnotification.private_key'))
+                            <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
+                                {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
                             </a>
                         @endif
 

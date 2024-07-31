@@ -1,6 +1,6 @@
 # Setting\Country Related APIs
 extend type Query {
-    countries: [Country!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\Country")
+    countries: [Country!] @all(model: "Webkul\\Core\\Models\\Country")
 
     country(
         id: ID! @eq
