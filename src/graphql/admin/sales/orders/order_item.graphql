@@ -104,6 +104,8 @@ type FormattedOrderItemPriceData {
     baseTaxAmountInvoiced: String @rename(attribute: "base_tax_amount_invoiced")
     taxAmountRefunded: String @rename(attribute: "tax_amount_refunded")
     baseTaxAmountRefunded: String @rename(attribute: "base_tax_amount_refunded")
-    grantTotal: String @rename(attribute: "grant_total")
-    baseGrantTotal: String @rename(attribute: "base_grant_total")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
+    totalInclTax: String @rename(attribute: "total_incl_tax")
+    baseTotalInclTax: String @rename(attribute: "base_total_incl_tax")
 }

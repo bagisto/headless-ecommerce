@@ -136,6 +136,12 @@ type FormattedCartPriceData {
     baseDiscount: String @rename(attribute: "base_discount")
     discountedSubTotal: String @rename(attribute: "discounted_sub_total")
     baseDiscountedSubTotal: String @rename(attribute: "base_discounted_sub_total")
+    shippingAmount: String @rename(attribute: "shipping_amount")
+    baseShippingAmount: String @rename(attribute: "base_shipping_amount")
+    shippingAmountInclTax: String @rename(attribute: "shipping_amount_incl_tax")
+    baseShippingAmountInclTax: String @rename(attribute: "base_shipping_amount_incl_tax")
+    subTotalInclTax: String @rename(attribute: "sub_total_incl_tax")
+    baseSubTotalInclTax: String @rename(attribute: "base_sub_total_incl_tax")
 }
 
 type CartItem {
@@ -210,6 +216,10 @@ type FormattedCartItemPriceData {
     baseTaxAmount: String @rename(attribute: "base_tax_amount")
     discountAmount: String @rename(attribute: "discount_amount")
     baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
+    totalInclTax: String @rename(attribute: "total_incl_tax")
+    baseTotalInclTax: String @rename(attribute: "base_total_incl_tax")
 }
 
 type CartShippingRate {
@@ -223,6 +233,12 @@ type CartShippingRate {
     basePrice: Float @rename(attribute: "base_price")
     discountAmount: Float @rename(attribute: "discount_amount")
     baseDiscountAmount: Float @rename(attribute: "base_discount_amount")
+    taxPercent: Float @rename(attribute: "tax_percent")
+    taxAmount: Float @rename(attribute: "tax_amount")
+    baseTaxAmount: Float @rename(attribute: "base_tax_amount")
+    priceInclTax: Float @rename(attribute: "price_incl_tax")
+    basePriceInclTax: Float @rename(attribute: "base_price_incl_tax")
+    appliedTaxRate: String @rename(attribute: "applied_tax_rate")
     isCalculateTax: Boolean @rename(attribute: "is_calculate_tax")
     cartAddressId: ID @rename(attribute: "cart_address_id")
     createdAt: DateTime @rename(attribute: "created_at")
@@ -234,4 +250,10 @@ type CartShippingRate {
 type FormattedCartShippingRatePriceData {
     price: String
     basePrice: String @rename(attribute: "base_price")
+    discountAmount: String @rename(attribute: "discount_amount")
+    baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+    taxAmount: String @rename(attribute: "tax_amount")
+    baseTaxAmount: String @rename(attribute: "base_tax_amount")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
 }

@@ -140,6 +140,12 @@ type FormattedRefundPriceData {
     baseTaxAmount: String @rename(attribute: "base_tax_amount")
     discountAmount: String @rename(attribute: "discount_amount")
     baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+    shippingTaxAmount: String @rename(attribute: "shipping_tax_amount")
+    baseShippingTaxAmount: String @rename(attribute: "base_shipping_tax_amount")
+    subTotalInclTax: String @rename(attribute: "sub_total_incl_tax")
+    baseSubTotalInclTax: String @rename(attribute: "base_sub_total_incl_tax")
+    shippingAmountInclTax: String @rename(attribute: "shipping_amount_incl_tax")
+    baseShippingAmountInclTax: String @rename(attribute: "base_shipping_amount_incl_tax")
 }
 
 type FormattedRefundItemPriceData {
@@ -151,4 +157,8 @@ type FormattedRefundItemPriceData {
     baseTaxAmount: String @rename(attribute: "base_tax_amount")
     discountAmount: String @rename(attribute: "discount_amount")
     baseDiscountAmount: String @rename(attribute: "base_discount_amount")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
+    totalInclTax: String @rename(attribute: "total_incl_tax")
+    baseTotalInclTax: String @rename(attribute: "base_total_incl_tax")
 }

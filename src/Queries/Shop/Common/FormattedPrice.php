@@ -29,17 +29,25 @@ class FormattedPrice extends BaseFilter
     {
         $cart = $this->cartRepository->find($rootValue->id);
 
+        $cartCurrencyCode = $cart->cart_currency_code;
+
         return [
-            'grand_total'               => core()->formatPrice($cart->grand_total, $cart->cart_currency_code),
-            'base_grand_total'          => core()->formatBasePrice($cart->base_grand_total),
-            'sub_total'                 => core()->formatPrice($cart->sub_total, $cart->cart_currency_code),
-            'base_sub_total'            => core()->formatBasePrice($cart->base_sub_total),
-            'tax_total'                 => core()->formatPrice($cart->tax_total, $cart->cart_currency_code),
-            'base_tax_total'            => core()->formatBasePrice($cart->base_tax_total),
-            'discount'                  => core()->formatPrice($cart->discount_amount, $cart->cart_currency_code),
-            'base_discount'             => core()->formatBasePrice($cart->base_discount_amount),
-            'discounted_sub_total'      => core()->formatPrice($cart->discounted_sub_total, $cart->cart_currency_code),
-            'base_discounted_sub_total' => core()->formatBasePrice($cart->base_discounted_sub_total),
+            'grand_total'                   => core()->formatPrice($cart->grand_total, $cartCurrencyCode),
+            'base_grand_total'              => core()->formatBasePrice($cart->base_grand_total),
+            'sub_total'                     => core()->formatPrice($cart->sub_total, $cartCurrencyCode),
+            'base_sub_total'                => core()->formatBasePrice($cart->base_sub_total),
+            'tax_total'                     => core()->formatPrice($cart->tax_total, $cartCurrencyCode),
+            'base_tax_total'                => core()->formatBasePrice($cart->base_tax_total),
+            'discount'                      => core()->formatPrice($cart->discount_amount, $cartCurrencyCode),
+            'base_discount'                 => core()->formatBasePrice($cart->base_discount_amount),
+            'discounted_sub_total'          => core()->formatPrice($cart->discounted_sub_total, $cartCurrencyCode),
+            'base_discounted_sub_total'     => core()->formatBasePrice($cart->base_discounted_sub_total),
+            'shipping_amount'               => core()->formatPrice($cart->shipping_amount, $cartCurrencyCode),
+            'base_shipping_amount'          => core()->formatBasePrice($cart->base_shipping_amount),
+            'shipping_amount_incl_tax'      => core()->formatPrice($cart->shipping_amount_incl_tax, $cartCurrencyCode),
+            'base_shipping_amount_incl_tax' => core()->formatBasePrice($cart->base_shipping_amount_incl_tax),
+            'sub_total_incl_tax'            => core()->formatPrice($cart->sub_total_incl_tax, $cartCurrencyCode),
+            'base_sub_total_incl_tax'       => core()->formatBasePrice($cart->base_sub_total_incl_tax),
         ];
     }
 
@@ -65,6 +73,10 @@ class FormattedPrice extends BaseFilter
             'base_tax_amount'      => core()->formatBasePrice($cartItem->base_tax_amount),
             'discount_amount'      => core()->formatPrice($cartItem->discount_amount, $cartCurrencyCode),
             'base_discount_amount' => core()->formatBasePrice($cartItem->base_discount_amount),
+            'price_incl_tax'       => core()->formatPrice($cartItem->price_incl_tax, $cartCurrencyCode),
+            'base_price_incl_tax'  => core()->formatBasePrice($cartItem->base_price_incl_tax),
+            'total_incl_tax'       => core()->formatPrice($cartItem->total_incl_tax, $cartCurrencyCode),
+            'base_total_incl_tax'  => core()->formatBasePrice($cartItem->base_total_incl_tax),
         ];
     }
 
@@ -78,9 +90,17 @@ class FormattedPrice extends BaseFilter
     {
         $shippingRate = $rootValue;
 
+        $cartCurrencyCode = $shippingRate->shipping_address->cart->cart_currency_code;
+
         return [
-            'price'      => core()->formatPrice($shippingRate->price, $shippingRate->shipping_address->cart->cart_currency_code),
-            'base_price' => core()->formatBasePrice($shippingRate->base_price),
+            'price'                => core()->formatPrice($shippingRate->price, $cartCurrencyCode),
+            'base_price'           => core()->formatBasePrice($shippingRate->base_price),
+            'discount_amount'      => core()->formatPrice($shippingRate->discount_amount, $cartCurrencyCode),
+            'base_discount_amount' => core()->formatBasePrice($shippingRate->base_discount_amount),
+            'tax_amount'           => core()->formatPrice($shippingRate->tax_amount, $cartCurrencyCode),
+            'base_tax_amount'      => core()->formatBasePrice($shippingRate->base_tax_amount),
+            'price_incl_tax'       => core()->formatPrice($shippingRate->price_incl_tax, $cartCurrencyCode),
+            'base_price_incl_tax'  => core()->formatBasePrice($shippingRate->base_price_incl_tax),
         ];
     }
 }

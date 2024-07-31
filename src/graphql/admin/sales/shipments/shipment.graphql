@@ -107,4 +107,6 @@ type FormattedShipmentItemPriceData {
     basePrice: String @rename(attribute: "base_price")
     total: String @rename(attribute: "total")
     baseTotal: String @rename(attribute: "base_total")
+    priceInclTax: String @rename(attribute: "price_incl_tax")
+    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
 }

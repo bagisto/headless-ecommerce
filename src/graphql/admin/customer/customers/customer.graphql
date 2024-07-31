@@ -98,13 +98,10 @@ type Customer {
 
 type Note {
     id: ID
-    email: String
-    isSubscribed: Boolean @rename(attribute: "is_subscribed")
-    token: String
     customerId: ID @rename(attribute: "customer_id")
-    channelId: ID @rename(attribute: "channel_id")
+    note: String
+    customerNotified: Boolean @rename(attribute: "customer_notified")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     customer: Customer
-    success: String
 }

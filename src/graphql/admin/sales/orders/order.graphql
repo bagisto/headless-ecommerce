@@ -200,6 +200,16 @@ type FormattedOrderPriceData {
     baseShippingInvoiced: String @rename(attribute: "base_shipping_invoiced")
     shippingRefunded: String @rename(attribute: "shipping_refunded")
     baseShippingRefunded: String @rename(attribute: "base_shipping_refunded")
+    shippingDiscountAmount: String @rename(attribute: "shipping_discount_amount")
+    baseShippingDiscountAmount: String @rename(attribute: "base_shipping_discount_amount")
+    shippingTaxAmount: String @rename(attribute: "shipping_tax_amount")
+    baseShippingTaxAmount: String @rename(attribute: "base_shipping_tax_amount")
+    shippingTaxRefunded: String @rename(attribute: "shipping_tax_refunded")
+    baseShippingTaxRefunded: String @rename(attribute: "base_shipping_tax_refunded")
+    subTotalInclTax: String @rename(attribute: "sub_total_incl_tax")
+    baseSubTotalInclTax: String @rename(attribute: "base_sub_total_incl_tax")
+    shippingAmountInclTax: String @rename(attribute: "shipping_amount_incl_tax")
+    baseShippingAmountInclTax: String @rename(attribute: "base_shipping_amount_incl_tax")
 }
 
 type DeleteOrderResponse {
