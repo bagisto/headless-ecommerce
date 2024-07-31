@@ -9,7 +9,7 @@ extend type Mutation {
     ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@socialSignIn")
 }
 
-input CreateRegisterInput {
+input SignUpInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String!
