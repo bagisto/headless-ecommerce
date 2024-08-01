@@ -132,7 +132,7 @@ type Order {
     formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
     items: [OrderItem!] @hasMany
     comments: [OrderComment] @hasMany
-    downloadableLinkPurchased: DownloadableLinkPurchased @hasMany(relation: "downloadable_link_purchased")
+    downloadableLinkPurchased: [DownloadableLinkPurchased] @hasMany(relation: "downloadable_link_purchased")
     shipments: [Shipment] @hasMany
     invoices: [Invoice] @hasMany
     refunds: [Refund!] @hasMany (relation: "refunds")

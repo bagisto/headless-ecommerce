@@ -7706,7 +7706,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query wishlist {\n    wishlist (\n        id: 1\n    ) {\n        id\n        channelId\n        productId\n        customerId\n        additional {\n            key\n            value\n        }\n        movedToCart\n        shared\n        createdAt\n        updatedAt\n        customer {\n            id\n        }\n        # product {\n        #     id\n        # }\n        channel {\n            id\n        }\n    }\n}",
+														"query": "query wishlist {\n    wishlist (\n        id: 2\n    ) {\n        id\n        channelId\n        productId\n        customerId\n        additional {\n            key\n            value\n        }\n        movedToCart\n        shared\n        createdAt\n        updatedAt\n        customer {\n            id\n            activeCarts {\n                id\n                customerEmail\n                customerFirstName\n                customerLastName\n                shippingMethod\n                couponCode\n                isGift\n                itemsCount\n                itemsQty\n            }\n        }\n        product {\n            id\n        }\n        channel {\n            id\n        }\n    }\n}",
 														"variables": ""
 													}
 												},

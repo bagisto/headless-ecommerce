@@ -67,9 +67,7 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        $data = $args['input'];
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($args, [
             'quantity'   => 'required|min:1',
             'product_id' => 'required|integer|exists:products,id',
         ]);
@@ -77,9 +75,9 @@ class CartMutation extends Controller
         bagisto_graphql()->checkValidatorFails($validator);
 
         try {
-            $product = $this->productRepository->findOrFail($data['product_id']);
+            $product = $this->productRepository->findOrFail($args['product_id']);
 
-            $data = bagisto_graphql()->manageInputForCart($product, $data);
+            $data = bagisto_graphql()->manageInputForCart($product, $args);
 
             $cart = Cart::addProduct($product, $data);
 
@@ -91,7 +89,7 @@ class CartMutation extends Controller
                 'cart' => $cart,
             ];
         } catch (\Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
