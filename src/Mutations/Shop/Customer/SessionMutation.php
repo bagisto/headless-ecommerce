@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -30,12 +29,10 @@ class SessionMutation extends Controller
      */
     public function login($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email'    => 'required|email',
             'password' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         if (! $jwtToken = JWTAuth::attempt([
             'email'    => $args['email'],

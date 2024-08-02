@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Promotion;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
@@ -41,7 +40,7 @@ class CartRuleMutation extends Controller
 
         $params['use_auto_generation'] = $params['use_auto_generation'] ?? 0;
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'                => 'required',
             'channels'            => 'required|array|min:1|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
             'customer_groups'     => 'required|array|min:1|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
@@ -53,8 +52,6 @@ class CartRuleMutation extends Controller
             'action_type'         => 'required',
             'discount_amount'     => 'required|numeric',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('promotions.cart_rule.create.before');
@@ -91,7 +88,7 @@ class CartRuleMutation extends Controller
 
         $params['use_auto_generation'] = $params['use_auto_generation'] ?? 0;
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'                => 'required',
             'channels'            => 'required|array|min:1|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
             'customer_groups'     => 'required|array|min:1|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
@@ -103,8 +100,6 @@ class CartRuleMutation extends Controller
             'action_type'         => 'required',
             'discount_amount'     => 'required|numeric',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $cartRule = $this->cartRuleRepository->find($id);
 
@@ -172,13 +167,11 @@ class CartRuleMutation extends Controller
      */
     public function generateCoupons($params, $id)
     {
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'coupon_qty'  => 'required|integer|min:1',
             'code_length' => 'required|integer|min:10',
             'code_format' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $cartRule = $this->cartRuleRepository->find($id);

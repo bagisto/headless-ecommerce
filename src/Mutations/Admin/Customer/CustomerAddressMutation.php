@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
@@ -40,7 +39,7 @@ class CustomerAddressMutation extends Controller
             'address' => implode(PHP_EOL, array_filter([$data['address']])),
         ]);
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'customer_id'  => 'numeric|required',
             'company_name' => 'string',
             'first_name'   => 'string|required',
@@ -54,8 +53,6 @@ class CustomerAddressMutation extends Controller
             'email'        => 'required|email',
             'vat_id'       => new VatIdRule(),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($data['customer_id']);
 
@@ -100,7 +97,8 @@ class CustomerAddressMutation extends Controller
             'address' => implode(PHP_EOL, array_filter([$data['address']])),
         ]);
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
+            'customer_id'  => 'numeric|required',
             'company_name' => 'string',
             'first_name'   => 'string|required',
             'last_name'    => 'string|required',
@@ -113,8 +111,6 @@ class CustomerAddressMutation extends Controller
             'email'        => 'required|email',
             'vat_id'       => new VatIdRule(),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($data['customer_id']);
 

@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -73,7 +72,7 @@ class AccountMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
             'gender'                    => 'required|in:Other,Male,Female',
@@ -87,8 +86,6 @@ class AccountMutation extends Controller
             'phone'                     => 'required|unique:customers,phone,'.$customer->id,
             'subscribed_to_news_letter' => 'nullable',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $args['subscribed_to_news_letter'] = $args['subscribed_to_news_letter'] ?? 0;
 
@@ -182,11 +179,9 @@ class AccountMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
         }
 
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'password' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             if (Hash::check($args['password'], $customer->password)) {

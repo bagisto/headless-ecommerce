@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
@@ -35,14 +34,12 @@ class TaxCategoryMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'        => 'required|string|unique:tax_categories,code',
             'name'        => 'required|string',
             'description' => 'required|string',
             'taxrates'    => 'required|array|in:'.implode(',', $this->taxRateRepository->pluck('id')->toArray()),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('tax.tax_category.create.before');
@@ -80,14 +77,12 @@ class TaxCategoryMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'        => 'required|string|unique:tax_categories,code,'.$id,
             'name'        => 'required|string',
             'description' => 'required|string',
             'taxrates'    => 'required|array|in:'.implode(',', $this->taxRateRepository->pluck('id')->toArray()),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $taxCategory = $this->taxCategoryRepository->find($id);
 

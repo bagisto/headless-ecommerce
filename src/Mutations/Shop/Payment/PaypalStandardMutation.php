@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
@@ -43,13 +42,9 @@ class PaypalStandardMutation
             $data['company_id'] = $company->id;
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'company_id' => 'required|numeric|min:1',
         ]);
-
-        if ($validator->fails()) {
-            throw new Exception($validator->messages());
-        }
 
         try {
             $cart = Cart::getCart();
@@ -125,19 +120,17 @@ class PaypalStandardMutation
             $data['company_id'] = $company->id;
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'company_id' => 'required|numeric|min:1',
         ]);
-
-        if ($validator->fails()) {
-            throw new Exception($validator->messages());
-        }
 
         try {
             $cart = Cart::getCart();
 
-            if ($cart && isset($cart->payment->method) &&
-                $cart->payment->method == 'paypal_standard') {
+            if (
+                $cart
+                && isset($cart->payment->method)
+                && $cart->payment->method == 'paypal_standard') {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
 
                 Cart::deActivateCart();
@@ -176,13 +169,9 @@ class PaypalStandardMutation
             $data['company_id'] = $company->id;
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'company_id' => 'required|numeric|min:1',
         ]);
-
-        if ($validator->fails()) {
-            throw new Exception($validator->messages());
-        }
 
         try {
             return [
@@ -211,15 +200,11 @@ class PaypalStandardMutation
             $data['company_id'] = $company->id;
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'test_ipn'      => 'required|numeric',
             'invoice'       => 'required|numeric',
             'company_id'    => 'required|numeric|min:1',
         ]);
-
-        if ($validator->fails()) {
-            throw new Exception($validator->messages());
-        }
 
         try {
             $response = $this->ipnHelper->processIpn($data);

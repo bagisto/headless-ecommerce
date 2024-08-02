@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -36,14 +35,12 @@ class ThemeMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         Event::dispatch('theme_customization.create.before');
 
@@ -80,14 +77,12 @@ class ThemeMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $data['locale'] = $locale = core()->getRequestedLocaleCode();
 

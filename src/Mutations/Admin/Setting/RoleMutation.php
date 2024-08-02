@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\User\Repositories\RoleRepository;
@@ -41,13 +40,11 @@ class RoleMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'name'            => 'required',
             'permission_type' => 'required',
             'description'     => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('user.role.create.before');
@@ -82,12 +79,10 @@ class RoleMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'name'            => 'required',
             'permission_type' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $role = $this->roleRepository->find($id);
 

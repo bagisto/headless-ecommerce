@@ -46,16 +46,12 @@ class CategoryMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'slug'        => ['required', 'unique:category_translations,slug', new Slug],
             'name'        => 'required',
             'image.*'     => 'mimes:jpeg,jpg,bmp,png',
             'description' => 'required_if:display_mode,==,description_only,products_and_description',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $image_url = '';

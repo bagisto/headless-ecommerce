@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\LocaleRepository;
 use Webkul\Core\Rules\Code;
@@ -32,13 +31,11 @@ class LocaleMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
             'direction' => 'required|in:ltr,rtl,LTR,RTL',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $imageUrl = $data['image'] ?? '';
@@ -81,13 +78,11 @@ class LocaleMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'      => ['required', 'unique:locales,code,'.$id, new Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $locale = $this->localeRepository->find($id);
 

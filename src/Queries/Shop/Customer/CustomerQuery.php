@@ -3,10 +3,10 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Repositories\CountryStateRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\Core\Repositories\CountryStateRepository;
 
 class CustomerQuery extends BaseFilter
 {
@@ -39,10 +39,10 @@ class CustomerQuery extends BaseFilter
     /**
      * Return the state name for the address
      */
-    public function getStateName($rootValue, array $args, GraphQLContext $context): string|null
+    public function getStateName($rootValue, array $args, GraphQLContext $context): ?string
     {
         return $this->countryStateRepository->findOneWhere([
-            'code' => $rootValue->state
+            'code' => $rootValue->state,
         ])?->default_name;
     }
 }

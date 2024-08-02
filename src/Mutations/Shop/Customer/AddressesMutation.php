@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
@@ -37,7 +36,7 @@ class AddressesMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'company_name' => ['nullable'],
             'first_name'   => ['required'],
             'last_name'    => ['required'],
@@ -50,8 +49,6 @@ class AddressesMutation extends Controller
             'vat_id'       => [new VatIdRule()],
             'email'        => ['required'],
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('customer.address.create.before');
@@ -95,10 +92,10 @@ class AddressesMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'company_name' => ['nullable'],
-            'first_name'   => ['required'],
-            'last_name'    => ['required'],
+            'first_name'   => ['required', 'integer'],
+            'last_name'    => ['required', 'integer'],
             'address'      => ['required', 'array', 'min:1'],
             'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
             'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
@@ -108,8 +105,6 @@ class AddressesMutation extends Controller
             'vat_id'       => [new VatIdRule()],
             'email'        => ['required'],
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('customer.address.update.before');

@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PhpOffice\PhpSpreadsheet\Calculation\Engineering\Compare;
 use Webkul\Customer\Repositories\CompareItemRepository;
@@ -91,13 +90,9 @@ class CompareMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'product_id' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $compareProduct = $this->compareItemRepository->findOneByField([
@@ -145,13 +140,9 @@ class CompareMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'product_id' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $compareProduct = $this->compareItemRepository->findOneWhere($data);

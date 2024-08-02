@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Tax\Repositories\TaxRateRepository;
@@ -31,7 +30,7 @@ class TaxRateMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
             'is_zip'     => 'nullable',
             'zip_code'   => 'nullable',
@@ -40,8 +39,6 @@ class TaxRateMutation extends Controller
             'country'    => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         if (isset($data['is_zip'])) {
             $data['is_zip'] = 1;
@@ -83,7 +80,7 @@ class TaxRateMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'identifier' => 'required|string|unique:tax_rates,identifier,'.$id,
             'is_zip'     => 'sometimes',
             'zip_from'   => 'nullable|required_with:is_zip',
@@ -91,8 +88,6 @@ class TaxRateMutation extends Controller
             'country'    => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $taxRate = $this->taxRateRepository->find($id);
 

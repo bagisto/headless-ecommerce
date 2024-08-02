@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 use Webkul\Shop\Http\Controllers\Controller;
@@ -32,13 +31,9 @@ class NotificationMutation extends Controller
     {
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'id'    => 'required|numeric',
         ]);
-
-        if ($validator->fails()) {
-            throw new Exception($validator->messages());
-        }
 
         try {
             $notification = $this->notificationRepository->findOrFail($data['id']);

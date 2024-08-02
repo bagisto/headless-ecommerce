@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Shipments;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -66,14 +65,10 @@ class ShipmentMutation extends Controller
             $shipment['shipment']['source'] = $params['inventory_source_id'];
             $shipment['shipment']['items'] = $shipmentData;
 
-            $validator = Validator::make($shipment, [
+            bagisto_graphql()->validate($shipment, [
                 'shipment.source'    => 'required',
                 'shipment.items.*.*' => 'required|numeric|min:0',
             ]);
-
-            if ($validator->fails()) {
-                throw new CustomException($validator->messages());
-            }
 
             if (! $this->isInventoryValidate($shipment)) {
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.shipments.quantity-invalid'));

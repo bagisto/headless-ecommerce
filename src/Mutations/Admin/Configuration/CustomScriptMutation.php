@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Configuration;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Repositories\ChannelRepository;
@@ -42,14 +41,10 @@ class CustomScriptMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.configuration.custom-scripts.channel-not-found'));
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'customCSS' => 'string',
             'customJS'  => 'string',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $customData = [
@@ -98,13 +93,10 @@ class CustomScriptMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.configuration.custom-scripts.channel-not-found'));
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'customCSS' => 'string',
+            'customJS'  => 'string',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $customData = [

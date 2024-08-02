@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -28,7 +27,7 @@ class CampaignMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
-        $validator = Validator::make($args['input'], [
+        bagisto_graphql()->validate($args['input'], [
             'name'                  => 'required',
             'subject'               => 'required',
             'status'                => 'required',
@@ -37,10 +36,6 @@ class CampaignMutation extends Controller
             'marketing_template_id' => 'required',
             'marketing_event_id'    => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $campaign = $this->campaignRepository->create($args['input']);
@@ -66,7 +61,7 @@ class CampaignMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
         }
 
-        $validator = Validator::make($args['input'], [
+        bagisto_graphql()->validate($args['input'], [
             'name'                  => 'required',
             'subject'               => 'required',
             'status'                => 'required',
@@ -75,10 +70,6 @@ class CampaignMutation extends Controller
             'marketing_template_id' => 'required',
             'marketing_event_id'    => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $campaign = $this->campaignRepository->update($args['input'], $args['id']);

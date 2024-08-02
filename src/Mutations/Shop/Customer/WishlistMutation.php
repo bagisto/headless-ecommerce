@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\WishlistRepository;
@@ -29,11 +28,9 @@ class WishlistMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'product_id' => 'required|integer|exists:products,id',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $product = $this->productRepository->find($args['product_id']);
 
@@ -71,11 +68,9 @@ class WishlistMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'product_id' => 'required|integer|exists:products,id',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $product = $this->productRepository->find($args['product_id']);
 
@@ -113,12 +108,10 @@ class WishlistMutation extends Controller
      */
     public function move($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'id'       => 'required|integer|exists:wishlist_items,id',
             'quantity' => 'required|integer',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $wishlistItem = $this->wishlistRepository->find($args['id']);
 

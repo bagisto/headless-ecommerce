@@ -2,21 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Webkul\Checkout\Facades\Cart;
-use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Payment\Facades\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Shipping\Facades\Shipping;
-use Illuminate\Support\Facades\Validator;
-use Webkul\Sales\Transformers\OrderResource;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Transformers\OrderResource;
+use Webkul\Shipping\Facades\Shipping;
 
 class CheckoutMutation extends Controller
 {
@@ -102,9 +101,7 @@ class CheckoutMutation extends Controller
             }
         }
 
-        $validator = Validator::make($params, $rules);
-
-        bagisto_graphql()->checkValidatorFails($validator);
+        bagisto_graphql()->validate($params, $rules);
 
         if (! $cart = Cart::getCart()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.fail.not-found'));
@@ -162,7 +159,7 @@ class CheckoutMutation extends Controller
                         'address_id' => $shippingAddressId,
                     ],
                 ];
-                
+
                 $addressFlag = false;
 
                 if ($billingAddressId) {
@@ -454,11 +451,9 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'method' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             if (
@@ -493,11 +488,9 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'shipping_method' => 'string|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             if (
@@ -533,11 +526,9 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'method' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             if (
@@ -572,11 +563,9 @@ class CheckoutMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => 'string|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             if (strlen($data['code'])) {

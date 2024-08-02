@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductBundleOptionProductRepository;
@@ -55,7 +56,20 @@ class BagistoGraphql
     ) {}
 
     /**
-     * @param  mixed  $validator
+     * To validate the request data
+     *
+     * @return void
+     */
+    public function validate(array $args, array $rules)
+    {
+        $validator = Validator::make($args, $rules);
+
+        $this->checkValidatorFails($validator);
+    }
+
+    /**
+     * To check the validator fails
+     *
      * @return void
      */
     public function checkValidatorFails($validator)
@@ -64,7 +78,9 @@ class BagistoGraphql
             $errorMessage = [];
 
             foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field.': '.$message[0] : $field.': '.$message;
+                $errorMessage[] = is_array($message)
+                    ? "{$field}: ".current($message)
+                    : "{$field}: $message";
             }
 
             throw new CustomException(implode(', ', $errorMessage));

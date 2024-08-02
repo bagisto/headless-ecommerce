@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use JWTAuth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -40,12 +39,10 @@ class UserMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'email'    => 'required|email',
             'password' => 'required|min:6',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $remember = $data['remember'] ?? 0;
 
@@ -92,7 +89,7 @@ class UserMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'name'                  => 'required',
             'email'                 => 'required|email|unique:admins,email',
             'password'              => 'nullable|min:6',
@@ -101,8 +98,6 @@ class UserMutation extends Controller
             'status'                => 'sometimes',
             'image'                 => 'sometimes',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         if (! $this->roleRepository->find($data['role_id'])) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
@@ -155,7 +150,7 @@ class UserMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'name'                  => 'required',
             'email'                 => 'required|email|unique:admins,email,'.$id,
             'password'              => 'nullable',
@@ -164,8 +159,6 @@ class UserMutation extends Controller
             'role_id'               => 'required',
             'image'                 => 'sometimes',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $admin = $this->adminRepository->find($id);
 

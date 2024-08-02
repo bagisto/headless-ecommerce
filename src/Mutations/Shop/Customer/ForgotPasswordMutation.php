@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
@@ -20,11 +19,9 @@ class ForgotPasswordMutation extends Controller
      */
     public function forgot($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email' => 'required|email',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $response = $this->broker()->sendResetLink($args);

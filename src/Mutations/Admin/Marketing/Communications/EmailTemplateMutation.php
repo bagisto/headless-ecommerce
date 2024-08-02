@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -30,15 +29,11 @@ class EmailTemplateMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'    => 'required',
             'content' => 'required',
             'status'  => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $template = $this->templateRepository->create($params);
@@ -68,15 +63,11 @@ class EmailTemplateMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'    => 'required',
             'content' => 'required',
             'status'  => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $template = $this->templateRepository->findOrFail($id);

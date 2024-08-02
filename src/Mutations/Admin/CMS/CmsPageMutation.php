@@ -36,14 +36,12 @@ class CmsPageMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'url_key'      => ['required', 'unique:cms_page_translations,url_key', new Slug],
             'page_title'   => 'required',
             'channels'     => 'required|array|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
             'html_content' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('cms.page.create.before');
