@@ -7194,7 +7194,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation forgotPassword {\n    forgotPassword (\n        email: \"customer1@example.com\"\n    ) {\n        status\n        message\n    }\n}",
+														"query": "mutation forgotPassword {\n    forgotPassword (\n        email: \"customer11@example.com\"\n    ) {\n        status\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -7458,7 +7458,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query addresses {\n    addresses (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # gender: MALE\n            # email: \"test@test.com\"\n            # phone: \"9876543210\"\n            # companyName: \"test\"\n            # firstName: \"test\"\n            # lastName: \"\"\n            # address: \"h-28\"\n            # country: \"IN\"\n            # state: \"UP\"\n            # city: \"NOIDA\"\n            # postcode: \"282010\"\n            # vatId: \"\"\n            # defaultAddress true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data { \n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"query": "query addresses {\n    addresses (\n        first:11\n        page: 1\n        input: {\n            # id: 32\n            # gender: MALE\n            # email: \"test@test.com\"\n            # phone: \"9876543210\"\n            # companyName: \"test\"\n            # firstName: \"test\"\n            # lastName: \"\"\n            # address: \"h-28\"\n            # country: \"IN\"\n            # state: \"UP\"\n            # city: \"NOIDA\"\n            # postcode: \"282010\"\n            # vatId: \"\"\n            # defaultAddress true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data { \n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            stateName\n            country\n            countryName\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -7492,7 +7492,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query address {\n    address (\n        id: 1\n    ) {\n        id\n        addressType\n        parentAddressId\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        useForShipping\n        createdAt\n        updatedAt\n    }\n}",
+														"query": "query address {\n    address (\n        id: 64\n    ) {\n        id\n        addressType\n        parentAddressId\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        stateName\n        country\n        countryName\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        useForShipping\n        createdAt\n        updatedAt\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -7554,8 +7554,8 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation updateAddress (\n    $input: AddressInput!\n) {\n    updateAddress (\n        id: 1\n        input: $input\n    ) {\n       status\n       message\n       addresses {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n       }\n    }\n}",
-														"variables": "{\n    \"input\": {\n        \"companyName\": \"Webkul Software\",\n        \"firstName\": \"Customer\",\n        \"lastName\": \"1\",\n        \"email\": \"customer1@example.com\",\n        \"vatId\": \"INV12345678904\",\n        \"address\": [\"3180 Bluff Street\"],\n        \"country\": \"US\",\n        \"state\": \"PA\",\n        \"city\": \"GLEN CAMPBELL\",\n        \"postcode\": \"15742\",\n        \"phone\": \"234343544\",\n        \"defaultAddress\": true\n    }\n}"
+														"query": "mutation updateAddress (\n    $input: AddressInput!\n) {\n    updateAddress (\n        id: 64\n        input: $input\n    ) {\n       status\n       message\n       addresses {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n       }\n    }\n}",
+														"variables": "{\n    \"input\": {\n        \"companyName\": \"Webkul Software\",\n        \"firstName\": \"Customer\",\n        \"lastName\": \"1ade\",\n        \"email\": \"customer1@example.com\",\n        \"vatId\": \"INV12345678904\",\n        \"address\": [\"3180 Bluff Street\"],\n        \"country\": \"US\",\n        \"state\": \"PA\",\n        \"city\": \"GLEN CAMPBELL\",\n        \"postcode\": \"15742\",\n        \"phone\": \"234343544\",\n        \"defaultAddress\": true\n    }\n}"
 													}
 												},
 												"url": {

@@ -28,10 +28,12 @@ type Address {
     address: String!
     city: String!
     state: String!
+    stateName: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerQuery@getStateName")
     country: String!
+    countryName: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerQuery@getCountryName")
     postcode: String!
     email: String
-    phone: String!
+    phone: String
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
