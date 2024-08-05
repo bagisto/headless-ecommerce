@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\SiteMap;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -30,14 +29,10 @@ class SiteMapMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'file_name' => 'required',
             'path'      => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $sitemap = $this->sitemapRepository->create($params);
@@ -65,14 +60,10 @@ class SiteMapMutation extends Controller
         $params = $args['input'];
         $id = $args['id'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'file_name' => 'required',
             'path'      => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $sitemap = $this->sitemapRepository->update($params, $id);

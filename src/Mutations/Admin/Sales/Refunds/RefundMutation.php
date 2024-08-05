@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Refunds;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -66,13 +65,9 @@ class RefundMutation extends Controller
             $refund['refund']['adjustment_refund'] = $params['adjustment_refund'];
             $refund['refund']['adjustment_fee'] = $params['adjustment_fee'];
 
-            $validator = Validator::make($refund, [
+            bagisto_graphql()->validate($refund, [
                 'refund.items.*' => 'required|numeric|min:0',
             ]);
-
-            if ($validator->fails()) {
-                throw new CustomException($validator->messages());
-            }
 
             $totals = $this->refundRepository->getOrderItemsRefundSummary($refund['refund']['items'], $orderId);
 

@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Promotion;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
@@ -43,7 +42,7 @@ class CatalogRuleMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
             'customer_groups' => 'required|array|min:1|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
@@ -53,25 +52,13 @@ class CatalogRuleMutation extends Controller
             'discount_amount' => 'required|numeric',
         ]);
 
-        bagisto_graphql()->checkValidatorFails($validator);
-
         if (
             $params['action_type']
             && $params['action_type'] == 'by_percent'
         ) {
-            $validator = Validator::make($params, [
+            bagisto_graphql()->validate($params, [
                 'discount_amount' => 'required|numeric|min:0|max:100',
             ]);
-        }
-
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field.': '.$message[0] : $field.': '.$message;
-            }
-
-            throw new CustomException(implode(', ', $errorMessage));
         }
 
         try {
@@ -107,7 +94,7 @@ class CatalogRuleMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'            => 'required',
             'channels'        => 'required|array|min:1|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
             'customer_groups' => 'required|array|min:1|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
@@ -117,26 +104,14 @@ class CatalogRuleMutation extends Controller
             'discount_amount' => 'required|numeric',
         ]);
 
-        if ($validator->fails()) {
-            $errorMessage = [];
-
-            foreach ($validator->messages()->toArray() as $field => $message) {
-                $errorMessage[] = is_array($message) ? $field.': '.$message[0] : $field.': '.$message;
-            }
-
-            throw new CustomException(implode(', ', $errorMessage));
-        }
-
         if (
             $params['action_type']
             && $params['action_type'] == 'by_percent'
         ) {
-            $validator = Validator::make($params, [
+            bagisto_graphql()->validate($params, [
                 'discount_amount' => 'required|numeric|min:0|max:100',
             ]);
         }
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $catalogRule = $this->catalogRuleRepository->find($id);
 

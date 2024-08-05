@@ -36,7 +36,7 @@ return [
                 'refund-limit-error'          => 'The most money available to refund is :amount.',
                 'creation-error'              => 'Refund can not be created for this order.',
                 'create-success'              => 'Refund created successfully for this order.',
-            ]
+            ],
         ],
 
         'catalog' => [
@@ -89,7 +89,7 @@ return [
                 'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
                 'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
                 'delete-success'     => 'Customer deleted successfully',
-            ]
+            ],
         ],
 
         'cms' => [
@@ -130,8 +130,8 @@ return [
 
             'promotions' => [
                 'cart-rules' => [
-                    'delete-success' => 'Cart Rule deleted successfully',
-                    'delete-failed'  => 'Warning: Cart Rule is not deleted',
+                    'delete-success'       => 'Cart Rule deleted successfully',
+                    'delete-failed'        => 'Warning: Cart Rule is not deleted',
                     'cart-rule-not-defind' => 'Cart rule is not defined',
                 ],
 
@@ -149,7 +149,7 @@ return [
             'sitemaps' => [
                 'delete-success' => 'Site Map deleted successfully',
                 'delete-failed'  => 'Warning: Site Map is not deleted',
-            ]
+            ],
         ],
 
         'configuration' => [
@@ -299,7 +299,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Product',
-                        'category' => 'Category'
+                        'category' => 'Category',
                     ],
                 ],
 
@@ -322,7 +322,7 @@ return [
                     'option-type' => [
                         'others'   => 'Simple',
                         'product'  => 'Product',
-                        'category' => 'Category'
+                        'category' => 'Category',
                     ],
                 ],
             ],
@@ -419,9 +419,9 @@ return [
                 ],
 
                 'review' => [
-                    'success' => 'Success: Review is submitted successfully, please wait for the approval.',
+                    'success'        => 'Success: Review is submitted successfully, please wait for the approval.',
                     'success-delete' => 'Review deleted successfully',
-                    'not-found' => 'Review not found',
+                    'not-found'      => 'Review not found',
                 ],
 
                 'wishlist' => [
@@ -438,7 +438,7 @@ return [
 
                 'addressess' => [
                     'delete-success' => 'Customer\'s Address deleted successfully',
-                ]
+                ],
             ],
 
             'signup-form' => [

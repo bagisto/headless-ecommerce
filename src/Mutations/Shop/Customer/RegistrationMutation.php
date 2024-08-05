@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -37,15 +36,13 @@ class RegistrationMutation extends Controller
      */
     public function signUp($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email'                 => 'email|required|unique:customers,email',
             'first_name'            => 'string|required',
             'last_name'             => 'string|required',
             'password'              => 'min:6|required',
             'password_confirmation' => 'required|required_with:password|same:password',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $this->create($args);
 
@@ -66,14 +63,12 @@ class RegistrationMutation extends Controller
      */
     public function socialSignIn($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email'       => 'email|required',
             'first_name'  => 'string|required',
             'last_name'   => 'string|required',
             'signup_type' => 'string|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         if ($args['signup_type'] == 'truecaller') {
             if (empty($args['phone'])) {

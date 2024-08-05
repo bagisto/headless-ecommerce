@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\AttributeFamilies;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
@@ -40,14 +39,10 @@ class AttributeFamilyMutation extends Controller
             $data['attribute_groups'] = [];
         }
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => ['required', 'unique:attribute_families,code', new Code],
             'name' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             Event::dispatch('catalog.attributeFamily.create.before');
@@ -80,14 +75,10 @@ class AttributeFamilyMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => ['required', 'unique:attribute_families,code,'.$id, new Code],
             'name' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         $attributeFamily = $this->attributeFamilyRepository->findOrFail($id);
 

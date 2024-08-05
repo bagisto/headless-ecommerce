@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -34,11 +33,9 @@ class ReviewMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'status' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $review = $this->productReviewRepository->find($id);
 

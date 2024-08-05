@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Models\CartRule;
 
-use Webkul\CartRule\Models\CartRuleCouponProxy;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\CartRule\Models\CartRule as BaseCartRule;
+use Webkul\CartRule\Models\CartRuleCouponProxy;
 
 class CartRule extends BaseCartRule
 {

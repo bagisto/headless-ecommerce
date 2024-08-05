@@ -4,9 +4,9 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\ChannelRepository;
+use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ChannelMutation extends Controller
@@ -31,8 +31,8 @@ class ChannelMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
-            'code'                  => ['required', 'unique:channels,code', new \Webkul\Core\Rules\Code],
+        bagisto_graphql()->validate($data, [
+            'code'                  => ['required', 'unique:channels,code', new Code],
             'name'                  => 'required',
             'description'           => 'nullable',
             'inventory_sources'     => 'required|array|min:1',
@@ -52,8 +52,6 @@ class ChannelMutation extends Controller
             'maintenance_mode_text' => 'nullable',
             'allowed_ips'           => 'nullable',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $data = $this->setSEOContent($data);
@@ -100,8 +98,8 @@ class ChannelMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
-            'code'                  => ['required', 'unique:channels,code', new \Webkul\Core\Rules\Code],
+        bagisto_graphql()->validate($data, [
+            'code'                  => ['required', 'unique:channels,code', new Code],
             'name'                  => 'required',
             'description'           => 'nullable',
             'inventory_sources'     => 'required|array|min:1',
@@ -121,8 +119,6 @@ class ChannelMutation extends Controller
             'maintenance_mode_text' => 'nullable',
             'allowed_ips'           => 'nullable',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $channel = $this->channelRepository->find($id);
 

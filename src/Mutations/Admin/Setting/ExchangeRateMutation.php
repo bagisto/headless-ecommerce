@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Webkul\Core\Repositories\ExchangeRateRepository;
@@ -35,12 +34,10 @@ class ExchangeRateMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency'],
             'rate'            => 'required|numeric',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $currency = $this->currencyRepository->find($data['target_currency']);
 
@@ -82,12 +79,10 @@ class ExchangeRateMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency,'.$id],
             'rate'            => 'required|numeric',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $exchangeRate = $this->exchangeRateRepository->find($id);
 

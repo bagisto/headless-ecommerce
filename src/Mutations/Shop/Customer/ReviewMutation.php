@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
@@ -112,17 +111,13 @@ class ReviewMutation extends Controller
     {
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'comment'     => 'required',
             'rating'      => 'required|numeric|min:1|max:5',
             'title'       => 'required',
             'product_id'  => 'required',
             'attachments' => 'array',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             if (auth()->check()) {

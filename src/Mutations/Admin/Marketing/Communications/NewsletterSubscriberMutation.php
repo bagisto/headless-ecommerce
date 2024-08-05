@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -30,11 +29,9 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function get($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email' => 'email|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $subscriber = $this->subscriptionRepository->findOneByField('email', $args['email']);
@@ -56,11 +53,9 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function subscribe($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email' => 'email|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $email = $args['email'];
 
@@ -80,14 +75,14 @@ class NewsletterSubscriberMutation extends Controller
                 'channel_id'    => core()->getCurrentChannel()->id,
                 'is_subscribed' => 1,
                 'token'         => uniqid(),
-                'customer_id'   => bagisto_graphql()->guard('api')->user()->id
+                'customer_id'   => bagisto_graphql()->guard('api')->user()->id,
             ]);
 
             if (isset($subscription->id)) {
                 Event::dispatch('customer.subscribe.after', $subscription);
-                
+
                 $subscription->success = trans('bagisto_graphql::app.admin.marketing.communications.subscriptions.subscribed-success');
-                
+
                 return $subscription;
             }
         } catch (\Exception $e) {
@@ -103,11 +98,9 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'token' => 'string|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $subscriber = $this->subscriptionRepository->findOneByField('token', $args['token']);

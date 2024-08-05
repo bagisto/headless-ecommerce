@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\AttributeFamilies;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
@@ -35,15 +34,11 @@ class AttributeGroupMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
-            'name'                => 'string|required',
-            'position'            => 'numeric|required',
-            'attribute_family_id' => 'numeric|required',
+        bagisto_graphql()->validate($data, [
+            'name'                => 'required',
+            'position'            => 'required',
+            'attribute_family_id' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);
@@ -81,15 +76,11 @@ class AttributeGroupMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
-            'name'                => 'string|required',
-            'position'            => 'numeric|required',
-            'attribute_family_id' => 'numeric|required',
+        bagisto_graphql()->validate($data, [
+            'name'                => 'required',
+            'position'            => 'required',
+            'attribute_family_id' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);

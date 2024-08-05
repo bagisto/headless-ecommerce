@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -32,7 +31,7 @@ class InventorySourceMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'           => ['required', 'unique:inventory_sources,code', new Code],
             'name'           => 'required',
             'contact_name'   => 'required',
@@ -44,8 +43,6 @@ class InventorySourceMutation extends Controller
             'city'           => 'required',
             'postcode'       => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $data['status'] = $data['status'] ?? 0;
@@ -82,7 +79,7 @@ class InventorySourceMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'           => ['required', 'unique:inventory_sources,code,'.$id, new Code],
             'name'           => 'required',
             'contact_name'   => 'required',
@@ -94,8 +91,6 @@ class InventorySourceMutation extends Controller
             'city'           => 'required',
             'postcode'       => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $inventorySource = $this->inventorySourceRepository->find($id);
 

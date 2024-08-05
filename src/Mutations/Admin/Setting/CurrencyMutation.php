@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\CurrencyRepository;
 use Webkul\Core\Rules\Code;
@@ -32,12 +31,10 @@ class CurrencyMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => 'required|min:3|max:3|unique:currencies,code',
             'name' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             Event::dispatch('core.currency.create.before');
@@ -72,12 +69,10 @@ class CurrencyMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => ['required', 'unique:currencies,code,'.$id, new Code],
             'name' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $currency = $this->currencyRepository->find($id);
 

@@ -79,9 +79,9 @@ type Invoice {
     updatedAt: String @rename(attribute: "updated_at")
     order: Order! @belongsTo
     items: [InvoiceItem!] @hasMany
-    customer: Customer! @morphTo
-    channel: Channel! @morphTo
-    address: Address! @belongsTo
+    customer: Customer @morphTo
+    channel: Channel @morphTo
+    address: Address @belongsTo
 }
 
 type InvoiceItem {

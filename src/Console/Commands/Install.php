@@ -37,7 +37,7 @@ class Install extends Command
         $this->warn('Step3: Publishing GraphQLAPI Provider File...');
         $this->info($this->call('vendor:publish', [
             '--provider' => GraphQLAPIServiceProvider::class,
-            '--force'    => true
+            '--force'    => true,
         ]));
 
         $this->warn('Step: Publishing Lighthouse Provider File...');

@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Attributes;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeOptionRepository;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -45,15 +44,11 @@ class AttributeMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'       => ['required', 'unique:attributes,code', new Code],
             'admin_name' => 'required',
             'type'       => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             if (
@@ -126,15 +121,11 @@ class AttributeMutation extends Controller
         $data = $args['input'];
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code'       => ['required', 'unique:attributes,code,'.$id, new Code],
             'admin_name' => 'required',
             'type'       => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             if (

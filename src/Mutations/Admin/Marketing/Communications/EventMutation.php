@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -30,15 +29,11 @@ class EventMutation extends Controller
 
         $params = $args['input'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'        => 'required',
             'description' => 'required',
             'date'        => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
@@ -69,15 +64,11 @@ class EventMutation extends Controller
         $params = $args['input'];
         $id = $args['id'];
 
-        $validator = Validator::make($params, [
+        bagisto_graphql()->validate($params, [
             'name'        => 'required',
             'description' => 'required',
             'date'        => 'required',
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         try {
             $event = $this->eventRepository->findOrFail($id);

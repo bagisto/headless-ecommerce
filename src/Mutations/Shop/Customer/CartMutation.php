@@ -5,7 +5,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartItemRepository;
@@ -67,19 +66,15 @@ class CartMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        $data = $args['input'];
-
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($args, [
             'quantity'   => 'required|min:1',
             'product_id' => 'required|integer|exists:products,id',
         ]);
 
-        bagisto_graphql()->checkValidatorFails($validator);
-
         try {
-            $product = $this->productRepository->findOrFail($data['product_id']);
+            $product = $this->productRepository->findOrFail($args['product_id']);
 
-            $data = bagisto_graphql()->manageInputForCart($product, $data);
+            $data = bagisto_graphql()->manageInputForCart($product, $args);
 
             $cart = Cart::addProduct($product, $data);
 
@@ -91,7 +86,7 @@ class CartMutation extends Controller
                 'cart' => $cart,
             ];
         } catch (\Exception $e) {
-            throw new CustomException($e->getMessage(), $e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
@@ -105,13 +100,11 @@ class CartMutation extends Controller
     {
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'qty'                => 'required|array',
             'qty.*.cart_item_id' => 'required|integer|exists:cart_items,id',
             'qty.*.quantity'     => 'required|integer|min:1',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $qty = [];
@@ -148,11 +141,9 @@ class CartMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'id' => 'required|integer|exists:cart_items,id',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $isRemoved = Cart::removeItem($args['id']);
@@ -213,11 +204,9 @@ class CartMutation extends Controller
      */
     public function moveToWishlist($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'id' => 'required|integer|exists:cart_items,id',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $isMoved = Cart::moveToWishlist($args['id']);

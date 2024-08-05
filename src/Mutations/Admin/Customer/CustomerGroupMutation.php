@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Rules\Code;
@@ -32,12 +31,10 @@ class CustomerGroupMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => ['required', 'unique:customer_groups,code', new Code],
             'name' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $data['is_user_defined'] = $data['is_user_defined'] ?? 0;
@@ -75,12 +72,10 @@ class CustomerGroupMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'code' => ['required', 'unique:customer_groups,code,'.$id, new Code],
             'name' => 'required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $customerGroup = $this->customerGroupRepository->find($id);
 

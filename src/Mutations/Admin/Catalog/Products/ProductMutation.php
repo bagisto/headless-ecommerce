@@ -38,15 +38,11 @@ class ProductMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'type'                => 'required',
             'attribute_family_id' => 'required',
             'sku'                 => ['required', 'unique:products,sku', new Slug],
         ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->messages());
-        }
 
         if (
             ProductType::hasVariants($data['type'])

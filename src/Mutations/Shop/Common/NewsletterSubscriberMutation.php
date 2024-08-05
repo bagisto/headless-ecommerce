@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Common;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -30,11 +29,9 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function get($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email' => 'email|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $subscriber = $this->subscriptionRepository->findOneByField('email', $args['email']);
@@ -62,11 +59,9 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function subscribe($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'email' => 'email|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $email = $args['email'];
 
@@ -115,11 +110,9 @@ class NewsletterSubscriberMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        $validator = Validator::make($args, [
+        bagisto_graphql()->validate($args, [
             'token' => 'string|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         try {
             $subscriber = $this->subscriptionRepository->findOneByField('token', $args['token']);

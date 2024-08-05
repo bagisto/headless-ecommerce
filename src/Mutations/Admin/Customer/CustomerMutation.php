@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
@@ -38,7 +37,7 @@ class CustomerMutation extends Controller
 
         $data = $args['input'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
             'gender'            => 'required',
@@ -47,8 +46,6 @@ class CustomerMutation extends Controller
             'date_of_birth'     => 'string|before:today',
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $data['password'] = bcrypt(rand(100000, 10000000));
 
@@ -89,7 +86,7 @@ class CustomerMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
             'gender'            => 'required',
@@ -98,8 +95,6 @@ class CustomerMutation extends Controller
             'date_of_birth'     => 'date|before:today',
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($id);
 
@@ -182,11 +177,9 @@ class CustomerMutation extends Controller
 
         $id = $args['id'];
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             'note' => 'string|required',
         ]);
-
-        bagisto_graphql()->checkValidatorFails($validator);
 
         $customer = $this->customerRepository->find($id);
 
