@@ -42,7 +42,8 @@ class CustomerQuery extends BaseFilter
     public function getStateName($rootValue, array $args, GraphQLContext $context): ?string
     {
         return $this->countryStateRepository->findOneWhere([
-            'code' => $rootValue->state,
+            'country_code' => $rootValue->country,
+            'code'         => $rootValue->state,
         ])?->default_name;
     }
 }

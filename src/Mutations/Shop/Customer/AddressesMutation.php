@@ -94,8 +94,8 @@ class AddressesMutation extends Controller
 
         bagisto_graphql()->validate($data, [
             'company_name' => ['nullable'],
-            'first_name'   => ['required', 'integer'],
-            'last_name'    => ['required', 'integer'],
+            'first_name'   => ['required'],
+            'last_name'    => ['required'],
             'address'      => ['required', 'array', 'min:1'],
             'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
             'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
