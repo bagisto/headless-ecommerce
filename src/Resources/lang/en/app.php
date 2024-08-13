@@ -24,6 +24,7 @@ return [
                 'invalid-creds' => 'Please check your credentials and try again.',
                 'not-activated' => 'Your activation requires admin approval',
                 'verify-first'  => 'Please verify your email first.',
+                'suspended'     => 'Your account has been suspended by the administrator.',
 
                 'validation' => [
                     'required' => 'The :field field is required.',

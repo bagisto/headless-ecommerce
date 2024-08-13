@@ -88,6 +88,49 @@ class BagistoGraphql
     }
 
     /**
+     * To check the authorization
+     */
+    public function authorize(string $guard = 'api', string $token = ''): mixed
+    {
+        if (! auth()->guard($guard)->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
+        }
+
+        $user = auth()->guard($guard)->user();
+
+        if (
+            isset($user->status)
+            && $user->status !== 1
+        ) {
+            $message = trans('bagisto_graphql::app.shop.customers.login.not-activated');
+        }
+
+        if (
+            isset($user->is_verified)
+            && $user->is_verified !== 1
+        ) {
+            $message = trans('bagisto_graphql::app.shop.customers.login.verify-first');
+        }
+
+        if (
+            isset($user->is_suspended)
+            && $user->is_suspended !== 0
+        ) {
+            $message = trans('bagisto_graphql::app.shop.customers.login.suspended');
+        }
+
+        if (isset($message)) {
+            request()->merge(['token' => $token]);
+
+            auth()->guard($guard)->logout();
+
+            throw new CustomException($message);
+        }
+
+        return $user;
+    }
+
+    /**
      * To save image through url
      *
      * @param  model  $model
@@ -243,7 +286,7 @@ class BagistoGraphql
     /**
      * format customer group prices
      *
-     * @param  array  $product
+     * @param  object  $product
      * @param  array  $data
      * @return array|null
      */
@@ -781,7 +824,9 @@ class BagistoGraphql
      */
     public function getImageMIMEType($filename, $type = 'images')
     {
-        $ext = strtolower(array_pop(explode('.', $filename)));
+        $explodeURL = explode('.', $filename);
+
+        $ext = strtolower(array_pop($explodeURL));
 
         $mimeTypes = $type == 'images'
                         ? $this->allowedImageMimeTypes

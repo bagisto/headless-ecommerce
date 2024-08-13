@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class SessionMutation extends Controller
@@ -17,7 +16,7 @@ class SessionMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected CustomerRepository $customerRepository)
+    public function __construct()
     {
         Auth::setDefaultDriver('api');
     }
@@ -42,25 +41,7 @@ class SessionMutation extends Controller
         }
 
         try {
-            $customer = auth()->user();
-
-            if (! $customer->status) {
-                $message = trans('bagisto_graphql::app.shop.customers.login.not-activated');
-            }
-
-            if (! $customer->is_verified) {
-                $message = trans('bagisto_graphql::app.shop.customers.login.verify-first');
-            }
-
-            if (isset($message)) {
-                request()->merge([
-                    'token' => $jwtToken,
-                ]);
-
-                auth()->logout();
-
-                throw new CustomException($message);
-            }
+            $customer = bagisto_graphql()->authorize(token: $jwtToken);
 
             /**
              * Event passed to prepare cart after login.
@@ -73,7 +54,7 @@ class SessionMutation extends Controller
                 'access_token' => "Bearer $jwtToken",
                 'token_type'   => 'Bearer',
                 'expires_in'   => Auth::guard('api')->factory()->getTTL() * 60,
-                'customer'     => $this->customerRepository->find($customer->id),
+                'customer'     => $customer,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
