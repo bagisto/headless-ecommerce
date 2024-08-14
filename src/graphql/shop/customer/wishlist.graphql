@@ -15,18 +15,18 @@ extend type Query @guard(with: ["api"]) {
 extend type Mutation @guard(with: ["api"]) {
     addToWishlist(
         productId: ID! @rename(attribute: "product_id") @rules(apply: ["required"])
-    ): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@store")
+    ): WishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@store")
 
     removeFromWishlist(
         productId: ID! @rename(attribute: "product_id") @rules(apply: ["required"])
-    ): Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@delete")
+    ): WishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@delete")
 
     moveToCart(
-        id: ID @eq @rules(apply: ["min:1","required"])
-        quantity: Int! @rules(apply: ["min:1","required"])
-    ): MoveToCart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
+        id: ID @eq @rules(apply: ["min:1", "required"])
+        quantity: Int! @rules(apply: ["min:1", "required"])
+    ): WishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
 
-    removeAllWishlists: Wishlist @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")
+    removeAllWishlists: StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")
 }
 
 input FilterWislistInput {
@@ -34,6 +34,12 @@ input FilterWislistInput {
     productId: Int @rename(attribute: "product_id")
     productName: String @rename(attribute: "product_name")
     channelId: Int @rename(attribute: "channel_id")
+}
+
+type WishlistResponse {
+    success: Boolean
+    message: String
+    wishlist: [Wishlist] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists")
 }
 
 type Wishlist {
@@ -49,10 +55,4 @@ type Wishlist {
     product: Product! @belongsTo(relation: "product")
     channel: Channel! @belongsTo(relation: "channel")
     customer: Customer @belongsTo(relation: "customer")
-    success: String
-}
-
-type MoveToCart {
-    success: String!
-    wishlist: [Wishlist] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getWishlists")
 }

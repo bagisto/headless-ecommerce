@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 
 use Illuminate\Support\Str;
-use Webkul\Checkout\Facades\Cart;
-use Webkul\Paypal\Payment\Standard;
-use Webkul\Paypal\Helpers\Ipn as IpnHelper;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Paypal\Helpers\Ipn as IpnHelper;
+use Webkul\Paypal\Payment\Standard;
+use Webkul\Sales\Repositories\OrderRepository;
 
 class PaypalStandardMutation
 {
@@ -65,11 +65,11 @@ class PaypalStandardMutation
                     foreach ($paypalFields as $index => $fieldValue) {
                         if (
                             (
-                            Str::contains($index, 'item_number_')
-                            || Str::contains($index, 'item_name_')
-                            || Str::contains($index, 'quantity_')
-                            || Str::contains($index, 'amount_')
-                        ) && $index != 'discount_amount_cart'
+                                Str::contains($index, 'item_number_')
+                                || Str::contains($index, 'item_name_')
+                                || Str::contains($index, 'quantity_')
+                                || Str::contains($index, 'amount_')
+                            ) && $index != 'discount_amount_cart'
                         ) {
                             unset($paypalFields[$index]);
                         }

@@ -11,14 +11,14 @@ extend type Mutation {
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@store")
 
     updateItemToCart(
-        input: UpdateItemToCartInput!
+        input: UpdateItemToCartInput! @spread
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@update")
 
     removeCartItem(
         id: ID!
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@delete")
 
-    removeAllCartItem: CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
+    removeAllCartItem: StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
 
     moveToWishlist(
         id: ID!
@@ -71,7 +71,7 @@ input UpdateItemsQty {
 }
 
 type CartItemResponse {
-    status: Boolean
+    success: Boolean
     message: String
     cart: Cart
 }

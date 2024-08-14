@@ -1,7 +1,7 @@
 # Shop\Checkout\saveShippingMethod Related API
 extend type Mutation {
     saveShipping(
-        input: saveShippingMethodInput!
+        input: saveShippingMethodInput! @spread
     ): ShippingResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@saveShipping")
 }
 
@@ -10,7 +10,7 @@ input saveShippingMethodInput {
 }
 
 type ShippingResponse {
-    success: String
+    message: String
     cart: Cart
     jumpToSection: String @rename(attribute: "jump_to_section")
 }

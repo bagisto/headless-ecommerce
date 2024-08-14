@@ -1,7 +1,7 @@
 # Shop\Checkout\Coupon Related API
 extend type Mutation {
     applyCoupon(
-        input: ApplyCouponInput!
+        input: ApplyCouponInput! @spread
     ): CouponResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@applyCoupon")
 
     removeCoupon: CouponResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@removeCoupon")

@@ -12,12 +12,12 @@ extend type Query @guard(with: ["api"]){
 
 extend type Mutation @guard(with: ["api"]) {
     createAddress(
-        input: AddressInput!
+        input: AddressInput! @spread
     ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
 
     updateAddress(
         id: ID!,
-        input: AddressInput!
+        input: AddressInput! @spread
     ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
 
     setDefaultAddress(
@@ -45,7 +45,7 @@ input AddressInput {
 }
 
 type AddressListResult {
-    status: Boolean
+    success: Boolean
     message: String
     addresses: Address
 }

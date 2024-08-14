@@ -4,7 +4,7 @@ extend type Query {
 }
 
 type ShippingMethods {
-    success: String
+    message: String
     cart: Cart
     shippingMethods: [ShippingMethod!] @rename(attribute: "shipping_methods")
 }

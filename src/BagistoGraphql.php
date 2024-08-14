@@ -219,7 +219,9 @@ class BagistoGraphql
                         continue;
                     }
 
-                    $allowedMimeTypes = $data['data_type'] == 'images' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
+                    $allowedMimeTypes = $data['data_type'] == 'images'
+                        ? $this->allowedImageMimeTypes
+                        : $this->allowedVideoMimeTypes;
 
                     $getImgMime = mime_content_type($imageUrl);
 
@@ -712,37 +714,37 @@ class BagistoGraphql
         if ($data['upload_type'] == 'base64') {
             $getImgMime = mime_content_type($data[$field]);
 
-            $extension = explode('/', $getImgMime)[1];
+            $extension = current(explode('/', $getImgMime));
 
-            $imageName = $field.'_avatar.'.$extension;
+            $imageName = "{$field}_avatar.{$extension}";
 
             $base64OrPathValidate = ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
-            $base64OrPathValidate = $this->validatePath($data[$field], 'image');
+            $base64OrPathValidate = $this->validatePath($data[$field]);
         }
 
         if ($base64OrPathValidate) {
-            $keyIndex = explode('_', $field);
+            $fieldName = current(explode('_url', $field));
 
-            if (! isset($keyIndex[0])) {
+            if (empty($fieldName)) {
                 return false;
             }
 
-            if ($collection->{$keyIndex[0]}) {
-                Storage::delete($collection->{$keyIndex[0]});
+            if ($collection->{$fieldName}) {
+                Storage::delete($collection->{$fieldName});
             }
 
-            $collection->{$keyIndex[0]} = null;
+            $collection->{$fieldName} = null;
 
             $collection->save();
 
-            $path = $data['save_path'].'/';
+            $path = "{$data['save_path']}/";
 
             $contents = file_get_contents($data[$field]);
 
-            Storage::put($path.$imageName, $contents);
+            Storage::put("{$path}{$imageName}", $contents);
 
-            $collection->{$keyIndex[0]} = $path.$imageName;
+            $collection->{$fieldName} = "{$path}{$imageName}";
 
             $collection->save();
         }
@@ -760,7 +762,7 @@ class BagistoGraphql
 
         $extension = explode('/', $getImgMime)[1];
 
-        $imageName = $imageName.'_review.'.$extension;
+        $imageName = "{$imageName}_review.{$extension}";
 
         $base64Validate = ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
 
@@ -774,12 +776,12 @@ class BagistoGraphql
                 return false;
             }
 
-            $path = $data['save_path'].'/';
+            $path = "{$data['save_path']}/";
 
-            Storage::put($path.$imageName, file_get_contents($data[$field]));
+            Storage::put("{$path}{$imageName}", file_get_contents($data[$field]));
 
             return [
-                'path'        => $path.$imageName,
+                'path'        => "{$path}{$imageName}",
                 'img_details' => explode('/', mime_content_type($data[$field])),
             ];
         }
@@ -829,8 +831,8 @@ class BagistoGraphql
         $ext = strtolower(array_pop($explodeURL));
 
         $mimeTypes = $type == 'images'
-                        ? $this->allowedImageMimeTypes
-                        : $this->allowedVideoMimeTypes;
+            ? $this->allowedImageMimeTypes
+            : $this->allowedVideoMimeTypes;
 
         if (array_key_exists($ext, $mimeTypes)) {
             return true;

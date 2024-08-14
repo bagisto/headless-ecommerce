@@ -85,6 +85,7 @@ return [
                 ],
 
                 'downloadable-products' => [
+                    'not-found'      => 'Warning: Downloadable product not found.',
                     'not-auth'       => 'Warning: You are not authorized to perform this action.',
                     'payment-error'  => 'Payment has not been done for this download.',
                     'download-error' => 'Download link has been expired.',
