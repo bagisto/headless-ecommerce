@@ -90,7 +90,7 @@ class BagistoGraphql
     /**
      * To check the authorization
      */
-    public function authorize(string $guard = 'api', string $token = ''): mixed
+    public function authorize(string $guard = 'api', string $token = null): mixed
     {
         if (! auth()->guard($guard)->check()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
@@ -120,7 +120,9 @@ class BagistoGraphql
         }
 
         if (isset($message)) {
-            request()->merge(['token' => $token]);
+            if ($token) {
+                request()->merge(['token' => $token]);
+            }
 
             auth()->guard($guard)->logout();
 
