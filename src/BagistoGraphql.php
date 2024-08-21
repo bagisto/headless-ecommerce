@@ -88,6 +88,51 @@ class BagistoGraphql
     }
 
     /**
+     * To check the authorization
+     */
+    public function authorize(string $guard = 'api', string $token = null): mixed
+    {
+        if (! auth()->guard($guard)->check()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
+        }
+
+        $user = auth()->guard($guard)->user();
+
+        if (
+            isset($user->status)
+            && $user->status !== 1
+        ) {
+            $message = trans('bagisto_graphql::app.shop.customers.login.not-activated');
+        }
+
+        if (
+            isset($user->is_verified)
+            && $user->is_verified !== 1
+        ) {
+            $message = trans('bagisto_graphql::app.shop.customers.login.verify-first');
+        }
+
+        if (
+            isset($user->is_suspended)
+            && $user->is_suspended !== 0
+        ) {
+            $message = trans('bagisto_graphql::app.shop.customers.login.suspended');
+        }
+
+        if (isset($message)) {
+            if ($token) {
+                request()->merge(['token' => $token]);
+            }
+
+            auth()->guard($guard)->logout();
+
+            throw new CustomException($message);
+        }
+
+        return $user;
+    }
+
+    /**
      * To save image through url
      *
      * @param  model  $model
@@ -98,12 +143,12 @@ class BagistoGraphql
      */
     public function uploadImage($model, $imageUrl, $path, $type)
     {
-        $modelPath = $path.$model->id.'/';
+        $modelPath = "$path{$model->id}/";
 
-        $imageDirPath = storage_path('app/public/'.$modelPath);
+        $imageDirPath = storage_path("app/public/$modelPath");
 
         if (! file_exists($imageDirPath)) {
-            mkdir(storage_path('app/public/'.$modelPath), 0777, true);
+            mkdir(storage_path("app/public/$modelPath"), 0777, true);
         }
 
         if (! empty($imageUrl)) {
@@ -112,15 +157,15 @@ class BagistoGraphql
             if ($validatedImg) {
                 $imgName = basename($imageUrl);
 
-                $savePath = $imageDirPath.$imgName;
+                $savePath = "$imageDirPath$imgName";
 
                 if (file_exists($savePath)) {
-                    Storage::delete('/'.$modelPath.$imgName);
+                    Storage::delete("/$modelPath$imgName");
                 }
 
                 file_put_contents($savePath, file_get_contents($imageUrl));
 
-                $model->{$type} = $modelPath.$imgName;
+                $model->{$type} = "$modelPath$imgName";
 
                 $model->save();
             }
@@ -135,20 +180,20 @@ class BagistoGraphql
      */
     public function uploadProductImages($data)
     {
-        $modelPath = $data['path'].$data['resource']->id.'/';
+        $modelPath = "{$data['path']}{$data['resource']->id}/";
 
-        $imageDirPath = storage_path('app/public/'.$modelPath);
+        $imageDirPath = storage_path("app/public/{$modelPath}");
 
         if (! file_exists($imageDirPath)) {
-            mkdir(storage_path('app/public/'.$modelPath), 0777, true);
+            mkdir(storage_path("app/public/{$modelPath}"), 0777, true);
         }
 
-        $previousImageIds = $productImageArray = ($data['data_type'] == 'videos') ? $data['resource']->videos()->pluck('id') : $data['resource']->images()->pluck('id');
+        $previousImageIds = $productImageArray = ($data['data_type'] == 'videos')
+            ? $data['resource']->videos()->pluck('id')
+            : $data['resource']->images()->pluck('id');
 
         if ($data['data']) {
-
             foreach ($productImageArray->toArray() as $productImageId) {
-
                 if (is_numeric($index = $previousImageIds->search($productImageId))) {
                     $previousImageIds->forget($index);
                 }
@@ -166,7 +211,6 @@ class BagistoGraphql
                 $imgName = basename($imageUrl);
 
                 if ($data['upload_type'] == 'base64') {
-
                     $validate = explode('base64,', $imageUrl);
 
                     if (
@@ -176,7 +220,9 @@ class BagistoGraphql
                         continue;
                     }
 
-                    $allowedMimeTypes = $data['data_type'] == 'images' ? $this->allowedImageMimeTypes : $this->allowedVideoMimeTypes;
+                    $allowedMimeTypes = $data['data_type'] == 'images'
+                        ? $this->allowedImageMimeTypes
+                        : $this->allowedVideoMimeTypes;
 
                     $getImgMime = mime_content_type($imageUrl);
 
@@ -196,14 +242,14 @@ class BagistoGraphql
                 $savePath = $imageDirPath.$imgName;
 
                 if (file_exists($savePath)) {
-                    Storage::delete('/'.$modelPath.$imgName);
+                    Storage::delete("/$modelPath$imgName");
                 }
 
                 file_put_contents($savePath, file_get_contents($imageUrl));
 
                 $params = [
                     'type'       => $data['data_type'],
-                    'path'       => $modelPath.$imgName,
+                    'path'       => "$modelPath$imgName",
                     'product_id' => $data['resource']->id,
                 ];
 
@@ -243,7 +289,7 @@ class BagistoGraphql
     /**
      * format customer group prices
      *
-     * @param  array  $product
+     * @param  object  $product
      * @param  array  $data
      * @return array|null
      */
@@ -265,7 +311,7 @@ class BagistoGraphql
         foreach ($data['customer_group_prices'] as $key => $row) {
             $row['customer_group_id'] = $row['customer_group_id'] == '' ? null : $row['customer_group_id'];
 
-            $index = 'customer_group_price_'.$key;
+            $index = "customer_group_price_{$key}";
 
             $customerGroupPrices[$index] = $row;
         }
@@ -366,7 +412,7 @@ class BagistoGraphql
                 }
 
                 if (! empty($link['associated_product_id'])) {
-                    $links['link_'.$key] = $link;
+                    $links["link_{$key}"] = $link;
                 }
             }
         }
@@ -421,7 +467,7 @@ class BagistoGraphql
                 }
 
                 if (! empty($link['type'])) {
-                    $downloadableLinks['link_'.$key] = $link;
+                    $downloadableLinks["link_{$key}"] = $link;
                 }
             }
         }
@@ -475,7 +521,7 @@ class BagistoGraphql
                 }
 
                 if (! empty($sample['type'])) {
-                    $downloadableSamples['sample_'.$key] = $sample;
+                    $downloadableSamples["sample_{$key}"] = $sample;
                 }
             }
         }
@@ -541,7 +587,7 @@ class BagistoGraphql
                             }
 
                             if (! empty($prod['product_id'])) {
-                                $products['product_'.$index] = $prod;
+                                $products["product_{$index}"] = $prod;
                             }
                         }
                     }
@@ -569,7 +615,7 @@ class BagistoGraphql
                 if (! empty($option['products'])) {
                     foreach ($option['products'] as $index => $prod) {
                         if (! empty($prod['product_id'])) {
-                            $products['product_'.$index] = $prod;
+                            $products["product_{$index}"] = $prod;
                         }
                     }
 
@@ -577,7 +623,7 @@ class BagistoGraphql
                 }
 
                 if (! empty($option['type'])) {
-                    $bundleOptions['option_'.$key] = $option;
+                    $bundleOptions["option_{$key}"] = $option;
                 }
             }
         }
@@ -596,7 +642,6 @@ class BagistoGraphql
     {
         switch ($product->type) {
             case 'configurable':
-                //Case: In case of configurable product added
                 if (! empty($data['super_attribute'])) {
                     $superAttribute = [];
 
@@ -612,7 +657,6 @@ class BagistoGraphql
                 }
                 break;
             case 'grouped':
-                //Case: In case of grouped product added
                 if (! empty($data['qty'])) {
                     $groupedProduct = [];
 
@@ -626,7 +670,6 @@ class BagistoGraphql
                 }
                 break;
             case 'bundle':
-                //Case: In case of bundled product added
                 if (! empty($data['bundle_options'])) {
                     $bundle_options = [];
 
@@ -671,35 +714,35 @@ class BagistoGraphql
 
             $extension = explode('/', $getImgMime)[1];
 
-            $imageName = $field.'_avatar.'.$extension;
+            $imageName = "{$field}_avatar.{$extension}";
 
             $base64OrPathValidate = ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
         } else {
-            $base64OrPathValidate = $this->validatePath($data[$field], 'image');
+            $base64OrPathValidate = $this->validatePath($data[$field]);
         }
 
         if ($base64OrPathValidate) {
-            $keyIndex = explode('_', $field);
+            $fieldName = current(explode('_url', $field));
 
-            if (! isset($keyIndex[0])) {
+            if (empty($fieldName)) {
                 return false;
             }
 
-            if ($collection->{$keyIndex[0]}) {
-                Storage::delete($collection->{$keyIndex[0]});
+            if ($collection->{$fieldName}) {
+                Storage::delete($collection->{$fieldName});
             }
 
-            $collection->{$keyIndex[0]} = null;
+            $collection->{$fieldName} = null;
 
             $collection->save();
 
-            $path = $data['save_path'].'/';
+            $path = "{$data['save_path']}/";
 
             $contents = file_get_contents($data[$field]);
 
-            Storage::put($path.$imageName, $contents);
+            Storage::put("{$path}{$imageName}", $contents);
 
-            $collection->{$keyIndex[0]} = $path.$imageName;
+            $collection->{$fieldName} = "{$path}{$imageName}";
 
             $collection->save();
         }
@@ -717,7 +760,7 @@ class BagistoGraphql
 
         $extension = explode('/', $getImgMime)[1];
 
-        $imageName = $imageName.'_review.'.$extension;
+        $imageName = "{$imageName}_review.{$extension}";
 
         $base64Validate = ($getImgMime && in_array($getImgMime, $this->allowedImageMimeTypes));
 
@@ -731,12 +774,12 @@ class BagistoGraphql
                 return false;
             }
 
-            $path = $data['save_path'].'/';
+            $path = "{$data['save_path']}/";
 
-            Storage::put($path.$imageName, file_get_contents($data[$field]));
+            Storage::put("{$path}{$imageName}", file_get_contents($data[$field]));
 
             return [
-                'path'        => $path.$imageName,
+                'path'        => "{$path}{$imageName}",
                 'img_details' => explode('/', mime_content_type($data[$field])),
             ];
         }
@@ -781,11 +824,13 @@ class BagistoGraphql
      */
     public function getImageMIMEType($filename, $type = 'images')
     {
-        $ext = strtolower(array_pop(explode('.', $filename)));
+        $explodeURL = explode('.', $filename);
+
+        $ext = strtolower(array_pop($explodeURL));
 
         $mimeTypes = $type == 'images'
-                        ? $this->allowedImageMimeTypes
-                        : $this->allowedVideoMimeTypes;
+            ? $this->allowedImageMimeTypes
+            : $this->allowedVideoMimeTypes;
 
         if (array_key_exists($ext, $mimeTypes)) {
             return true;

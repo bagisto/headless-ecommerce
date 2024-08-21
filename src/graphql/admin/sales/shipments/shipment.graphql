@@ -89,7 +89,7 @@ type ShipmentItem {
     baseTotal: Float @rename(attribute: "base_total")
     priceInclTax: Float @rename(attribute: "price_incl_tax")
     basePriceInclTax: Float @rename(attribute: "base_price_incl_tax")
-    formattedPrice: FormattedShipmentItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getShipmentItemPriceData")
+    formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getShipmentItemPriceData")
     productId: ID! @rename(attribute: "product_id")
     productType: String @rename(attribute: "product_type")
     orderItemId: ID! @rename(attribute: "order_item_id")
@@ -100,13 +100,4 @@ type ShipmentItem {
     shipment: Shipment! @belongsTo(relation: "shipment")
     orderItem: OrderItem! @belongsTo(relation: "order_item")
     product: Product! @belongsTo(relation: "product")
-}
-
-type FormattedShipmentItemPriceData {
-    price: String @rename(attribute: "price")
-    basePrice: String @rename(attribute: "base_price")
-    total: String @rename(attribute: "total")
-    baseTotal: String @rename(attribute: "base_total")
-    priceInclTax: String @rename(attribute: "price_incl_tax")
-    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
 }

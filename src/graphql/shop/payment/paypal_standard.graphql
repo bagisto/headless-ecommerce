@@ -9,7 +9,7 @@ extend type Mutation @guard(with: ["api"]) {
     paypalStandardCancel: paypalStandardCancelResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@cancel")
 
     paypalStandardIpn(
-        input: PaypalIpnInput!
+        input: PaypalIpnInput! @spread
     ): paypalStandardIpnResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Payment\\PaypalStandardMutation@ipn")
 }
 
@@ -19,7 +19,8 @@ input PaypalIpnInput {
 }
 
 type PaypalStandardResponse {
-    success: String
+    success: Boolean
+    message: String
     cart: Cart
     paypalRedirectUrl: String @rename(attribute: "paypal_redirect_url")
     paypalFormField: PaypalFormFieldResponse @rename(attribute: "paypal_form_field")
@@ -64,17 +65,20 @@ type PaypalCartItem {
 }
 
 type paypalStandardSuccessResponse {
-    success: String
+    success: Boolean
+    message: String
     order: Order!
     redirectUrl: String! @rename(attribute: "redirect_url")
 }
 
 type paypalStandardCancelResponse {
-    success: String
+    success: Boolean
+    message: String
     redirectUrl: String! @rename(attribute: "redirect_url")
 }
 
 type paypalStandardIpnResponse {
-    success: String
+    success: Boolean
+    message: String
     redirectUrl: String! @rename(attribute: "redirect_url")
 }

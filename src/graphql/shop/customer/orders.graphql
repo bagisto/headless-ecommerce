@@ -1,8 +1,16 @@
 # `Shop\Customer\Orders` related APIs.
 extend type Query @guard(with: ["api"]) {
-    ordersList(input: FilterCustomerOrderInput, first: Int, page: Int): [Order!] @paginate(type: "PAGINATOR", builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders", defaultCount: 10)
+    ordersList(
+        input: FilterCustomerOrderInput @spread
+        first: Int
+        page: Int
+    ): [Order!] @paginate(
+        type: "PAGINATOR",
+        builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders",
+        defaultCount: 10
+    )
 
-    orderDetail(id: ID @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
+    orderDetail(id: ID! @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
 
     viewShipments(input: OrderShipmentInput): [Shipment!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
 
@@ -25,7 +33,7 @@ extend type Mutation @guard(with: ["api"]) {
 
 input FilterCustomerOrderInput {
     id: Int
-    incrementId: String @rename(attribute: "increment_id")
+    incrementId: Int @rename(attribute: "increment_id")
     customerId: ID @rename(attribute: "customer_id")
     subTotal: Float @rename(attribute: "sub_total")
     grandTotal: Float @rename(attribute: "grand_total")

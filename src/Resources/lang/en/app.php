@@ -24,6 +24,7 @@ return [
                 'invalid-creds' => 'Please check your credentials and try again.',
                 'not-activated' => 'Your activation requires admin approval',
                 'verify-first'  => 'Please verify your email first.',
+                'suspended'     => 'Your account has been suspended by the administrator.',
 
                 'validation' => [
                     'required' => 'The :field field is required.',
@@ -84,6 +85,7 @@ return [
                 ],
 
                 'downloadable-products' => [
+                    'not-found'      => 'Warning: Downloadable product not found.',
                     'not-auth'       => 'Warning: You are not authorized to perform this action.',
                     'payment-error'  => 'Payment has not been done for this download.',
                     'download-error' => 'Download link has been expired.',

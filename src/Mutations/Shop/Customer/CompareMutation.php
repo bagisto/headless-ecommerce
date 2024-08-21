@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use PhpOffice\PhpSpreadsheet\Calculation\Engineering\Compare;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductFlatRepository;
@@ -25,8 +24,6 @@ class CompareMutation extends Controller
         protected ProductFlatRepository $productFlatRepository
     ) {
         Auth::setDefaultDriver('api');
-
-        $this->middleware('auth:api');
     }
 
     /**
@@ -36,14 +33,10 @@ class CompareMutation extends Controller
      */
     public function compareProducts($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
+        $customer = bagisto_graphql()->authorize();
 
         try {
-            $params = $args['input'] ?? ($args['id'] ?? []);
-
-            $currentPage = $params['page'] ?? 1;
+            $currentPage = $args['page'] ?? 1;
 
             Paginator::currentPageResolver(function () use ($currentPage) {
                 return $currentPage;
@@ -80,39 +73,33 @@ class CompareMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
+        $customer = bagisto_graphql()->authorize();
 
-        if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'product_id' => 'required',
         ]);
 
         try {
             $compareProduct = $this->compareItemRepository->findOneByField([
                 'customer_id' => auth()->user()->id,
-                'product_id'  => $data['product_id'],
+                'product_id'  => $args['product_id'],
             ]);
 
             if ($compareProduct) {
                 return [
-                    'success'        => trans('shop::app.compare.already-added'),
+                    'success'        => true,
+                    'message'        => trans('shop::app.compare.already-added'),
                     'compareProduct' => [$compareProduct],
                 ];
             } else {
                 $this->compareItemRepository->create([
                     'customer_id' => auth()->user()->id,
-                    'product_id'  => $data['product_id'],
+                    'product_id'  => $args['product_id'],
                 ]);
 
                 return [
-                    'success'        => trans('shop::app.compare.item-add-success'),
+                    'success'        => true,
+                    'message'        => trans('shop::app.compare.item-add-success'),
                     'compareProduct' => $this->compareItemRepository->findWhere([
                         'customer_id' => auth()->user()->id,
                     ]),
@@ -130,37 +117,32 @@ class CompareMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
+        $customer = bagisto_graphql()->authorize();
 
-        if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'product_id' => 'required',
         ]);
 
         try {
-            $compareProduct = $this->compareItemRepository->findOneWhere($data);
+            $compareProduct = $this->compareItemRepository->findOneWhere([
+                'customer_id' => auth()->user()->id,
+                'product_id'  => $args['product_id'],
+            ]);
 
             if ($compareProduct) {
                 $this->compareItemRepository->delete($compareProduct->id);
 
                 return [
-                    'status'         => true,
-                    'success'        => trans('shop::app.compare.remove-success'),
+                    'success'        => true,
+                    'message'        => trans('shop::app.compare.remove-success'),
                     'compareProduct' => $this->compareItemRepository->findWhere([
                         'customer_id' => auth()->user()->id,
                     ]),
                 ];
             } else {
                 return [
-                    'status'  => false,
-                    'success' => trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Compare Product']),
+                    'success' => false,
+                    'message' => trans('bagisto_graphql::app.shop.customer.account.not-found', ['name' => 'Compare Product']),
                 ];
             }
         } catch (\Exception $e) {
@@ -175,9 +157,7 @@ class CompareMutation extends Controller
      */
     public function deleteAll($rootValue, array $args, GraphQLContext $context)
     {
-        if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
+        $customer = bagisto_graphql()->authorize();
 
         try {
             $this->compareItemRepository->deleteWhere([
@@ -185,8 +165,8 @@ class CompareMutation extends Controller
             ]);
 
             return [
-                'status'  => true,
-                'success' => trans('shop::app.compare.remove-all-success'),
+                'success' => true,
+                'message' => trans('shop::app.compare.remove-all-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

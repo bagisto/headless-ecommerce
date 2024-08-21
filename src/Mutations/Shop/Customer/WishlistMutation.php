@@ -45,17 +45,25 @@ class WishlistMutation extends Controller
         ];
 
         try {
-            if (! $wishlist = $this->wishlistRepository->findOneWhere($data)) {
-                $wishlist = $this->wishlistRepository->create($data);
-
-                $wishlist->success = trans('bagisto_graphql::app.shop.customers.account.wishlist.success');
-
-                return $wishlist;
+            if ($this->wishlistRepository->findOneWhere($data)) {
+                return [
+                    'success'  => false,
+                    'message'  => trans('bagisto_graphql::app.shop.customers.account.wishlist.already-exist'),
+                    'wishlist' => $this->wishlistRepository->findWhere([
+                        'customer_id' => auth()->user()->id,
+                    ]),
+                ];
             }
 
-            $wishlist->success = trans('bagisto_graphql::app.shop.customers.account.wishlist.already-exist');
+            $this->wishlistRepository->create($data);
 
-            return $wishlist;
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.shop.customers.account.wishlist.success'),
+                'wishlist' => $this->wishlistRepository->findWhere([
+                    'customer_id' => auth()->user()->id,
+                ]),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -89,12 +97,20 @@ class WishlistMutation extends Controller
                 $this->wishlistRepository->delete($wishlist->id);
 
                 return [
-                    'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
+                    'success'  => true,
+                    'message'  => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
+                    'wishlist' => $this->wishlistRepository->findWhere([
+                        'customer_id' => auth()->user()->id,
+                    ]),
                 ];
             }
 
             return [
-                'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
+                'success'  => false,
+                'message'  => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
+                'wishlist' => $this->wishlistRepository->findWhere([
+                    'customer_id' => auth()->user()->id,
+                ]),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -113,24 +129,32 @@ class WishlistMutation extends Controller
             'quantity' => 'required|integer',
         ]);
 
-        $wishlistItem = $this->wishlistRepository->find($args['id']);
+        $wishlistItem = $this->wishlistRepository->findOneWhere([
+            'id'          => $args['id'],
+            'customer_id' => auth()->user()->id,
+        ]);
 
         if (! $wishlistItem) {
             return [
-                'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
+                'success'  => false,
+                'message'  => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
+                'wishlist' => $this->wishlistRepository->findWhere([
+                    'customer_id' => auth()->user()->id,
+                ]),
             ];
         }
 
         try {
             $result = Cart::moveToCart($wishlistItem, $args['quantity']);
 
-            $message = $result
-                ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-success')
-                : trans('shop::app.checkout.cart.missing-options');
-
             return [
-                'success'  => $message,
-                'wishlist' => $this->wishlistRepository->get(),
+                'success'  => $result ? true : false,
+                'message'  => $result
+                    ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-success')
+                    : trans('shop::app.checkout.cart.missing-options'),
+                'wishlist' => $this->wishlistRepository->findWhere([
+                    'customer_id' => auth()->user()->id,
+                ]),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -147,14 +171,16 @@ class WishlistMutation extends Controller
         try {
             if (empty(auth()->user()->wishlist_items)) {
                 return [
-                    'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
+                    'success' => false,
+                    'message' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),
                 ];
             }
 
             $this->wishlistRepository->deleteWhere(['customer_id' => auth()->user()->id]);
 
             return [
-                'success' => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

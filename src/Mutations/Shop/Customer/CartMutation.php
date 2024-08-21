@@ -79,11 +79,11 @@ class CartMutation extends Controller
             $cart = Cart::addProduct($product, $data);
 
             return [
-                'status'  => ! empty($cart),
+                'success' => ! empty($cart),
                 'message' => ! empty($cart)
-                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.add-to-cart')
-                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.add-to-cart'),
-                'cart' => $cart,
+                    ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.add-to-cart')
+                    : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.add-to-cart'),
+                'cart'    => $cart,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -98,9 +98,7 @@ class CartMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'qty'                => 'required|array',
             'qty.*.cart_item_id' => 'required|integer|exists:cart_items,id',
             'qty.*.quantity'     => 'required|integer|min:1',
@@ -109,7 +107,7 @@ class CartMutation extends Controller
         try {
             $qty = [];
 
-            foreach ($data['qty'] as $item) {
+            foreach ($args['qty'] as $item) {
                 if (! $this->cartItemRepository->find($item['cart_item_id'])) {
                     throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.fail.item-not-found'));
                 }
@@ -117,16 +115,16 @@ class CartMutation extends Controller
                 $qty[$item['cart_item_id']] = $item['quantity'] ?: 1;
             }
 
-            $data['qty'] = $qty;
+            $args['qty'] = $qty;
 
-            $cartUpdated = Cart::updateItems($data);
+            $cartUpdated = Cart::updateItems($args);
 
             return [
-                'status'  => $cartUpdated,
+                'success' => $cartUpdated,
                 'message' => $cartUpdated
-                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.update-to-cart')
-                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.update-to-cart'),
-                'cart' => Cart::getCart(),
+                    ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.update-to-cart')
+                    : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.update-to-cart'),
+                'cart'    => Cart::getCart(),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -151,10 +149,10 @@ class CartMutation extends Controller
             Cart::collectTotals();
 
             return [
-                'status'  => $isRemoved,
+                'success' => $isRemoved,
                 'message' => $isRemoved
-                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.delete-cart-item')
-                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.delete-cart-item'),
+                    ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.delete-cart-item')
+                    : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.delete-cart-item'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (\Exception $e) {
@@ -185,11 +183,10 @@ class CartMutation extends Controller
             Event::dispatch('checkout.cart.delete.all.after', $cart);
 
             return [
-                'status'  => $isDeleted,
+                'success' => $isDeleted,
                 'message' => $isDeleted
-                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.all-remove')
-                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.all-remove'),
-                'cart'    => Cart::getCart(),
+                    ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.all-remove')
+                    : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.all-remove'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -212,10 +209,10 @@ class CartMutation extends Controller
             $isMoved = Cart::moveToWishlist($args['id']);
 
             return [
-                'status'  => $isMoved,
+                'success' => $isMoved,
                 'message' => $isMoved
-                                ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.move-to-wishlist')
-                                : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.move-to-wishlist'),
+                    ? trans('bagisto_graphql::app.shop.checkout.cart.item.success.move-to-wishlist')
+                    : trans('bagisto_graphql::app.shop.checkout.cart.item.fail.move-to-wishlist'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (\Exception $e) {

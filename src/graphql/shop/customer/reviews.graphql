@@ -11,12 +11,12 @@ extend type Query {
 
 extend type Mutation {
     createReview(
-        input: CreateReviewInput!
+        input: CreateReviewInput! @spread
     ): CreateReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@store")
 
     deleteReview(id: ID!): DeleteReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@delete")
 
-    deleteAllReview: DeleteReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@deleteAll")
+    deleteAllReview: StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@deleteAll")
 }
 
 input CreateReviewInput {
@@ -34,7 +34,8 @@ input Attachments {
 }
 
 type CreateReviewResponse {
-    success: String
+    success: Boolean
+    message: String
     review: Review
 }
 
@@ -51,7 +52,7 @@ input CustomerReviewInput {
 }
 
 type DeleteReviewResponse {
-    status: Boolean
+    success: Boolean
     message: String
     reviews: [Review]
 }

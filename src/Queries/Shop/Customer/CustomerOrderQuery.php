@@ -8,23 +8,6 @@ use Webkul\Sales\Repositories\OrderRepository;
 class CustomerOrderQuery
 {
     /**
-     * Contains current guard.
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->guard = 'api';
-    }
-
-    /**
      * Returns loggedin customer's orders data.
      *
      * @param  mixed  $query
@@ -34,47 +17,41 @@ class CustomerOrderQuery
      */
     public function orders($query, $input, $test)
     {
-        $params = $input;
-
-        if (! auth()->check()) {
-            return null;
-        }
-
         $qb = app(OrderRepository::class)->query()->distinct()->addSelect('orders.*');
 
-        if (! empty($params['input']['id'])) {
-            $qb->where('orders.id', $params['input']['id']);
+        if (! empty($input['id'])) {
+            $qb->where('orders.id', $input['id']);
         }
 
-        if (! empty($params['input']['increment_id'])) {
-            $qb->where('orders.increment_id', $params['input']['increment_id']);
+        if (! empty($input['increment_id'])) {
+            $qb->where('orders.increment_id', $input['increment_id']);
         }
 
-        if (! empty($params['input']['base_sub_total'])) {
-            $qb->where('orders.base_sub_total', $params['input']['base_sub_total']);
+        if (! empty($input['base_sub_total'])) {
+            $qb->where('orders.base_sub_total', $input['base_sub_total']);
         }
 
-        if (! empty($params['input']['base_grand_total'])) {
-            $qb->where('orders.base_grand_total', $params['input']['base_grand_total']);
+        if (! empty($input['base_grand_total'])) {
+            $qb->where('orders.base_grand_total', $input['base_grand_total']);
         }
 
-        if (! empty($params['input']['channel_name'])) {
-            $qb->where('orders.channel_name', $params['input']['channel_name']);
+        if (! empty($input['channel_name'])) {
+            $qb->where('orders.channel_name', $input['channel_name']);
         }
 
-        if (! empty($params['input']['order_date'])) {
-            $qb->where('orders.created_at', 'like', '%'.urldecode($params['input']['order_date']).'%');
+        if (! empty($input['order_date'])) {
+            $qb->where('orders.created_at', 'like', '%'.urldecode($input['order_date']).'%');
         }
 
         if (
-            ! empty($params['input']['start_order_date'])
-            && ! empty($params['input']['end_order_date'])
+            ! empty($input['start_order_date'])
+            && ! empty($input['end_order_date'])
         ) {
-            $qb->whereBetween('orders.created_at', [$params['input']['start_order_date'], $params['input']['end_order_date']]);
+            $qb->whereBetween('orders.created_at', [$input['start_order_date'], $input['end_order_date']]);
         }
 
-        if (! empty($params['input']['status'])) {
-            $qb->where('orders.status', $params['input']['status']);
+        if (! empty($input['status'])) {
+            $qb->where('orders.status', $input['status']);
         }
 
         $qb->where('orders.customer_id', auth()->user()->id);

@@ -129,7 +129,7 @@ type Order {
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    formattedPrice: FormattedOrderPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
+    formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getOrderPriceData")
     items: [OrderItem!] @hasMany
     comments: [OrderComment] @hasMany
     downloadableLinkPurchased: [DownloadableLinkPurchased] @hasMany(relation: "downloadable_link_purchased")
@@ -168,48 +168,6 @@ type OrderPayment {
 type OrderPaymentAdditional {
     title: String
     value: String
-}
-
-type FormattedOrderPriceData {
-    grandTotal: String @rename(attribute: "grand_total")
-    baseGrandTotal: String @rename(attribute: "base_grand_total")
-    grandTotalInvoiced: String @rename(attribute: "grand_total_invoiced")
-    baseGrandTotalInvoiced: String @rename(attribute: "base_grand_total_invoiced")
-    grandTotalRefunded: String @rename(attribute: "grand_total_refunded")
-    baseGrandTotalRefunded: String @rename(attribute: "base_grand_total_refunded")
-    subTotal: String @rename(attribute: "sub_total")
-    baseSubTotal: String @rename(attribute: "base_sub_total")
-    subTotalInvoiced: String @rename(attribute: "sub_total_invoiced")
-    baseSubTotalInvoiced: String @rename(attribute: "base_sub_total_invoiced")
-    subTotalRefunded: String @rename(attribute: "sub_total_refunded")
-    discountAmount: String @rename(attribute: "discount_amount")
-    baseDiscountAmount: String @rename(attribute: "base_discount_amount")
-    discountInvoiced: String @rename(attribute: "discount_invoiced")
-    baseDiscountInvoiced: String @rename(attribute: "base_discount_invoiced")
-    discountRefunded: String @rename(attribute: "discount_refunded")
-    baseDiscountRefunded: String @rename(attribute: "base_discount_refunded")
-    taxAmount: String @rename(attribute: "tax_amount")
-    baseTaxAmount: String @rename(attribute: "base_tax_amount")
-    taxAmountInvoiced: String @rename(attribute: "tax_amount_invoiced")
-    baseTaxAmountInvoiced: String @rename(attribute: "base_tax_amount_invoiced")
-    taxAmountRefunded: String @rename(attribute: "tax_amount_refunded")
-    baseTaxAmountRefunded: String @rename(attribute: "base_tax_amount_refunded")
-    shippingAmount: String @rename(attribute: "shipping_amount")
-    baseShippingAmount: String @rename(attribute: "base_shipping_amount")
-    shippingInvoiced: String @rename(attribute: "shipping_invoiced")
-    baseShippingInvoiced: String @rename(attribute: "base_shipping_invoiced")
-    shippingRefunded: String @rename(attribute: "shipping_refunded")
-    baseShippingRefunded: String @rename(attribute: "base_shipping_refunded")
-    shippingDiscountAmount: String @rename(attribute: "shipping_discount_amount")
-    baseShippingDiscountAmount: String @rename(attribute: "base_shipping_discount_amount")
-    shippingTaxAmount: String @rename(attribute: "shipping_tax_amount")
-    baseShippingTaxAmount: String @rename(attribute: "base_shipping_tax_amount")
-    shippingTaxRefunded: String @rename(attribute: "shipping_tax_refunded")
-    baseShippingTaxRefunded: String @rename(attribute: "base_shipping_tax_refunded")
-    subTotalInclTax: String @rename(attribute: "sub_total_incl_tax")
-    baseSubTotalInclTax: String @rename(attribute: "base_sub_total_incl_tax")
-    shippingAmountInclTax: String @rename(attribute: "shipping_amount_incl_tax")
-    baseShippingAmountInclTax: String @rename(attribute: "base_shipping_amount_incl_tax")
 }
 
 type DeleteOrderResponse {

@@ -124,7 +124,7 @@ class NewsletterSubscriberMutation extends Controller
             $this->subscriptionRepository->deleteWhere(['token' => $args['token']]);
 
             return [
-                'status'  => true,
+                'success' => true,
                 'message' => trans('bagisto_graphql::app.shop.subscription.unsubscribe-success'),
             ];
         } catch (\Exception $e) {

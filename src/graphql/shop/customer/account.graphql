@@ -42,7 +42,7 @@ input UpdateAccountInput {
 }
 
 type AccountInfoResult {
-    status: Boolean
+    success: Boolean
     message: String
     customer: Customer
 }

@@ -45,18 +45,12 @@ class AccountMutation extends Controller
      */
     public function get($rootValue, array $args, GraphQLContext $context)
     {
-        if (auth()->check()) {
-            $customer = $this->customerRepository->find(auth()->user()->id);
-        }
-
-        $isCustomer = ! empty($customer);
+        $customer = bagisto_graphql()->authorize();
 
         return [
-            'status'   => $isCustomer,
-            'customer' => $customer ?? null,
-            'message'  => $isCustomer
-                            ? trans('bagisto_graphql::app.shop.customers.account.profile.customer-details')
-                            : trans('bagisto_graphql::app.shop.customers.no-login-customer'),
+            'success'  => true,
+            'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.customer-details'),
+            'customer' => $customer,
         ];
     }
 
@@ -68,9 +62,7 @@ class AccountMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (! $customer = auth()->user()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
+        $customer = bagisto_graphql()->authorize();
 
         bagisto_graphql()->validate($args, [
             'first_name'                => 'required|string',
@@ -155,9 +147,9 @@ class AccountMutation extends Controller
                 }
 
                 return [
-                    'status'   => ! empty($customer),
-                    'customer' => $customer,
+                    'success'  => true,
                     'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.update-success'),
+                    'customer' => $customer,
                 ];
             } else {
                 throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.profile.update-fail'));
@@ -175,9 +167,7 @@ class AccountMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (! $customer = auth()->user()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
+        $customer = bagisto_graphql()->authorize();
 
         bagisto_graphql()->validate($args, [
             'password' => 'required',
@@ -187,21 +177,21 @@ class AccountMutation extends Controller
             if (Hash::check($args['password'], $customer->password)) {
                 if ($customer->orders->whereIn('status', [Order::STATUS_PENDING, Order::STATUS_PROCESSING])->first()) {
                     return [
-                        'status'  => false,
+                        'success' => false,
                         'message' => trans('bagisto_graphql::app.shop.customers.account.profile.order-pending'),
                     ];
                 } else {
                     $this->customerRepository->delete($customer->id);
 
                     return [
-                        'status'  => true,
+                        'success' => true,
                         'message' => trans('bagisto_graphql::app.shop.customers.account.profile.delete-success'),
                     ];
                 }
             }
 
             return [
-                'status'  => false,
+                'success' => false,
                 'message' => trans('bagisto_graphql::app.shop.customers.account.profile.wrong-password'),
             ];
         } catch (\Exception $e) {

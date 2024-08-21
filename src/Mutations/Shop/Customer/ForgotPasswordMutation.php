@@ -28,14 +28,14 @@ class ForgotPasswordMutation extends Controller
 
             if ($response == Password::RESET_LINK_SENT) {
                 return [
-                    'status'  => true,
+                    'success' => true,
                     'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'),
                 ];
             }
 
             if ($response == Password::RESET_THROTTLED) {
                 return [
-                    'status'  => false,
+                    'success' => true,
                     'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.already-sent'),
                 ];
             }

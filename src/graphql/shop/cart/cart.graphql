@@ -11,14 +11,14 @@ extend type Mutation {
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@store")
 
     updateItemToCart(
-        input: UpdateItemToCartInput!
+        input: UpdateItemToCartInput! @spread
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@update")
 
     removeCartItem(
         id: ID!
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@delete")
 
-    removeAllCartItem: CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
+    removeAllCartItem: StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@deleteAll")
 
     moveToWishlist(
         id: ID!
@@ -71,7 +71,7 @@ input UpdateItemsQty {
 }
 
 type CartItemResponse {
-    status: Boolean
+    success: Boolean
     message: String
     cart: Cart
 }
@@ -113,7 +113,7 @@ type Cart {
     channelId: ID! @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    formattedPrice: FormattedCartPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
+    formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
     items: [CartItem!] @hasMany
     allItems: [CartItem!] @hasMany(relation: "all_items")
     billingAddress: Address @rename(attribute: "billing_address")
@@ -123,25 +123,6 @@ type Cart {
     payment: CartPayment @hasOne
     status: Boolean
     message: String
-}
-
-type FormattedCartPriceData {
-    grandTotal: String @rename(attribute: "grand_total")
-    baseGrandTotal: String @rename(attribute: "base_grand_total")
-    subTotal: String @rename(attribute: "sub_total")
-    baseSubTotal: String @rename(attribute: "base_sub_total")
-    taxTotal: String @rename(attribute: "tax_total")
-    baseTaxTotal: String @rename(attribute: "base_tax_total")
-    discount: String @rename(attribute: "discount")
-    baseDiscount: String @rename(attribute: "base_discount")
-    discountedSubTotal: String @rename(attribute: "discounted_sub_total")
-    baseDiscountedSubTotal: String @rename(attribute: "base_discounted_sub_total")
-    shippingAmount: String @rename(attribute: "shipping_amount")
-    baseShippingAmount: String @rename(attribute: "base_shipping_amount")
-    shippingAmountInclTax: String @rename(attribute: "shipping_amount_incl_tax")
-    baseShippingAmountInclTax: String @rename(attribute: "base_shipping_amount_incl_tax")
-    subTotalInclTax: String @rename(attribute: "sub_total_incl_tax")
-    baseSubTotalInclTax: String @rename(attribute: "base_sub_total_incl_tax")
 }
 
 type CartItem {
@@ -178,7 +159,7 @@ type CartItem {
     additional: [CartItemAdditional] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterCart@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")    
-    formattedPrice: FormattedCartItemPriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
+    formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
     product: Product! @hasOne
     cart: Cart @hasOne
     child: CartItem @belongsTo(relation: "child")
@@ -206,22 +187,6 @@ type AdditionalAttributes {
     attributeName: String @rename(attribute: "attribute_name")
 }
 
-type FormattedCartItemPriceData {
-    price: String @rename(attribute: "price")
-    basePrice: String @rename(attribute: "base_price")
-    customPrice: String @rename(attribute: "custom_price")
-    total: String @rename(attribute: "total")
-    baseTotal: String @rename(attribute: "base_total")
-    taxAmount: String @rename(attribute: "tax_amount")
-    baseTaxAmount: String @rename(attribute: "base_tax_amount")
-    discountAmount: String @rename(attribute: "discount_amount")
-    baseDiscountAmount: String @rename(attribute: "base_discount_amount")
-    priceInclTax: String @rename(attribute: "price_incl_tax")
-    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
-    totalInclTax: String @rename(attribute: "total_incl_tax")
-    baseTotalInclTax: String @rename(attribute: "base_total_incl_tax")
-}
-
 type CartShippingRate {
     id: ID!
     carrier: String!
@@ -244,16 +209,5 @@ type CartShippingRate {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     shippingAddress: Address @belongsTo(relation: "shipping_address")
-    formattedPrice: FormattedCartShippingRatePriceData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
-}
-
-type FormattedCartShippingRatePriceData {
-    price: String
-    basePrice: String @rename(attribute: "base_price")
-    discountAmount: String @rename(attribute: "discount_amount")
-    baseDiscountAmount: String @rename(attribute: "base_discount_amount")
-    taxAmount: String @rename(attribute: "tax_amount")
-    baseTaxAmount: String @rename(attribute: "base_tax_amount")
-    priceInclTax: String @rename(attribute: "price_incl_tax")
-    basePriceInclTax: String @rename(attribute: "base_price_incl_tax")
+    formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
 }

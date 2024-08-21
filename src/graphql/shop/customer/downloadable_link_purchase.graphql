@@ -1,8 +1,12 @@
 #Shop\Customer\Downloadable Related APIs
 extend type Query @guard(with: ["api"]){
-    downloadableLinkPurchases(input: FilterDownloadablePurchaseInput): [DownloadableLinkPurchased!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+    downloadableLinkPurchases(
+        input: FilterDownloadablePurchaseInput @spread
+    ): [DownloadableLinkPurchased!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
 
-    downloadableLinkPurchase(id: ID @eq): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+    downloadableLinkPurchase(
+        id: ID @eq
+    ): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
 }
 
 extend type Mutation @guard(with: ["api"]) {
@@ -48,7 +52,7 @@ type DownloadableLinkPurchased {
 }
 
 type DownloadLinkResponse {
-    status: Boolean
+    success: Boolean
     string: String
     download: DownloadableLinkPurchased
 }

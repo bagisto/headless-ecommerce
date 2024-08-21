@@ -48,8 +48,8 @@ class RegistrationMutation extends Controller
 
         if (core()->getConfigData('customer.settings.email.verification')) {
             return [
-                'status'  => false,
-                'success' => trans('bagisto_graphql::app.shop.customers.signup.success-verify'),
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.shop.customers.signup.success-verify'),
             ];
         }
 
@@ -119,8 +119,8 @@ class RegistrationMutation extends Controller
 
         if (! $customer) {
             return [
-                'status'  => false,
-                'success' => trans('bagisto_graphql::app.shop.customers.signup.error-registration'),
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.shop.customers.signup.error-registration'),
             ];
         }
 
@@ -169,8 +169,8 @@ class RegistrationMutation extends Controller
                 auth()->logout();
 
                 return [
-                    'status'  => false,
-                    'success' => trans('bagisto_graphql::app.shop.customers.login.not-activated'),
+                    'success' => false,
+                    'message' => trans('bagisto_graphql::app.shop.customers.login.not-activated'),
                 ];
             }
 
@@ -182,8 +182,8 @@ class RegistrationMutation extends Controller
                 auth()->logout();
 
                 return [
-                    'status'  => false,
-                    'success' => trans('bagisto_graphql::app.shop.customers.login.verify-first'),
+                    'success' => false,
+                    'message' => trans('bagisto_graphql::app.shop.customers.login.verify-first'),
                 ];
             }
         }
@@ -191,11 +191,11 @@ class RegistrationMutation extends Controller
         Event::dispatch('customer.after.login', $loginCustomer);
 
         return [
-            'status'       => true,
-            'success'      => trans('bagisto_graphql::app.shop.customers.success-login'),
+            'success'      => true,
+            'message'      => trans('bagisto_graphql::app.shop.customers.success-login'),
             'access_token' => "Bearer $jwtToken",
             'token_type'   => 'Bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'expires_in'   => Auth::factory()->getTTL() * 60,
             'customer'     => $this->customerRepository->find($loginCustomer->id),
         ];
     }

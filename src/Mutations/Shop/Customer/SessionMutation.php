@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class SessionMutation extends Controller
@@ -17,7 +16,7 @@ class SessionMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected CustomerRepository $customerRepository)
+    public function __construct()
     {
         Auth::setDefaultDriver('api');
     }
@@ -42,25 +41,7 @@ class SessionMutation extends Controller
         }
 
         try {
-            $customer = auth()->user();
-
-            if (! $customer->status) {
-                $message = trans('bagisto_graphql::app.shop.customers.login.not-activated');
-            }
-
-            if (! $customer->is_verified) {
-                $message = trans('bagisto_graphql::app.shop.customers.login.verify-first');
-            }
-
-            if (isset($message)) {
-                request()->merge([
-                    'token' => $jwtToken,
-                ]);
-
-                auth()->logout();
-
-                throw new CustomException($message);
-            }
+            $customer = bagisto_graphql()->authorize(token: $jwtToken);
 
             /**
              * Event passed to prepare cart after login.
@@ -68,12 +49,12 @@ class SessionMutation extends Controller
             Event::dispatch('customer.after.login', $customer);
 
             return [
-                'status'       => true,
-                'success'      => trans('bagisto_graphql::app.shop.customers.success-login'),
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.shop.customers.success-login'),
                 'access_token' => "Bearer $jwtToken",
                 'token_type'   => 'Bearer',
-                'expires_in'   => Auth::guard('api')->factory()->getTTL() * 60,
-                'customer'     => $this->customerRepository->find($customer->id),
+                'expires_in'   => Auth::factory()->getTTL() * 60,
+                'customer'     => $customer,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -87,18 +68,14 @@ class SessionMutation extends Controller
      */
     public function logout()
     {
-        if (! auth()->check()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.no-login-customer'));
-        }
-
-        $customer = auth()->user();
+        $customer = bagisto_graphql()->authorize();
 
         auth()->logout();
 
         Event::dispatch('customer.after.logout', $customer->id);
 
         return [
-            'status'  => true,
+            'success' => true,
             'message' => trans('bagisto_graphql::app.shop.customers.success-logout'),
         ];
     }

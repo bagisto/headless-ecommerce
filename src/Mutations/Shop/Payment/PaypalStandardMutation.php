@@ -7,7 +7,8 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Payment;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Paypal\Helpers\Ipn;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Paypal\Helpers\Ipn as IpnHelper;
 use Webkul\Paypal\Payment\Standard;
 use Webkul\Sales\Repositories\OrderRepository;
 
@@ -16,52 +17,60 @@ class PaypalStandardMutation
     /**
      * Create a new controller instance.
      *
-     *
      * @return void
      */
     public function __construct(
         protected Standard $paypalStandard,
-        protected Ipn $ipnHelper,
+        protected IpnHelper $ipnHelper,
         protected OrderRepository $orderRepository
     ) {}
 
     /**
      * Returns paypal url & form fields.
      *
-     *
-     * @throws Exception
+     * @throws CustomException
      */
     public function redirect($rootValue, array $args, GraphQLContext $context): array
     {
-        $data = $args;
-
         $company = app()->getInitializedCompany();
+
         if (! isset($company->id)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
-            $data['company_id'] = $company->id;
+            $args['company_id'] = $company->id;
         }
 
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'company_id' => 'required|numeric|min:1',
         ]);
 
         try {
             $cart = Cart::getCart();
 
-            if (! isset($cart->payment->method) ||
-                (isset($cart->payment->method) &&
-                $cart->payment->method != 'paypal_standard')) {
-                throw new Exception(trans('bagisto_graphql::app.shop.payment.invalid-request'));
+            if (
+                ! isset($cart->payment->method)
+                || (
+                    isset($cart->payment->method)
+                    && $cart->payment->method != 'paypal_standard'
+                )
+            ) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.payment.invalid-request'));
             } else {
-                if ($this->paypalStandard->getConfigData('active') && $this->paypalStandard->getConfigData('business_account')) {
-
+                if (
+                    $this->paypalStandard->getConfigData('active')
+                    && $this->paypalStandard->getConfigData('business_account')
+                ) {
                     $paypalFields = $this->paypalStandard->getFormFields();
+
                     foreach ($paypalFields as $index => $fieldValue) {
-                        if ((Str::contains($index, 'item_number_') ||
-                            Str::contains($index, 'item_name_') ||
-                            Str::contains($index, 'quantity_') ||
-                            Str::contains($index, 'amount_')) && $index != 'discount_amount_cart') {
+                        if (
+                            (
+                                Str::contains($index, 'item_number_')
+                                || Str::contains($index, 'item_name_')
+                                || Str::contains($index, 'quantity_')
+                                || Str::contains($index, 'amount_')
+                            ) && $index != 'discount_amount_cart'
+                        ) {
                             unset($paypalFields[$index]);
                         }
                     }
@@ -77,50 +86,51 @@ class PaypalStandardMutation
 
                     if ($cart->selected_shipping_rate) {
                         $paypalFields['paypal_item'][] = [
-                            'item_number'   => $cart->selected_shipping_rate->carrier_title,
-                            'item_name'     => 'Shipping',
-                            'quantity'      => 1,
-                            'amount'        => $cart->selected_shipping_rate->price,
+                            'item_number' => $cart->selected_shipping_rate->carrier_title,
+                            'item_name'   => 'Shipping',
+                            'quantity'    => 1,
+                            'amount'      => $cart->selected_shipping_rate->price,
                         ];
                     }
 
                     $paypalFields['return'] = request()->server('PROTOCOL').'://'.$company->domain.'/success';
+
                     $paypalFields['cancel_return'] = request()->server('PROTOCOL').'://'.$company->domain.'/paypal/standard/cancel';
+
                     $paypalFields['notify_url'] = request()->server('PROTOCOL').'://'.$company->domain.'/paypal/standard/ipn';
 
                     return [
-                        'success'               => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-form-field', ['module_name'    => 'Paypal Standard']),
-                        'cart'                  => $cart ? $cart : null,
-                        'paypal_redirect_url'   => $this->paypalStandard->getPaypalUrl(),
-                        'paypal_form_field'     => $paypalFields,
+                        'success'             => true,
+                        'message'             => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-form-field', ['module_name' => 'Paypal Standard']),
+                        'cart'                => $cart,
+                        'paypal_redirect_url' => $this->paypalStandard->getPaypalUrl(),
+                        'paypal_form_field'   => $paypalFields,
                     ];
                 } else {
-                    throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.disable-module', ['module_name'    => 'Paypal Standard']));
+                    throw new CustomException(trans('bagisto_graphql::app.shop.payment.paypal-standard.disable-module', ['module_name' => 'Paypal Standard']));
                 }
             }
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
     /**
      * Create Order and returns success url
      *
-     *
-     * @throws Exception
+     * @throws CustomException
      */
     public function success($rootValue, array $args, GraphQLContext $context): array
     {
-        $data = $args;
-
         $company = app()->getInitializedCompany();
+
         if (! isset($company->id)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
-            $data['company_id'] = $company->id;
+            $args['company_id'] = $company->id;
         }
 
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'company_id' => 'required|numeric|min:1',
         ]);
 
@@ -130,95 +140,95 @@ class PaypalStandardMutation
             if (
                 $cart
                 && isset($cart->payment->method)
-                && $cart->payment->method == 'paypal_standard') {
+                && $cart->payment->method == 'paypal_standard'
+            ) {
                 $order = $this->orderRepository->create(Cart::prepareDataForOrder());
 
                 Cart::deActivateCart();
 
                 if ($order) {
                     return [
-                        'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
-                        'order'         => $order,
-                        'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
+                        'success'      => true,
+                        'message'      => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
+                        'order'        => $order,
+                        'redirect_url' => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
                     ];
                 } else {
-                    throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
+                    throw new CustomException(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
                 }
             } else {
-                throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.payment.paypal-standard.enable-order-place'));
             }
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
     /**
-     * Create Order and returns success url.
+     * Create Order and returns success url
      *
-     *
-     * @throws Exception
+     * @throws CustomException
      */
     public function cancel($rootValue, array $args, GraphQLContext $context): array
     {
-        $data = $args;
-
         $company = app()->getInitializedCompany();
+
         if (! isset($company->id)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
-            $data['company_id'] = $company->id;
+            $args['company_id'] = $company->id;
         }
 
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'company_id' => 'required|numeric|min:1',
         ]);
 
         try {
             return [
-                'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'),
-                'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/cart',
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'),
+                'redirect_url' => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/cart',
             ];
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 
     /**
      * Paypal Ipn listener
      *
-     *
      * @throws Exception
      */
     public function ipn($rootValue, array $args, GraphQLContext $context): array
     {
-        $data = $args['input'];
-
         $company = app()->getInitializedCompany();
+
         if (! isset($company->id)) {
-            throw new Exception(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.response.invalid-comapny-header'));
         } else {
-            $data['company_id'] = $company->id;
+            $args['company_id'] = $company->id;
         }
 
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'test_ipn'      => 'required|numeric',
             'invoice'       => 'required|numeric',
             'company_id'    => 'required|numeric|min:1',
         ]);
 
         try {
-            $response = $this->ipnHelper->processIpn($data);
+            $response = $this->ipnHelper->processIpn($args);
 
             if ($response == false) {
-                throw new Exception(trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.payment.paypal-standard.warning-order-cancel'));
             }
 
             return [
-                'success'       => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
-                'redirect_url'  => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.shop.payment.paypal-standard.success-order-place'),
+                'redirect_url' => request()->server('PROTOCOL').'://'.$company->domain.'/checkout/success',
             ];
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new CustomException($e->getMessage());
         }
     }
 }

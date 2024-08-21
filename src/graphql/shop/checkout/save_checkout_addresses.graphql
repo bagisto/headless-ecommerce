@@ -1,7 +1,7 @@
 # Shop\Checkout\saveCheckoutAddresses Related API
 extend type Mutation {
     saveCheckoutAddresses(
-        input: SaveShippingAddressInput!
+        input: SaveShippingAddressInput! @spread
     ): ShippingMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@saveCartAddresses")
 }
 
@@ -31,7 +31,7 @@ input CheckoutAddressInput {
 }
 
 type ShippingMethodsResponse {
-    success: String
+    message: String
     cart: Cart
     shippingMethods: [ShippingMethod!] @rename(attribute: "shipping_methods")
     paymentMethods: [PaymentMethod!] @rename(attribute: "payment_methods")
