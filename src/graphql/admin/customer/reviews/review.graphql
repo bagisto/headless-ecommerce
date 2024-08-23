@@ -43,7 +43,6 @@ type Review {
     customer: Customer
     product: Product
     images: [ReviewAttachment]
-    success: String
 }
 
 type ReviewAttachment {
@@ -53,7 +52,5 @@ type ReviewAttachment {
     mimeType: String @rename(attribute: "mime_type")
     path: String
     url: String
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
     review: Review
 }
