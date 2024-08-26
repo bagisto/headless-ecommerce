@@ -2,15 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
-use JWTAuth;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\User\Repositories\AdminRepository;
 use Webkul\User\Repositories\RoleRepository;
+use Webkul\User\Repositories\AdminRepository;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UserMutation extends Controller
 {
@@ -33,24 +33,15 @@ class UserMutation extends Controller
      */
     public function login($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'email'    => 'required|email',
             'password' => 'required|min:6',
         ]);
 
-        $remember = $data['remember'] ?? 0;
-
         if (! $jwtToken = JWTAuth::attempt([
-            'email'    => $data['email'],
-            'password' => $data['password'],
-        ], $remember)
-        ) {
+            'email'    => $args['email'],
+            'password' => $args['password'],
+        ], $args['remember'] ?? 0)) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.users.login-error'));
         }
 
@@ -64,11 +55,11 @@ class UserMutation extends Controller
             }
 
             return [
-                'status'       => true,
-                'success'      => trans('bagisto_graphql::app.admin.settings.users.success-login'),
-                'access_token' => 'Bearer '.$jwtToken,
-                'token_type'   => 'Bearer',
-                'expires_in'   => auth()->guard()->factory()->getTTL() * 60,
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.admin.settings.users.success-login'),
+                'access_token' => "Bearer $jwtToken",
+                'token_type'   => "Bearer",
+                'expires_in'   => Auth::factory()->getTTL() * 60,
                 'user'         => $admin,
             ];
         } catch (\Exception $e) {
@@ -251,18 +242,11 @@ class UserMutation extends Controller
      */
     public function logout()
     {
-        if (auth()->guard()->check()) {
-            auth()->guard()->logout();
-
-            return [
-                'status'  => true,
-                'success' => trans('bagisto_graphql::app.admin.settings.users.success-logout'),
-            ];
-        }
+        auth()->guard()->logout();
 
         return [
-            'status'  => false,
-            'success' => trans('bagisto_graphql::app.admin.response.error.no-login-user'),
+            'success' => true,
+            'message' => trans('bagisto_graphql::app.admin.settings.users.success-logout'),
         ];
     }
 }

@@ -12,10 +12,10 @@ extend type Query @guard(with: ["admin-api"]){
 
 extend type Mutation {
     userLogin(
-        input: CreateUserLoginInput!
+        input: LoginInput! @spread
     ): LoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@login")
 
-    userLogout: LogoutResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@logout")
+    userLogout: StatusResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@logout")
 
     createUser(
         input: CreateUserInput!
@@ -38,12 +38,6 @@ input FilterUserInput {
     roleId: Int @rename(attribute: "role_id")
     role: String
     status: Boolean
-}
-
-input CreateUserLoginInput {
-    email: String! @rules(apply: ["email","required"])
-    password: String! @rules(apply: ["min:6","required"])
-    remember: Boolean
 }
 
 input CreateUserInput {
@@ -73,15 +67,10 @@ type User {
 }
 
 type LoginResponse {
-    status: Boolean
     success: String
+    message: String
     accessToken: String @rename(attribute: "access_token")
     tokenType: String @rename(attribute: "token_type")
     expiresIn: Int @rename(attribute: "expires_in")
     user: User
-}
-
-type LogoutResponse {
-    status: Boolean
-    success: String
 }

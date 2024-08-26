@@ -25,13 +25,7 @@ class LocaleMutation extends Controller
      */
     public function store($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'code'      => ['required', 'unique:locales,code', new Code],
             'name'      => 'required',
             'direction' => 'required|in:ltr,rtl,LTR,RTL',
@@ -46,15 +40,17 @@ class LocaleMutation extends Controller
 
             Event::dispatch('core.locale.create.before');
 
-            $locale = $this->localeRepository->create($data);
+            $locale = $this->localeRepository->create($args);
 
             Event::dispatch('core.locale.create.after', $locale);
 
             bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
 
-            $locale->success = trans('bagisto_graphql::app.admin.settings.locales.create-success');
-
-            return $locale;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.locales.create-success'),
+                'locale'  => $locale,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -67,24 +63,13 @@ class LocaleMutation extends Controller
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'code'      => ['required', 'unique:locales,code,'.$id, new Code],
+        bagisto_graphql()->validate($args, [
+            'code'      => ['required', 'unique:locales,code,'.$args['id'], new Code],
             'name'      => 'required',
             'direction' => 'in:ltr,rtl,LTR,RTL',
         ]);
 
-        $locale = $this->localeRepository->find($id);
+        $locale = $this->localeRepository->find($args['id']);
 
         if (! $locale) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.not-found'));
@@ -99,17 +84,19 @@ class LocaleMutation extends Controller
                 unset($data['image']);
             }
 
-            Event::dispatch('core.locale.update.before', $id);
+            Event::dispatch('core.locale.update.before', $args['id']);
 
-            $locale = $this->localeRepository->update($data, $id);
+            $locale = $this->localeRepository->update($args, $args['id']);
 
             Event::dispatch('core.locale.update.after', $locale);
 
             bagisto_graphql()->uploadImage($locale, $imageUrl, 'locale/', 'logo_path');
 
-            $locale->success = trans('bagisto_graphql::app.admin.settings.locales.update-success');
-
-            return $locale;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.locales.update-success'),
+                'locale'  => $locale,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -123,13 +110,7 @@ class LocaleMutation extends Controller
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $locale = $this->localeRepository->find($id);
+        $locale = $this->localeRepository->find($args['id']);
 
         if (! $locale) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.not-found'));
@@ -144,14 +125,15 @@ class LocaleMutation extends Controller
         }
 
         try {
-            Event::dispatch('core.locale.delete.before', $id);
+            Event::dispatch('core.locale.delete.before', $args['id']);
 
-            $this->localeRepository->delete($id);
+            $locale->delete();
 
-            Event::dispatch('core.locale.delete.after', $id);
+            Event::dispatch('core.locale.delete.after', $args['id']);
 
             return [
-                'success' => trans('bagisto_graphql::app.admin.settings.locales.delete-success'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.locales.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

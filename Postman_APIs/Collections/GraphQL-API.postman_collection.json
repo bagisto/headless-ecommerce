@@ -20,7 +20,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation userLogin($input: CreateUserLoginInput!) {\n    userLogin(input: $input) {\n        status\n        success\n        accessToken\n        tokenType\n        expiresIn\n        user {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            image\n            status\n            createdAt\n            updatedAt\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n        }\n    }\n}\n",
+										"query": "mutation userLogin($input: LoginInput!) {\n    userLogin(input: $input) {\n        success\n        message\n        accessToken\n        tokenType\n        expiresIn\n        user {\n            id\n            name\n            email\n            password\n            apiToken\n            roleId\n            image\n            status\n            createdAt\n            updatedAt\n            role {\n                name\n                description\n                permissionType\n                permissions\n            }\n        }\n    }\n}\n",
 										"variables": "{\n    \"input\" : {\n        \"email\": \"admin@example.com\",\n        \"password\": \"admin123\",\n        \"remember\": true\n    }\n}"
 									}
 								},
@@ -51,7 +51,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation userLogout {\n    userLogout {\n        status\n        success\n    }\n}",
+										"query": "mutation userLogout {\n    userLogout {\n        success\n        message\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -4845,7 +4845,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode:\"ss\"\n        direction: RTL\n        name: \"Arabic Locale11\"\n    \timage: \"https://web.dev/images/authors/jlwagner.jpg\"\n    }) {\n        id\n        code\n        name\n        direction\n        logoUrl\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation createLocale {\n    createLocale(input: {\n    \tcode: \"sas\"\n        direction: RTL\n        name: \"Arabic Locale11\"\n    \timage: \"https://web.dev/images/authors/jlwagner.jpg\"\n    }) {\n        success\n        message\n        locale {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -4884,7 +4884,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateLocale {\n    updateLocale(id: 4, input: {\n    \tcode: \"ar\"\n        name: \"Arabic\"\n        direction: RTL\n    \timage: \"https://via.placeholder.com/300/09f/fff.png\"\n    }) {\n        id\n        code\n        name\n        direction\n        logoUrl\n        createdAt\n        updatedAt\n        success\n    }\n}\n",
+												"query": "mutation updateLocale {\n    updateLocale(id: 2, input: {\n    \tcode: \"ar\"\n        name: \"Arabic\"\n        direction: RTL\n    \timage: \"https://via.placeholder.com/300/09f/fff.png\"\n    }) {\n        success\n        message\n        locale {\n            id\n            code\n            name\n            direction\n            logoUrl\n            createdAt\n            updatedAt\n        }\n    }\n}\n",
 												"variables": ""
 											}
 										},
@@ -4916,7 +4916,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteLocale {\n    deleteLocale(id: 4) {\n        success\n    }\n}",
+												"query": "mutation deleteLocale {\n    deleteLocale(id: 21) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -6587,7 +6587,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query coreConfig {\n    coreConfig(\n        code: \"customer.settings.email.verification\"\n    ) {\n        id\n        code\n        value\n        channelCode\n        localeCode\n    }\n}",
+												"query": "query coreConfig {\n    coreConfig(\n        code: \"sales.checkout.shopping_cart.allow_guest_checkout\"\n    ) {\n        id\n        code\n        value\n        channelCode\n        localeCode\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -6648,7 +6648,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query countries {\n    countries (\n        first: 1000\n        page: 1\n    ) {\n        data {\n            id\n            code\n            name\n            translations {\n                id\n                locale\n                name\n                countryId\n            }\n            states {\n                id\n                countryCode\n                code\n                defaultName\n                countryId\n                translations {\n                    id\n                    locale\n                    defaultName\n                    countryStateId\n                }\n            }\n        }\n    }\n}",
+												"query": "query countries {\n    countries {\n        id\n        code\n        name\n        translations {\n            id\n            locale\n            name\n            countryId\n        }\n        states {\n            id\n            countryCode\n            code\n            defaultName\n            countryId\n            translations {\n                id\n                locale\n                defaultName\n                countryStateId\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},

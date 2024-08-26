@@ -3,7 +3,11 @@ extend type Query {
     coreConfigs(
         input: FilterCoreConfigInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterCoreConfigs")
-    ): [CoreConfig!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\CoreConfig")
+    ): [CoreConfig!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Core\\Models\\CoreConfig"
+    )
 
     coreConfig(
         code: String! @eq
@@ -24,5 +28,4 @@ type CoreConfig {
     value: String!
     channelCode: String @rename(attribute: "channel_code")
     localeCode: String @rename(attribute: "locale_code")
-    success: String
 }
