@@ -70,7 +70,8 @@ class OrderMutation extends Controller
         foreach ($order->items as $item) {
             try {
                 Cart::addProduct($item->product, $item->additional);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         return [
@@ -79,7 +80,6 @@ class OrderMutation extends Controller
             'cart'    => Cart::getCart(),
         ];
     }
-
 
     /**
      * Remove a resource from storage.

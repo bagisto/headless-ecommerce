@@ -174,11 +174,11 @@ return [
         'scalars'       => 'Webkul\\GraphQLAPI\\Scalars',
 
         'queries' => [
-            'Webkul\\GraphQLAPI\\Queries'
+            'Webkul\\GraphQLAPI\\Queries',
         ],
 
         'mutations' => [
-            'Webkul\\GraphQLAPI\\Mutations'
+            'Webkul\\GraphQLAPI\\Mutations',
         ],
 
         'directives' => [

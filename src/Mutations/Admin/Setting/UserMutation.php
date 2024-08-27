@@ -2,15 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Webkul\User\Repositories\RoleRepository;
-use Webkul\User\Repositories\AdminRepository;
+use Illuminate\Support\Str;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Webkul\GraphQLAPI\Validators\CustomException;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\User\Repositories\AdminRepository;
+use Webkul\User\Repositories\RoleRepository;
 
 class UserMutation extends Controller
 {
@@ -30,6 +30,7 @@ class UserMutation extends Controller
      * Login user resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function login(mixed $rootValue, array $args, GraphQLContext $context)
@@ -59,7 +60,7 @@ class UserMutation extends Controller
                 'success'      => true,
                 'message'      => trans('bagisto_graphql::app.admin.settings.users.success-login'),
                 'access_token' => "Bearer $jwtToken",
-                'token_type'   => "Bearer",
+                'token_type'   => 'Bearer',
                 'expires_in'   => Auth::factory()->getTTL() * 60,
                 'user'         => $admin,
             ];
@@ -72,6 +73,7 @@ class UserMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -125,6 +127,7 @@ class UserMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -190,6 +193,7 @@ class UserMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)

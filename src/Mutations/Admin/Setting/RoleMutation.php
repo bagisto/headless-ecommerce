@@ -31,6 +31,7 @@ class RoleMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -62,6 +63,7 @@ class RoleMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -98,6 +100,7 @@ class RoleMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)
@@ -121,7 +124,7 @@ class RoleMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.settings.roles.delete-success')
+                'message' => trans('bagisto_graphql::app.admin.settings.roles.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

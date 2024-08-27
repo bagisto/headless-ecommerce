@@ -22,6 +22,7 @@ class LocaleMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -61,6 +62,7 @@ class LocaleMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -108,6 +110,7 @@ class LocaleMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)

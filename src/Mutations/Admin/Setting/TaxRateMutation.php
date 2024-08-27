@@ -21,6 +21,7 @@ class TaxRateMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -49,8 +50,8 @@ class TaxRateMutation extends Controller
             Event::dispatch('tax.tax_rate.create.after', $taxRate);
 
             return [
-                'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.settings.tax-rates.create-success'),
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.settings.tax-rates.create-success'),
                 'tax_rate' => $taxRate,
             ];
         } catch (\Exception $e) {
@@ -62,6 +63,7 @@ class TaxRateMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -89,8 +91,8 @@ class TaxRateMutation extends Controller
             Event::dispatch('tax.tax_rate.update.after', $taxRate);
 
             return [
-                'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.settings.tax-rates.update-success'),
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.settings.tax-rates.update-success'),
                 'tax_rate' => $taxRate,
             ];
         } catch (\Exception $e) {
@@ -102,6 +104,7 @@ class TaxRateMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)

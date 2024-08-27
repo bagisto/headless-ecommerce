@@ -22,6 +22,7 @@ class ChannelMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -81,6 +82,7 @@ class ChannelMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -147,7 +149,7 @@ class ChannelMutation extends Controller
      *
      * @return array
      */
-    private function setSEOContent(array $data, string $locale = null)
+    private function setSEOContent(array $data, ?string $locale = null)
     {
         $targetData = $locale ? $data[$locale] : $data;
 
@@ -172,6 +174,7 @@ class ChannelMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
+     *
      * @throws CustomException
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
