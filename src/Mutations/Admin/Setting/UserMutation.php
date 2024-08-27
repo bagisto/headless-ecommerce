@@ -71,17 +71,12 @@ class UserMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'name'                  => 'required',
             'email'                 => 'required|email|unique:admins,email',
             'password'              => 'nullable|min:6',
@@ -91,33 +86,36 @@ class UserMutation extends Controller
             'image'                 => 'sometimes',
         ]);
 
-        if (! $this->roleRepository->find($data['role_id'])) {
+        if (! $this->roleRepository->find($args['role_id'])) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
         }
 
         try {
-            if (! empty($data['password'])) {
-                $data['password'] = bcrypt($data['password']);
-                $data['api_token'] = Str::random(80);
+            if (! empty($args['password'])) {
+                $args['password'] = bcrypt($args['password']);
+
+                $args['api_token'] = Str::random(80);
             }
 
             Event::dispatch('user.admin.create.before');
 
-            $imageUrl = $data['image'] ?? '';
+            $imageUrl = $args['image'] ?? '';
 
-            if (! empty($data['image'])) {
-                unset($data['image']);
+            if (! empty($args['image'])) {
+                unset($args['image']);
             }
 
-            $admin = $this->adminRepository->create($data);
+            $admin = $this->adminRepository->create($args);
 
             bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
 
             Event::dispatch('user.admin.create.after', $admin);
 
-            $admin->success = trans('bagisto_graphql::app.admin.settings.users.create-success');
-
-            return $admin;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.users.create-success'),
+                'user'    => $admin,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -126,25 +124,14 @@ class UserMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'name'                  => 'required',
-            'email'                 => 'required|email|unique:admins,email,'.$id,
+            'email'                 => 'required|email|unique:admins,email,'.$args['id'],
             'password'              => 'nullable',
             'password_confirmation' => 'nullable|required_with:password|same:password',
             'status'                => 'sometimes',
@@ -152,34 +139,34 @@ class UserMutation extends Controller
             'image'                 => 'sometimes',
         ]);
 
-        $admin = $this->adminRepository->find($id);
+        $admin = $this->adminRepository->find($args['id']);
 
         if (! $admin) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.users.not-found'));
         }
 
-        if (! $this->roleRepository->find($data['role_id'])) {
+        if (! $this->roleRepository->find($args['role_id'])) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
         }
 
         try {
-            if (! empty($data['password'])) {
+            if (! empty($args['password'])) {
                 $isPasswordChanged = true;
 
-                $data['password'] = bcrypt($data['password']);
+                $args['password'] = bcrypt($args['password']);
             }
 
-            $data['status'] = $data['status'] ?? 0;
+            $args['status'] = $args['status'] ?? 0;
 
-            Event::dispatch('user.admin.update.before', $id);
+            Event::dispatch('user.admin.update.before', $args['id']);
 
-            $imageUrl = $data['image'] ?? '';
+            $imageUrl = $args['image'] ?? '';
 
-            if (! empty($data['image'])) {
-                unset($data['image']);
+            if (! empty($args['image'])) {
+                unset($args['image']);
             }
 
-            $admin = $this->adminRepository->update($data, $id);
+            $admin = $this->adminRepository->update($args, $args['id']);
 
             bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
 
@@ -189,9 +176,11 @@ class UserMutation extends Controller
 
             Event::dispatch('user.admin.update.after', $admin);
 
-            $admin->success = trans('bagisto_graphql::app.admin.settings.users.update-success');
-
-            return $admin;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.users.update-success'),
+                'user'    => $admin,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -200,18 +189,12 @@ class UserMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $admin = $this->adminRepository->find($id);
+        $admin = $this->adminRepository->find($args['id']);
 
         if (! $admin) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.users.not-found'));
@@ -222,14 +205,15 @@ class UserMutation extends Controller
         }
 
         try {
-            Event::dispatch('user.admin.delete.before', $id);
+            Event::dispatch('user.admin.delete.before', $args['id']);
 
-            $this->adminRepository->delete($id);
+            $admin->delete();
 
-            Event::dispatch('user.admin.delete.after', $id);
+            Event::dispatch('user.admin.delete.after', $args['id']);
 
             return [
-                'success' => trans('bagisto_graphql::app.admin.settings.users.delete-success'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.users.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

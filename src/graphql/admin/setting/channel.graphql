@@ -12,17 +12,17 @@ extend type Query @guard(with: ["admin-api"]){
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createChannel(
-        input: CreateChannelInput!
-    ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@store")
+        input: CreateChannelInput! @spread
+    ): ChannelResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@store")
 
     updateChannel(
         id: ID!,
-        input: CreateChannelInput!
-    ): Channel @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@update")
+        input: CreateChannelInput! @spread
+    ): ChannelResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@update")
 
     deleteChannel(
         id: ID!
-    ): Channel  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ChannelMutation@delete")
 }
 
 input FilterChannelInput {
@@ -54,6 +54,12 @@ input CreateChannelInput {
     isMaintenanceOn: Boolean @rename(attribute: "is_maintenance_on")
 }
 
+type ChannelResponse {
+    success: Boolean!
+    message: String!
+    channel: Channel
+}
+
 type Channel {
     id: ID!
     code: String!
@@ -79,7 +85,6 @@ type Channel {
     maintenanceModeText: String @rename(attribute: "maintenance_mode_text")
     name: String!
     description: String
-    success: String
 }
 
 type HomeSeo {

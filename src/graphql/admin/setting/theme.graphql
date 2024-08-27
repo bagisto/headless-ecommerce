@@ -12,17 +12,17 @@ extend type Query{
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createTheme(
-        input: CreateThemeInput!
-    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@store")
+        input: CreateThemeInput! @spread
+    ): ThemeResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@store")
 
     updateTheme(
         id: ID!,
-        input: UpdateThemeInput!
-    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@update")
+        input: UpdateThemeInput! @spread
+    ): ThemeResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@update")
 
     deleteTheme(
         id: ID!
-    ): Theme @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\ThemeMutation@delete")
 }
 
 input FilterThemesInput {
@@ -34,6 +34,7 @@ input CreateThemeInput {
     sortOrder: Int! @rename(attribute: "sort_order") @rules(apply: ["required"])
     type: ThemeType! @rules(apply: ["required"])
     channelId: ID! @rename(attribute: "channel_id") @rules(apply: ["required"])
+    themeCode: String @rename(attribute: "theme_code")
 }
 
 enum ThemeType {
@@ -50,6 +51,7 @@ input UpdateThemeInput {
     sortOrder: Int! @rename(attribute: "sort_order") @rules(apply: ["required"])
     channelId: ID! @rename(attribute: "channel_id") @rules(apply: ["required"])
     status: Boolean
+    themeCode: String @rename(attribute: "theme_code")
     options: OptionInputTheme!
 }
 
@@ -63,8 +65,15 @@ input FilterInput {
     value: String
 }
 
+type ThemeResponse {
+    success: Boolean
+    message: String
+    theme: Theme
+}
+
 type Theme {
     id: ID!
+    themeCode: String @rename(attribute: "theme_code")
     type: String
     name: String
     sortOrder: Int  @rename(attribute: "sort_order")
@@ -73,7 +82,6 @@ type Theme {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     translations: [Translation!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\ThemeContent@getThemeTranslations")
-    success: String
 }
 
 type Translation {
@@ -95,7 +103,7 @@ type Options {
 }
 
 type Link {
-    imageTitle: String @rename(attribute: "title")
+    title: String
     link: String
     image: String
     imageUrl: String @rename(attribute: "image_url")

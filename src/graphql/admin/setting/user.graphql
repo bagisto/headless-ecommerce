@@ -18,17 +18,17 @@ extend type Mutation {
     userLogout: StatusResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@logout")
 
     createUser(
-        input: CreateUserInput!
-    ): User @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@store")
+        input: CreateUserInput! @spread
+    ): UserResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@store")
 
     updateUser(
         id: ID!,
-        input: CreateUserInput!
-    ): User @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@update")
+        input: CreateUserInput! @spread
+    ): UserResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@update")
 
     deleteUser(
         id: ID!
-    ): User @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@delete")
+    ): StatusResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@delete")
 }
 
 input FilterUserInput {
@@ -50,6 +50,12 @@ input CreateUserInput {
     image: String
 }
 
+type UserResponse {
+    success: String
+    message: String
+    user: User
+}
+
 type User {
     id: ID!
     name: String!
@@ -63,7 +69,6 @@ type User {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     role: Role! @belongsTo(relation: "role")
-    success: String
 }
 
 type LoginResponse {
