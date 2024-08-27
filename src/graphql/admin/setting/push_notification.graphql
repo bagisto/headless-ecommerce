@@ -1,0 +1,72 @@
+# Setting\Push Notification Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    pushNotifications(
+        input: FilterNotificationInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterPushNotification")
+    ): [PushNotification!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\GraphQLAPI\\Models\\PushNotification"
+    )
+
+    pushNotification(
+        id: ID @eq
+    ): PushNotification @find(model: "Webkul\\GraphQLAPI\\Models\\PushNotification")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createPushNotification(
+        input: CreatePushNotificationInput! @spread
+    ): PushNotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\PushNotificationMutation@store")
+
+    updatePushNotification(
+        id: ID!,
+        input: CreatePushNotificationInput! @spread
+    ): PushNotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\PushNotificationMutation@update")
+
+    deletePushNotification(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\PushNotificationMutation@delete")
+}
+
+input FilterNotificationInput {
+    id: ID
+    type: String
+    productCategoryId: Int @rename(attribute: "product_category_id")
+}
+
+input CreatePushNotificationInput {
+    title: String
+    content: String
+    locale: String
+    channels: [String]
+    type: String
+    productCategoryId: Int @rename(attribute: "product_category_id")
+    status: Int
+    image: String
+}
+
+type PushNotification {
+    id: ID!
+    image: String
+    imageUrl: String @rename(attribute: "image_url")
+    type: String
+    status: Boolean
+    productCategoryId: Int @rename(attribute: "product_category_id")
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+    translations: [PushNotificationTranslation!] @hasMany
+}
+
+type PushNotificationTranslation {
+    id: ID!
+    title: String
+    content: String
+    locale: String
+    channel: String
+    pushNotificationId: Int @rename(attribute: "push_notification_id")
+}
+
+type PushNotificationResponse {
+    success: Boolean
+    message: String
+    pushNotification: PushNotification @rename(attribute: "push_notification")
+}

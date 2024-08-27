@@ -6294,7 +6294,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createTaxRate {\n    createTaxRate(input: {\n        identifier: \"test is ip\",\n        country: \"IN\",\n        state: \"\",\n        # isZip: \"\",\n        zipCode:\"\",\n        # zipFrom: \"\",\n        # zipTo: \"\",\n        taxRate: 4.33,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n        success\n    }\n}",
+														"query": "mutation createTaxRate {\n    createTaxRate(input: {\n        identifier: \"test is ip\",\n        country: \"IN\",\n        state: \"\",\n        # isZip: \"\",\n        zipCode:\"\",\n        # zipFrom: \"\",\n        # zipTo: \"\",\n        taxRate: 4.33,\n    }) {\n        success\n        message\n        taxRate {\n            id\n            identifier\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            state\n            country\n            taxRate\n            taxCategories {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -6326,7 +6326,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation updateTaxRate {\n    updateTaxRate(id: 1, input: {\n        identifier: \"update new\",\n        isZip: \"1\",\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        zipCode:\"\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        id\n        identifier\n        isZip\n        zipCode\n        zipFrom\n        zipTo\n        state\n        country\n        taxRate\n        taxCategories {\n            id\n            code\n            name\n        }\n        success\n    }\n}",
+														"query": "mutation updateTaxRate {\n    updateTaxRate(id: 1, input: {\n        identifier: \"update new\",\n        isZip: \"1\",\n        zipFrom: \"201031\",\n        zipTo: \"300000\",\n        zipCode:\"\",\n        state: \"UP\",\n        country: \"IN\",\n        taxRate: 5.22,\n    }) {\n        success\n        message\n        taxRate {\n            id\n            identifier\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            state\n            country\n            taxRate\n            taxCategories {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -6358,7 +6358,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteTaxRate {\n    deleteTaxRate(id: 2) {\n        success\n    }\n}",
+														"query": "mutation deleteTaxRate {\n    deleteTaxRate(id: 3) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -6489,7 +6489,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createTaxCategory {\n    createTaxCategory(input: {\n        code: \"service tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+														"query": "mutation createTaxCategory {\n    createTaxCategory(input: {\n        code: \"service tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        success\n        message\n        taxCategory {\n            id\n            code\n            name\n            description\n            taxRates {\n                id\n                identifier\n                country\n                state\n                isZip\n                zipCode\n                zipFrom\n                zipTo\n                taxRate\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -6521,7 +6521,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "\nmutation updateTaxCategory {\n    updateTaxCategory(id: 3, input: {\n        code: \"service-tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        id\n        code\n        name\n        description\n        taxRates {\n            id\n            identifier\n            country\n            state\n            isZip\n            zipCode\n            zipFrom\n            zipTo\n            taxRate\n        }\n    }\n}",
+														"query": "\nmutation updateTaxCategory {\n    updateTaxCategory(id: 3, input: {\n        code: \"service-tax\"\n        name: \"Service Tax Category\"\n        description: \"Service Tax Category Description\"\n        taxrates: [1]\n    }) {\n        success\n        message\n        taxCategory {\n            id\n            code\n            name\n            description\n            taxRates {\n                id\n                identifier\n                country\n                state\n                isZip\n                zipCode\n                zipFrom\n                zipTo\n                taxRate\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -6559,7 +6559,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteTaxCategory {\n    deleteTaxCategory(id: 3) {\n        success\n    }\n}",
+														"query": "mutation deleteTaxCategory {\n    deleteTaxCategory(id: 3) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -6597,6 +6597,178 @@
 											}
 										}
 									]
+								}
+							]
+						},
+						{
+							"name": "Push Notification",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query pushNotifications {\n    pushNotifications (\n        first: 11\n        page: 1\n        input: {\n            # id: 2\n            # type: \"category\"\n            # productCategoryId: 1\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            image\n            imageUrl\n            type\n            status\n            productCategoryId\n            createdAt\n            updatedAt\n            translations {\n                id\n                title\n                content\n                locale\n                channel\n                pushNotificationId\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Locales"
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query pushNotification {\n    pushNotification (id: 1) {\n        id\n        image\n        imageUrl\n        type\n        status\n        productCategoryId\n        createdAt\n        updatedAt\n        translations {\n            id\n            title\n            content\n            locale\n            channel\n            pushNotificationId\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get Locale Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createPushNotification {\n    createPushNotification(input: {\n    \ttitle: \"Title\"\n        content: \"Content\"\n        locale: \"en\"\n        channels: \"default\"\n        status: 1\n        type: \"product\"\n        productCategoryId: 1\n    \timage: \"https://web.dev/images/authors/jlwagner.jpg\"\n    }) {\n        success\n        message\n        pushNotification {\n            id\n            image\n            imageUrl\n            type\n            status\n            productCategoryId\n            createdAt\n            updatedAt\n            translations {\n                id\n                title\n                content\n                locale\n                channel\n                pushNotificationId\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": "",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Create Locale"
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updatePushNotification {\n    updatePushNotification(id: 13, input: {\n    \ttitle: \"Title 1\"\n        content: \"Content 1\"\n        locale: \"en\"\n        channels: \"default\"\n        status: 1\n        type: \"product\"\n        productCategoryId: 1\n    \timage: \"https://web.dev/images/authors/jlwagner.jpg\"\n    }) {\n        success\n        message\n        pushNotification {\n            id\n            image\n            imageUrl\n            type\n            status\n            productCategoryId\n            createdAt\n            updatedAt\n            translations {\n                id\n                title\n                content\n                locale\n                channel\n                pushNotificationId\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update Locale Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deletePushNotification {\n    deletePushNotification(id: 13) {\n        success\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Locale"
+									},
+									"response": []
 								}
 							]
 						}

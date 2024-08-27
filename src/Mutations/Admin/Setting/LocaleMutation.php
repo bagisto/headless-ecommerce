@@ -80,10 +80,10 @@ class LocaleMutation extends Controller
         try {
             $imageUrl = '';
 
-            if (isset($data['image'])) {
-                $imageUrl = $data['image'];
+            if (isset($args['image'])) {
+                $imageUrl = $args['image'];
 
-                unset($data['image']);
+                unset($args['image']);
             }
 
             Event::dispatch('core.locale.update.before', $args['id']);

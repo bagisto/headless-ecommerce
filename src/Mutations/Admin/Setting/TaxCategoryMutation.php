@@ -24,17 +24,12 @@ class TaxCategoryMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'code'        => 'required|string|unique:tax_categories,code',
             'name'        => 'required|string',
             'description' => 'required|string',
@@ -44,16 +39,18 @@ class TaxCategoryMutation extends Controller
         try {
             Event::dispatch('tax.tax_category.create.before');
 
-            $taxCategory = $this->taxCategoryRepository->create($data);
+            $taxCategory = $this->taxCategoryRepository->create($args);
 
             //attach the categories in the tax map table
-            $taxCategory->tax_rates()->sync($data['taxrates']);
+            $taxCategory->tax_rates()->sync($args['taxrates']);
 
             Event::dispatch('tax.tax_category.create.after', $taxCategory);
 
-            $taxCategory->success = trans('bagisto_graphql::app.admin.settings.tax-categories.create-success');
-
-            return $taxCategory;
+            return [
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.admin.settings.tax-category.create-success'),
+                'tax_category' => $taxCategory,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -62,47 +59,39 @@ class TaxCategoryMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
     public function update($rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'code'        => 'required|string|unique:tax_categories,code,'.$id,
+        bagisto_graphql()->validate($args, [
+            'code'        => 'required|string|unique:tax_categories,code,'.$args['id'],
             'name'        => 'required|string',
             'description' => 'required|string',
             'taxrates'    => 'required|array|in:'.implode(',', $this->taxRateRepository->pluck('id')->toArray()),
         ]);
 
-        $taxCategory = $this->taxCategoryRepository->find($id);
+        $taxCategory = $this->taxCategoryRepository->find($args['id']);
 
         if (! $taxCategory) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-category.not-found'));
         }
 
         try {
-            Event::dispatch('tax.tax_category.update.before', $id);
+            Event::dispatch('tax.tax_category.update.before', $args['id']);
 
-            $taxCategory = $this->taxCategoryRepository->update($data, $id);
+            $taxCategory = $this->taxCategoryRepository->update($args, $args['id']);
 
             //attach the categories in the tax map table
-            $taxCategory->tax_rates()->sync($data['taxrates']);
+            $taxCategory->tax_rates()->sync($args['taxrates']);
 
             Event::dispatch('tax.tax_category.update.after', $taxCategory);
 
-            $taxCategory->success = trans('bagisto_graphql::app.admin.settings.tax-categories.update-success');
-
-            return $taxCategory;
+            return [
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.admin.settings.tax-category.update-success'),
+                'tax_category' => $taxCategory,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -111,31 +100,27 @@ class TaxCategoryMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $taxCategory = $this->taxCategoryRepository->find($id);
+        $taxCategory = $this->taxCategoryRepository->find($args['id']);
 
         if (! $taxCategory) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-categories.not-found'));
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-category.not-found'));
         }
 
         try {
-            Event::dispatch('tax.tax_category.delete.before', $id);
+            Event::dispatch('tax.tax_category.delete.before', $args['id']);
 
-            $this->taxCategoryRepository->delete($id);
+            $taxCategory->delete();
 
-            Event::dispatch('tax.tax_category.delete.after', $id);
+            Event::dispatch('tax.tax_category.delete.after', $args['id']);
 
             return [
-                'success' => trans('bagisto_graphql::app.admin.settings.tax-category.delete-success'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.tax-category.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

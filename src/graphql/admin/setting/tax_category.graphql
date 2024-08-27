@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     taxCategories(
         input: FilterTaxCategoryInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Setting\\FilterTaxCategory")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterTaxCategory")
     ): [TaxCategory!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxCategory")
 
     taxCategory(id: ID @eq): TaxCategory @find(model: "Webkul\\Tax\\Models\\TaxCategory")
@@ -10,15 +10,15 @@ extend type Query @guard(with: ["admin-api"]) {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createTaxCategory(
-        input: createTaxCategoryInput!
-    ): TaxCategory  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@store")
+        input: createTaxCategoryInput! @spread
+    ): TaxCategoryResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@store")
 
     updateTaxCategory(
         id: ID!,
-        input: createTaxCategoryInput!
-    ): TaxCategory  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@update")
+        input: createTaxCategoryInput! @spread
+    ): TaxCategoryResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@update")
 
-    deleteTaxCategory(id: ID!): TaxCategory  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@delete")
+    deleteTaxCategory(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\TaxCategoryMutation@delete")
 }
 
 input FilterTaxCategoryInput {
@@ -32,6 +32,12 @@ input createTaxCategoryInput {
     name: String! @rules(apply: ["required"])
     description: String! @rules(apply: ["required"])
     taxrates: [Int!]! @rules(apply: ["required"])
+}
+
+type TaxCategoryResponse {
+    success: Boolean!
+    message: String
+    taxCategory: TaxCategory @rename(attribute: "tax_category")
 }
 
 type TaxCategory {

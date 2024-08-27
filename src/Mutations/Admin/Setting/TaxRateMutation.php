@@ -20,17 +20,12 @@ class TaxRateMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'identifier' => 'required|string|unique:tax_rates,identifier',
             'is_zip'     => 'nullable',
             'zip_code'   => 'nullable',
@@ -40,22 +35,24 @@ class TaxRateMutation extends Controller
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
-        if (isset($data['is_zip'])) {
-            $data['is_zip'] = 1;
+        if (isset($args['is_zip'])) {
+            $args['is_zip'] = 1;
 
-            unset($data['zip_code']);
+            unset($args['zip_code']);
         }
 
         try {
             Event::dispatch('tax.tax_rate.create.before');
 
-            $taxRate = $this->taxRateRepository->create($data);
+            $taxRate = $this->taxRateRepository->create($args);
 
             Event::dispatch('tax.tax_rate.create.after', $taxRate);
 
-            $taxRate->success = trans('bagisto_graphql::app.admin.settings.tax-rates.create-success');
-
-            return $taxRate;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.tax-rates.create-success'),
+                'tax_rate' => $taxRate,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -64,24 +61,13 @@ class TaxRateMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'identifier' => 'required|string|unique:tax_rates,identifier,'.$id,
+        bagisto_graphql()->validate($args, [
+            'identifier' => 'required|string|unique:tax_rates,identifier,'.$args['id'],
             'is_zip'     => 'sometimes',
             'zip_from'   => 'nullable|required_with:is_zip',
             'zip_to'     => 'nullable|required_with:is_zip,zip_from',
@@ -89,22 +75,24 @@ class TaxRateMutation extends Controller
             'tax_rate'   => 'required|numeric|min:0.0001',
         ]);
 
-        $taxRate = $this->taxRateRepository->find($id);
+        $taxRate = $this->taxRateRepository->find($args['id']);
 
         if (! $taxRate) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-rate.not-found'));
         }
 
         try {
-            Event::dispatch('tax.tax_rate.update.before', $id);
+            Event::dispatch('tax.tax_rate.update.before', $args['id']);
 
-            $taxRate = $this->taxRateRepository->update($data, $id);
+            $taxRate = $this->taxRateRepository->update($args, $args['id']);
 
             Event::dispatch('tax.tax_rate.update.after', $taxRate);
 
-            $taxRate->success = trans('bagisto_graphql::app.admin.settings.tax-rates.update-success');
-
-            return $taxRate;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.tax-rates.update-success'),
+                'tax_rate' => $taxRate,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -113,31 +101,28 @@ class TaxRateMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $taxRate = $this->taxRateRepository->find($id);
+        $taxRate = $this->taxRateRepository->find($args['id']);
 
         if (! $taxRate) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.tax-rates.not-found'));
         }
 
         try {
-            Event::dispatch('tax.tax_rate.delete.before', $id);
+            Event::dispatch('tax.tax_rate.delete.before', $args['id']);
 
-            $this->taxRateRepository->delete($id);
+            $taxRate->delete();
 
-            Event::dispatch('tax.tax_rate.delete.after', $id);
+            Event::dispatch('tax.tax_rate.delete.after', $args['id']);
 
-            return ['success' => trans('bagisto_graphql::app.admin.settings.tax-rates.delete-success')];
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.settings.tax-rates.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
