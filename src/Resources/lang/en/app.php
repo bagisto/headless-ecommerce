@@ -261,6 +261,44 @@ return [
                     'update-success' => 'Cart Rule updated successfully.',
                 ],
             ],
+
+            'communications' => [
+                'email-templates' => [
+                    'create-success' => 'Email Template created successfully.',
+                    'delete-success' => 'Email Template deleted successfully',
+                    'not-found'      => 'Warning: Email Template not found.',
+                    'update-success' => 'Email Template updated successfully.',
+                ],
+
+                'events' => [
+                    'create-success' => 'Event created successfully.',
+                    'delete-success' => 'Event deleted successfully',
+                    'not-found'      => 'Warning: Event not found.',
+                    'update-success' => 'Event updated successfully.',
+                ],
+
+                'campaigns' => [
+                    'create-success' => 'Campaign created successfully.',
+                    'delete-success' => 'Campaign deleted successfully',
+                    'not-found'      => 'Warning: Campaign not found.',
+                    'update-success' => 'Campaign updated successfully.',
+                ],
+
+                'subscriptions' => [
+                    'delete-success'      => 'Subscription deleted successfully',
+                    'not-found'           => 'Warning: Subscription not found.',
+                    'unsubscribe-success' => 'Success: Subscription unsubscribed successfully.',
+                ],
+            ],
+
+            'seo' => [
+                'sitemaps' => [
+                    'create-success' => 'Sitemap created successfully.',
+                    'delete-success' => 'Sitemap deleted successfully',
+                    'not-found'      => 'Warning: Sitemap not found.',
+                    'update-success' => 'Sitemap updated successfully.',
+                ],
+            ],
         ],
 
         'settings' => [

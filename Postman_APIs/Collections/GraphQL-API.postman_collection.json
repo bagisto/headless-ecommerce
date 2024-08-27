@@ -3426,7 +3426,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query catalogRule {\n    catalogRule(id: 2) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n    }\n}",
+														"query": "query catalogRule {\n    catalogRule(id: 1) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3457,7 +3457,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createCatalogRule {\n    createCatalogRule(input: {\n        name: \"First Catalog Rule\"\n        status: false\n        description: \"First Catalog Rule 10% off\"\n        channels: [111]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n        conditionType: 1\n        conditions: [{\n                    attribute: \"product|category_ids\",\n                    operator: \"{}\",\n                    attributeType: \"multiselect\",\n                    value: [\"1\", \"3\"]\n                },\t{\n                    attribute: \"product|sku\",\n                    operator: \"==\",\n                    attributeType: \"text\",\n                    value: [\"phone\"]\n                }]\n        sortOrder: 1\n        actionType: \"by_percent\"\n        discountAmount: 10.5\n        endOtherRules: true\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n    }\n}",
+														"query": "mutation createCatalogRule {\n    createCatalogRule(input: {\n        name: \"First Catalog Rule\"\n        status: false\n        description: \"First Catalog Rule 10% off\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2024-08-27 16:46:32\"\n        endsTill: \"2024-08-28 16:46:32\"\n        conditionType: 1\n        conditions: [{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"product|sku\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"phone\"]\n        }]\n        sortOrder: 1\n        actionType: \"by_percent\"\n        discountAmount: 10.5\n        endOtherRules: true\n    }) {\n        success\n        message\n        catalogRule {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            conditionType\n            conditions\n            endOtherRules\n            actionType\n            discountAmount\n            sortOrder\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            customerGroups {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3488,7 +3488,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation updateCatalogRule {\n    updateCatalogRule(id: 3, input: {\n        name: \"First Catalog Rule Update\"\n        status: false\n        description: \"First Catalog Rule 10% off update\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-25 13:43:32\"\n        endsTill: \"2021-12-30 13:43:32\"\n        conditionType: 1\n        conditions: [{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"product|sku\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"phone\"]\n        },\t{\n            attribute: \"product|weight\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"1.5\"]\n        }]\n        sortOrder: 0\n        actionType: \"by_percent\"\n        discountAmount: 5.8\n        endOtherRules: false\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        conditionType\n        conditions\n        endOtherRules\n        actionType\n        discountAmount\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n    }\n}",
+														"query": "mutation updateCatalogRule {\n    updateCatalogRule(id: 2, input: {\n        name: \"First Catalog Rule Update\"\n        status: false\n        description: \"First Catalog Rule 10% off update\"\n        channels: [1]\n        customerGroups: [1, 2]\n        startsFrom: \"2021-11-25 13:43:32\"\n        endsTill: \"2021-12-30 13:43:32\"\n        conditionType: 1\n        conditions: [{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"product|sku\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"phone\"]\n        },\t{\n            attribute: \"product|weight\",\n            operator: \"==\",\n            attributeType: \"text\",\n            value: [\"1.5\"]\n        }]\n        sortOrder: 0\n        actionType: \"by_percent\"\n        discountAmount: 5.8\n        endOtherRules: false\n    }) {\n        success\n        message\n        catalogRule {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            conditionType\n            conditions\n            endOtherRules\n            actionType\n            discountAmount\n            sortOrder\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            customerGroups {\n                id\n                code\n                name\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3519,131 +3519,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteCatalogRule {\n    deleteCatalogRule(id: 3) {\n        success\n    }\n}",
-														"variables": ""
-													}
-												},
-												"url": {
-													"raw": "{{url}}",
-													"host": [
-														"{{url}}"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Get CatalogRule Product List",
-											"request": {
-												"auth": {
-													"type": "bearer",
-													"bearer": [
-														{
-															"key": "token",
-															"value": "{{adminToken}}",
-															"type": "string"
-														}
-													]
-												},
-												"method": "POST",
-												"header": [],
-												"body": {
-													"mode": "graphql",
-													"graphql": {
-														"query": "query catalogRuleProducts {\n    catalogRuleProducts(input: {\n        catalogRuleId: 1\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            startsFrom\n            endsTill\n            discountAmount\n            actionType\n            endOtherRules\n            sortOrder\n            catalogRuleId\n            channelId\n            customerGroupId\n            productId\n            product {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n                variants {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                }\n            }\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
-														"variables": ""
-													}
-												},
-												"url": {
-													"raw": "{{url}}",
-													"host": [
-														"{{url}}"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Get CatalogRule Product Detail",
-											"request": {
-												"auth": {
-													"type": "bearer",
-													"bearer": [
-														{
-															"key": "token",
-															"value": "{{adminToken}}",
-															"type": "string"
-														}
-													]
-												},
-												"method": "POST",
-												"header": [],
-												"body": {
-													"mode": "graphql",
-													"graphql": {
-														"query": "query catalogRuleProduct {\n    catalogRuleProduct(\n        id: 15,\n        input: {\n            catalogRuleId: 1\n        }\n    ) {\n        id\n        startsFrom\n        endsTill\n        discountAmount\n        actionType\n        endOtherRules\n        sortOrder\n        catalogRuleId\n        channelId\n        customerGroupId\n        productId\n        product {\n            id\n            type\n            attributeFamilyId\n            sku\n            parentId\n            variants {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n        }\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
-														"variables": ""
-													}
-												},
-												"url": {
-													"raw": "{{url}}",
-													"host": [
-														"{{url}}"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Get CatalogRule Product Price List",
-											"request": {
-												"auth": {
-													"type": "bearer",
-													"bearer": [
-														{
-															"key": "token",
-															"value": "{{adminToken}}",
-															"type": "string"
-														}
-													]
-												},
-												"method": "POST",
-												"header": [],
-												"body": {
-													"mode": "graphql",
-													"graphql": {
-														"query": "query catalogRuleProductPrices {\n    catalogRuleProductPrices(input: {\n        catalogRuleId: 1,\n        productId: 15,\n        customerGroupId: 1,\n        channelId: 1\n    }) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            price\n            ruleDate\n            startsFrom\n            endsTill\n            productId\n            catalogRuleId\n            channelId\n            customerGroupId\n        }\n    }\n}",
-														"variables": ""
-													}
-												},
-												"url": {
-													"raw": "{{url}}",
-													"host": [
-														"{{url}}"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Get CatalogRule Product Price Detail",
-											"request": {
-												"auth": {
-													"type": "bearer",
-													"bearer": [
-														{
-															"key": "token",
-															"value": "{{adminToken}}",
-															"type": "string"
-														}
-													]
-												},
-												"method": "POST",
-												"header": [],
-												"body": {
-													"mode": "graphql",
-													"graphql": {
-														"query": "query catalogRuleProductPrice {\n    catalogRuleProductPrice(\n        id: 1,\n        input: {\n            catalogRuleId: 1,\n            productId: 15,\n            customerGroupId: 1,\n            channelId: 1\n        }\n    ) {\n        id\n        price\n        ruleDate\n        startsFrom\n        endsTill\n        productId\n        catalogRuleId\n        channelId\n        customerGroupId\n    }\n}",
+														"query": "mutation deleteCatalogRule {\n    deleteCatalogRule(id: 2) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3764,7 +3640,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createCartRule {\n    createCartRule(input: {\n        name: \"First Cart Rule (10%)\"\n        description: \"You can avail 10% off by using this cart rule.\"\n        couponType: 1\n        useAutoGeneration: false\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 2\n        usagePerCustomer: 3\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"3\"]\n        }]\n        actionType: FixedAmount\n        discountAmount: 5\n        discountQuantity: 1\n        discountStep: 2\n        applyToShipping: false\n        freeShipping: false\n        endOtherRules: true\n        sortOrder: 1\n        channels: [1]\n        customerGroups: [1, 2]\n        status: false\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n        coupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            timesUsed\n            type\n            isPrimary\n            expiredAt\n            cartRuleId\n            createdAt\n            updatedAt\n            cartRule {\n                id\n            }\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n                customerId\n            }\n        }\n        success\n    }\n}",
+														"query": "mutation createCartRule {\n    createCartRule(input: {\n        name: \"First Cart Rule (10%)\"\n        description: \"You can avail 10% off by using this cart rule.\"\n        couponType: 1\n        useAutoGeneration: false\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 2\n        usagePerCustomer: 3\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"3\"]\n        }]\n        actionType: FixedAmount\n        discountAmount: 5\n        discountQuantity: 1\n        discountStep: 2\n        applyToShipping: false\n        freeShipping: false\n        endOtherRules: true\n        sortOrder: 1\n        channels: [1]\n        customerGroups: [1, 2]\n        status: false\n        startsFrom: \"2021-11-20 13:43:32\"\n        endsTill: \"2021-12-23 13:43:32\"\n    }) {\n        success\n        message\n        cartRule {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            couponType\n            useAutoGeneration\n            usagePerCustomer\n            usesPerCoupon\n            timesUsed\n            conditionType\n            conditions\n            endOtherRules\n            usesAttributeConditions\n            actionType\n            discountAmount\n            discountQuantity\n            discountStep\n            applyToShipping\n            freeShipping\n            sortOrder\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            customerGroups {\n                id\n                code\n                name\n            }\n            coupon {\n                id\n                code\n                usageLimit\n                usagePerCustomer\n                timesUsed\n                type\n                isPrimary\n                expiredAt\n                cartRuleId\n                createdAt\n                updatedAt\n                cartRule {\n                    id\n                }\n                couponUsage {\n                    id\n                    timesUsed\n                    cartRuleCouponId\n                    customerId\n                }\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3795,7 +3671,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation updateCartRule {\n    updateCartRule(id: 15, input: {\n        name: \"First Cart Rule (5%)\"\n        description: \"You can avail 5% off by using this cart rule.\"\n        channels: [1]\n        customerGroups: [1, 2, 3]\n        status: true\n        couponType: 1\n        useAutoGeneration: true\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 1\n        usagePerCustomer: 1\n        startsFrom: \"2021-11-19 13:43:32\"\n        endsTill: \"2021-12-25 13:43:32\"\n        sortOrder: 0\n        timesUsed: 1\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"5\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"cart|payment_method\",\n            operator: \"==\",\n            attributeType: \"select\",\n            value: \"cashondelivery\"\n        },\t{\n            attribute: \"cart|items_qty\",\n            operator: \"==\",\n            attributeType: \"integer\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|children::sku\",\n            operator: \"!{}\",\n            attributeType: \"text\",\n            value: \"home-decor\"\n        }]\n        usesAttributeConditions: true\n        actionType: FixedAmount\n        discountAmount: 5\n        discountQuantity: 2\n        discountStep: 1\n        applyToShipping: true\n        freeShipping: true\n        endOtherRules: true\n        autogeneratedCoupons: {\n            couponQty: 10\n            codeLength: 10\n            codeFormat: ALPHABETICAL\n            codePrefix: \"\"\n            codeSuffix: \"\"\n        }\n    }) {\n        id\n        name\n        description\n        startsFrom\n        endsTill\n        status\n        couponType\n        useAutoGeneration\n        usagePerCustomer\n        usesPerCoupon\n        timesUsed\n        conditionType\n        conditions\n        endOtherRules\n        usesAttributeConditions\n        actionType\n        discountAmount\n        discountQuantity\n        discountStep\n        applyToShipping\n        freeShipping\n        sortOrder\n        createdAt\n        updatedAt\n        channels {\n            id\n            code\n            name\n        }\n        customerGroups {\n            id\n            code\n            name\n        }\n        coupon {\n            id\n            code\n            usageLimit\n            usagePerCustomer\n            timesUsed\n            type\n            isPrimary\n            expiredAt\n            cartRuleId\n            createdAt\n            updatedAt\n            cartRule {\n                id\n            }\n            couponUsage {\n                id\n                timesUsed\n                cartRuleCouponId\n                customerId\n            }\n        }\n        success\n    }\n}",
+														"query": "mutation updateCartRule {\n    updateCartRule(id: 3, input: {\n        name: \"First Cart Rule (5%)\"\n        description: \"You can avail 5% off by using this cart rule.\"\n        channels: [1]\n        customerGroups: [1, 2, 3]\n        status: true\n        couponType: 1\n        useAutoGeneration: true\n        couponCode: \"ABCDE\"\n        usesPerCoupon: 1\n        usagePerCustomer: 1\n        startsFrom: \"2021-11-19 13:43:32\"\n        endsTill: \"2021-12-25 13:43:32\"\n        sortOrder: 0\n        timesUsed: 1\n        conditionType: true\n        conditions: [{\n            attribute: \"cart|base_sub_total\",\n            operator: \">=\",\n            attributeType: \"price\",\n            value: \"5\"\n        },\t{\n            attribute: \"product|category_ids\",\n            operator: \"{}\",\n            attributeType: \"multiselect\",\n            value: [\"1\", \"3\"]\n        },\t{\n            attribute: \"cart|payment_method\",\n            operator: \"==\",\n            attributeType: \"select\",\n            value: \"cashondelivery\"\n        },\t{\n            attribute: \"cart|items_qty\",\n            operator: \"==\",\n            attributeType: \"integer\",\n            value: \"10\"\n        },\t{\n            attribute: \"product|children::sku\",\n            operator: \"!{}\",\n            attributeType: \"text\",\n            value: \"home-decor\"\n        }]\n        usesAttributeConditions: true\n        actionType: FixedAmount\n        discountAmount: 5\n        discountQuantity: 2\n        discountStep: 1\n        applyToShipping: true\n        freeShipping: true\n        endOtherRules: true\n        autogeneratedCoupons: {\n            couponQty: 10\n            codeLength: 10\n            codeFormat: ALPHABETICAL\n            codePrefix: \"\"\n            codeSuffix: \"\"\n        }\n    }) {\n        success\n        message\n        cartRule {\n            id\n            name\n            description\n            startsFrom\n            endsTill\n            status\n            couponType\n            useAutoGeneration\n            usagePerCustomer\n            usesPerCoupon\n            timesUsed\n            conditionType\n            conditions\n            endOtherRules\n            usesAttributeConditions\n            actionType\n            discountAmount\n            discountQuantity\n            discountStep\n            applyToShipping\n            freeShipping\n            sortOrder\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            customerGroups {\n                id\n                code\n                name\n            }\n            coupon {\n                id\n                code\n                usageLimit\n                usagePerCustomer\n                timesUsed\n                type\n                isPrimary\n                expiredAt\n                cartRuleId\n                createdAt\n                updatedAt\n                cartRule {\n                    id\n                }\n                couponUsage {\n                    id\n                    timesUsed\n                    cartRuleCouponId\n                    customerId\n                }\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3826,7 +3702,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteCartRule {\n    deleteCartRule(id: 7) {\n        success\n    }\n}",
+														"query": "mutation deleteCartRule {\n    deleteCartRule(id: 3) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3873,7 +3749,7 @@
 									"name": "Email Templates",
 									"item": [
 										{
-											"name": "Get All Email Templates",
+											"name": "Get All",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -3890,7 +3766,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query emailTemplates{\n    emailTemplates(\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data{\n            id\n            name\n            content\n            status\n        }\n    }\n}",
+														"query": "query emailTemplates{\n    emailTemplates(\n        first:11\n        page: 1\n        input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data {\n            id\n            name\n            content\n            status\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3904,7 +3780,7 @@
 											"response": []
 										},
 										{
-											"name": "Get Email Template Detail",
+											"name": "Get Detail",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -3921,7 +3797,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query emailTemplates{\n    emailTemplate(id: 1){\n            id\n            name\n            content\n            status\n    }\n}",
+														"query": "query emailTemplates{\n    emailTemplate(id: 1) {\n        id\n        name\n        content\n        status\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3935,7 +3811,7 @@
 											"response": []
 										},
 										{
-											"name": "Create Email Template",
+											"name": "Create",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -3952,7 +3828,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createEmailTemplate{\n    createEmailTemplate(input: {\n        name: \"Birthday Greetings\"\n        content: \"Birthday Greetings Card\"\n        status: ACTIVE\n    }){\n        id\n        name\n        content\n        status\n    }\n}",
+														"query": "mutation createEmailTemplate{\n    createEmailTemplate(input: {\n        name: \"Birthday Greetings\"\n        content: \"Birthday Greetings Card\"\n        status: ACTIVE\n    }) {\n        success\n        message\n        emailTemplate {\n            id\n            name\n            content\n            status\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3966,7 +3842,7 @@
 											"response": []
 										},
 										{
-											"name": "Update Email Template",
+											"name": "Update",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -3983,7 +3859,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createEmailTemplate{\n    updateEmailTemplate(id: 1, input: {\n        name: \"Birthday Card\"\n        content: \"Hi! This is your birthday card.\"\n        status: ACTIVE\n    }){\n        id\n        name\n        content\n        status\n    }\n}",
+														"query": "mutation createEmailTemplate{\n    updateEmailTemplate(id: 1, input: {\n        name: \"Birthday Card\"\n        content: \"Hi! This is your birthday card.\"\n        status: ACTIVE\n    }){\n        success\n        message\n        emailTemplate {\n            id\n            name\n            content\n            status\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -3997,7 +3873,7 @@
 											"response": []
 										},
 										{
-											"name": "Remove Email Template",
+											"name": "Delete",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4014,7 +3890,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteEmailTemplate{\n    deleteEmailTemplate(id: 2) {\n        status\n        message\n    }\n}",
+														"query": "mutation deleteEmailTemplate{\n    deleteEmailTemplate(id: 2) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4056,7 +3932,7 @@
 									"name": "Events",
 									"item": [
 										{
-											"name": "Get All Events",
+											"name": "Get All",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4073,7 +3949,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query events{\n    events(\n        first:11\n        page: 1\n    input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data{\n            id\n            name\n            description\n            date\n        }\n    }\n}",
+														"query": "query events {\n    events (\n        first:11\n        page: 1\n    input: {\n        # id: 1\n        # name: \"test\"\n    }){\n        data {\n            id\n            name\n            description\n            date\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4087,7 +3963,7 @@
 											"response": []
 										},
 										{
-											"name": "Get Event Detail",
+											"name": "Get Detail",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4118,7 +3994,7 @@
 											"response": []
 										},
 										{
-											"name": "Create Event",
+											"name": "Create",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4135,7 +4011,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createEvent{\n    createEvent(input: {\n        name: \"Rock Show\"\n        description: \"Street Rock Show\"\n        date: \"20-10-1996\"\n    }) {\n        id\n        name\n        description\n        date\n    }\n}",
+														"query": "mutation createEvent {\n    createEvent (input: {\n        name: \"Rock Show\"\n        description: \"Street Rock Show\"\n        date: \"20-10-2024\"\n    }) {\n        success\n        message\n        event {\n            id\n            name\n            description\n            date\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4149,7 +4025,7 @@
 											"response": []
 										},
 										{
-											"name": "Update Event",
+											"name": "Update",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4166,7 +4042,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation updateEvent{\n    updateEvent(id: 2, input: {\n        name: \"event\"\n        description: \"event\"\n        date: \"20-10-1996\"\n    }){\n        id\n        name\n        description\n        date\n    }\n}",
+														"query": "mutation updateEvent{\n    updateEvent(id: 1, input: {\n        name: \"event\"\n        description: \"event\"\n        date: \"20-10-2024\"\n    }) {\n        success\n        message\n        event {\n            id\n            name\n            description\n            date\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4180,7 +4056,7 @@
 											"response": []
 										},
 										{
-											"name": "Remove Event",
+											"name": "Delete",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4197,7 +4073,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteEvent{\n    deleteEvent(id: 2) {\n        status\n        message\n    }\n}",
+														"query": "mutation deleteEvent{\n    deleteEvent(id: 4) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4239,7 +4115,7 @@
 									"name": "Campaign",
 									"item": [
 										{
-											"name": "Get All Campaign",
+											"name": "Get All",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4270,7 +4146,7 @@
 											"response": []
 										},
 										{
-											"name": "Get Campaign Detail",
+											"name": "Get Detail",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4287,7 +4163,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query campaign{\n    campaign(id: 1) {\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n\n}",
+														"query": "query campaign {\n    campaign (id: 1) {\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event {\n            id\n            name\n            description\n            date\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4301,7 +4177,7 @@
 											"response": []
 										},
 										{
-											"name": "Create Campaign",
+											"name": "Create",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4318,7 +4194,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createCampaign{\n    createCampaign(input: {\n        name: \"New Campaign\"\n        subject: \"New Campaign Subject\"\n        eventId: 1\n        emailTemplateId: 1\n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }){\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n    \n}",
+														"query": "mutation createCampaign {\n    createCampaign(input: {\n        name: \"New Campaign\"\n        subject: \"New Campaign Subject\"\n        eventId: 1\n        emailTemplateId: 1\n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }) {\n        success\n        message\n        campaign {\n            id\n            name\n            subject \n            status\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n                success \n            }\n            emailTemplate{\n                id\n                name\n                content\n                status\n            }\n            event {\n                id\n                name\n                description\n                date\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4332,7 +4208,7 @@
 											"response": []
 										},
 										{
-											"name": "Update Campaign",
+											"name": "Update",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4349,7 +4225,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createCampaign{\n    updateCampaign(id: 6, input: {\n        name: \"New Campaign\"\n        subject: \"New Campaign Subject\"\n        eventId: 1\n        emailTemplateId: 1\n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }){\n        id\n        name\n        subject \n        status\n        channel {\n            id\n            code\n            name\n            description\n            theme\n            hostname\n            defaultLocaleId\n            baseCurrencyId\n            rootCategoryId\n            inventorySources {\n                id\n                code\n                name\n                description\n                contactName\n                contactEmail\n                contactNumber\n                contactFax\n                country\n                state\n                city\n                street\n                postcode\n                priority\n                latitude\n                longitude\n                status\n            }\n            logoUrl\n        }\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n            success \n        }\n        emailTemplate{\n            id\n            name\n            content\n            status\n        }\n        event{\n                id\n            name\n            description\n            date\n        }\n    }\n}",
+														"query": "mutation createCampaign{\n    updateCampaign(id: 3, input: {\n        name: \"New Campaign\"\n        subject: \"New Campaign Subject\"\n        eventId: 1\n        emailTemplateId: 1\n        channelId: 1\n        customerGroupId: 1\n        status: true\n    }) {\n        success\n        message\n        campaign {\n            id\n            name\n            subject \n            status\n            channel {\n                id\n                code\n                name\n                description\n                theme\n                hostname\n                defaultLocaleId\n                baseCurrencyId\n                rootCategoryId\n                inventorySources {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n                logoUrl\n            }\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n                success \n            }\n            emailTemplate{\n                id\n                name\n                content\n                status\n            }\n            event {\n                id\n                name\n                description\n                date\n            }\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4363,7 +4239,7 @@
 											"response": []
 										},
 										{
-											"name": "Remove Campaign",
+											"name": "Delete",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4380,7 +4256,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteCampaign{\n    deleteCampaign(id: 6) {\n        status\n        message\n    }\n}",
+														"query": "mutation deleteCampaign{\n    deleteCampaign(id: 3) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4422,7 +4298,7 @@
 									"name": "Subscribers",
 									"item": [
 										{
-											"name": "Get All NewsletterSubscribers",
+											"name": "Get All",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4439,7 +4315,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query newsletterSubscribers {\n\tnewsletterSubscribers(\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            email\n            isSubscribed\n            token\n            channelId\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"query": "query getSubscribers {\n\tgetSubscribers(\n        first: 11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            email\n            isSubscribed\n            token\n            channelId\n            createdAt\n            updatedAt\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4453,7 +4329,7 @@
 											"response": []
 										},
 										{
-											"name": "Get Subscriber Details",
+											"name": "Get Details",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4470,7 +4346,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "query newsletterSubscriber {\n    newsletterSubscriber(email: \"test@test.com\") {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n    }\n}",
+														"query": "query getSubscriber {\n    getSubscriber(id: 2) {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4501,7 +4377,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation unSubscribe {\n    unSubscribe(token: \"65deca558a7a1\") {\n        id\n        email\n        isSubscribed\n        token\n        channelId\n        createdAt\n        updatedAt\n        success\n    }\n}",
+														"query": "mutation unSubscribe {\n    unSubscribe(id: 2) {\n        success\n        message\n        subscriber {\n            id\n            email\n            isSubscribed\n            token\n            channelId\n            createdAt\n            updatedAt\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4515,7 +4391,7 @@
 											"response": []
 										},
 										{
-											"name": "Remove Subscriber",
+											"name": "Delete",
 											"request": {
 												"auth": {
 													"type": "bearer",
@@ -4532,7 +4408,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation deleteSubscriber {\n    deleteSubscriber(email: \"test@test.com\") {\n        success\n    }\n}",
+														"query": "mutation deleteSubscriber {\n    deleteSubscriber(id: 1) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -4573,185 +4449,190 @@
 							]
 						},
 						{
-							"name": "SiteMap",
+							"name": "Search SEO",
 							"item": [
 								{
-									"name": "Get All SiteMaps",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{adminToken}}",
-													"type": "string"
+									"name": "SiteMap",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query sitemaps{\n    sitemaps(\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # fileName: \"test\"\n        # path: \"test\"\n    }) {\n        data {\n            id\n            fileName\n            path\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
 												}
-											]
+											},
+											"response": []
 										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "graphql",
-											"graphql": {
-												"query": "query sitemaps{\n    sitemaps(\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # fileName: \"test\"\n        # path: \"test\"\n    }) {\n        data {\n            id\n            fileName\n            path\n        }\n    }\n}",
-												"variables": ""
+										{
+											"name": "Get Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query sitemap {\n    sitemap(id: 1) {\n        id\n        fileName\n        path\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createSiteMap{\n    createSiteMap(input: {\n        fileName: \"Contact Us\"\n        path: \"page/contact-us\"\n    }) {\n        success\n        message\n        sitemap {\n            id\n            fileName\n            path\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateSiteMap{\n    updateSiteMap(id: 2, input: {\n        fileName: \"Updated ContactUs\"\n        path: \"page/contact-us\"\n    }) {\n        success\n        message\n        sitemap {\n            id\n            fileName\n            path\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteSiteMap{\n    deleteSiteMap(id: 3) {\n        success\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"auth": {
+										"type": "noauth"
+									},
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
 											}
 										},
-										"url": {
-											"raw": "{{url}}",
-											"host": [
-												"{{url}}"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Get SiteMap Detail",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{adminToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "graphql",
-											"graphql": {
-												"query": "query sitemap{\n    sitemap(id: 1) {\n        id\n        fileName\n        path\n    }\n}",
-												"variables": ""
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
 											}
-										},
-										"url": {
-											"raw": "{{url}}",
-											"host": [
-												"{{url}}"
-											]
 										}
-									},
-									"response": []
-								},
-								{
-									"name": "Create SiteMap",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{adminToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "graphql",
-											"graphql": {
-												"query": "mutation createSiteMap{\n    createSiteMap(input: {\n        fileName: \"Contact Us\"\n        path: \"page/contact-us\"\n    }) {\n        id\n        fileName\n        path\n    }\n}",
-												"variables": ""
-											}
-										},
-										"url": {
-											"raw": "{{url}}",
-											"host": [
-												"{{url}}"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Update SiteMap",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{adminToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "graphql",
-											"graphql": {
-												"query": "mutation updateSiteMap{\n    updateSiteMap(id: 2, input: {\n        fileName: \"Updated ContactUs\"\n        path: \"page/contact-us\"\n    }){\n        id\n        fileName\n        path\n    }\n}",
-												"variables": ""
-											}
-										},
-										"url": {
-											"raw": "{{url}}",
-											"host": [
-												"{{url}}"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Remove SiteMap",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{adminToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "graphql",
-											"graphql": {
-												"query": "mutation deleteSiteMap{\n    deleteSiteMap(id: 2) {\n        status\n        message\n    }\n}",
-												"variables": ""
-											}
-										},
-										"url": {
-											"raw": "{{url}}",
-											"host": [
-												"{{url}}"
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"auth": {
-								"type": "noauth"
-							},
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											""
-										]
-									}
-								},
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											""
-										]
-									}
+									]
 								}
 							]
 						}

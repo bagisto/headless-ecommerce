@@ -12,19 +12,15 @@ extend type Query @guard(with: ["admin-api"]) {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createCartRule(
-        input: CreateCartRuleInput!
-    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@store")
+        input: CreateCartRuleInput! @spread
+    ): CartRuleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@store")
 
     updateCartRule(
         id: ID!,
-        input: UpdateCartRuleInput!
-    ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@update")
+        input: UpdateCartRuleInput! @spread
+    ): CartRuleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@update")
 
-    # createCartCoupon(
-    #     input: CreateCartCouponInput!
-    # ): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@store")
-
-    deleteCartRule (id: ID!): CartRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@delete")
+    deleteCartRule (id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CartRuleMutation@delete")
 }
 
 input FilterCartRulesInput {
@@ -117,7 +113,12 @@ enum CodeFormat {
     ALPHANUMERIC @enum(value: "alphanumeric")
     ALPHABETICAL @enum(value: "alphabetical")
     NUMERIC @enum(value: "numeric")
+}
 
+type CartRuleResponse {
+    success: Boolean!
+    message: String
+    cartRule: CartRule @rename(attribute: "cart_rule")
 }
 
 type CartRule {
@@ -149,7 +150,6 @@ type CartRule {
     customerGroups: [CustomerGroup!] @belongsToMany(relation: "cart_rule_customer_groups")
     coupons: [CartRuleCoupon] @hasMany(relation: "cart_rule_coupons")
     coupon: CartRuleCoupon @hasOne(relation: "cart_rule_coupon")
-    success: String
 }
 
 type CartRuleCoupon {

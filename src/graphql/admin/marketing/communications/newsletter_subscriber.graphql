@@ -5,14 +5,16 @@ extend type Query {
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterSubscriber")
     ): [Subscriber!] @guard(with: ["admin-api"]) @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\SubscribersList")
 
-    getSubscriber(
-        email: String! @rules(apply: ["required"])
-    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@get")
+    getSubscriber(id: ID @eq): Subscriber @find(model: "Webkul\\Core\\Models\\SubscribersList")
 }
 
 extend type Mutation {
     unSubscribe(
-        token: String! @rules(apply: ["required"])
+        id: ID! @rules(apply: ["required"])
+    ): SubscriberResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@unSubscribe")
+
+    deleteSubscriber(
+        id: ID! @rules(apply: ["required"])
     ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Communications\\NewsletterSubscriberMutation@delete")
 }
 
@@ -20,6 +22,12 @@ input FilterSubscriberInput {
     id: ID
     email: String
     isSubscribed: Boolean @rename(attribute: "is_subscribed")
+}
+
+type SubscriberResponse {
+    success: Boolean
+    message: String
+    subscriber: Subscriber
 }
 
 type Subscriber {
@@ -31,5 +39,4 @@ type Subscriber {
     channelId: Int! @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    success: String
 }

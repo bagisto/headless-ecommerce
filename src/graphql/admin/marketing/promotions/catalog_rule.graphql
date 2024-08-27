@@ -12,15 +12,15 @@ extend type Query @guard(with: ["admin-api"]) {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createCatalogRule(
-        input: CreateCatalogRuleInput!
-    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@store")
+        input: CreateCatalogRuleInput! @spread
+    ): CatalogRuleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@store")
 
     updateCatalogRule(
         id: ID!,
-        input: CreateCatalogRuleInput!
-    ): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@update")
+        input: CreateCatalogRuleInput! @spread
+    ): CatalogRuleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@update")
 
-    deleteCatalogRule(id: ID!): CatalogRule  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@delete")
+    deleteCatalogRule(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\Promotion\\CatalogRuleMutation@delete")
 }
 
 input FilterCatalogRulesInput {
@@ -55,6 +55,12 @@ input CatalogRuleConditionInput {
     value: [String]
 }
 
+type CatalogRuleResponse {
+    success: Boolean!
+    message: String!
+    catalogRule: CatalogRule @rename(attribute: "catalog_rule")
+}
+
 type CatalogRule {
     id: ID!
     name: String!
@@ -72,7 +78,4 @@ type CatalogRule {
     updatedAt: DateTime! @rename(attribute: "updated_at")
     channels: [Channel!] @belongsToMany
     customerGroups: [CustomerGroup!] @belongsToMany(relation: "customer_groups")
-    # catalogRuleProducts: [CatalogRuleProduct!] @hasMany(relation: "catalog_rule_products")
-    # catalogRuleProductPrices: [CatalogRuleProductPrice!] @hasMany(relation: "catalog_rule_product_prices")
-    success: String
 }
