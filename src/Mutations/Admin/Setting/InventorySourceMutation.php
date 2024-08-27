@@ -21,17 +21,12 @@ class InventorySourceMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'code'           => ['required', 'unique:inventory_sources,code', new Code],
             'name'           => 'required',
             'contact_name'   => 'required',
@@ -45,17 +40,19 @@ class InventorySourceMutation extends Controller
         ]);
 
         try {
-            $data['status'] = $data['status'] ?? 0;
+            $args['status'] = $args['status'] ?? 0;
 
             Event::dispatch('inventory.inventory_source.create.before');
 
-            $inventorySource = $this->inventorySourceRepository->create($data);
+            $inventorySource = $this->inventorySourceRepository->create($args);
 
             Event::dispatch('inventory.inventory_source.create.after', $inventorySource);
 
-            $inventorySource->success = trans('bagisto_graphql::app.admin.settings.inventory-sources.create-success');
-
-            return $inventorySource;
+            return [
+                'success'          => true,
+                'message'          => trans('bagisto_graphql::app.admin.settings.inventory-sources.create-success'),
+                'inventory_source' => $inventorySource,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -64,23 +61,13 @@ class InventorySourceMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'code'           => ['required', 'unique:inventory_sources,code,'.$id, new Code],
+        bagisto_graphql()->validate($args, [
+            'code'           => ['required', 'unique:inventory_sources,code,'.$args['id'], new Code],
             'name'           => 'required',
             'contact_name'   => 'required',
             'contact_email'  => 'required|email',
@@ -92,24 +79,26 @@ class InventorySourceMutation extends Controller
             'postcode'       => 'required',
         ]);
 
-        $inventorySource = $this->inventorySourceRepository->find($id);
+        $inventorySource = $this->inventorySourceRepository->find($args['id']);
 
         if (! $inventorySource) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.inventory-sources.not-found'));
         }
 
         try {
-            $data['status'] = $data['status'] ?? 0;
+            $args['status'] = $args['status'] ?? 0;
 
-            Event::dispatch('inventory.inventory_source.update.before', $id);
+            Event::dispatch('inventory.inventory_source.update.before', $args['id']);
 
-            $inventorySource = $this->inventorySourceRepository->update($data, $id);
+            $inventorySource = $this->inventorySourceRepository->update($args, $args['id']);
 
             Event::dispatch('inventory.inventory_source.update.after', $inventorySource);
 
-            $inventorySource->success = trans('bagisto_graphql::app.admin.settings.inventory-sources.update-success');
-
-            return $inventorySource;
+            return [
+                'success'          => true,
+                'message'          => trans('bagisto_graphql::app.admin.settings.inventory-sources.update-success'),
+                'inventory_source' => $inventorySource,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -118,18 +107,12 @@ class InventorySourceMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $inventorySource = $this->inventorySourceRepository->find($id);
+        $inventorySource = $this->inventorySourceRepository->find($args['id']);
 
         if (! $inventorySource) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.inventory-sources.not-found'));
@@ -140,13 +123,16 @@ class InventorySourceMutation extends Controller
         }
 
         try {
-            Event::dispatch('inventory.inventory_source.delete.before', $id);
+            Event::dispatch('inventory.inventory_source.delete.before', $args['id']);
 
-            $this->inventorySourceRepository->delete($id);
+            $inventorySource->delete();
 
-            Event::dispatch('inventory.inventory_source.delete.after', $id);
+            Event::dispatch('inventory.inventory_source.delete.after', $args['id']);
 
-            return ['success' => trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-success')];
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.inventory-sources.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

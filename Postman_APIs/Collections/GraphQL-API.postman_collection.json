@@ -5017,7 +5017,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"INR\"\n        name: \"Indian Rupee\"\n        symbol: \"$\"\n        decimal: 2\n    }) {\n        id\n        code\n        name\n        symbol\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation createCurrency {\n    createCurrency(input: {\n    \tcode: \"INR\"\n        name: \"Indian Rupee\"\n        symbol: \"$\"\n        decimal: 2\n    }) {\n        success\n        message\n        currency {\n            id\n            code\n            name\n            symbol\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -5049,7 +5049,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateCurrency {\n    updateCurrency(id: 3, input: {\n    \tcode:\"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n        decimal: 2\n    }) {\n        id\n        code\n        name\n        symbol\n        createdAt\n        updatedAt\n        exchangeRate {\n            id\n            targetCurrency\n            rate\n            createdAt\n            updatedAt\n            currency {\n                id\n            }\n        }\n        success\n    }\n}",
+												"query": "\nmutation updateCurrency {\n    updateCurrency(id: 65, input: {\n    \tcode:\"INR\"\n        name: \"Rupee\"\n        symbol: \"₹\"\n        decimal: 2\n    }) {\n        success\n        message\n        currency {\n            id\n            code\n            name\n            symbol\n            createdAt\n            updatedAt\n            exchangeRate {\n                id\n                targetCurrency\n                rate\n                createdAt\n                updatedAt\n                currency {\n                    id\n                }\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -5060,6 +5060,38 @@
 											]
 										},
 										"description": "Update Currency"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteCurrency {\n    deleteCurrency(id: 65) {\n        success\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Locale"
 									},
 									"response": []
 								}
@@ -5150,7 +5182,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createExchangeRate {\n    createExchangeRate(input: {\n    \ttargetCurrency: 2\n        rate: 12.2\n    }) {\n        id\n        rate\n    \ttargetCurrency\n        success\n    }\n}",
+												"query": "mutation createExchangeRate {\n    createExchangeRate(input: {\n    \ttargetCurrency: 2\n        rate: 12.2\n    }) {\n        success\n        message\n        exchangeRate {\n            id\n            rate\n            targetCurrency\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -5182,7 +5214,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateExchangeRate {\n    updateExchangeRate(id: 2, input: {\n    \ttargetCurrency: 2\n        rate: 11\n    }) {\n        id\n        rate\n    \ttargetCurrency\n        success\n    }\n}\n",
+												"query": "mutation updateExchangeRate {\n    updateExchangeRate(id: 3, input: {\n    \ttargetCurrency: 2\n        rate: 11\n    }) {\n        success\n        message\n        exchangeRate {\n            id\n            rate\n            targetCurrency\n        }\n    }\n}\n",
 												"variables": ""
 											}
 										},
@@ -5214,7 +5246,46 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteExchangeRate {\n    deleteExchangeRate(id: 2) {\n        success\n    }\n}",
+												"query": "mutation deleteExchangeRate {\n    deleteExchangeRate(id: 4) {\n        success\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": "",
+													"disabled": true
+												}
+											]
+										},
+										"description": "Remove Exchange Rate"
+									},
+									"response": []
+								},
+								{
+									"name": "Update Exchange Rates",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateExchangeRates {\n    updateExchangeRates {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -5322,7 +5393,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createInventorySource {\n    createInventorySource(input: {\n        code: \"ncr\",\n        name: \"NCRStore\",\n        description: \"test\"\n        contactName: \"TomMartin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"4792645441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 3,\n        latitude: \"123.123.123.123\",\n        longitude: \"444.444.444.444\",\n        status: false\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n        createdAt\n        updatedAt\n        success\n    }\n}\n",
+												"query": "mutation createInventorySource {\n    createInventorySource(input: {\n        code: \"ncr\",\n        name: \"NCRStore\",\n        description: \"test\"\n        contactName: \"TomMartin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"4792645441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 3,\n        latitude: \"123.123.123.123\",\n        longitude: \"444.444.444.444\",\n        status: false\n    }) {\n        success\n        message\n        inventorySource {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}\n",
 												"variables": ""
 											}
 										},
@@ -5354,7 +5425,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateInventorySource {\n    updateInventorySource(id: 3, input: {\n        code: \"ncrss\",\n        name: \"NCR Store\",\n        description: \"test\"\n        contactName: \"Tom Martin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"479-264-5441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 2,\n        latitude: \"444.444.444.444\",\n        longitude: \"123.123.123.123\",\n        status: true\n    }) {\n        id\n        code\n        name\n        description\n        contactName\n        contactEmail\n        contactNumber\n        contactFax\n        country\n        state\n        city\n        street\n        postcode\n        priority\n        latitude\n        longitude\n        status\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation updateInventorySource {\n    updateInventorySource(id: 2, input: {\n        code: \"ncrss\",\n        name: \"NCR Store\",\n        description: \"test\"\n        contactName: \"Tom Martin\",\n        contactEmail: \"tom@example.com\",\n        contactNumber: \"479-264-5441\",\n        contactFax: \"676767\",\n        street: \"1217 Ocello Street\",\n        country: \"US\",\n        state: \"Arkansas\",\n        city: \"HARRELL\",\n        postcode: \"71745\",\n        priority: 2,\n        latitude: \"444.444.444.444\",\n        longitude: \"123.123.123.123\",\n        status: true\n    }) {\n        success\n        message\n        inventorySource {\n            id\n            code\n            name\n            description\n            contactName\n            contactEmail\n            contactNumber\n            contactFax\n            country\n            state\n            city\n            street\n            postcode\n            priority\n            latitude\n            longitude\n            status\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -5386,7 +5457,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteInventorySource {\n    deleteInventorySource(id: 3) {\n        success\n    }\n}",
+												"query": "mutation deleteInventorySource {\n    deleteInventorySource(id: 2) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},

@@ -12,15 +12,15 @@ extend type Query @guard(with: ["admin-api"]) {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createInventorySource(
-        input: createInventorySourceInput!
-    ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@store")
+        input: createInventorySourceInput! @spread
+    ): InventorySourceResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@store")
 
     updateInventorySource(
         id: ID!,
-        input: createInventorySourceInput!
-    ): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@update")
+        input: createInventorySourceInput! @spread
+    ): InventorySourceResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@update")
 
-    deleteInventorySource(id: ID!): InventorySource  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@delete")
+    deleteInventorySource(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\InventorySourceMutation@delete")
 }
 
 input FilterInventorySourceInput {
@@ -49,6 +49,12 @@ input createInventorySourceInput {
     status: Boolean
 }
 
+type InventorySourceResponse {
+    success: Boolean!
+    message: String
+    inventorySource: InventorySource @rename(attribute: "inventory_source")
+}
+
 type InventorySource {
     id: ID!
     code: String!
@@ -69,5 +75,4 @@ type InventorySource {
     status: Boolean!
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    success: String
 }

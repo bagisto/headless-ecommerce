@@ -24,22 +24,17 @@ class ExchangeRateMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency'],
             'rate'            => 'required|numeric',
         ]);
 
-        $currency = $this->currencyRepository->find($data['target_currency']);
+        $currency = $this->currencyRepository->find($args['target_currency']);
 
         if (! $currency) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.invalid-target-currency'));
@@ -48,13 +43,15 @@ class ExchangeRateMutation extends Controller
         try {
             Event::dispatch('core.exchange_rate.create.before');
 
-            $exchangeRate = $this->exchangeRateRepository->create($data);
+            $exchangeRate = $this->exchangeRateRepository->create($args);
 
             Event::dispatch('core.exchange_rate.create.after', $exchangeRate);
 
-            $exchangeRate->success = trans('bagisto_graphql::app.admin.settings.exchange-rates.create-success');
-
-            return $exchangeRate;
+            return [
+                'success'       => true,
+                'message'       => trans('bagisto_graphql::app.admin.settings.exchange-rates.create-success'),
+                'exchange_rate' => $exchangeRate,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -63,49 +60,40 @@ class ExchangeRateMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency,'.$id],
+        bagisto_graphql()->validate($args, [
+            'target_currency' => ['required', 'unique:currency_exchange_rates,target_currency,'.$args['id']],
             'rate'            => 'required|numeric',
         ]);
 
-        $exchangeRate = $this->exchangeRateRepository->find($id);
+        $exchangeRate = $this->exchangeRateRepository->find($args['id']);
 
         if (! $exchangeRate) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.not-found'));
         }
 
-        $currency = $this->currencyRepository->find($data['target_currency']);
+        $currency = $this->currencyRepository->find($args['target_currency']);
 
         if (! $currency) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.invalid-target-currency'));
         }
 
         try {
-            Event::dispatch('core.exchange_rate.update.before', $id);
+            Event::dispatch('core.exchange_rate.update.before', $args['id']);
 
-            $exchangeRate = $this->exchangeRateRepository->update($data, $id);
+            $exchangeRate = $this->exchangeRateRepository->update($args, $args['id']);
 
             Event::dispatch('core.exchange_rate.update.after', $exchangeRate);
 
-            $exchangeRate->success = trans('bagisto_graphql::app.admin.settings.exchange-rates.create-success');
-
-            return $exchangeRate;
+            return [
+                'success'       => true,
+                'message'       => trans('bagisto_graphql::app.admin.settings.exchange-rates.update-success'),
+                'exchange_rate' => $exchangeRate,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -114,32 +102,47 @@ class ExchangeRateMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $exchangeRate = $this->exchangeRateRepository->find($id);
+        $exchangeRate = $this->exchangeRateRepository->find($args['id']);
 
         if (! $exchangeRate) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.exchange-rates.not-found'));
         }
 
         try {
-            Event::dispatch('core.exchange_rate.delete.before', $id);
+            Event::dispatch('core.exchange_rate.delete.before', $args['id']);
 
-            $this->exchangeRateRepository->delete($id);
+            $exchangeRate->delete();
 
-            Event::dispatch('core.exchange_rate.delete.after', $id);
+            Event::dispatch('core.exchange_rate.delete.after', $args['id']);
 
             return [
-                'success' => trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-success'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.exchange-rates.delete-success'),
+            ];
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
+        }
+    }
+
+    /**
+     * Update exchange rates.
+     *
+     * @return array
+     * @throws CustomException
+     */
+    public function updateExchangeRates(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        try {
+            app(config('services.exchange_api.'.config('services.exchange_api.default').'.class'))->updateRates();
+
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.exchange-rates.update-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
