@@ -90,9 +90,9 @@ class InventorySourceMutation extends Controller
         try {
             $args['status'] = $args['status'] ?? 0;
 
-            Event::dispatch('inventory.inventory_source.update.before', $args['id']);
+            Event::dispatch('inventory.inventory_source.update.before', $inventorySource->id);
 
-            $inventorySource = $this->inventorySourceRepository->update($args, $args['id']);
+            $inventorySource = $this->inventorySourceRepository->update($args, $inventorySource->id);
 
             Event::dispatch('inventory.inventory_source.update.after', $inventorySource);
 

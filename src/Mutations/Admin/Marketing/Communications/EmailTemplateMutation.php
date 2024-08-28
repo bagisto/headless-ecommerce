@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -32,7 +33,11 @@ class EmailTemplateMutation extends Controller
         ]);
 
         try {
+            Event::dispatch('marketing.templates.create.before');
+
             $template = $this->templateRepository->create($args);
+
+            Event::dispatch('marketing.templates.create.after', $template);
 
             return [
                 'success'        => true,
@@ -66,7 +71,11 @@ class EmailTemplateMutation extends Controller
         }
 
         try {
-            $template = $this->templateRepository->update($args, $args['id']);
+            Event::dispatch('marketing.templates.update.before', $template->id);
+
+            $template = $this->templateRepository->update($args, $template->id);
+
+            Event::dispatch('marketing.templates.update.after', $template);
 
             return [
                 'success'        => true,
@@ -94,7 +103,11 @@ class EmailTemplateMutation extends Controller
         }
 
         try {
+            Event::dispatch('marketing.templates.delete.before', $args['id']);
+
             $template->delete();
+
+            Event::dispatch('marketing.templates.delete.after', $args['id']);
 
             return [
                 'success' => true,

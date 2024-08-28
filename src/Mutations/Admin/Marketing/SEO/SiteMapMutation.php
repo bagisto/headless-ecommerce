@@ -2,6 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\SEO;
 
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -20,7 +22,7 @@ class SiteMapMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -31,7 +33,11 @@ class SiteMapMutation extends Controller
         ]);
 
         try {
+            Event::dispatch('marketing.search_seo.sitemap.create.before');
+
             $sitemap = $this->sitemapRepository->create($args);
+
+            Event::dispatch('marketing.search_seo.sitemap.create.after', $sitemap);
 
             return [
                 'success' => true,
@@ -47,7 +53,7 @@ class SiteMapMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -64,7 +70,11 @@ class SiteMapMutation extends Controller
         }
 
         try {
+            Event::dispatch('marketing.search_seo.sitemap.update.before', $sitemap->id);
+
             $sitemap = $this->sitemapRepository->update($args, $sitemap->id);
+
+            Event::dispatch('marketing.search_seo.sitemap.update.after', $sitemap);
 
             return [
                 'success' => true,
@@ -80,15 +90,25 @@ class SiteMapMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $sitemap = $this->sitemapRepository->find($args['id']);
 
+        if (! $sitemap) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.seo.sitemaps.not-found'));
+        }
+
         try {
+            Event::dispatch('marketing.search_seo.sitemap.delete.before', $args['id']);
+
+            Storage::delete("{$sitemap->path}/{$sitemap->file_name}");
+
             $sitemap->delete();
+
+            Event::dispatch('marketing.search_seo.sitemap.delete.after', $args['id']);
 
             return [
                 'success' => true,

@@ -1,0 +1,62 @@
+# SEO\URL Rewrite Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    urlRewrites(
+        input: FilterUrlRewriteInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\SEO\\FilterUrlRewrite")
+    ): [urlRewrite!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Marketing\\Models\\URLRewrite"
+    )
+
+    urlRewrite(
+        id: ID! @eq
+    ): urlRewrite @find(model: "Webkul\\Marketing\\Models\\URLRewrite")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createUrlRewrite(
+        input: UrlRewriteInput! @spread
+    ): UrlRewriteResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\UrlRewriteMutation@store")
+
+    updateUrlRewrite(
+        id: ID!,
+        input: UrlRewriteInput! @spread
+    ): UrlRewriteResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\UrlRewriteMutation@update")
+
+    deleteUrlRewrite (id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\UrlRewriteMutation@delete")
+}
+
+input FilterUrlRewriteInput {
+    id: ID
+    entityType: String @rename(attribute: "entity_type")
+    requestPath: String @rename(attribute: "request_path")
+    targetPath: String @rename(attribute: "target_path")
+    redirectType: Int @rename(attribute: "redirect_type")
+    locale: String
+}
+
+input UrlRewriteInput {
+    entityType: String! @rename(attribute: "entity_type")
+    requestPath: String! @rename(attribute: "request_path")
+    targetPath: String! @rename(attribute: "target_path")
+    redirectType: Int! @rename(attribute: "redirect_type")
+    locale: String
+}
+
+type UrlRewriteResponse {
+    success: Boolean
+    message: String
+    urlRewrite: urlRewrite @rename(attribute: "url_rewrite")
+}
+
+type urlRewrite {
+    id: ID
+    entityType: String @rename(attribute: "entity_type")
+    requestPath: String @rename(attribute: "request_path")
+    targetPath: String @rename(attribute: "target_path")
+    redirectType: Int @rename(attribute: "redirect_type")
+    locale: String
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+}

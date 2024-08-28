@@ -73,13 +73,13 @@ class ThemeMutation extends Controller
 
         $args['locale'] = $locale = core()->getRequestedLocaleCode();
 
-        $themeData = $this->themeCustomizationRepository->find($args['id']);
+        $themeCustomization = $this->themeCustomizationRepository->find($args['id']);
 
-        if (! $themeData) {
+        if (! $themeCustomization) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.themes.not-found'));
         }
 
-        $args['type'] = $themeData->type;
+        $args['type'] = $themeCustomization->type;
 
         if ($args['type'] == 'product_carousel') {
             $args[$locale]['options']['title'] = $args['options']['title'];
@@ -102,9 +102,9 @@ class ThemeMutation extends Controller
             unset($args['options']);
         }
 
-        Event::dispatch('theme_customization.update.before', $args['id']);
+        Event::dispatch('theme_customization.update.before', $themeCustomization->id);
 
-        $theme = $this->themeCustomizationRepository->update($args, $args['id']);
+        $theme = $this->themeCustomizationRepository->update($args, $themeCustomization->id);
 
         if ($args['type'] == 'image_carousel') {
             $this->themeCustomizationRepository->uploadImage(

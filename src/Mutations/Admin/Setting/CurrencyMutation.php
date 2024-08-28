@@ -70,9 +70,9 @@ class CurrencyMutation extends Controller
         }
 
         try {
-            Event::dispatch('core.currency.update.before', $args['id']);
+            Event::dispatch('core.currency.update.before', $currency->id);
 
-            $currency = $this->currencyRepository->update($args, $args['id']);
+            $currency = $this->currencyRepository->update($args, $currency->id);
 
             Event::dispatch('core.currency.update.after', $currency);
 

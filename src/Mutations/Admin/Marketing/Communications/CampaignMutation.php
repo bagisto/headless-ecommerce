@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -36,7 +37,11 @@ class CampaignMutation extends Controller
         ]);
 
         try {
+            Event::dispatch('marketing.campaigns.create.before');
+
             $campaign = $this->campaignRepository->create($args);
+
+            Event::dispatch('marketing.campaigns.create.after', $campaign);
 
             return [
                 'success'  => true,
@@ -67,8 +72,18 @@ class CampaignMutation extends Controller
             'marketing_event_id'    => 'required',
         ]);
 
+        $campaign = $this->campaignRepository->find($args['id']);
+
+        if (! $campaign) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.campaigns.not-found'));
+        }
+
         try {
-            $campaign = $this->campaignRepository->update($args, $args['id']);
+            Event::dispatch('marketing.campaigns.update.before', $campaign->id);
+
+            $campaign = $this->campaignRepository->update($args, $campaign->id);
+
+            Event::dispatch('marketing.campaigns.update.after', $campaign);
 
             return [
                 'success'  => true,
@@ -96,7 +111,11 @@ class CampaignMutation extends Controller
         }
 
         try {
+            Event::dispatch('marketing.campaigns.delete.before', $args['id']);
+
             $campaign->delete();
+
+            Event::dispatch('marketing.campaigns.delete.after', $args['id']);
 
             return [
                 'success' => true,

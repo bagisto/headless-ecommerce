@@ -161,7 +161,7 @@ class UserMutation extends Controller
 
             $args['status'] = $args['status'] ?? 0;
 
-            Event::dispatch('user.admin.update.before', $args['id']);
+            Event::dispatch('user.admin.update.before', $admin->id);
 
             $imageUrl = $args['image'] ?? '';
 
@@ -169,7 +169,7 @@ class UserMutation extends Controller
                 unset($args['image']);
             }
 
-            $admin = $this->adminRepository->update($args, $args['id']);
+            $admin = $this->adminRepository->update($args, $admin->id);
 
             bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
 

@@ -109,9 +109,9 @@ class CatalogRuleMutation extends Controller
         }
 
         try {
-            Event::dispatch('promotions.catalog_rule.update.before', $args['id']);
+            Event::dispatch('promotions.catalog_rule.update.before', $catalogRule->id);
 
-            $catalogRule = $this->catalogRuleRepository->update($args, $args['id']);
+            $catalogRule = $this->catalogRuleRepository->update($args, $catalogRule->id);
 
             Event::dispatch('promotions.catalog_rule.update.after', $catalogRule);
 

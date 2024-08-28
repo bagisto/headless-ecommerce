@@ -95,9 +95,9 @@ class PushNotificationMutation extends Controller
                 unset($args['image']);
             }
 
-            Event::dispatch('settings.notification.update.before', $args['id']);
+            Event::dispatch('settings.notification.update.before', $notification->id);
 
-            $notification = $this->notificationRepository->update($args, $args['id']);
+            $notification = $this->notificationRepository->update($args, $notification->id);
 
             Event::dispatch('settings.notification.update.after', $notification);
 
@@ -142,5 +142,50 @@ class PushNotificationMutation extends Controller
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
+    }
+
+    /**
+     * Send notification.
+     *
+     * @return array
+     *
+     * @throws CustomException
+     */
+    public function sendNotification(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        $notification = $this->notificationRepository->find($args['id']);
+
+        if (! $notification) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.notification.not-found'));
+        }
+
+        if (is_null(core()->getConfigData('general.api.pushnotification.private_key'))) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.notification.configuration-error'));
+        }
+
+        $result = $this->notificationRepository->prepareNotification($notification);
+
+        if (isset($result->message_id)) {
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.edit.notification-send-success'),
+            ];
+        } else {
+            $message = $result;
+
+            if (
+                gettype($result) == 'array'
+                && ! empty($result['error'])
+            ) {
+                $message = $result['error'];
+            } elseif (isset($result->error)) {
+                $message = $result->error;
+            }
+        }
+
+        return [
+            'success' => false,
+            'message' => $message,
+        ];
     }
 }

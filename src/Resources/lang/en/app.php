@@ -292,6 +292,27 @@ return [
             ],
 
             'seo' => [
+                'url-rewrites' => [
+                    'create-success' => 'URL Rewrite created successfully.',
+                    'delete-success' => 'URL Rewrite deleted successfully',
+                    'not-found'      => 'Warning: URL Rewrite not found.',
+                    'update-success' => 'URL Rewrite updated successfully.',
+                ],
+
+                'search-terms' => [
+                    'create-success' => 'Search Term created successfully.',
+                    'delete-success' => 'Search Term deleted successfully',
+                    'not-found'      => 'Warning: Search Term not found.',
+                    'update-success' => 'Search Term updated successfully.',
+                ],
+
+                'search-synonyms' => [
+                    'create-success' => 'Search Synonym created successfully.',
+                    'delete-success' => 'Search Synonym deleted successfully',
+                    'not-found'      => 'Warning: Search Synonym not found.',
+                    'update-success' => 'Search Synonym updated successfully.',
+                ],
+
                 'sitemaps' => [
                     'create-success' => 'Sitemap created successfully.',
                     'delete-success' => 'Sitemap deleted successfully',
@@ -477,6 +498,7 @@ return [
                 'no-value-selected'   => 'there are no existing value.',
                 'sended-successfully' => 'Notification pushed successfully for android and iOS.',
                 'update-success'      => 'Notification updated successfully.',
+                'configuration-error' => 'Warning: FCM configuration not found.',
             ],
         ],
 

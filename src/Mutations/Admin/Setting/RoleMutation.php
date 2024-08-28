@@ -80,9 +80,9 @@ class RoleMutation extends Controller
         }
 
         try {
-            Event::dispatch('user.role.update.before', $args['id']);
+            Event::dispatch('user.role.update.before', $role->id);
 
-            $role = $this->roleRepository->update($args, $args['id']);
+            $role = $this->roleRepository->update($args, $role->id);
 
             Event::dispatch('user.role.update.after', $role);
 

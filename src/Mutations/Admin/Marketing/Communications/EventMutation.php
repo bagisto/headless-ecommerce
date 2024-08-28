@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -35,7 +36,11 @@ class EventMutation extends Controller
         try {
             $args['date'] = Carbon::parse($args['date'])->format('Y-m-d');
 
+            Event::dispatch('marketing.events.create.before');
+
             $event = $this->eventRepository->create($args);
+
+            Event::dispatch('marketing.events.create.after', $event);
 
             return [
                 'success' => true,
@@ -62,12 +67,20 @@ class EventMutation extends Controller
             'date'        => 'required',
         ]);
 
-        try {
-            $event = $this->eventRepository->findOrFail($args['id']);
+        $event = $this->eventRepository->find($args['id']);
 
+        if (! $event) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.events.not-found'));
+        }
+
+        try {
             $args['date'] = Carbon::parse($args['date'])->format('Y-m-d');
 
-            $event = $this->eventRepository->update($args, $args['id']);
+            Event::dispatch('marketing.events.update.before', $event->id);
+
+            $event = $this->eventRepository->update($args, $event->id);
+
+            Event::dispatch('marketing.events.update.after', $event);
 
             return [
                 'success' => true,
@@ -95,7 +108,11 @@ class EventMutation extends Controller
         }
 
         try {
+            Event::dispatch('marketing.events.delete.before', $args['id']);
+
             $event->delete();
+
+            Event::dispatch('marketing.events.delete.after', $args['id']);
 
             return [
                 'success' => true,

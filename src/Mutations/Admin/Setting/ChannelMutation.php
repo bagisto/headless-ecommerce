@@ -124,9 +124,9 @@ class ChannelMutation extends Controller
 
             unset($args['logo'], $args['favicon']);
 
-            Event::dispatch('core.channel.update.before', $args['id']);
+            Event::dispatch('core.channel.update.before', $channel->id);
 
-            $channel = $this->channelRepository->update($args, $args['id']);
+            $channel = $this->channelRepository->update($args, $channel->id);
 
             Event::dispatch('core.channel.update.after', $channel);
 

@@ -85,9 +85,9 @@ class ExchangeRateMutation extends Controller
         }
 
         try {
-            Event::dispatch('core.exchange_rate.update.before', $args['id']);
+            Event::dispatch('core.exchange_rate.update.before', $exchangeRate->id);
 
-            $exchangeRate = $this->exchangeRateRepository->update($args, $args['id']);
+            $exchangeRate = $this->exchangeRateRepository->update($args, $exchangeRate->id);
 
             Event::dispatch('core.exchange_rate.update.after', $exchangeRate);
 

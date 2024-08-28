@@ -25,6 +25,8 @@ extend type Mutation @guard(with: ["admin-api"]) {
     ): PushNotificationResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\PushNotificationMutation@update")
 
     deletePushNotification(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\PushNotificationMutation@delete")
+
+    sendPushNotification(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\PushNotificationMutation@sendNotification")
 }
 
 input FilterNotificationInput {

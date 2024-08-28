@@ -84,9 +84,9 @@ class TaxRateMutation extends Controller
         }
 
         try {
-            Event::dispatch('tax.tax_rate.update.before', $args['id']);
+            Event::dispatch('tax.tax_rate.update.before', $taxRate->id);
 
-            $taxRate = $this->taxRateRepository->update($args, $args['id']);
+            $taxRate = $this->taxRateRepository->update($args, $taxRate->id);
 
             Event::dispatch('tax.tax_rate.update.after', $taxRate);
 

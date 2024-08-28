@@ -4452,6 +4452,486 @@
 							"name": "Search SEO",
 							"item": [
 								{
+									"name": "URL Rewrite",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query urlRewrites {\n    urlRewrites (\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # entityType: \"category\"\n        # requestPath: \"kids\"\n        # targetPath: \"women\"\n        # redirectType: 301\n        # locale: \"en\"\n    }) {\n        data {\n            id\n            entityType\n            requestPath\n            targetPath\n            redirectType\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query urlRewrite {\n    urlRewrite (id: 1) {\n        id\n        entityType\n        requestPath\n        targetPath\n        redirectType\n        locale\n        createdAt\n        updatedAt\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createUrlRewrite {\n    createUrlRewrite (input: {\n        entityType: \"category\"\n        requestPath: \"kids\"\n        targetPath: \"women\"\n        redirectType: 301\n        locale: \"en\"\n    }) {\n        success\n        message\n        urlRewrite {\n            id\n            entityType\n            requestPath\n            targetPath\n            redirectType\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateUrlRewrite {\n    updateUrlRewrite (id: 4, input: {\n        entityType: \"category\"\n        requestPath: \"kids\"\n        targetPath: \"women\"\n        redirectType: 302\n        locale: \"ar\"\n    }) {\n        success\n        message\n        urlRewrite {\n            id\n            entityType\n            requestPath\n            targetPath\n            redirectType\n            locale\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteUrlRewrite {\n    deleteUrlRewrite(id: 4) {\n        success\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Search Term",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query searchTerms {\n    searchTerms (\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # term: \"pro\"\n        # results: 7\n        # uses: 1\n        # locale: \"en\"\n        # channelID: 1\n    }) {\n        data {\n            id\n            term\n            results\n            uses\n            redirectUrl\n            displayInSuggestedTerms\n            locale\n            channelID\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query searchTerm {\n    searchTerm (id: 1) {\n        id\n        term\n        results\n        uses\n        redirectUrl\n        displayInSuggestedTerms\n        locale\n        channelID\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createSearchTerm {\n    createSearchTerm (input: {\n        term: \"product\"\n        redirectUrl: \"http://localhost/headless/public/simple-product\"\n        locale: \"en\"\n        channelID: 1\n    }) {\n        success\n        message\n        searchTerm {\n            id\n            term\n            results\n            uses\n            redirectUrl\n            displayInSuggestedTerms\n            locale\n            channelID\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateSearchTerm {\n    updateSearchTerm (id: 2, input: {\n        term: \"product\"\n        results: 10\n        uses: 2\n        redirectUrl: \"http://localhost/headless/public/simple-product\"\n        locale: \"en\"\n        channelID: 1\n    }) {\n        success\n        message\n        searchTerm {\n            id\n            term\n            results\n            uses\n            redirectUrl\n            displayInSuggestedTerms\n            locale\n            channelID\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteSearchTerm {\n    deleteSearchTerm (id: 1) {\n        success\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Search Synonyms",
+									"item": [
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query searchSynonyms {\n    searchSynonyms (\n        first: 11\n        page: 1\n    input: {\n        # id: 1\n        # term: \"pro\"\n        # results: 7\n        # uses: 1\n        # locale: \"en\"\n        # channelID: 1\n    }) {\n        data {\n            id\n            name\n            terms\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Detail",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query searchSynonym {\n    searchSynonym (id: 1) {\n        id\n        name\n        terms\n        createdAt\n        updatedAt\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createSearchSynonym {\n    createSearchSynonym (input: {\n        name: \"name\"\n        terms: \"terms\"\n    }) {\n        success\n        message\n        searchSynonym {\n            id\n            name\n            terms\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation updateSearchSynonym {\n    updateSearchSynonym (id: 2, input: {\n        name: \"updated name\"\n        terms: \"terms\"\n    }) {\n        success\n        message\n        searchSynonym {\n            id\n            name\n            terms\n            createdAt\n            updatedAt\n        }\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{adminToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation deleteSearchSynonym {\n    deleteSearchSynonym (id: 1) {\n        success\n        message\n    }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
 									"name": "SiteMap",
 									"item": [
 										{
@@ -6638,6 +7118,38 @@
 											"mode": "graphql",
 											"graphql": {
 												"query": "mutation deletePushNotification {\n    deletePushNotification(id: 13) {\n        success\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove Locale"
+									},
+									"response": []
+								},
+								{
+									"name": "Send Notification",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation sendPushNotification {\n    sendPushNotification(id: 1) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
