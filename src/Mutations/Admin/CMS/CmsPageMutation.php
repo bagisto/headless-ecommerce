@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\CMS;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CMS\Repositories\PageRepository;
@@ -26,17 +25,13 @@ class CmsPageMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'url_key'      => ['required', 'unique:cms_page_translations,url_key', new Slug],
             'page_title'   => 'required',
             'channels'     => 'required|array|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
@@ -46,13 +41,15 @@ class CmsPageMutation extends Controller
         try {
             Event::dispatch('cms.page.create.before');
 
-            $page = $this->pageRepository->create($data);
+            $page = $this->pageRepository->create($args);
 
             Event::dispatch('cms.page.create.after', $page);
 
-            $page->success = trans('bagisto_graphql::app.admin.cms.create-success');
-
-            return $page;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.cms.create-success'),
+                'page'    => $page,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -61,22 +58,17 @@ class CmsPageMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
         $locale = core()->getRequestedLocaleCode();
 
-        $data[$locale] = $args['input'];
+        $data[$locale] = $args;
 
-        $data['channels'] = $args['input']['channels'];
+        $data['channels'] = $args['channels'];
 
         $data['locale'] = $locale;
 
@@ -84,7 +76,7 @@ class CmsPageMutation extends Controller
 
         unset($data[$locale]['channels'], $data[$locale]['locale']);
 
-        $validator = Validator::make($data, [
+        bagisto_graphql()->validate($data, [
             $locale.'.url_key'      => ['required', new Slug, function ($attribute, $value, $fail) use ($id) {
                 if (! $this->pageRepository->isUrlKeyUnique($id, $value)) {
                     $fail(trans('bagisto_graphql::app.admin.cms.already-taken'));
@@ -95,8 +87,6 @@ class CmsPageMutation extends Controller
             'channels'              => 'required|array|in:'.implode(',', $this->channelRepository->pluck('id')->toArray()),
         ]);
 
-        bagisto_graphql()->checkValidatorFails($validator);
-
         try {
             Event::dispatch('cms.page.create.before', $id);
 
@@ -104,9 +94,11 @@ class CmsPageMutation extends Controller
 
             Event::dispatch('cms.page.create.after', $page);
 
-            $page->success = trans('bagisto_graphql::app.admin.cms.update-success');
-
-            return $page;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.cms.update-success'),
+                'page'    => $page,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -115,28 +107,29 @@ class CmsPageMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $page = $this->pageRepository->find($id);
+        $page = $this->pageRepository->find($args['id']);
 
         if (! $page) {
             throw new CustomException(trans('bagisto_graphql::app.admin.cms.not-found'));
         }
 
         try {
-            Event::dispatch('cms.page.delete.before', $id);
+            Event::dispatch('cms.page.delete.before', $args['id']);
 
-            $this->pageRepository->delete($id);
+            $page->delete();
 
-            return ['success' => trans('bagisto_graphql::app.admin.cms.delete-success')];
+            Event::dispatch('cms.page.delete.after', $args['id']);
+
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.cms.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
