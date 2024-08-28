@@ -14,8 +14,8 @@ extend type Query @guard(with: ["admin-api"]) {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createShipment(
-        input: CreateShipmentInput!
-    ): Shipment  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Shipments\\ShipmentMutation@store")
+        input: CreateShipmentInput! @spread
+    ): ShipmentResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Shipments\\ShipmentMutation@store")
 }
 
 input FilterShipmentInput {
@@ -50,6 +50,12 @@ input CreateShipmentInput {
 input ShipmentDataInput {
     orderItemId: Int! @rename(attribute: "order_item_id")
     quantity: Int!
+}
+
+type ShipmentResponse {
+    success: Boolean
+    message: String
+    shipment: Shipment
 }
 
 type Shipment {

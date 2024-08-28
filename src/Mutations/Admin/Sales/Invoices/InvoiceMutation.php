@@ -23,19 +23,13 @@ class InvoiceMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * 
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        $orderId = $params['order_id'];
-
-        $order = $this->orderRepository->find($orderId);
+        $order = $this->orderRepository->find($args['order_id']);
 
         if (! $order) {
             throw new CustomException(trans('bagisto_graphql::app.admin.sales.orders.not-found'));
@@ -46,15 +40,15 @@ class InvoiceMutation extends Controller
         }
 
         try {
-            if (empty($params['invoice_data'])) {
+            if (empty($args['invoice_data'])) {
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.invoices.product-error'));
             }
 
             $invoiceData = [];
 
-            foreach ($params['invoice_data'] as $data) {
+            foreach ($args['invoice_data'] as $arg) {
                 $invoiceData = $invoiceData + [
-                    $data['order_item_id'] => $data['quantity'],
+                    $arg['order_item_id'] => $arg['quantity'],
                 ];
             }
 
@@ -74,9 +68,16 @@ class InvoiceMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.invoices.product-error'));
             }
 
-            $invoicedData = $this->invoiceRepository->create(array_merge($invoice, ['order_id' => $orderId]));
+            $invoice = $this->invoiceRepository->create(array_merge($invoice, [
+                'order_id'               => $args['order_id'],
+                'can_create_transaction' => (int) $args['can_create_transaction'],
+            ]));
 
-            return $invoicedData;
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.sales.invoices.create-success'),
+                'invoice'  => $invoice,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

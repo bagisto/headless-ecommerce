@@ -14,8 +14,8 @@ extend type Query @guard(with: ["admin-api"]) {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createInvoice(
-        input: CreateInvoiceInput!
-    ): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Invoices\\InvoiceMutation@store")
+        input: CreateInvoiceInput! @spread
+    ): InvoiceResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Invoices\\InvoiceMutation@store")
 }
 
 input FilterInvoiceInput {
@@ -37,12 +37,19 @@ input FilterInvoiceItemInput {
 
 input CreateInvoiceInput {
     orderId: Int! @rename(attribute: "order_id")
+    canCreateTransaction: Boolean! @rename(attribute: "can_create_transaction")
     invoiceData: [InvoiceDataInput!]! @rename(attribute: "invoice_data")
 }
 
 input InvoiceDataInput {
     orderItemId: Int! @rename(attribute: "order_item_id")
     quantity: Int!
+}
+
+type InvoiceResponse {
+    success: Boolean!
+    message: String
+    invoice: Invoice
 }
 
 type Invoice {

@@ -202,6 +202,29 @@ return [
             ],
         ],
 
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'Warning: Order can not canceled.',
+                'cancel-success' => 'Success: Order canceled successfully.',
+                'not-found'      => 'Warning: Order not found.',
+            ],
+
+            'shipments' => [
+                'creation-error'   => 'Warning: Shipment not created.',
+                'not-found'        => 'Warning: Shipment not found.',
+                'quantity-invalid' => 'Warning: Invalid quantity provided.',
+                'shipment-error'   => 'Warning: Shipment not created.',
+                'create-success'   => 'Success: Shipment created successfully.',
+            ],
+
+            'invoices' => [
+                'creation-error' => 'Warning: Invoice not created.',
+                'not-found'      => 'Warning: Invoice not found.',
+                'product-error'  => 'Warning: Invalid product provided.',
+                'create-success' => 'Success: Invoice created successfully.',
+            ],
+        ],
+
         'customers' => [
             'customers' => [
                 'create-success'       => 'Customer created successfully.',

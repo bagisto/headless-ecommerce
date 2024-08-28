@@ -25,19 +25,13 @@ class ShipmentMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        $orderId = $params['order_id'];
-
-        $order = $this->orderRepository->find($orderId);
+        $order = $this->orderRepository->find($args['order_id']);
 
         if (! $order) {
             throw new CustomException(trans('bagisto_graphql::app.admin.sales.orders.not-found'));
@@ -48,21 +42,21 @@ class ShipmentMutation extends Controller
         }
 
         try {
-            if (! isset($params['shipment_data'])) {
+            if (! isset($args['shipment_data'])) {
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.shipments.creation-error'));
             }
 
             $shipmentData = [];
 
-            foreach ($params['shipment_data'] as $data) {
-                $shipmentData[$data['order_item_id']] = [
-                    $params['inventory_source_id'] => $data['quantity'],
+            foreach ($args['shipment_data'] as $arg) {
+                $shipmentData[$arg['order_item_id']] = [
+                    $args['inventory_source_id'] => $arg['quantity'],
                 ];
             }
 
-            $shipment['shipment']['carrier_title'] = $params['carrier_title'];
-            $shipment['shipment']['track_number'] = $params['track_number'];
-            $shipment['shipment']['source'] = $params['inventory_source_id'];
+            $shipment['shipment']['carrier_title'] = $args['carrier_title'];
+            $shipment['shipment']['track_number'] = $args['track_number'];
+            $shipment['shipment']['source'] = $args['inventory_source_id'];
             $shipment['shipment']['items'] = $shipmentData;
 
             bagisto_graphql()->validate($shipment, [
@@ -74,9 +68,13 @@ class ShipmentMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.shipments.quantity-invalid'));
             }
 
-            $shipmentData = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $orderId]));
+            $shipment = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $args['order_id']]));
 
-            return $shipmentData;
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.sales.shipments.create-success'),
+                'shipment' => $shipment,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

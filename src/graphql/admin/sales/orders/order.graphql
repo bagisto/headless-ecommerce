@@ -1,18 +1,46 @@
 # Sales\Order Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    orders(input: FilterOrderInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrder")): [Order!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Order")
+    orders(
+        input: FilterOrderInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrder")
+    ): [Order!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\Order"
+    )
 
     order(id: ID @eq): Order @find(model: "Webkul\\Sales\\Models\\Order")
 
-    orderInvoices(input: FilterOrderInvoiceInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderInvoice")): [Invoice!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Invoice")
+    orderInvoices(
+        input: FilterOrderInvoiceInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderInvoice")
+    ): [Invoice!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\Invoice"
+    )
 
     orderInvoice(id: ID @eq): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
 
-    orderShipments(input: FilterOrderShipmentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderShipment")): [Shipment!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Shipment")
+    orderShipments(
+        input: FilterOrderShipmentInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderShipment")
+    ): [Shipment!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\Shipment"
+    )
 
     orderShipment(id: ID @eq): Shipment @find(model: "Webkul\\Sales\\Models\\Shipment")
 
-    orderRefunds(input: FilterOrderRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderRefund")): [Refund!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
+    orderRefunds(
+        input: FilterOrderRefundInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderRefund")
+    ): [Refund!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\Refund"
+    )
 
     orderRefund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
 }
@@ -20,7 +48,7 @@ extend type Query @guard(with: ["admin-api"]) {
 extend type Mutation @guard(with: ["admin-api"]) {
     cancelOrder(
         id: ID!
-    ): DeleteOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@cancel")
+    ): CancelOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@cancel")
 }
 
 input FilterOrderInput {
@@ -142,7 +170,6 @@ type Order {
     billingAddress: Address! @rename(attribute: "billing_address")
     shippingAddress: Address @rename(attribute: "shipping_address")
     channel: Channel @belongsTo(relation: "channel")
-    success: String
 }
 
 type OrderComment {
@@ -170,8 +197,8 @@ type OrderPaymentAdditional {
     value: String
 }
 
-type DeleteOrderResponse {
-    status: Boolean
+type CancelOrderResponse {
+    success: Boolean
     message: String
     order: Order
 }
