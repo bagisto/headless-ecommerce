@@ -2416,7 +2416,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customers {\n    customers(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # name: \"test\"\n            # gender: MALE\n            # email: \"test@test.com\"\n            # dateOfBirth: \"1993-07-11\"\n            # groupName: \"VIP\"\n            # phone: \"9876543210\"\n            # status: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            image\n            imageUrl\n            status\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            isSuspended\n            token\n            notes {\n                id\n                customerId\n                note\n                customerNotified\n                createdAt\n                updatedAt\n            }\n            createdAt\n            updatedAt\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"query": "query customers {\n    customers (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # name: \"test\"\n            # gender: MALE\n            # email: \"test@test.com\"\n            # dateOfBirth: \"1993-07-11\"\n            # groupName: \"VIP\"\n            # phone: \"9876543210\"\n            # status: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            image\n            imageUrl\n            status\n            password\n            apiToken\n            customerGroupId\n            channelId\n            subscribedToNewsLetter\n            isVerified\n            isSuspended\n            token\n            notes {\n                id\n                customerId\n                note\n                customerNotified\n                createdAt\n                updatedAt\n            }\n            createdAt\n            updatedAt\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            subscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2431,7 +2431,7 @@
 									"response": []
 								},
 								{
-									"name": "Get",
+									"name": "Get Details",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -2448,7 +2448,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customer {\n    customer(\n        id: 3\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n    }\n}",
+												"query": "query customer {\n    customer(\n        id: 31\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        apiToken\n        customerGroupId\n        channelId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        subscription {\n            id\n            email\n            isSubscribed\n            token\n            customerId\n            channelId\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2480,7 +2480,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCustomer {\n    createCustomer(\n        input: {\n            firstName: \"John\"\n            lastName: \"Doe\"\n            email: \"johndoe@example.com\"\n            gender: MALE\n            dateOfBirth: \"11/07/1993\"\n            customerGroupId: 1\n            phone: \"9876543210\"\n        }\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        success\n    }\n}",
+												"query": "mutation createCustomer {\n    createCustomer(\n        input: {\n            firstName: \"John\"\n            lastName: \"Doe\"\n            email: \"johndoe@example.com\"\n            gender: MALE\n            dateOfBirth: \"11/07/1993\"\n            customerGroupId: 1\n            phone: \"9876543210\"\n        }\n    ) {\n        success\n        message\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            image\n            imageUrl\n            status\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            isSuspended\n            token\n            notes {\n                id\n                customerId\n                note\n                customerNotified\n                createdAt\n                updatedAt\n            }\n            createdAt\n            updatedAt\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            subscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2512,7 +2512,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateCustomer {\n    updateCustomer(\n        id: 7\n        input: {\n            firstName: \"John\"\n            lastName: \"Doe\"\n            email: \"johndoe@example.com\"\n            gender: FEMALE\n            dateOfBirth: \"1996-05-10\"\n            customerGroupId: 2\n            phone: \"9876543210\"\n            status: true\n            isSuspended: false\n        }\n    ) {\n        id\n        firstName\n        lastName\n        name\n        gender\n        dateOfBirth\n        email\n        phone\n        image\n        imageUrl\n        status\n        password\n        apiToken\n        customerGroupId\n        subscribedToNewsLetter\n        isVerified\n        isSuspended\n        token\n        notes {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n        createdAt\n        updatedAt\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n        newsLetterSubscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        success\n    }\n}",
+												"query": "\nmutation updateCustomer {\n    updateCustomer(\n        id: 33\n        input: {\n            firstName: \"John\"\n            lastName: \"Doe\"\n            email: \"johndoe@example.com\"\n            gender: FEMALE\n            dateOfBirth: \"1996-05-10\"\n            customerGroupId: 2\n            phone: \"9876543210\"\n            status: true\n            isSuspended: false\n        }\n    ) {\n        success\n        message\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            image\n            imageUrl\n            status\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            isSuspended\n            token\n            notes {\n                id\n                customerId\n                note\n                customerNotified\n                createdAt\n                updatedAt\n            }\n            createdAt\n            updatedAt\n            customerGroup {\n                id\n                name\n                code\n                isUserDefined\n                createdAt\n                updatedAt\n            }\n            subscription {\n                id\n                email\n                isSubscribed\n                token\n                customerId\n                channelId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2576,7 +2576,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation storeNotes {\n    storeNotes(\n        id: 7\n            input: {\n            note: \"John Test\"\n            customerNotified: true\n        }\n    ) {\n        id\n        customerId\n        note\n        customerNotified\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "\nmutation storeNotes {\n    storeNotes(\n        id: 33\n        input: {\n            note: \"John Test\"\n            customerNotified: true\n        }\n    ) {\n        success\n        message\n        note {\n            id\n            customerId\n            note\n            customerNotified\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2637,7 +2637,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customerAddresses {\n    customerAddresses(\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # customerId: 1\n            # companyName: \"Test\"\n            # firstName: \"Jhon\"\n            # lastName: \"Doe\"\n            # address1: \"h-28 arv park\"\n            # country: \"IN\"\n            # state: \"UP\"\n            # city: \"AGRA\"\n            # postcode: \"201301\"\n            # phone: \"9876543210\"\n            # vatId: \"989898\"\n            # defaultAddress: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "query customerAddresses {\n    customerAddresses (\n        first: 11\n        page: 1\n        input: {\n            # id: 1\n            # customerId: 1\n            # companyName: \"Test\"\n            # firstName: \"Jhon\"\n            # lastName: \"Doe\"\n            # address1: \"h-28 arv park\"\n            # country: \"IN\"\n            # state: \"UP\"\n            # city: \"AGRA\"\n            # postcode: \"201301\"\n            # phone: \"9876543210\"\n            # vatId: \"989898\"\n            # defaultAddress: true\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            customerId\n            companyName\n            firstName\n            lastName\n            address\n            country\n            state\n            city\n            postcode\n            phone\n            vatId\n            addressType\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2651,7 +2651,7 @@
 									"response": []
 								},
 								{
-									"name": "Get",
+									"name": "Get Details",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -2668,7 +2668,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customerAddress {\n    customerAddress(\n        id: 2\n    ) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
+												"query": "query customerAddress {\n    customerAddress(\n        id: 16\n    ) {\n        id\n        customerId\n        companyName\n        firstName\n        lastName\n        address\n        country\n        state\n        city\n        postcode\n        phone\n        vatId\n        addressType\n        defaultAddress\n        createdAt\n        updatedAt\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2699,7 +2699,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCustomerAddress {\n    createCustomerAddress(\n        input: {\n            customerId: 7\n            companyName: \"Stark Industries\"\n            vatId: \"INV12345678902\"\n            firstName: \"John\"\n            lastName: \"Doe\"\n            address: \"3180 Bluff Street\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"555\"\n            country: \"US\"\n            state: \"PA\"\n            phone: \"987654321\"\n            email: \"johndoe@example.com\"\n            defaultAddress: true\n        }\n    ) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation createCustomerAddress {\n    createCustomerAddress(\n        input: {\n            customerId: 31\n            companyName: \"Stark Industries\"\n            vatId: \"INV12345678902\"\n            firstName: \"John\"\n            lastName: \"Doe\"\n            address: \"3180 Bluff Street\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"555\"\n            country: \"US\"\n            state: \"PA\"\n            phone: \"987654321\"\n            email: \"johndoe@example.com\"\n            defaultAddress: true\n        }\n    ) {\n        success\n        message\n        address {\n            id\n            addressType\n            parentAddressId\n            useForShipping\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2730,7 +2730,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(\n        id: 7\n        input: {\n            customerId: 7\n            companyName: \"Stark Industries\"\n            vatId: \"INV12345678902\"\n            firstName: \"John\"\n            lastName: \"Doe\"\n            address: \"3180 Bluff Street\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"555\"\n            country: \"US\"\n            state: \"PA\"\n            phone: \"987654321\"\n            email: \"johndoe@example.com\"\n            defaultAddress: true\n        }\n    ) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation updateCustomerAddress {\n    updateCustomerAddress(\n        id: 18018\n        input: {\n            customerId: 31\n            companyName: \"Stark Industries\"\n            vatId: \"INV12345678902\"\n            firstName: \"John\"\n            lastName: \"Doe\"\n            address: \"3180 Bluff Street\"\n            city: \"GLEN CAMPBELL\"\n            postcode: \"555\"\n            country: \"US\"\n            state: \"PA\"\n            phone: \"987654321\"\n            email: \"johndoe@example.com\"\n            defaultAddress: true\n        }\n    ) {\n        success\n        message\n        address {\n            id\n            addressType\n            parentAddressId\n            useForShipping\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2761,7 +2761,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteCustomerAddress {\n    deleteCustomerAddress(\n        id: 7\n    ) {\n        success\n    }\n}",
+												"query": "mutation deleteCustomerAddress {\n    deleteCustomerAddress(\n        id: 16\n    ) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2792,7 +2792,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation setAsDefaultAddress {\n    setAsDefaultAddress(\n        id: 8\n        customerId: 7\n    ) {\n        id\n        addressType\n        parentAddressId\n        useForShipping\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation setAsDefaultAddress {\n    setAsDefaultAddress (\n        id: 18018\n        customerId: 31\n    ) {\n        success\n        message\n        address {\n            id\n            addressType\n            parentAddressId\n            useForShipping\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2851,7 +2851,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customerGroups {\n    customerGroups(\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "query customerGroups {\n    customerGroups (\n        first: 11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2866,7 +2866,7 @@
 									"response": []
 								},
 								{
-									"name": "Get",
+									"name": "Get Details",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -2883,7 +2883,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query customerGroup {\n    customerGroup(\n        id: 4\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
+												"query": "query customerGroup {\n    customerGroup(\n        id: 1\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2915,7 +2915,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createCustomerGroup {\n    createCustomerGroup(\n        input: {\n            name: \"VIP Group\"\n            code: \"vip2\"\n            isUserDefined: true\n        }\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "mutation createCustomerGroup {\n    createCustomerGroup (\n        input: {\n            name: \"VIP Group\"\n            code: \"vip2\"\n        }\n    ) {\n        success\n        message\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2947,7 +2947,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(\n        id: 5\n        input: {\n            name: \"VIP Customers\"\n            code: \"vip1\"\n            isUserDefined: true\n        }\n    ) {\n        id\n        name\n        code\n        isUserDefined\n        createdAt\n        updatedAt\n        success\n    }\n}",
+												"query": "\nmutation updateCustomerGroup {\n    updateCustomerGroup(\n        id: 6\n        input: {\n            name: \"VIP Customers\"\n            code: \"vip\"\n        }\n    ) {\n        success\n        message\n        customerGroup {\n            id\n            name\n            code\n            isUserDefined\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -2990,7 +2990,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteCustomerGroup {\n    deleteCustomerGroup(\n        id: 5\n    ) {\n        success\n    }\n}",
+												"query": "mutation deleteCustomerGroup {\n    deleteCustomerGroup(\n        id: 6\n    ) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -3051,7 +3051,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query reviews {\n    reviews(\n        first:11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            createdAt\n            updatedAt\n            images {\n                id\n                reviewId\n                type\n                mimeType\n                path\n                url\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"query": "query reviews {\n    reviews(\n        first: 11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            name\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            createdAt\n            updatedAt\n            images {\n                id\n                reviewId\n                type\n                mimeType\n                path\n                url\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -3082,7 +3082,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "query review {\n    review(\n        id: 1\n    ) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "query review {\n    review (\n        id: 1\n    ) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -3113,7 +3113,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "\nmutation updateReview {\n    updateReview(\n        id: 1\n        status: APPROVED\n    ) {\n        id\n        name\n        title\n        rating\n        comment\n        status\n        productId\n        customerId\n        createdAt\n        updatedAt\n        images {\n            id\n            reviewId\n            type\n            mimeType\n            path\n            url\n            createdAt\n            updatedAt\n        }\n        success\n    }\n}",
+												"query": "\nmutation updateReview {\n    updateReview(\n        id: 1\n        status: APPROVED\n    ) {\n        success\n        message\n        review {\n            id\n            name\n            title\n            rating\n            comment\n            status\n            productId\n            customerId\n            createdAt\n            updatedAt\n            images {\n                id\n                reviewId\n                type\n                mimeType\n                path\n                url\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -3156,7 +3156,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation deleteReview {\n    deleteReview(\n        id: 1\n    ) {\n        success\n    }\n}",
+												"query": "mutation adminDeleteReview {\n    adminDeleteReview (\n        id: 1\n    ) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -8111,7 +8111,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation createAddress (\n    $input: AddressInput!\n) {\n    createAddress (\n        input: $input\n    ) {\n      success\n      message\n      addresses{\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n      }\n    }\n}",
+														"query": "mutation createAddress (\n    $input: AddressInput!\n) {\n    createAddress (\n        input: $input\n    ) {\n        success\n        message\n        address {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n      }\n    }\n}",
 														"variables": "{\n    \"input\": {\n        \"companyName\": \"Webkul\",\n        \"firstName\": \"Kim\",\n        \"lastName\": \"Thomson\",\n        \"email\": \"test@address.com\",\n        \"vatId\": \"INV12345678904\",\n        \"address\": [\"3180 Bluff Street\"],\n        \"country\": \"US\",\n        \"state\": \"PA\",\n        \"city\": \"GLEN CAMPBELL\",\n        \"postcode\": \"15742\",\n        \"phone\": \"234343544\",\n        \"defaultAddress\": true\n    }\n}"
 													}
 												},
@@ -8142,7 +8142,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation updateAddress (\n    $input: AddressInput!\n) {\n    updateAddress (\n        id: 111\n        input: $input\n    ) {\n       success\n       message\n       addresses {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            stateName\n            country\n            countryName\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n       }\n    }\n}",
+														"query": "mutation updateAddress (\n    $input: AddressInput!\n) {\n    updateAddress (\n        id: 111\n        input: $input\n    ) {\n        success\n        message\n        address {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            stateName\n            country\n            countryName\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n       }\n    }\n}",
 														"variables": "{\n    \"input\": {\n        \"companyName\": \"Webkul Software\",\n        \"firstName\": \"Customer\",\n        \"lastName\": \"1ade\",\n        \"email\": \"customer1@example.com\",\n        \"vatId\": \"INV12345678904\",\n        \"address\": [\"3180 Bluff Street\"],\n        \"country\": \"IN\",\n        \"state\": \"GJ\",\n        \"city\": \"GLEN CAMPBELL\",\n        \"postcode\": \"15742\",\n        \"phone\": \"234343544\",\n        \"defaultAddress\": true\n    }\n}"
 													}
 												},
@@ -8204,7 +8204,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation setDefaultAddress {\n    setDefaultAddress (\n        id: 111\n    ) {\n        success\n        id\n        addressType\n        parentAddressId\n        customerId\n        cartId\n        orderId\n        firstName\n        lastName\n        gender\n        companyName\n        address\n        city\n        state\n        country\n        postcode\n        email\n        phone\n        vatId\n        defaultAddress\n        useForShipping\n        createdAt\n        updatedAt\n    }\n}",
+														"query": "mutation setDefaultAddress {\n    setDefaultAddress (\n        id: 111\n    ) {\n        success\n        message\n        address {\n            id\n            addressType\n            parentAddressId\n            customerId\n            cartId\n            orderId\n            firstName\n            lastName\n            gender\n            companyName\n            address\n            city\n            state\n            country\n            postcode\n            email\n            phone\n            vatId\n            defaultAddress\n            useForShipping\n            createdAt\n            updatedAt\n        }\n    }\n}",
 														"variables": ""
 													}
 												},

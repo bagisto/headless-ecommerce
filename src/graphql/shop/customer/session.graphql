@@ -2,16 +2,7 @@
 extend type Mutation {
     customerLogin(
         input: LoginInput! @spread
-    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@login")
+    ): CustomerLoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@login")
 
     customerLogout: StatusResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\SessionMutation@logout")
-}
-
-type CustomerLoginResult {
-    success: Boolean
-    message: String
-    accessToken: String @rename(attribute: "access_token")
-    tokenType: String @rename(attribute: "token_type")
-    expiresIn: Int @rename(attribute: "expires_in")
-    customer: Customer
 }

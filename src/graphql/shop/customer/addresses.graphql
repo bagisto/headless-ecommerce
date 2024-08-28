@@ -13,16 +13,16 @@ extend type Query @guard(with: ["api"]){
 extend type Mutation @guard(with: ["api"]) {
     createAddress(
         input: AddressInput! @spread
-    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
 
     updateAddress(
         id: ID!,
         input: AddressInput! @spread
-    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
 
     setDefaultAddress(
         id: ID!
-    ): Address  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
 
     deleteAddress(
         id: ID!
@@ -42,10 +42,4 @@ input AddressInput {
     postcode: String! @rules(apply: ["required"])
     phone: String! @rules(apply: ["required"])
     defaultAddress: Boolean @rename(attribute: "default_address")
-}
-
-type AddressListResult {
-    success: Boolean
-    message: String
-    addresses: Address
 }

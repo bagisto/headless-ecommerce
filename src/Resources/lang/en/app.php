@@ -210,6 +210,7 @@ return [
                 'not-found'            => 'Warning: Customer not found.',
                 'note-created-success' => 'Note created successfully',
                 'update-success'       => 'Customer updated successfully.',
+                'login-success'        => 'Customer logged in successfully.',
             ],
 
             'addressess' => [
@@ -223,7 +224,7 @@ return [
             'groups' => [
                 'create-success'     => 'Customer Group created successfully.',
                 'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
-                'delete-success'     => 'Customer deleted successfully',
+                'delete-success'     => 'Customer Group deleted successfully',
                 'not-found'          => 'Warning: Customer Group not found.',
                 'update-success'     => 'Customer Group updated successfully.',
                 'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',

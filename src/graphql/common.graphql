@@ -4,6 +4,15 @@ input LoginInput {
     remember: Boolean
 }
 
+type CustomerLoginResponse {
+    success: Boolean
+    message: String
+    accessToken: String @rename(attribute: "access_token")
+    tokenType: String @rename(attribute: "token_type")
+    expiresIn: Int @rename(attribute: "expires_in")
+    customer: Customer
+}
+
 type StatusResponse {
     success: Boolean
     message: String
@@ -12,6 +21,12 @@ type StatusResponse {
 type FilterOption {
     key: String
     value: String
+}
+
+type AddressResponse {
+    success: Boolean
+    message: String
+    address: Address
 }
 
 type Address {

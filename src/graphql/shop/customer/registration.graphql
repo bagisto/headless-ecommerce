@@ -2,11 +2,11 @@
 extend type Mutation {
     customerSignUp(
         input: SignUpInput! @spread
-    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@signUp")
+    ): CustomerLoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@signUp")
 
     customerSocialSignIn(
         input: SocialSignInInput! @spread
-    ): CustomerLoginResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@socialSignIn")
+    ): CustomerLoginResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\RegistrationMutation@socialSignIn")
 }
 
 input SignUpInput {
