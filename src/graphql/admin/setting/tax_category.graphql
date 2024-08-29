@@ -3,7 +3,11 @@ extend type Query @guard(with: ["admin-api"]) {
     taxCategories(
         input: FilterTaxCategoryInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterTaxCategory")
-    ): [TaxCategory!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Tax\\Models\\TaxCategory")
+    ): [TaxCategory!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Tax\\Models\\TaxCategory"
+    )
 
     taxCategory(id: ID @eq): TaxCategory @find(model: "Webkul\\Tax\\Models\\TaxCategory")
 }

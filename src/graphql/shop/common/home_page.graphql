@@ -12,7 +12,11 @@ extend type Query {
     allProducts(
         input: [FilterAllProductsInput]
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
-    ): [Product!] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Product\\Models\\Product")
+    ): [Product!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Product\\Models\\Product"
+    )
 
     getFilterAttribute(
         categorySlug: String! @rename (attribute: "category_slug")

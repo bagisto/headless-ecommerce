@@ -1,10 +1,18 @@
 # Sales\OrderItem Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    orderItems(input: FilterOrderItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")): [OrderItem!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\OrderItem")
+    orderItems(
+        input: FilterOrderItemInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
+    ): [OrderItem!] @paginate(
+        type: "PAGINATOR"
+        defaultCount:10
+        model: "Webkul\\Sales\\Models\\OrderItem"
+    )
 
     orderItem(
         id: ID @eq,
-        input: FilterOrderItemInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
+        input: FilterOrderItemInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
     ): OrderItem @find(model: "Webkul\\Sales\\Models\\OrderItem")
 }
 

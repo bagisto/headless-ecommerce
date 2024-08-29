@@ -3,11 +3,13 @@ extend type Query @guard(with: ["admin-api"]){
     users(
         input: FilterUserInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterUser")
-    ): [User!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\User\\Models\\Admin")
+    ): [User!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\User\\Models\\Admin"
+    )
 
-    user(
-        id: ID @eq
-    ): User @find(model: "Webkul\\User\\Models\\Admin")
+    user(id: ID @eq): User @find(model: "Webkul\\User\\Models\\Admin")
 }
 
 extend type Mutation {
@@ -26,9 +28,7 @@ extend type Mutation {
         input: CreateUserInput! @spread
     ): UserResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@update")
 
-    deleteUser(
-        id: ID!
-    ): StatusResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@delete")
+    deleteUser(id: ID!): StatusResponse @guard(with: ["admin-api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\UserMutation@delete")
 }
 
 input FilterUserInput {

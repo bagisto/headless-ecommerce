@@ -3,11 +3,13 @@ extend type Query @guard(with: ["admin-api"]) {
     catalogRules(
         input: FilterCatalogRulesInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCatalogRules")
-    ): [CatalogRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\CatalogRule\\Models\\CatalogRule")
+    ): [CatalogRule!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\CatalogRule\\Models\\CatalogRule"
+    )
 
-    catalogRule(
-        id: ID @eq
-    ): CatalogRule @find(model: "Webkul\\CatalogRule\\Models\\CatalogRule")
+    catalogRule(id: ID @eq): CatalogRule @find(model: "Webkul\\CatalogRule\\Models\\CatalogRule")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

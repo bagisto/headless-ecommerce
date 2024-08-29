@@ -3,11 +3,13 @@ extend type Query @guard(with: ["admin-api"]) {
     cartRules(
         input: FilterCartRulesInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Promotion\\FilterCartRules")
-    ): [CartRule!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\CartRule\\CartRule")
+    ): [CartRule!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\GraphQLAPI\\Models\\CartRule\\CartRule"
+    )
 
-    cartRule(
-        id: ID @eq
-    ): CartRule @find(model: "Webkul\\GraphQLAPI\\Models\\CartRule\\CartRule")
+    cartRule(id: ID @eq): CartRule @find(model: "Webkul\\GraphQLAPI\\Models\\CartRule\\CartRule")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

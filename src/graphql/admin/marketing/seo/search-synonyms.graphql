@@ -9,9 +9,7 @@ extend type Query @guard(with: ["admin-api"]) {
         model: "Webkul\\Marketing\\Models\\SearchSynonym"
     )
 
-    searchSynonym (
-        id: ID! @eq
-    ): SearchSynonym @find(model: "Webkul\\Marketing\\Models\\SearchSynonym")
+    searchSynonym (id: ID! @eq): SearchSynonym @find(model: "Webkul\\Marketing\\Models\\SearchSynonym")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

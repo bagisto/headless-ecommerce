@@ -68,7 +68,9 @@ class ShipmentMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.shipments.quantity-invalid'));
             }
 
-            $shipment = $this->shipmentRepository->create(array_merge($shipment, ['order_id' => $args['order_id']]));
+            $shipment = $this->shipmentRepository->create(array_merge($shipment, [
+                'order_id' => $args['order_id'],
+            ]));
 
             return [
                 'success'  => true,

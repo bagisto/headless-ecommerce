@@ -9,9 +9,7 @@ extend type Query @guard(with: ["admin-api"]) {
         model: "Webkul\\Marketing\\Models\\URLRewrite"
     )
 
-    urlRewrite(
-        id: ID! @eq
-    ): urlRewrite @find(model: "Webkul\\Marketing\\Models\\URLRewrite")
+    urlRewrite(id: ID! @eq): urlRewrite @find(model: "Webkul\\Marketing\\Models\\URLRewrite")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

@@ -3,11 +3,13 @@ extend type Query @guard(with: ["api"]){
     addresses(
         input: FilterCustomerAddressInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerAddress")
-    ): [Address] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+    ): [Address] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Customer\\Models\\CustomerAddress"
+    )
 
-    address(
-        id: ID @eq
-    ): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+    address(id: ID @eq): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
 extend type Mutation @guard(with: ["api"]) {
@@ -20,13 +22,9 @@ extend type Mutation @guard(with: ["api"]) {
         input: AddressInput! @spread
     ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
 
-    setDefaultAddress(
-        id: ID!
-    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
+    setDefaultAddress(id: ID!): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
 
-    deleteAddress(
-        id: ID!
-    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
+    deleteAddress(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
 }
 
 input AddressInput {

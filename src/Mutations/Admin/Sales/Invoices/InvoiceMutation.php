@@ -7,6 +7,7 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\OrderTransactionRepository;
 
 class InvoiceMutation extends Controller
 {
@@ -17,7 +18,8 @@ class InvoiceMutation extends Controller
      */
     public function __construct(
         protected OrderRepository $orderRepository,
-        protected InvoiceRepository $invoiceRepository
+        protected InvoiceRepository $invoiceRepository,
+        protected OrderTransactionRepository $orderTransactionRepository,
     ) {}
 
     /**
@@ -69,9 +71,12 @@ class InvoiceMutation extends Controller
             }
 
             $invoice = $this->invoiceRepository->create(array_merge($invoice, [
-                'order_id'               => $args['order_id'],
-                'can_create_transaction' => (int) $args['can_create_transaction'],
+                'order_id' => $args['order_id'],
             ]));
+
+            if ($args['can_create_transaction']) {
+                $this->createTransaction($invoice);
+            }
 
             return [
                 'success'  => true,
@@ -81,5 +86,25 @@ class InvoiceMutation extends Controller
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
+    }
+
+    /**
+     * Create transaction for the invoice.
+     */
+    private function createTransaction(object $invoice): void
+    {
+        $transactionId = md5(uniqid());
+
+        $transactionData = [
+            'transaction_id' => $transactionId,
+            'status'         => $invoice->state,
+            'type'           => $invoice->order->payment->method,
+            'payment_method' => $invoice->order->payment->method,
+            'order_id'       => $invoice->order->id,
+            'invoice_id'     => $invoice->id,
+            'amount'         => $invoice->grand_total,
+        ];
+
+        $this->orderTransactionRepository->create($transactionData);
     }
 }

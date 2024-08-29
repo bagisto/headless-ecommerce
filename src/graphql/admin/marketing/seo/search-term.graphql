@@ -9,9 +9,7 @@ extend type Query @guard(with: ["admin-api"]) {
         model: "Webkul\\Marketing\\Models\\SearchTerm"
     )
 
-    searchTerm(
-        id: ID! @eq
-    ): SearchTerm @find(model: "Webkul\\Marketing\\Models\\SearchTerm")
+    searchTerm(id: ID! @eq): SearchTerm @find(model: "Webkul\\Marketing\\Models\\SearchTerm")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

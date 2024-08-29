@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["api"]){
     compareProducts(
         input: FilterCompareProductsInput @spread
-    ): [CustomerCompareProduct!]  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
+    ): [CustomerCompareProduct!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 
     compareProduct(id: ID @eq): CustomerCompareProduct @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CompareMutation@compareProducts")
 }

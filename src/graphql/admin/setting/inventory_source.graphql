@@ -3,11 +3,13 @@ extend type Query @guard(with: ["admin-api"]) {
     inventorySources(
         input: FilterInventorySourceInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterInventorySources")
-    ): [InventorySource!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Inventory\\Models\\InventorySource")
+    ): [InventorySource!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Inventory\\Models\\InventorySource"
+    )
 
-    inventorySource(
-        id: ID @eq
-    ): InventorySource @find(model: "Webkul\\Inventory\\Models\\InventorySource")
+    inventorySource(id: ID @eq): InventorySource @find(model: "Webkul\\Inventory\\Models\\InventorySource")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

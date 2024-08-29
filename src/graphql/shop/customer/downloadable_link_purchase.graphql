@@ -4,16 +4,11 @@ extend type Query @guard(with: ["api"]){
         input: FilterDownloadablePurchaseInput @spread
     ): [DownloadableLinkPurchased!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
 
-    downloadableLinkPurchase(
-        id: ID @eq
-    ): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+    downloadableLinkPurchase(id: ID @eq): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
 }
 
 extend type Mutation @guard(with: ["api"]) {
-    downloadLink(
-        id: ID!
-    ): DownloadLinkResponse 
-    @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@download")
+    downloadLink(id: ID!): DownloadLinkResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@download")
 }
 
 input FilterDownloadablePurchaseInput {

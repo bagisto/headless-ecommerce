@@ -1,6 +1,13 @@
 #Marketing\EmailTemplate Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    emailTemplates(input: FilterEmailTemplateInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterEmailTemplate")): [EmailTemplate!] @paginate(type: "PAGINATOR" defaultCount: 10 model:"Webkul\\Marketing\\Models\\Template")
+    emailTemplates(
+        input: FilterEmailTemplateInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterEmailTemplate")
+    ): [EmailTemplate!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Marketing\\Models\\Template"
+    )
 
     emailTemplate(id: ID @eq): EmailTemplate @find(model: "Webkul\\Marketing\\Models\\Template")
 }

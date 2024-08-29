@@ -9,9 +9,7 @@ extend type Query @guard(with: ["admin-api"]) {
         model: "Webkul\\GraphQLAPI\\Models\\PushNotification"
     )
 
-    pushNotification(
-        id: ID @eq
-    ): PushNotification @find(model: "Webkul\\GraphQLAPI\\Models\\PushNotification")
+    pushNotification(id: ID @eq): PushNotification @find(model: "Webkul\\GraphQLAPI\\Models\\PushNotification")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {

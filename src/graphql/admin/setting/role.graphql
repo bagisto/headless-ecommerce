@@ -3,11 +3,13 @@ extend type Query @guard(with: ["admin-api"]) {
     roles(
         input: FilterRoleInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterRole")
-    ): [Role!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\User\\Models\\Role")
+    ): [Role!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\User\\Models\\Role"
+    )
 
-    role(
-        id: ID @eq
-    ): Role @find(model: "Webkul\\User\\Models\\Role")
+    role(id: ID @eq): Role @find(model: "Webkul\\User\\Models\\Role")
 
     getAclPermissions: [AclPermissions] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\RoleMutation@getAclPermissions")
 }

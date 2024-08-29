@@ -1,9 +1,13 @@
 # Customer\NewsletterSubscribers Related APIs
-extend type Query {
+extend type Query @guard(with: ["admin-api"]) {
     getSubscribers(
         input: FilterSubscriberInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterSubscriber")
-    ): [Subscriber!] @guard(with: ["admin-api"]) @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\SubscribersList")
+    ): [Subscriber!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Core\\Models\\SubscribersList"
+    )
 
     getSubscriber(id: ID @eq): Subscriber @find(model: "Webkul\\Core\\Models\\SubscribersList")
 }
