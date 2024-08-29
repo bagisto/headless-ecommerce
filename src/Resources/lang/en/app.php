@@ -240,6 +240,17 @@ return [
             ],
         ],
 
+        'catalog' => [
+            'categories' => [
+                'already-taken'  => 'Warning: The slug has already been taken.',
+                'create-success' => 'Category created successfully.',
+                'delete-success' => 'Category deleted successfully',
+                'not-found'      => 'Warning: Category not found.',
+                'update-success' => 'Category updated successfully.',
+                'root-delete'    => 'Warning: Root category can not be deleted.',
+            ],
+        ],
+
         'customers' => [
             'customers' => [
                 'create-success'       => 'Customer created successfully.',

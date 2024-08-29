@@ -1,26 +1,30 @@
 # Catalog\Category Related APIs
-extend type Query {
+extend type Query @guard(with: ["admin-api"]) {
     categories(
         input: FilterCategoryListInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Categories\\FilterCategory")
-    ): [Category!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Category\\Models\\Category")
+    ): [Category!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Category\\Models\\Category"
+    )
 
     category(id: ID @eq): Category @find(model: "Webkul\\Category\\Models\\Category")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createCategory(
-        input: CreateCategoryInput!
-    ): Category @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Categories\\CategoryMutation@store")
+        input: CreateCategoryInput! @spread
+    ): CategoryResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Categories\\CategoryMutation@store")
 
     updateCategory(
         id: ID!,
-        input: CreateCategoryInput!
-    ): Category @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Categories\\CategoryMutation@update")
+        input: CreateCategoryInput! @spread
+    ): CategoryResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Categories\\CategoryMutation@update")
 
     deleteCategory(
         id: ID!
-    ): Category @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Categories\\CategoryMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Categories\\CategoryMutation@delete")
 }
 
 input CreateCategoryInput {
@@ -46,6 +50,12 @@ input FilterCategoryListInput {
     name: String
     status: Boolean
     position: Int
+}
+
+type CategoryResponse {
+    success: Boolean!
+    message: String!
+    category: Category
 }
 
 type Category {
