@@ -2,6 +2,32 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+## **v2.0.2 (31st of July, 2024)** - *Release*
+
+* [Fixed] - TokenInvalidException class updated for JWTAuth.
+
+* [Fixed] - Customer validation message issue fixed.
+
+* [Fixed] - Notification Private Key check added for order.
+
+* [Fixed] - Customer newsletter schema updated.
+
+* [Fixed] - Countries API modified from admin end.
+
+* [Fixed] - Newsletter subscription issue for customer.
+
+* [Fixed] - Newsletter subscription issue for customer.
+
+* [Fixed] - Multi-locale issues for the ThemeContent.
+
+* [Fixed] - Return type added for Models\CatalogRule\CatalogRule.php PR:#249
+
+* [Enhancement] - #252 Update firebase notification feature.
+
+* [Enhancement] - getFilterAttributes method for default value.
+
+* [Enhancement] - ServiceProvider and Console/Install files.
+
 ## **v2.0.0 (20th of Mar, 2024)** - *Release*
 
 * [Fixed] - #94 Getting exception in Attribute API

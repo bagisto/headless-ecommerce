@@ -63,7 +63,7 @@ class AttributeMutation extends Controller
             $swatch_value = [];
 
             if (! empty($args['options'])) {
-                $options = $this->manageAttribnuteOptions($args);
+                $options = $this->manageAttributeOptions($args);
 
                 $args['options'] = $options['options'] ?? [];
 
@@ -135,7 +135,7 @@ class AttributeMutation extends Controller
             $swatch_value = [];
 
             if (! empty($args['options'])) {
-                $options = $this->manageAttribnuteOptions($args);
+                $options = $this->manageAttributeOptions($args);
 
                 $args['options'] = $options['options'] ?? [];
 
@@ -214,7 +214,7 @@ class AttributeMutation extends Controller
      * @param  array  $data
      * @return array
      */
-    public function manageAttribnuteOptions($data)
+    public function manageAttributeOptions($data)
     {
         $response = [];
         $options = [];
