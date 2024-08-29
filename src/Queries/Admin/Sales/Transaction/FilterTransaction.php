@@ -1,10 +1,10 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Queries\Admin\Setting;
+namespace Webkul\GraphQLAPI\Queries\Admin\Sales\Transaction;
 
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class FilterCountryState extends BaseFilter
+class FilterTransaction extends BaseFilter
 {
     /**
      * filter the data .

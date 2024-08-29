@@ -1,0 +1,55 @@
+# Sales\Transaction Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    transactions (
+        input: FilterTransactionInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Transaction\\FilterTransaction")
+    ): [Transaction!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\OrderTransaction"
+    )
+
+    transaction (id: ID @eq): Transaction @find(model: "Webkul\\Sales\\Models\\OrderTransaction")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createTransaction (
+        input: CreateTransactionInput! @spread
+    ): TransactionResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Transactions\\TransactionMutation@store")
+}
+
+input FilterTransactionInput {
+    id: Int
+    transactionId: String @rename(attribute: "transaction_id")
+    status: String
+    type: String
+    paymentMethod: String @rename(attribute: "payment_method")
+    invoiceId: Int @rename(attribute: "invoice_id")
+    orderId: Int @rename(attribute: "order_id")
+}
+
+input CreateTransactionInput {
+    invoiceId: Int @rename(attribute: "invoice_id")
+    paymentMethod: String @rename(attribute: "payment_method")
+    amount: Float
+}
+
+type TransactionResponse {
+    success: Boolean
+    message: String
+    transaction: Transaction
+}
+
+type Transaction {
+    id: Int!
+    transactionId: String @rename(attribute: "transaction_id")
+    status: String
+    type: String
+    amount: Float
+    paymentMethod: String @rename(attribute: "payment_method")
+    data: String
+    invoiceId: Int @rename(attribute: "invoice_id")
+    orderId: Int @rename(attribute: "order_id")
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+}

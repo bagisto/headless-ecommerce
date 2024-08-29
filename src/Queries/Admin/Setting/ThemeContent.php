@@ -8,14 +8,13 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 class ThemeContent extends BaseFilter
 {
     /**
-     * Create a new controller instance.
+     * filter the data .
      *
-     * @return void
+     * @param  object  $query
+     * @param  array  $input
+     * @return Object
      */
-    public function __construct(
-    ) {}
-
-    public function getThemeTranslations($rootValue, array $args, GraphQLContext $context)
+    public function getThemeTranslations(mixed $rootValue, array $args, GraphQLContext $context)
     {
         if (
             $rootValue->type == 'product_carousel'

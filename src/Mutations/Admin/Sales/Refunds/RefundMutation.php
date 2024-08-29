@@ -25,19 +25,13 @@ class RefundMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     * 
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        $orderId = $params['order_id'];
-
-        $order = $this->orderRepository->find($orderId);
+        $order = $this->orderRepository->find($args['order_id']);
 
         if (! $order) {
             throw new CustomException(trans('bagisto_graphql::app.admin.sales.orders.not-found'));
@@ -48,52 +42,52 @@ class RefundMutation extends Controller
         }
 
         try {
-            if (! isset($params['refund_data'])) {
+            if (! isset($args['refund_data'])) {
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.creation-error'));
             }
 
             $refundData = [];
 
-            foreach ($params['refund_data'] as $data) {
+            foreach ($args['refund_data'] as $arg) {
                 $refundData = $refundData + [
-                    $data['order_item_id'] => $data['quantity'],
+                    $arg['order_item_id'] => $arg['quantity'],
                 ];
             }
 
-            $refund['refund']['items'] = $refundData;
-            $refund['refund']['shipping'] = $params['refund_shipping'];
-            $refund['refund']['adjustment_refund'] = $params['adjustment_refund'];
-            $refund['refund']['adjustment_fee'] = $params['adjustment_fee'];
+            $data['refund']['items'] = $refundData;
+            $data['refund']['shipping'] = $args['refund_shipping'];
+            $data['refund']['adjustment_refund'] = $args['adjustment_refund'];
+            $data['refund']['adjustment_fee'] = $args['adjustment_fee'];
 
-            bagisto_graphql()->validate($refund, [
+            bagisto_graphql()->validate($data, [
                 'refund.items.*' => 'required|numeric|min:0',
             ]);
 
-            $totals = $this->refundRepository->getOrderItemsRefundSummary($refund['refund']['items'], $orderId);
+            $totals = $this->refundRepository->getOrderItemsRefundSummary($data['refund'], $args['order_id']);
 
             if ($totals != false) {
                 $maxRefundAmount = $totals['grand_total']['price'] - $order->refunds()->sum('base_adjustment_refund');
 
-                $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $refund['refund']['shipping'] + $refund['refund']['adjustment_refund'] - $refund['refund']['adjustment_fee'];
+                $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $data['refund']['shipping'] + $data['refund']['adjustment_refund'] - $data['refund']['adjustment_fee'];
             }
 
             if (! isset($refundAmount)) {
-                throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.invalid-refund-amount-error'));
+                throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.refund-amount-error'));
             }
 
             if ($refundAmount > $maxRefundAmount) {
-                throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.refund-limit-error').core()->formatBasePrice($maxRefundAmount));
+                throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.refund-limit-error', ['amount' => core()->formatBasePrice($maxRefundAmount)]));
             }
 
-            $refundedData = $this->refundRepository->create(array_merge($refund, ['order_id' => $orderId]));
+            $refund = $this->refundRepository->create(array_merge($data, [
+                'order_id' => $args['order_id'],
+            ]));
 
-            if (isset($refundedData->id)) {
-                $refundedData->success = trans('bagisto_graphql::app.admin.sales.refunds.create-success');
-
-                return $refundedData;
-            }
-
-            throw new CustomException(trans('bagisto_graphql::app.admin.sales.refunds.creation-error'));
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.sales.refunds.create-success'),
+                'refund'  => $refund,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

@@ -12,17 +12,14 @@ class FilterableAttributesQuery extends BaseFilter
      *
      * @return void
      */
-    public function __construct(protected AttributeRepository $attributeRepository)
-    {
-        $this->_config = request('_config');
-    }
+    public function __construct(protected AttributeRepository $attributeRepository) {}
 
     /**
      * filter the data .
      *
      * @param  object  $query
      * @param  array  $input
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function __invoke($query, $input)
     {
@@ -32,9 +29,9 @@ class FilterableAttributesQuery extends BaseFilter
     }
 
     /**
-     * Display a listing of the resource.
+     * Get the filterable attributes.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getFilterableAttributes()
     {

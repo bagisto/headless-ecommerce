@@ -5,10 +5,10 @@ namespace Webkul\GraphQLAPI\Queries;
 class BaseFilter
 {
     /**
-     * Validate the data having not null in array.     *
+     * Validate the data having not null in array.
      *
      * @param  arr  $args
-     * @return $arguments
+     * @return array
      */
     public function getFilterParams($args)
     {
@@ -22,10 +22,14 @@ class BaseFilter
         return $arguments;
     }
 
-    // Name Splitter
+    /**
+     * Split the name into firstname and lastname
+     *
+     * @param  string  $name
+     * @return array
+     */
     public function nameSplitter($name)
     {
-
         $nameChanger = explode(' ', $name);
 
         $result['firstname'] = $nameChanger[0];

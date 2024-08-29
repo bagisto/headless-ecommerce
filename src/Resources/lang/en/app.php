@@ -223,6 +223,21 @@ return [
                 'product-error'  => 'Warning: Invalid product provided.',
                 'create-success' => 'Success: Invoice created successfully.',
             ],
+
+            'refunds' => [
+                'creation-error'      => 'Warning: Refund not created.',
+                'refund-amount-error' => 'Warning: Invalid refund amount provided.',
+                'refund-limit-error'  => 'Warning: Refund amount exceeds the limit of :amount',
+                'not-found'           => 'Warning: Refund not found.',
+                'create-success'      => 'Success: Refund created successfully.',
+            ],
+
+            'transactions' => [
+                'already-paid'   => 'Warning: Invoice is already paid.',
+                'amount-exceed'  => 'Warning: Transaction amount exceeds the limit.',
+                'zero-amount'    => 'Warning: Transaction amount should be greater than zero.',
+                'create-success' => 'Success: Transaction created successfully.',
+            ],
         ],
 
         'customers' => [
