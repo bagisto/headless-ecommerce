@@ -249,6 +249,14 @@ return [
                 'update-success' => 'Category updated successfully.',
                 'root-delete'    => 'Warning: Root category can not be deleted.',
             ],
+
+            'attributes' => [
+                'create-success'     => 'Attribute created successfully.',
+                'delete-success'     => 'Attribute deleted successfully',
+                'not-found'          => 'Warning: Attribute not found.',
+                'update-success'     => 'Attribute updated successfully.',
+                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute.',
+            ],
         ],
 
         'customers' => [
