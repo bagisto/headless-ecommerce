@@ -12,7 +12,7 @@ class ThemeContent extends BaseFilter
      *
      * @param  object  $query
      * @param  array  $input
-     * @return Object
+     * @return object
      */
     public function getThemeTranslations(mixed $rootValue, array $args, GraphQLContext $context)
     {

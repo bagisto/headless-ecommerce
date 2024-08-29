@@ -23,7 +23,7 @@ class CategoryQuery extends BaseFilter
     /**
      * Get the Product Count of the Category.
      *
-     * @return Int
+     * @return int
      */
     public function getProductCount($rootValue, array $args, GraphQLContext $context)
     {
@@ -46,7 +46,7 @@ class CategoryQuery extends BaseFilter
     /**
      * Get category breadcrumbs.
      *
-     * @return Array
+     * @return array
      */
     public function getbreadcrumbs($rootValue, array $args, GraphQLContext $context)
     {
@@ -77,7 +77,7 @@ class CategoryQuery extends BaseFilter
     /**
      * Get product maximum price based on category.
      *
-     * @return String
+     * @return string
      */
     public function getCategoryProductMaxPrice(mixed $rootValue, array $args, GraphQLContext $context)
     {

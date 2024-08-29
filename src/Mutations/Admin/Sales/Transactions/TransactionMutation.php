@@ -2,16 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Transactions;
 
-use Webkul\Sales\Models\Order;
-use Webkul\Sales\Models\Invoice;
-use Webkul\Payment\Facades\Payment;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Sales\Repositories\ShipmentRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Sales\Models\Invoice;
+use Webkul\Sales\Models\Order;
+use Webkul\Sales\Repositories\InvoiceRepository;
+use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\OrderTransactionRepository;
+use Webkul\Sales\Repositories\ShipmentRepository;
 
 class TransactionMutation extends Controller
 {
@@ -40,7 +40,7 @@ class TransactionMutation extends Controller
 
         bagisto_graphql()->validate($args, [
             'invoice_id'     => 'required',
-            'payment_method' => 'required|in:' . implode(',', $paymentMethods),
+            'payment_method' => 'required|in:'.implode(',', $paymentMethods),
             'amount'         => 'required|numeric',
         ]);
 

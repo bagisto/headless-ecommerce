@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Categories;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Rules\Slug;
@@ -37,7 +36,7 @@ class CategoryMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -90,7 +89,7 @@ class CategoryMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -163,7 +162,7 @@ class CategoryMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)
@@ -187,7 +186,7 @@ class CategoryMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.catalog.categories.delete-success')
+                'message' => trans('bagisto_graphql::app.admin.catalog.categories.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

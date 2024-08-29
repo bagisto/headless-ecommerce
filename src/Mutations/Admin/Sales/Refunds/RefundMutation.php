@@ -26,7 +26,7 @@ class RefundMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
