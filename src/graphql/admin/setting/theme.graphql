@@ -81,10 +81,10 @@ type Theme {
     channelId: ID @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    translations: [Translation!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\ThemeContent@getThemeTranslations")
+    translations: [ThemeTranslation!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\ThemeContent@getThemeTranslations")
 }
 
-type Translation {
+type ThemeTranslation {
     id: ID!
     themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
     localeCode: String! @rename(attribute: "locale")

@@ -13,13 +13,6 @@ use Webkul\Product\Repositories\ProductRepository;
 class ProductContent extends BaseFilter
 {
     /**
-     * Contains current guard
-     *
-     * @var array
-     */
-    protected $guard;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -30,9 +23,7 @@ class ProductContent extends BaseFilter
         protected ProductViewHelper $productViewHelper,
         protected Review $review,
         protected ProductConfigurableHelper $productConfigurableHelper
-    ) {
-        $this->guard = 'api';
-    }
+    ) {}
 
     /**
      * Get additional data.
@@ -43,23 +34,6 @@ class ProductContent extends BaseFilter
     public function getAdditionalData($rootValue, array $args, GraphQLContext $context)
     {
         return $this->productViewHelper->getAdditionalData($rootValue);
-    }
-
-    /**
-     * Get related products.
-     *
-     * @param  mixed  $rootValue
-     * @return mixed
-     */
-    public function getRelatedProducts($rootValue, array $args, GraphQLContext $context)
-    {
-        $product = $this->productRepository->find($args['productId']);
-
-        if ($product) {
-            return $product->related_products()->whereIn('products.type', ['simple', 'virtual', 'configurable'])->get();
-        }
-
-        return null;
     }
 
     /**
