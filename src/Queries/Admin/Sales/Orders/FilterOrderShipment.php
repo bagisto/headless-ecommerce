@@ -15,22 +15,18 @@ class FilterOrderShipment extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
+        if (isset($input['shipment_date'])) {
+            $input['created_at'] = $input['shipment_date'];
 
-        // Convert the shipment_date parameter to created_at parameter
-        if (isset($arguments['shipment_date'])) {
-            $arguments['created_at'] = $arguments['shipment_date'];
-
-            unset($arguments['shipment_date']);
+            unset($input['shipment_date']);
         }
 
-        // Convert the inventory_source parameter to inventory_source_name parameter
-        if (isset($arguments['tracking_number'])) {
-            $arguments['track_number'] = $arguments['tracking_number'];
+        if (isset($input['tracking_number'])) {
+            $input['track_number'] = $input['tracking_number'];
 
-            unset($arguments['tracking_number']);
+            unset($input['tracking_number']);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

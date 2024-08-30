@@ -15,7 +15,6 @@ class FilterTheme extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        // filter the relationship Currency
         if (isset($input['channel'])) {
             $query = $query->whereHas('channel', function ($q) use ($input) {
                 $q->where('name', $input['channel']);

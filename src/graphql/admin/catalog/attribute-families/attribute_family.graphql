@@ -10,7 +10,7 @@ extend type Query @guard(with: ["admin-api"]) {
 
     attributeFamilies(
         input: FilterAttributeFamiliesInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\AttributeFamilies\\FilterAttributeFamilies")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [AttributeFamily!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

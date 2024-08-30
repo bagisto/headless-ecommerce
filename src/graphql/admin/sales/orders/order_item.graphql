@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     orderItems(
         input: FilterOrderItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [OrderItem!] @paginate(
         type: "PAGINATOR"
         defaultCount:10
@@ -12,7 +12,7 @@ extend type Query @guard(with: ["admin-api"]) {
     orderItem(
         id: ID @eq,
         input: FilterOrderItemInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Orders\\FilterOrderItem")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): OrderItem @find(model: "Webkul\\Sales\\Models\\OrderItem")
 }
 

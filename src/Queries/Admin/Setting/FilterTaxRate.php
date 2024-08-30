@@ -15,7 +15,6 @@ class FilterTaxRate extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        // filter the relationship Role
         if (
             isset($arguments['state'])
             && $input['state'] == '*'

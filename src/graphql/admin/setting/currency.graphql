@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     currencies(
         input: FilterCurrencyInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterCurrency")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [Currency!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

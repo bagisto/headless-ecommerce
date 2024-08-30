@@ -2,6 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class BaseFilter
 {
     /**
@@ -75,42 +77,6 @@ class BaseFilter
     ];
 
     /**
-     * Validate the data having not null in array.
-     *
-     * @param  array  $args
-     * @return array
-     */
-    public function getFilterParams($args)
-    {
-        $arguments = [];
-
-        foreach ($args as $keys => $arg) {
-            $arguments[$keys] = $arg;
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * Split the name into firstname and lastname
-     *
-     * @param  string  $name
-     * @return array
-     */
-    public function nameSplitter($name)
-    {
-        $nameChanger = explode(' ', $name);
-
-        $result['firstname'] = $nameChanger[0];
-
-        unset($nameChanger[0]);
-
-        $result['lastname'] = implode(' ', $nameChanger);
-
-        return $result;
-    }
-
-    /**
      * Get the formatted price
      */
     protected function getFormattedPrice(object $model, string $currencyCode): array
@@ -128,5 +94,26 @@ class BaseFilter
         }
 
         return $priceData;
+    }
+
+    /**
+     * Filter the query based on the input.
+     */
+    public function apply(Builder $query, array $input): Builder
+    {
+        return $query->where($input);
+    }
+
+    /**
+     * Split the name into firstname and lastname.
+     */
+    protected function nameSplitter(?string $name): array
+    {
+        $nameParts = explode(' ', $name, 2);
+
+        return [
+            'firstname' => current($nameParts),
+            'lastname'  => $nameParts[1] ?? '',
+        ];
     }
 }

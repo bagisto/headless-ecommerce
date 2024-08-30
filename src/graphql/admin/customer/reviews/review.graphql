@@ -2,7 +2,7 @@
 extend type Query {
     reviews(
         input: FilterReviewInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterReview")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [Review!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

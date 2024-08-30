@@ -15,7 +15,6 @@ class FilterCmsPage extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        // filter the relationship Role
         if (isset($input['page_title'])) {
             $query = $query->whereHas('page_title', function ($q) use ($input) {
                 $q->where('page_title', $input['page_title']);

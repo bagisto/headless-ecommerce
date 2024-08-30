@@ -15,19 +15,17 @@ class FilterCategory extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
         $qbConditions = [];
 
-        foreach ($arguments as $key => $argument) {
+        foreach ($input as $key => $argument) {
             if (! $argument) {
-                unset($arguments[$key]);
+                unset($input[$key]);
             }
 
             if (in_array($key, ['name', 'slug']) && $argument) {
                 $qbConditions[$key] = $argument;
 
-                unset($arguments[$key]);
+                unset($input[$key]);
             }
         }
 
@@ -35,6 +33,6 @@ class FilterCategory extends BaseFilter
             foreach ($qbConditions as $column => $condition) {
                 $q->where($column, 'like', '%'.urldecode($condition).'%');
             }
-        })->where($arguments);
+        })->where($input);
     }
 }

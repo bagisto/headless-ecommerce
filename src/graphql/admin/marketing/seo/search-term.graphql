@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     searchTerms (
         input: FilterSearchTermInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\SEO\\FilterSearchTerm")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [SearchTerm!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

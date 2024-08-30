@@ -15,22 +15,18 @@ class FilterInvoice extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
+        if (isset($input['invoice_date'])) {
+            $input['created_at'] = $input['invoice_date'];
 
-        // Convert the invoice_date parameter to created_at parameter
-        if (isset($arguments['invoice_date'])) {
-            $arguments['created_at'] = $arguments['invoice_date'];
-
-            unset($arguments['invoice_date']);
+            unset($input['invoice_date']);
         }
 
-        // Convert the grand_total parameter to base_grand_total parameter
-        if (isset($arguments['grand_total'])) {
-            $arguments['base_grand_total'] = $arguments['grand_total'];
+        if (isset($input['grand_total'])) {
+            $input['base_grand_total'] = $input['grand_total'];
 
-            unset($arguments['grand_total']);
+            unset($input['grand_total']);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

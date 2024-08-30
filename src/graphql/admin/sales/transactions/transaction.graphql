@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     transactions (
         input: FilterTransactionInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Transaction\\FilterTransaction")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [Transaction!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

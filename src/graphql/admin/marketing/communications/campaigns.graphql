@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     campaigns(
         input: FilterCampaignInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\Communications\\FilterCampaign")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [Campaign!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10
