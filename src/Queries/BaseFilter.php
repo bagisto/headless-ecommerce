@@ -113,7 +113,7 @@ class BaseFilter
     /**
      * Get the formatted price
      */
-    protected function getFormattedPrice(object $model, string $currencyCode)
+    protected function getFormattedPrice(object $model, string $currencyCode): array
     {
         $priceData = [];
 
