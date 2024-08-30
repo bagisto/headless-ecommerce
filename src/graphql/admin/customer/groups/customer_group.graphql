@@ -1,26 +1,28 @@
 # Customer\CustomerGroup Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    customerGroups(
+    customerGroups (
         input: FilterCustomerGroupInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerGroup")
-    ): [CustomerGroup!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerGroup")
+    ): [CustomerGroup!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Customer\\Models\\CustomerGroup"
+    )
 
-    customerGroup(
-        id: ID @eq
-    ): CustomerGroup @find(model: "Webkul\\Customer\\Models\\CustomerGroup")
+    customerGroup (id: ID @eq): CustomerGroup @find(model: "Webkul\\Customer\\Models\\CustomerGroup")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createCustomerGroup(
-        input: CreateCustomerGroupInput!
-    ): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@store")
+        input: CreateCustomerGroupInput! @spread
+    ): CustomerGroupResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@store")
 
     updateCustomerGroup(
         id: ID!,
-        input: CreateCustomerGroupInput!
-    ): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@update")
+        input: CreateCustomerGroupInput! @spread
+    ): CustomerGroupResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@update")
 
-    deleteCustomerGroup(id: ID!): CustomerGroup  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@delete")
+    deleteCustomerGroup(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerGroupMutation@delete")
 }
 
 input FilterCustomerGroupInput {
@@ -32,7 +34,12 @@ input FilterCustomerGroupInput {
 input CreateCustomerGroupInput {
     name: String! @rules(apply: ["required"])
     code: String! @rules(apply: ["required"])
-    isUserDefined: Boolean @rename(attribute: "is_user_defined")
+}
+
+type CustomerGroupResponse {
+    success: Boolean!
+    message: String
+    customerGroup: CustomerGroup @rename(attribute: "customer_group")
 }
 
 type CustomerGroup {
@@ -42,6 +49,9 @@ type CustomerGroup {
     isUserDefined: Boolean! @rename(attribute: "is_user_defined")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    customers: [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
-    success: String
+    customers: [Customer!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Customer\\Models\\Customer"
+    )
 }

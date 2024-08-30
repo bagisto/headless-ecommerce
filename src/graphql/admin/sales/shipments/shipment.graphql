@@ -1,21 +1,36 @@
 # Seles\Shipment Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    shipments(input: FilterShipmentInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Shipments\\FilterShipment")): [Shipment!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Shipment")
+    shipments(
+        input: FilterShipmentInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Shipments\\FilterShipment")
+    ): [Shipment!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\Shipment"
+    )
 
     shipment(id: ID @eq): Shipment @find(model: "Webkul\\Sales\\Models\\Shipment")
 
-    shipmentItems(input: FilterShipmentItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Shipments\\FilterShipmentItem")): [ShipmentItem!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\ShipmentItem")
+    shipmentItems(
+        input: FilterShipmentItemInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Shipments\\FilterShipmentItem")
+    ): [ShipmentItem!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\ShipmentItem"
+    )
 
     shipmentItem(
         id: ID @eq,
-        input: FilterShipmentItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Shipments\\FilterShipmentItem")
+        input: FilterShipmentItemInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Shipments\\FilterShipmentItem")
     ): ShipmentItem @find(model: "Webkul\\Sales\\Models\\ShipmentItem")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createShipment(
-        input: CreateShipmentInput!
-    ): Shipment  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Shipments\\ShipmentMutation@store")
+        input: CreateShipmentInput! @spread
+    ): ShipmentResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Shipments\\ShipmentMutation@store")
 }
 
 input FilterShipmentInput {
@@ -50,6 +65,12 @@ input CreateShipmentInput {
 input ShipmentDataInput {
     orderItemId: Int! @rename(attribute: "order_item_id")
     quantity: Int!
+}
+
+type ShipmentResponse {
+    success: Boolean
+    message: String
+    shipment: Shipment
 }
 
 type Shipment {

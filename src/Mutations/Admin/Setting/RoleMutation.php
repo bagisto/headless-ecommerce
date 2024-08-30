@@ -18,7 +18,7 @@ class RoleMutation extends Controller
     public function __construct(protected RoleRepository $roleRepository) {}
 
     /**
-     * ACL
+     * Get the acl permissions.
      *
      * @return array
      */
@@ -30,17 +30,13 @@ class RoleMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'name'            => 'required',
             'permission_type' => 'required',
             'description'     => 'required',
@@ -49,13 +45,15 @@ class RoleMutation extends Controller
         try {
             Event::dispatch('user.role.create.before');
 
-            $role = $this->roleRepository->create($data);
+            $role = $this->roleRepository->create($args);
 
             Event::dispatch('user.role.create.after', $role);
 
-            $role->success = trans('bagisto_graphql::app.admin.settings.roles.create-success');
-
-            return $role;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.roles.create-success'),
+                'role'    => $role,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -64,42 +62,35 @@ class RoleMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'name'            => 'required',
             'permission_type' => 'required',
         ]);
 
-        $role = $this->roleRepository->find($id);
+        $role = $this->roleRepository->find($args['id']);
 
         if (! $role) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
         }
 
         try {
-            Event::dispatch('user.role.update.before', $id);
+            Event::dispatch('user.role.update.before', $role->id);
 
-            $role = $this->roleRepository->update($data, $id);
+            $role = $this->roleRepository->update($args, $role->id);
 
             Event::dispatch('user.role.update.after', $role);
 
-            $role->success = trans('bagisto_graphql::app.admin.settings.roles.update-success');
-
-            return $role;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.roles.update-success'),
+                'role'    => $role,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -108,18 +99,13 @@ class RoleMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $role = $this->roleRepository->find($id);
+        $role = $this->roleRepository->find($args['id']);
 
         if (! $role) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.roles.not-found'));
@@ -130,13 +116,16 @@ class RoleMutation extends Controller
         }
 
         try {
-            Event::dispatch('user.role.delete.before', $id);
+            Event::dispatch('user.role.delete.before', $args['id']);
 
-            $this->roleRepository->delete($id);
+            $role->delete();
 
-            Event::dispatch('user.role.delete.after', $id);
+            Event::dispatch('user.role.delete.after', $args['id']);
 
-            return ['success' => trans('bagisto_graphql::app.admin.settings.roles.delete-success')];
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.roles.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

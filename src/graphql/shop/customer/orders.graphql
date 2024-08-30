@@ -26,9 +26,9 @@ extend type Query @guard(with: ["api"]) {
 }
 
 extend type Mutation @guard(with: ["api"]) {
-    cancelCustomerOrder(
-        id: ID!
-    ): DeleteOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@cancel")
+    cancelCustomerOrder(id: ID!): CancelOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@cancel")
+
+    reorder(id: ID! @eq): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@reorder")
 }
 
 input FilterCustomerOrderInput {

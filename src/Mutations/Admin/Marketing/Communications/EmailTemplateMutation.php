@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -19,26 +20,30 @@ class EmailTemplateMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        bagisto_graphql()->validate($params, [
+        bagisto_graphql()->validate($args, [
             'name'    => 'required',
             'content' => 'required',
             'status'  => 'required',
         ]);
 
         try {
-            $template = $this->templateRepository->create($params);
+            Event::dispatch('marketing.templates.create.before');
 
-            return $template;
+            $template = $this->templateRepository->create($args);
+
+            Event::dispatch('marketing.templates.create.after', $template);
+
+            return [
+                'success'        => true,
+                'message'        => trans('bagisto_graphql::app.admin.marketing.communications.email-templates.create-success'),
+                'email_template' => $template,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -47,33 +52,36 @@ class EmailTemplateMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($params, [
+        bagisto_graphql()->validate($args, [
             'name'    => 'required',
             'content' => 'required',
             'status'  => 'required',
         ]);
 
-        try {
-            $template = $this->templateRepository->findOrFail($id);
-            $template = $this->templateRepository->update($params, $id);
+        $template = $this->templateRepository->find($args['id']);
 
-            return $template;
+        if (! $template) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.email-templates.not-found'));
+        }
+
+        try {
+            Event::dispatch('marketing.templates.update.before', $template->id);
+
+            $template = $this->templateRepository->update($args, $template->id);
+
+            Event::dispatch('marketing.templates.update.after', $template);
+
+            return [
+                'success'        => true,
+                'message'        => trans('bagisto_graphql::app.admin.marketing.communications.email-templates.update-success'),
+                'email_template' => $template,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -82,32 +90,28 @@ class EmailTemplateMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+        $template = $this->templateRepository->find($args['id']);
+
+        if (! $template) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.email-templates.not-found'));
         }
 
-        $id = $args['id'];
-
-        $template = $this->templateRepository->find($id);
-
         try {
-            if ($template) {
-                $template->delete();
+            Event::dispatch('marketing.templates.delete.before', $args['id']);
 
-                return [
-                    'status'  => true,
-                    'message' => trans('bagisto_graphql::app.admin.marketing.communications.templates.delete-success'),
-                ];
-            }
+            $template->delete();
+
+            Event::dispatch('marketing.templates.delete.after', $args['id']);
 
             return [
-                'status'  => false,
-                'message' => trans('bagisto_graphql::app.admin.marketing.communications.templates.delete-failed'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.email-templates.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

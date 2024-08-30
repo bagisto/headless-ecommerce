@@ -59,9 +59,9 @@ class AddressesMutation extends Controller
             Event::dispatch('customer.address.create.after', $customerAddress);
 
             return [
-                'success'   => true,
-                'message'   => trans('bagisto_graphql::app.shop.customers.account.addresses.create-success'),
-                'addresses' => $customerAddress,
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.shop.customers.account.addresses.create-success'),
+                'address' => $customerAddress,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -108,9 +108,9 @@ class AddressesMutation extends Controller
             Event::dispatch('customer.address.update.after', $customerAddress);
 
             return [
-                'success'   => true,
-                'message'   => trans('bagisto_graphql::app.shop.customers.account.addresses.update-success'),
-                'addresses' => $customerAddress,
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.shop.customers.account.addresses.update-success'),
+                'address' => $customerAddress,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
@@ -167,9 +167,11 @@ class AddressesMutation extends Controller
 
             $customerAddress->update(['default_address' => 1]);
 
-            $customerAddress->success = trans('bagisto_graphql::app.admin.customers.addressess.default-update-success');
-
-            return $customerAddress;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.customers.addressess.default-update-success'),
+                'address' => $customerAddress,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

@@ -25,101 +25,88 @@ class ThemeMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
+            'theme_code' => 'required',
         ]);
 
         Event::dispatch('theme_customization.create.before');
 
         $theme = $this->themeCustomizationRepository->create([
-            'name'       => $data['name'],
-            'sort_order' => $data['sort_order'],
-            'type'       => $data['type'],
-            'channel_id' => $data['channel_id'],
+            'name'       => $args['name'],
+            'sort_order' => $args['sort_order'],
+            'type'       => $args['type'],
+            'channel_id' => $args['channel_id'],
+            'theme_code' => $args['theme_code'],
         ]);
 
-        Event::dispatch('theme_customization.create.after');
+        Event::dispatch('theme_customization.create.after', $theme);
 
-        $theme->success = trans('bagisto_graphql::app.admin.settings.themes.create-success');
-
-        return $theme;
+        return [
+            'success' => true,
+            'message' => trans('bagisto_graphql::app.admin.settings.themes.create-success'),
+            'theme'   => $theme,
+        ];
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
+            'theme_code' => 'required',
         ]);
 
-        $data['locale'] = $locale = core()->getRequestedLocaleCode();
+        $args['locale'] = $locale = core()->getRequestedLocaleCode();
 
-        $themeData = $this->themeCustomizationRepository->find($id);
+        $themeCustomization = $this->themeCustomizationRepository->find($args['id']);
 
-        if (! $themeData) {
+        if (! $themeCustomization) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.themes.not-found'));
         }
 
-        $data['type'] = $themeData->type;
+        $args['type'] = $themeCustomization->type;
 
-        if ($data['type'] == 'product_carousel') {
-            $data[$locale]['options']['title'] = $data['options']['title'];
+        if ($args['type'] == 'product_carousel') {
+            $args[$locale]['options']['title'] = $args['options']['title'];
 
-            $data[$locale]['options']['filters'] = [];
+            $args[$locale]['options']['filters'] = [];
 
-            foreach ($data['options']['filtersInput'] as $filtersInput) {
-                $data[$locale]['options']['filters'][$filtersInput['key']] = $filtersInput['value'];
+            foreach ($args['options']['filtersInput'] as $filtersInput) {
+                $args[$locale]['options']['filters'][$filtersInput['key']] = $filtersInput['value'];
             }
 
-            unset($data['options']);
+            unset($args['options']);
         }
 
-        if ($data['type'] == 'static_content') {
-            $data[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $data[$locale]['options']['html']);
-            $data[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $data[$locale]['options']['css']);
+        if ($args['type'] == 'static_content') {
+            $args[$locale]['options']['html'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $args[$locale]['options']['html']);
+            $args[$locale]['options']['css'] = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $args[$locale]['options']['css']);
         }
 
-        if ($data['type'] == 'image_carousel') {
-            unset($data['options']);
+        if ($args['type'] == 'image_carousel') {
+            unset($args['options']);
         }
 
-        Event::dispatch('theme_customization.update.before', $id);
+        Event::dispatch('theme_customization.update.before', $themeCustomization->id);
 
-        $theme = $this->themeCustomizationRepository->update($data, $id);
+        $theme = $this->themeCustomizationRepository->update($args, $themeCustomization->id);
 
-        if ($data['type'] == 'image_carousel') {
+        if ($args['type'] == 'image_carousel') {
             $this->themeCustomizationRepository->uploadImage(
                 request()->all('options'),
                 $theme,
@@ -129,35 +116,37 @@ class ThemeMutation extends Controller
 
         Event::dispatch('theme_customization.update.after', $theme);
 
-        $theme->success = trans('bagisto_graphql::app.admin.settings.themes.update-success');
-
-        return $theme;
+        return [
+            'success' => true,
+            'message' => trans('bagisto_graphql::app.admin.settings.themes.update-success'),
+            'theme'   => $theme,
+        ];
     }
 
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    /**
+     * Delete the specified resource from storage.
+     *
+     * @return array
+     */
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
+        Event::dispatch('theme_customization.delete.before', $args['id']);
 
-        $id = $args['id'];
-
-        Event::dispatch('theme_customization.delete.before', $id);
-
-        $theme = $this->themeCustomizationRepository->find($id);
+        $theme = $this->themeCustomizationRepository->find($args['id']);
 
         if (! $theme) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.themes.not-found'));
         }
 
-        $theme?->delete();
+        $theme->delete();
 
-        Storage::deleteDirectory('theme/'.$theme->id);
+        Storage::deleteDirectory("theme/{$theme->id}");
 
-        Event::dispatch('theme_customization.delete.after', $id);
+        Event::dispatch('theme_customization.delete.after', $args['id']);
 
         return [
-            'success' => trans('bagisto_graphql::app.admin.settings.themes.delete-success'),
+            'success' => true,
+            'message' => trans('bagisto_graphql::app.admin.settings.themes.delete-success'),
         ];
     }
 }

@@ -1,0 +1,50 @@
+# SEO\Search Term Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    searchSynonyms (
+        input: FilterSearchTermInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\SEO\\FilterSearchTerm")
+    ): [SearchSynonym!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Marketing\\Models\\SearchSynonym"
+    )
+
+    searchSynonym (id: ID! @eq): SearchSynonym @find(model: "Webkul\\Marketing\\Models\\SearchSynonym")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createSearchSynonym(
+        input: SearchSynonymInput! @spread
+    ): SearchSynonymResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SearchSynonymMutation@store")
+
+    updateSearchSynonym(
+        id: ID!,
+        input: SearchSynonymInput! @spread
+    ): SearchSynonymResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SearchSynonymMutation@update")
+
+    deleteSearchSynonym (id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SearchSynonymMutation@delete")
+}
+
+input FilterSearchTermInput {
+    name: String
+    term: String
+}
+
+input SearchSynonymInput {
+    name: String!
+    terms: String!
+}
+
+type SearchSynonymResponse {
+    success: Boolean
+    message: String
+    searchSynonym: SearchSynonym @rename(attribute: "search_synonym")
+}
+
+type SearchSynonym {
+    id: ID!
+    name: String
+    terms: String
+    createdAt: String @rename(attribute: "created_at")
+    updatedAt: String @rename(attribute: "updated_at")
+}

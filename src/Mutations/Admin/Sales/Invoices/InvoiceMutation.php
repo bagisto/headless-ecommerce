@@ -7,6 +7,7 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\OrderTransactionRepository;
 
 class InvoiceMutation extends Controller
 {
@@ -17,25 +18,20 @@ class InvoiceMutation extends Controller
      */
     public function __construct(
         protected OrderRepository $orderRepository,
-        protected InvoiceRepository $invoiceRepository
+        protected InvoiceRepository $invoiceRepository,
+        protected OrderTransactionRepository $orderTransactionRepository,
     ) {}
 
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        $orderId = $params['order_id'];
-
-        $order = $this->orderRepository->find($orderId);
+        $order = $this->orderRepository->find($args['order_id']);
 
         if (! $order) {
             throw new CustomException(trans('bagisto_graphql::app.admin.sales.orders.not-found'));
@@ -46,15 +42,15 @@ class InvoiceMutation extends Controller
         }
 
         try {
-            if (empty($params['invoice_data'])) {
+            if (empty($args['invoice_data'])) {
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.invoices.product-error'));
             }
 
             $invoiceData = [];
 
-            foreach ($params['invoice_data'] as $data) {
+            foreach ($args['invoice_data'] as $arg) {
                 $invoiceData = $invoiceData + [
-                    $data['order_item_id'] => $data['quantity'],
+                    $arg['order_item_id'] => $arg['quantity'],
                 ];
             }
 
@@ -74,11 +70,41 @@ class InvoiceMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.invoices.product-error'));
             }
 
-            $invoicedData = $this->invoiceRepository->create(array_merge($invoice, ['order_id' => $orderId]));
+            $invoice = $this->invoiceRepository->create(array_merge($invoice, [
+                'order_id' => $args['order_id'],
+            ]));
 
-            return $invoicedData;
+            if ($args['can_create_transaction']) {
+                $this->createTransaction($invoice);
+            }
+
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.sales.invoices.create-success'),
+                'invoice'  => $invoice,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
+    }
+
+    /**
+     * Create transaction for the invoice.
+     */
+    private function createTransaction(object $invoice): void
+    {
+        $transactionId = md5(uniqid());
+
+        $transactionData = [
+            'transaction_id' => $transactionId,
+            'status'         => $invoice->state,
+            'type'           => $invoice->order->payment->method,
+            'payment_method' => $invoice->order->payment->method,
+            'order_id'       => $invoice->order->id,
+            'invoice_id'     => $invoice->id,
+            'amount'         => $invoice->grand_total,
+        ];
+
+        $this->orderTransactionRepository->create($transactionData);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -36,7 +37,7 @@ class OrderMutation extends Controller
 
         $order = $this->orderRepository->findOneWhere([
             'id'          => $args['id'],
-            'customer_id' => auth()->user()->id,
+            'customer_id' => $customer->id,
         ]);
 
         if (! empty($order->id)) {
@@ -44,6 +45,40 @@ class OrderMutation extends Controller
         } else {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.orders.not-found'));
         }
+    }
+
+    /**
+     * Reorder a customer's order.
+     */
+    public function reorder($rootValue, array $args, GraphQLContext $context): array
+    {
+        $customer = bagisto_graphql()->authorize();
+
+        $order = $this->orderRepository->findOneWhere([
+            'id'          => $args['id'],
+            'customer_id' => $customer->id,
+        ]);
+
+        if (! $order) {
+            return [
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.shop.customers.account.orders.not-found'),
+                'cart'    => Cart::getCart(),
+            ];
+        }
+
+        foreach ($order->items as $item) {
+            try {
+                Cart::addProduct($item->product, $item->additional);
+            } catch (\Exception $e) {
+            }
+        }
+
+        return [
+            'success' => true,
+            'message' => trans('bagisto_graphql::app.shop.checkout.cart.item.success.add-to-cart'),
+            'cart'    => Cart::getCart(),
+        ];
     }
 
     /**

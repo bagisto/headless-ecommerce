@@ -1,17 +1,17 @@
 <?php
 
-namespace Webkul\GraphQLAPI\Queries\Admin\Marketing\Promotion;
+namespace Webkul\GraphQLAPI\Queries\Admin\Setting;
 
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class FilterCatalogRuleProductPrice extends BaseFilter
+class FilterPushNotification extends BaseFilter
 {
     /**
      * filter the data .
      *
      * @param  object  $query
      * @param  array  $input
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function __invoke($query, $input)
     {

@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -19,15 +20,13 @@ class CampaignMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        bagisto_graphql()->validate($args['input'], [
+        bagisto_graphql()->validate($args, [
             'name'                  => 'required',
             'subject'               => 'required',
             'status'                => 'required',
@@ -38,9 +37,17 @@ class CampaignMutation extends Controller
         ]);
 
         try {
-            $campaign = $this->campaignRepository->create($args['input']);
+            Event::dispatch('marketing.campaigns.create.before');
 
-            return $campaign;
+            $campaign = $this->campaignRepository->create($args);
+
+            Event::dispatch('marketing.campaigns.create.after', $campaign);
+
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.create-success'),
+                'campaign' => $campaign,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -49,19 +56,13 @@ class CampaignMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        bagisto_graphql()->validate($args['input'], [
+        bagisto_graphql()->validate($args, [
             'name'                  => 'required',
             'subject'               => 'required',
             'status'                => 'required',
@@ -71,10 +72,24 @@ class CampaignMutation extends Controller
             'marketing_event_id'    => 'required',
         ]);
 
-        try {
-            $campaign = $this->campaignRepository->update($args['input'], $args['id']);
+        $campaign = $this->campaignRepository->find($args['id']);
 
-            return $campaign;
+        if (! $campaign) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.campaigns.not-found'));
+        }
+
+        try {
+            Event::dispatch('marketing.campaigns.update.before', $campaign->id);
+
+            $campaign = $this->campaignRepository->update($args, $campaign->id);
+
+            Event::dispatch('marketing.campaigns.update.after', $campaign);
+
+            return [
+                'success'  => true,
+                'message'  => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.update-success'),
+                'campaign' => $campaign,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -83,31 +98,28 @@ class CampaignMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+        $campaign = $this->campaignRepository->find($args['id']);
+
+        if (! $campaign) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.campaigns.not-found'));
         }
 
-        $id = $args['id'];
-
-        $campaign = $this->campaignRepository->find($id);
-
         try {
-            if ($campaign) {
-                $campaign->delete();
+            Event::dispatch('marketing.campaigns.delete.before', $args['id']);
 
-                return [
-                    'status'  => true,
-                    'message' => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.delete-success'),
-                ];
-            }
+            $campaign->delete();
+
+            Event::dispatch('marketing.campaigns.delete.after', $args['id']);
 
             return [
-                'status'  => false,
-                'message' => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.delete-failed'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.campaigns.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

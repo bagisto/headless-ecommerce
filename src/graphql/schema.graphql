@@ -27,7 +27,7 @@ scalar Upload
 
 #import /admin/marketing/promotions/*.graphql
 #import /admin/marketing/communications/*.graphql
-#import /admin/marketing/sitemaps/*.graphql
+#import /admin/marketing/seo/*.graphql
 
 #import /admin/setting/*.graphql
 #import /admin/configuration/*.graphql

@@ -3,24 +3,26 @@ extend type Query @guard(with: ["admin-api"]) {
     locales(
         input: FilterLocaleInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterLocale")
-    ): [Locale!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Core\\Models\\Locale")
+    ): [Locale!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Core\\Models\\Locale"
+    )
 
-    locale(
-        id: ID @eq
-    ): Locale @find(model: "Webkul\\Core\\Models\\Locale")
+    locale(id: ID @eq): Locale @find(model: "Webkul\\Core\\Models\\Locale")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createLocale(
-        input: CreateLocaleInput!
-    ): Locale @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\LocaleMutation@store")
+        input: CreateLocaleInput! @spread
+    ): LocaleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\LocaleMutation@store")
 
     updateLocale(
         id: ID!,
-        input: CreateLocaleInput!
-    ): Locale @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\LocaleMutation@update")
+        input: CreateLocaleInput! @spread
+    ): LocaleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\LocaleMutation@update")
 
-    deleteLocale(id: ID!): Locale @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\LocaleMutation@delete")
+    deleteLocale(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Setting\\LocaleMutation@delete")
 }
 
 input FilterLocaleInput {
@@ -42,6 +44,12 @@ enum Direction {
     RTL @enum(value: "rtl")
 }
 
+type LocaleResponse {
+    success: Boolean!
+    message: String!
+    locale: Locale
+}
+
 type Locale {
     id: ID!
     code: String!
@@ -50,5 +58,4 @@ type Locale {
     logoUrl: String @rename(attribute: "logo_url")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    success: String
 }

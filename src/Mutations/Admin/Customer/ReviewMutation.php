@@ -20,41 +20,36 @@ class ReviewMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['status'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
         bagisto_graphql()->validate($args, [
             'status' => 'required',
         ]);
 
-        $review = $this->productReviewRepository->find($id);
+        $review = $this->productReviewRepository->find($args['id']);
 
         if (! $review) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.reviews.not-found'));
         }
 
         try {
-            Event::dispatch('customer.customer.update.before');
+            Event::dispatch('customer.review.update.before', $review->id);
 
             $review = $this->productReviewRepository->update([
                 'status' => $args['status'],
-            ], $id);
+            ], $review->id);
 
-            Event::dispatch('customer.customer.update.after', $review);
+            Event::dispatch('customer.review.update.after', $review);
 
-            $review->success = trans('bagisto_graphql::app.admin.customers.reviews.update-success');
-
-            return $review;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.customers.reviews.update-success'),
+                'review'  => $review,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -63,31 +58,29 @@ class ReviewMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $review = $this->productReviewRepository->find($id);
+        $review = $this->productReviewRepository->find($args['id']);
 
         if (! $review) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.reviews.not-found'));
         }
 
         try {
-            Event::dispatch('customer.review.delete.before', $id);
+            Event::dispatch('customer.review.delete.before', $args['id']);
 
-            $this->productReviewRepository->delete($id);
+            $review->delete();
 
-            Event::dispatch('customer.review.delete.after', $id);
+            Event::dispatch('customer.review.delete.after', $args['id']);
 
-            return ['success' => trans('bagisto_graphql::app.admin.customers.reviews.delete-success')];
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.customers.reviews.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

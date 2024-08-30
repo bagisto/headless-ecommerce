@@ -11,7 +11,7 @@ class FilterProducts extends BaseFilter
      *
      * @param  object  $query
      * @param  array  $input
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function __invoke($query, $input)
     {
@@ -22,8 +22,10 @@ class FilterProducts extends BaseFilter
         $qty = '';
 
         // filter Both the relationship Attribute Family as well the Inventories
-        if (isset($arguments['attribute_family']) && isset($arguments['qty'])) {
-
+        if (
+            isset($arguments['attribute_family'])
+            && isset($arguments['qty'])
+        ) {
             $attributeFamily = $input['attribute_family'];
 
             $qty = $input['qty'];
@@ -41,6 +43,7 @@ class FilterProducts extends BaseFilter
                 });
             })->where($arguments);
         }
+
         // filter the relationship Attribute Family
         if (isset($arguments['attribute_family'])) {
 
@@ -54,8 +57,10 @@ class FilterProducts extends BaseFilter
         }
 
         // filter the relationship Inventories
-        if (isset($arguments['qty']) || array_key_exists('qty', $input)) {
-
+        if (
+            isset($arguments['qty'])
+            || array_key_exists('qty', $input)
+        ) {
             $qty = $input['qty'];
 
             unset($arguments['qty']);

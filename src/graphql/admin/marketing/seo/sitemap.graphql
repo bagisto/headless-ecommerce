@@ -1,0 +1,48 @@
+#Marketing\Event Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    sitemaps(
+        input: FilterSiteMapInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\SEO\\FilterSitemap")
+    ): [Sitemap!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sitemap\\Models\\Sitemap"
+    )
+
+    sitemap(id: ID @eq): Sitemap @find(model: "Webkul\\Sitemap\\Models\\Sitemap")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createSiteMap(
+        input: CreateSiteMapInput! @spread
+    ): SitemapResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SiteMapMutation@store")
+
+    updateSiteMap(
+        id: ID!,
+        input: CreateSiteMapInput! @spread
+    ): SitemapResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SiteMapMutation@update")
+
+    deleteSiteMap (id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SiteMapMutation@delete")
+}
+
+input FilterSiteMapInput {
+    fileName: String @rename(attribute: "file_name")
+    path: String
+}
+
+input CreateSiteMapInput {
+    fileName: String! @rename(attribute: "file_name")
+    path: String!
+}
+
+type SitemapResponse {
+    success: Boolean
+    message: String
+    sitemap: Sitemap
+}
+
+type Sitemap {
+    id: ID!
+    fileName: String! @rename(attribute: "file_name")
+    path: String
+}

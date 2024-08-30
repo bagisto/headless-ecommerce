@@ -21,33 +21,31 @@ class CustomerGroupMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'code' => ['required', 'unique:customer_groups,code', new Code],
             'name' => 'required',
         ]);
 
         try {
-            $data['is_user_defined'] = $data['is_user_defined'] ?? 0;
+            $args['is_user_defined'] = 1;
 
             Event::dispatch('customer.customer_group.create.before');
 
-            $customerGroup = $this->customerGroupRepository->create($data);
+            $customerGroup = $this->customerGroupRepository->create($args);
 
             Event::dispatch('customer.customer_group.create.after', $customerGroup);
 
-            $customerGroup->success = trans('bagisto_graphql::app.admin.customers.groups.create-success');
-
-            return $customerGroup;
+            return [
+                'success'        => true,
+                'message'        => trans('bagisto_graphql::app.admin.customers.groups.create-success'),
+                'customer_group' => $customerGroup,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -56,45 +54,35 @@ class CustomerGroupMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'code' => ['required', 'unique:customer_groups,code,'.$id, new Code],
+        bagisto_graphql()->validate($args, [
+            'code' => ['required', 'unique:customer_groups,code,'.$args['id'], new Code],
             'name' => 'required',
         ]);
 
-        $customerGroup = $this->customerGroupRepository->find($id);
+        $customerGroup = $this->customerGroupRepository->find($args['id']);
 
         if (! $customerGroup) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.not-found'));
         }
 
         try {
-            $data['is_user_defined'] = $data['is_user_defined'] ?? 0;
+            Event::dispatch('customer.customer_group.update.before', $customerGroup->id);
 
-            Event::dispatch('customer.customer_group.update.before', $id);
-
-            $customerGroup = $this->customerGroupRepository->update($data, $id);
+            $customerGroup = $this->customerGroupRepository->update($args, $customerGroup->id);
 
             Event::dispatch('customer.customer_group.update.after', $customerGroup);
 
-            $customerGroup->success = trans('bagisto_graphql::app.admin.customers.groups.update-success');
-
-            return $customerGroup;
+            return [
+                'success'        => true,
+                'message'        => trans('bagisto_graphql::app.admin.customers.groups.update-success'),
+                'customer_group' => $customerGroup,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -103,18 +91,13 @@ class CustomerGroupMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $customerGroup = $this->customerGroupRepository->find($id);
+        $customerGroup = $this->customerGroupRepository->find($args['id']);
 
         if (! $customerGroup) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.groups.not-found'));
@@ -129,13 +112,16 @@ class CustomerGroupMutation extends Controller
         }
 
         try {
-            Event::dispatch('customer.customer_group.delete.before', $id);
+            Event::dispatch('customer.customer_group.delete.before', $args['id']);
 
-            $this->customerGroupRepository->delete($id);
+            $customerGroup->delete();
 
-            Event::dispatch('customer.customer_group.delete.after', $id);
+            Event::dispatch('customer.customer_group.delete.after', $args['id']);
 
-            return ['success' => trans('bagisto_graphql::app.admin.customers.groups.delete-success')];
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.customers.groups.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

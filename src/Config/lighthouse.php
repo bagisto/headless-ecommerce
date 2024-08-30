@@ -34,7 +34,7 @@ return [
             \Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
 
             // Logs every incoming GraphQL query.
-            \Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
+            // \Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
 
             // Validate Locale in request
             \Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
@@ -168,22 +168,28 @@ return [
     |
     */
     'namespaces' => [
-        'queries'       => ['Webkul\\GraphQLAPI\\Queries'],
-        'mutations'     => ['Webkul\\GraphQLAPI\\Mutations'],
         'subscriptions' => 'Webkul\\GraphQLAPI\\Subscriptions',
         'interfaces'    => 'Webkul\\GraphQLAPI\\Interfaces',
         'unions'        => 'Webkul\\GraphQLAPI\\Unions',
         'scalars'       => 'Webkul\\GraphQLAPI\\Scalars',
 
-        'directives'    => [
+        'queries' => [
+            'Webkul\\GraphQLAPI\\Queries',
+        ],
+
+        'mutations' => [
+            'Webkul\\GraphQLAPI\\Mutations',
+        ],
+
+        'directives' => [
             'Webkul\\GraphQLAPI\\Directives',
         ],
 
-        'validators'    => [
+        'validators' => [
             'Webkul\\GraphQLAPI\\Validators',
         ],
 
-        'models'        => [
+        'models' => [
             'App',
             'Webkul\\GraphQLAPI\\Models',
         ],

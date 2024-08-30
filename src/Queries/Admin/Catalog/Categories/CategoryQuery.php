@@ -21,9 +21,9 @@ class CategoryQuery extends BaseFilter
     ) {}
 
     /**
-     * Display a listing of the resource.
+     * Get the Product Count of the Category.
      *
-     * @return \Illuminate\View\View
+     * @return int
      */
     public function getProductCount($rootValue, array $args, GraphQLContext $context)
     {
@@ -44,9 +44,9 @@ class CategoryQuery extends BaseFilter
     }
 
     /**
-     * Display a listing of the resource.
+     * Get category breadcrumbs.
      *
-     * @return \Illuminate\View\View
+     * @return array
      */
     public function getbreadcrumbs($rootValue, array $args, GraphQLContext $context)
     {
@@ -77,9 +77,9 @@ class CategoryQuery extends BaseFilter
     /**
      * Get product maximum price based on category.
      *
-     * @return \Illuminate\View\View
+     * @return string
      */
-    public function getCategoryProductMaxPrice($rootValue, array $args, GraphQLContext $context)
+    public function getCategoryProductMaxPrice(mixed $rootValue, array $args, GraphQLContext $context)
     {
         return core()->convertPrice($this->productFlatRepository->getCategoryProductMaximumPrice($rootValue));
     }

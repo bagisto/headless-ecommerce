@@ -1,21 +1,36 @@
 # Sales\Refund Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    refunds(input: FilterRefundInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Refunds\\FilterRefund")): [Refund!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\Refund")
+    refunds(
+        input: FilterRefundInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Refunds\\FilterRefund")
+    ): [Refund!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\Refund"
+    )
 
     refund(id: ID @eq): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
 
-    refundItems(input: FilterRefundItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Refunds\\FilterRefundItem")): [RefundItem!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Sales\\Models\\RefundItem")
+    refundItems(
+        input: FilterRefundItemInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Refunds\\FilterRefundItem")
+    ): [RefundItem!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Sales\\Models\\RefundItem"
+    )
 
     refundItem(
         id: ID @eq,
-        input: FilterRefundItemInput! @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Refunds\\FilterRefundItem")
+        input: FilterRefundItemInput!
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Sales\\Refunds\\FilterRefundItem")
     ): RefundItem @find(model: "Webkul\\Sales\\Models\\RefundItem")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createRefund(
-        input: CreateRefundInput!
-    ): Refund @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Refunds\\RefundMutation@store")
+        input: CreateRefundInput! @spread
+    ): RefundResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Refunds\\RefundMutation@store")
 }
 
 input FilterRefundInput {
@@ -48,6 +63,12 @@ input CreateRefundInput {
 input RefundDataInput {
     orderItemId: Int! @rename(attribute: "order_item_id")
     quantity: Int!
+}
+
+type RefundResponse {
+    success: Boolean
+    message: String
+    refund: Refund
 }
 
 type Refund {
@@ -89,7 +110,6 @@ type Refund {
     customer: Customer! @belongsTo(relation: "customer")
     channel: Channel! @belongsTo(relation: "channel")
     address: Address! @belongsTo(relation: "address")
-    success: String
 }
 
 type RefundItem {

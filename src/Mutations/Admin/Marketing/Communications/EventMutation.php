@@ -2,6 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Marketing\Communications;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -19,28 +21,32 @@ class EventMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-
-        bagisto_graphql()->validate($params, [
+        bagisto_graphql()->validate($args, [
             'name'        => 'required',
             'description' => 'required',
             'date'        => 'required',
         ]);
 
         try {
-            $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
+            $args['date'] = Carbon::parse($args['date'])->format('Y-m-d');
 
-            $event = $this->eventRepository->create($params);
+            Event::dispatch('marketing.events.create.before');
 
-            return $event;
+            $event = $this->eventRepository->create($args);
+
+            Event::dispatch('marketing.events.create.after', $event);
+
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.create-success'),
+                'event'   => $event,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -49,35 +55,38 @@ class EventMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $params = $args['input'];
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($params, [
+        bagisto_graphql()->validate($args, [
             'name'        => 'required',
             'description' => 'required',
             'date'        => 'required',
         ]);
 
+        $event = $this->eventRepository->find($args['id']);
+
+        if (! $event) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.events.not-found'));
+        }
+
         try {
-            $event = $this->eventRepository->findOrFail($id);
+            $args['date'] = Carbon::parse($args['date'])->format('Y-m-d');
 
-            $params['date'] = \Carbon\Carbon::parse($params['date'])->format('Y-m-d');
+            Event::dispatch('marketing.events.update.before', $event->id);
 
-            $event = $this->eventRepository->update($params, $id);
+            $event = $this->eventRepository->update($args, $event->id);
 
-            return $event;
+            Event::dispatch('marketing.events.update.after', $event);
+
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.update-success'),
+                'event'   => $event,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -86,32 +95,28 @@ class EventMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+        $event = $this->eventRepository->find($args['id']);
+
+        if (! $event) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.marketing.communications.events.not-found'));
         }
 
-        $id = $args['id'];
-
-        $event = $this->eventRepository->find($id);
-
         try {
-            if ($event) {
-                $event->delete();
+            Event::dispatch('marketing.events.delete.before', $args['id']);
 
-                return [
-                    'status'  => true,
-                    'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.delete-success'),
-                ];
-            }
+            $event->delete();
+
+            Event::dispatch('marketing.events.delete.after', $args['id']);
 
             return [
-                'status'  => false,
-                'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.delete-failed'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.marketing.communications.events.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

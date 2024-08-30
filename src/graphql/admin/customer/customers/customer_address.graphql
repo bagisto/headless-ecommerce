@@ -3,29 +3,31 @@ extend type Query @guard(with: ["admin-api"]) {
     customerAddresses(
         input: FilterCustomerAddressInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerAddress")
-    ): [Address!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+    ): [Address!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Customer\\Models\\CustomerAddress"
+    )
 
-    customerAddress(
-        id: ID @eq
-    ): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+    customerAddress(id: ID @eq): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createCustomerAddress(
-        input: CreateCustomerAddressInput!
-    ): Address  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@store")
+        input: CreateCustomerAddressInput! @spread
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@store")
 
     updateCustomerAddress(
         id: ID!,
-        input: CreateCustomerAddressInput!
-    ): Address  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@update")
+        input: CreateCustomerAddressInput! @spread
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@update")
 
     setAsDefaultAddress(
         id: ID!
         customerId: ID! @rename(attribute: "customer_id")
-    ): Address  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@setAsDefaultAddress")
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@setAsDefaultAddress")
 
-    deleteCustomerAddress(id: ID!): Customer  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@delete")
+    deleteCustomerAddress(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerAddressMutation@delete")
 }
 
 input FilterCustomerAddressInput {

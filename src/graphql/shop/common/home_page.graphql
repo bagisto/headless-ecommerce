@@ -2,7 +2,7 @@
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 
-    themeCustomization: [FrontTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
+    themeCustomization: [Theme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
     homeCategories(
         getCategoryTree: Boolean @rename (attribute: "get_category_tree")
@@ -12,7 +12,11 @@ extend type Query {
     allProducts(
         input: [FilterAllProductsInput]
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
-    ): [Product!] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Product\\Models\\Product")
+    ): [Product!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Product\\Models\\Product"
+    )
 
     getFilterAttribute(
         categorySlug: String! @rename (attribute: "category_slug")
@@ -27,47 +31,6 @@ input FilterHomeCategoriesInput {
 input FilterAllProductsInput {
     key: String
     value: String
-}
-
-type FrontTheme {
-    id: Int
-    channelId: Int @rename(attribute: "channel_id")
-    type: String!
-    name: String
-    sortOrder: Int @rename(attribute: "sort_order")
-    status: Int
-    baseUrl: String @rename(attribute: "base_url")
-    translations: [FrontThemeTranslation!]
-}
-
-type FrontThemeTranslation {
-    id: ID!
-    themeCustomizationId: Int! @rename(attribute: "theme_customization_id")
-    locale: String!
-    options: OptionFields!
-}
-
-type OptionFields {
-    title: String
-    css: String
-    html: String
-    images: [Link]
-    filters: [FilterOption]
-    column_1: [ColumOption]
-    column_2: [ColumOption]
-    column_3: [ColumOption]
-}
-
-type Link {
-    link: String
-    image: String
-    imageUrl: String @rename(attribute: "image_url")
-}
-
-type ColumOption {
-    url: String
-    title: String
-    sortOrder: String @rename(attribute: "sort_order")
 }
 
 type FilterAttribute {

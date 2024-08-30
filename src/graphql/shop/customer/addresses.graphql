@@ -3,30 +3,28 @@ extend type Query @guard(with: ["api"]){
     addresses(
         input: FilterCustomerAddressInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomerAddress")
-    ): [Address] @paginate(type: "PAGINATOR" defaultCount: 10 model: "Webkul\\Customer\\Models\\CustomerAddress")
+    ): [Address] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Customer\\Models\\CustomerAddress"
+    )
 
-    address(
-        id: ID @eq
-    ): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+    address(id: ID @eq): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
 extend type Mutation @guard(with: ["api"]) {
     createAddress(
         input: AddressInput! @spread
-    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@store")
 
     updateAddress(
         id: ID!,
         input: AddressInput! @spread
-    ): AddressListResult @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
+    ): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@update")
 
-    setDefaultAddress(
-        id: ID!
-    ): Address  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
+    setDefaultAddress(id: ID!): AddressResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@setDefaultAddress")
 
-    deleteAddress(
-        id: ID!
-    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
+    deleteAddress(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AddressesMutation@delete")
 }
 
 input AddressInput {
@@ -42,10 +40,4 @@ input AddressInput {
     postcode: String! @rules(apply: ["required"])
     phone: String! @rules(apply: ["required"])
     defaultAddress: Boolean @rename(attribute: "default_address")
-}
-
-type AddressListResult {
-    success: Boolean
-    message: String
-    addresses: Address
 }

@@ -1,0 +1,68 @@
+# SEO\Search Term Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    searchTerms (
+        input: FilterSearchTermInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\SEO\\FilterSearchTerm")
+    ): [SearchTerm!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Marketing\\Models\\SearchTerm"
+    )
+
+    searchTerm(id: ID! @eq): SearchTerm @find(model: "Webkul\\Marketing\\Models\\SearchTerm")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createSearchTerm(
+        input: CreateSearchTermInput! @spread
+    ): SearchTermResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SearchTermMutation@store")
+
+    updateSearchTerm(
+        id: ID!,
+        input: UpdateSearchTermInput! @spread
+    ): SearchTermResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SearchTermMutation@update")
+
+    deleteSearchTerm (id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Marketing\\SEO\\SearchTermMutation@delete")
+}
+
+input FilterSearchTermInput {
+    id: ID
+    term: String
+    results: Int
+    uses: Int
+    locale: String
+    channelID: ID @rename(attribute: "channel_id")
+}
+
+input CreateSearchTermInput {
+    term: String!
+    redirectUrl: String @rename(attribute: "redirect_url")
+    locale: String
+    channelID: Int @rename(attribute: "channel_id")
+}
+
+input UpdateSearchTermInput {
+    term: String
+    results: Int
+    uses: Int
+    redirectUrl: String @rename(attribute: "redirect_url")
+    locale: String
+    channelID: Int @rename(attribute: "channel_id")
+}
+
+type SearchTermResponse {
+    success: Boolean
+    message: String
+    searchTerm: SearchTerm @rename(attribute: "search_term")
+}
+
+type SearchTerm {
+    id: ID!
+    term: String
+    results: Int
+    uses: Int
+    redirectUrl: String @rename(attribute: "redirect_url")
+    displayInSuggestedTerms: Boolean @rename(attribute: "display_in_suggested_terms")
+    locale: String
+    channelID: ID @rename(attribute: "channel_id")
+}

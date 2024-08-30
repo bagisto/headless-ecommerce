@@ -21,17 +21,13 @@ class ChannelMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
+        bagisto_graphql()->validate($args, [
             'code'                  => ['required', 'unique:channels,code', new Code],
             'name'                  => 'required',
             'description'           => 'nullable',
@@ -54,17 +50,17 @@ class ChannelMutation extends Controller
         ]);
 
         try {
-            $data = $this->setSEOContent($data);
+            $args = $this->setSEOContent($args);
 
-            $logo = $data['logo'] ?? '';
+            $logo = $args['logo'] ?? '';
 
-            $favicon = $data['favicon'] ?? '';
+            $favicon = $args['favicon'] ?? '';
 
-            unset($data['logo'], $data['favicon']);
+            unset($args['logo'], $args['favicon']);
 
             Event::dispatch('core.channel.create.before');
 
-            $channel = $this->channelRepository->create($data);
+            $channel = $this->channelRepository->create($args);
 
             Event::dispatch('core.channel.create.after', $channel);
 
@@ -72,9 +68,11 @@ class ChannelMutation extends Controller
 
             bagisto_graphql()->uploadImage($channel, $favicon, 'channel/', 'favicon');
 
-            $channel->success = trans('bagisto_graphql::app.admin.settings.channels.create-success');
-
-            return $channel;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.channels.create-success'),
+                'channel' => $channel,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -83,28 +81,19 @@ class ChannelMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'code'                  => ['required', 'unique:channels,code', new Code],
+        bagisto_graphql()->validate($args, [
+            'code'                  => ['required', 'unique:channels,code,'.$args['id'], new Code],
             'name'                  => 'required',
             'description'           => 'nullable',
             'inventory_sources'     => 'required|array|min:1',
             'root_category_id'      => 'required',
-            'hostname'              => 'unique:channels,hostname,'.$id,
+            'hostname'              => 'unique:channels,hostname,'.$args['id'],
             'locales'               => 'required|array|min:1',
             'default_locale_id'     => 'required|in_array:locales.*',
             'currencies'            => 'required|array|min:1',
@@ -120,24 +109,24 @@ class ChannelMutation extends Controller
             'allowed_ips'           => 'nullable',
         ]);
 
-        $channel = $this->channelRepository->find($id);
+        $channel = $this->channelRepository->find($args['id']);
 
         if (! $channel) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.not-found'));
         }
 
         try {
-            $data = $this->setSEOContent($data);
+            $args = $this->setSEOContent($args);
 
-            $logo = $data['logo'] ?? '';
+            $logo = $args['logo'] ?? '';
 
-            $favicon = $data['favicon'] ?? '';
+            $favicon = $args['favicon'] ?? '';
 
-            unset($data['logo'], $data['favicon']);
+            unset($args['logo'], $args['favicon']);
 
-            Event::dispatch('core.channel.update.before', $id);
+            Event::dispatch('core.channel.update.before', $channel->id);
 
-            $channel = $this->channelRepository->update($data, $id);
+            $channel = $this->channelRepository->update($args, $channel->id);
 
             Event::dispatch('core.channel.update.after', $channel);
 
@@ -145,52 +134,37 @@ class ChannelMutation extends Controller
 
             bagisto_graphql()->uploadImage($channel, $favicon, 'channel/', 'favicon');
 
-            $channel->success = trans('bagisto_graphql::app.admin.settings.channels.update-success');
-
-            return $channel;
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.channels.update-success'),
+                'channel' => $channel,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
 
     /**
-     * Set the seo content and return back the updated array.
+     * Set the SEO content and return the updated array.
      *
-     * @param  string  $locale
      * @return array
      */
-    private function setSEOContent(array $data, $locale = null)
+    private function setSEOContent(array $data, ?string $locale = null)
     {
-        $editedData = $data;
+        $targetData = $locale ? $data[$locale] : $data;
+
+        $targetData['home_seo'] = [
+            'meta_title'       => $targetData['seo_title'],
+            'meta_description' => $targetData['seo_description'],
+            'meta_keywords'    => $targetData['seo_keywords'],
+        ];
+
+        unset($targetData['seo_title'], $targetData['seo_description'], $targetData['seo_keywords']);
 
         if ($locale) {
-            $editedData = $data[$locale];
-        }
-
-        $editedData['home_seo']['meta_title'] = $editedData['seo_title'];
-        $editedData['home_seo']['meta_description'] = $editedData['seo_description'];
-        $editedData['home_seo']['meta_keywords'] = $editedData['seo_keywords'];
-
-        $editedData = $this->unsetKeys($editedData, ['seo_title', 'seo_description', 'seo_keywords']);
-
-        if ($locale) {
-            $data[$locale] = $editedData;
-            $editedData = $data;
-        }
-
-        return $editedData;
-    }
-
-    /**
-     * Unset keys.
-     *
-     * @param  array  $keys
-     * @return array
-     */
-    private function unsetKeys($data, $keys)
-    {
-        foreach ($keys as $key) {
-            unset($data[$key]);
+            $data[$locale] = $targetData;
+        } else {
+            $data = $targetData;
         }
 
         return $data;
@@ -199,17 +173,13 @@ class ChannelMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
     public function delete($rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $id = $args['id'];
-
-        $channel = $this->channelRepository->find($id);
+        $channel = $this->channelRepository->find($args['id']);
 
         if (! $channel) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.not-found'));
@@ -224,14 +194,15 @@ class ChannelMutation extends Controller
         }
 
         try {
-            Event::dispatch('core.channel.delete.before', $id);
+            Event::dispatch('core.channel.delete.before', $args['id']);
 
-            $this->channelRepository->delete($id);
+            $channel->delete();
 
-            Event::dispatch('core.channel.delete.after', $id);
+            Event::dispatch('core.channel.delete.after', $args['id']);
 
             return [
-                'success' => trans('bagisto_graphql::app.admin.settings.channels.delete-success'),
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.settings.channels.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.delete-failed'));

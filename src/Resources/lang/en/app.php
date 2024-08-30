@@ -202,6 +202,63 @@ return [
             ],
         ],
 
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'Warning: Order can not canceled.',
+                'cancel-success' => 'Success: Order canceled successfully.',
+                'not-found'      => 'Warning: Order not found.',
+            ],
+
+            'shipments' => [
+                'creation-error'   => 'Warning: Shipment not created.',
+                'not-found'        => 'Warning: Shipment not found.',
+                'quantity-invalid' => 'Warning: Invalid quantity provided.',
+                'shipment-error'   => 'Warning: Shipment not created.',
+                'create-success'   => 'Success: Shipment created successfully.',
+            ],
+
+            'invoices' => [
+                'creation-error' => 'Warning: Invoice not created.',
+                'not-found'      => 'Warning: Invoice not found.',
+                'product-error'  => 'Warning: Invalid product provided.',
+                'create-success' => 'Success: Invoice created successfully.',
+            ],
+
+            'refunds' => [
+                'creation-error'      => 'Warning: Refund not created.',
+                'refund-amount-error' => 'Warning: Invalid refund amount provided.',
+                'refund-limit-error'  => 'Warning: Refund amount exceeds the limit of :amount',
+                'not-found'           => 'Warning: Refund not found.',
+                'create-success'      => 'Success: Refund created successfully.',
+            ],
+
+            'transactions' => [
+                'already-paid'   => 'Warning: Invoice is already paid.',
+                'amount-exceed'  => 'Warning: Transaction amount exceeds the limit.',
+                'zero-amount'    => 'Warning: Transaction amount should be greater than zero.',
+                'create-success' => 'Success: Transaction created successfully.',
+            ],
+        ],
+
+        'catalog' => [
+            'categories' => [
+                'already-taken'  => 'Warning: The slug has already been taken.',
+                'create-success' => 'Category created successfully.',
+                'delete-success' => 'Category deleted successfully',
+                'not-found'      => 'Warning: Category not found.',
+                'update-success' => 'Category updated successfully.',
+                'root-delete'    => 'Warning: Root category can not be deleted.',
+            ],
+
+            'attributes' => [
+                'create-success'     => 'Attribute created successfully.',
+                'delete-success'     => 'Attribute deleted successfully',
+                'not-found'          => 'Warning: Attribute not found.',
+                'update-success'     => 'Attribute updated successfully.',
+                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute.',
+            ],
+        ],
+
         'customers' => [
             'customers' => [
                 'create-success'       => 'Customer created successfully.',
@@ -210,6 +267,7 @@ return [
                 'not-found'            => 'Warning: Customer not found.',
                 'note-created-success' => 'Note created successfully',
                 'update-success'       => 'Customer updated successfully.',
+                'login-success'        => 'Customer logged in successfully.',
             ],
 
             'addressess' => [
@@ -223,7 +281,7 @@ return [
             'groups' => [
                 'create-success'     => 'Customer Group created successfully.',
                 'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
-                'delete-success'     => 'Customer deleted successfully',
+                'delete-success'     => 'Customer Group deleted successfully',
                 'not-found'          => 'Warning: Customer Group not found.',
                 'update-success'     => 'Customer Group updated successfully.',
                 'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
@@ -259,6 +317,65 @@ return [
                     'delete-success' => 'Cart Rule deleted successfully',
                     'not-found'      => 'Cart rule is not found',
                     'update-success' => 'Cart Rule updated successfully.',
+                ],
+            ],
+
+            'communications' => [
+                'email-templates' => [
+                    'create-success' => 'Email Template created successfully.',
+                    'delete-success' => 'Email Template deleted successfully',
+                    'not-found'      => 'Warning: Email Template not found.',
+                    'update-success' => 'Email Template updated successfully.',
+                ],
+
+                'events' => [
+                    'create-success' => 'Event created successfully.',
+                    'delete-success' => 'Event deleted successfully',
+                    'not-found'      => 'Warning: Event not found.',
+                    'update-success' => 'Event updated successfully.',
+                ],
+
+                'campaigns' => [
+                    'create-success' => 'Campaign created successfully.',
+                    'delete-success' => 'Campaign deleted successfully',
+                    'not-found'      => 'Warning: Campaign not found.',
+                    'update-success' => 'Campaign updated successfully.',
+                ],
+
+                'subscriptions' => [
+                    'delete-success'      => 'Subscription deleted successfully',
+                    'not-found'           => 'Warning: Subscription not found.',
+                    'unsubscribe-success' => 'Success: Subscription unsubscribed successfully.',
+                ],
+            ],
+
+            'seo' => [
+                'url-rewrites' => [
+                    'create-success' => 'URL Rewrite created successfully.',
+                    'delete-success' => 'URL Rewrite deleted successfully',
+                    'not-found'      => 'Warning: URL Rewrite not found.',
+                    'update-success' => 'URL Rewrite updated successfully.',
+                ],
+
+                'search-terms' => [
+                    'create-success' => 'Search Term created successfully.',
+                    'delete-success' => 'Search Term deleted successfully',
+                    'not-found'      => 'Warning: Search Term not found.',
+                    'update-success' => 'Search Term updated successfully.',
+                ],
+
+                'search-synonyms' => [
+                    'create-success' => 'Search Synonym created successfully.',
+                    'delete-success' => 'Search Synonym deleted successfully',
+                    'not-found'      => 'Warning: Search Synonym not found.',
+                    'update-success' => 'Search Synonym updated successfully.',
+                ],
+
+                'sitemaps' => [
+                    'create-success' => 'Sitemap created successfully.',
+                    'delete-success' => 'Sitemap deleted successfully',
+                    'not-found'      => 'Warning: Sitemap not found.',
+                    'update-success' => 'Sitemap updated successfully.',
                 ],
             ],
         ],
@@ -430,6 +547,7 @@ return [
                     ],
                 ],
 
+                'not-found'           => 'Warning: Notification not found.',
                 'create-success'      => 'Notification created successfully.',
                 'delete-failed'       => 'Notification deleted failed.',
                 'delete-success'      => 'Notification deleted successfully.',
@@ -438,6 +556,7 @@ return [
                 'no-value-selected'   => 'there are no existing value.',
                 'sended-successfully' => 'Notification pushed successfully for android and iOS.',
                 'update-success'      => 'Notification updated successfully.',
+                'configuration-error' => 'Warning: FCM configuration not found.',
             ],
         ],
 

@@ -3,29 +3,31 @@ extend type Query @guard(with: ["admin-api"]) {
     customers(
         input: FilterCustomerInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Customer\\FilterCustomer")
-    ): [Customer!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Customer\\Models\\Customer")
+    ): [Customer!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Customer\\Models\\Customer"
+    )
 
-    customer(
-        id: ID @eq
-    ): Customer @find(model: "Webkul\\Customer\\Models\\Customer")
+    customer(id: ID @eq): Customer @find(model: "Webkul\\Customer\\Models\\Customer")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createCustomer(
-        input: CreateCustomerInput!
-    ): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@store")
+        input: CreateCustomerInput! @spread
+    ): CustomerResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@store")
 
     updateCustomer(
         id: ID!,
-        input: CreateCustomerInput!
-    ): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@update")
+        input: CreateCustomerInput! @spread
+    ): CustomerResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@update")
 
     storeNotes(
         id: ID!,
-        input: CreateCustomerNoteInput!
-    ): Note @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@storeNotes")
+        input: CreateCustomerNoteInput! @spread
+    ): NoteResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@storeNotes")
 
-    deleteCustomer(id: ID!): Customer @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
+    deleteCustomer(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
 }
 
 input FilterCustomerInput {
@@ -54,6 +56,12 @@ input CreateCustomerInput {
 input CreateCustomerNoteInput {
     note: String! @rules(apply: ["required"])
     customerNotified: Boolean @rename(attribute: "customer_notified")
+}
+
+type CustomerResponse {
+    success: Boolean
+    message: String
+    customer: Customer
 }
 
 type Customer {
@@ -93,7 +101,12 @@ type Customer {
     reviews: [Review] @hasMany
     notes: [Note] @hasMany
     subscription: Subscriber @hasOne
-    success: String
+}
+
+type NoteResponse {
+    success: Boolean
+    message: String
+    note: Note
 }
 
 type Note {
