@@ -14,17 +14,17 @@ extend type Query {
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createProduct(
-        input: CreateProductInput!
-    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@store")
+        input: CreateProductInput! @spread
+    ): ProductResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@store")
 
     updateProduct(
         id: ID!,
-        input: UpdateProductInput!
-    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@update")
+        input: UpdateProductInput! @spread
+    ): ProductResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@update")
 
     deleteProduct(
         id: ID!
-    ): Product @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\Products\\ProductMutation@delete")
 }
 
 input CreateProductInput {
@@ -119,6 +119,12 @@ input FilterProductsInput {
     parentId: ID @rename(attribute: "parent_id")
     attributeFamily: String @rename(attribute: "attribute_family")
     qty: Int
+}
+
+type ProductResponse {
+    success: Boolean
+    message: String
+    product: Product
 }
 
 type Product {

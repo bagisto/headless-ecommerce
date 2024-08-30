@@ -241,6 +241,15 @@ return [
         ],
 
         'catalog' => [
+            'products' => [
+                'create-success'            => 'Product created successfully.',
+                'delete-success'            => 'Product deleted successfully',
+                'not-found'                 => 'Warning: Product not found.',
+                'update-success'            => 'Product updated successfully.',
+                'configurable-attr-missing' => 'Warning: Configurable attribute is missing.',
+                'simple-products-error'     => 'Warning: Simple products are missing.',
+            ],
+
             'categories' => [
                 'already-taken'  => 'Warning: The slug has already been taken.',
                 'create-success' => 'Category created successfully.',
