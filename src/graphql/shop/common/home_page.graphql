@@ -2,7 +2,7 @@
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 
-    themeCustomization: [Theme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
+    themeCustomization: [ShopTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
     homeCategories(
         getCategoryTree: Boolean @rename (attribute: "get_category_tree")
@@ -39,6 +39,19 @@ type FilterAttribute {
     filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
     filterData: [FilterAttributeDataList] @rename(attribute: "filter_data")
     sortOrders: [CatalogSortOrder!] @rename(attribute: "sort_orders")
+}
+
+type ShopTheme {
+    id: ID!
+    themeCode: String @rename(attribute: "theme_code")
+    type: String
+    name: String
+    sortOrder: Int  @rename(attribute: "sort_order")
+    status: Boolean
+    channelId: ID @rename(attribute: "channel_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    translations: [ThemeTranslation!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\ThemeContent@getThemeTranslations")
 }
 
 type FilterAttributeDataList {
