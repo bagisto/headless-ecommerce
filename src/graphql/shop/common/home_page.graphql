@@ -51,7 +51,7 @@ type ShopTheme {
     channelId: ID @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    translations: [ThemeTranslation!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\ThemeContent@getThemeTranslations")
+    translations: [ThemeTranslation!]
 }
 
 type FilterAttributeDataList {
