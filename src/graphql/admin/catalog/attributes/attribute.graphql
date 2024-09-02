@@ -142,7 +142,6 @@ type Attribute {
     isComparable: Boolean! @rename(attribute: "is_comparable")
     options: [AttributeOption!] @hasMany
     translations: [AttributeTranslation!] @hasMany
-    success: String
 }
 
 type AttributeOption {

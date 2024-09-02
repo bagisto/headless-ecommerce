@@ -51,7 +51,7 @@ input CreateUserInput {
 }
 
 type UserResponse {
-    success: String
+    success: Boolean!
     message: String
     user: User
 }
@@ -72,7 +72,7 @@ type User {
 }
 
 type LoginResponse {
-    success: String
+    success: Boolean
     message: String
     accessToken: String @rename(attribute: "access_token")
     tokenType: String @rename(attribute: "token_type")

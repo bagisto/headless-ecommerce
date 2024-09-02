@@ -54,7 +54,6 @@ type Address {
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-    success: String
 }
 
 type FormattedPrice {

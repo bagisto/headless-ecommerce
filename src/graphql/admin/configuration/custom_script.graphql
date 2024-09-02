@@ -37,5 +37,4 @@ type CustomScript {
     value: String!
     channelCode: String @rename(attribute: "channel_code")
     localeCode: String @rename(attribute: "locale_code")
-    success: String
 }

@@ -94,7 +94,6 @@ type AttributeFamily {
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     attributeGroups: [AttributeGroup!] @hasMany(relation: "attribute_groups")
     products: [Product!] @hasMany
-    success: String
 }
 
 type AttributeGroupResponse {
@@ -110,5 +109,4 @@ type AttributeGroup {
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
     customAttributes: [Attribute] @belongsTo(relation: "custom_attributes")
-    success: String
 }
