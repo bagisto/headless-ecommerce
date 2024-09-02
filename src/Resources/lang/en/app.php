@@ -611,6 +611,12 @@ return [
             ],
         ],
 
+        'configuration' => [
+            'custom-scripts' => [
+                'update-success' => 'Success: Custom scripts updated successfully.',
+            ],
+        ],
+
         'response' => [
             'error' => [
                 'invalid-parameter' => 'Warning: Invalid parameters provided.',

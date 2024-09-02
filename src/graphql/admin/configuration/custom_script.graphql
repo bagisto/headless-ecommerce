@@ -1,40 +1,22 @@
 # Setting\Custom Script Related APIs
 extend type Mutation {
-    createCustomScript(
-        input: CreateCustomScriptInput!
-    ): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Configuration\\CustomScriptMutation@store")
-
-    updateCustomCSSScript(
-        input: UpdateCustomCSSInput!
-    ): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Configuration\\CustomScriptMutation@update")
-
-    updateCustomJSScript(
-        input: UpdateCustomJSInput!
-    ): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Configuration\\CustomScriptMutation@update")
-
-    deleteCustomScript(id: ID!): CustomScript @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Configuration\\CustomScriptMutation@delete")
+    updateCustomScript(
+        input: CustomScriptInput! @spread
+    ): CustomScriptResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Configuration\\CustomScriptMutation@updateCustomScript")
 }
 
-input CreateCustomScriptInput {
-    channel: Int!
-    customCSS: String
-    customJS: String
+input CustomScriptInput {
+    css: String!
+    javascript: String!
 }
 
-input UpdateCustomCSSInput {
-    channel: Int!
-    customCSS: String!
+type CustomScriptResponse {
+    success: Boolean
+    message: String
+    customScripts: CustomScripts @rename(attribute: "custom_scripts")
 }
 
-input UpdateCustomJSInput {
-    channel: Int!
-    customJS: String!
-}
-
-type CustomScript {
-    id: ID!
-    code: String!
-    value: String!
-    channelCode: String @rename(attribute: "channel_code")
-    localeCode: String @rename(attribute: "locale_code")
+type CustomScripts {
+    css: String
+    javascript: String
 }

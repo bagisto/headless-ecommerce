@@ -7709,6 +7709,67 @@
 							]
 						},
 						{
+							"name": "Custom Script",
+							"item": [
+								{
+									"name": "Update Custom Script",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateCustomScript ($input: CustomScriptInput!) {\n    updateCustomScript (input: $input) {\n        success\n        message\n        customScripts {\n            css\n            javascript\n        }\n    }\n}",
+												"variables": "{\n    \"input\": {\n        \"css\": \"css\",\n        \"javascript\": \"js\"\n    }\n}"
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Get All Config"
+									},
+									"response": []
+								}
+							],
+							"description": "Core Config",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
 							"name": "Countries",
 							"item": [
 								{

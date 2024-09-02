@@ -2,20 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Reorder;
 
-use Webkul\Checkout\Facades\Cart;
-use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Payment\Facades\Payment;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\Sales\Transformers\OrderResource;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Checkout\Repositories\CartRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Checkout\Repositories\CartItemRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Checkout\Repositories\CartItemRepository;
+use Webkul\Checkout\Repositories\CartRepository;
+use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Transformers\OrderResource;
+use Webkul\Shipping\Facades\Shipping;
 
 class ReorderMutation extends Controller
 {
@@ -286,7 +286,7 @@ class ReorderMutation extends Controller
      * Store payment method.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function storePaymentMethod(mixed $rootValue, array $args, GraphQLContext $context)
@@ -322,9 +322,9 @@ class ReorderMutation extends Controller
 
     /**
      * Apply coupon to the cart.
-     * 
+     *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function storeCoupon(mixed $rootValue, array $args, GraphQLContext $context)
@@ -347,7 +347,7 @@ class ReorderMutation extends Controller
             if (! $coupon) {
                 return [
                     'success' => false,
-                    'message' =>trans('bagisto_graphql::app.admin.sales.reorder.coupon-not-valid'),
+                    'message' => trans('bagisto_graphql::app.admin.sales.reorder.coupon-not-valid'),
                     'cart'    => Cart::getCart(),
                 ];
             }
@@ -384,9 +384,9 @@ class ReorderMutation extends Controller
 
     /**
      * Remove applied coupon from the cart.
-     * 
+     *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function deleteCoupon(mixed $rootValue, array $args, GraphQLContext $context)
@@ -412,7 +412,7 @@ class ReorderMutation extends Controller
      * Store order.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function storeOrder(mixed $rootValue, array $args, GraphQLContext $context)
@@ -458,8 +458,6 @@ class ReorderMutation extends Controller
 
     /**
      * Merge new address rules.
-     * 
-     * @return array
      */
     private function mergeAddressRules(string $addressType): array
     {
