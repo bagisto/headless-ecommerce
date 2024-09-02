@@ -35,19 +35,21 @@ class HomePageQuery extends BaseFilter
     ) {}
 
     /**
-     * @param  mixed  $rootValue
+     * Get the default channel.
+     *
      * @return \Webkul\Core\Contracts\Channel
      */
-    public function getDefaultChannel($rootValue, array $args, GraphQLContext $context)
+    public function getDefaultChannel()
     {
         return core()->getDefaultChannel();
     }
 
     /**
-     * @param  mixed  $rootValue
-     * @return mixed
+     * Get the theme customization data.
+     *
+     * @return \Illuminate\Support\Collection
      */
-    public function getThemeCustomizationData($rootValue, array $args, GraphQLContext $context)
+    public function getThemeCustomizationData()
     {
         visitor()->visit();
 
@@ -110,10 +112,11 @@ class HomePageQuery extends BaseFilter
     /**
      * Get all categories in tree format.
      *
-     * @param  mixed  $rootValue
      * @return mixed
+     *
+     * @throws CustomException
      */
-    public function getCategories($rootValue, array $args, GraphQLContext $context)
+    public function getCategories(mixed $rootValue, array $args)
     {
         if (! empty($args['get_category_tree'])) {
             return $this->categoryRepository->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
@@ -149,19 +152,15 @@ class HomePageQuery extends BaseFilter
     /**
      * Get all products.
      *
-     * @param  mixed  $rootValue
-     * @param  array  $args
-     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext  $context
      * @return \Illuminate\Support\Collection
      */
-    public function getAllProducts($query, $input)
+    public function getAllProducts(object $query, array $input)
     {
         return $this->searchFromDatabase($input);
     }
 
     /**
      * Search product from database.
-     *
      *
      * @return \Illuminate\Support\Collection
      */
@@ -362,9 +361,9 @@ class HomePageQuery extends BaseFilter
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return array
      */
-    public function getFilterAttributes($rootValue, array $args, GraphQLContext $context)
+    public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $slug = $args['category_slug'];
 

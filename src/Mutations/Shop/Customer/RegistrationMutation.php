@@ -32,9 +32,9 @@ class RegistrationMutation extends Controller
     /**
      * Method to store user's sign up form data to DB.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function signUp($rootValue, array $args, GraphQLContext $context)
+    public function signUp(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'email'                 => 'email|required|unique:customers,email',
@@ -59,9 +59,11 @@ class RegistrationMutation extends Controller
     /**
      * Method to store user's sign up form data to DB.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function socialSignIn($rootValue, array $args, GraphQLContext $context)
+    public function socialSignIn(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'email'       => 'email|required',
@@ -71,9 +73,9 @@ class RegistrationMutation extends Controller
         ]);
 
         if ($args['signup_type'] == 'truecaller') {
-            if (empty($args['phone'])) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.customers.login.validation.required', ['field' => 'phone number']));
-            }
+            bagisto_graphql()->validate($args, [
+                'phone' => 'required',
+            ]);
 
             $customer = $this->customerRepository->findOneByField('phone', $args['phone']);
 
@@ -99,8 +101,10 @@ class RegistrationMutation extends Controller
     }
 
     /**
-     * @param  mixed  $data
-     * @return mixed
+     * Method to store user's sign up form data to DB.
+     *
+     * @param  array  $data
+     * @return \Webkul\Customer\Contracts\Customer
      */
     public function create($data)
     {
@@ -144,6 +148,13 @@ class RegistrationMutation extends Controller
         return $customer;
     }
 
+    /**
+     * Method to login user after registration.
+     *
+     * @return array
+     *
+     * @throws CustomException
+     */
     public function login($data, $password = null)
     {
         if (! $jwtToken = JWTAuth::attempt([

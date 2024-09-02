@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CompareItemRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductFlatRepository;
-use Webkul\Product\Repositories\ProductRepository;
 
 class CompareMutation extends Controller
 {
@@ -18,20 +16,19 @@ class CompareMutation extends Controller
      *
      * @return void
      */
-    public function __construct(
-        protected CompareItemRepository $compareItemRepository,
-        protected ProductRepository $productRepository,
-        protected ProductFlatRepository $productFlatRepository
-    ) {
+    public function __construct(protected CompareItemRepository $compareItemRepository)
+    {
         Auth::setDefaultDriver('api');
     }
 
     /**
      * Returns customer's compare product list
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function compareProducts($rootValue, array $args, GraphQLContext $context)
+    public function compareProducts(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -69,9 +66,11 @@ class CompareMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -113,9 +112,11 @@ class CompareMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -153,9 +154,11 @@ class CompareMutation extends Controller
     /**
      * Remove all the compare entries of customer.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function deleteAll($rootValue, array $args, GraphQLContext $context)
+    public function deleteAll(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 

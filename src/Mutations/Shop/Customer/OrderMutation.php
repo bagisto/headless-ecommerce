@@ -28,10 +28,11 @@ class OrderMutation extends Controller
     /**
      * Returns a current customer's order detail.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function order($rootValue, array $args, GraphQLContext $context)
+    public function order(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -49,8 +50,12 @@ class OrderMutation extends Controller
 
     /**
      * Reorder a customer's order.
+     *
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function reorder($rootValue, array $args, GraphQLContext $context): array
+    public function reorder(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -84,9 +89,11 @@ class OrderMutation extends Controller
     /**
      * Remove a resource from storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function cancel($rootValue, array $args, GraphQLContext $context)
+    public function cancel(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -121,9 +128,11 @@ class OrderMutation extends Controller
     /**
      * Returns a current customer's orders shipments data.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function shipments($rootValue, array $args, GraphQLContext $context)
+    public function shipments(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
@@ -189,9 +198,11 @@ class OrderMutation extends Controller
     /**
      * Returns a current customer's orders invoices data.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function invoices($rootValue, array $args, GraphQLContext $context)
+    public function invoices(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
@@ -251,9 +262,11 @@ class OrderMutation extends Controller
     /**
      * Returns a current customer's orders refunds data.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function refunds($rootValue, array $args, GraphQLContext $context)
+    public function refunds(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 

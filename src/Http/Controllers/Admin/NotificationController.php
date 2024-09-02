@@ -9,7 +9,6 @@ use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\DataGrids\PushNotificationDataGrid;
 use Webkul\GraphQLAPI\Http\Requests\NotificationRequest;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
@@ -24,7 +23,6 @@ class NotificationController extends Controller
      */
     public function __construct(
         protected CategoryRepository $categoryRepository,
-        protected ChannelRepository $channelRepository,
         protected ProductRepository $productRepository,
         protected NotificationRepository $notificationRepository
     ) {}
@@ -32,7 +30,7 @@ class NotificationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -171,7 +169,7 @@ class NotificationController extends Controller
     /**
      * To sent the notification to the device.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function sendNotification($id)
     {
@@ -196,7 +194,7 @@ class NotificationController extends Controller
             session()->flash('error', $message);
         }
 
-        return redirect()->back();
+        return back();
     }
 
     /**
@@ -211,32 +209,30 @@ class NotificationController extends Controller
             'selectedType',
         ]);
 
-        //product case
         if ($data['selectedType'] == 'product') {
             if ($product = $this->productRepository->find($data['givenValue'])) {
                 if (isset($product->url_key)) {
-                    return response()->json([
+                    return new JsonResponse([
                         'value' => true,
                     ], 200);
                 }
             }
 
-            return response()->json([
+            return new JsonResponse([
                 'value'   => false,
                 'message' => 'Product not exist',
                 'type'    => 'product',
             ], 401);
         }
 
-        //category case
         if ($data['selectedType'] == 'category') {
             if ($this->categoryRepository->find($data['givenValue'])) {
-                return response()->json([
+                return new JsonResponse([
                     'value' => true,
                 ], 200);
             }
 
-            return response()->json([
+            return new JsonResponse([
                 'value'   => false,
                 'message' => 'Category not exist',
                 'type'    => 'category',

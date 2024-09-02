@@ -20,7 +20,7 @@ class CustomScriptMutation extends Controller
      * Update the custom script.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function updateCustomScript(mixed $rootValue, array $args, GraphQLContext $context)

@@ -28,9 +28,11 @@ class PaypalStandardMutation
     /**
      * Returns paypal url & form fields.
      *
+     * @return array
+     *
      * @throws CustomException
      */
-    public function redirect($rootValue, array $args, GraphQLContext $context): array
+    public function redirect(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $company = app()->getInitializedCompany();
 
@@ -118,9 +120,11 @@ class PaypalStandardMutation
     /**
      * Create Order and returns success url
      *
+     * @return array
+     *
      * @throws CustomException
      */
-    public function success($rootValue, array $args, GraphQLContext $context): array
+    public function success(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $company = app()->getInitializedCompany();
 
@@ -167,9 +171,11 @@ class PaypalStandardMutation
     /**
      * Create Order and returns success url
      *
+     * @return array
+     *
      * @throws CustomException
      */
-    public function cancel($rootValue, array $args, GraphQLContext $context): array
+    public function cancel(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $company = app()->getInitializedCompany();
 
@@ -197,9 +203,11 @@ class PaypalStandardMutation
     /**
      * Paypal Ipn listener
      *
-     * @throws Exception
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function ipn($rootValue, array $args, GraphQLContext $context): array
+    public function ipn(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $company = app()->getInitializedCompany();
 

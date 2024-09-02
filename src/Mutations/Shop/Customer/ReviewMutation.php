@@ -23,16 +23,16 @@ class ReviewMutation extends Controller
         protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     ) {
         Auth::setDefaultDriver('api');
-
-        $this->middleware('auth:api');
     }
 
     /**
      * Returns loggedin customer's reviews data.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function reviews($rootValue, array $args, GraphQLContext $context)
+    public function reviews(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
 
@@ -95,9 +95,11 @@ class ReviewMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'comment'     => 'required',
@@ -153,10 +155,11 @@ class ReviewMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -191,9 +194,11 @@ class ReviewMutation extends Controller
     /**
      * Remove all resource based on condition from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function deleteAll($rootValue, array $args, GraphQLContext $context)
+    public function deleteAll(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -209,8 +214,8 @@ class ReviewMutation extends Controller
             }
 
             return [
-                'status'    => $customerReviews->count() ? true : false,
-                'message'   => $customerReviews->count()
+                'status'  => $customerReviews->count() ? true : false,
+                'message' => $customerReviews->count()
                     ? trans('bagisto_graphql::app.shop.customers.reviews.mass-delete-success')
                     : trans('bagisto_graphql::app.shop.customers.reviews.not-found'),
             ];

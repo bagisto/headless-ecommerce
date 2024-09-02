@@ -25,9 +25,11 @@ class DownloadableMutation extends Controller
     /**
      * Returns customer's purchased downloadable links
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function downloadLinks($rootValue, array $args, GraphQLContext $context)
+    public function downloadLinks(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -95,8 +97,12 @@ class DownloadableMutation extends Controller
 
     /**
      * Download the for the specified resource.
+     *
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function download($rootValue, array $args, GraphQLContext $context)
+    public function download(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 

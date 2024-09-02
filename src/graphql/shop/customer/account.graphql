@@ -10,7 +10,7 @@ extend type Query @guard(with: ["api"]) {
 extend type Mutation {
     subscribe(
         email: String! @rules(apply: ["email"])
-    ): Subscriber @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NewsletterSubscriberMutation@subscribe")
+    ): SubscribeResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NewsletterSubscriberMutation@subscribe")
 
     unSubscribeSubscription(
         token: String! @rules(apply: ["required"])
@@ -39,4 +39,10 @@ input UpdateAccountInput {
     uploadType: UploadType @rename(attribute: "upload_type")
     imageUrl: String @rename(attribute: "image_url")
     image: Upload
+}
+
+type SubscribeResponse {
+    success: Boolean
+    message: String
+    subscription: Subscriber
 }

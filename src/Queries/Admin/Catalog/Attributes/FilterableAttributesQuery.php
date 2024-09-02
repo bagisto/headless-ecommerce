@@ -17,7 +17,7 @@ class FilterableAttributesQuery extends BaseFilter
     /**
      * Get the filterable attributes.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Webkul\Attribute\Contracts\Attribute
      */
     public function getFilterableAttributes()
     {

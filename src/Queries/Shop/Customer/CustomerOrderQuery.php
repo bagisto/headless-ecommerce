@@ -2,20 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Database\Eloquent\Builder;
+use Webkul\Payment\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
 
 class CustomerOrderQuery
 {
     /**
-     * Returns loggedin customer's orders data.
-     *
-     * @param  mixed  $query
-     * @param  mixed  $input
-     * @param  mixed  $test
-     * @return mixed
+     * Returns logged in customer's orders data.
      */
-    public function orders($query, $input, $test)
+    public function orders(mixed $rootValue, array $input): Builder
     {
         $qb = app(OrderRepository::class)->query()->distinct()->addSelect('orders.*');
 
@@ -62,21 +58,19 @@ class CustomerOrderQuery
     /**
      * Get order payment additional data.
      *
-     * @param  mixed  $rootValue
-     * @return [type]
+     * @return mixed
      */
-    public function getOrderPaymentAdditional($rootValue, array $args, GraphQLContext $context)
+    public function getOrderPaymentAdditional(mixed $orderPayment)
     {
-        return \Webkul\Payment\Payment::getAdditionalDetails($rootValue->method);
+        return Payment::getAdditionalDetails($orderPayment->method);
     }
 
     /**
      * Get order payment title.
      *
-     * @param  mixed  $rootValue
      * @return mixed
      */
-    public function getOrderPaymentTitle($rootValue, array $args, GraphQLContext $context)
+    public function getOrderPaymentTitle(mixed $rootValue)
     {
         return core()->getConfigData('sales.payment_methods.'.$rootValue->method.'.title');
     }
@@ -84,10 +78,9 @@ class CustomerOrderQuery
     /**
      * Get Translated Order Status.
      *
-     * @param  mixed  $rootValue
-     * @return mixed
+     * @return string
      */
-    public function getTranslatedOrderStatus($rootValue, array $args, GraphQLContext $context)
+    public function getTranslatedOrderStatus(mixed $rootValue)
     {
         $statusLabel = [
             'pending'         => trans('shop::app.customers.account.orders.status.options.pending'),

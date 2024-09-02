@@ -8527,7 +8527,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation subscribe {\n    subscribe (\n        email: \"customer1@example.com\"\n    ) {\n        id\n        email\n        isSubscribed\n        token\n        customerId\n        channelId\n        createdAt\n        updatedAt\n        success\n    }\n}",
+														"query": "mutation subscribe {\n    subscribe (\n        email: \"customer1@example.com\"\n    ) {\n        success\n        message\n        subscription {\n            id\n            email\n            isSubscribed\n            token\n            customerId\n            channelId\n            createdAt\n            updatedAt\n        }\n    }\n}",
 														"variables": ""
 													}
 												},
@@ -8558,7 +8558,7 @@
 												"body": {
 													"mode": "graphql",
 													"graphql": {
-														"query": "mutation unSubscribeSubscription {\n    unSubscribeSubscription (\n        token: \"668fa803df90e\"\n    ) {\n        status\n        message\n    }\n}",
+														"query": "mutation unSubscribeSubscription {\n    unSubscribeSubscription (\n        token: \"66d5a69a39da0\"\n    ) {\n        success\n        message\n    }\n}",
 														"variables": ""
 													}
 												},

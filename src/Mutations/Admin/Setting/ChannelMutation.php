@@ -177,7 +177,7 @@ class ChannelMutation extends Controller
      *
      * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $channel = $this->channelRepository->find($args['id']);
 

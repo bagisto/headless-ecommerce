@@ -2,43 +2,40 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Setting;
 
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ThemeContent extends BaseFilter
 {
     /**
-     * filter the data .
+     * Filter the query by the given input.
      *
-     * @param  object  $query
-     * @param  array  $input
-     * @return object
+     * @return \Webkul\Theme\Contracts\ThemeCustomizationTranslation
      */
-    public function getThemeTranslations(mixed $rootValue, array $args, GraphQLContext $context)
+    public function getThemeTranslations(mixed $theme)
     {
         if (
-            $rootValue->type == 'product_carousel'
-            || $rootValue->type == 'category_carousel'
+            $theme->type == 'product_carousel'
+            || $theme->type == 'category_carousel'
         ) {
 
-            if (isset($rootValue->options['title'])) {
-                $options['title'] = $rootValue->options['title'];
+            if (isset($theme->options['title'])) {
+                $options['title'] = $theme->options['title'];
             }
 
             $options['filters'] = [];
 
             $i = 0;
 
-            foreach ($rootValue->options['filters'] as $key => $value) {
+            foreach ($theme->options['filters'] as $key => $value) {
                 $options['filters'][$i]['key'] = $key;
                 $options['filters'][$i]['value'] = $value;
 
                 $i++;
             }
 
-            $rootValue->options = $options;
+            $theme->options = $options;
         }
 
-        return $rootValue->translations;
+        return $theme->translations;
     }
 }

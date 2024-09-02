@@ -2,18 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Categories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterCategory extends BaseFilter
 {
     /**
-     * filter the data .
-     *
-     * @param  object  $query
-     * @param  array  $input
-     * @return \Illuminate\Http\Response
+     * filter the category's query
      */
-    public function __invoke($query, $input)
+    public function __invoke(Builder $query, array $input): Builder
     {
         $qbConditions = [];
 
@@ -22,7 +19,10 @@ class FilterCategory extends BaseFilter
                 unset($input[$key]);
             }
 
-            if (in_array($key, ['name', 'slug']) && $argument) {
+            if (
+                in_array($key, ['name', 'slug'])
+                && $argument
+            ) {
                 $qbConditions[$key] = $argument;
 
                 unset($input[$key]);

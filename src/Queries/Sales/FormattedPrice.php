@@ -57,7 +57,7 @@ class FormattedPrice extends BaseFilter
     /**
      * Get formatted price for Refund Item.
      */
-    public function getRefundItemPriceData($refundItem): array
+    public function getRefundItemPriceData(object $refundItem): array
     {
         return $this->getFormattedPrice($refundItem, $refundItem->refund->order_currency_code);
     }

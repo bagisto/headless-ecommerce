@@ -24,10 +24,11 @@ class NewsletterSubscriberMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $email
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function get($rootValue, array $args, GraphQLContext $context)
+    public function get(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'email' => 'email|required',
@@ -55,17 +56,17 @@ class NewsletterSubscriberMutation extends Controller
     /**
      * Subscribe a newly resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function subscribe($rootValue, array $args, GraphQLContext $context)
+    public function subscribe(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'email' => 'email|required',
         ]);
 
-        $email = $args['email'];
-
-        $subscription = $this->subscriptionRepository->findOneByField(['email' => $email]);
+        $subscription = $this->subscriptionRepository->findOneByField('email', $args['email']);
 
         if ($subscription?->is_subscribed) {
             throw new CustomException(trans('bagisto_graphql::app.shop.subscription.already'));
@@ -74,10 +75,10 @@ class NewsletterSubscriberMutation extends Controller
         try {
             Event::dispatch('customer.subscribe.before');
 
-            $customer = $this->customerRepository->findOneByField('email', $email);
+            $customer = $this->customerRepository->findOneByField('email', $args['email']);
 
             $subscription = $this->subscriptionRepository->updateOrCreate(
-                ['email' => $email],
+                ['email' => $args['email']],
                 [
                     'channel_id'    => core()->getCurrentChannel()->id,
                     'is_subscribed' => 1,
@@ -94,21 +95,24 @@ class NewsletterSubscriberMutation extends Controller
 
             Event::dispatch('customer.subscribe.after', $subscription);
 
-            $subscription->success = trans('bagisto_graphql::app.shop.subscription.subscribe-success');
-
-            return $subscription;
+            return [
+                'success'      => true,
+                'message'      => trans('bagisto_graphql::app.shop.subscription.subscribe-success'),
+                'subscription' => $subscription,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
 
     /**
-     * unsubscribe the specified resource in storage.
+     * Unsubscribe the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'token' => 'string|required',

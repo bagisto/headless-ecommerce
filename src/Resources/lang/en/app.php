@@ -620,7 +620,6 @@ return [
         'response' => [
             'error' => [
                 'invalid-parameter' => 'Warning: Invalid parameters provided.',
-                'no-login-user'     => 'Warning: No login user found.',
             ],
         ],
     ],
