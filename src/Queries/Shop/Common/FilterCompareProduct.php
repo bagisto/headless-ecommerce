@@ -11,46 +11,46 @@ class FilterCompareProduct extends BaseFilter
      *
      * @param  object  $query
      * @param  array  $input
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
-        //filter Both the relationship Product Flat for name and price
-        if (isset($arguments['name']) && isset($arguments['price'])) {
+        if (
+            isset($input['name'])
+            && isset($input['price'])
+        ) {
             $name = $input['name'];
             $price = $input['price'];
 
-            unset($arguments['name']);
-            unset($arguments['price']);
+            unset($input['name']);
+            unset($input['price']);
 
             return $query->whereHas('product_flat', function ($q) use ($name, $price) {
-                $q->where(['name' => $name,
-                    'price'       => $price]);
-            })->where($arguments);
+                $q->where([
+                    'name'  => $name,
+                    'price' => $price
+                ]);
+            })->where($input);
         }
 
-        // filter the relationship Product Flat for name
-        if (isset($arguments['name'])) {
+        if (isset($input['name'])) {
             $name = $input['name'];
-            unset($arguments['name']);
+            unset($input['name']);
 
             return $query->whereHas('product_flat', function ($q) use ($name) {
                 $q->where('name', $name);
-            })->where($arguments);
+            })->where($input);
         }
 
-        // filter the relationship Product Flat for price
-        if (isset($arguments['price'])) {
+        if (isset($input['price'])) {
             $price = $input['price'];
-            unset($arguments['price']);
+            unset($input['price']);
 
             return $query->whereHas('product_flat', function ($q) use ($price) {
                 $q->where('price', $price);
-            })->where($arguments);
+            })->where($input);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

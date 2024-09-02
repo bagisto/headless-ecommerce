@@ -241,6 +241,15 @@ return [
         ],
 
         'catalog' => [
+            'products' => [
+                'create-success'            => 'Product created successfully.',
+                'delete-success'            => 'Product deleted successfully',
+                'not-found'                 => 'Warning: Product not found.',
+                'update-success'            => 'Product updated successfully.',
+                'configurable-attr-missing' => 'Warning: Configurable attribute is missing.',
+                'simple-products-error'     => 'Warning: Simple products are missing.',
+            ],
+
             'categories' => [
                 'already-taken'  => 'Warning: The slug has already been taken.',
                 'create-success' => 'Category created successfully.',
@@ -256,6 +265,24 @@ return [
                 'not-found'          => 'Warning: Attribute not found.',
                 'update-success'     => 'Attribute updated successfully.',
                 'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute.',
+            ],
+
+            'attribute-groups' => [
+                'create-success'     => 'Attribute Group created successfully.',
+                'delete-success'     => 'Attribute Group deleted successfully',
+                'not-found'          => 'Warning: Attribute Group not found.',
+                'update-success'     => 'Attribute Group updated successfully.',
+                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute Group.',
+            ],
+
+            'attribute-families' => [
+                'create-success'          => 'Attribute Family created successfully.',
+                'delete-success'          => 'Attribute Family deleted successfully',
+                'not-found'               => 'Warning: Attribute Family not found.',
+                'update-success'          => 'Attribute Family updated successfully.',
+                'last-delete-error'       => 'Warning: Last Attribute Family can not be deleted.',
+                'attribute-product-error' => 'Warning: Some product(s) are associated with this attribute family.',
+                'user-define-error'       => 'Warning: You are not authorized to delete system-created Attribute Family.',
             ],
         ],
 

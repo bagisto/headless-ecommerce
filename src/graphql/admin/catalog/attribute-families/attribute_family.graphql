@@ -1,48 +1,66 @@
 # Catalog\AttributeFamily Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    attributeGroups: [AttributeGroup!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeGroup")
+    attributeGroups: [AttributeGroup!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Attribute\\Models\\AttributeGroup"
+    )
 
     attributeGroup(id: ID @eq): AttributeGroup @find(model: "Webkul\\Attribute\\Models\\AttributeGroup")
 
-    attributeFamilies(input: FilterAttributeFamiliesInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\AttributeFamilies\\FilterAttributeFamilies")): [AttributeFamily!] @paginate(type: "PAGINATOR" defaultCount:10 model: "Webkul\\Attribute\\Models\\AttributeFamily")
+    attributeFamilies(
+        input: FilterAttributeFamiliesInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+    ): [AttributeFamily!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\Attribute\\Models\\AttributeFamily"
+    )
 
     attributeFamily(id: ID @eq): AttributeFamily @find(model: "Webkul\\Attribute\\Models\\AttributeFamily")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
     createAttributeGroup(
-        input: CreateAttributeGroupInput!
-    ): AttributeGroup @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeGroupMutation@store")
+        input: CreateAttributeGroupInput! @spread
+    ): AttributeGroupResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeGroupMutation@store")
 
     updateAttributeGroup(
         id: ID!,
-        input: CreateAttributeGroupInput!
-    ): AttributeGroup @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeGroupMutation@update")
+        input: CreateAttributeGroupInput! @spread
+    ): AttributeGroupResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeGroupMutation@update")
 
     deleteAttributeGroup(
         id: ID!
-    ): AttributeGroup @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeGroupMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeGroupMutation@delete")
 
     createAttributeFamily(
-        input: CreateAttributeFamilyInput!
-    ): AttributeFamily @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeFamilyMutation@store")
+        input: CreateAttributeFamilyInput @spread
+    ): AttributeFamilyResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeFamilyMutation@store")
 
     updateAttributeFamily(
         id: ID!,
-        input: CreateAttributeFamilyInput!
-    ): AttributeFamily @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeFamilyMutation@update")
+        input: CreateAttributeFamilyInput @spread
+    ): AttributeFamilyResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeFamilyMutation@update")
 
     deleteAttributeFamily(
         id: ID!
-    ): AttributeFamily @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeFamilyMutation@delete")
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Catalog\\AttributeFamilies\\AttributeFamilyMutation@delete")
 }
 
 input CreateAttributeGroupInput {
+    id: ID
+    code: String!
     name: String!
+    column: AttributeGroupColumn!
     position: Int!
-    isUserDefined: Boolean @rename(attribute: "is_user_defined")
     attributeFamilyId: ID @rename(attribute: "attribute_family_id")
     customAttributes: [CustomerAttributeInput] @rename(attribute: "custom_attributes")
+}
+
+enum AttributeGroupColumn {
+    MAIN @enum(value: 1)
+    RIGHT_SIDE @enum(value: 2)
 }
 
 input CustomerAttributeInput {
@@ -62,6 +80,12 @@ input FilterAttributeFamiliesInput {
     name: String
 }
 
+type AttributeFamilyResponse {
+    success: Boolean
+    message: String
+    attributeFamily: AttributeFamily @rename(attribute: "attribute_family")
+}
+
 type AttributeFamily {
     id: ID!
     code: String!
@@ -69,8 +93,13 @@ type AttributeFamily {
     status: Boolean
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     attributeGroups: [AttributeGroup!] @hasMany(relation: "attribute_groups")
-    products:  [Product!] @hasMany
-    success: String
+    products: [Product!] @hasMany
+}
+
+type AttributeGroupResponse {
+    success: Boolean
+    message: String
+    attributeGroup: AttributeGroup @rename(attribute: "attribute_group")
 }
 
 type AttributeGroup {
@@ -80,5 +109,4 @@ type AttributeGroup {
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
     customAttributes: [Attribute] @belongsTo(relation: "custom_attributes")
-    success: String
 }

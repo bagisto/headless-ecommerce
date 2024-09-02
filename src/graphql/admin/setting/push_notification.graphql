@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     pushNotifications(
         input: FilterNotificationInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterPushNotification")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [PushNotification!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

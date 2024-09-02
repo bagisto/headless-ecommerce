@@ -15,18 +15,14 @@ class FilterOrder extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
-
-        // Convert the order_date parameter to created_at parameter
-        if (isset($arguments['order_date'])) {
-            $arguments['created_at'] = $arguments['order_date'];
-            unset($arguments['order_date']);
+        if (isset($input['order_date'])) {
+            $input['created_at'] = $input['order_date'];
+            unset($input['order_date']);
         }
 
-        //filter Both the relationship Address for billed_to and shipped_to
         if (
-            isset($arguments['billed_to'])
-            && isset($arguments['shipped_to'])
+            isset($input['billed_to'])
+            && isset($input['shipped_to'])
         ) {
             $billedTo = $input['billed_to'];
             $shippedTo = $input['shipped_to'];
@@ -34,8 +30,8 @@ class FilterOrder extends BaseFilter
             $billingName = $this->nameSplitter($billedTo);
             $shippedName = $this->nameSplitter($shippedTo);
 
-            unset($arguments['billed_to']);
-            unset($arguments['shipped_to']);
+            unset($input['billed_to']);
+            unset($input['shipped_to']);
 
             return $query->where(function ($qry) use ($billingName, $shippedName) {
                 $qry->whereHas('addresses', function ($q) use ($billingName) {
@@ -51,39 +47,37 @@ class FilterOrder extends BaseFilter
                         'last_name'  => $shippedName['lastname'],
                     ]);
                 });
-            })->where($arguments);
+            })->where($input);
         }
 
-        // filter the relationship addresses for Billing Address
-        if (isset($arguments['billed_to'])) {
+        if (isset($input['billed_to'])) {
             $billedTo = $input['billed_to'];
             $billingName = $this->nameSplitter($billedTo);
 
-            unset($arguments['billed_to']);
+            unset($input['billed_to']);
 
             return $query->whereHas('addresses', function ($q) use ($billingName) {
                 $q->where([
                     'first_name' => $billingName['firstname'],
                     'last_name'  => $billingName['lastname'],
                 ]);
-            })->where($arguments);
+            })->where($input);
         }
 
-        // filter the relationship addresses for Shipping Address
-        if (isset($arguments['shipped_to'])) {
+        if (isset($input['shipped_to'])) {
             $shippedTo = $input['shipped_to'];
             $shippedName = $this->nameSplitter($shippedTo);
 
-            unset($arguments['shipped_to']);
+            unset($input['shipped_to']);
 
             return $query->whereHas('addresses', function ($q) use ($shippedName) {
                 $q->where([
                     'first_name' => $shippedName['firstname'],
                     'last_name'  => $shippedName['lastname'],
                 ]);
-            })->where($arguments);
+            })->where($input);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }

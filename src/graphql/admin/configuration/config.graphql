@@ -2,7 +2,7 @@
 extend type Query {
     coreConfigs(
         input: FilterCoreConfigInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterCoreConfigs")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [CoreConfig!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

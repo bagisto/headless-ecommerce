@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     roles(
         input: FilterRoleInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterRole")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [Role!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

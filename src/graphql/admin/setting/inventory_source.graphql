@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     inventorySources(
         input: FilterInventorySourceInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterInventorySources")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [InventorySource!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

@@ -15,7 +15,6 @@ class FilterUser extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        // filter the relationship Role
         if (isset($input['role'])) {
             $query = $query->whereHas('role', function ($q) use ($input) {
                 $q->where('name', $input['role']);

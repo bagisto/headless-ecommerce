@@ -15,11 +15,11 @@ class WishlistQuery extends Controller
     public function __construct(protected WishlistRepository $wishlistRepository) {}
 
     /**
-     * filter the data .
+     * filter the data.
      *
      * @param  object  $query
      * @param  array  $input
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function __invoke($query, $input)
     {
@@ -35,7 +35,7 @@ class WishlistQuery extends Controller
     /**
      * Returns loggedin guest/customer's wishlist data.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Collection
      */
     public function getWishlists()
     {

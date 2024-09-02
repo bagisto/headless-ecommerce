@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     urlRewrites(
         input: FilterUrlRewriteInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Marketing\\SEO\\FilterUrlRewrite")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
     ): [urlRewrite!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

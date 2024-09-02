@@ -15,20 +15,6 @@ class FilterableAttributesQuery extends BaseFilter
     public function __construct(protected AttributeRepository $attributeRepository) {}
 
     /**
-     * filter the data .
-     *
-     * @param  object  $query
-     * @param  array  $input
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function __invoke($query, $input)
-    {
-        $arguments = $this->getFilterParams($input);
-
-        return $query->where($arguments);
-    }
-
-    /**
      * Get the filterable attributes.
      *
      * @return \Illuminate\Database\Eloquent\Collection

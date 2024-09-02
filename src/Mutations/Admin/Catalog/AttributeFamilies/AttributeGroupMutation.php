@@ -3,10 +3,10 @@
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\AttributeFamilies;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Webkul\Attribute\Repositories\AttributeGroupRepository;
+use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeGroupMutation extends Controller
@@ -24,34 +24,36 @@ class AttributeGroupMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['input'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        bagisto_graphql()->validate($data, [
-            'name'                => 'required',
+        bagisto_graphql()->validate($args, [
+            'code'                => ['required', 'unique:attribute_groups,code', new Code],
+            'name'                => ['required', 'unique:attribute_groups,name'],
+            'column'              => 'required',
             'position'            => 'required',
             'attribute_family_id' => 'required',
         ]);
 
+        $attributeFamily = $this->attributeFamilyRepository->find($args['attribute_family_id']);
+
+        if (! $attributeFamily) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attribute-families.not-found'));
+        }
+
         try {
-            $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);
+            $attributeGroup = $attributeFamily->attribute_groups()->create(array_merge($args, [
+                'is_user_defined' => 1,
+            ]));
 
-            unset($data['attribute_family_id']);
-
-            Event::dispatch('catalog.attributeGroup.create.before');
-
-            $attributeGroup = $attributeFamily->attribute_groups()->create($data);
-
-            Event::dispatch('catalog.attributeGroup.create.before', $attributeGroup);
-
-            return $attributeGroup;
+            return [
+                'success'         => true,
+                'message'         => trans('bagisto_graphql::app.admin.catalog.attribute-groups.create-success'),
+                'attribute_group' => $attributeGroup,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -60,46 +62,46 @@ class AttributeGroupMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (
-            empty($args['id'])
-            || empty($args['input'])
-        ) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
-        }
-
-        $data = $args['input'];
-
-        $id = $args['id'];
-
-        bagisto_graphql()->validate($data, [
-            'name'                => 'required',
+        bagisto_graphql()->validate($args, [
+            'code'                => ['required', 'unique:attribute_groups,code,'.$args['id'], new Code],
+            'name'                => ['required', 'unique:attribute_groups,name,'.$args['id']],
+            'column'              => 'required',
             'position'            => 'required',
             'attribute_family_id' => 'required',
         ]);
 
+        $attributeFamily = $this->attributeFamilyRepository->find($args['attribute_family_id']);
+
+        if (! $attributeFamily) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attribute-families.not-found'));
+        }
+
+        unset($args['attribute_family_id']);
+
+        $attributeGroup = $this->attributeGroupRepository->find($args['id']);
+
+        if (! $attributeGroup) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attribute-groups.not-found'));
+        }
+
         try {
-            $attributeFamily = $this->attributeFamilyRepository->findOrFail($data['attribute_family_id']);
-
-            unset($data['attribute_family_id']);
-
-            Event::dispatch('catalog.attributeGroup.update.before', $id);
-
             $previousAttributeGroupIds = $attributeFamily->attribute_groups()->pluck('id');
 
-            if (is_numeric($previousAttributeGroupIds->search($id))) {
-                $attributeGroup = $this->attributeGroupRepository->find($id);
-
-                $attributeGroup->update($data);
-
-                Event::dispatch('catalog.attributeGroup.update.before', $attributeGroup);
-
-                return $attributeGroup;
+            if (is_numeric($previousAttributeGroupIds->search($args['id']))) {
+                $attributeGroup = $this->attributeGroupRepository->update($args, $attributeGroup->id);
             }
+
+            return [
+                'success'         => true,
+                'message'         => trans('bagisto_graphql::app.admin.catalog.attribute-groups.update-success'),
+                'attribute_group' => $attributeGroup,
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
@@ -108,31 +110,29 @@ class AttributeGroupMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        if (empty($args['id'])) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+        $attributeGroup = $this->attributeGroupRepository->find($args['id']);
+
+        if (! $attributeGroup) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attribute-groups.not-found'));
         }
 
-        $id = $args['id'];
-
-        $attributeGroup = $this->attributeGroupRepository->findOrFail($id);
-
-        if (empty($attributeGroup->is_user_defined)) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attribute-groups.error-customer-group'));
+        if ($attributeGroup->is_user_defined === 0) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attribute-groups.user-define-error'));
         }
 
         try {
-            Event::dispatch('catalog.attributeGroup.delete.before', $id);
+            $attributeGroup->delete();
 
-            $this->attributeGroupRepository->delete($id);
-
-            Event::dispatch('catalog.attributeGroup.delete.after', $id);
-
-            return ['success' => trans('bagisto_graphql::app.admin.catalog.attribute-groups.delete-success')];
+            return [
+                'success' => true,
+                'message' => trans('bagisto_graphql::app.admin.catalog.attribute-groups.delete-success'),
+            ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }

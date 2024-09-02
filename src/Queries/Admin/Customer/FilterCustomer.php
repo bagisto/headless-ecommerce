@@ -15,7 +15,6 @@ class FilterCustomer extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        // Get first_name and last_name
         if (isset($arguments['name'])) {
             $nameChanger = $this->nameSplitter($input['name']);
 
@@ -25,8 +24,7 @@ class FilterCustomer extends BaseFilter
 
             unset($input['name']);
         }
-
-        // filter the relationship Customer Group
+        
         if (isset($input['group_name'])) {
             $query = $query->whereHas('group', function ($q) use ($input) {
                 $q->where('state', $input['group_name']);

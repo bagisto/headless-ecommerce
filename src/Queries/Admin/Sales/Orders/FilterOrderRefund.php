@@ -15,46 +15,40 @@ class FilterOrderRefund extends BaseFilter
      */
     public function __invoke($query, $input)
     {
-        $arguments = $this->getFilterParams($input);
+        if (isset($input['refund_date'])) {
+            $input['created_at'] = $input['refund_date'];
 
-        // Convert the refund_date parameter to created_at parameter
-        if (isset($arguments['refund_date'])) {
-            $arguments['created_at'] = $arguments['refund_date'];
-
-            unset($arguments['refund_date']);
+            unset($input['refund_date']);
         }
 
-        // Convert the refunded parameter to base_grand_total parameter
-        if (isset($arguments['refunded'])) {
-            $arguments['base_grand_total'] = $arguments['refunded'];
+        if (isset($input['refunded'])) {
+            $input['base_grand_total'] = $input['refunded'];
 
-            unset($arguments['refunded']);
+            unset($input['refunded']);
         }
 
-        // Convert the Status parameter to State parameter
-        if (isset($arguments['status'])) {
-            $arguments['state'] = $arguments['status'];
+        if (isset($input['status'])) {
+            $input['state'] = $input['status'];
 
-            unset($arguments['status']);
+            unset($input['status']);
         }
 
-        // ilter the relationship Customer Name
-        if (isset($arguments['customer_name'])) {
-            $nameChanger = $this->nameSplitter($arguments['customer_name']);
+        if (isset($input['customer_name'])) {
+            $nameChanger = $this->nameSplitter($input['customer_name']);
 
             $firstname = $nameChanger['firstname'];
             $lastname = $nameChanger['lastname'];
 
-            unset($arguments['customer_name']);
+            unset($input['customer_name']);
 
             return $query->whereHas('order', function ($q) use ($firstname, $lastname) {
                 $q->where([
                     'customer_first_name' => $firstname,
                     'customer_last_name'  => $lastname,
                 ]);
-            })->where($arguments);
+            })->where($input);
         }
 
-        return $query->where($arguments);
+        return $query->where($input);
     }
 }
