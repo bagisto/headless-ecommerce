@@ -36,6 +36,15 @@ extend type Mutation @guard(with: ["admin-api"]) {
         method: String!
     ): PaymentResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storePaymentMethod")
 
+    storeCoupon(
+        id: ID!
+        code: String!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storeCoupon")
+
+    deleteCoupon(
+        id: ID!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@deleteCoupon")
+
     storeOrder(
         id: ID!
     ): NewOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storeOrder")

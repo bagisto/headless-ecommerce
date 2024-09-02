@@ -2,19 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Sales\Reorder;
 
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Checkout\Repositories\CartItemRepository;
-use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Payment\Facades\Payment;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\Sales\Transformers\OrderResource;
+use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Checkout\Repositories\CartRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Checkout\Repositories\CartItemRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 
 class ReorderMutation extends Controller
 {
@@ -28,7 +29,8 @@ class ReorderMutation extends Controller
         protected CartItemRepository $cartItemRepository,
         protected CustomerRepository $customerRepository,
         protected ProductRepository $productRepository,
-        protected OrderRepository $orderRepository
+        protected OrderRepository $orderRepository,
+        protected CartRuleCouponRepository $cartRuleCouponRepository
     ) {}
 
     /**
@@ -284,6 +286,8 @@ class ReorderMutation extends Controller
      * Store payment method.
      *
      * @return array
+     * 
+     * @throws CustomException
      */
     public function storePaymentMethod(mixed $rootValue, array $args, GraphQLContext $context)
     {
@@ -317,9 +321,99 @@ class ReorderMutation extends Controller
     }
 
     /**
+     * Apply coupon to the cart.
+     * 
+     * @return array
+     * 
+     * @throws CustomException
+     */
+    public function storeCoupon(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        bagisto_graphql()->validate($args, [
+            'code' => 'required',
+        ]);
+
+        $cart = $this->cartRepository->find($args['id']);
+
+        if (! $cart) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.sales.reorder.cart-not-found'));
+        }
+
+        Cart::setCart($cart);
+
+        try {
+            $coupon = $this->cartRuleCouponRepository->findOneByField('code', $args['code']);
+
+            if (! $coupon) {
+                return [
+                    'success' => false,
+                    'message' =>trans('bagisto_graphql::app.admin.sales.reorder.coupon-not-valid'),
+                    'cart'    => Cart::getCart(),
+                ];
+            }
+
+            if ($coupon->cart_rule->status) {
+                if (Cart::getCart()->coupon_code == $args['code']) {
+                    return [
+                        'success' => false,
+                        'message' => trans('bagisto_graphql::app.admin.sales.reorder.coupon-already-applied'),
+                        'cart'    => Cart::getCart(),
+                    ];
+                }
+
+                Cart::setCouponCode($args['code'])->collectTotals();
+
+                if (Cart::getCart()->coupon_code == $args['code']) {
+                    return [
+                        'success' => true,
+                        'message' => trans('bagisto_graphql::app.admin.sales.reorder.coupon-applied'),
+                        'cart'    => Cart::getCart(),
+                    ];
+                }
+            }
+
+            return [
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.admin.sales.reorder.coupon-not-valid'),
+                'cart'    => Cart::getCart(),
+            ];
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
+        }
+    }
+
+    /**
+     * Remove applied coupon from the cart.
+     * 
+     * @return array
+     * 
+     * @throws CustomException
+     */
+    public function deleteCoupon(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        $cart = $this->cartRepository->find($args['id']);
+
+        if (! $cart) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.sales.reorder.cart-not-found'));
+        }
+
+        Cart::setCart($cart);
+
+        Cart::removeCouponCode()->collectTotals();
+
+        return [
+            'success' => true,
+            'message' => trans('bagisto_graphql::app.admin.sales.reorder.coupon-removed'),
+            'cart'    => Cart::getCart(),
+        ];
+    }
+
+    /**
      * Store order.
      *
      * @return array
+     * 
+     * @throws CustomException
      */
     public function storeOrder(mixed $rootValue, array $args, GraphQLContext $context)
     {
@@ -364,6 +458,8 @@ class ReorderMutation extends Controller
 
     /**
      * Merge new address rules.
+     * 
+     * @return array
      */
     private function mergeAddressRules(string $addressType): array
     {

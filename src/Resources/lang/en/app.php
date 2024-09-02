@@ -257,6 +257,10 @@ return [
                 'check-billing-address'    => 'Warning: Please check the billing address.',
                 'specify-shipping-method'  => 'Warning: Please specify the shipping method.',
                 'specify-payment-method'   => 'Warning: Please specify the payment method.',
+                'coupon-not-valid'         => 'Warning: Coupon code is not valid.',
+                'coupon-already-applied'   => 'Warning: Coupon code already applied.',
+                'coupon-applied'           => 'Success: Coupon code applied successfully.',
+                'coupon-removed'           => 'Success: Coupon code removed successfully.',
             ],
         ],
 
