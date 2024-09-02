@@ -108,11 +108,11 @@ return [
                     ],
 
                     'success' => [
-                        'add-to-cart'       => 'Success: Product added to cart successfully.',
-                        'update-to-cart'    => 'Success: Product updated to cart successfully.',
-                        'delete-cart-item'  => 'Success: Item is successfully removed from the cart.',
-                        'all-remove'        => 'Success: All items removed from the cart.',
-                        'move-to-wishlist'  => 'Success: Selected items successfully moved to wishlist.',
+                        'add-to-cart'      => 'Success: Product added to cart successfully.',
+                        'update-to-cart'   => 'Success: Product updated to cart successfully.',
+                        'delete-cart-item' => 'Success: Item is successfully removed from the cart.',
+                        'all-remove'       => 'Success: All items removed from the cart.',
+                        'move-to-wishlist' => 'Success: Selected items successfully moved to wishlist.',
                     ],
 
                     'fail' => [
@@ -204,9 +204,9 @@ return [
 
         'sales' => [
             'orders' => [
-                'cancel-error'    => 'Warning: Order can not canceled.',
-                'cancel-success'  => 'Success: Order canceled successfully.',
-                'not-found'       => 'Warning: Order not found.',
+                'cancel-error'   => 'Warning: Order can not canceled.',
+                'cancel-success' => 'Success: Order canceled successfully.',
+                'not-found'      => 'Warning: Order not found.',
             ],
 
             'shipments' => [
@@ -284,19 +284,19 @@ return [
             ],
 
             'attributes' => [
-                'create-success'     => 'Attribute created successfully.',
-                'delete-success'     => 'Attribute deleted successfully',
-                'not-found'          => 'Warning: Attribute not found.',
-                'update-success'     => 'Attribute updated successfully.',
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute.',
+                'create-success'    => 'Attribute created successfully.',
+                'delete-success'    => 'Attribute deleted successfully',
+                'not-found'         => 'Warning: Attribute not found.',
+                'update-success'    => 'Attribute updated successfully.',
+                'user-define-error' => 'Warning: You are not authorized to delete system-created Attribute.',
             ],
 
             'attribute-groups' => [
-                'create-success'     => 'Attribute Group created successfully.',
-                'delete-success'     => 'Attribute Group deleted successfully',
-                'not-found'          => 'Warning: Attribute Group not found.',
-                'update-success'     => 'Attribute Group updated successfully.',
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute Group.',
+                'create-success'    => 'Attribute Group created successfully.',
+                'delete-success'    => 'Attribute Group deleted successfully',
+                'not-found'         => 'Warning: Attribute Group not found.',
+                'update-success'    => 'Attribute Group updated successfully.',
+                'user-define-error' => 'Warning: You are not authorized to delete system-created Attribute Group.',
             ],
 
             'attribute-families' => [
@@ -603,11 +603,13 @@ return [
                 'delete-failed'       => 'Notification deleted failed.',
                 'delete-success'      => 'Notification deleted successfully.',
                 'mass-update-success' => 'Selected notifications updated successfully.',
-                'massdelete-success'  => 'Selected notifications deleted successfully.',
+                'mass-delete-success' => 'Selected notifications deleted successfully.',
                 'no-value-selected'   => 'there are no existing value.',
-                'sended-successfully' => 'Notification pushed successfully for android and iOS.',
+                'send-success'        => 'Notification sent successfully.',
                 'update-success'      => 'Notification updated successfully.',
                 'configuration-error' => 'Warning: FCM configuration not found.',
+                'product-not-found'   => 'Warning: Product not found.',
+                'category-not-found'  => 'Warning: Category not found.',
             ],
         ],
 

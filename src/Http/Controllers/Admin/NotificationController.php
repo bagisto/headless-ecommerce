@@ -113,11 +113,11 @@ class NotificationController extends Controller
             Event::dispatch('settings.push-notification.delete.after', $id);
 
             return new JsonResponse([
-                'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-success'),
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.delete-success'),
             ]);
         } catch (\Exception $e) {
             return new JsonResponse([
-                'message' => trans('bagisto_graphql::app.admin.settings.notification.index.delete-failed'),
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.delete-failed'),
             ], 500);
         }
     }
@@ -178,7 +178,7 @@ class NotificationController extends Controller
         $result = $this->notificationRepository->prepareNotification($notification);
 
         if (isset($result->message_id)) {
-            session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.edit.notification-send-success'));
+            session()->flash('success', trans('bagisto_graphql::app.admin.settings.notification.send-success'));
         } else {
             $message = $result;
 
@@ -220,7 +220,7 @@ class NotificationController extends Controller
 
             return new JsonResponse([
                 'value'   => false,
-                'message' => 'Product not exist',
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.product-not-found'),
                 'type'    => 'product',
             ], 401);
         }
@@ -234,7 +234,7 @@ class NotificationController extends Controller
 
             return new JsonResponse([
                 'value'   => false,
-                'message' => 'Category not exist',
+                'message' => trans('bagisto_graphql::app.admin.settings.notification.category-not-found'),
                 'type'    => 'category',
             ], 401);
         }

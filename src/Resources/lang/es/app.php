@@ -1,154 +1,189 @@
 <?php
 
 return [
-    'admin' => [
-        'menu' => [
-            'push-notification' => 'Push Notification',
-        ],
-
-        'acl' => [
-            'push-notification' => 'Push Notification',
-            'send'              => 'Send',
-        ],
-
-        'sales' => [
-            'orders' => [
-                'cancel-error'   => 'Order cannot be canceled.',
-                'cancel-success' => 'Order canceled successfully',
-                'not-found'      => 'Warning: Order not found.',
-            ],
-
-            'shipments' => [
-                'not-found'        => 'Warning: Shipment not found.',
-                'shipment-error'   => 'Order shipment creation is not allowed.',
-                'creation-error'   => 'Shipment can not be created for this order.',
-                'quantity-invalid' => 'Requested quantity is invalid or not available.',
-            ],
-
-            'invoices' => [
-                'not-found'      => 'Warning: Invoice not found.',
-                'creation-error' => 'Order invoice creation is not allowed.',
-                'product-error'  => 'Invoice can not be created without products.',
-            ],
-
-            'refunds' => [
-                'invalid-refund-amount-error' => 'Refund amount should be non zero.',
-                'refund-limit-error'          => 'The most money available to refund is :amount.',
-                'creation-error'              => 'Refund can not be created for this order.',
-                'create-success'              => 'Refund created successfully for this order.',
-            ],
-        ],
-
-        'catalog' => [
-            'products' => [
-                'create' => [
-                    'configurable-error'      => 'Please select atleast one configurable attribute.',
-                    'grouped-error-not-added' => 'is not added to Grouped product',
-                    'grouped-error-not-added' => 'is not a added to Bundle product',
-                ],
-
-                'delete-success' => 'Product deleted successfully.',
-                'delete-failed'  => 'Warning: Product is not deleted',
-            ],
-
-            'categories' => [
-                'already-taken'        => 'The Category has already been taken.',
-                'delete-category-root' => 'The Root category can not be deleted.',
-                'delete-success'       => 'Category deleted successfully.',
-                'delete-failed'        => 'Warning: Category is not deleted',
-            ],
-
-            'attributes' => [
-                'delete-success'    => 'Attribute deleted successfully.',
-                'delete-failed'     => 'Warning: Attribute is not deleted',
-                'user-define-error' => 'Warning: You are not authorized to delete system-created attribute group.',
-            ],
-
-            'attribute-families' => [
-                'last-delete-error'       => 'Last Attribute Family delete failed',
-                'attribute-product-error' => 'family is used in products.',
-                'delete-success'          => 'Family deleted successfully.',
-                'delete-failed'           => 'Warning: Family is not deleted',
-            ],
-
-            'attribute-groups' => [
-                'delete-success'       => 'Family Group deleted successfully.',
-                'delete-failed'        => 'Warning: Family Group is not deleted',
-                'error-customer-group' => 'Warning: You are not authorized to delete system-created attribute group.',
-            ],
+    'shop' => [
+        'subscription' => [
+            'already'             => 'Ya estás suscrito a nuestro boletín.',
+            'not-authorized'      => 'Advertencia: No estás autorizado para realizar esta acción.',
+            'not-found'           => 'Advertencia: No se encontró ninguna suscripción.',
+            'subscribe-success'   => 'Te has suscrito correctamente a nuestro boletín.',
+            'unsubscribe-success' => 'Te has dado de baja correctamente de nuestro boletín.',
         ],
 
         'customers' => [
-            'no-customer-found'      => 'Customer not found',
-            'address-delete-success' => 'Customer\'s Address deleted successfully',
-            'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
-            'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-            'delete-success'         => 'Customer deleted successfully',
+            'no-login-customer' => 'Advertencia: No se encontró ningún cliente registrado.',
+            'success-login'     => 'Éxito: Sesión de cliente iniciada correctamente.',
+            'success-logout'    => 'Éxito: Sesión de cliente cerrada correctamente.',
 
-            'groups' => [
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
-                'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
-                'delete-success'     => 'Customer deleted successfully',
+            'signup' => [
+                'error-registration' => 'Advertencia: Error al registrar el cliente.',
+                'success-verify'     => 'Cuenta creada correctamente, se ha enviado un correo electrónico para su verificación.',
+            ],
+
+            'login' => [
+                'invalid-creds' => 'Por favor verifica tus credenciales e intenta nuevamente.',
+                'not-activated' => 'Tu activación requiere la aprobación del administrador',
+                'verify-first'  => 'Por favor verifica tu correo electrónico primero.',
+                'suspended'     => 'Tu cuenta ha sido suspendida por el administrador.',
+
+                'validation' => [
+                    'required' => 'El campo :field es obligatorio.',
+                    'same'     => 'El campo :field y la contraseña deben coincidir.',
+                    'unique'   => 'Este :field ya ha sido tomado.',
+                ],
+            ],
+
+            'forgot-password' => [
+                'already-sent'    => 'El enlace para restablecer la contraseña ya se ha enviado a tu correo electrónico.',
+                'email-not-exist' => 'El correo electrónico no existe.',
+                'reset-link-sent' => 'Enlace para restablecer la contraseña enviado a tu correo electrónico.',
+            ],
+
+            'account' => [
+                'profile' => [
+                    'customer-details' => 'Éxito: Detalles del cliente obtenidos correctamente.',
+                    'delete-success'   => 'Éxito: Cuenta eliminada correctamente.',
+                    'password-unmatch' => 'La contraseña no coincide.',
+                    'update-fail'      => 'Advertencia: No se pudo actualizar el perfil',
+                    'update-success'   => 'Éxito: Perfil actualizado correctamente.',
+                    'wrong-password'   => 'La contraseña es incorrecta.',
+                ],
+
+                'addresses' => [
+                    'create-success'         => 'Dirección creada correctamente.',
+                    'default-update-success' => 'La dirección se ha establecido como predeterminada',
+                    'delete-success'         => 'Dirección eliminada correctamente',
+                    'not-found'              => 'Advertencia: No se encontró la dirección.',
+                    'update-success'         => 'Dirección actualizada correctamente.',
+                ],
+
+                'wishlist' => [
+                    'product-removed' => 'Advertencia: Producto no encontrado.',
+                    'success'         => 'Éxito: Producto agregado a la lista de deseos correctamente.',
+                    'already-exist'   => 'Advertencia: Ya se ha agregado a la lista de deseos.',
+                    'remove-success'  => 'Éxito: El artículo se ha eliminado correctamente de la lista de deseos.',
+                    'not-found'       => 'Advertencia: No se encontraron productos en la lista de deseos.',
+                    'moved-success'   => 'Éxito: Los elementos seleccionados se han movido correctamente a la lista de deseos.',
+                ],
+
+                'orders' => [
+                    'not-found'      => 'Advertencia: No se encontraron pedidos.',
+                    'cancel-error'   => 'Advertencia: No se pudo cancelar el pedido.',
+                    'cancel-success' => 'Éxito: Pedido cancelado correctamente.',
+
+                    'shipment' => [
+                        'not-found' => 'Advertencia: No se encontró el envío.',
+                    ],
+
+                    'invoice' => [
+                        'not-found' => 'Advertencia: No se encontró la factura.',
+                    ],
+
+                    'refund' => [
+                        'not-found' => 'Advertencia: No se encontró el reembolso.',
+                    ],
+                ],
+
+                'downloadable-products' => [
+                    'not-found'      => 'Advertencia: No se encontró el producto descargable.',
+                    'not-auth'       => 'Advertencia: No estás autorizado para realizar esta acción.',
+                    'payment-error'  => 'No se ha realizado el pago de esta descarga.',
+                    'download-error' => 'El enlace de descarga ha caducado.',
+                ],
+            ],
+
+            'reviews' => [
+                'create-success'      => 'Éxito: Reseña creada correctamente.',
+                'delete-success'      => 'Éxito: Reseña eliminada correctamente.',
+                'not-found'           => 'Advertencia: No se encontró la reseña.',
+                'mass-delete-success' => 'Éxito: Reseñas seleccionadas eliminadas correctamente.',
             ],
         ],
 
-        'cms' => [
-            'already-taken'  => 'CMS Page URL already taken',
-            'delete-success' => 'CMS Page deleted successfully.',
-            'delete-failed'  => 'Warning: CMS Page is not deleted',
+        'checkout' => [
+            'cart' => [
+                'item' => [
+                    'error' => [
+                        'invalid-parameter' => 'Advertencia: Parámetros inválidos proporcionados.',
+                    ],
+
+                    'success' => [
+                        'add-to-cart'      => 'Éxito: Producto agregado al carrito correctamente.',
+                        'update-to-cart'   => 'Éxito: Producto actualizado en el carrito correctamente.',
+                        'delete-cart-item' => 'Éxito: El artículo se ha eliminado correctamente del carrito.',
+                        'all-remove'       => 'Éxito: Todos los artículos se han eliminado del carrito.',
+                        'move-to-wishlist' => 'Éxito: Los elementos seleccionados se han movido correctamente a la lista de deseos.',
+                    ],
+
+                    'fail' => [
+                        'all-remove'       => 'Advertencia: No se eliminaron todos los artículos del carrito.',
+                        'update-to-cart'   => 'Advertencia: No se pudo actualizar el producto en el carrito.',
+                        'delete-cart-item' => 'Advertencia: El artículo no se ha eliminado del carrito.',
+                        'not-found'        => 'Advertencia: No se encontró el carrito.',
+                        'item-not-found'   => 'Advertencia: No se encontró el artículo.',
+                        'all-remove'       => 'Advertencia: No se eliminaron todos los artículos del carrito.',
+                        'move-to-wishlist' => 'Advertencia: No se movieron los elementos seleccionados a la lista de deseos.',
+                    ],
+                ],
+            ],
+
+            'addresses' => [
+                'guest-address-warning'     => 'Advertencia: Los usuarios invitados no pueden agregar direcciones.',
+                'guest-checkout-warning'    => 'Advertencia: Los usuarios invitados no pueden realizar el pago.',
+                'no-billing-address-found'  => 'Advertencia: No se encontró ninguna dirección de facturación.',
+                'no-shipping-address-found' => 'Advertencia: No se encontró ninguna dirección de envío.',
+                'address-save-success'      => 'Éxito: Dirección guardada correctamente.',
+            ],
+
+            'shipping' => [
+                'method-not-found' => 'Advertencia: No se encontró el método de envío.',
+                'method-fetched'   => 'Éxito: Método de envío obtenido correctamente.',
+                'save-failed'      => 'Advertencia: No se pudo guardar el método de envío.',
+                'save-success'     => 'Éxito: Método de envío guardado correctamente.',
+            ],
+
+            'payment' => [
+                'method-not-found' => 'Advertencia: No se encontró el método de pago.',
+                'method-fetched'   => 'Éxito: Método de pago obtenido correctamente.',
+                'save-failed'      => 'Advertencia: No se pudo guardar el método de pago.',
+                'save-success'     => 'Éxito: Método de pago guardado correctamente.',
+            ],
+
+            'coupon' => [
+                'apply-success'   => 'Éxito: Código de cupón aplicado correctamente.',
+                'already-applied' => 'Advertencia: Código de cupón ya aplicado.',
+                'invalid-code'    => 'Advertencia: Código de cupón no válido.',
+                'remove-success'  => 'Éxito: Código de cupón eliminado correctamente.',
+                'remove-failed'   => 'Advertencia: No se pudo eliminar el código de cupón.',
+            ],
+
+            'something-wrong'          => 'Advertencia: Algo salió mal.',
+            'invalid-guest-user'       => 'Advertencia: Usuario invitado no válido.',
+            'empty-cart'               => 'Advertencia: El carrito está vacío.',
+            'missing-billing-address'  => 'Advertencia: Falta la dirección de facturación.',
+            'missing-shipping-address' => 'Advertencia: Falta la dirección de envío.',
+            'missing-shipping-method'  => 'Advertencia: Falta el método de envío.',
+            'missing-payment-method'   => 'Advertencia: Falta el método de pago.',
+            'no-address-found'         => 'Advertencia: No se encontró ninguna dirección de facturación y envío.',
+        ],
+    ],
+
+    'admin' => [
+        'acl' => [
+            'create'            => 'Crear',
+            'delete'            => 'Eliminar',
+            'edit'              => 'Editar',
+            'mass-delete'       => 'Eliminar en masa',
+            'mass-update'       => 'Actualizar en masa',
+            'push-notification' => 'Notificación Push',
+            'send'              => 'Enviar',
         ],
 
-        'marketing' => [
-            'communications' => [
-                'campaigns' => [
-                    'delete-success' => 'Campaign deleted successfully',
-                    'delete-failed'  => 'Warning: Campaign is not deleted',
+        'components' => [
+            'layouts' => [
+                'sidebar' => [
+                    'push-notification' => 'Notificación Push',
                 ],
-
-                'templates' => [
-                    'delete-success' => 'Email Template deleted successfully',
-                    'delete-failed'  => 'Warning: Email Template is not deleted',
-                ],
-
-                'events' => [
-                    'delete-success' => 'Event deleted successfully',
-                    'delete-failed'  => 'Warning: Event is not deleted',
-                ],
-
-                'subscriptions' => [
-                    'no-subscriber-found'  => 'Subscriber not found',
-                    'already-subscriber'   => 'You are already subscribed to our subscription list.',
-                    'not-subscribed'       => 'You can not be subscribed to subscription emails, please try again later.',
-                    'already-unsubscribed' => 'You are already unsubscribed.',
-                    'delete-success'       => 'Subscription deleted successfully',
-                    'unsubscribe'          => 'Unsubscribe',
-                    'subscribe'            => 'Subscribe',
-                    'subscribed-success'   => 'You have successfully subscribed to our subscription list.',
-                    'unsubscribed'         => 'You have successfully unsubscribed from our subscription list.',
-                ],
-            ],
-
-            'promotions' => [
-                'cart-rules' => [
-                    'delete-success'       => 'Cart Rule deleted successfully',
-                    'delete-failed'        => 'Warning: Cart Rule is not deleted',
-                    'cart-rule-not-defind' => 'Cart rule is not defined',
-                ],
-
-                'catalog-rules' => [
-                    'delete-success' => 'Catalog Rule deleted successfully',
-                    'delete-failed'  => 'Warning: Catalog Rule is not deleted',
-                ],
-
-                'sitemaps' => [
-                    'delete-success' => 'Site Map deleted successfully',
-                    'delete-failed'  => 'Warning: Site Map is not deleted',
-                ],
-            ],
-
-            'sitemaps' => [
-                'delete-success' => 'Site Map deleted successfully',
-                'delete-failed'  => 'Warning: Site Map is not deleted',
             ],
         ],
 
@@ -156,311 +191,438 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'GraphQL API',
-                        'info'                            => 'Notification related configurations',
-                        'push-notification-configuration' => 'FCM Push Notification Configuration',
-                        'server-key'                      => 'Server Key',
-                        'info-get-server-key'             => 'Info: To get FCM API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'android-topic'                   => 'Android Topic',
-                        'ios-topic'                       => 'IOS Topic',
-                        'private-key'                     => 'Private Key JSON File Content',
-                        'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'notification-topic'              => 'Notification Topic',
+                        'notification-topic'              => 'Tema de notificación',
+                        'info'                            => 'Configuraciones relacionadas con las notificaciones',
+                        'push-notification-configuration' => 'Configuración de notificación push de FCM',
+                        'title'                           => 'API de GraphQL',
+                        'private-key'                     => 'Contenido del archivo JSON de clave privada',
+                        'info-get-private-key'            => 'Información: Para obtener el contenido del archivo JSON de clave privada de FCM: <a href="https://console.firebase.google.com/" target="_blank">Haz clic aquí</a>',
                     ],
                 ],
             ],
+        ],
 
-            'custom-scripts' => [
-                'channel-not-found' => 'Warning: Channel not found.',
-                'create-success'    => 'Custom Script added successfully.',
-                'update-success'    => 'Custom Script updated successfully.',
-                'delete-success'    => 'Custom Script removed successfully.',
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'Advertencia: No se puede cancelar el pedido.',
+                'cancel-success' => 'Éxito: Pedido cancelado correctamente.',
+                'not-found'      => 'Advertencia: Pedido no encontrado.',
+            ],
+
+            'shipments' => [
+                'creation-error'   => 'Advertencia: No se creó el envío.',
+                'not-found'        => 'Advertencia: Envío no encontrado.',
+                'quantity-invalid' => 'Advertencia: Cantidad no válida proporcionada.',
+                'shipment-error'   => 'Advertencia: No se creó el envío.',
+                'create-success'   => 'Éxito: Envío creado correctamente.',
+            ],
+
+            'invoices' => [
+                'creation-error' => 'Advertencia: No se creó la factura.',
+                'not-found'      => 'Advertencia: Factura no encontrada.',
+                'product-error'  => 'Advertencia: Producto no válido proporcionado.',
+                'create-success' => 'Éxito: Factura creada correctamente.',
+            ],
+
+            'refunds' => [
+                'creation-error'      => 'Advertencia: No se creó el reembolso.',
+                'refund-amount-error' => 'Advertencia: Cantidad de reembolso no válida proporcionada.',
+                'refund-limit-error'  => 'Advertencia: La cantidad de reembolso supera el límite de :amount',
+                'not-found'           => 'Advertencia: Reembolso no encontrado.',
+                'create-success'      => 'Éxito: Reembolso creado correctamente.',
+            ],
+
+            'transactions' => [
+                'already-paid'   => 'Advertencia: La factura ya está pagada.',
+                'amount-exceed'  => 'Advertencia: La cantidad de transacción supera el límite.',
+                'zero-amount'    => 'Advertencia: La cantidad de transacción debe ser mayor que cero.',
+                'create-success' => 'Éxito: Transacción creada correctamente.',
+            ],
+
+            'reorder' => [
+                'cart-not-found'           => 'Advertencia: Carrito no encontrado.',
+                'cart-item-not-found'      => 'Advertencia: Elemento del carrito no encontrado.',
+                'cart-create-success'      => 'Éxito: Carrito creado correctamente.',
+                'cart-item-add-success'    => 'Éxito: Producto agregado al carrito correctamente.',
+                'cart-item-remove-success' => 'Éxito: El artículo se ha eliminado correctamente del carrito.',
+                'cart-item-update-success' => 'Éxito: Producto actualizado en el carrito correctamente.',
+                'something-wrong'          => 'Advertencia: Algo salió mal.',
+                'address-save-success'     => 'Éxito: Dirección guardada correctamente.',
+                'shipping-save-success'    => 'Éxito: Método de envío guardado correctamente.',
+                'payment-save-success'     => 'Éxito: Método de pago guardado correctamente.',
+                'order-placed-success'     => 'Éxito: Pedido realizado correctamente.',
+                'payment-method-not-found' => 'Advertencia: Método de pago no encontrado.',
+                'minimum-order-amount-err' => 'Advertencia: El monto mínimo del pedido debe ser :amount',
+                'check-shipping-address'   => 'Advertencia: Por favor, verifique la dirección de envío.',
+                'check-billing-address'    => 'Advertencia: Por favor, verifique la dirección de facturación.',
+                'specify-shipping-method'  => 'Advertencia: Por favor, especifique el método de envío.',
+                'specify-payment-method'   => 'Advertencia: Por favor, especifique el método de pago.',
+                'coupon-not-valid'         => 'Advertencia: El código de cupón no es válido.',
+                'coupon-already-applied'   => 'Advertencia: El código de cupón ya ha sido aplicado.',
+                'coupon-applied'           => 'Éxito: Código de cupón aplicado correctamente.',
+                'coupon-removed'           => 'Éxito: Código de cupón eliminado correctamente.',
+            ],
+        ],
+
+        'catalog' => [
+            'products' => [
+                'create-success'            => 'Producto creado exitosamente.',
+                'delete-success'            => 'Producto eliminado exitosamente',
+                'not-found'                 => 'Advertencia: Producto no encontrado.',
+                'update-success'            => 'Producto actualizado exitosamente.',
+                'configurable-attr-missing' => 'Advertencia: Falta el atributo configurable.',
+                'simple-products-error'     => 'Advertencia: Faltan productos simples.',
+            ],
+
+            'categories' => [
+                'already-taken'  => 'Advertencia: El slug ya ha sido utilizado.',
+                'create-success' => 'Categoría creada exitosamente.',
+                'delete-success' => 'Categoría eliminada exitosamente',
+                'not-found'      => 'Advertencia: Categoría no encontrada.',
+                'update-success' => 'Categoría actualizada exitosamente.',
+                'root-delete'    => 'Advertencia: No se puede eliminar la categoría raíz.',
+            ],
+
+            'attributes' => [
+                'create-success'    => 'Atributo creado exitosamente.',
+                'delete-success'    => 'Atributo eliminado exitosamente',
+                'not-found'         => 'Advertencia: Atributo no encontrado.',
+                'update-success'    => 'Atributo actualizado exitosamente.',
+                'user-define-error' => 'Advertencia: No tienes autorización para eliminar atributos creados por el sistema.',
+            ],
+
+            'attribute-groups' => [
+                'create-success'    => 'Grupo de atributos creado exitosamente.',
+                'delete-success'    => 'Grupo de atributos eliminado exitosamente',
+                'not-found'         => 'Advertencia: Grupo de atributos no encontrado.',
+                'update-success'    => 'Grupo de atributos actualizado exitosamente.',
+                'user-define-error' => 'Advertencia: No tienes autorización para eliminar grupos de atributos creados por el sistema.',
+            ],
+
+            'attribute-families' => [
+                'create-success'          => 'Familia de atributos creada exitosamente.',
+                'delete-success'          => 'Familia de atributos eliminada exitosamente',
+                'not-found'               => 'Advertencia: Familia de atributos no encontrada.',
+                'update-success'          => 'Familia de atributos actualizada exitosamente.',
+                'last-delete-error'       => 'Advertencia: No se puede eliminar la última familia de atributos.',
+                'attribute-product-error' => 'Advertencia: Algunos productos están asociados con esta familia de atributos.',
+                'user-define-error'       => 'Advertencia: No tienes autorización para eliminar familias de atributos creadas por el sistema.',
+            ],
+        ],
+
+        'customers' => [
+            'customers' => [
+                'create-success'       => 'Cliente creado exitosamente.',
+                'delete-order-pending' => 'No se puede eliminar la cuenta del cliente porque hay pedidos pendientes o en estado de procesamiento.',
+                'delete-success'       => 'Cliente eliminado exitosamente',
+                'not-found'            => 'Advertencia: Cliente no encontrado.',
+                'note-created-success' => 'Nota creada exitosamente',
+                'update-success'       => 'Cliente actualizado exitosamente.',
+                'login-success'        => 'Cliente ha iniciado sesión exitosamente.',
+            ],
+
+            'addressess' => [
+                'create-success'         => 'Dirección del cliente creada exitosamente.',
+                'default-update-success' => 'La dirección se ha establecido como predeterminada',
+                'delete-success'         => 'Dirección del cliente eliminada exitosamente',
+                'not-found'              => 'Advertencia: Dirección del cliente no encontrada.',
+                'update-success'         => 'Dirección del cliente actualizada exitosamente.',
+            ],
+
+            'groups' => [
+                'create-success'     => 'Grupo de clientes creado exitosamente.',
+                'customer-associate' => 'Advertencia: No se puede eliminar el grupo. El cliente está asociado a él.',
+                'delete-success'     => 'Grupo de clientes eliminado exitosamente',
+                'not-found'          => 'Advertencia: Grupo de clientes no encontrado.',
+                'update-success'     => 'Grupo de clientes actualizado exitosamente.',
+                'user-define-error'  => 'Advertencia: No tienes autorización para eliminar grupos de clientes creados por el sistema.',
+            ],
+
+            'reviews' => [
+                'delete-success' => 'Reseña eliminada exitosamente',
+                'not-found'      => 'Advertencia: Reseña no encontrada.',
+                'update-success' => 'Reseña actualizada exitosamente.',
+            ],
+        ],
+
+        'cms' => [
+            'create-success' => 'CMS creado exitosamente.',
+            'delete-success' => 'CMS eliminado exitosamente',
+            'not-found'      => 'Advertencia: CMS no encontrado.',
+            'update-success' => 'CMS actualizado exitosamente.',
+        ],
+
+        'marketing' => [
+            'promotions' => [
+                'catalog-rules' => [
+                    'create-success' => 'Regla de catálogo creada exitosamente.',
+                    'delete-failed'  => 'Advertencia: No se pudo eliminar la regla de catálogo',
+                    'delete-success' => 'Regla de catálogo eliminada exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró la regla de catálogo.',
+                    'update-success' => 'Regla de catálogo actualizada exitosamente.',
+                ],
+
+                'cart-rules' => [
+                    'create-success' => 'Regla de carrito creada exitosamente.',
+                    'delete-failed'  => 'Advertencia: No se pudo eliminar la regla de carrito',
+                    'delete-success' => 'Regla de carrito eliminada exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró la regla de carrito.',
+                    'update-success' => 'Regla de carrito actualizada exitosamente.',
+                ],
+            ],
+
+            'communications' => [
+                'email-templates' => [
+                    'create-success' => 'Plantilla de correo electrónico creada exitosamente.',
+                    'delete-success' => 'Plantilla de correo electrónico eliminada exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró la plantilla de correo electrónico.',
+                    'update-success' => 'Plantilla de correo electrónico actualizada exitosamente.',
+                ],
+
+                'events' => [
+                    'create-success' => 'Evento creado exitosamente.',
+                    'delete-success' => 'Evento eliminado exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró el evento.',
+                    'update-success' => 'Evento actualizado exitosamente.',
+                ],
+
+                'campaigns' => [
+                    'create-success' => 'Campaña creada exitosamente.',
+                    'delete-success' => 'Campaña eliminada exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró la campaña.',
+                    'update-success' => 'Campaña actualizada exitosamente.',
+                ],
+
+                'subscriptions' => [
+                    'delete-success'      => 'Suscripción eliminada exitosamente',
+                    'not-found'           => 'Advertencia: No se encontró la suscripción.',
+                    'unsubscribe-success' => 'Éxito: Suscripción cancelada exitosamente.',
+                ],
+            ],
+
+            'seo' => [
+                'url-rewrites' => [
+                    'create-success' => 'URL Rewrite creado exitosamente.',
+                    'delete-success' => 'URL Rewrite eliminado exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró el URL Rewrite.',
+                    'update-success' => 'URL Rewrite actualizado exitosamente.',
+                ],
+
+                'search-terms' => [
+                    'create-success' => 'Término de búsqueda creado exitosamente.',
+                    'delete-success' => 'Término de búsqueda eliminado exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró el término de búsqueda.',
+                    'update-success' => 'Término de búsqueda actualizado exitosamente.',
+                ],
+
+                'search-synonyms' => [
+                    'create-success' => 'Sinónimo de búsqueda creado exitosamente.',
+                    'delete-success' => 'Sinónimo de búsqueda eliminado exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró el sinónimo de búsqueda.',
+                    'update-success' => 'Sinónimo de búsqueda actualizado exitosamente.',
+                ],
+
+                'sitemaps' => [
+                    'create-success' => 'Mapa del sitio creado exitosamente.',
+                    'delete-success' => 'Mapa del sitio eliminado exitosamente',
+                    'not-found'      => 'Advertencia: No se encontró el mapa del sitio.',
+                    'update-success' => 'Mapa del sitio actualizado exitosamente.',
+                ],
             ],
         ],
 
         'settings' => [
             'locales' => [
-                'last-delete-error' => 'Last Locale delete failed',
-                'delete-success'    => 'Locale deleted successfully.',
-                'delete-error'      => 'Locale deleted failed.',
-                'not-found'         => 'Warning: Locale not found.',
+                'create-success'       => 'Locale creado exitosamente.',
+                'default-delete-error' => 'No se puede eliminar el idioma predeterminado.',
+                'delete-error'         => 'Error al eliminar el idioma.',
+                'delete-success'       => 'Idioma eliminado exitosamente.',
+                'last-delete-error'    => 'Error al eliminar el último idioma.',
+                'not-found'            => 'Advertencia: Idioma no encontrado.',
+                'update-success'       => 'Idioma actualizado exitosamente.',
             ],
 
             'currencies' => [
-                'last-delete-error' => 'Last Currency delete failed',
-                'delete-success'    => 'Currency deleted successfully.',
-                'delete-error'      => 'Currency deleted failed.',
-                'not-found'         => 'Warning: Currency not found.',
+                'create-success'       => 'Moneda creada exitosamente.',
+                'default-delete-error' => 'No se puede eliminar la moneda predeterminada.',
+                'delete-error'         => 'Error al eliminar la moneda.',
+                'delete-success'       => 'Moneda eliminada exitosamente.',
+                'last-delete-error'    => 'Error al eliminar la última moneda.',
+                'not-found'            => 'Advertencia: Moneda no encontrada.',
+                'update-success'       => 'Moneda actualizada exitosamente.',
             ],
 
             'exchange-rates' => [
-                'invalid-target-currency' => 'Warning: Invalid target currency provided.',
-                'delete-success'          => 'Success: Exchange rate deleted successfully.',
-                'last-delete-error'       => 'Last Exchange rate delete failed',
-                'delete-error'            => 'Exchange rate deleted failed.',
-                'not-found'               => 'Warning: Exchange rate not found.',
+                'create-success'          => 'Tasa de cambio creada exitosamente.',
+                'delete-error'            => 'Error al eliminar la tasa de cambio.',
+                'delete-success'          => 'Tasa de cambio eliminada exitosamente.',
+                'invalid-target-currency' => 'Advertencia: Moneda de destino inválida proporcionada.',
+                'last-delete-error'       => 'Error al eliminar la última tasa de cambio.',
+                'not-found'               => 'Advertencia: Tasa de cambio no encontrada.',
+                'update-success'          => 'Tasa de cambio actualizada exitosamente.',
             ],
 
             'inventory-sources' => [
-                'last-delete-error' => 'Last Inventory delete failed',
-                'delete-success'    => 'Inventory deleted successfully.',
-                'delete-error'      => 'Inventory deleted failed.',
-                'not-found'         => 'Warning: Inventory not found.',
+                'create-success'    => 'Inventario creado exitosamente.',
+                'delete-error'      => 'Error al eliminar el inventario.',
+                'delete-success'    => 'Inventario eliminado exitosamente.',
+                'last-delete-error' => 'Error al eliminar el último inventario.',
+                'not-found'         => 'Advertencia: Inventario no encontrado.',
+                'update-success'    => 'Inventario actualizado exitosamente.',
             ],
 
             'channels' => [
-                'last-delete-error' => 'Last Channel delete failed',
-                'delete-success'    => 'Channel deleted successfully.',
-                'delete-error'      => 'Channel deleted failed.',
-                'not-found'         => 'Warning: Channel not found.',
+                'create-success'       => 'Canal creado exitosamente.',
+                'default-delete-error' => 'No se puede eliminar el canal predeterminado.',
+                'delete-error'         => 'Error al eliminar el canal.',
+                'delete-success'       => 'Canal eliminado exitosamente.',
+                'last-delete-error'    => 'Error al eliminar el último canal.',
+                'not-found'            => 'Advertencia: Canal no encontrado.',
+                'update-success'       => 'Canal actualizado exitosamente.',
             ],
 
             'users' => [
-                'login-error'       => 'Please check your credentials and try again.',
-                'activate-warning'  => 'Your account is yet to be activated, please contact administrator.',
-                'success-login'     => 'Success: User login successfully.',
-                'success-logout'    => 'Success: User logout successfully.',
-                'last-delete-error' => 'Last User delete failed',
-                'delete-success'    => 'User deleted successfully.',
-                'delete-error'      => 'User deleted failed.',
-                'create-success'    => 'User created successfully.',
-                'not-found'         => 'Warning: User not found.',
+                'activate-warning'  => 'Tu cuenta aún no ha sido activada, por favor contacta al administrador.',
+                'create-success'    => 'Usuario creado exitosamente.',
+                'delete-error'      => 'Error al eliminar el usuario.',
+                'delete-success'    => 'Usuario eliminado exitosamente.',
+                'last-delete-error' => 'Error al eliminar el último usuario.',
+                'login-error'       => 'Por favor verifica tus credenciales e intenta nuevamente.',
+                'not-found'         => 'Advertencia: Usuario no encontrado.',
+                'success-login'     => 'Éxito: Usuario ha iniciado sesión exitosamente.',
+                'success-logout'    => 'Éxito: Usuario ha cerrado sesión exitosamente.',
+                'update-success'    => 'Usuario actualizado exitosamente.',
             ],
 
             'roles' => [
-                'last-delete-error' => 'Last Role delete failed',
-                'delete-success'    => 'Role deleted successfully.',
-                'delete-error'      => 'Role deleted failed.',
-                'not-found'         => 'Warning: Role not found.',
+                'create-success'    => 'Rol creado exitosamente.',
+                'delete-error'      => 'Error al eliminar el rol.',
+                'delete-success'    => 'Rol eliminado exitosamente.',
+                'last-delete-error' => 'No se puede eliminar el último rol.',
+                'not-found'         => 'Advertencia: Rol no encontrado.',
+                'update-success'    => 'Rol actualizado exitosamente.',
             ],
 
             'themes' => [
-                'delete-success' => 'Theme deleted successfully.',
-                'not-found'      => 'Warning: User not found.',
+                'create-success' => 'Tema creado exitosamente.',
+                'delete-success' => 'Tema eliminado exitosamente.',
+                'not-found'      => 'Advertencia: Tema no encontrado.',
+                'update-success' => 'Tema actualizado exitosamente.',
             ],
 
-            'tax-rate' => [
-                'delete-success' => 'Tax Rate deleted successfully.',
-                'delete-error'   => 'Tax Rate deleted failed.',
-                'not-found'      => 'Warning: Tax Rate not found.',
+            'tax-rates' => [
+                'create-success' => 'Tasa de impuesto creada exitosamente.',
+                'delete-error'   => 'Error al eliminar la tasa de impuesto.',
+                'delete-success' => 'Tasa de impuesto eliminada exitosamente.',
+                'not-found'      => 'Advertencia: Tasa de impuesto no encontrada.',
+                'update-success' => 'Tasa de impuesto actualizada exitosamente.',
             ],
 
             'tax-category' => [
-                'delete-success'     => 'Tax Category deleted successfully.',
-                'delete-error'       => 'Tax Category deleted failed.',
-                'not-found'          => 'Warning: Tax Category not found.',
-                'tax-rate-not-found' => 'The Given ids not found. Ids:- :ids',
+                'create-success'     => 'Categoría de impuesto creada exitosamente.',
+                'delete-error'       => 'Error al eliminar la categoría de impuesto.',
+                'delete-success'     => 'Categoría de impuesto eliminada exitosamente.',
+                'not-found'          => 'Advertencia: Categoría de impuesto no encontrada.',
+                'tax-rate-not-found' => 'Los IDs proporcionados no se encontraron. IDs: :ids',
+                'update-success'     => 'Categoría de impuesto actualizada exitosamente.',
             ],
 
             'notification' => [
                 'index' => [
-                    'title'     => 'Push Notification',
-                    'add-title' => 'Add Notification',
+                    'add-title' => 'Agregar Notificación',
                     'general'   => 'General',
+                    'title'     => 'Notificación Push',
 
                     'datagrid' => [
-                        'id'                   => 'Id',
-                        'image'                => 'Image',
-                        'text-title'           => 'Title',
-                        'notification-content' => 'Notification Content',
-                        'notification-type'    => 'Notification Type',
-                        'notification-status'  => 'Notification Status',
-                        'created-at'           => 'Created Time',
-                        'updated-at'           => 'Updated Time',
-                        'delete'               => 'Delete',
-                        'update'               => 'Update',
-                        'store-view'           => 'Channels',
+                        'channel-name'         => 'Nombre del Canal',
+                        'created-at'           => 'Tiempo de Creación',
+                        'delete'               => 'Eliminar',
+                        'id'                   => 'ID',
+                        'image'                => 'Imagen',
+                        'notification-content' => 'Contenido de la Notificación',
+                        'notification-status'  => 'Estado de la Notificación',
+                        'notification-type'    => 'Tipo de Notificación',
+                        'text-title'           => 'Título',
+                        'update'               => 'Actualizar',
+                        'updated-at'           => 'Tiempo de Actualización',
 
                         'status' => [
-                            'enabled'  => 'Enabled',
-                            'disabled' => 'Disabled',
+                            'disabled' => 'Desactivado',
+                            'enabled'  => 'Activado',
                         ],
                     ],
                 ],
 
                 'create' => [
-                    'new-notification'     => 'New Notification',
-                    'back-btn'             => 'Back',
-                    'create-btn-title'     => 'Save Notification',
+                    'back-btn'             => 'Volver',
+                    'content-and-image'    => 'Contenido e Imagen de la Notificación',
+                    'create-btn-title'     => 'Guardar Notificación',
                     'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Setting',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
+                    'image'                => 'Imagen',
+                    'new-notification'     => 'Nueva Notificación',
+                    'notification-content' => 'Contenido de la Notificación',
+                    'notification-type'    => 'Tipo de Notificación',
+                    'product-cat-id'       => 'ID de Producto/Categoría',
+                    'settings'             => 'Configuración',
+                    'status'               => 'Estado',
+                    'store-view'           => 'Canales',
+                    'title'                => 'Notificación Push',
 
                     'option-type' => [
+                        'category' => 'Categoría',
                         'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category',
+                        'product'  => 'Producto',
                     ],
                 ],
 
                 'edit' => [
-                    'edit-notification'    => 'Edit Notification',
-                    'back-btn'             => 'Back',
-                    'send-title'           => 'Send Notification',
-                    'update-btn-title'     => 'Update',
+                    'back-btn'             => 'Volver',
+                    'content-and-image'    => 'Contenido e Imagen de la Notificación',
+                    'edit-notification'    => 'Editar Notificación',
                     'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Setting',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
+                    'image'                => 'Imagen',
+                    'notification-content' => 'Contenido de la Notificación',
+                    'notification-type'    => 'Tipo de Notificación',
+                    'product-cat-id'       => 'ID de Producto/Categoría',
+                    'send-title'           => 'Enviar Notificación',
+                    'settings'             => 'Configuración',
+                    'status'               => 'Estado',
+                    'store-view'           => 'Canales',
+                    'title'                => 'Notificación Push',
+                    'update-btn-title'     => 'Actualizar',
 
                     'option-type' => [
+                        'category' => 'Categoría',
                         'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category',
+                        'product'  => 'Producto',
                     ],
                 ],
+
+                'not-found'           => 'Advertencia: Notificación no encontrada.',
+                'create-success'      => 'Notificación creada exitosamente.',
+                'delete-failed'       => 'Error al eliminar la notificación.',
+                'delete-success'      => 'Notificación eliminada exitosamente.',
+                'mass-update-success' => 'Notificaciones seleccionadas actualizadas exitosamente.',
+                'mass-delete-success' => 'Notificaciones seleccionadas eliminadas exitosamente.',
+                'no-value-selected'   => 'no hay valor existente.',
+                'send-success'        => 'Notificación enviada exitosamente.',
+                'update-success'      => 'Notificación actualizada exitosamente.',
+                'configuration-error' => 'Advertencia: Configuración de FCM no encontrada.',
+                'product-not-found'   => 'Advertencia: Producto no encontrado.',
+                'category-not-found'  => 'Advertencia: Categoría no encontrada.',
+            ],
+        ],
+
+        'configuration' => [
+            'custom-scripts' => [
+                'update-success' => 'Éxito: Scripts personalizados actualizados correctamente.',
             ],
         ],
 
         'response' => [
             'error' => [
-                'invalid-parameter' => 'Warning: Invalid parameters provided.',
-                'no-login-user'     => 'Warning: No login user found.',
+                'invalid-parameter' => 'Advertencia: Parámetros inválidos proporcionados.',
             ],
-        ],
-
-        'alerts' => [
-            'notifications' => [
-                'create-success'      => 'Notifications created successfully',
-                'update-success'      => 'Notifications updated successfully',
-                'delete-success'      => 'Notifications deleted successfully',
-                'delete-failed'       => 'Notifications deleted failed',
-                'sended-successfully' => 'Notifications pushed successfully for android and iOS.',
-                'no-value-selected'   => 'there are no existing value',
-            ],
-        ],
-    ],
-
-    'shop' => [
-        'checkout' => [
-            'save-cart-address'         => 'Success: Cart address saved successfully.',
-            'error-payment-selection'   => 'Warning: There is an error in fetching payment methods.',
-            'selected-shipment'         => 'Success: Shipment has been selected successfully.',
-            'warning-empty-cart'        => 'Warning: There are no products added to the cart.',
-            'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
-            'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
-            'invalid-guest-access'      => 'Warning: Guest customers are not allowed to get addresses with the help of billing/shipping address ID.',
-            'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without an Authorization token.',
-            'wrong-error'               => 'Warning: There is an error with your cart, try again.',
-            'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing ID.',
-            'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping ID.',
-            'error-invalid-parameter'   => 'Warning: Invalid parameters provided.',
-            'already-applied'           => 'Coupon code already applied.',
-            'success-apply'             => 'Coupon code applied successfully.',
-            'coupon-removed'            => 'Success: coupon removed from the cart successfully.',
-            'coupon-remove-failed'      => 'Warning: there are some errors in removing the coupon from the cart or the coupon is not found.',
-            'error-placing-order'       => 'Warning: There is an error in placing the order.',
-            'selected-payment'          => 'Success: Payment method selected successfully.',
-            'error-payment-save'        => 'Warning: There is an error in saving the payment method.',
-
-            'cart' => [
-                'item' => [
-                    'success-all-remove'       => 'All items successfully removed from the cart.',
-                    'fail-all-remove'          => 'Error in removing items from the cart.',
-                    'error-invalid-parameter'  => 'Warning: Invalid parameters provided.',
-                    'success-moved-cart-item'  => 'Success: Cart item moved to the wishlist successfully.',
-                    'fail-moved-cart-item'     => 'Fail: Cart item is not moved to the wishlist.',
-                    'success-add-to-cart'      => 'Success: Product added to the cart successfully.',
-                    'fail-add-to-cart'         => 'Fail: Product is not added to the cart.',
-                    'success-update-to-cart'   => 'Success: Cart item has been updated successfully.',
-                    'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
-                    'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
-                    'fail-delete-cart-item'    => 'Fail: Cart item not found.',
-                ],
-            ],
-        ],
-
-        'customer' => [
-            'success-login'         => 'Success: Customer login successful.',
-            'success-logout'        => 'Success: Customer logout successful.',
-            'no-login-customer'     => 'Warning: No login customer found.',
-            'address-list'          => 'Success: Customer\'s address details fetched',
-            'not-authorized'        => 'Warning: You are not authorized to update this address.',
-            'no-address-list'       => 'Warning: No customer\'s address found.',
-            'text-password'         => 'Your Password is: :password',
-            'not-exists'            => 'Warning: No customer found for the provided data.',
-            'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
-            'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
-            'password-reset-failed' => 'Warning: We already sent you a password reset email, try again after some time.',
-            'no-login-user'         => 'Warning: No login user found.',
-            'customer-details'      => 'Success: Customer details fetched successfully.',
-
-            'account' => [
-                'not-found' => 'Warning: No :name found.',
-
-                'profile' => [
-                    'edit-success'   => 'Profile Updated Successfully',
-                    'edit-fail'      => 'Profile not updated',
-                    'unmatch'        => 'The old password does not match.',
-                    'order-pending'  => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-                    'delete-success' => 'Customer deleted successfully',
-                    'wrong-password' => 'Wrong Password!',
-                ],
-
-                'order' => [
-                    'no-order-found' => 'Warning: No order found.',
-                    'cancel-success' => 'Order canceled successfully',
-                ],
-
-                'review' => [
-                    'success'        => 'Success: Review is submitted successfully, please wait for the approval.',
-                    'success-delete' => 'Review deleted successfully',
-                    'not-found'      => 'Review not found',
-                ],
-
-                'wishlist' => [
-                    'removed'            => 'Item Successfully Removed From Wishlist',
-                    'remove-fail'        => 'Item Cannot Be Removed From Wishlist',
-                    'remove-all-success' => 'All the items from your wishlist have been removed',
-                    'success'            => 'Item Successfully Added To Wishlist',
-                    'already-exist'      => 'Product already exists in the wishlist',
-                    'move-to-cart'       => 'Move To Cart',
-                    'moved-success'      => 'Item Successfully Moved to Cart',
-                    'error-move-to-cart' => 'Warning: This product might have some required options, not able to move to the cart.',
-                    'no-item-found'      => 'Warning: There is no product found.',
-                ],
-
-                'addressess' => [
-                    'delete-success' => 'Customer\'s Address deleted successfully',
-                ],
-            ],
-
-            'signup-form' => [
-                'error-registration'       => 'Warning: Customer registration failed.',
-                'warning-num-already-used' => 'Warning: This :phone number is registered using a different email address.',
-                'success-verify'           => 'Account created successfully, an email has been sent for verification.',
-                'invalid-creds'            => 'Please check your credentials and try again.',
-
-                'validation' => [
-                    'unique'   => 'This :field has already been taken.',
-                    'required' => 'The :field field is required.',
-                    'same'     => 'The :field and password must match.',
-                ],
-            ],
-
-            'login-form' => [
-                'not-activated' => 'Your activation requires admin approval',
-                'invalid-creds' => 'Please check your credentials and try again.',
-            ],
-        ],
-
-        'response' => [
-            'error-invalid-parameter' => 'Warning: Invalid parameters provided.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'cancel-error'            => 'Order cannot be canceled.',
         ],
     ],
 ];

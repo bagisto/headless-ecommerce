@@ -1,154 +1,189 @@
 <?php
 
 return [
-    'admin' => [
-        'menu' => [
-            'push-notification' => 'إشعار الدفع',
+    'shop' => [
+        'subscription' => [
+            'already'             => 'أنت مشترك بالفعل في النشرة الإخبارية لدينا.',
+            'not-authorized'      => 'تحذير: ليس لديك الصلاحية لأداء هذا الإجراء.',
+            'not-found'           => 'تحذير: لا يوجد اشتراك موجود.',
+            'subscribe-success'   => 'لقد تم الاشتراك بنجاح في النشرة الإخبارية لدينا.',
+            'unsubscribe-success' => 'لقد تم إلغاء الاشتراك بنجاح في النشرة الإخبارية لدينا.',
         ],
 
+        'customers' => [
+            'no-login-customer' => 'تحذير: لا يوجد عميل مسجل الدخول.',
+            'success-login'     => 'تم تسجيل الدخول بنجاح.',
+            'success-logout'    => 'تم تسجيل الخروج بنجاح.',
+
+            'signup' => [
+                'error-registration' => 'تحذير: فشل تسجيل العميل.',
+                'success-verify'     => 'تم إنشاء الحساب بنجاح، تم إرسال بريد إلكتروني للتحقق.',
+            ],
+
+            'login' => [
+                'invalid-creds' => 'يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.',
+                'not-activated' => 'يتطلب تنشيط حسابك موافقة المشرف',
+                'verify-first'  => 'يرجى التحقق من بريدك الإلكتروني أولاً.',
+                'suspended'     => 'تم تعليق حسابك من قبل المسؤول.',
+
+                'validation' => [
+                    'required' => 'حقل :field مطلوب.',
+                    'same'     => 'يجب أن تتطابق :field وكلمة المرور.',
+                    'unique'   => 'تم أخذ هذا :field بالفعل.',
+                ],
+            ],
+
+            'forgot-password' => [
+                'already-sent'    => 'تم إرسال رابط إعادة تعيين كلمة المرور بالفعل إلى بريدك الإلكتروني.',
+                'email-not-exist' => 'البريد الإلكتروني غير موجود.',
+                'reset-link-sent' => 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.',
+            ],
+
+            'account' => [
+                'profile' => [
+                    'customer-details' => 'تم جلب تفاصيل العميل بنجاح.',
+                    'delete-success'   => 'تم حذف الحساب بنجاح.',
+                    'password-unmatch' => 'كلمة المرور غير متطابقة.',
+                    'update-fail'      => 'تحذير: لم يتم تحديث الملف الشخصي',
+                    'update-success'   => 'تم تحديث الملف الشخصي بنجاح.',
+                    'wrong-password'   => 'كلمة المرور خاطئة.',
+                ],
+
+                'addresses' => [
+                    'create-success'         => 'تم إنشاء العنوان بنجاح.',
+                    'default-update-success' => 'تم تعيين العنوان كافتراضي',
+                    'delete-success'         => 'تم حذف عنوان العميل بنجاح',
+                    'not-found'              => 'تحذير: لم يتم العثور على العنوان.',
+                    'update-success'         => 'تم تحديث العنوان بنجاح.',
+                ],
+
+                'wishlist' => [
+                    'product-removed' => 'تحذير: المنتج غير موجود.',
+                    'success'         => 'تمت إضافة المنتج إلى قائمة الرغبات بنجاح.',
+                    'already-exist'   => 'تحذير: تمت إضافته بالفعل إلى قائمة الرغبات.',
+                    'remove-success'  => 'تمت إزالة العنصر بنجاح من قائمة الرغبات.',
+                    'not-found'       => 'تحذير: لا توجد منتجات في قائمة الرغبات.',
+                    'moved-success'   => 'تم نقل العناصر المحددة بنجاح إلى قائمة الرغبات.',
+                ],
+
+                'orders' => [
+                    'not-found'      => 'تحذير: لا توجد طلبات موجودة.',
+                    'cancel-error'   => 'تحذير: لم يتم إلغاء الطلب.',
+                    'cancel-success' => 'تم إلغاء الطلب بنجاح.',
+
+                    'shipment' => [
+                        'not-found' => 'تحذير: لم يتم العثور على الشحنة.',
+                    ],
+
+                    'invoice' => [
+                        'not-found' => 'تحذير: لم يتم العثور على الفاتورة.',
+                    ],
+
+                    'refund' => [
+                        'not-found' => 'تحذير: لم يتم العثور على المرتجع.',
+                    ],
+                ],
+
+                'downloadable-products' => [
+                    'not-found'      => 'تحذير: المنتج القابل للتنزيل غير موجود.',
+                    'not-auth'       => 'تحذير: ليس لديك الصلاحية لأداء هذا الإجراء.',
+                    'payment-error'  => 'لم يتم الدفع لهذا التنزيل.',
+                    'download-error' => 'انتهت صلاحية رابط التنزيل.',
+                ],
+            ],
+
+            'reviews' => [
+                'create-success'      => 'تم إنشاء المراجعة بنجاح.',
+                'delete-success'      => 'تم حذف المراجعة بنجاح.',
+                'not-found'           => 'تحذير: المراجعة غير موجودة.',
+                'mass-delete-success' => 'تم حذف المراجعات المحددة بنجاح.',
+            ],
+        ],
+
+        'checkout' => [
+            'cart' => [
+                'item' => [
+                    'error' => [
+                        'invalid-parameter' => 'تحذير: المعلمات غير صالحة المقدمة.',
+                    ],
+
+                    'success' => [
+                        'add-to-cart'      => 'تمت إضافة المنتج إلى السلة بنجاح.',
+                        'update-to-cart'   => 'تم تحديث المنتج في السلة بنجاح.',
+                        'delete-cart-item' => 'تمت إزالة العنصر بنجاح من السلة.',
+                        'all-remove'       => 'تمت إزالة جميع العناصر من السلة بنجاح.',
+                        'move-to-wishlist' => 'تم نقل العناصر المحددة إلى قائمة الرغبات بنجاح.',
+                    ],
+
+                    'fail' => [
+                        'all-remove'       => 'تحذير: لم يتم إزالة جميع العناصر من السلة.',
+                        'update-to-cart'   => 'تحذير: لم يتم تحديث المنتج في السلة.',
+                        'delete-cart-item' => 'تحذير: لم يتم إزالة العنصر من السلة.',
+                        'not-found'        => 'تحذير: السلة غير موجودة.',
+                        'item-not-found'   => 'تحذير: العنصر غير موجود.',
+                        'all-remove'       => 'تحذير: لم يتم إزالة جميع العناصر من السلة.',
+                        'move-to-wishlist' => 'تحذير: لم يتم نقل العناصر المحددة إلى قائمة الرغبات.',
+                    ],
+                ],
+            ],
+
+            'addresses' => [
+                'guest-address-warning'     => 'تحذير: لا يمكن للمستخدم الضيف إضافة عنوان.',
+                'guest-checkout-warning'    => 'تحذير: لا يمكن للمستخدم الضيف الخروج.',
+                'no-billing-address-found'  => 'تحذير: لا يوجد عنوان فوترة موجود.',
+                'no-shipping-address-found' => 'تحذير: لا يوجد عنوان شحن موجود.',
+                'address-save-success'      => 'تم حفظ العنوان بنجاح.',
+            ],
+
+            'shipping' => [
+                'method-not-found' => 'تحذير: طريقة الشحن غير موجودة.',
+                'method-fetched'   => 'تم جلب طريقة الشحن بنجاح.',
+                'save-failed'      => 'تحذير: لم يتم حفظ طريقة الشحن.',
+                'save-success'     => 'تم حفظ طريقة الشحن بنجاح.',
+            ],
+
+            'payment' => [
+                'method-not-found' => 'تحذير: طريقة الدفع غير موجودة.',
+                'method-fetched'   => 'تم جلب طريقة الدفع بنجاح.',
+                'save-failed'      => 'تحذير: لم يتم حفظ طريقة الدفع.',
+                'save-success'     => 'تم حفظ طريقة الدفع بنجاح.',
+            ],
+
+            'coupon' => [
+                'apply-success'   => 'تم تطبيق رمز الكوبون بنجاح.',
+                'already-applied' => 'تحذير: تم تطبيق رمز الكوبون بالفعل.',
+                'invalid-code'    => 'تحذير: رمز الكوبون غير صالح.',
+                'remove-success'  => 'تمت إزالة رمز الكوبون بنجاح.',
+                'remove-failed'   => 'تحذير: لم يتم إزالة رمز الكوبون.',
+            ],
+
+            'something-wrong'          => 'تحذير: حدث خطأ ما.',
+            'invalid-guest-user'       => 'تحذير: مستخدم ضيف غير صالح.',
+            'empty-cart'               => 'تحذير: السلة فارغة.',
+            'missing-billing-address'  => 'تحذير: عنوان الفاتورة مفقود.',
+            'missing-shipping-address' => 'تحذير: عنوان الشحن مفقود.',
+            'missing-shipping-method'  => 'تحذير: طريقة الشحن مفقودة.',
+            'missing-payment-method'   => 'تحذير: طريقة الدفع مفقودة.',
+            'no-address-found'         => 'تحذير: لم يتم العثور على عنوان الفاتورة والشحن.',
+        ],
+    ],
+
+    'admin' => [
         'acl' => [
+            'create'            => 'إنشاء',
+            'delete'            => 'حذف',
+            'edit'              => 'تعديل',
+            'mass-delete'       => 'حذف جماعي',
+            'mass-update'       => 'تحديث جماعي',
             'push-notification' => 'إشعار الدفع',
             'send'              => 'إرسال',
         ],
 
-        'sales' => [
-            'orders' => [
-                'cancel-error'   => 'لا يمكن إلغاء الطلب.',
-                'cancel-success' => 'تم إلغاء الطلب بنجاح',
-                'not-found'      => 'تحذير: الطلب غير موجود.',
-            ],
-
-            'shipments' => [
-                'not-found'        => 'تحذير: الشحنة غير موجودة.',
-                'shipment-error'   => 'لا يُسمح بإنشاء شحنة الطلب.',
-                'creation-error'   => 'لا يمكن إنشاء شحنة لهذا الطلب.',
-                'quantity-invalid' => 'الكمية المطلوبة غير صالحة أو غير متاحة.',
-            ],
-
-            'invoices' => [
-                'not-found'      => 'تحذير: الفاتورة غير موجودة.',
-                'creation-error' => 'لا يُسمح بإنشاء فاتورة الطلب.',
-                'product-error'  => 'لا يمكن إنشاء فاتورة بدون منتجات.',
-            ],
-
-            'refunds' => [
-                'invalid-refund-amount-error' => 'يجب أن يكون مبلغ الاسترداد غير صفر.',
-                'refund-limit-error'          => 'أقصى مبلغ متاح للاسترداد هو :amount.',
-                'creation-error'              => 'لا يمكن إنشاء استرداد لهذا الطلب.',
-                'create-success'              => 'تم إنشاء استرداد بنجاح لهذا الطلب.',
-            ],
-        ],
-
-        'catalog' => [
-            'products' => [
-                'create' => [
-                    'configurable-error'      => 'يرجى تحديد عنصر واحد على الأقل قابل للتكوين.',
-                    'grouped-error-not-added' => 'لم يتم إضافته إلى المنتج المجمع',
-                    'grouped-error-not-added' => 'لم يتم إضافته إلى المنتج المجمع',
+        'components' => [
+            'layouts' => [
+                'sidebar' => [
+                    'push-notification' => 'إشعار الدفع',
                 ],
-
-                'delete-success' => 'تم حذف المنتج بنجاح.',
-                'delete-failed'  => 'تحذير: المنتج لم يتم حذفه',
-            ],
-
-            'categories' => [
-                'already-taken'        => 'تم استخدام الفئة بالفعل.',
-                'delete-category-root' => 'لا يمكن حذف الفئة الجذر.',
-                'delete-success'       => 'تم حذف الفئة بنجاح.',
-                'delete-failed'        => 'تحذير: الفئة لم تتم حذفها',
-            ],
-
-            'attributes' => [
-                'delete-success'    => 'تم حذف السمة بنجاح.',
-                'delete-failed'     => 'تحذير: السمة لم تتم حذفها',
-                'user-define-error' => 'تحذير: ليس لديك إذن لحذف سمة تم إنشاؤها من قبل النظام.',
-            ],
-
-            'attribute-families' => [
-                'last-delete-error'       => 'فشل حذف عائلة السمات الأخيرة',
-                'attribute-product-error' => 'تم استخدام العائلة في المنتجات.',
-                'delete-success'          => 'تم حذف العائلة بنجاح.',
-                'delete-failed'           => 'تحذير: لم يتم حذف العائلة',
-            ],
-
-            'attribute-groups' => [
-                'delete-success'       => 'تم حذف مجموعة العائلة بنجاح.',
-                'delete-failed'        => 'تحذير: لم يتم حذف مجموعة العائلة',
-                'error-customer-group' => 'تحذير: ليس لديك إذن لحذف مجموعة السمات التي تم إنشاؤها من قبل النظام.',
-            ],
-        ],
-
-        'customers' => [
-            'no-customer-found'      => 'لم يتم العثور على العميل',
-            'address-delete-success' => 'تم حذف عنوان العميل بنجاح',
-            'user-define-error'      => 'تحذير: ليس لديك إذن لحذف مجموعة العملاء التي تم إنشاؤها من قبل النظام.',
-            'delete-order-pending'   => 'لا يمكن حذف حساب العميل لأن بعض الطلبات قيد الانتظار أو في حالة معالجة.',
-            'delete-success'         => 'تم حذف العميل بنجاح',
-
-            'groups' => [
-                'user-define-error'  => 'تحذير: ليس لديك إذن لحذف مجموعة العملاء التي تم إنشاؤها من قبل النظام.',
-                'customer-associate' => 'تحذير: لا يمكن حذف المجموعة. العميل مرتبط بها.',
-                'delete-success'     => 'تم حذف العميل بنجاح',
-            ],
-        ],
-
-        'cms' => [
-            'already-taken'  => 'رابط صفحة CMS مستخدم بالفعل',
-            'delete-success' => 'تم حذف صفحة CMS بنجاح.',
-            'delete-failed'  => 'تحذير: لم يتم حذف صفحة CMS',
-        ],
-
-        'marketing' => [
-            'communications' => [
-                'campaigns' => [
-                    'delete-success' => 'تم حذف الحملة بنجاح',
-                    'delete-failed'  => 'تحذير: لم يتم حذف الحملة',
-                ],
-
-                'templates' => [
-                    'delete-success' => 'تم حذف قالب البريد الإلكتروني بنجاح',
-                    'delete-failed'  => 'تحذير: لم يتم حذف قالب البريد الإلكتروني',
-                ],
-
-                'events' => [
-                    'delete-success' => 'تم حذف الحدث بنجاح',
-                    'delete-failed'  => 'تحذير: لم يتم حذف الحدث',
-                ],
-
-                'subscriptions' => [
-                    'no-subscriber-found'  => 'لم يتم العثور على المشترك',
-                    'already-subscriber'   => 'أنت مشترك بالفعل في قائمة الاشتراك الخاصة بنا.',
-                    'not-subscribed'       => 'لا يمكنك الاشتراك في رسائل الاشتراك ، يرجى المحاولة مرة أخرى في وقت لاحق.',
-                    'already-unsubscribed' => 'لقد قمت بإلغاء الاشتراك بالفعل.',
-                    'delete-success'       => 'تم حذف الاشتراك بنجاح',
-                    'unsubscribe'          => 'إلغاء الاشتراك',
-                    'subscribe'            => 'الاشتراك',
-                    'subscribed-success'   => 'لقد اشتركت بنجاح في قائمة الاشتراك الخاصة بنا.',
-                    'unsubscribed'         => 'لقد قمت بإلغاء الاشتراك بنجاح من قائمة الاشتراك الخاصة بنا.',
-                ],
-            ],
-
-            'promotions' => [
-                'cart-rules' => [
-                    'delete-success'       => 'تم حذف قاعدة السلة بنجاح',
-                    'delete-failed'        => 'تحذير: لم يتم حذف قاعدة السلة',
-                    'cart-rule-not-defind' => 'قاعدة السلة غير محددة',
-                ],
-
-                'catalog-rules' => [
-                    'delete-success' => 'تم حذف قاعدة الكتالوج بنجاح',
-                    'delete-failed'  => 'تحذير: لم يتم حذف قاعدة الكتالوج',
-                ],
-
-                'sitemaps' => [
-                    'delete-success' => 'تم حذف خريطة الموقع بنجاح',
-                    'delete-failed'  => 'تحذير: لم يتم حذف خريطة الموقع',
-                ],
-            ],
-
-            'sitemaps' => [
-                'delete-success' => 'تم حذف خريطة الموقع بنجاح',
-                'delete-failed'  => 'تحذير: لم يتم حذف خريطة الموقع',
             ],
         ],
 
@@ -156,311 +191,438 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'title'                           => 'واجهة برمجة التطبيقات GraphQL',
-                        'info'                            => 'إعدادات ذات صلة بالإشعارات',
-                        'push-notification-configuration' => 'تكوين إشعار الدفع FCM',
-                        'server-key'                      => 'مفتاح الخادم',
-                        'info-get-server-key'             => 'معلومات: للحصول على بيانات اعتماد FCM API: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
-                        'android-topic'                   => 'موضوع Android',
-                        'ios-topic'                       => 'موضوع IOS',
-                        'private-key'                     => 'محتوى ملف المفتاح الخاص JSON',
-                        'info-get-private-key'            => 'معلومات: للحصول على محتوى ملف المفتاح الخاص JSON لـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
                         'notification-topic'              => 'موضوع الإشعار',
+                        'info'                            => 'إعدادات ذات صلة بالإشعارات',
+                        'push-notification-configuration' => 'إعدادات إشعار الدفع FCM',
+                        'title'                           => 'واجهة برمجة تطبيقات GraphQL',
+                        'private-key'                     => 'محتوى ملف المفتاح الخاص JSON',
+                        'info-get-private-key'            => 'معلومات: للحصول على محتوى ملف المفتاح الخاص FCM JSON: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
                     ],
                 ],
             ],
+        ],
 
-            'custom-scripts' => [
-                'channel-not-found' => 'تحذير: القناة غير موجودة.',
-                'create-success'    => 'تمت إضافة النص المخصص بنجاح.',
-                'update-success'    => 'تم تحديث النص المخصص بنجاح.',
-                'delete-success'    => 'تمت إزالة النص المخصص بنجاح.',
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'تحذير: لا يمكن إلغاء الطلب.',
+                'cancel-success' => 'تم إلغاء الطلب بنجاح.',
+                'not-found'      => 'تحذير: الطلب غير موجود.',
+            ],
+
+            'shipments' => [
+                'creation-error'   => 'تحذير: لم يتم إنشاء الشحنة.',
+                'not-found'        => 'تحذير: الشحنة غير موجودة.',
+                'quantity-invalid' => 'تحذير: الكمية المقدمة غير صالحة.',
+                'shipment-error'   => 'تحذير: لم يتم إنشاء الشحنة.',
+                'create-success'   => 'تم إنشاء الشحنة بنجاح.',
+            ],
+
+            'invoices' => [
+                'creation-error' => 'تحذير: لم يتم إنشاء الفاتورة.',
+                'not-found'      => 'تحذير: الفاتورة غير موجودة.',
+                'product-error'  => 'تحذير: المنتج المقدم غير صالح.',
+                'create-success' => 'تم إنشاء الفاتورة بنجاح.',
+            ],
+
+            'refunds' => [
+                'creation-error'      => 'تحذير: لم يتم إنشاء المرتجع.',
+                'refund-amount-error' => 'تحذير: المبلغ المسترد غير صالح.',
+                'refund-limit-error'  => 'تحذير: يتجاوز المبلغ المسترد الحد الأقصى لـ :amount',
+                'not-found'           => 'تحذير: المرتجع غير موجود.',
+                'create-success'      => 'تم إنشاء المرتجع بنجاح.',
+            ],
+
+            'transactions' => [
+                'already-paid'   => 'تحذير: تم دفع الفاتورة بالفعل.',
+                'amount-exceed'  => 'تحذير: يتجاوز مبلغ العملية الحد الأقصى.',
+                'zero-amount'    => 'تحذير: يجب أن يكون مبلغ العملية أكبر من الصفر.',
+                'create-success' => 'تم إنشاء العملية بنجاح.',
+            ],
+
+            'reorder' => [
+                'cart-not-found'           => 'تحذير: السلة غير موجودة.',
+                'cart-item-not-found'      => 'تحذير: عنصر السلة غير موجود.',
+                'cart-create-success'      => 'تم إنشاء السلة بنجاح.',
+                'cart-item-add-success'    => 'تمت إضافة المنتج إلى السلة بنجاح.',
+                'cart-item-remove-success' => 'تمت إزالة العنصر بنجاح من السلة.',
+                'cart-item-update-success' => 'تم تحديث المنتج في السلة بنجاح.',
+                'something-wrong'          => 'تحذير: حدث خطأ ما.',
+                'address-save-success'     => 'تم حفظ العنوان بنجاح.',
+                'shipping-save-success'    => 'تم حفظ طريقة الشحن بنجاح.',
+                'payment-save-success'     => 'تم حفظ طريقة الدفع بنجاح.',
+                'order-placed-success'     => 'تم تقديم الطلب بنجاح.',
+                'payment-method-not-found' => 'تحذير: طريقة الدفع غير موجودة.',
+                'minimum-order-amount-err' => 'تحذير: يجب أن يكون الحد الأدنى لمبلغ الطلب :amount',
+                'check-shipping-address'   => 'تحذير: يرجى التحقق من عنوان الشحن.',
+                'check-billing-address'    => 'تحذير: يرجى التحقق من عنوان الفواتير.',
+                'specify-shipping-method'  => 'تحذير: يرجى تحديد طريقة الشحن.',
+                'specify-payment-method'   => 'تحذير: يرجى تحديد طريقة الدفع.',
+                'coupon-not-valid'         => 'تحذير: رمز الكوبون غير صالح.',
+                'coupon-already-applied'   => 'تحذير: تم تطبيق رمز الكوبون بالفعل.',
+                'coupon-applied'           => 'تم تطبيق رمز الكوبون بنجاح.',
+                'coupon-removed'           => 'تمت إزالة رمز الكوبون بنجاح.',
+            ],
+        ],
+
+        'catalog' => [
+            'products' => [
+                'create-success'            => 'تم إنشاء المنتج بنجاح.',
+                'delete-success'            => 'تم حذف المنتج بنجاح',
+                'not-found'                 => 'تحذير: المنتج غير موجود.',
+                'update-success'            => 'تم تحديث المنتج بنجاح.',
+                'configurable-attr-missing' => 'تحذير: السمة القابلة للتكوين مفقودة.',
+                'simple-products-error'     => 'تحذير: المنتجات البسيطة مفقودة.',
+            ],
+
+            'categories' => [
+                'already-taken'  => 'تحذير: تم استخدام الاسم المستعار بالفعل.',
+                'create-success' => 'تم إنشاء الفئة بنجاح.',
+                'delete-success' => 'تم حذف الفئة بنجاح',
+                'not-found'      => 'تحذير: الفئة غير موجودة.',
+                'update-success' => 'تم تحديث الفئة بنجاح.',
+                'root-delete'    => 'تحذير: لا يمكن حذف الفئة الجذر.',
+            ],
+
+            'attributes' => [
+                'create-success'    => 'تم إنشاء السمة بنجاح.',
+                'delete-success'    => 'تم حذف السمة بنجاح',
+                'not-found'         => 'تحذير: السمة غير موجودة.',
+                'update-success'    => 'تم تحديث السمة بنجاح.',
+                'user-define-error' => 'تحذير: ليس لديك إذن لحذف السمة التي تم إنشاؤها من قبل النظام.',
+            ],
+
+            'attribute-groups' => [
+                'create-success'    => 'تم إنشاء مجموعة السمات بنجاح.',
+                'delete-success'    => 'تم حذف مجموعة السمات بنجاح',
+                'not-found'         => 'تحذير: مجموعة السمات غير موجودة.',
+                'update-success'    => 'تم تحديث مجموعة السمات بنجاح.',
+                'user-define-error' => 'تحذير: ليس لديك إذن لحذف مجموعة السمات التي تم إنشاؤها من قبل النظام.',
+            ],
+
+            'attribute-families' => [
+                'create-success'          => 'تم إنشاء عائلة السمات بنجاح.',
+                'delete-success'          => 'تم حذف عائلة السمات بنجاح',
+                'not-found'               => 'تحذير: عائلة السمات غير موجودة.',
+                'update-success'          => 'تم تحديث عائلة السمات بنجاح.',
+                'last-delete-error'       => 'تحذير: لا يمكن حذف آخر عائلة السمات.',
+                'attribute-product-error' => 'تحذير: يتم ربط بعض المنتجات بعائلة السمات هذه.',
+                'user-define-error'       => 'تحذير: ليس لديك إذن لحذف عائلة السمات التي تم إنشاؤها من قبل النظام.',
+            ],
+        ],
+
+        'customers' => [
+            'customers' => [
+                'create-success'       => 'تم إنشاء العميل بنجاح.',
+                'delete-order-pending' => 'لا يمكن حذف حساب العميل لأن بعض الطلبات قيد الانتظار أو في حالة معالجة.',
+                'delete-success'       => 'تم حذف العميل بنجاح',
+                'not-found'            => 'تحذير: العميل غير موجود.',
+                'note-created-success' => 'تم إنشاء الملاحظة بنجاح',
+                'update-success'       => 'تم تحديث العميل بنجاح.',
+                'login-success'        => 'تم تسجيل الدخول بنجاح.',
+            ],
+
+            'addressess' => [
+                'create-success'         => 'تم إنشاء عنوان العميل بنجاح.',
+                'default-update-success' => 'تم تعيين العنوان كافتراضي',
+                'delete-success'         => 'تم حذف عنوان العميل بنجاح',
+                'not-found'              => 'تحذير: عنوان العميل غير موجود.',
+                'update-success'         => 'تم تحديث عنوان العميل بنجاح.',
+            ],
+
+            'groups' => [
+                'create-success'     => 'تم إنشاء مجموعة العملاء بنجاح.',
+                'customer-associate' => 'تحذير: لا يمكن حذف المجموعة. العميل مرتبط بها.',
+                'delete-success'     => 'تم حذف مجموعة العملاء بنجاح',
+                'not-found'          => 'تحذير: مجموعة العملاء غير موجودة.',
+                'update-success'     => 'تم تحديث مجموعة العملاء بنجاح.',
+                'user-define-error'  => 'تحذير: ليس لديك إذن لحذف مجموعة العملاء التي تم إنشاؤها من قبل النظام.',
+            ],
+
+            'reviews' => [
+                'delete-success' => 'تم حذف التقييم بنجاح',
+                'not-found'      => 'تحذير: التقييم غير موجود.',
+                'update-success' => 'تم تحديث التقييم بنجاح.',
+            ],
+        ],
+
+        'cms' => [
+            'create-success' => 'تم إنشاء صفحة CMS بنجاح.',
+            'delete-success' => 'تم حذف صفحة CMS بنجاح',
+            'not-found'      => 'تحذير: صفحة CMS غير موجودة.',
+            'update-success' => 'تم تحديث صفحة CMS بنجاح.',
+        ],
+
+        'marketing' => [
+            'promotions' => [
+                'catalog-rules' => [
+                    'create-success' => 'تم إنشاء قاعدة الكتالوج بنجاح.',
+                    'delete-failed'  => 'تحذير: لم يتم حذف قاعدة الكتالوج',
+                    'delete-success' => 'تم حذف قاعدة الكتالوج بنجاح',
+                    'not-found'      => 'تحذير: قاعدة الكتالوج غير موجودة.',
+                    'update-success' => 'تم تحديث قاعدة الكتالوج بنجاح.',
+                ],
+
+                'cart-rules' => [
+                    'create-success' => 'تم إنشاء قاعدة السلة بنجاح.',
+                    'delete-failed'  => 'تحذير: لم يتم حذف قاعدة السلة',
+                    'delete-success' => 'تم حذف قاعدة السلة بنجاح',
+                    'not-found'      => 'قاعدة السلة غير موجودة',
+                    'update-success' => 'تم تحديث قاعدة السلة بنجاح.',
+                ],
+            ],
+
+            'communications' => [
+                'email-templates' => [
+                    'create-success' => 'تم إنشاء قالب البريد الإلكتروني بنجاح.',
+                    'delete-success' => 'تم حذف قالب البريد الإلكتروني بنجاح',
+                    'not-found'      => 'تحذير: قالب البريد الإلكتروني غير موجود.',
+                    'update-success' => 'تم تحديث قالب البريد الإلكتروني بنجاح.',
+                ],
+
+                'events' => [
+                    'create-success' => 'تم إنشاء الحدث بنجاح.',
+                    'delete-success' => 'تم حذف الحدث بنجاح',
+                    'not-found'      => 'تحذير: الحدث غير موجود.',
+                    'update-success' => 'تم تحديث الحدث بنجاح.',
+                ],
+
+                'campaigns' => [
+                    'create-success' => 'تم إنشاء الحملة بنجاح.',
+                    'delete-success' => 'تم حذف الحملة بنجاح',
+                    'not-found'      => 'تحذير: الحملة غير موجودة.',
+                    'update-success' => 'تم تحديث الحملة بنجاح.',
+                ],
+
+                'subscriptions' => [
+                    'delete-success'      => 'تم حذف الاشتراك بنجاح',
+                    'not-found'           => 'تحذير: الاشتراك غير موجود.',
+                    'unsubscribe-success' => 'تم إلغاء الاشتراك بنجاح.',
+                ],
+            ],
+
+            'seo' => [
+                'url-rewrites' => [
+                    'create-success' => 'تم إنشاء إعادة كتابة عنوان URL بنجاح.',
+                    'delete-success' => 'تم حذف إعادة كتابة عنوان URL بنجاح',
+                    'not-found'      => 'تحذير: إعادة كتابة عنوان URL غير موجودة.',
+                    'update-success' => 'تم تحديث إعادة كتابة عنوان URL بنجاح.',
+                ],
+
+                'search-terms' => [
+                    'create-success' => 'تم إنشاء مصطلح البحث بنجاح.',
+                    'delete-success' => 'تم حذف مصطلح البحث بنجاح',
+                    'not-found'      => 'تحذير: مصطلح البحث غير موجود.',
+                    'update-success' => 'تم تحديث مصطلح البحث بنجاح.',
+                ],
+
+                'search-synonyms' => [
+                    'create-success' => 'تم إنشاء مرادف البحث بنجاح.',
+                    'delete-success' => 'تم حذف مرادف البحث بنجاح',
+                    'not-found'      => 'تحذير: مرادف البحث غير موجود.',
+                    'update-success' => 'تم تحديث مرادف البحث بنجاح.',
+                ],
+
+                'sitemaps' => [
+                    'create-success' => 'تم إنشاء خريطة الموقع بنجاح.',
+                    'delete-success' => 'تم حذف خريطة الموقع بنجاح',
+                    'not-found'      => 'تحذير: خريطة الموقع غير موجودة.',
+                    'update-success' => 'تم تحديث خريطة الموقع بنجاح.',
+                ],
             ],
         ],
 
         'settings' => [
             'locales' => [
-                'last-delete-error' => 'فشل حذف آخر لغة',
-                'delete-success'    => 'تم حذف اللغة بنجاح.',
-                'delete-error'      => 'فشل حذف اللغة.',
-                'not-found'         => 'تحذير: اللغة غير موجودة.',
+                'create-success'       => 'تم إنشاء اللغة بنجاح.',
+                'default-delete-error' => 'لا يمكن حذف اللغة الافتراضية.',
+                'delete-error'         => 'فشل حذف اللغة.',
+                'delete-success'       => 'تم حذف اللغة بنجاح.',
+                'last-delete-error'    => 'فشل حذف آخر لغة.',
+                'not-found'            => 'تحذير: اللغة غير موجودة.',
+                'update-success'       => 'تم تحديث اللغة بنجاح.',
             ],
 
             'currencies' => [
-                'last-delete-error' => 'فشل حذف آخر عملة',
-                'delete-success'    => 'تم حذف العملة بنجاح.',
-                'delete-error'      => 'فشل حذف العملة.',
-                'not-found'         => 'تحذير: العملة غير موجودة.',
+                'create-success'       => 'تم إنشاء العملة بنجاح.',
+                'default-delete-error' => 'لا يمكن حذف العملة الافتراضية.',
+                'delete-error'         => 'فشل حذف العملة.',
+                'delete-success'       => 'تم حذف العملة بنجاح.',
+                'last-delete-error'    => 'فشل حذف آخر عملة.',
+                'not-found'            => 'تحذير: العملة غير موجودة.',
+                'update-success'       => 'تم تحديث العملة بنجاح.',
             ],
 
             'exchange-rates' => [
-                'invalid-target-currency' => 'تحذير: العملة المستهدفة غير صالحة.',
-                'delete-success'          => 'تم حذف سعر الصرف بنجاح.',
-                'last-delete-error'       => 'فشل حذف آخر سعر صرف',
+                'create-success'          => 'تم إنشاء سعر الصرف بنجاح.',
                 'delete-error'            => 'فشل حذف سعر الصرف.',
+                'delete-success'          => 'تم حذف سعر الصرف بنجاح.',
+                'invalid-target-currency' => 'تحذير: العملة المستهدفة غير صالحة.',
+                'last-delete-error'       => 'فشل حذف آخر سعر صرف.',
                 'not-found'               => 'تحذير: سعر الصرف غير موجود.',
+                'update-success'          => 'تم تحديث سعر الصرف بنجاح.',
             ],
 
             'inventory-sources' => [
-                'last-delete-error' => 'فشل حذف آخر مصدر مخزون',
-                'delete-success'    => 'تم حذف مصدر المخزون بنجاح.',
-                'delete-error'      => 'فشل حذف مصدر المخزون.',
-                'not-found'         => 'تحذير: مصدر المخزون غير موجود.',
+                'create-success'    => 'تم إنشاء المخزون بنجاح.',
+                'delete-error'      => 'فشل حذف المخزون.',
+                'delete-success'    => 'تم حذف المخزون بنجاح.',
+                'last-delete-error' => 'فشل حذف آخر مخزون.',
+                'not-found'         => 'تحذير: المخزون غير موجود.',
+                'update-success'    => 'تم تحديث المخزون بنجاح.',
             ],
 
             'channels' => [
-                'last-delete-error' => 'فشل حذف آخر قناة',
-                'delete-success'    => 'تم حذف القناة بنجاح.',
-                'delete-error'      => 'فشل حذف القناة.',
-                'not-found'         => 'تحذير: القناة غير موجودة.',
+                'create-success'       => 'تم إنشاء القناة بنجاح.',
+                'default-delete-error' => 'لا يمكن حذف القناة الافتراضية.',
+                'delete-error'         => 'فشل حذف القناة.',
+                'delete-success'       => 'تم حذف القناة بنجاح.',
+                'last-delete-error'    => 'فشل حذف آخر قناة.',
+                'not-found'            => 'تحذير: القناة غير موجودة.',
+                'update-success'       => 'تم تحديث القناة بنجاح.',
             ],
 
             'users' => [
+                'activate-warning'  => 'حسابك لم يتم تفعيله بعد، يرجى الاتصال بالمسؤول.',
+                'create-success'    => 'تم إنشاء المستخدم بنجاح.',
+                'delete-error'      => 'فشل حذف المستخدم.',
+                'delete-success'    => 'تم حذف المستخدم بنجاح.',
+                'last-delete-error' => 'فشل حذف آخر مستخدم.',
                 'login-error'       => 'يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.',
-                'activate-warning'  => 'حسابك لم يتم تنشيطه بعد ، يرجى الاتصال بالمسؤول.',
+                'not-found'         => 'تحذير: المستخدم غير موجود.',
                 'success-login'     => 'تم تسجيل الدخول بنجاح.',
                 'success-logout'    => 'تم تسجيل الخروج بنجاح.',
-                'last-delete-error' => 'فشل حذف آخر مستخدم',
-                'delete-success'    => 'تم حذف المستخدم بنجاح.',
-                'delete-error'      => 'فشل حذف المستخدم.',
-                'create-success'    => 'تم إنشاء المستخدم بنجاح.',
-                'not-found'         => 'تحذير: المستخدم غير موجود.',
+                'update-success'    => 'تم تحديث المستخدم بنجاح.',
             ],
 
             'roles' => [
-                'last-delete-error' => 'فشل حذف آخر دور',
-                'delete-success'    => 'تم حذف الدور بنجاح.',
+                'create-success'    => 'تم إنشاء الدور بنجاح.',
                 'delete-error'      => 'فشل حذف الدور.',
+                'delete-success'    => 'تم حذف الدور بنجاح.',
+                'last-delete-error' => 'لا يمكن حذف آخر دور.',
                 'not-found'         => 'تحذير: الدور غير موجود.',
+                'update-success'    => 'تم تحديث الدور بنجاح.',
             ],
 
             'themes' => [
+                'create-success' => 'تم إنشاء السمة بنجاح.',
                 'delete-success' => 'تم حذف السمة بنجاح.',
                 'not-found'      => 'تحذير: السمة غير موجودة.',
+                'update-success' => 'تم تحديث السمة بنجاح.',
             ],
 
-            'tax-rate' => [
-                'delete-success' => 'تم حذف معدل الضريبة بنجاح.',
+            'tax-rates' => [
+                'create-success' => 'تم إنشاء معدل الضريبة بنجاح.',
                 'delete-error'   => 'فشل حذف معدل الضريبة.',
+                'delete-success' => 'تم حذف معدل الضريبة بنجاح.',
                 'not-found'      => 'تحذير: معدل الضريبة غير موجود.',
+                'update-success' => 'تم تحديث معدل الضريبة بنجاح.',
             ],
 
             'tax-category' => [
-                'delete-success'     => 'تم حذف فئة الضريبة بنجاح.',
+                'create-success'     => 'تم إنشاء فئة الضريبة بنجاح.',
                 'delete-error'       => 'فشل حذف فئة الضريبة.',
+                'delete-success'     => 'تم حذف فئة الضريبة بنجاح.',
                 'not-found'          => 'تحذير: فئة الضريبة غير موجودة.',
                 'tax-rate-not-found' => 'المعرفات المعطاة غير موجودة. المعرفات: - :ids',
+                'update-success'     => 'تم تحديث فئة الضريبة بنجاح.',
             ],
 
             'notification' => [
                 'index' => [
-                    'title'     => 'إشعار الدفع',
                     'add-title' => 'إضافة إشعار',
                     'general'   => 'عام',
+                    'title'     => 'إشعار الدفع',
 
                     'datagrid' => [
+                        'channel-name'         => 'اسم القناة',
+                        'created-at'           => 'وقت الإنشاء',
+                        'delete'               => 'حذف',
                         'id'                   => 'المعرف',
                         'image'                => 'الصورة',
-                        'text-title'           => 'العنوان',
                         'notification-content' => 'محتوى الإشعار',
-                        'notification-type'    => 'نوع الإشعار',
                         'notification-status'  => 'حالة الإشعار',
-                        'created-at'           => 'وقت الإنشاء',
-                        'updated-at'           => 'وقت التحديث',
-                        'delete'               => 'حذف',
+                        'notification-type'    => 'نوع الإشعار',
+                        'text-title'           => 'العنوان',
                         'update'               => 'تحديث',
-                        'store-view'           => 'القنوات',
+                        'updated-at'           => 'وقت التحديث',
 
                         'status' => [
-                            'enabled'  => 'مفعل',
                             'disabled' => 'معطل',
+                            'enabled'  => 'مفعل',
                         ],
                     ],
                 ],
 
                 'create' => [
-                    'new-notification'     => 'إشعار جديد',
                     'back-btn'             => 'رجوع',
+                    'content-and-image'    => 'محتوى الإشعار والصورة',
                     'create-btn-title'     => 'حفظ الإشعار',
                     'general'              => 'عام',
-                    'title'                => 'إشعار الدفع',
-                    'content-and-image'    => 'محتوى الإشعار والصورة',
-                    'notification-content' => 'محتوى الإشعار',
                     'image'                => 'الصورة',
+                    'new-notification'     => 'إشعار جديد',
+                    'notification-content' => 'محتوى الإشعار',
+                    'notification-type'    => 'نوع الإشعار',
+                    'product-cat-id'       => 'معرف المنتج / الفئة',
                     'settings'             => 'الإعدادات',
                     'status'               => 'الحالة',
                     'store-view'           => 'القنوات',
-                    'notification-type'    => 'نوع الإشعار',
-                    'product-cat-id'       => 'معرف المنتج / الفئة',
+                    'title'                => 'إشعار الدفع',
 
                     'option-type' => [
-                        'others'   => 'بسيط',
-                        'product'  => 'منتج',
                         'category' => 'فئة',
+                        'others'   => 'عادي',
+                        'product'  => 'منتج',
                     ],
                 ],
 
                 'edit' => [
-                    'edit-notification'    => 'تعديل الإشعار',
                     'back-btn'             => 'رجوع',
-                    'send-title'           => 'إرسال الإشعار',
-                    'update-btn-title'     => 'تحديث',
-                    'general'              => 'عام',
-                    'title'                => 'إشعار الدفع',
                     'content-and-image'    => 'محتوى الإشعار والصورة',
-                    'notification-content' => 'محتوى الإشعار',
+                    'edit-notification'    => 'تعديل الإشعار',
+                    'general'              => 'عام',
                     'image'                => 'الصورة',
+                    'notification-content' => 'محتوى الإشعار',
+                    'notification-type'    => 'نوع الإشعار',
+                    'product-cat-id'       => 'معرف المنتج / الفئة',
+                    'send-title'           => 'إرسال الإشعار',
                     'settings'             => 'الإعدادات',
                     'status'               => 'الحالة',
                     'store-view'           => 'القنوات',
-                    'notification-type'    => 'نوع الإشعار',
-                    'product-cat-id'       => 'معرف المنتج / الفئة',
+                    'title'                => 'إشعار الدفع',
+                    'update-btn-title'     => 'تحديث',
 
                     'option-type' => [
-                        'others'   => 'بسيط',
-                        'product'  => 'منتج',
                         'category' => 'فئة',
+                        'others'   => 'عادي',
+                        'product'  => 'منتج',
                     ],
                 ],
+
+                'not-found'           => 'تحذير: الإشعار غير موجود.',
+                'create-success'      => 'تم إنشاء الإشعار بنجاح.',
+                'delete-failed'       => 'فشل حذف الإشعار.',
+                'delete-success'      => 'تم حذف الإشعار بنجاح.',
+                'mass-update-success' => 'تم تحديث الإشعارات المحددة بنجاح.',
+                'mass-delete-success' => 'تم حذف الإشعارات المحددة بنجاح.',
+                'no-value-selected'   => 'لا توجد قيمة موجودة.',
+                'send-success'        => 'تم إرسال الإشعار بنجاح.',
+                'update-success'      => 'تم تحديث الإشعار بنجاح.',
+                'configuration-error' => 'تحذير: تكوين FCM غير موجود.',
+                'product-not-found'   => 'تحذير: المنتج غير موجود.',
+                'category-not-found'  => 'تحذير: الفئة غير موجودة.',
+            ],
+        ],
+
+        'configuration' => [
+            'custom-scripts' => [
+                'update-success' => 'تم تحديث النصوص المخصصة بنجاح.',
             ],
         ],
 
         'response' => [
             'error' => [
-                'invalid-parameter' => 'تحذير: تم توفير معلمات غير صالحة.',
-                'no-login-user'     => 'تحذير: لم يتم العثور على مستخدم مسجل الدخول.',
+                'invalid-parameter' => 'تحذير: المعلمة غير صالحة.',
             ],
-        ],
-
-        'alerts' => [
-            'notifications' => [
-                'create-success'      => 'تم إنشاء الإشعارات بنجاح',
-                'update-success'      => 'تم تحديث الإشعارات بنجاح',
-                'delete-success'      => 'تم حذف الإشعارات بنجاح',
-                'delete-failed'       => 'فشل حذف الإشعارات',
-                'sended-successfully' => 'تم إرسال الإشعارات بنجاح لنظامي التشغيل Android و iOS.',
-                'no-value-selected'   => 'لا توجد قيمة محددة',
-            ],
-        ],
-    ],
-
-    'shop' => [
-        'checkout' => [
-            'save-cart-address'         => 'تم حفظ عنوان السلة بنجاح.',
-            'error-payment-selection'   => 'تحذير: هناك خطأ في استرداد طرق الدفع.',
-            'selected-shipment'         => 'تم اختيار الشحن بنجاح.',
-            'warning-empty-cart'        => 'تحذير: لا توجد منتجات مضافة إلى السلة.',
-            'billing-address-missing'   => 'تحذير: عنوان الفوترة مفقود لإتمام الشراء.',
-            'shipping-address-missing'  => 'تحذير: عنوان الشحن مفقود لإتمام الشراء.',
-            'invalid-guest-access'      => 'تحذير: العملاء الزائرين غير مسموح لهم بالحصول على العناوين باستخدام معرف عنوان الفوترة / الشحن.',
-            'guest-address-warning'     => 'تحذير: إذا كنت تحاول كضيف، فيرجى المحاولة بدون رمز مصادقة.',
-            'wrong-error'               => 'تحذير: هناك خطأ في سلة التسوق الخاصة بك، يرجى المحاولة مرة أخرى.',
-            'no-billing-address-found'  => 'تحذير: لم يتم العثور على سجل عنوان الفوترة بمعرف الفوترة :address_id.',
-            'no-shipping-address-found' => 'تحذير: لم يتم العثور على سجل عنوان الشحن بمعرف الشحن :address_id.',
-            'error-invalid-parameter'   => 'تحذير: تم توفير معلمات غير صالحة.',
-            'already-applied'           => 'تم تطبيق رمز الكوبون بالفعل.',
-            'success-apply'             => 'تم تطبيق رمز الكوبون بنجاح.',
-            'coupon-removed'            => 'تمت إزالة الكوبون من السلة بنجاح.',
-            'coupon-remove-failed'      => 'تحذير: هناك بعض الأخطاء في إزالة الكوبون من السلة أو الكوبون غير موجود.',
-            'error-placing-order'       => 'تحذير: هناك خطأ في تقديم الطلب.',
-            'selected-payment'          => 'تم اختيار طريقة الدفع بنجاح.',
-            'error-payment-save'        => 'تحذير: هناك خطأ في حفظ طريقة الدفع.',
-
-            'cart' => [
-                'item' => [
-                    'success-all-remove'       => 'تمت إزالة جميع العناصر من السلة بنجاح.',
-                    'fail-all-remove'          => 'خطأ في إزالة العناصر من السلة.',
-                    'error-invalid-parameter'  => 'تحذير: تم توفير معلمات غير صالحة.',
-                    'success-moved-cart-item'  => 'تم نقل عنصر السلة إلى قائمة الرغبات بنجاح.',
-                    'fail-moved-cart-item'     => 'فشل: لم يتم نقل عنصر السلة إلى قائمة الرغبات.',
-                    'success-add-to-cart'      => 'تمت إضافة المنتج إلى السلة بنجاح.',
-                    'fail-add-to-cart'         => 'فشل: لم يتم إضافة المنتج إلى السلة.',
-                    'success-update-to-cart'   => 'تم تحديث عنصر السلة بنجاح.',
-                    'fail-update-to-cart'      => 'فشل: لم يتم تحديث عنصر السلة.',
-                    'success-delete-cart-item' => 'تمت إزالة عنصر السلة بنجاح.',
-                    'fail-delete-cart-item'    => 'فشل: لم يتم العثور على عنصر السلة.',
-                ],
-            ],
-        ],
-
-        'customer' => [
-            'success-login'         => 'تم تسجيل الدخول بنجاح: تم تسجيل العميل بنجاح.',
-            'success-logout'        => 'تم تسجيل الخروج بنجاح: تم تسجيل العميل الخروج بنجاح.',
-            'no-login-customer'     => 'تحذير: لم يتم العثور على عميل مسجل الدخول.',
-            'address-list'          => 'تم استرداد تفاصيل عنوان العميل بنجاح.',
-            'not-authorized'        => 'تحذير: ليس لديك الصلاحية لتحديث هذا العنوان.',
-            'no-address-list'       => 'تحذير: لم يتم العثور على عناوين العميل.',
-            'text-password'         => 'كلمة المرور الخاصة بك هي: :password',
-            'not-exists'            => 'تحذير: لم يتم العثور على عميل للبيانات المقدمة.',
-            'success-address-list'  => 'تم استرداد عناوين العميل بنجاح.',
-            'reset-link-sent'       => 'تم إرسال رابط إعادة تعيين كلمة المرور بنجاح.',
-            'password-reset-failed' => 'تحذير: لقد أرسلنا بالفعل لك بريدًا إلكترونيًا لإعادة تعيين كلمة المرور، حاول مرة أخرى بعد فترة من الوقت.',
-            'no-login-user'         => 'تحذير: لم يتم العثور على مستخدم مسجل الدخول.',
-            'customer-details'      => 'تم استرداد تفاصيل العميل بنجاح.',
-
-            'account' => [
-                'not-found' => 'تحذير: لم يتم العثور على :name.',
-
-                'profile' => [
-                    'edit-success'   => 'تم تحديث الملف الشخصي بنجاح.',
-                    'edit-fail'      => 'فشل تحديث الملف الشخصي.',
-                    'unmatch'        => 'كلمة المرور القديمة غير متطابقة.',
-                    'order-pending'  => 'لا يمكن حذف حساب العميل لأن بعض الطلبات قيد الانتظار أو في حالة معالجة.',
-                    'delete-success' => 'تم حذف العميل بنجاح.',
-                    'wrong-password' => 'كلمة المرور خاطئة!',
-                ],
-
-                'order' => [
-                    'no-order-found' => 'تحذير: لم يتم العثور على أي طلب.',
-                    'cancel-success' => 'تم إلغاء الطلب بنجاح.',
-                ],
-
-                'review' => [
-                    'success'        => 'تم إرسال المراجعة بنجاح، يرجى الانتظار للموافقة.',
-                    'success-delete' => 'تم حذف المراجعة بنجاح.',
-                    'not-found'      => 'لم يتم العثور على المراجعة.',
-                ],
-
-                'wishlist' => [
-                    'removed'            => 'تمت إزالة العنصر بنجاح من قائمة الرغبات.',
-                    'remove-fail'        => 'لا يمكن إزالة العنصر من قائمة الرغبات.',
-                    'remove-all-success' => 'تمت إزالة جميع العناصر من قائمة الرغبات الخاصة بك.',
-                    'success'            => 'تمت إضافة العنصر بنجاح إلى قائمة الرغبات.',
-                    'already-exist'      => 'المنتج موجود بالفعل في قائمة الرغبات.',
-                    'move-to-cart'       => 'انتقل إلى السلة',
-                    'moved-success'      => 'تم نقل العنصر بنجاح إلى السلة.',
-                    'error-move-to-cart' => 'تحذير: قد يحتوي هذا المنتج على بعض الخيارات المطلوبة، ولا يمكن نقله إلى السلة.',
-                    'no-item-found'      => 'تحذير: لا يوجد منتج موجود.',
-                ],
-
-                'addressess' => [
-                    'delete-success' => 'تم حذف عنوان العميل بنجاح.',
-                ],
-            ],
-
-            'signup-form' => [
-                'error-registration'       => 'تحذير: فشل تسجيل العميل.',
-                'warning-num-already-used' => 'تحذير: تم تسجيل هذا الرقم :phone باستخدام عنوان بريد إلكتروني مختلف.',
-                'success-verify'           => 'تم إنشاء الحساب بنجاح، تم إرسال بريد إلكتروني للتحقق.',
-                'invalid-creds'            => 'يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.',
-
-                'validation' => [
-                    'unique'   => 'تم استخدام هذا :field بالفعل.',
-                    'required' => 'حقل :field مطلوب.',
-                    'same'     => 'يجب أن تتطابق :field وكلمة المرور.',
-                ],
-            ],
-
-            'login-form' => [
-                'not-activated' => 'تحتاج تنشيطك إلى موافقة المشرف',
-                'invalid-creds' => 'يرجى التحقق من بيانات الاعتماد الخاصة بك والمحاولة مرة أخرى.',
-            ],
-        ],
-
-        'response' => [
-            'error-invalid-parameter' => 'تحذير: تم توفير معلمات غير صالحة.',
-            'invalid-header'          => 'تحذير: رمز رأس غير صالح.',
-            'cancel-error'            => 'لا يمكن إلغاء الطلب.',
         ],
     ],
 ];
