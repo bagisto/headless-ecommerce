@@ -13,6 +13,7 @@ scalar Upload
 #import /admin/sales/shipments/*.graphql
 #import /admin/sales/refunds/*.graphql
 #import /admin/sales/transactions/*.graphql
+#import /admin/sales/reorder/*.graphql
 
 #import /admin/catalog/products/*.graphql
 #import /admin/catalog/categories/*.graphql

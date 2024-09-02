@@ -24,7 +24,7 @@ class FilterCustomer extends BaseFilter
 
             unset($input['name']);
         }
-        
+
         if (isset($input['group_name'])) {
             $query = $query->whereHas('group', function ($q) use ($input) {
                 $q->where('state', $input['group_name']);

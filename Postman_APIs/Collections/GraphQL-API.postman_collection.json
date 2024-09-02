@@ -413,6 +413,37 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Reorder",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation adminReorder {\n    adminReorder(id: 9002) {\n        success\n        jumpToSection\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"auth": {
@@ -1124,6 +1155,290 @@
 											""
 										]
 									}
+								}
+							]
+						},
+						{
+							"name": "Reorder",
+							"item": [
+								{
+									"name": "Get Cart",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query getCart {\n    getCart (id: 233) {\n        id\n        customerEmail\n        customerFirstName\n        customerLastName\n        shippingMethod\n        couponCode\n        isGift\n        itemsCount\n        itemsQty\n        exchangeRate\n        globalCurrencyCode\n        baseCurrencyCode\n        channelCurrencyCode\n        cartCurrencyCode\n        grandTotal\n        baseGrandTotal\n        subTotal\n        baseSubTotal\n        taxTotal\n        baseTaxTotal\n        discountAmount\n        baseDiscountAmount\n        checkoutMethod\n        isGuest\n        isActive\n        appliedCartRuleIds\n        customerId\n        channelId\n        createdAt\n        updatedAt\n        formattedPrice {\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discount\n            baseDiscount\n            discountedSubTotal\n            baseDiscountedSubTotal\n        }\n        items {\n            id\n            quantity\n            sku\n            type\n            name\n            couponCode\n            weight\n            totalWeight\n            baseTotalWeight\n            price\n            basePrice\n            customPrice\n            total\n            baseTotal\n            taxPercent\n            taxAmount\n            baseTaxAmount\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            parentId\n            productId\n            cartId\n            taxCategoryId\n            appliedCartRuleIds\n            #additional\n            createdAt\n            updatedAt\n            formattedPrice {\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxAmount\n                baseTaxAmount\n                discountAmount\n                baseDiscountAmount\n            }\n            #product\n            cart {\n                id\n            }\n            child {\n                id\n            }\n            parent {\n                id\n            }\n        }\n        allItems  {\n            id\n            quantity\n            sku\n            type\n            name\n            couponCode\n            weight\n            totalWeight\n            baseTotalWeight\n            price\n            basePrice\n            customPrice\n            total\n            baseTotal\n            taxPercent\n            taxAmount\n            baseTaxAmount\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            parentId\n            productId\n            cartId\n            taxCategoryId\n            appliedCartRuleIds\n            #additional\n            createdAt\n            updatedAt\n            formattedPrice {\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxAmount\n                baseTaxAmount\n                discountAmount\n                baseDiscountAmount\n            }\n            #product\n            cart {\n                id\n            }\n            child {\n                id\n            }\n            parent {\n                id\n            }\n        }\n        billingAddress {\n            id\n        }\n        shippingAddress {\n            id\n        }\n        #shippingRates\n        selectedShippingRate {\n            id\n            carrier\n            carrierTitle\n            method\n            methodTitle\n            methodDescription\n            price\n            basePrice\n            discountAmount\n            baseDiscountAmount\n            isCalculateTax\n            cartAddressId\n            createdAt\n            updatedAt\n            shippingAddress {\n                id\n            }\n            formattedPrice { \n                price\n                basePrice\n            }\n        }\n        payment {\n            id\n            method\n            methodTitle\n            cartId\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Cart",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createCart {\n    createCart(customerId: 33) {\n        success\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Cart Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation addCartItem {\n    addCartItem (\n        id: 233\n        input: {\n            productId: 75\n            quantity: 1\n        }\n    ) {\n        success\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Cart Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteCartItem {\n    deleteCartItem (id: 266) {\n        success\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Cart Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateCartItem {\n    updateCartItem (\n        input: {\n            cartItemId: 267,\n            quantity: 10\n        }\n    ) {\n        success\n        message\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Save Address",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation storeAddress ($input: StoreAddressInput!) {\n    storeAddress (id: 233, input: $input) {\n        message\n        shippingMethods {\n            title\n            methods {\n                code\n                label\n                price\n                formattedPrice\n                basePrice\n                formattedBasePrice\n            }\n        }\n        paymentMethods {\n            method\n            methodTitle\n            description\n            sort\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": "{\n    \"input\": {\n        \"billing\": {\n            \"companyName\": \"C. Trades\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"D Nelson\",\n            \"email\": \"doug@example.com\",\n            \"address\": [\"3180 Bluff Street\"],\n            \"country\": \"US\",\n            \"state\": \"Illinois\",\n            \"city\": \"Wheeling\",\n            \"postcode\": \"600901\",\n            \"phone\": \"0987654321\",\n            \"isSaved\": true,\n            \"useForShipping\": false,\n            \"defaultAddress\" : false\n        },\n        \"shipping\": {\n            \"companyName\": \"C. Trades\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"D Nelson\",\n            \"email\": \"doug@example.com\",\n            \"address\": [\"836 Hog Camp Road\"],\n            \"country\": \"US\",\n            \"state\": \"Illinois\",\n            \"city\": \"Wheeling\",\n            \"postcode\": \"600902\",\n            \"phone\": \"0987654321\",\n            \"isSaved\": true\n        }\n    }\n}"
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Save Shipping Method",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation storeShippingMethod {\n    storeShippingMethod (\n        id: 233,\n        shippingMethod: \"flatrate_flatrate\"\n    ) {\n        message\n        shippingMethods {\n            title\n            methods {\n                code\n                label\n                price\n                formattedPrice\n                basePrice\n                formattedBasePrice\n            }\n        }\n        paymentMethods {\n            method\n            methodTitle\n            description\n            sort\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Save Payment Method",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation storePaymentMethod {\n    storePaymentMethod (\n        id: 233,\n        method: \"cashondelivery\"\n    ) {\n        message\n        jumpToSection\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Store Order",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation storeOrder {\n    storeOrder (id: 233) {\n        success\n        message\n        order {\n            id\n            incrementId\n            status\n            channelName\n            isGuest\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            shippingTitle\n            shippingDescription\n            couponCode\n            isGift\n            totalItemCount\n            totalQtyOrdered\n            baseCurrencyCode\n            channelCurrencyCode\n            orderCurrencyCode\n            grandTotal\n            baseGrandTotal\n            grandTotalInvoiced\n            baseGrandTotalInvoiced\n            grandTotalRefunded\n            baseGrandTotalRefunded\n            subTotal\n            baseSubTotal\n            subTotalInvoiced\n            baseSubTotalInvoiced\n            subTotalRefunded\n            baseSubTotalRefunded\n            discountPercent\n            discountAmount\n            baseDiscountAmount\n            discountInvoiced\n            baseDiscountInvoiced\n            discountRefunded\n            baseDiscountRefunded\n            taxAmount\n            baseTaxAmount\n            taxAmountInvoiced\n            baseTaxAmountInvoiced\n            taxAmountRefunded\n            baseTaxAmountRefunded\n            shippingAmount\n            baseShippingAmount\n            shippingInvoiced\n            baseShippingInvoiced\n            shippingRefunded\n            baseShippingRefunded\n            shippingDiscountAmount\n            baseShippingDiscountAmount\n            shippingTaxAmount\n            baseShippingTaxAmount\n            shippingTaxRefunded\n            baseShippingTaxRefunded\n            subTotalInclTax\n            baseSubTotalInclTax\n            shippingAmountInclTax\n            baseShippingAmountInclTax\n            customerId\n            customerType\n            channelId\n            channelType\n            cartId\n            appliedCartRuleIds\n            createdAt\n            updatedAt\n            billingAddress {\n                id\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                vatId\n                defaultAddress\n            }\n            shippingAddress {\n                id\n                customerId\n                cartId\n                orderId\n                firstName\n                lastName\n                gender\n                companyName\n                address\n                postcode\n                city\n                state\n                country\n                email\n                phone\n                vatId\n                defaultAddress\n            }\n            items {\n                id\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                qtyOrdered\n                qtyShipped\n                qtyInvoiced\n                qtyCanceled\n                qtyRefunded\n                price\n                basePrice\n                total\n                baseTotal\n                totalInvoiced\n                baseTotalInvoiced\n                amountRefunded\n                baseAmountRefunded\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                discountInvoiced\n                baseDiscountInvoiced\n                discountRefunded\n                baseDiscountRefunded\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                taxAmountInvoiced\n                baseTaxAmountInvoiced\n                taxAmountRefunded\n                baseTaxAmountRefunded\n                priceInclTax\n                basePriceInclTax\n                totalInclTax\n                baseTotalInclTax\n                productId\n                productType\n                orderId\n                parentId\n                additional\n                createdAt\n                updatedAt\n                product {\n                    id\n                    type\n                    attributeFamilyId\n                    sku\n                    parentId\n                    createdAt\n                    updatedAt\n                }\n                child {\n                    id\n                    sku\n                    type\n                    name\n                    couponCode\n                    weight\n                    totalWeight\n                    qtyOrdered\n                    qtyShipped\n                    qtyInvoiced\n                    qtyCanceled\n                    qtyRefunded\n                    price\n                    basePrice\n                    total\n                    baseTotal\n                    totalInvoiced\n                    baseTotalInvoiced\n                }\n            }\n            shipments {\n                id\n                status\n                totalQty\n                totalWeight\n                carrierCode\n                carrierTitle\n                trackNumber\n                emailSent\n                customerId\n                customerType\n                orderId\n                orderAddressId\n                createdAt\n                updatedAt\n            }\n            payment {\n                id\n                method\n                methodTitle\n            }\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                grandTotalInvoiced\n                baseGrandTotalInvoiced\n                grandTotalRefunded\n                baseGrandTotalRefunded\n                subTotal\n                baseSubTotal\n                subTotalInvoiced\n                baseSubTotalInvoiced\n                subTotalRefunded\n                discountAmount\n                baseDiscountAmount\n                discountInvoiced\n                baseDiscountInvoiced\n                discountRefunded\n                baseDiscountRefunded\n                taxAmount\n                baseTaxAmount\n                taxAmountInvoiced\n                baseTaxAmountInvoiced\n                taxAmountRefunded\n                baseTaxAmountRefunded\n                shippingAmount\n                baseShippingAmount\n                shippingInvoiced\n                baseShippingInvoiced\n                shippingRefunded\n                baseShippingRefunded\n                shippingDiscountAmount\n                baseShippingDiscountAmount\n                shippingTaxAmount\n                baseShippingTaxAmount\n                shippingTaxRefunded\n                baseShippingTaxRefunded\n                subTotalInclTax\n                baseSubTotalInclTax\n                shippingAmountInclTax\n                baseShippingAmountInclTax\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						}
@@ -2672,6 +2987,37 @@
 											]
 										},
 										"description": "Update Customer Detail"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Order",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createOrder {\n    createOrder(customerId: 33) {\n        success\n        jumpToSection\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n            exchangeRate\n            globalCurrencyCode\n            baseCurrencyCode\n            channelCurrencyCode\n            cartCurrencyCode\n            grandTotal\n            baseGrandTotal\n            subTotal\n            baseSubTotal\n            taxTotal\n            baseTaxTotal\n            discountAmount\n            baseDiscountAmount\n            checkoutMethod\n            isGuest\n            isActive\n            appliedCartRuleIds\n            customerId\n            channelId\n            createdAt\n            updatedAt\n            formattedPrice {\n                grandTotal\n                baseGrandTotal\n                subTotal\n                baseSubTotal\n                taxTotal\n                baseTaxTotal\n                discount\n                baseDiscount\n                discountedSubTotal\n                baseDiscountedSubTotal\n            }\n            items {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            allItems  {\n                id\n                quantity\n                sku\n                type\n                name\n                couponCode\n                weight\n                totalWeight\n                baseTotalWeight\n                price\n                basePrice\n                customPrice\n                total\n                baseTotal\n                taxPercent\n                taxAmount\n                baseTaxAmount\n                discountPercent\n                discountAmount\n                baseDiscountAmount\n                parentId\n                productId\n                cartId\n                taxCategoryId\n                appliedCartRuleIds\n                #additional\n                createdAt\n                updatedAt\n                formattedPrice {\n                    price\n                    basePrice\n                    customPrice\n                    total\n                    baseTotal\n                    taxAmount\n                    baseTaxAmount\n                    discountAmount\n                    baseDiscountAmount\n                }\n                #product\n                cart {\n                    id\n                }\n                child {\n                    id\n                }\n                parent {\n                    id\n                }\n            }\n            billingAddress {\n                id\n            }\n            shippingAddress {\n                id\n            }\n            #shippingRates\n            selectedShippingRate {\n                id\n                carrier\n                carrierTitle\n                method\n                methodTitle\n                methodDescription\n                price\n                basePrice\n                discountAmount\n                baseDiscountAmount\n                isCalculateTax\n                cartAddressId\n                createdAt\n                updatedAt\n                shippingAddress {\n                    id\n                }\n                formattedPrice { \n                    price\n                    basePrice\n                }\n            }\n            payment {\n                id\n                method\n                methodTitle\n                cartId\n                createdAt\n                updatedAt\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
 									},
 									"response": []
 								}

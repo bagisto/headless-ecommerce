@@ -204,9 +204,9 @@ return [
 
         'sales' => [
             'orders' => [
-                'cancel-error'   => 'Warning: Order can not canceled.',
-                'cancel-success' => 'Success: Order canceled successfully.',
-                'not-found'      => 'Warning: Order not found.',
+                'cancel-error'    => 'Warning: Order can not canceled.',
+                'cancel-success'  => 'Success: Order canceled successfully.',
+                'not-found'       => 'Warning: Order not found.',
             ],
 
             'shipments' => [
@@ -237,6 +237,26 @@ return [
                 'amount-exceed'  => 'Warning: Transaction amount exceeds the limit.',
                 'zero-amount'    => 'Warning: Transaction amount should be greater than zero.',
                 'create-success' => 'Success: Transaction created successfully.',
+            ],
+
+            'reorder' => [
+                'cart-not-found'           => 'Warning: Cart not found.',
+                'cart-item-not-found'      => 'Warning: Cart item not found.',
+                'cart-create-success'      => 'Success: Cart created successfully.',
+                'cart-item-add-success'    => 'Success: Product added to cart successfully.',
+                'cart-item-remove-success' => 'Success: Item is successfully removed from the cart.',
+                'cart-item-update-success' => 'Success: Product updated to cart successfully.',
+                'something-wrong'          => 'Warning: Something went wrong.',
+                'address-save-success'     => 'Success: Address saved successfully.',
+                'shipping-save-success'    => 'Success: Shipping method saved successfully.',
+                'payment-save-success'     => 'Success: Payment method saved successfully.',
+                'order-placed-success'     => 'Success: Order placed successfully.',
+                'payment-method-not-found' => 'Warning: Payment method not found.',
+                'minimum-order-amount-err' => 'Warning: Minimum order amount should be :amount',
+                'check-shipping-address'   => 'Warning: Please check the shipping address.',
+                'check-billing-address'    => 'Warning: Please check the billing address.',
+                'specify-shipping-method'  => 'Warning: Please specify the shipping method.',
+                'specify-payment-method'   => 'Warning: Please specify the payment method.',
             ],
         ],
 

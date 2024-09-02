@@ -28,7 +28,7 @@ class FilterCompareProduct extends BaseFilter
             return $query->whereHas('product_flat', function ($q) use ($name, $price) {
                 $q->where([
                     'name'  => $name,
-                    'price' => $price
+                    'price' => $price,
                 ]);
             })->where($input);
         }

@@ -49,6 +49,10 @@ extend type Mutation @guard(with: ["admin-api"]) {
     cancelOrder(
         id: ID!
     ): CancelOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@cancel")
+
+    adminReorder(
+        id: ID!
+    ): OrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@reorder")
 }
 
 input FilterOrderInput {
@@ -201,4 +205,11 @@ type CancelOrderResponse {
     success: Boolean
     message: String
     order: Order
+}
+
+type OrderResponse {
+    success: Boolean
+    jumpToSection: String @rename(attribute: "jump_to_section")
+    cart: Cart
+    customerAddresses: Address @rename(attribute: "customer_addresses")
 }

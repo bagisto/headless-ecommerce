@@ -2,17 +2,17 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
-use Webkul\Core\Rules\Slug;
-use Webkul\Core\Rules\Decimal;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Webkul\Product\Helpers\ProductType;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Product\Models\ProductAttributeValue;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Decimal;
+use Webkul\Core\Rules\Slug;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Helpers\ProductType;
+use Webkul\Product\Models\ProductAttributeValue;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductMutation extends Controller
 {
@@ -30,7 +30,7 @@ class ProductMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -85,7 +85,7 @@ class ProductMutation extends Controller
      * Update the specified resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
@@ -324,7 +324,7 @@ class ProductMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)
@@ -344,7 +344,7 @@ class ProductMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.catalog.products.delete-success')
+                'message' => trans('bagisto_graphql::app.admin.catalog.products.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
