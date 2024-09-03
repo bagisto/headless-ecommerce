@@ -13,7 +13,7 @@ extend type Query @guard(with: ["admin-api"]) {
 
     refundItems(
         input: FilterRefundItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [RefundItem!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10
@@ -23,7 +23,7 @@ extend type Query @guard(with: ["admin-api"]) {
     refundItem(
         id: ID @eq,
         input: FilterRefundItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): RefundItem @find(model: "Webkul\\Sales\\Models\\RefundItem")
 }
 

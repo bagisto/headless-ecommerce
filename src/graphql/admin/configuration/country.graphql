@@ -6,7 +6,7 @@ extend type Query {
 
     countrieStates(
         input: FilterCountryStateInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [CountryState!] @all(model: "Webkul\\Core\\Models\\CountryState")
 
     countrieState(id: ID! @eq): CountryState @find(model: "Webkul\\Core\\Models\\CountryState")

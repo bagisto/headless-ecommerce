@@ -7,6 +7,7 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Product\Helpers\ConfigurableOption as ProductConfigurableHelper;
 use Webkul\Product\Helpers\Review as ProductReviewHelper;
 use Webkul\Product\Helpers\View as ProductViewHelper;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductContent extends BaseFilter
 {
@@ -125,8 +126,10 @@ class ProductContent extends BaseFilter
      *
      * @return array
      */
-    public function getBundleProductPrice($product)
+    public function getBundleProductPrice($data)
     {
+        $product = app(ProductRepository::class)->find($data['id']);
+
         $priceArray = [
             'finalPriceFrom'            => '',
             'formattedFinalPriceFrom'   => '',

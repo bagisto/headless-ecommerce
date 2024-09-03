@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     emailTemplates(
         input: FilterEmailTemplateInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [EmailTemplate!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

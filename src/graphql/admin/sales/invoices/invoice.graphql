@@ -13,7 +13,7 @@ extend type Query @guard(with: ["admin-api"]) {
 
     invoiceItems(
         input: FilterInvoiceItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [InvoiceItem!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10
@@ -23,7 +23,7 @@ extend type Query @guard(with: ["admin-api"]) {
     invoiceItem(
         id: ID @eq,
         input: FilterInvoiceItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): InvoiceItem @find(model: "Webkul\\Sales\\Models\\InvoiceItem")
 }
 
