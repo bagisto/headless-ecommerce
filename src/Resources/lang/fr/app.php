@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => 'Avertissement: Produit de comparaison non trouvé.',
+                'product-not-found'   => 'Avertissement: Produit non trouvé.',
+                'already-added'       => 'Avertissement: Produit déjà ajouté à la liste de comparaison.',
+                'item-add-success'    => 'Succès: Produit ajouté à la liste de comparaison avec succès.',
+                'remove-success'      => 'Succès: Article retiré avec succès de la liste de comparaison.',
+                'mass-remove-success' => 'Succès: Articles sélectionnés supprimés avec succès.',
+            ],
+
             'reviews' => [
                 'create-success'      => 'Succès: Avis créé avec succès.',
                 'delete-success'      => 'Succès: Avis supprimé avec succès.',

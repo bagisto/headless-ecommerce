@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => '警告: 比較商品が見つかりません。',
+                'product-not-found'   => '警告: 商品が見つかりません。',
+                'already-added'       => '警告: 商品はすでに比較リストに追加されています。',
+                'item-add-success'    => '成功: 商品が正常に比較リストに追加されました。',
+                'remove-success'      => '成功: アイテムが正常に比較リストから削除されました。',
+                'mass-remove-success' => '成功: 選択されたアイテムが正常に削除されました。',
+            ],
+
             'reviews' => [
                 'create-success'      => '成功: レビューが正常に作成されました。',
                 'delete-success'      => '成功: レビューが正常に削除されました。',

@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => 'Warning: Compare product not found.',
+                'product-not-found'   => 'Warning: Product not found.',
+                'already-added'       => 'Warning: Product already added to compare list.',
+                'item-add-success'    => 'Success: Product added to compare list successfully.',
+                'remove-success'      => 'Success: Item is successfully removed from the compare list.',
+                'mass-remove-success' => 'Success: Selected items deleted successfully.',
+            ],
+
             'reviews' => [
                 'create-success'      => 'Success: Review created successfully.',
                 'delete-success'      => 'Success: Review deleted successfully.',

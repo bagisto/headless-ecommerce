@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => '警告: 比较产品未找到。',
+                'product-not-found'   => '警告: 产品未找到。',
+                'already-added'       => '警告: 产品已添加到比较列表。',
+                'item-add-success'    => '成功: 产品已成功添加到比较列表。',
+                'remove-success'      => '成功: 项目已成功从比较列表中删除。',
+                'mass-remove-success' => '成功: 已成功删除所选项目。',
+            ],
+
             'reviews' => [
                 'create-success'      => '成功：评论已成功创建。',
                 'delete-success'      => '成功：评论已成功删除。',

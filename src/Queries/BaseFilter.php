@@ -2,6 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class BaseFilter
 {
     /**
@@ -105,5 +107,19 @@ class BaseFilter
             'firstname' => current($nameParts),
             'lastname'  => $nameParts[1] ?? '',
         ];
+    }
+
+    /**
+     * Apply filter on the query.
+     */
+    protected function applyFilter(Builder $query, array $filters): Builder
+    {
+        foreach ($filters as $column => $value) {
+            if (! empty($value)) {
+                $query->where($column, $value);
+            }
+        }
+
+        return $query;
     }
 }

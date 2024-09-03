@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => 'Uyarı: Karşılaştırma ürünü bulunamadı.',
+                'product-not-found'   => 'Uyarı: Ürün bulunamadı.',
+                'already-added'       => 'Uyarı: Ürün zaten karşılaştırma listesine eklendi.',
+                'item-add-success'    => 'Başarı: Ürün başarıyla karşılaştırma listesine eklendi.',
+                'remove-success'      => 'Başarı: Öğe başarıyla karşılaştırma listesinden çıkarıldı.',
+                'mass-remove-success' => 'Başarı: Seçilen öğeler başarıyla silindi.',
+            ],
+
             'reviews' => [
                 'create-success'      => 'Başarılı: İnceleme başarıyla oluşturuldu.',
                 'delete-success'      => 'Başarılı: İnceleme başarıyla silindi.',

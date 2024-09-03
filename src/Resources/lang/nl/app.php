@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => 'Waarschuwing: Vergelijkingsproduct niet gevonden.',
+                'product-not-found'   => 'Waarschuwing: Product niet gevonden.',
+                'already-added'       => 'Waarschuwing: Product is al toegevoegd aan de vergelijkingslijst.',
+                'item-add-success'    => 'Succes: Product succesvol toegevoegd aan de vergelijkingslijst.',
+                'remove-success'      => 'Succes: Item is succesvol verwijderd uit de vergelijkingslijst.',
+                'mass-remove-success' => 'Succes: Geselecteerde items succesvol verwijderd.',
+            ],
+
             'reviews' => [
                 'create-success'      => 'Succes: Recensie succesvol aangemaakt.',
                 'delete-success'      => 'Succes: Recensie succesvol verwijderd.',

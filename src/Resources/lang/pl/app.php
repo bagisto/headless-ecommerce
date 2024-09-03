@@ -92,6 +92,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => 'Ostrzeżenie: Produkt do porównania nie znaleziony.',
+                'product-not-found'   => 'Ostrzeżenie: Produkt nie znaleziony.',
+                'already-added'       => 'Ostrzeżenie: Produkt został już dodany do listy porównawczej.',
+                'item-add-success'    => 'Sukces: Produkt został pomyślnie dodany do listy porównawczej.',
+                'remove-success'      => 'Sukces: Przedmiot został pomyślnie usunięty z listy porównawczej.',
+                'mass-remove-success' => 'Sukces: Wybrane przedmioty zostały pomyślnie usunięte.',
+            ],
+
             'reviews' => [
                 'create-success'      => 'Sukces: Recenzja została pomyślnie utworzona.',
                 'delete-success'      => 'Sukces: Recenzja została pomyślnie usunięta.',
