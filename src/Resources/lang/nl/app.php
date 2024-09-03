@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'Je bent al ingeschreven voor onze nieuwsbrief.',
-            'not-authorized'      => 'Let op: Je bent niet gemachtigd om deze actie uit te voeren.',
-            'not-found'           => 'Let op: Geen inschrijving gevonden.',
-            'subscribe-success'   => 'Je bent succesvol ingeschreven voor onze nieuwsbrief.',
-            'unsubscribe-success' => 'Je bent succesvol uitgeschreven van onze nieuwsbrief.',
+            'already-subscribed' => 'U bent al geabonneerd op onze nieuwsbrief.',
+            'subscribe-success'  => 'U bent succesvol geabonneerd op onze nieuwsbrief.',
         ],
 
         'customers' => [

@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'Sie sind bereits für unseren Newsletter angemeldet.',
-            'not-authorized'      => 'Warnung: Sie sind nicht berechtigt, diese Aktion durchzuführen.',
-            'not-found'           => 'Warnung: Keine Abonnements gefunden.',
-            'subscribe-success'   => 'Sie haben sich erfolgreich für unseren Newsletter angemeldet.',
-            'unsubscribe-success' => 'Sie haben sich erfolgreich von unserem Newsletter abgemeldet.',
+            'already-subscribed' => 'Sie sind bereits für unseren Newsletter angemeldet.',
+            'subscribe-success'  => 'Sie haben sich erfolgreich für unseren Newsletter angemeldet.',
         ],
 
         'customers' => [

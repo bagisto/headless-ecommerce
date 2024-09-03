@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => '您已经订阅了我们的通讯。',
-            'not-authorized'      => '警告：您无权执行此操作。',
-            'not-found'           => '警告：未找到订阅。',
-            'subscribe-success'   => '您已成功订阅我们的通讯。',
-            'unsubscribe-success' => '您已成功取消订阅我们的通讯。',
+            'already-subscribed' => '您已订阅我们的新闻通讯。',
+            'subscribe-success'  => '您已成功订阅我们的新闻通讯。',
         ],
 
         'customers' => [

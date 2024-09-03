@@ -38,22 +38,6 @@ class AccountMutation extends Controller
     ) {}
 
     /**
-     * Returns a current customer data.
-     *
-     * @return array
-     */
-    public function get(mixed $rootValue, array $args, GraphQLContext $context)
-    {
-        $customer = bagisto_graphql()->authorize();
-
-        return [
-            'success'  => true,
-            'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.customer-details'),
-            'customer' => $customer,
-        ];
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @return array

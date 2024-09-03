@@ -3,7 +3,7 @@ extend type Query @guard(with: ["api"]){
     compareProducts (
         input: FilterCompareProductsInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CompareProductQuery")
-    ): [CustomerCompareProduct!] @paginate(
+    ): [CompareProduct!] @paginate(
         type: "PAGINATOR",
         model: "Webkul\\Customer\\Models\\CompareItem",
         defaultCount: 10
@@ -12,7 +12,7 @@ extend type Query @guard(with: ["api"]){
     compareProduct (
         id: ID @eq
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CompareProductQuery@getItem")
-    ): CustomerCompareProduct @find(model: "Webkul\\Customer\\Models\\CompareItem")
+    ): CompareProduct @find(model: "Webkul\\Customer\\Models\\CompareItem")
 }
 
 extend type Mutation @guard(with: ["api"]) {

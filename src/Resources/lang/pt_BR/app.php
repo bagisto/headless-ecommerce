@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'Você já está inscrito em nossa newsletter.',
-            'not-authorized'      => 'Aviso: Você não está autorizado a realizar esta ação.',
-            'not-found'           => 'Aviso: Nenhuma assinatura encontrada.',
-            'subscribe-success'   => 'Você se inscreveu com sucesso em nossa newsletter.',
-            'unsubscribe-success' => 'Você cancelou com sucesso a inscrição em nossa newsletter.',
+            'already-subscribed' => 'Você já está inscrito em nosso boletim informativo.',
+            'subscribe-success'  => 'Você se inscreveu com sucesso em nosso boletim informativo.',
         ],
 
         'customers' => [

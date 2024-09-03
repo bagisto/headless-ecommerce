@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => '既にニュースレターに登録されています。',
-            'not-authorized'      => '注意: この操作を実行する権限がありません。',
-            'not-found'           => '注意: 登録が見つかりませんでした。',
-            'subscribe-success'   => 'ニュースレターに正常に登録されました。',
-            'unsubscribe-success' => 'ニュースレターの登録を正常に解除しました。',
+            'already-subscribed' => 'すでにニュースレターに登録されています。',
+            'subscribe-success'  => 'ニュースレターに正常に登録されました。',
         ],
 
         'customers' => [

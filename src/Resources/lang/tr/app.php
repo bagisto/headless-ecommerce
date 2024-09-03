@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'Zaten bültenimize abonesiniz.',
-            'not-authorized'      => 'Uyarı: Bu işlemi gerçekleştirmek için yetkili değilsiniz.',
-            'not-found'           => 'Uyarı: Abonelik bulunamadı.',
-            'subscribe-success'   => 'Bültenimize başarıyla abone oldunuz.',
-            'unsubscribe-success' => 'Bülten aboneliğiniz başarıyla iptal edildi.',
+            'already-subscribed' => 'Bültenimize zaten abone oldunuz.',
+            'subscribe-success'  => 'Bültenimize başarıyla abone oldunuz.',
         ],
 
         'customers' => [

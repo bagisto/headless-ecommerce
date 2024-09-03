@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'Ya estás suscrito a nuestro boletín.',
-            'not-authorized'      => 'Advertencia: No estás autorizado para realizar esta acción.',
-            'not-found'           => 'Advertencia: No se encontró ninguna suscripción.',
-            'subscribe-success'   => 'Te has suscrito correctamente a nuestro boletín.',
-            'unsubscribe-success' => 'Te has dado de baja correctamente de nuestro boletín.',
+            'already-subscribed' => 'Ya estás suscrito a nuestro boletín.',
+            'subscribe-success'  => 'Te has suscrito con éxito a nuestro boletín.',
         ],
 
         'customers' => [

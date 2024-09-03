@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'Jesteś już zapisany do naszego biuletynu.',
-            'not-authorized'      => 'Ostrzeżenie: Nie masz uprawnień do wykonania tej operacji.',
-            'not-found'           => 'Ostrzeżenie: Nie znaleziono subskrypcji.',
-            'subscribe-success'   => 'Pomyślnie zapisano do naszego biuletynu.',
-            'unsubscribe-success' => 'Pomyślnie wypisano z naszego biuletynu.',
+            'already-subscribed' => 'Jesteś już zapisany do naszego newslettera.',
+            'subscribe-success'  => 'Pomyślnie zapisałeś się do naszego newslettera.',
         ],
 
         'customers' => [

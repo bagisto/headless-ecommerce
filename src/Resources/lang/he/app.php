@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'כבר רשום לניוזלטר שלנו.',
-            'not-authorized'      => 'אזהרה: אין לך הרשאה לבצע פעולה זו.',
-            'not-found'           => 'אזהרה: לא נמצאה מנוי.',
-            'subscribe-success'   => 'נרשמת בהצלחה לניוזלטר שלנו.',
-            'unsubscribe-success' => 'ביטלת בהצלחה את המנוי לניוזלטר שלנו.',
+            'already-subscribed' => 'אתה כבר רשום לניוזלטר שלנו.',
+            'subscribe-success'  => 'נרשמת בהצלחה לניוזלטר שלנו.',
         ],
 
         'customers' => [

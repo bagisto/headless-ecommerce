@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'You are already subscribed to our newsletter.',
-            'not-authorized'      => 'Warning: You are not authorized to perform this action.',
-            'not-found'           => 'Warning: No subscribtion found.',
-            'subscribe-success'   => 'You have successfully subscribed to our newsletter.',
-            'unsubscribe-success' => 'You have successfully unsubscribed to our newsletter.',
+            'already-subscribed' => 'You are already subscribed to our newsletter.',
+            'subscribe-success'  => 'You have successfully subscribed to our newsletter.',
         ],
 
         'customers' => [

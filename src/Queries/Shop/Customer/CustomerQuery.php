@@ -19,6 +19,16 @@ class CustomerQuery extends BaseFilter
     ) {}
 
     /**
+     * Returns a current customer data.
+     *
+     * @return \Webkul\Customer\Contracts\Customer
+     */
+    public function get()
+    {
+        return bagisto_graphql()->authorize();
+    }
+
+    /**
      * Filter the query by the given input.
      */
     public function getTransactions(mixed $rootValue, array $args)
