@@ -122,4 +122,18 @@ class BaseFilter
 
         return $query;
     }
+
+    /**
+     * Apply filter on the query.
+     */
+    protected function applyLikeFilter(Builder $query, array $filters): Builder
+    {
+        foreach ($filters as $column => $value) {
+            if (! empty($value)) {
+                $query->where($column, 'like', '%' . $value . '%');
+            }
+        }
+
+        return $query;
+    }
 }
