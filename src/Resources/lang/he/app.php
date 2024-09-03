@@ -192,11 +192,17 @@ return [
                 'general' => [
                     'graphql-api' => [
                         'notification-topic'              => 'נושא הודעה',
-                        'info'                            => 'הגדרות הודעות קשורות',
-                        'push-notification-configuration' => 'תצורת הודעות דחיפה של FCM',
+                        'info'                            => 'הגדרות הקשורות להודעות',
+                        'push-notification-configuration' => 'הגדרת הודעות פוש FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'תוכן קובץ מפתח פרטי JSON',
-                        'info-get-private-key'            => 'מידע: כדי לקבל את תוכן קובץ המפתח הפרטי של FCM: <a href="https://console.firebase.google.com/" target="_blank">לחץ כאן</a>',
+                        'private-key'                     => 'תוכן קובץ JSON של מפתח פרטי',
+                        'info-get-private-key'            => 'מידע: לקבלת תוכן קובץ JSON של מפתח פרטי FCM: <a href="https://console.firebase.google.com/" target="_blank">לחץ כאן</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'הצלחה: סקריפטים מותאמים אישית עודכנו בהצלחה.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'אזהרה: תצורת FCM לא נמצאה.',
                 'product-not-found'   => 'אזהרה: מוצר לא נמצא.',
                 'category-not-found'  => 'אזהרה: קטגוריה לא נמצאה.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'הצלחה: הסקריפטים האישיים עודכנו בהצלחה.',
             ],
         ],
 

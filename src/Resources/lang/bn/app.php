@@ -191,12 +191,18 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'notification-topic'              => 'বিজ্ঞপ্তি টপিক',
-                        'info'                            => 'বিজ্ঞপ্তি সম্পর্কিত কনফিগারেশনগুলি',
+                        'notification-topic'              => 'বিজ্ঞপ্তি বিষয়',
+                        'info'                            => 'বিজ্ঞপ্তি সম্পর্কিত কনফিগারেশন',
                         'push-notification-configuration' => 'FCM পুশ বিজ্ঞপ্তি কনফিগারেশন',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'প্রাইভেট কী JSON ফাইলের সামগ্রী',
-                        'info-get-private-key'            => 'তথ্য: FCM প্রাইভেট কী JSON ফাইলের সামগ্রী পেতে: <a href="https://console.firebase.google.com/" target="_blank">এখানে ক্লিক করুন</a>',
+                        'private-key'                     => 'প্রাইভেট কি JSON ফাইল কন্টেন্ট',
+                        'info-get-private-key'            => 'তথ্য: FCM প্রাইভেট কি JSON ফাইল কন্টেন্ট পেতে: <a href="https://console.firebase.google.com/" target="_blank">এখানে ক্লিক করুন</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'সফলতা: কাস্টম স্ক্রিপ্ট সফলভাবে আপডেট হয়েছে।',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'সতর্কতা: FCM কনফিগারেশন পাওয়া যায়নি।',
                 'product-not-found'   => 'সতর্কতা: পণ্য খুঁজে পাওয়া যায়নি।',
                 'category-not-found'  => 'সতর্কতা: ক্যাটেগরি খুঁজে পাওয়া যায়নি।',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'সফলতা: কাস্টম স্ক্রিপ্টগুলি সফলভাবে আপডেট হয়েছে।',
             ],
         ],
 

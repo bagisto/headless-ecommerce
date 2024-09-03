@@ -192,11 +192,17 @@ return [
                 'general' => [
                     'graphql-api' => [
                         'notification-topic'              => 'موضوع الإشعار',
-                        'info'                            => 'إعدادات ذات صلة بالإشعارات',
+                        'info'                            => 'إعدادات متعلقة بالإشعارات',
                         'push-notification-configuration' => 'إعدادات إشعار الدفع FCM',
-                        'title'                           => 'واجهة برمجة تطبيقات GraphQL',
-                        'private-key'                     => 'محتوى ملف المفتاح الخاص JSON',
-                        'info-get-private-key'            => 'معلومات: للحصول على محتوى ملف المفتاح الخاص FCM JSON: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
+                        'title'                           => 'GraphQL API',
+                        'private-key'                     => 'محتوى ملف JSON المفتاح الخاص',
+                        'info-get-private-key'            => 'معلومة: للحصول على محتوى ملف JSON المفتاح الخاص بـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'نجاح: تم تحديث النصوص المخصصة بنجاح.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'تحذير: تكوين FCM غير موجود.',
                 'product-not-found'   => 'تحذير: المنتج غير موجود.',
                 'category-not-found'  => 'تحذير: الفئة غير موجودة.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'تم تحديث النصوص المخصصة بنجاح.',
             ],
         ],
 

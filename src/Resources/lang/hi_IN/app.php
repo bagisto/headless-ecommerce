@@ -196,7 +196,13 @@ return [
                         'push-notification-configuration' => 'FCM पुश सूचना कॉन्फ़िगरेशन',
                         'title'                           => 'GraphQL API',
                         'private-key'                     => 'प्राइवेट की JSON फ़ाइल सामग्री',
-                        'info-get-private-key'            => 'सूचना: FCM प्राइवेट की JSON फ़ाइल सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहाँ क्लिक करें</a>',
+                        'info-get-private-key'            => 'जानकारी: FCM प्राइवेट की JSON फ़ाइल सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहाँ क्लिक करें</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'सफलता: कस्टम स्क्रिप्ट्स सफलतापूर्वक अपडेट किए गए।',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'product-not-found'   => 'चेतावनी: उत्पाद नहीं मिला।',
                 'category-not-found'  => 'चेतावनी: श्रेणी नहीं मिली।',
 
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'सफलता: कस्टम स्क्रिप्ट्स सफलतापूर्वक अपडेट की गईं।',
             ],
         ],
 

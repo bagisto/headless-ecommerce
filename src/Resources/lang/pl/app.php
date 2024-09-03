@@ -192,11 +192,17 @@ return [
                 'general' => [
                     'graphql-api' => [
                         'notification-topic'              => 'Temat powiadomienia',
-                        'info'                            => 'Konfiguracje dotyczące powiadomień',
+                        'info'                            => 'Konfiguracje powiązane z powiadomieniami',
                         'push-notification-configuration' => 'Konfiguracja powiadomień push FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Zawartość pliku JSON klucza prywatnego',
-                        'info-get-private-key'            => 'Informacja: Aby uzyskać zawartość pliku JSON klucza prywatnego FCM: <a href="https://console.firebase.google.com/" target="_blank">Kliknij tutaj</a>',
+                        'private-key'                     => 'Zawartość pliku JSON z kluczem prywatnym',
+                        'info-get-private-key'            => 'Informacja: Aby uzyskać zawartość pliku JSON z kluczem prywatnym FCM: <a href="https://console.firebase.google.com/" target="_blank">Kliknij tutaj</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Sukces: Skrypty niestandardowe zostały pomyślnie zaktualizowane.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Ostrzeżenie: Konfiguracja FCM nie została znaleziona.',
                 'product-not-found'   => 'Ostrzeżenie: Produkt nie został znaleziony.',
                 'category-not-found'  => 'Ostrzeżenie: Kategoria nie została znaleziona.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Sukces: Skrypty niestandardowe zostały pomyślnie zaktualizowane.',
             ],
         ],
 

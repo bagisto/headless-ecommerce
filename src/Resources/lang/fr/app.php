@@ -196,7 +196,13 @@ return [
                         'push-notification-configuration' => 'Configuration des notifications push FCM',
                         'title'                           => 'API GraphQL',
                         'private-key'                     => 'Contenu du fichier JSON de clé privée',
-                        'info-get-private-key'            => 'Info: Pour obtenir le contenu du fichier JSON de clé privée FCM : <a href="https://console.firebase.google.com/" target="_blank">Cliquez ici</a>',
+                        'info-get-private-key'            => 'Info : Pour obtenir le contenu du fichier JSON de clé privée FCM : <a href="https://console.firebase.google.com/" target="_blank">Cliquez ici</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Succès : Scripts personnalisés mis à jour avec succès.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Avertissement : Configuration FCM non trouvée.',
                 'product-not-found'   => 'Avertissement : Produit non trouvé.',
                 'category-not-found'  => 'Avertissement : Catégorie non trouvée.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Succès : Les scripts personnalisés ont été mis à jour avec succès.',
             ],
         ],
 

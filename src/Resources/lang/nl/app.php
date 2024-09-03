@@ -191,12 +191,18 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'notification-topic'              => 'Notificatieonderwerp',
-                        'info'                            => 'Configuraties met betrekking tot meldingen',
-                        'push-notification-configuration' => 'Configuratie van FCM-pushmeldingen',
+                        'notification-topic'              => 'Meldingsonderwerp',
+                        'info'                            => 'Meldingsgerelateerde configuraties',
+                        'push-notification-configuration' => 'FCM-pushmeldingsconfiguratie',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Inhoud van het JSON-bestand van de privésleutel',
-                        'info-get-private-key'            => 'Info: Om de inhoud van het JSON-bestand van de FCM-privésleutel te verkrijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
+                        'private-key'                     => 'Privésleutel JSON-bestandsinhoud',
+                        'info-get-private-key'            => 'Info: Om de inhoud van het privésleutel JSON-bestand van FCM te krijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Succes: Aangepaste scripts succesvol bijgewerkt.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Waarschuwing: FCM-configuratie niet gevonden.',
                 'product-not-found'   => 'Waarschuwing: Product niet gevonden.',
                 'category-not-found'  => 'Waarschuwing: Categorie niet gevonden.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Succes: Aangepaste scripts succesvol bijgewerkt.',
             ],
         ],
 

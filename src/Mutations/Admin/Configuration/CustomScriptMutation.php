@@ -62,7 +62,7 @@ class CustomScriptMutation extends Controller
 
             return [
                 'success'        => true,
-                'message'        => trans('bagisto_graphql::app.admin.configuration.custom-scripts.update-success'),
+                'message'        => trans('bagisto_graphql::app.admin.configuration.index.general.content.custom-script.update-success'),
                 'custom_scripts' => [
                     'css'        => $css,
                     'javascript' => $javascript,

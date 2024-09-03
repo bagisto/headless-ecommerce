@@ -193,10 +193,15 @@ return [
                     'graphql-api' => [
                         'notification-topic'              => 'Bildirim Konusu',
                         'info'                            => 'Bildirimle ilgili yapılandırmalar',
-                        'push-notification-configuration' => 'FCM Push Bildirim Yapılandırması',
+                        'push-notification-configuration' => 'FCM Anlık Bildirim Yapılandırması',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Özel Anahtar JSON Dosyası İçeriği',
-                        'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar JSON Dosyası İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
+                        'private-key'                     => 'Özel Anahtar JSON Dosya İçeriği',
+                        'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar JSON Dosya İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
+                    ],
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Başarılı: Özel komut dosyaları başarıyla güncellendi.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +615,6 @@ return [
                 'configuration-error' => 'Uyarı: FCM yapılandırması bulunamadı.',
                 'product-not-found'   => 'Uyarı: Ürün bulunamadı.',
                 'category-not-found'  => 'Uyarı: Kategori bulunamadı.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Успех: Пользовательские скрипты успешно обновлены.',
             ],
         ],
 

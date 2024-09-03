@@ -198,6 +198,12 @@ return [
                         'private-key'                     => 'Private Key JSON File Content',
                         'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
                     ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Success: Custom scripts updated successfully.',
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Warning: FCM configuration not found.',
                 'product-not-found'   => 'Warning: Product not found.',
                 'category-not-found'  => 'Warning: Category not found.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Success: Custom scripts updated successfully.',
             ],
         ],
 

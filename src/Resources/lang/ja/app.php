@@ -192,11 +192,17 @@ return [
                 'general' => [
                     'graphql-api' => [
                         'notification-topic'              => '通知トピック',
-                        'info'                            => '通知に関する設定',
+                        'info'                            => '通知関連の設定',
                         'push-notification-configuration' => 'FCMプッシュ通知設定',
                         'title'                           => 'GraphQL API',
                         'private-key'                     => 'プライベートキーJSONファイルの内容',
-                        'info-get-private-key'            => '情報: FCMプライベートキーJSONファイルの内容を取得するには: <a href="https://console.firebase.google.com/" target="_blank">こちらをクリック</a>',
+                        'info-get-private-key'            => '情報: FCMプライベートキーJSONファイルの内容を取得するには、<a href="https://console.firebase.google.com/" target="_blank">こちらをクリック</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => '成功: カスタムスクリプトが正常に更新されました。',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => '注意: FCMの設定が見つかりません。',
                 'product-not-found'   => '注意: 製品が見つかりません。',
                 'category-not-found'  => '注意: カテゴリが見つかりません。',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => '成功: カスタムスクリプトが正常に更新されました。',
             ],
         ],
 

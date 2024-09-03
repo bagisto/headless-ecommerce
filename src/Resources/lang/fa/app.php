@@ -192,11 +192,17 @@ return [
                 'general' => [
                     'graphql-api' => [
                         'notification-topic'              => 'موضوع اعلان',
-                        'info'                            => 'تنظیمات مربوط به اعلان',
-                        'push-notification-configuration' => 'تنظیمات اعلان FCM Push',
+                        'info'                            => 'پیکربندی‌های مرتبط با اعلان',
+                        'push-notification-configuration' => 'پیکربندی اعلان‌های فشاری FCM',
                         'title'                           => 'GraphQL API',
                         'private-key'                     => 'محتوای فایل JSON کلید خصوصی',
-                        'info-get-private-key'            => 'اطلاعات: برای دریافت محتوای فایل JSON کلید خصوصی FCM: <a href="https://console.firebase.google.com/" target="_blank">اینجا را کلیک کنید</a>',
+                        'info-get-private-key'            => 'اطلاعات: برای دریافت محتوای فایل JSON کلید خصوصی FCM: <a href="https://console.firebase.google.com/" target="_blank">اینجا کلیک کنید</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'موفقیت: اسکریپت‌های سفارشی با موفقیت به‌روزرسانی شدند.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'هشدار: تنظیمات FCM یافت نشد.',
                 'product-not-found'   => 'هشدار: محصول یافت نشد.',
                 'category-not-found'  => 'هشدار: دسته بندی یافت نشد.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'موفقیت: اسکریپت‌های سفارشی با موفقیت به‌روزرسانی شد.',
             ],
         ],
 

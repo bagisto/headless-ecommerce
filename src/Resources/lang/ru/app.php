@@ -193,10 +193,16 @@ return [
                     'graphql-api' => [
                         'notification-topic'              => 'Тема уведомления',
                         'info'                            => 'Настройки, связанные с уведомлениями',
-                        'push-notification-configuration' => 'Конфигурация FCM Push-уведомлений',
+                        'push-notification-configuration' => 'Настройка Push-уведомлений FCM',
                         'title'                           => 'GraphQL API',
                         'private-key'                     => 'Содержимое файла JSON с закрытым ключом',
                         'info-get-private-key'            => 'Информация: Чтобы получить содержимое файла JSON с закрытым ключом FCM: <a href="https://console.firebase.google.com/" target="_blank">Нажмите здесь</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Успех: Пользовательские скрипты успешно обновлены.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Внимание: Не найдена конфигурация FCM.',
                 'product-not-found'   => 'Внимание: Продукт не найден.',
                 'category-not-found'  => 'Внимание: Категория не найдена.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Успех: Пользовательские скрипты успешно обновлены.',
             ],
         ],
 

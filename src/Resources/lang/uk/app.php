@@ -191,12 +191,18 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'notification-topic'              => 'Тема повідомлення',
-                        'info'                            => 'Конфігурації, пов\'язані з повідомленнями',
-                        'push-notification-configuration' => 'Конфігурація FCM Push-повідомлень',
+                        'notification-topic'              => 'Тема сповіщення',
+                        'info'                            => 'Налаштування, пов’язані зі сповіщеннями',
+                        'push-notification-configuration' => 'Налаштування Push-сповіщень FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Вміст файлу JSON з приватним ключем',
-                        'info-get-private-key'            => 'Інформація: Щоб отримати вміст файлу JSON з приватним ключем FCM, <a href="https://console.firebase.google.com/" target="_blank">натисніть тут</a>',
+                        'private-key'                     => 'Вміст JSON файлу приватного ключа',
+                        'info-get-private-key'            => 'Інформація: Щоб отримати вміст JSON файлу приватного ключа FCM: <a href="https://console.firebase.google.com/" target="_blank">Натисніть тут</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Успішно: Користувацькі скрипти успішно оновлено.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Попередження: Налаштування FCM не знайдено.',
                 'product-not-found'   => 'Попередження: Товар не знайдено.',
                 'category-not-found'  => 'Попередження: Категорію не знайдено.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Успіх: Користувацькі скрипти успішно оновлено.',
             ],
         ],
 

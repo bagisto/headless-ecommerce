@@ -196,7 +196,13 @@ return [
                         'push-notification-configuration' => 'FCM推送通知配置',
                         'title'                           => 'GraphQL API',
                         'private-key'                     => '私钥JSON文件内容',
-                        'info-get-private-key'            => '信息：获取FCM私钥JSON文件内容：<a href="https://console.firebase.google.com/" target="_blank">点击这里</a>',
+                        'info-get-private-key'            => '信息: 获取FCM私钥JSON文件内容: <a href="https://console.firebase.google.com/" target="_blank">点击这里</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => '成功: 自定义脚本已成功更新。',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => '警告：未找到FCM配置。',
                 'product-not-found'   => '警告：未找到产品。',
                 'category-not-found'  => '警告：未找到分类。',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => '成功：自定义脚本已成功更新。',
             ],
         ],
 

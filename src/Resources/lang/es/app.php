@@ -191,12 +191,18 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'notification-topic'              => 'Tema de notificación',
+                        'notification-topic'              => 'Tema de Notificación',
                         'info'                            => 'Configuraciones relacionadas con las notificaciones',
-                        'push-notification-configuration' => 'Configuración de notificación push de FCM',
-                        'title'                           => 'API de GraphQL',
+                        'push-notification-configuration' => 'Configuración de Notificación Push FCM',
+                        'title'                           => 'API GraphQL',
                         'private-key'                     => 'Contenido del archivo JSON de clave privada',
-                        'info-get-private-key'            => 'Información: Para obtener el contenido del archivo JSON de clave privada de FCM: <a href="https://console.firebase.google.com/" target="_blank">Haz clic aquí</a>',
+                        'info-get-private-key'            => 'Info: Para obtener el contenido del archivo JSON de clave privada FCM: <a href="https://console.firebase.google.com/" target="_blank">Haga clic aquí</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Éxito: Scripts personalizados actualizados con éxito.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'Advertencia: Configuración de FCM no encontrada.',
                 'product-not-found'   => 'Advertencia: Producto no encontrado.',
                 'category-not-found'  => 'Advertencia: Categoría no encontrada.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'Éxito: Scripts personalizados actualizados correctamente.',
             ],
         ],
 

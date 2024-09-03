@@ -191,12 +191,18 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'notification-topic'              => 'දිරිගැන්වීම් මාතෘකාව',
-                        'info'                            => 'දිරිගැන්වීම් ආශ්‍රිත වින්‍යාස',
-                        'push-notification-configuration' => 'FCM තැටිය දිරිගැන්වීම් වින්‍යාසය',
+                        'notification-topic'              => 'දැනුම්දීමේ මාතෘකාව',
+                        'info'                            => 'දැනුම්දීම සම්බන්ධව සැකසීම්',
+                        'push-notification-configuration' => 'FCM ත්‍රස්තය දැනුම්දීමේ සැකසීම',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'පෞද්ගලික යතුරු JSON ගොනුවේ අන්තර්ගතය',
-                        'info-get-private-key'            => 'තොරතුරු: FCM පෞද්ගලික යතුරු JSON ගොනුවේ අන්තර්ගතය ලබා ගැනීමට: <a href="https://console.firebase.google.com/" target="_blank">මෙතන ක්ලික් කරන්න</a>',
+                        'private-key'                     => 'පෞද්ගලික යතුර JSON ගොනුවේ අන්තර්ගතය',
+                        'info-get-private-key'            => 'විස්තර: FCM පෞද්ගලික යතුර JSON ගොනුවේ අන්තර්ගතය ලබා ගැනීම සඳහා: <a href="https://console.firebase.google.com/" target="_blank">මෙතන ක්ලික් කරන්න</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'සාර්ථකත්වය: රටා අත්පිටපත් සාර්ථකව යාවත්කාලීන කරන ලදී.',
+                        ],
                     ],
                 ],
             ],
@@ -610,12 +616,6 @@ return [
                 'configuration-error' => 'අවවාදය: FCM වින්‍යාසය හමු නොවුණා.',
                 'product-not-found'   => 'අවවාදය: නිෂ්පාදනය හමු නොවුණා.',
                 'category-not-found'  => 'අවවාදය: වර්ගය හමු නොවුණා.',
-            ],
-        ],
-
-        'configuration' => [
-            'custom-scripts' => [
-                'update-success' => 'සාර්ථකත්වය: පාරිභෝගික සංග්‍රහණය සාර්ථකව යාවත්කාලීන කරන ලදි.',
             ],
         ],
 
