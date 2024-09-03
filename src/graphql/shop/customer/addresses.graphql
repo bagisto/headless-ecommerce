@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["api"]){
     addresses(
         input: FilterCustomerAddressInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
     ): [Address] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

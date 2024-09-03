@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     locales(
         input: FilterLocaleInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
     ): [Locale!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

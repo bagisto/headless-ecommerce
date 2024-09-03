@@ -2,8 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Queries;
 
-use Illuminate\Database\Eloquent\Builder;
-
 class BaseFilter
 {
     /**
@@ -94,14 +92,6 @@ class BaseFilter
         }
 
         return $priceData;
-    }
-
-    /**
-     * Filter the query based on the input.
-     */
-    public function apply(Builder $query, array $input): Builder
-    {
-        return $query->where($input);
     }
 
     /**

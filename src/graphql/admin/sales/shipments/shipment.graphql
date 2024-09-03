@@ -13,7 +13,7 @@ extend type Query @guard(with: ["admin-api"]) {
 
     shipmentItems(
         input: FilterShipmentItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
     ): [ShipmentItem!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10
@@ -23,7 +23,7 @@ extend type Query @guard(with: ["admin-api"]) {
     shipmentItem(
         id: ID @eq,
         input: FilterShipmentItemInput!
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\CommonFilter@apply")
     ): ShipmentItem @find(model: "Webkul\\Sales\\Models\\ShipmentItem")
 }
 
