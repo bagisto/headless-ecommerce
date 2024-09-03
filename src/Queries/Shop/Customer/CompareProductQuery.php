@@ -14,7 +14,9 @@ class CompareProductQuery extends BaseFilter
     {
         $customer = bagisto_graphql()->authorize();
 
-        $query->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
+        $query->distinct()
+            ->select('compare_items.*')
+            ->leftJoin('product_flat', 'compare_items.product_id', '=', 'product_flat.product_id')
             ->where('compare_items.customer_id', $customer->id);
 
         $filters = [
@@ -25,9 +27,9 @@ class CompareProductQuery extends BaseFilter
 
         $query = $this->applyFilter($query, $filters);
 
-        if (! empty($input['product_name'])) {
+        $query->when(! empty($input['product_name']), function ($query) use ($input) {
             $query->where('product_flat.name', 'like', '%'.$input['product_name'].'%');
-        }
+        });
 
         return $query;
     }
