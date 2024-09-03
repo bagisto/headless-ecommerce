@@ -130,7 +130,7 @@ class BaseFilter
     {
         foreach ($filters as $column => $value) {
             if (! empty($value)) {
-                $query->where($column, 'like', '%' . $value . '%');
+                $query->where($column, 'like', '%'.$value.'%');
             }
         }
 

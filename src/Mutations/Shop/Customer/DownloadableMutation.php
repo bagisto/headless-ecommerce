@@ -2,7 +2,6 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -23,79 +22,6 @@ class DownloadableMutation extends Controller
     }
 
     /**
-     * Returns customer's purchased downloadable links
-     *
-     * @return array
-     *
-     * @throws CustomException
-     */
-    public function downloadLinks(mixed $rootValue, array $args, GraphQLContext $context)
-    {
-        $customer = bagisto_graphql()->authorize();
-
-        $currentPage = $args['page'] ?? 1;
-
-        Paginator::currentPageResolver(function () use ($currentPage) {
-            return $currentPage;
-        });
-
-        $downloads = app(DownloadableLinkPurchasedRepository::class)->scopeQuery(function ($query) use ($args) {
-            $channel_id = isset($args['channel_id']) ?: (core()->getCurrentChannel()->id ?: core()->getDefaultChannel()->id);
-
-            return $query->distinct()
-                ->addSelect('downloadable_link_purchased.*')
-                ->leftJoin('orders', 'downloadable_link_purchased.order_id', '=', 'orders.id')
-                ->leftJoin('order_items', 'downloadable_link_purchased.order_item_id', '=', 'order_items.id')
-                ->where('orders.channel_id', $channel_id)
-                ->where('downloadable_link_purchased.customer_id', auth()->user()->id)
-                ->when(! empty($args['id']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.id', $args['id']);
-                })
-                ->when(! empty($args['order_id']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.order_id', $args['order_id']);
-                })
-                ->when(! empty($args['order_item_id']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.order_item_id', $args['order_item_id']);
-                })
-                ->when(! empty($args['product_name']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.product_name', 'like', '%'.urldecode($args['product_name']).'%');
-                })
-                ->when(! empty($args['link_name']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.name', 'like', '%'.urldecode($args['link_name']).'%');
-                })
-                ->when(! empty($args['status']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.status', $args['status']);
-                })
-                ->when(! empty($args['download_bought']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.download_bought', $args['download_bought']);
-                })
-                ->when(! empty($args['download_used']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.download_used', $args['download_used']);
-                })
-                ->when(! empty($args['status']), function ($qb) use ($args) {
-                    $qb->where('downloadable_link_purchased.status', $args['status']);
-                });
-        });
-
-        if (isset($args['id'])) {
-            $downloads = $downloads->first();
-        } else {
-            $downloads = $downloads->paginate($args['limit'] ?? 10);
-        }
-
-        if (
-            (
-                $downloads
-                && isset($downloads->first()->id)
-            ) || isset($downloads->id)
-        ) {
-            return $downloads;
-        } else {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.not-found'));
-        }
-    }
-
-    /**
      * Download the for the specified resource.
      *
      * @return array
@@ -109,7 +35,7 @@ class DownloadableMutation extends Controller
         try {
             $downloadableLinkPurchased = $this->downloadableLinkPurchasedRepository->findOneByField([
                 'id'          => $args['id'],
-                'customer_id' => auth()->user()->id,
+                'customer_id' => $customer->id,
             ]);
 
             if (

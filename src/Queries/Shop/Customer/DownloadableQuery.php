@@ -2,34 +2,32 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class AddressesQuery extends BaseFilter
+class DownloadableQuery extends BaseFilter
 {
     /**
-     * Filter query for the customer addresses.
+     * Filter query for the downloadable product.
      */
     public function __invoke(Builder $query, array $input): Builder
     {
         $customer = bagisto_graphql()->authorize();
 
-        $params = Arr::except($input, ['first_name', 'last_name', 'company_name', 'address', 'city']);
-
-        $likeParams = Arr::only($input, ['first_name', 'last_name', 'company_name', 'address', 'city']);
-
         $query->where('customer_id', $customer->id);
 
-        $query = $this->applyLikeFilter($query, $likeParams);
+        $params = Arr::except($input, ['product_name', 'name']);
+
+        $query = $this->applyLikeFilter($query, Arr::only($input, ['product_name', 'name']));
 
         return $query->where($params);
     }
 
     /**
-     * Get the specified address.
+     * Get the specified review details.
      */
-    public function getAddress(Builder $query): Builder
+    public function getDetails(Builder $query): Builder
     {
         $customer = bagisto_graphql()->authorize();
 

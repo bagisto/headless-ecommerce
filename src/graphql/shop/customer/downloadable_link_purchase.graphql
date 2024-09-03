@@ -1,10 +1,18 @@
 #Shop\Customer\Downloadable Related APIs
 extend type Query @guard(with: ["api"]){
     downloadableLinkPurchases(
-        input: FilterDownloadablePurchaseInput @spread
-    ): [DownloadableLinkPurchased!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+        input: FilterDownloadablePurchaseInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\DownloadableQuery")
+    ): [DownloadableLinkPurchased!] @paginate(
+        type: "PAGINATOR",
+        model: "Webkul\\Sales\\Models\\DownloadableLinkPurchased",
+        defaultCount: 10
+    )
 
-    downloadableLinkPurchase(id: ID @eq): DownloadableLinkPurchased @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\DownloadableMutation@downloadLinks")
+    downloadableLinkPurchase(
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\DownloadableQuery@getDetails")
+    ): DownloadableLinkPurchased @find(model: "Webkul\\Sales\\Models\\DownloadableLinkPurchased")
 }
 
 extend type Mutation @guard(with: ["api"]) {
@@ -12,13 +20,11 @@ extend type Mutation @guard(with: ["api"]) {
 }
 
 input FilterDownloadablePurchaseInput {
-    page: Int
-    limit: Int
     id: Int
     orderId: Int @rename(attribute: "order_id")
     orderItemId: Int @rename(attribute: "order_item_id")
     productName: String @rename(attribute: "product_name")
-    linkName: String @rename(attribute: "link_name")
+    name: String
     status: DownloadLinkStatusEnum
     downloadBought: Int @rename(attribute: "download_bought")
     downloadUsed: Int @rename(attribute: "download_used")
