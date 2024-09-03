@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -23,73 +22,6 @@ class ReviewMutation extends Controller
         protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     ) {
         Auth::setDefaultDriver('api');
-    }
-
-    /**
-     * Returns loggedin customer's reviews data.
-     *
-     * @return array
-     *
-     * @throws CustomException
-     */
-    public function reviews(mixed $rootValue, array $args, GraphQLContext $context)
-    {
-        $params = isset($args['input']) ? $args['input'] : (isset($args['id']) ? $args : []);
-
-        if (auth()->check()) {
-            $params['customer_id'] = auth()->user()->id;
-        }
-
-        $currentPage = isset($params['page']) ? $params['page'] : 1;
-
-        Paginator::currentPageResolver(function () use ($currentPage) {
-            return $currentPage;
-        });
-
-        $reviews = app(ProductReviewRepository::class)->scopeQuery(function ($query) use ($params) {
-            $channel = isset($params['channel']) ?: (core()->getCurrentChannelCode() ?: core()->getDefaultChannelCode());
-
-            $locale = isset($params['locale']) ?: app()->getLocale();
-
-            return $query->distinct()
-                ->addSelect('product_reviews.*')
-                ->addSelect('product_flat.name as product_name')
-                ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
-                ->where('product_flat.channel', $channel)
-                ->where('product_flat.locale', $locale)
-                ->when(! empty($params['id']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.id', $params['id']);
-                })
-                ->when(! empty($params['title']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.title', 'like', '%'.urldecode($params['title']).'%');
-                })
-                ->when(! empty($params['rating']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.rating', $params['rating']);
-                })
-                ->when(! empty($params['customer_id']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.customer_id', $params['customer_id']);
-                })
-                ->when(! empty($params['customer_name']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.name', 'like', '%'.urldecode($params['customer_name']).'%');
-                })
-                ->when(! empty($params['product_name']), function ($qb) use ($params) {
-                    $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
-                })
-                ->when(! empty($params['product_id']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.product_id', $params['product_id']);
-                })
-                ->when(! empty($params['status']), function ($qb) use ($params) {
-                    $qb->where('product_reviews.status', 'like', '%'.urldecode($params['status']).'%');
-                });
-        });
-
-        if (isset($args['id'])) {
-            $reviews = $reviews->first();
-        } else {
-            $reviews = $reviews->paginate($params['limit'] ?? 10);
-        }
-
-        return $reviews;
     }
 
     /**
