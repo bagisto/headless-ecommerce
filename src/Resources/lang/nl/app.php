@@ -1,154 +1,195 @@
 <?php
 
 return [
-    'admin' => [
-        'menu' => [
-            'push-notification' => 'Push Notification',
-        ],
-
-        'acl' => [
-            'push-notification' => 'Push Notification',
-            'send'              => 'Send',
-        ],
-
-        'sales' => [
-            'orders' => [
-                'cancel-error'   => 'Order cannot be canceled.',
-                'cancel-success' => 'Order canceled successfully',
-                'not-found'      => 'Warning: Order not found.',
-            ],
-
-            'shipments' => [
-                'not-found'        => 'Warning: Shipment not found.',
-                'shipment-error'   => 'Order shipment creation is not allowed.',
-                'creation-error'   => 'Shipment can not be created for this order.',
-                'quantity-invalid' => 'Requested quantity is invalid or not available.',
-            ],
-
-            'invoices' => [
-                'not-found'      => 'Warning: Invoice not found.',
-                'creation-error' => 'Order invoice creation is not allowed.',
-                'product-error'  => 'Invoice can not be created without products.',
-            ],
-
-            'refunds' => [
-                'invalid-refund-amount-error' => 'Refund amount should be non zero.',
-                'refund-limit-error'          => 'The most money available to refund is :amount.',
-                'creation-error'              => 'Refund can not be created for this order.',
-                'create-success'              => 'Refund created successfully for this order.',
-            ],
-        ],
-
-        'catalog' => [
-            'products' => [
-                'create' => [
-                    'configurable-error'      => 'Please select atleast one configurable attribute.',
-                    'grouped-error-not-added' => 'is not added to Grouped product',
-                    'grouped-error-not-added' => 'is not a added to Bundle product',
-                ],
-
-                'delete-success' => 'Product deleted successfully.',
-                'delete-failed'  => 'Warning: Product is not deleted',
-            ],
-
-            'categories' => [
-                'already-taken'        => 'The Category has already been taken.',
-                'delete-category-root' => 'The Root category can not be deleted.',
-                'delete-success'       => 'Category deleted successfully.',
-                'delete-failed'        => 'Warning: Category is not deleted',
-            ],
-
-            'attributes' => [
-                'delete-success'    => 'Attribute deleted successfully.',
-                'delete-failed'     => 'Warning: Attribute is not deleted',
-                'user-define-error' => 'Warning: You are not authorized to delete system-created attribute group.',
-            ],
-
-            'attribute-families' => [
-                'last-delete-error'       => 'Last Attribute Family delete failed',
-                'attribute-product-error' => 'family is used in products.',
-                'delete-success'          => 'Family deleted successfully.',
-                'delete-failed'           => 'Warning: Family is not deleted',
-            ],
-
-            'attribute-groups' => [
-                'delete-success'       => 'Family Group deleted successfully.',
-                'delete-failed'        => 'Warning: Family Group is not deleted',
-                'error-customer-group' => 'Warning: You are not authorized to delete system-created attribute group.',
-            ],
+    'shop' => [
+        'subscription' => [
+            'already-subscribed' => 'U bent al geabonneerd op onze nieuwsbrief.',
+            'subscribe-success'  => 'U bent succesvol geabonneerd op onze nieuwsbrief.',
         ],
 
         'customers' => [
-            'no-customer-found'      => 'Customer not found',
-            'address-delete-success' => 'Customer\'s Address deleted successfully',
-            'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
-            'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-            'delete-success'         => 'Customer deleted successfully',
+            'no-login-customer' => 'Let op: Geen ingelogde klant gevonden.',
+            'success-login'     => 'Succes: Klant succesvol ingelogd.',
+            'success-logout'    => 'Succes: Klant succesvol uitgelogd.',
 
-            'groups' => [
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
-                'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
-                'delete-success'     => 'Customer deleted successfully',
+            'signup' => [
+                'error-registration' => 'Let op: Klantregistratie mislukt.',
+                'success-verify'     => 'Account succesvol aangemaakt, een verificatie-e-mail is verzonden.',
+            ],
+
+            'login' => [
+                'invalid-creds' => 'Controleer je gegevens en probeer opnieuw.',
+                'not-activated' => 'Je activatie vereist goedkeuring van de beheerder.',
+                'verify-first'  => 'Verifieer eerst je e-mail.',
+                'suspended'     => 'Je account is geschorst door de beheerder.',
+
+                'validation' => [
+                    'required' => 'Het veld :field is verplicht.',
+                    'same'     => 'Het veld :field en het wachtwoord moeten overeenkomen.',
+                    'unique'   => 'Dit :field is al in gebruik.',
+                ],
+            ],
+
+            'forgot-password' => [
+                'already-sent'    => 'Wachtwoordherstel link is al naar je e-mail verzonden.',
+                'email-not-exist' => 'Het e-mailadres bestaat niet.',
+                'reset-link-sent' => 'Wachtwoordherstel link is naar je e-mail verzonden.',
+            ],
+
+            'account' => [
+                'profile' => [
+                    'customer-details' => 'Succes: Klantgegevens succesvol opgehaald.',
+                    'delete-success'   => 'Succes: Account succesvol verwijderd.',
+                    'password-unmatch' => 'Het wachtwoord komt niet overeen.',
+                    'update-fail'      => 'Let op: Profiel niet bijgewerkt.',
+                    'update-success'   => 'Succes: Profiel succesvol bijgewerkt.',
+                    'wrong-password'   => 'Het wachtwoord is onjuist.',
+                ],
+
+                'addresses' => [
+                    'create-success'         => 'Adres succesvol aangemaakt.',
+                    'default-update-success' => 'Het adres is ingesteld als standaard.',
+                    'delete-success'         => 'Adres succesvol verwijderd.',
+                    'not-found'              => 'Let op: Adres niet gevonden.',
+                    'update-success'         => 'Adres succesvol bijgewerkt.',
+                ],
+
+                'wishlist' => [
+                    'product-removed' => 'Let op: Product niet gevonden.',
+                    'success'         => 'Succes: Product succesvol aan de verlanglijst toegevoegd.',
+                    'already-exist'   => 'Let op: Al toegevoegd aan de verlanglijst.',
+                    'remove-success'  => 'Succes: Item succesvol van de verlanglijst verwijderd.',
+                    'not-found'       => 'Let op: Geen product gevonden op de verlanglijst.',
+                    'moved-success'   => 'Succes: Geselecteerde items succesvol verplaatst naar de verlanglijst.',
+                ],
+
+                'orders' => [
+                    'not-found'      => 'Let op: Geen bestelling gevonden.',
+                    'cancel-error'   => 'Let op: Bestelling niet geannuleerd.',
+                    'cancel-success' => 'Succes: Bestelling succesvol geannuleerd.',
+
+                    'shipment' => [
+                        'not-found' => 'Let op: Verzending niet gevonden.',
+                    ],
+
+                    'invoice' => [
+                        'not-found' => 'Let op: Factuur niet gevonden.',
+                    ],
+
+                    'refund' => [
+                        'not-found' => 'Let op: Terugbetaling niet gevonden.',
+                    ],
+                ],
+
+                'downloadable-products' => [
+                    'not-found'      => 'Let op: Downloadbaar product niet gevonden.',
+                    'not-auth'       => 'Let op: Je bent niet gemachtigd om deze actie uit te voeren.',
+                    'payment-error'  => 'De betaling is niet voltooid voor deze download.',
+                    'download-error' => 'De downloadlink is verlopen.',
+                ],
+            ],
+
+            'compare-product' => [
+                'not-found'           => 'Waarschuwing: Vergelijkingsproduct niet gevonden.',
+                'product-not-found'   => 'Waarschuwing: Product niet gevonden.',
+                'already-added'       => 'Waarschuwing: Product is al toegevoegd aan de vergelijkingslijst.',
+                'item-add-success'    => 'Succes: Product succesvol toegevoegd aan de vergelijkingslijst.',
+                'remove-success'      => 'Succes: Item is succesvol verwijderd uit de vergelijkingslijst.',
+                'mass-remove-success' => 'Succes: Geselecteerde items succesvol verwijderd.',
+            ],
+
+            'reviews' => [
+                'create-success'      => 'Succes: Recensie succesvol aangemaakt.',
+                'delete-success'      => 'Succes: Recensie succesvol verwijderd.',
+                'not-found'           => 'Let op: Recensie niet gevonden.',
+                'mass-delete-success' => 'Succes: Geselecteerde recensies succesvol verwijderd.',
             ],
         ],
 
-        'cms' => [
-            'already-taken'  => 'CMS Page URL already taken',
-            'delete-success' => 'CMS Page deleted successfully.',
-            'delete-failed'  => 'Warning: CMS Page is not deleted',
+        'checkout' => [
+            'cart' => [
+                'item' => [
+                    'error' => [
+                        'invalid-parameter' => 'Let op: Ongeldige parameters verstrekt.',
+                    ],
+
+                    'success' => [
+                        'add-to-cart'      => 'Succes: Product succesvol aan de winkelwagen toegevoegd.',
+                        'update-to-cart'   => 'Succes: Product succesvol bijgewerkt in de winkelwagen.',
+                        'delete-cart-item' => 'Succes: Item succesvol uit de winkelwagen verwijderd.',
+                        'all-remove'       => 'Succes: Alle items uit de winkelwagen verwijderd.',
+                        'move-to-wishlist' => 'Succes: Geselecteerde items succesvol verplaatst naar de verlanglijst.',
+                    ],
+
+                    'fail' => [
+                        'all-remove'       => 'Let op: Alle items niet uit de winkelwagen verwijderd.',
+                        'update-to-cart'   => 'Let op: Product niet bijgewerkt in de winkelwagen.',
+                        'delete-cart-item' => 'Let op: Item niet uit de winkelwagen verwijderd.',
+                        'not-found'        => 'Let op: Winkelwagen niet gevonden.',
+                        'item-not-found'   => 'Let op: Item niet gevonden.',
+                        'all-remove'       => 'Let op: Alle items niet uit de winkelwagen verwijderd.',
+                        'move-to-wishlist' => 'Let op: Geselecteerde items niet verplaatst naar de verlanglijst.',
+                    ],
+                ],
+            ],
+
+            'addresses' => [
+                'guest-address-warning'     => 'Let op: Gasten kunnen geen adressen toevoegen.',
+                'guest-checkout-warning'    => 'Let op: Gasten kunnen niet afrekenen.',
+                'no-billing-address-found'  => 'Let op: Geen factuuradres gevonden.',
+                'no-shipping-address-found' => 'Let op: Geen verzendadres gevonden.',
+                'address-save-success'      => 'Succes: Adres succesvol opgeslagen.',
+            ],
+
+            'shipping' => [
+                'method-not-found' => 'Let op: Verzendmethode niet gevonden.',
+                'method-fetched'   => 'Succes: Verzendmethode succesvol opgehaald.',
+                'save-failed'      => 'Let op: Verzendmethode niet opgeslagen.',
+                'save-success'     => 'Succes: Verzendmethode succesvol opgeslagen.',
+            ],
+
+            'payment' => [
+                'method-not-found' => 'Let op: Betalingsmethode niet gevonden.',
+                'method-fetched'   => 'Succes: Betalingsmethode succesvol opgehaald.',
+                'save-failed'      => 'Let op: Betalingsmethode niet opgeslagen.',
+                'save-success'     => 'Succes: Betalingsmethode succesvol opgeslagen.',
+            ],
+
+            'coupon' => [
+                'apply-success'   => 'Succes: Couponcode succesvol toegepast.',
+                'already-applied' => 'Let op: Couponcode al toegepast.',
+                'invalid-code'    => 'Let op: Ongeldige couponcode.',
+                'remove-success'  => 'Succes: Couponcode succesvol verwijderd.',
+                'remove-failed'   => 'Let op: Couponcode niet verwijderd.',
+            ],
+
+            'something-wrong'          => 'Let op: Er is iets misgegaan.',
+            'invalid-guest-user'       => 'Let op: Ongeldige gastgebruiker.',
+            'empty-cart'               => 'Let op: De winkelwagen is leeg.',
+            'missing-billing-address'  => 'Let op: Ontbrekend factuuradres.',
+            'missing-shipping-address' => 'Let op: Ontbrekend verzendadres.',
+            'missing-shipping-method'  => 'Let op: Ontbrekende verzendmethode.',
+            'missing-payment-method'   => 'Let op: Ontbrekende betalingsmethode.',
+            'no-address-found'         => 'Let op: Geen factuur- en verzendadres gevonden.',
+        ],
+    ],
+
+    'admin' => [
+        'acl' => [
+            'create'            => 'Maak aan',
+            'delete'            => 'Verwijder',
+            'edit'              => 'Bewerk',
+            'mass-delete'       => 'Bulkverwijdering',
+            'mass-update'       => 'Bulkuptate',
+            'push-notification' => 'Pushmelding',
+            'send'              => 'Verstuur',
         ],
 
-        'marketing' => [
-            'communications' => [
-                'campaigns' => [
-                    'delete-success' => 'Campaign deleted successfully',
-                    'delete-failed'  => 'Warning: Campaign is not deleted',
+        'components' => [
+            'layouts' => [
+                'sidebar' => [
+                    'push-notification' => 'Pushmelding',
                 ],
-
-                'templates' => [
-                    'delete-success' => 'Email Template deleted successfully',
-                    'delete-failed'  => 'Warning: Email Template is not deleted',
-                ],
-
-                'events' => [
-                    'delete-success' => 'Event deleted successfully',
-                    'delete-failed'  => 'Warning: Event is not deleted',
-                ],
-
-                'subscriptions' => [
-                    'no-subscriber-found'  => 'Subscriber not found',
-                    'already-subscriber'   => 'You are already subscribed to our subscription list.',
-                    'not-subscribed'       => 'You can not be subscribed to subscription emails, please try again later.',
-                    'already-unsubscribed' => 'You are already unsubscribed.',
-                    'delete-success'       => 'Subscription deleted successfully',
-                    'unsubscribe'          => 'Unsubscribe',
-                    'subscribe'            => 'Subscribe',
-                    'subscribed-success'   => 'You have successfully subscribed to our subscription list.',
-                    'unsubscribed'         => 'You have successfully unsubscribed from our subscription list.',
-                ],
-            ],
-
-            'promotions' => [
-                'cart-rules' => [
-                    'delete-success'       => 'Cart Rule deleted successfully',
-                    'delete-failed'        => 'Warning: Cart Rule is not deleted',
-                    'cart-rule-not-defind' => 'Cart rule is not defined',
-                ],
-
-                'catalog-rules' => [
-                    'delete-success' => 'Catalog Rule deleted successfully',
-                    'delete-failed'  => 'Warning: Catalog Rule is not deleted',
-                ],
-
-                'sitemaps' => [
-                    'delete-success' => 'Site Map deleted successfully',
-                    'delete-failed'  => 'Warning: Site Map is not deleted',
-                ],
-            ],
-
-            'sitemaps' => [
-                'delete-success' => 'Site Map deleted successfully',
-                'delete-failed'  => 'Warning: Site Map is not deleted',
             ],
         ],
 
@@ -156,314 +197,438 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
-                        'notification-topic'              => 'Notificatie Onderwerp',
-                        'info'                            => 'Notificatie gerelateerde configuraties',
-                        'push-notification-configuration' => 'FCM Push Notificatie Configuratie',
+                        'notification-topic'              => 'Meldingsonderwerp',
+                        'info'                            => 'Meldingsgerelateerde configuraties',
+                        'push-notification-configuration' => 'FCM-pushmeldingsconfiguratie',
                         'title'                           => 'GraphQL API',
-                        'info'                            => 'Notification related configurations',
-                        'push-notification-configuration' => 'FCM Push Notification Configuration',
-                        'server-key'                      => 'Server Key',
-                        'info-get-server-key'             => 'Info: To get FCM API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'android-topic'                   => 'Android Topic',
-                        'ios-topic'                       => 'IOS Topic',
-                        'private-key'                     => 'Private Key JSON File Content',
-                        'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'notification-topic'              => 'Notification Topic',
+                        'private-key'                     => 'Privésleutel JSON-bestandsinhoud',
+                        'info-get-private-key'            => 'Info: Om de inhoud van het privésleutel JSON-bestand van FCM te krijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Succes: Aangepaste scripts succesvol bijgewerkt.',
+                        ],
                     ],
                 ],
             ],
+        ],
 
-            'custom-scripts' => [
-                'channel-not-found' => 'Warning: Channel not found.',
-                'create-success'    => 'Custom Script added successfully.',
-                'update-success'    => 'Custom Script updated successfully.',
-                'delete-success'    => 'Custom Script removed successfully.',
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'Waarschuwing: De bestelling kan niet worden geannuleerd.',
+                'cancel-success' => 'Succes: Bestelling succesvol geannuleerd.',
+                'not-found'      => 'Waarschuwing: Bestelling niet gevonden.',
+            ],
+
+            'shipments' => [
+                'creation-error'   => 'Waarschuwing: Verzending niet aangemaakt.',
+                'not-found'        => 'Waarschuwing: Verzending niet gevonden.',
+                'quantity-invalid' => 'Waarschuwing: Ongeldige hoeveelheid opgegeven.',
+                'shipment-error'   => 'Waarschuwing: Verzending niet aangemaakt.',
+                'create-success'   => 'Succes: Verzending succesvol aangemaakt.',
+            ],
+
+            'invoices' => [
+                'creation-error' => 'Waarschuwing: Factuur niet aangemaakt.',
+                'not-found'      => 'Waarschuwing: Factuur niet gevonden.',
+                'product-error'  => 'Waarschuwing: Ongeldig product opgegeven.',
+                'create-success' => 'Succes: Factuur succesvol aangemaakt.',
+            ],
+
+            'refunds' => [
+                'creation-error'      => 'Waarschuwing: Terugbetaling niet aangemaakt.',
+                'refund-amount-error' => 'Waarschuwing: Ongeldig terugbetalingsbedrag opgegeven.',
+                'refund-limit-error'  => 'Waarschuwing: Het terugbetalingsbedrag overschrijdt de limiet van :amount',
+                'not-found'           => 'Waarschuwing: Terugbetaling niet gevonden.',
+                'create-success'      => 'Succes: Terugbetaling succesvol aangemaakt.',
+            ],
+
+            'transactions' => [
+                'already-paid'   => 'Waarschuwing: De factuur is al betaald.',
+                'amount-exceed'  => 'Waarschuwing: Het transactiebedrag overschrijdt de limiet.',
+                'zero-amount'    => 'Waarschuwing: Het transactiebedrag moet groter zijn dan nul.',
+                'create-success' => 'Succes: Transactie succesvol aangemaakt.',
+            ],
+
+            'reorder' => [
+                'cart-not-found'           => 'Waarschuwing: Winkelwagentje niet gevonden.',
+                'cart-item-not-found'      => 'Waarschuwing: Winkelwagentje-item niet gevonden.',
+                'cart-create-success'      => 'Succes: Winkelwagentje succesvol aangemaakt.',
+                'cart-item-add-success'    => 'Succes: Product succesvol toegevoegd aan het winkelwagentje.',
+                'cart-item-remove-success' => 'Succes: Item succesvol verwijderd uit het winkelwagentje.',
+                'cart-item-update-success' => 'Succes: Product succesvol bijgewerkt in het winkelwagentje.',
+                'something-wrong'          => 'Waarschuwing: Er is iets mis gegaan.',
+                'address-save-success'     => 'Succes: Adres succesvol opgeslagen.',
+                'shipping-save-success'    => 'Succes: Verzendingmethode succesvol opgeslagen.',
+                'payment-save-success'     => 'Succes: Betalingsmethode succesvol opgeslagen.',
+                'order-placed-success'     => 'Succes: Bestelling succesvol geplaatst.',
+                'payment-method-not-found' => 'Waarschuwing: Betalingsmethode niet gevonden.',
+                'minimum-order-amount-err' => 'Waarschuwing: Het minimale bestelbedrag moet :amount zijn',
+                'check-shipping-address'   => 'Waarschuwing: Controleer het verzendadres.',
+                'check-billing-address'    => 'Waarschuwing: Controleer het factuuradres.',
+                'specify-shipping-method'  => 'Waarschuwing: Geef de verzendmethode op.',
+                'specify-payment-method'   => 'Waarschuwing: Geef de betalingsmethode op.',
+                'coupon-not-valid'         => 'Waarschuwing: De kortingscode is niet geldig.',
+                'coupon-already-applied'   => 'Waarschuwing: De kortingscode is al toegepast.',
+                'coupon-applied'           => 'Succes: Kortingscode succesvol toegepast.',
+                'coupon-removed'           => 'Succes: Kortingscode succesvol verwijderd.',
+            ],
+        ],
+
+        'catalog' => [
+            'products' => [
+                'create-success'            => 'Product succesvol aangemaakt.',
+                'delete-success'            => 'Product succesvol verwijderd.',
+                'not-found'                 => 'Waarschuwing: Product niet gevonden.',
+                'update-success'            => 'Product succesvol bijgewerkt.',
+                'configurable-attr-missing' => 'Waarschuwing: Configurabel attribuut ontbreekt.',
+                'simple-products-error'     => 'Waarschuwing: Eenvoudige producten ontbreken.',
+            ],
+
+            'categories' => [
+                'already-taken'  => 'Waarschuwing: De slug is al in gebruik.',
+                'create-success' => 'Categorie succesvol aangemaakt.',
+                'delete-success' => 'Categorie succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: Categorie niet gevonden.',
+                'update-success' => 'Categorie succesvol bijgewerkt.',
+                'root-delete'    => 'Waarschuwing: De hoofdcatgorie kan niet worden verwijderd.',
+            ],
+
+            'attributes' => [
+                'create-success'    => 'Attribuut succesvol aangemaakt.',
+                'delete-success'    => 'Attribuut succesvol verwijderd.',
+                'not-found'         => 'Waarschuwing: Attribuut niet gevonden.',
+                'update-success'    => 'Attribuut succesvol bijgewerkt.',
+                'user-define-error' => 'Waarschuwing: Je bent niet bevoegd om het systeemgegenereerde attribuut te verwijderen.',
+            ],
+
+            'attribute-groups' => [
+                'create-success'    => 'Attribuutgroep succesvol aangemaakt.',
+                'delete-success'    => 'Attribuutgroep succesvol verwijderd.',
+                'not-found'         => 'Waarschuwing: Attribuutgroep niet gevonden.',
+                'update-success'    => 'Attribuutgroep succesvol bijgewerkt.',
+                'user-define-error' => 'Waarschuwing: Je bent niet bevoegd om de door het systeem aangemaakte attribuutgroep te verwijderen.',
+            ],
+
+            'attribute-families' => [
+                'create-success'          => 'Attribuutfamilie succesvol aangemaakt.',
+                'delete-success'          => 'Attribuutfamilie succesvol verwijderd.',
+                'not-found'               => 'Waarschuwing: Attribuutfamilie niet gevonden.',
+                'update-success'          => 'Attribuutfamilie succesvol bijgewerkt.',
+                'last-delete-error'       => 'Waarschuwing: De laatste attribuutfamilie kan niet worden verwijderd.',
+                'attribute-product-error' => 'Waarschuwing: Enkele producten zijn gekoppeld aan deze attribuutfamilie.',
+                'user-define-error'       => 'Waarschuwing: Je bent niet bevoegd om de door het systeem aangemaakte attribuutfamilie te verwijderen.',
+            ],
+        ],
+
+        'customers' => [
+            'customers' => [
+                'create-success'       => 'Klant succesvol aangemaakt.',
+                'delete-order-pending' => 'Kan klantaccount niet verwijderen omdat er nog lopende of verwerkte bestellingen zijn.',
+                'delete-success'       => 'Klant succesvol verwijderd.',
+                'not-found'            => 'Waarschuwing: Klant niet gevonden.',
+                'note-created-success' => 'Notitie succesvol aangemaakt.',
+                'update-success'       => 'Klant succesvol bijgewerkt.',
+                'login-success'        => 'Klant succesvol ingelogd.',
+            ],
+
+            'addressess' => [
+                'create-success'         => 'Klantadres succesvol aangemaakt.',
+                'default-update-success' => 'Adres is ingesteld als standaard.',
+                'delete-success'         => 'Klantadres succesvol verwijderd.',
+                'not-found'              => 'Waarschuwing: Klantadres niet gevonden.',
+                'update-success'         => 'Klantadres succesvol bijgewerkt.',
+            ],
+
+            'groups' => [
+                'create-success'     => 'Klantgroep succesvol aangemaakt.',
+                'customer-associate' => 'Waarschuwing: Groep kan niet worden verwijderd. Klant is eraan gekoppeld.',
+                'delete-success'     => 'Klantgroep succesvol verwijderd.',
+                'not-found'          => 'Waarschuwing: Klantgroep niet gevonden.',
+                'update-success'     => 'Klantgroep succesvol bijgewerkt.',
+                'user-define-error'  => 'Waarschuwing: Je bent niet bevoegd om de door het systeem aangemaakte klantgroep te verwijderen.',
+            ],
+
+            'reviews' => [
+                'delete-success' => 'Beoordeling succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: Beoordeling niet gevonden.',
+                'update-success' => 'Beoordeling succesvol bijgewerkt.',
+            ],
+        ],
+
+        'cms' => [
+            'create-success' => 'CMS succesvol aangemaakt.',
+            'delete-success' => 'CMS succesvol verwijderd.',
+            'not-found'      => 'Waarschuwing: CMS niet gevonden.',
+            'update-success' => 'CMS succesvol bijgewerkt.',
+        ],
+
+        'marketing' => [
+            'promotions' => [
+                'catalog-rules' => [
+                    'create-success' => 'Catalogusregel succesvol aangemaakt.',
+                    'delete-failed'  => 'Waarschuwing: Catalogusregel niet verwijderd.',
+                    'delete-success' => 'Catalogusregel succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: Catalogusregel niet gevonden.',
+                    'update-success' => 'Catalogusregel succesvol bijgewerkt.',
+                ],
+
+                'cart-rules' => [
+                    'create-success' => 'Winkelwagentregel succesvol aangemaakt.',
+                    'delete-failed'  => 'Waarschuwing: Winkelwagentregel niet verwijderd.',
+                    'delete-success' => 'Winkelwagentregel succesvol verwijderd.',
+                    'not-found'      => 'Winkelwagentregel niet gevonden.',
+                    'update-success' => 'Winkelwagentregel succesvol bijgewerkt.',
+                ],
+            ],
+
+            'communications' => [
+                'email-templates' => [
+                    'create-success' => 'E-mailtemplate succesvol aangemaakt.',
+                    'delete-success' => 'E-mailtemplate succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: E-mailtemplate niet gevonden.',
+                    'update-success' => 'E-mailtemplate succesvol bijgewerkt.',
+                ],
+
+                'events' => [
+                    'create-success' => 'Evenement succesvol aangemaakt.',
+                    'delete-success' => 'Evenement succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: Evenement niet gevonden.',
+                    'update-success' => 'Evenement succesvol bijgewerkt.',
+                ],
+
+                'campaigns' => [
+                    'create-success' => 'Campagne succesvol aangemaakt.',
+                    'delete-success' => 'Campagne succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: Campagne niet gevonden.',
+                    'update-success' => 'Campagne succesvol bijgewerkt.',
+                ],
+
+                'subscriptions' => [
+                    'delete-success'      => 'Abonnement succesvol verwijderd.',
+                    'not-found'           => 'Waarschuwing: Abonnement niet gevonden.',
+                    'unsubscribe-success' => 'Succes: Abonnement succesvol geannuleerd.',
+                ],
+            ],
+
+            'seo' => [
+                'url-rewrites' => [
+                    'create-success' => 'URL Rewrite succesvol aangemaakt.',
+                    'delete-success' => 'URL Rewrite succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: URL Rewrite niet gevonden.',
+                    'update-success' => 'URL Rewrite succesvol bijgewerkt.',
+                ],
+
+                'search-terms' => [
+                    'create-success' => 'Zoekterm succesvol aangemaakt.',
+                    'delete-success' => 'Zoekterm succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: Zoekterm niet gevonden.',
+                    'update-success' => 'Zoekterm succesvol bijgewerkt.',
+                ],
+
+                'search-synonyms' => [
+                    'create-success' => 'Zoeksynoniem succesvol aangemaakt.',
+                    'delete-success' => 'Zoeksynoniem succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: Zoeksynoniem niet gevonden.',
+                    'update-success' => 'Zoeksynoniem succesvol bijgewerkt.',
+                ],
+
+                'sitemaps' => [
+                    'create-success' => 'Sitemap succesvol aangemaakt.',
+                    'delete-success' => 'Sitemap succesvol verwijderd.',
+                    'not-found'      => 'Waarschuwing: Sitemap niet gevonden.',
+                    'update-success' => 'Sitemap succesvol bijgewerkt.',
+                ],
             ],
         ],
 
         'settings' => [
             'locales' => [
-                'last-delete-error' => 'Last Locale delete failed',
-                'delete-success'    => 'Locale deleted successfully.',
-                'delete-error'      => 'Locale deleted failed.',
-                'not-found'         => 'Warning: Locale not found.',
+                'create-success'       => 'Taal succesvol aangemaakt.',
+                'default-delete-error' => 'Kan de standaardtaal niet verwijderen.',
+                'delete-error'         => 'Verwijderen van taal mislukt.',
+                'delete-success'       => 'Taal succesvol verwijderd.',
+                'last-delete-error'    => 'Verwijderen van de laatste taal mislukt.',
+                'not-found'            => 'Waarschuwing: Taal niet gevonden.',
+                'update-success'       => 'Taal succesvol bijgewerkt.',
             ],
 
             'currencies' => [
-                'last-delete-error' => 'Last Currency delete failed',
-                'delete-success'    => 'Currency deleted successfully.',
-                'delete-error'      => 'Currency deleted failed.',
-                'not-found'         => 'Warning: Currency not found.',
+                'create-success'       => 'Valuta succesvol aangemaakt.',
+                'default-delete-error' => 'Kan de standaardvaluta niet verwijderen.',
+                'delete-error'         => 'Verwijderen van valuta mislukt.',
+                'delete-success'       => 'Valuta succesvol verwijderd.',
+                'last-delete-error'    => 'Verwijderen van de laatste valuta mislukt.',
+                'not-found'            => 'Waarschuwing: Valuta niet gevonden.',
+                'update-success'       => 'Valuta succesvol bijgewerkt.',
             ],
 
             'exchange-rates' => [
-                'invalid-target-currency' => 'Warning: Invalid target currency provided.',
-                'delete-success'          => 'Success: Exchange rate deleted successfully.',
-                'last-delete-error'       => 'Last Exchange rate delete failed',
-                'delete-error'            => 'Exchange rate deleted failed.',
-                'not-found'               => 'Warning: Exchange rate not found.',
+                'create-success'          => 'Wisselkoers succesvol aangemaakt.',
+                'delete-error'            => 'Verwijderen van wisselkoers mislukt.',
+                'delete-success'          => 'Wisselkoers succesvol verwijderd.',
+                'invalid-target-currency' => 'Waarschuwing: Ongeldige doelvaluta.',
+                'last-delete-error'       => 'Verwijderen van de laatste wisselkoers mislukt.',
+                'not-found'               => 'Waarschuwing: Wisselkoers niet gevonden.',
+                'update-success'          => 'Wisselkoers succesvol bijgewerkt.',
             ],
 
             'inventory-sources' => [
-                'last-delete-error' => 'Last Inventory delete failed',
-                'delete-success'    => 'Inventory deleted successfully.',
-                'delete-error'      => 'Inventory deleted failed.',
-                'not-found'         => 'Warning: Inventory not found.',
+                'create-success'    => 'Voorraad succesvol aangemaakt.',
+                'delete-error'      => 'Verwijderen van voorraad mislukt.',
+                'delete-success'    => 'Voorraad succesvol verwijderd.',
+                'last-delete-error' => 'Verwijderen van de laatste voorraad mislukt.',
+                'not-found'         => 'Waarschuwing: Voorraad niet gevonden.',
+                'update-success'    => 'Voorraad succesvol bijgewerkt.',
             ],
 
             'channels' => [
-                'last-delete-error' => 'Last Channel delete failed',
-                'delete-success'    => 'Channel deleted successfully.',
-                'delete-error'      => 'Channel deleted failed.',
-                'not-found'         => 'Warning: Channel not found.',
+                'create-success'       => 'Kanaal succesvol aangemaakt.',
+                'default-delete-error' => 'Kan het standaardkanaal niet verwijderen.',
+                'delete-error'         => 'Verwijderen van kanaal mislukt.',
+                'delete-success'       => 'Kanaal succesvol verwijderd.',
+                'last-delete-error'    => 'Verwijderen van het laatste kanaal mislukt.',
+                'not-found'            => 'Waarschuwing: Kanaal niet gevonden.',
+                'update-success'       => 'Kanaal succesvol bijgewerkt.',
             ],
 
             'users' => [
-                'login-error'       => 'Please check your credentials and try again.',
-                'activate-warning'  => 'Your account is yet to be activated, please contact administrator.',
-                'success-login'     => 'Success: User login successfully.',
-                'success-logout'    => 'Success: User logout successfully.',
-                'last-delete-error' => 'Last User delete failed',
-                'delete-success'    => 'User deleted successfully.',
-                'delete-error'      => 'User deleted failed.',
-                'create-success'    => 'User created successfully.',
-                'not-found'         => 'Warning: User not found.',
+                'activate-warning'  => 'Je account moet nog worden geactiveerd, neem contact op met de beheerder.',
+                'create-success'    => 'Gebruiker succesvol aangemaakt.',
+                'delete-error'      => 'Verwijderen van gebruiker mislukt.',
+                'delete-success'    => 'Gebruiker succesvol verwijderd.',
+                'last-delete-error' => 'Verwijderen van de laatste gebruiker mislukt.',
+                'login-error'       => 'Controleer je inloggegevens en probeer het opnieuw.',
+                'not-found'         => 'Waarschuwing: Gebruiker niet gevonden.',
+                'success-login'     => 'Inloggen van gebruiker succesvol.',
+                'success-logout'    => 'Uitloggen van gebruiker succesvol.',
+                'update-success'    => 'Gebruiker succesvol bijgewerkt.',
             ],
 
             'roles' => [
-                'last-delete-error' => 'Last Role delete failed',
-                'delete-success'    => 'Role deleted successfully.',
-                'delete-error'      => 'Role deleted failed.',
-                'not-found'         => 'Warning: Role not found.',
+                'create-success'    => 'Rol succesvol aangemaakt.',
+                'delete-error'      => 'Verwijderen van rol mislukt.',
+                'delete-success'    => 'Rol succesvol verwijderd.',
+                'last-delete-error' => 'Kan de laatste rol niet verwijderen.',
+                'not-found'         => 'Waarschuwing: Rol niet gevonden.',
+                'update-success'    => 'Rol succesvol bijgewerkt.',
             ],
 
             'themes' => [
-                'delete-success' => 'Theme deleted successfully.',
-                'not-found'      => 'Warning: User not found.',
+                'create-success' => 'Thema succesvol aangemaakt.',
+                'delete-success' => 'Thema succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: Thema niet gevonden.',
+                'update-success' => 'Thema succesvol bijgewerkt.',
             ],
 
-            'tax-rate' => [
-                'delete-success' => 'Tax Rate deleted successfully.',
-                'delete-error'   => 'Tax Rate deleted failed.',
-                'not-found'      => 'Warning: Tax Rate not found.',
+            'tax-rates' => [
+                'create-success' => 'Belastingtarief succesvol aangemaakt.',
+                'delete-error'   => 'Verwijderen van belastingtarief mislukt.',
+                'delete-success' => 'Belastingtarief succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: Belastingtarief niet gevonden.',
+                'update-success' => 'Belastingtarief succesvol bijgewerkt.',
             ],
 
             'tax-category' => [
-                'delete-success'     => 'Tax Category deleted successfully.',
-                'delete-error'       => 'Tax Category deleted failed.',
-                'not-found'          => 'Warning: Tax Category not found.',
-                'tax-rate-not-found' => 'The Given ids not found. Ids:- :ids',
+                'create-success'     => 'Belastingcategorie succesvol aangemaakt.',
+                'delete-error'       => 'Verwijderen van belastingcategorie mislukt.',
+                'delete-success'     => 'Belastingcategorie succesvol verwijderd.',
+                'not-found'          => 'Waarschuwing: Belastingcategorie niet gevonden.',
+                'tax-rate-not-found' => 'De opgegeven ID\'s zijn niet gevonden. ID: :ids',
+                'update-success'     => 'Belastingcategorie succesvol bijgewerkt.',
             ],
 
             'notification' => [
                 'index' => [
-                    'title'     => 'Push Notification',
-                    'add-title' => 'Add Notification',
-                    'general'   => 'General',
+                    'add-title' => 'Voeg notificatie toe',
+                    'general'   => 'Algemeen',
+                    'title'     => 'Push-notificatie',
 
                     'datagrid' => [
-                        'id'                   => 'Id',
-                        'image'                => 'Image',
-                        'text-title'           => 'Title',
-                        'notification-content' => 'Notification Content',
-                        'notification-type'    => 'Notification Type',
-                        'notification-status'  => 'Notification Status',
-                        'created-at'           => 'Created Time',
-                        'updated-at'           => 'Updated Time',
-                        'delete'               => 'Delete',
-                        'update'               => 'Update',
-                        'store-view'           => 'Channels',
+                        'channel-name'         => 'Kanaalnaam',
+                        'created-at'           => 'Aanmaakdatum',
+                        'delete'               => 'Verwijder',
+                        'id'                   => 'ID',
+                        'image'                => 'Afbeelding',
+                        'notification-content' => 'Notificatie-inhoud',
+                        'notification-status'  => 'Notificatiestatus',
+                        'notification-type'    => 'Notificatietype',
+                        'text-title'           => 'Titel',
+                        'update'               => 'Bijwerken',
+                        'updated-at'           => 'Bijwerkdatum',
 
                         'status' => [
-                            'enabled'  => 'Enabled',
-                            'disabled' => 'Disabled',
+                            'disabled' => 'Uitgeschakeld',
+                            'enabled'  => 'Ingeschakeld',
                         ],
                     ],
                 ],
 
                 'create' => [
-                    'new-notification'     => 'New Notification',
-                    'back-btn'             => 'Back',
-                    'create-btn-title'     => 'Save Notification',
-                    'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Setting',
+                    'back-btn'             => 'Terug',
+                    'content-and-image'    => 'Inhoud en afbeelding van notificatie',
+                    'create-btn-title'     => 'Sla notificatie op',
+                    'general'              => 'Algemeen',
+                    'image'                => 'Afbeelding',
+                    'new-notification'     => 'Nieuwe notificatie',
+                    'notification-content' => 'Notificatie-inhoud',
+                    'notification-type'    => 'Notificatietype',
+                    'product-cat-id'       => 'Product-/categorie-ID',
+                    'settings'             => 'Instellingen',
                     'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
+                    'store-view'           => 'Kanalen',
+                    'title'                => 'Push-notificatie',
 
                     'option-type' => [
-                        'others'   => 'Simple',
+                        'category' => 'Categorie',
+                        'others'   => 'Eenvoudig',
                         'product'  => 'Product',
-                        'category' => 'Category',
                     ],
                 ],
 
                 'edit' => [
-                    'edit-notification'    => 'Edit Notification',
-                    'back-btn'             => 'Back',
-                    'send-title'           => 'Send Notification',
-                    'update-btn-title'     => 'Update',
-                    'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Setting',
+                    'back-btn'             => 'Terug',
+                    'content-and-image'    => 'Inhoud en afbeelding van notificatie',
+                    'edit-notification'    => 'Wijzig notificatie',
+                    'general'              => 'Algemeen',
+                    'image'                => 'Afbeelding',
+                    'notification-content' => 'Notificatie-inhoud',
+                    'notification-type'    => 'Notificatietype',
+                    'product-cat-id'       => 'Product-/categorie-ID',
+                    'send-title'           => 'Verzend notificatie',
+                    'settings'             => 'Instellingen',
                     'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
+                    'store-view'           => 'Kanalen',
+                    'title'                => 'Push-notificatie',
+                    'update-btn-title'     => 'Bijwerken',
 
                     'option-type' => [
-                        'others'   => 'Simple',
+                        'category' => 'Categorie',
+                        'others'   => 'Eenvoudig',
                         'product'  => 'Product',
-                        'category' => 'Category',
                     ],
                 ],
+
+                'not-found'           => 'Waarschuwing: Notificatie niet gevonden.',
+                'create-success'      => 'Notificatie succesvol aangemaakt.',
+                'delete-failed'       => 'Verwijderen van notificatie mislukt.',
+                'delete-success'      => 'Notificatie succesvol verwijderd.',
+                'mass-update-success' => 'Geselecteerde notificaties succesvol bijgewerkt.',
+                'mass-delete-success' => 'Geselecteerde notificaties succesvol verwijderd.',
+                'no-value-selected'   => 'Geen waarde geselecteerd.',
+                'send-success'        => 'Notificatie succesvol verzonden.',
+                'update-success'      => 'Notificatie succesvol bijgewerkt.',
+                'configuration-error' => 'Waarschuwing: FCM-configuratie niet gevonden.',
+                'product-not-found'   => 'Waarschuwing: Product niet gevonden.',
+                'category-not-found'  => 'Waarschuwing: Categorie niet gevonden.',
             ],
         ],
 
         'response' => [
             'error' => [
-                'invalid-parameter' => 'Warning: Invalid parameters provided.',
-                'no-login-user'     => 'Warning: No login user found.',
+                'invalid-parameter' => 'Waarschuwing: Gegeven parameters zijn niet geldig.',
             ],
-        ],
-
-        'alerts' => [
-            'notifications' => [
-                'create-success'      => 'Notifications created successfully',
-                'update-success'      => 'Notifications updated successfully',
-                'delete-success'      => 'Notifications deleted successfully',
-                'delete-failed'       => 'Notifications deleted failed',
-                'sended-successfully' => 'Notifications pushed successfully for android and iOS.',
-                'no-value-selected'   => 'there are no existing value',
-            ],
-        ],
-    ],
-
-    'shop' => [
-        'checkout' => [
-            'save-cart-address'         => 'Success: Cart address saved successfully.',
-            'error-payment-selection'   => 'Warning: There is an error in fetching payment methods.',
-            'selected-shipment'         => 'Success: Shipment has been selected successfully.',
-            'warning-empty-cart'        => 'Warning: There are no products added to the cart.',
-            'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
-            'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
-            'invalid-guest-access'      => 'Warning: Guest customers are not allowed to get addresses with the help of billing/shipping address ID.',
-            'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without an Authorization token.',
-            'wrong-error'               => 'Warning: There is an error with your cart, try again.',
-            'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing ID.',
-            'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping ID.',
-            'error-invalid-parameter'   => 'Warning: Invalid parameters provided.',
-            'already-applied'           => 'Coupon code already applied.',
-            'success-apply'             => 'Coupon code applied successfully.',
-            'coupon-removed'            => 'Success: coupon removed from the cart successfully.',
-            'coupon-remove-failed'      => 'Warning: there are some errors in removing the coupon from the cart or the coupon is not found.',
-            'error-placing-order'       => 'Warning: There is an error in placing the order.',
-            'selected-payment'          => 'Success: Payment method selected successfully.',
-            'error-payment-save'        => 'Warning: There is an error in saving the payment method.',
-
-            'cart' => [
-                'item' => [
-                    'success-all-remove'       => 'All items successfully removed from the cart.',
-                    'fail-all-remove'          => 'Error in removing items from the cart.',
-                    'error-invalid-parameter'  => 'Warning: Invalid parameters provided.',
-                    'success-moved-cart-item'  => 'Success: Cart item moved to the wishlist successfully.',
-                    'fail-moved-cart-item'     => 'Fail: Cart item is not moved to the wishlist.',
-                    'success-add-to-cart'      => 'Success: Product added to the cart successfully.',
-                    'fail-add-to-cart'         => 'Fail: Product is not added to the cart.',
-                    'success-update-to-cart'   => 'Success: Cart item has been updated successfully.',
-                    'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
-                    'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
-                    'fail-delete-cart-item'    => 'Fail: Cart item not found.',
-                ],
-            ],
-        ],
-
-        'customer' => [
-            'success-login'         => 'Success: Customer login successful.',
-            'success-logout'        => 'Success: Customer logout successful.',
-            'no-login-customer'     => 'Warning: No login customer found.',
-            'address-list'          => 'Success: Customer\'s address details fetched',
-            'not-authorized'        => 'Warning: You are not authorized to update this address.',
-            'no-address-list'       => 'Warning: No customer\'s address found.',
-            'text-password'         => 'Your Password is: :password',
-            'not-exists'            => 'Warning: No customer found for the provided data.',
-            'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
-            'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
-            'password-reset-failed' => 'Warning: We already sent you a password reset email, try again after some time.',
-            'no-login-user'         => 'Warning: No login user found.',
-            'customer-details'      => 'Success: Customer details fetched successfully.',
-
-            'account' => [
-                'not-found' => 'Warning: No :name found.',
-
-                'profile' => [
-                    'edit-success'   => 'Profile Updated Successfully',
-                    'edit-fail'      => 'Profile not updated',
-                    'unmatch'        => 'The old password does not match.',
-                    'order-pending'  => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-                    'delete-success' => 'Customer deleted successfully',
-                    'wrong-password' => 'Wrong Password!',
-                ],
-
-                'order' => [
-                    'no-order-found' => 'Warning: No order found.',
-                    'cancel-success' => 'Order canceled successfully',
-                ],
-
-                'review' => [
-                    'success'        => 'Success: Review is submitted successfully, please wait for the approval.',
-                    'success-delete' => 'Review deleted successfully',
-                    'not-found'      => 'Review not found',
-                ],
-
-                'wishlist' => [
-                    'removed'            => 'Item Successfully Removed From Wishlist',
-                    'remove-fail'        => 'Item Cannot Be Removed From Wishlist',
-                    'remove-all-success' => 'All the items from your wishlist have been removed',
-                    'success'            => 'Item Successfully Added To Wishlist',
-                    'already-exist'      => 'Product already exists in the wishlist',
-                    'move-to-cart'       => 'Move To Cart',
-                    'moved-success'      => 'Item Successfully Moved to Cart',
-                    'error-move-to-cart' => 'Warning: This product might have some required options, not able to move to the cart.',
-                    'no-item-found'      => 'Warning: There is no product found.',
-                ],
-
-                'addressess' => [
-                    'delete-success' => 'Customer\'s Address deleted successfully',
-                ],
-            ],
-
-            'signup-form' => [
-                'error-registration'       => 'Warning: Customer registration failed.',
-                'warning-num-already-used' => 'Warning: This :phone number is registered using a different email address.',
-                'success-verify'           => 'Account created successfully, an email has been sent for verification.',
-                'invalid-creds'            => 'Please check your credentials and try again.',
-
-                'validation' => [
-                    'unique'   => 'This :field has already been taken.',
-                    'required' => 'The :field field is required.',
-                    'same'     => 'The :field and password must match.',
-                ],
-            ],
-
-            'login-form' => [
-                'not-activated' => 'Your activation requires admin approval',
-                'invalid-creds' => 'Please check your credentials and try again.',
-            ],
-        ],
-
-        'response' => [
-            'error-invalid-parameter' => 'Warning: Invalid parameters provided.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'cancel-error'            => 'Order cannot be canceled.',
         ],
     ],
 ];

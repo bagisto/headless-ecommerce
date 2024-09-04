@@ -29,6 +29,24 @@ type AddressResponse {
     address: Address
 }
 
+input FilterCustomerAddressInput {
+    id: Int
+    customerId: Int @rename(attribute: "customer_id")
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    gender: Gender
+    companyName: String @rename(attribute: "company_name")
+    address: String
+    city: String
+    state: String
+    country: String
+    postcode: String
+    email: String
+    phone: String
+    vatId: String @rename(attribute: "vat_id")
+    defaultAddress: Boolean @rename(attribute: "default_address")
+}
+
 type Address {
     id: ID!
     addressType: String @rename(attribute: "address_type")
@@ -38,7 +56,7 @@ type Address {
     orderId: ID @rename(attribute: "order_id")
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
-    gender: String
+    gender: Gender
     companyName: String @rename(attribute: "company_name")
     address: String!
     city: String!

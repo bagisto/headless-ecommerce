@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\AttributeFamilies;
 
-use Webkul\Core\Rules\Code;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Attribute\Repositories\AttributeGroupRepository;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
+use Webkul\Attribute\Repositories\AttributeGroupRepository;
+use Webkul\Core\Rules\Code;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class AttributeFamilyMutation extends Controller
 {
@@ -26,7 +26,7 @@ class AttributeFamilyMutation extends Controller
      * Store a newly created resource in storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
@@ -87,7 +87,7 @@ class AttributeFamilyMutation extends Controller
 
                 $attributeGroups[$id] = $attributeGroup;
             } else {
-                $attributeGroups['group_' . $key] = $attributeGroup;
+                $attributeGroups['group_'.$key] = $attributeGroup;
             }
         }
 
@@ -114,7 +114,7 @@ class AttributeFamilyMutation extends Controller
      * Remove the specified resource from storage.
      *
      * @return array
-     * 
+     *
      * @throws CustomException
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)
@@ -142,7 +142,7 @@ class AttributeFamilyMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.catalog.attribute-families.delete-success')
+                'message' => trans('bagisto_graphql::app.admin.catalog.attribute-families.delete-success'),
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

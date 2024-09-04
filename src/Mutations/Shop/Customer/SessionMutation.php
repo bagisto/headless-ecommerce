@@ -24,9 +24,11 @@ class SessionMutation extends Controller
     /**
      * Login user resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function login($rootValue, array $args, GraphQLContext $context)
+    public function login(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'email'    => 'required|email',
@@ -64,7 +66,7 @@ class SessionMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function logout()
     {

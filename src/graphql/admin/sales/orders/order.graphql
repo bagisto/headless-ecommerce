@@ -49,6 +49,10 @@ extend type Mutation @guard(with: ["admin-api"]) {
     cancelOrder(
         id: ID!
     ): CancelOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@cancel")
+
+    adminReorder(
+        id: ID!
+    ): OrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Orders\\OrderMutation@reorder")
 }
 
 input FilterOrderInput {
@@ -92,7 +96,7 @@ input FilterOrderRefundInput {
 type Order {
     id: Int!
     incrementId: String @rename(attribute: "increment_id")
-    status: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getTranslatedOrderStatus")
+    status: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getTranslatedOrderStatus")
     channelName: String @rename(attribute: "channel_name")
     isGuest: Int @rename(attribute: "is_guest")
     customerEmail: String @rename(attribute: "customer_email")
@@ -186,8 +190,8 @@ type OrderPayment {
     id: ID!
     orderId: ID @rename(attribute: "order_id")
     method: String!
-    methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentTitle")
-    additional: OrderPaymentAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@getOrderPaymentAdditional")
+    methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getOrderPaymentTitle")
+    additional: OrderPaymentAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getOrderPaymentAdditional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
 }
@@ -201,4 +205,11 @@ type CancelOrderResponse {
     success: Boolean
     message: String
     order: Order
+}
+
+type OrderResponse {
+    success: Boolean
+    jumpToSection: String @rename(attribute: "jump_to_section")
+    cart: Cart
+    customerAddresses: Address @rename(attribute: "customer_addresses")
 }

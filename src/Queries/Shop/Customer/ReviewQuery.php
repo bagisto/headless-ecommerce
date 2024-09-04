@@ -2,78 +2,54 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class ReviewQuery extends Controller
+class ReviewQuery extends BaseFilter
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Filter query for the product review.
      */
-    public function __construct()
+    public function __invoke(Builder $query, array $input): Builder
     {
-        Auth::setDefaultDriver('api');
+        if (auth()->guard('api')->check()) {
+            $customer = auth()->guard('api')->user();
+        }
 
-        $this->middleware('auth:api');
+        $query->distinct()
+            ->select('product_reviews.*')
+            ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
+            ->where('product_reviews.customer_id', $customer->id ?? null);
+
+        $filters = [
+            'product_reviews.id'         => $input['id'] ?? null,
+            'product_reviews.rating'     => $input['rating'] ?? null,
+            'product_reviews.product_id' => $input['product_id'] ?? null,
+            'product_reviews.status'     => $input['status'] ?? null,
+        ];
+
+        $query = $this->applyFilter($query, $filters);
+
+        $likeFilters = [
+            'product_reviews.name'  => $input['customer_name'] ?? null,
+            'product_reviews.title' => $input['title'] ?? null,
+            'product_flat.name'     => $input['product_name'] ?? null,
+        ];
+
+        $query = $this->applyLikeFilter($query, $likeFilters);
+
+        return $query;
     }
 
     /**
-     * Returns loggedin customer's reviews data.
-     *
-     * @return \Illuminate\Http\Response
+     * Get the specified review details.
      */
-    public function getReviews($query, $input)
+    public function getDetails(Builder $query): Builder
     {
-        $params = $input;
-
-        $channel = core()->getRequestedChannelCode();
-        $locale = core()->getRequestedLocaleCode();
-
-        if (auth()->check()) {
-            $params['customer_id'] = auth()->user()->id;
+        if (auth()->guard('api')->check()) {
+            $customer = auth()->guard('api')->user();
         }
 
-        $qb = $query->distinct()
-            ->addSelect('product_reviews.*')
-            ->addSelect('product_flat.name as product_name')
-            ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
-            ->where('product_flat.channel', $channel)
-            ->where('product_flat.locale', $locale);
-
-        if (! empty($params['id'])) {
-            $qb->where('product_reviews.id', $params['id']);
-        }
-
-        if (! empty($params['title'])) {
-            $qb->where('product_reviews.title', 'like', '%'.urldecode($params['title']).'%');
-        }
-
-        if (! empty($params['rating'])) {
-            $qb->where('product_reviews.rating', $params['rating']);
-        }
-
-        if (! empty($params['customer_id'])) {
-            $qb->where('product_reviews.customer_id', $params['customer_id']);
-        }
-
-        if (! empty($params['customer_name'])) {
-            $qb->where('product_reviews.name', 'like', '%'.urldecode($params['customer_name']).'%');
-        }
-
-        if (! empty($params['product_name'])) {
-            $qb->where('product_flat.name', 'like', '%'.urldecode($params['product_name']).'%');
-        }
-
-        if (! empty($params['product_id'])) {
-            $qb->where('product_reviews.product_id', $params['product_id']);
-        }
-
-        if (! empty($params['status'])) {
-            $qb->where('product_reviews.status', $params['status']);
-        }
-
-        return $qb;
+        return $query->where('customer_id', $customer->id ?? null);
     }
 }

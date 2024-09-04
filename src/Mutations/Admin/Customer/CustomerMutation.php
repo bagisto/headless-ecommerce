@@ -6,6 +6,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Customer\Repositories\CustomerNoteRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -181,6 +182,40 @@ class CustomerMutation extends Controller
                 'success' => true,
                 'message' => trans('bagisto_graphql::app.admin.customers.customers.note-created-success'),
                 'note'    => $note,
+            ];
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
+        }
+    }
+
+    /**
+     * Create order for the customer
+     *
+     * @return array
+     *
+     * @throws CustomException
+     */
+    public function createOrder(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        $customer = $this->customerRepository->find($args['customer_id']);
+
+        if (! $customer) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.customers.customers.not-found'));
+        }
+
+        try {
+            $cart = Cart::createCart([
+                'customer'  => $customer,
+                'is_active' => false,
+            ]);
+
+            $cart->refresh();
+
+            return [
+                'success'            => true,
+                'jump_to_section'    => 'create_order',
+                'cart'               => $cart,
+                'customer_addresses' => $customer->addresses,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());

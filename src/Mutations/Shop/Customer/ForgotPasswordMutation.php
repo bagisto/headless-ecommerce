@@ -15,9 +15,11 @@ class ForgotPasswordMutation extends Controller
     /**
      * Method to reset the customer password
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function forgot($rootValue, array $args, GraphQLContext $context)
+    public function forgot(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'email' => 'required|email',

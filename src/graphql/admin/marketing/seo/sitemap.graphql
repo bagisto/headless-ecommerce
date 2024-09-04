@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     sitemaps(
         input: FilterSiteMapInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [Sitemap!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     attributes(
         input: FilterAttributesInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [Attribute!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

@@ -97,14 +97,6 @@ class BaseFilter
     }
 
     /**
-     * Filter the query based on the input.
-     */
-    public function apply(Builder $query, array $input): Builder
-    {
-        return $query->where($input);
-    }
-
-    /**
      * Split the name into firstname and lastname.
      */
     protected function nameSplitter(?string $name): array
@@ -115,5 +107,33 @@ class BaseFilter
             'firstname' => current($nameParts),
             'lastname'  => $nameParts[1] ?? '',
         ];
+    }
+
+    /**
+     * Apply filter on the query.
+     */
+    protected function applyFilter(Builder $query, array $filters): Builder
+    {
+        foreach ($filters as $column => $value) {
+            if (! empty($value)) {
+                $query->where($column, $value);
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Apply filter on the query.
+     */
+    protected function applyLikeFilter(Builder $query, array $filters): Builder
+    {
+        foreach ($filters as $column => $value) {
+            if (! empty($value)) {
+                $query->where($column, 'like', '%'.$value.'%');
+            }
+        }
+
+        return $query;
     }
 }

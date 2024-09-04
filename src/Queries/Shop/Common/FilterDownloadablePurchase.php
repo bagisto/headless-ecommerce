@@ -2,18 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterDownloadablePurchase extends BaseFilter
 {
     /**
-     * filter the data .
-     *
-     * @param  object  $query
-     * @param  array  $input
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Filter the query by the given input.
      */
-    public function __invoke($query, $input)
+    public function __invoke(Builder $query, array $input): Builder
     {
         if (isset($input['title'])) {
             $input['product_name'] = $input['title'];
@@ -31,7 +28,6 @@ class FilterDownloadablePurchase extends BaseFilter
 
             return $query->whereRaw('download_bought - download_used = ?', [$remainingDownload])
                 ->where($input);
-
         }
 
         return $query->where($input);

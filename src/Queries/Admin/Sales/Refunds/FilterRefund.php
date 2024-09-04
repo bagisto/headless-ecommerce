@@ -2,18 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Sales\Refunds;
 
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterRefund extends BaseFilter
 {
     /**
-     * filter the data .
-     *
-     * @param  object  $query
-     * @param  array  $input
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Filter the query by the given input.
      */
-    public function __invoke($query, $input)
+    public function __invoke(Builder $query, array $input): Builder
     {
         if (isset($input['refund_date'])) {
             $input['created_at'] = $input['refund_date'];

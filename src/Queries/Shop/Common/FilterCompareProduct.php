@@ -2,18 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterCompareProduct extends BaseFilter
 {
     /**
-     * filter the data .
-     *
-     * @param  object  $query
-     * @param  array  $input
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Filter the query by the given input.
      */
-    public function __invoke($query, $input)
+    public function __invoke(Builder $query, array $input): Builder
     {
         if (
             isset($input['name'])
@@ -28,7 +25,7 @@ class FilterCompareProduct extends BaseFilter
             return $query->whereHas('product_flat', function ($q) use ($name, $price) {
                 $q->where([
                     'name'  => $name,
-                    'price' => $price
+                    'price' => $price,
                 ]);
             })->where($input);
         }

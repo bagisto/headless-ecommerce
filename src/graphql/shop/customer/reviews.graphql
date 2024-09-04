@@ -1,12 +1,18 @@
 #Shop\Customer\Reviews Related APIs
 extend type Query {
     reviewsList(
-        input: CustomerReviewInput @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\ReviewQuery@getReviews"),
-        first: Int,
-        page: Int
-    ): [Review!] @paginate(type: "PAGINATOR" defaultCount:10 model:"Webkul\\Product\\Models\\ProductReview")
+        input: FilterReviewInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\ReviewQuery")
+    ): [Review!] @paginate(
+        type: "PAGINATOR"
+        model: "Webkul\\Product\\Models\\ProductReview"
+        defaultCount: 10
+    )
 
-    reviewDetail(id: ID @eq): Review @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@reviews")
+    reviewDetail(
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\ReviewQuery@getDetails")
+    ): Review @find(model: "Webkul\\Product\\Models\\ProductReview")
 }
 
 extend type Mutation {
@@ -39,10 +45,8 @@ type CreateReviewResponse {
     review: Review
 }
 
-input CustomerReviewInput {
+input FilterReviewInput {
     id: Int
-    sort: String
-    order: String
     title: String
     rating: Int
     customerName: String @rename(attribute: "customer_name")

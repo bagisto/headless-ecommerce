@@ -1,15 +1,18 @@
 #Shop\Customer\Address Related APIs
 extend type Query @guard(with: ["api"]){
-    addresses(
+    addresses (
         input: FilterCustomerAddressInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
-    ): [Address] @paginate(
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\AddressesQuery")
+    ): [Address!] @paginate(
         type: "PAGINATOR"
-        defaultCount: 10
         model: "Webkul\\Customer\\Models\\CustomerAddress"
+        defaultCount: 10
     )
 
-    address(id: ID @eq): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
+    address (
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\AddressesQuery@getAddress")
+    ): Address @find(model: "Webkul\\Customer\\Models\\CustomerAddress")
 }
 
 extend type Mutation @guard(with: ["api"]) {

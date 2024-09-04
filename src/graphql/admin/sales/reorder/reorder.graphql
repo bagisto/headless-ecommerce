@@ -1,0 +1,67 @@
+# Sales\Order Related APIs
+extend type Query @guard(with: ["admin-api"]) {
+    getCart(id: ID @eq): Cart @find(model: "Webkul\\Checkout\\Models\\Cart")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    createCart(
+        customerId: ID! @rename(attribute: "customer_id")
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@createCart")
+
+    addCartItem(
+        id: ID! @rename(attribute: "cart_id")
+        input: AddItemToCartInput! @spread
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@addCartItem")
+
+    deleteCartItem(
+        id: ID!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@deleteCartItem")
+
+    updateCartItem(
+        input: UpdateCartItemInput! @spread
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@updateCartItem")
+
+    storeAddress(
+        id: ID!
+        input: StoreAddressInput! @spread
+    ): ShippingMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storeAddress")
+
+    storeShippingMethod(
+        id: ID!
+        shippingMethod: String! @rename(attribute: "shipping_method")
+    ): ShippingMethodsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storeShippingMethod")
+
+    storePaymentMethod(
+        id: ID!
+        method: String!
+    ): PaymentResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storePaymentMethod")
+
+    storeCoupon(
+        id: ID!
+        code: String!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storeCoupon")
+
+    deleteCoupon(
+        id: ID!
+    ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@deleteCoupon")
+
+    storeOrder(
+        id: ID!
+    ): NewOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@storeOrder")
+}
+
+input UpdateCartItemInput {
+    cartItemId: ID! @rename(attribute: "cart_item_id")
+    quantity: Int!
+}
+
+input StoreAddressInput {
+    billing: CheckoutAddressInput
+    shipping: CheckoutAddressInput
+}
+
+type NewOrderResponse {
+    success: Boolean
+    message: String
+    order: Order
+}

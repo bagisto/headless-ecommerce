@@ -25,16 +25,16 @@ class CartMutation extends Controller
         protected ProductRepository $productRepository
     ) {
         Auth::setDefaultDriver('api');
-
-        $this->middleware('auth:api');
     }
 
     /**
      * Returns a current cart detail.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function cart($rootValue, array $args, GraphQLContext $context)
+    public function cart(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
             return Cart::getCart();
@@ -46,9 +46,11 @@ class CartMutation extends Controller
     /**
      * Returns a current cart's detail.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function cartItems($rootValue, array $args, GraphQLContext $context)
+    public function cartItems(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
             $cart = Cart::getCart();
@@ -62,9 +64,11 @@ class CartMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'quantity'   => 'required|min:1',
@@ -93,10 +97,11 @@ class CartMutation extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'qty'                => 'required|array',
@@ -134,10 +139,11 @@ class CartMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'id' => 'required|integer|exists:cart_items,id',
@@ -163,9 +169,11 @@ class CartMutation extends Controller
     /**
      * Remove all resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function deleteAll($rootValue, array $args, GraphQLContext $context)
+    public function deleteAll(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $cart = Cart::getCart();
 
@@ -196,10 +204,11 @@ class CartMutation extends Controller
     /**
      * Move the specified resource to Wishlist.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function moveToWishlist($rootValue, array $args, GraphQLContext $context)
+    public function moveToWishlist(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'id' => 'required|integer|exists:cart_items,id',

@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     searchSynonyms (
         input: FilterSearchTermInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [SearchSynonym!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

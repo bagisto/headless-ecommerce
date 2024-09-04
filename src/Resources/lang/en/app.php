@@ -3,11 +3,8 @@
 return [
     'shop' => [
         'subscription' => [
-            'already'             => 'You are already subscribed to our newsletter.',
-            'not-authorized'      => 'Warning: You are not authorized to perform this action.',
-            'not-found'           => 'Warning: No subscribtion found.',
-            'subscribe-success'   => 'You have successfully subscribed to our newsletter.',
-            'unsubscribe-success' => 'You have successfully unsubscribed to our newsletter.',
+            'already-subscribed' => 'You are already subscribed to our newsletter.',
+            'subscribe-success'  => 'You have successfully subscribed to our newsletter.',
         ],
 
         'customers' => [
@@ -92,6 +89,15 @@ return [
                 ],
             ],
 
+            'compare-product' => [
+                'not-found'           => 'Warning: Compare product not found.',
+                'product-not-found'   => 'Warning: Product not found.',
+                'already-added'       => 'Warning: Product already added to compare list.',
+                'item-add-success'    => 'Success: Product added to compare list successfully.',
+                'remove-success'      => 'Success: Item is successfully removed from the compare list.',
+                'mass-remove-success' => 'Success: Selected items deleted successfully.',
+            ],
+
             'reviews' => [
                 'create-success'      => 'Success: Review created successfully.',
                 'delete-success'      => 'Success: Review deleted successfully.',
@@ -108,11 +114,11 @@ return [
                     ],
 
                     'success' => [
-                        'add-to-cart'       => 'Success: Product added to cart successfully.',
-                        'update-to-cart'    => 'Success: Product updated to cart successfully.',
-                        'delete-cart-item'  => 'Success: Item is successfully removed from the cart.',
-                        'all-remove'        => 'Success: All items removed from the cart.',
-                        'move-to-wishlist'  => 'Success: Selected items successfully moved to wishlist.',
+                        'add-to-cart'      => 'Success: Product added to cart successfully.',
+                        'update-to-cart'   => 'Success: Product updated to cart successfully.',
+                        'delete-cart-item' => 'Success: Item is successfully removed from the cart.',
+                        'all-remove'       => 'Success: All items removed from the cart.',
+                        'move-to-wishlist' => 'Success: Selected items successfully moved to wishlist.',
                     ],
 
                     'fail' => [
@@ -198,6 +204,12 @@ return [
                         'private-key'                     => 'Private Key JSON File Content',
                         'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
                     ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'Success: Custom scripts updated successfully.',
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -238,6 +250,30 @@ return [
                 'zero-amount'    => 'Warning: Transaction amount should be greater than zero.',
                 'create-success' => 'Success: Transaction created successfully.',
             ],
+
+            'reorder' => [
+                'cart-not-found'           => 'Warning: Cart not found.',
+                'cart-item-not-found'      => 'Warning: Cart item not found.',
+                'cart-create-success'      => 'Success: Cart created successfully.',
+                'cart-item-add-success'    => 'Success: Product added to cart successfully.',
+                'cart-item-remove-success' => 'Success: Item is successfully removed from the cart.',
+                'cart-item-update-success' => 'Success: Product updated to cart successfully.',
+                'something-wrong'          => 'Warning: Something went wrong.',
+                'address-save-success'     => 'Success: Address saved successfully.',
+                'shipping-save-success'    => 'Success: Shipping method saved successfully.',
+                'payment-save-success'     => 'Success: Payment method saved successfully.',
+                'order-placed-success'     => 'Success: Order placed successfully.',
+                'payment-method-not-found' => 'Warning: Payment method not found.',
+                'minimum-order-amount-err' => 'Warning: Minimum order amount should be :amount',
+                'check-shipping-address'   => 'Warning: Please check the shipping address.',
+                'check-billing-address'    => 'Warning: Please check the billing address.',
+                'specify-shipping-method'  => 'Warning: Please specify the shipping method.',
+                'specify-payment-method'   => 'Warning: Please specify the payment method.',
+                'coupon-not-valid'         => 'Warning: Coupon code is not valid.',
+                'coupon-already-applied'   => 'Warning: Coupon code already applied.',
+                'coupon-applied'           => 'Success: Coupon code applied successfully.',
+                'coupon-removed'           => 'Success: Coupon code removed successfully.',
+            ],
         ],
 
         'catalog' => [
@@ -260,19 +296,19 @@ return [
             ],
 
             'attributes' => [
-                'create-success'     => 'Attribute created successfully.',
-                'delete-success'     => 'Attribute deleted successfully',
-                'not-found'          => 'Warning: Attribute not found.',
-                'update-success'     => 'Attribute updated successfully.',
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute.',
+                'create-success'    => 'Attribute created successfully.',
+                'delete-success'    => 'Attribute deleted successfully',
+                'not-found'         => 'Warning: Attribute not found.',
+                'update-success'    => 'Attribute updated successfully.',
+                'user-define-error' => 'Warning: You are not authorized to delete system-created Attribute.',
             ],
 
             'attribute-groups' => [
-                'create-success'     => 'Attribute Group created successfully.',
-                'delete-success'     => 'Attribute Group deleted successfully',
-                'not-found'          => 'Warning: Attribute Group not found.',
-                'update-success'     => 'Attribute Group updated successfully.',
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Attribute Group.',
+                'create-success'    => 'Attribute Group created successfully.',
+                'delete-success'    => 'Attribute Group deleted successfully',
+                'not-found'         => 'Warning: Attribute Group not found.',
+                'update-success'    => 'Attribute Group updated successfully.',
+                'user-define-error' => 'Warning: You are not authorized to delete system-created Attribute Group.',
             ],
 
             'attribute-families' => [
@@ -579,18 +615,19 @@ return [
                 'delete-failed'       => 'Notification deleted failed.',
                 'delete-success'      => 'Notification deleted successfully.',
                 'mass-update-success' => 'Selected notifications updated successfully.',
-                'massdelete-success'  => 'Selected notifications deleted successfully.',
+                'mass-delete-success' => 'Selected notifications deleted successfully.',
                 'no-value-selected'   => 'there are no existing value.',
-                'sended-successfully' => 'Notification pushed successfully for android and iOS.',
+                'send-success'        => 'Notification sent successfully.',
                 'update-success'      => 'Notification updated successfully.',
                 'configuration-error' => 'Warning: FCM configuration not found.',
+                'product-not-found'   => 'Warning: Product not found.',
+                'category-not-found'  => 'Warning: Category not found.',
             ],
         ],
 
         'response' => [
             'error' => [
                 'invalid-parameter' => 'Warning: Invalid parameters provided.',
-                'no-login-user'     => 'Warning: No login user found.',
             ],
         ],
     ],

@@ -27,7 +27,7 @@ class NewsletterSubscriberMutation extends Controller
      *
      * @throws CustomException
      */
-    public function unSubscribe($rootValue, array $args, GraphQLContext $context)
+    public function unSubscribe(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $subscriber = $this->subscriptionRepository->find($args['id']);
 
@@ -57,7 +57,7 @@ class NewsletterSubscriberMutation extends Controller
      *
      * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $subscription = $this->subscriptionRepository->find($args['id']);
 

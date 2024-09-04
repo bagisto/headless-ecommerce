@@ -3,7 +3,7 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -38,29 +38,13 @@ class AccountMutation extends Controller
     ) {}
 
     /**
-     * Returns a current customer data.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function get($rootValue, array $args, GraphQLContext $context)
-    {
-        $customer = bagisto_graphql()->authorize();
-
-        return [
-            'success'  => true,
-            'message'  => trans('bagisto_graphql::app.shop.customers.account.profile.customer-details'),
-            'customer' => $customer,
-        ];
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 
@@ -162,10 +146,11 @@ class AccountMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
 

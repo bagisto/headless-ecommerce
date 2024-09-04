@@ -64,7 +64,7 @@ class TaxCategoryMutation extends Controller
      *
      * @throws CustomException
      */
-    public function update($rootValue, array $args, GraphQLContext $context)
+    public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'code'        => 'required|string|unique:tax_categories,code,'.$args['id'],

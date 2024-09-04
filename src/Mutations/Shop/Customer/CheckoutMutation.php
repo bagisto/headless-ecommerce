@@ -9,7 +9,6 @@ use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Payment\Facades\Payment;
@@ -26,22 +25,21 @@ class CheckoutMutation extends Controller
      */
     public function __construct(
         protected CartRuleCouponRepository $cartRuleCouponRepository,
-        protected CustomerRepository $customerRepository,
         protected CustomerAddressRepository $customerAddressRepository,
         protected OrderRepository $orderRepository,
         protected NotificationRepository $notificationRepository
     ) {
         Auth::setDefaultDriver('api');
-
-        $this->middleware('auth:api');
     }
 
     /**
      * Returns a customer's addresses detail.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function addresses($rootValue, array $args, GraphQLContext $context)
+    public function addresses(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
             $customer = bagisto_graphql()->authorize();
@@ -69,9 +67,11 @@ class CheckoutMutation extends Controller
     /**
      * Store a newly created resource in storage and return shipping methods.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function saveCartAddresses($rootValue, array $args, GraphQLContext $context)
+    public function saveCartAddresses(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $rules = [
             'type' => 'required',
@@ -345,9 +345,11 @@ class CheckoutMutation extends Controller
     /**
      * get shipping methods based on the cart address.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function shippingMethods($rootValue, array $args, GraphQLContext $context)
+    public function shippingMethods(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $cart = Cart::getCart();
 
@@ -433,9 +435,11 @@ class CheckoutMutation extends Controller
     /**
      * Save Payment Method
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function saveShipping($rootValue, array $args, GraphQLContext $context)
+    public function saveShipping(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'method' => 'required',
@@ -464,9 +468,11 @@ class CheckoutMutation extends Controller
     /**
      * get the available payment methods and save the shipping for the current cart.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function paymentMethods($rootValue, array $args, GraphQLContext $context)
+    public function paymentMethods(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'shipping_method' => 'string|required',
@@ -496,9 +502,11 @@ class CheckoutMutation extends Controller
     /**
      * Save Payment Method
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function savePayment($rootValue, array $args, GraphQLContext $context)
+    public function savePayment(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'method' => 'required',
@@ -527,9 +535,11 @@ class CheckoutMutation extends Controller
     /**
      * Apply Coupon to cart
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function applyCoupon($rootValue, array $args, GraphQLContext $context)
+    public function applyCoupon(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'code' => 'string|required',
@@ -581,9 +591,11 @@ class CheckoutMutation extends Controller
     /**
      * Remove Coupon from cart
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function removeCoupon($rootValue, array $args, GraphQLContext $context)
+    public function removeCoupon(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
             if (Cart::getCart()->coupon_code) {
@@ -607,11 +619,13 @@ class CheckoutMutation extends Controller
     }
 
     /**
-     * Create order
+     * Save Order
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function saveOrder($rootValue, array $args, GraphQLContext $context)
+    public function saveOrder(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
             if (Cart::hasError()) {
@@ -655,7 +669,7 @@ class CheckoutMutation extends Controller
     /**
      * Validate order before creation
      *
-     * @return void|Exception
+     * @return void|CustomException
      */
     public function validateOrder()
     {
@@ -688,7 +702,7 @@ class CheckoutMutation extends Controller
      * Prepare data for order push notification.
      *
      * @param  \Webkul\Sales\Contracts\Order  $order
-     * @return Response
+     * @return mixed
      */
     public function prepareNotificationContent($order)
     {

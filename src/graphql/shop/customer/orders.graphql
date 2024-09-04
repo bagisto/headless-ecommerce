@@ -1,28 +1,60 @@
 # `Shop\Customer\Orders` related APIs.
 extend type Query @guard(with: ["api"]) {
-    ordersList(
-        input: FilterCustomerOrderInput @spread
-        first: Int
-        page: Int
+    ordersList (
+        input: FilterCustomerOrderInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery")
     ): [Order!] @paginate(
         type: "PAGINATOR",
-        builder: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerOrderQuery@orders",
+        model: "Webkul\\Sales\\Models\\Order",
         defaultCount: 10
     )
 
-    orderDetail(id: ID! @eq): Order @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@order")
+    orderDetail (
+        id: ID! @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getOrder")
+    ): Order @find(model: "Webkul\\Sales\\Models\\Order")
 
-    viewShipments(input: OrderShipmentInput): [Shipment!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
+    viewInvoices(
+        input: OrderInvoiceInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\InvoiceQuery")
+    ): [Invoice!] @paginate(
+        type: "PAGINATOR",
+        model: "Webkul\\Sales\\Models\\Invoice",
+        defaultCount: 10
+    )
 
-    viewShipment(id: ID @eq): Shipment @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@shipments")
+    viewInvoice (
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\InvoiceQuery@getInvoice")
+    ): Invoice @find(model: "Webkul\\Sales\\Models\\Invoice")
 
-    viewInvoices(input: OrderInvoiceInput): [Invoice!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
+    viewShipments (
+        input: OrderShipmentInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\ShipmentQuery")
+    ): [Shipment!] @paginate(
+        type: "PAGINATOR",
+        model: "Webkul\\Sales\\Models\\Shipment",
+        defaultCount: 10
+    )
 
-    viewInvoice(id: ID @eq): Invoice @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@invoices")
+    viewShipment (
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\ShipmentQuery@getShipment")
+    ): Shipment @find(model: "Webkul\\Sales\\Models\\Shipment")
 
-    viewRefunds(input: OrderRefundInput): [Refund!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
+    viewRefunds (
+        input: OrderRefundInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\RefundQuery")
+    ): [Refund!] @paginate(
+        type: "PAGINATOR",
+        model: "Webkul\\Sales\\Models\\Refund",
+        defaultCount: 10
+    )
 
-    viewRefund(id: ID @eq): Refund @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\OrderMutation@refunds")
+    viewRefund (
+        id: ID @eq
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\RefundQuery@getRefund")
+    ): Refund @find(model: "Webkul\\Sales\\Models\\Refund")
 }
 
 extend type Mutation @guard(with: ["api"]) {
@@ -40,41 +72,31 @@ input FilterCustomerOrderInput {
     baseSubTotal: Float @rename(attribute: "base_sub_total")
     baseGrandTotal: Float @rename(attribute: "base_grand_total")
     orderDate: String @rename(attribute: "order_date")
-    startOrderDate: String @rename(attribute: "start_order_date")
-    endOrderDate: String @rename(attribute: "end_order_date")
     channelName: String @rename(attribute: "channel_name")
     status: String
 }
 
 input OrderShipmentInput {
-    page: Int
-    limit: Int
     id: Int
     orderId: Int @rename(attribute: "order_id")
-    shipmentDateFrom: String @rename(attribute: "shipment_date_from")
-    shipmentDateTo: String @rename(attribute: "shipment_date_to")
     shipmentDate: String @rename(attribute: "shipment_date")
     carrierTitle: String @rename(attribute: "carrier_title")
     trackNumber: String @rename(attribute: "track_number")
 }
 
 input OrderInvoiceInput {
-    page: Int
-    limit: Int
     id: Int
     orderId: Int @rename(attribute: "order_id")
-    quantity: Int
+    totalQty: Int @rename(attribute: "total_qty")
     grandTotal: Float @rename(attribute: "grand_total")
     baseGrandTotal: Float @rename(attribute: "base_grand_total")
     invoiceDate: String @rename(attribute: "invoice_date")
 }
 
 input OrderRefundInput {
-    page: Int
-    limit: Int
     id: Int
     orderId: Int @rename(attribute: "order_id")
-    quantity: Int
+    totalQty: Int @rename(attribute: "total_qty")
     adjustmentRefund: Float @rename(attribute: "adjustment_refund")
     adjustmentFee: Float @rename(attribute: "adjustment_fee")
     shippingAmount: Float @rename(attribute: "shipping_amount")

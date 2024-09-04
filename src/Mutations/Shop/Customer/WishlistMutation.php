@@ -24,9 +24,11 @@ class WishlistMutation extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function store($rootValue, array $args, GraphQLContext $context)
+    public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'product_id' => 'required|integer|exists:products,id',
@@ -72,9 +74,11 @@ class WishlistMutation extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function delete($rootValue, array $args, GraphQLContext $context)
+    public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'product_id' => 'required|integer|exists:products,id',
@@ -120,9 +124,11 @@ class WishlistMutation extends Controller
     /**
      * Move wishlist item to cart
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function move($rootValue, array $args, GraphQLContext $context)
+    public function move(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
             'id'       => 'required|integer|exists:wishlist_items,id',
@@ -164,9 +170,11 @@ class WishlistMutation extends Controller
     /**
      * Remove all the wishlist entries of customer.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
+     *
+     * @throws CustomException
      */
-    public function deleteAll($rootValue, array $args, GraphQLContext $context)
+    public function deleteAll(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
             if (empty(auth()->user()->wishlist_items)) {

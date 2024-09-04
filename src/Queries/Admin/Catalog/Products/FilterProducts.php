@@ -2,18 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Catalog\Products;
 
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterProducts extends BaseFilter
 {
     /**
-     * filter the data .
-     *
-     * @param  object  $query
-     * @param  array  $input
-     * @return \Illuminate\Database\Eloquent\Builder
+     * filter the product's query
      */
-    public function __invoke($query, $input)
+    public function __invoke(Builder $query, array $input): Builder
     {
         $attributeFamily = '';
 

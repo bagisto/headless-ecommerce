@@ -28,6 +28,10 @@ extend type Mutation @guard(with: ["admin-api"]) {
     ): NoteResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@storeNotes")
 
     deleteCustomer(id: ID!): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@delete")
+
+    createOrder(
+        customerId: ID! @rename(attribute: "customer_id")
+    ): OrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\CustomerMutation@createOrder")
 }
 
 input FilterCustomerInput {

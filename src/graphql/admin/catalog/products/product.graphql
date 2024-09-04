@@ -32,7 +32,6 @@ input CreateProductInput {
     attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
     sku: String!
     superAttributes: [SuperAttributesInput] @rename(attribute: "super_attributes")
-    family: Int
 }
 
 input SuperAttributesInput {

@@ -2,7 +2,7 @@
 extend type Query @guard(with: ["admin-api"]) {
     customerGroups (
         input: FilterCustomerGroupInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\BaseFilter@apply")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
     ): [CustomerGroup!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10

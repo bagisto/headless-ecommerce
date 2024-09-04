@@ -1,0 +1,6 @@
+#Shop\Common\Newsletter Related APIs
+extend type Mutation {
+    subscribe(
+        email: String!
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\NewsletterSubscriberMutation@subscribe")
+}

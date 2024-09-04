@@ -1,154 +1,195 @@
 <?php
 
 return [
-    'admin' => [
-        'menu' => [
-            'push-notification' => 'Push Notification',
-        ],
-
-        'acl' => [
-            'push-notification' => 'Push Notification',
-            'send'              => 'Send',
-        ],
-
-        'sales' => [
-            'orders' => [
-                'cancel-error'   => 'Order cannot be canceled.',
-                'cancel-success' => 'Order canceled successfully',
-                'not-found'      => 'Warning: Order not found.',
-            ],
-
-            'shipments' => [
-                'not-found'        => 'Warning: Shipment not found.',
-                'shipment-error'   => 'Order shipment creation is not allowed.',
-                'creation-error'   => 'Shipment can not be created for this order.',
-                'quantity-invalid' => 'Requested quantity is invalid or not available.',
-            ],
-
-            'invoices' => [
-                'not-found'      => 'Warning: Invoice not found.',
-                'creation-error' => 'Order invoice creation is not allowed.',
-                'product-error'  => 'Invoice can not be created without products.',
-            ],
-
-            'refunds' => [
-                'invalid-refund-amount-error' => 'Refund amount should be non zero.',
-                'refund-limit-error'          => 'The most money available to refund is :amount.',
-                'creation-error'              => 'Refund can not be created for this order.',
-                'create-success'              => 'Refund created successfully for this order.',
-            ],
-        ],
-
-        'catalog' => [
-            'products' => [
-                'create' => [
-                    'configurable-error'      => 'Please select atleast one configurable attribute.',
-                    'grouped-error-not-added' => 'is not added to Grouped product',
-                    'grouped-error-not-added' => 'is not a added to Bundle product',
-                ],
-
-                'delete-success' => 'Product deleted successfully.',
-                'delete-failed'  => 'Warning: Product is not deleted',
-            ],
-
-            'categories' => [
-                'already-taken'        => 'The Category has already been taken.',
-                'delete-category-root' => 'The Root category can not be deleted.',
-                'delete-success'       => 'Category deleted successfully.',
-                'delete-failed'        => 'Warning: Category is not deleted',
-            ],
-
-            'attributes' => [
-                'delete-success'    => 'Attribute deleted successfully.',
-                'delete-failed'     => 'Warning: Attribute is not deleted',
-                'user-define-error' => 'Warning: You are not authorized to delete system-created attribute group.',
-            ],
-
-            'attribute-families' => [
-                'last-delete-error'       => 'Last Attribute Family delete failed',
-                'attribute-product-error' => 'family is used in products.',
-                'delete-success'          => 'Family deleted successfully.',
-                'delete-failed'           => 'Warning: Family is not deleted',
-            ],
-
-            'attribute-groups' => [
-                'delete-success'       => 'Family Group deleted successfully.',
-                'delete-failed'        => 'Warning: Family Group is not deleted',
-                'error-customer-group' => 'Warning: You are not authorized to delete system-created attribute group.',
-            ],
+    'shop' => [
+        'subscription' => [
+            'already-subscribed' => 'आप पहले से ही हमारे न्यूज़लेटर के लिए सब्सक्राइब कर चुके हैं।',
+            'subscribe-success'  => 'आपने सफलतापूर्वक हमारे न्यूज़लेटर के लिए सब्सक्राइब कर लिया है।',
         ],
 
         'customers' => [
-            'no-customer-found'      => 'Customer not found',
-            'address-delete-success' => 'Customer\'s Address deleted successfully',
-            'user-define-error'      => 'Warning: You are not authorized to delete system-created Customer Group.',
-            'delete-order-pending'   => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-            'delete-success'         => 'Customer deleted successfully',
+            'no-login-customer' => 'चेतावनी: कोई लॉगिन ग्राहक नहीं मिला।',
+            'success-login'     => 'सफलतापूर्वक ग्राहक लॉगिन।',
+            'success-logout'    => 'सफलतापूर्वक ग्राहक लॉगआउट।',
 
-            'groups' => [
-                'user-define-error'  => 'Warning: You are not authorized to delete system-created Customer Group.',
-                'customer-associate' => 'Warning: Group can\'t be deleted. customer is Associated with it.',
-                'delete-success'     => 'Customer deleted successfully',
+            'signup' => [
+                'error-registration' => 'चेतावनी: ग्राहक पंजीकरण विफल हुआ।',
+                'success-verify'     => 'खाता सफलतापूर्वक बनाया गया है, सत्यापन के लिए एक ईमेल भेजा गया है।',
+            ],
+
+            'login' => [
+                'invalid-creds' => 'कृपया अपने क्रेडेंशियल्स की जांच करें और पुनः प्रयास करें।',
+                'not-activated' => 'आपकी सक्रियण के लिए व्यवस्थापक की मंजूरी की आवश्यकता है',
+                'verify-first'  => 'कृपया पहले अपना ईमेल सत्यापित करें।',
+                'suspended'     => 'व्यवस्थापक द्वारा आपका खाता निलंबित कर दिया गया है।',
+
+                'validation' => [
+                    'required' => ':field फ़ील्ड आवश्यक है।',
+                    'same'     => ':field और पासवर्ड मेल खाने चाहिए।',
+                    'unique'   => 'इस :field को पहले से ही ले लिया गया है।',
+                ],
+            ],
+
+            'forgot-password' => [
+                'already-sent'    => 'आपके ईमेल पर पासवर्ड रीसेट लिंक पहले से ही भेज दिया गया है।',
+                'email-not-exist' => 'ईमेल मौजूद नहीं है।',
+                'reset-link-sent' => 'आपके ईमेल पर पासवर्ड रीसेट लिंक भेज दिया गया है।',
+            ],
+
+            'account' => [
+                'profile' => [
+                    'customer-details' => 'सफलतापूर्वक ग्राहक विवरण प्राप्त किए गए।',
+                    'delete-success'   => 'सफलतापूर्वक खाता हटा दिया गया।',
+                    'password-unmatch' => 'पासवर्ड मेल नहीं खाता।',
+                    'update-fail'      => 'चेतावनी: प्रोफ़ाइल अपडेट नहीं हुई',
+                    'update-success'   => 'सफलतापूर्वक प्रोफ़ाइल अपडेट की गई।',
+                    'wrong-password'   => 'पासवर्ड गलत है।',
+                ],
+
+                'addresses' => [
+                    'create-success'         => 'सफलतापूर्वक पता बनाया गया।',
+                    'default-update-success' => 'पता डिफ़ॉल्ट के रूप में सेट किया गया है',
+                    'delete-success'         => 'सफलतापूर्वक पता हटा दिया गया।',
+                    'not-found'              => 'चेतावनी: पता नहीं मिला।',
+                    'update-success'         => 'सफलतापूर्वक पता अपडेट किया गया।',
+                ],
+
+                'wishlist' => [
+                    'product-removed' => 'चेतावनी: उत्पाद नहीं मिला।',
+                    'success'         => 'सफलतापूर्वक उत्पाद विशलिस्ट में जोड़ा गया।',
+                    'already-exist'   => 'चेतावनी: पहले से ही विशलिस्ट में जोड़ दिया गया है।',
+                    'remove-success'  => 'सफलतापूर्वक आइटम विशलिस्ट से हटा दिया गया है।',
+                    'not-found'       => 'चेतावनी: विशलिस्ट में कोई उत्पाद नहीं मिला।',
+                    'moved-success'   => 'सफलतापूर्वक चयनित आइटम विशलिस्ट में स्थानांतरित किए गए।',
+                ],
+
+                'orders' => [
+                    'not-found'      => 'चेतावनी: कोई आदेश नहीं मिला।',
+                    'cancel-error'   => 'चेतावनी: आदेश रद्द नहीं हुआ।',
+                    'cancel-success' => 'सफलतापूर्वक आदेश रद्द किया गया।',
+
+                    'shipment' => [
+                        'not-found' => 'चेतावनी: शिपमेंट नहीं मिली।',
+                    ],
+
+                    'invoice' => [
+                        'not-found' => 'चेतावनी: चालान नहीं मिला।',
+                    ],
+
+                    'refund' => [
+                        'not-found' => 'चेतावनी: रिफंड नहीं मिला।',
+                    ],
+                ],
+
+                'downloadable-products' => [
+                    'not-found'      => 'चेतावनी: डाउनलोड करने योग्य उत्पाद नहीं मिला।',
+                    'not-auth'       => 'चेतावनी: आपको इस कार्रवाई को करने की अनुमति नहीं है।',
+                    'payment-error'  => 'इस डाउनलोड के लिए भुगतान नहीं किया गया है।',
+                    'download-error' => 'डाउनलोड लिंक समाप्त हो गया है।',
+                ],
+            ],
+
+            'compare-product' => [
+                'not-found'           => 'चेतावनी: तुलना उत्पाद नहीं मिला।',
+                'product-not-found'   => 'चेतावनी: उत्पाद नहीं मिला।',
+                'already-added'       => 'चेतावनी: उत्पाद पहले ही तुलना सूची में जोड़ा जा चुका है।',
+                'item-add-success'    => 'सफलता: उत्पाद को सफलतापूर्वक तुलना सूची में जोड़ा गया।',
+                'remove-success'      => 'सफलता: आइटम को सफलतापूर्वक तुलना सूची से हटा दिया गया।',
+                'mass-remove-success' => 'सफलता: चयनित आइटम सफलतापूर्वक हटा दिए गए।',
+            ],
+
+            'reviews' => [
+                'create-success'      => 'सफलतापूर्वक समीक्षा बनाई गई।',
+                'delete-success'      => 'सफलतापूर्वक समीक्षा हटा दी गई।',
+                'not-found'           => 'चेतावनी: समीक्षा नहीं मिली।',
+                'mass-delete-success' => 'सफलतापूर्वक चयनित समीक्षाएं हटा दी गईं।',
             ],
         ],
 
-        'cms' => [
-            'already-taken'  => 'CMS Page URL already taken',
-            'delete-success' => 'CMS Page deleted successfully.',
-            'delete-failed'  => 'Warning: CMS Page is not deleted',
+        'checkout' => [
+            'cart' => [
+                'item' => [
+                    'error' => [
+                        'invalid-parameter' => 'चेतावनी: अमान्य पैरामीटर प्रदान किए गए।',
+                    ],
+
+                    'success' => [
+                        'add-to-cart'      => 'सफलतापूर्वक उत्पाद कार्ट में जोड़ा गया।',
+                        'update-to-cart'   => 'सफलतापूर्वक उत्पाद कार्ट में अपडेट किया गया।',
+                        'delete-cart-item' => 'सफलतापूर्वक आइटम कार्ट से हटा दिया गया है।',
+                        'all-remove'       => 'सफलतापूर्वक सभी आइटम कार्ट से हटा दिए गए हैं।',
+                        'move-to-wishlist' => 'सफलतापूर्वक चयनित आइटम विशलिस्ट में स्थानांतरित किए गए हैं।',
+                    ],
+
+                    'fail' => [
+                        'all-remove'       => 'चेतावनी: सभी आइटम कार्ट से हटाए नहीं गए हैं।',
+                        'update-to-cart'   => 'चेतावनी: उत्पाद कार्ट में अपडेट नहीं हुआ।',
+                        'delete-cart-item' => 'चेतावनी: आइटम कार्ट से हटाया नहीं गया है।',
+                        'not-found'        => 'चेतावनी: कार्ट नहीं मिला।',
+                        'item-not-found'   => 'चेतावनी: आइटम नहीं मिला।',
+                        'all-remove'       => 'चेतावनी: सभी आइटम कार्ट से हटाए नहीं गए हैं।',
+                        'move-to-wishlist' => 'चेतावनी: चयनित आइटम विशलिस्ट में स्थानांतरित नहीं हुए हैं।',
+                    ],
+                ],
+            ],
+
+            'addresses' => [
+                'guest-address-warning'     => 'चेतावनी: मेहमान उपयोगकर्ता पता नहीं जोड़ सकता।',
+                'guest-checkout-warning'    => 'चेतावनी: मेहमान उपयोगकर्ता चेकआउट नहीं कर सकता।',
+                'no-billing-address-found'  => 'चेतावनी: कोई बिलिंग पता नहीं मिला।',
+                'no-shipping-address-found' => 'चेतावनी: कोई शिपिंग पता नहीं मिला।',
+                'address-save-success'      => 'सफलतापूर्वक पता सहेजा गया।',
+            ],
+
+            'shipping' => [
+                'method-not-found' => 'चेतावनी: शिपिंग विधि नहीं मिली।',
+                'method-fetched'   => 'सफलतापूर्वक शिपिंग विधि प्राप्त की गई।',
+                'save-failed'      => 'चेतावनी: शिपिंग विधि सहेजी नहीं गई।',
+                'save-success'     => 'सफलतापूर्वक शिपिंग विधि सहेजी गई।',
+            ],
+
+            'payment' => [
+                'method-not-found' => 'चेतावनी: भुगतान विधि नहीं मिली।',
+                'method-fetched'   => 'सफलतापूर्वक भुगतान विधि प्राप्त की गई।',
+                'save-failed'      => 'चेतावनी: भुगतान विधि सहेजी नहीं गई।',
+                'save-success'     => 'सफलतापूर्वक भुगतान विधि सहेजी गई।',
+            ],
+
+            'coupon' => [
+                'apply-success'   => 'सफलतापूर्वक कूपन कोड लागू किया गया।',
+                'already-applied' => 'चेतावनी: कूपन कोड पहले से ही लागू किया गया है।',
+                'invalid-code'    => 'Warning: Coupon code is invalid.',
+                'remove-success'  => 'Success: Coupon code removed successfully.',
+                'remove-failed'   => 'Warning: Coupon code not removed.',
+            ],
+
+            'something-wrong'          => 'Warning: Something went wrong.',
+            'invalid-guest-user'       => 'Warning: Invalid guest user.',
+            'empty-cart'               => 'Warning: Cart is empty.',
+            'missing-billing-address'  => 'Warning: Missing billing address.',
+            'missing-shipping-address' => 'Warning: Missing shipping address.',
+            'missing-shipping-method'  => 'Warning: Missing shipping method.',
+            'missing-payment-method'   => 'Warning: Missing payment method.',
+            'no-address-found'         => 'Warning: No billing and shipping address found.',
+        ],
+    ],
+
+    'admin' => [
+        'acl' => [
+            'create'            => 'बनाएं',
+            'delete'            => 'हटाएं',
+            'edit'              => 'संपादित करें',
+            'mass-delete'       => 'मास हटाना',
+            'mass-update'       => 'मास अपडेट',
+            'push-notification' => 'पुश सूचना',
+            'send'              => 'भेजें',
         ],
 
-        'marketing' => [
-            'communications' => [
-                'campaigns' => [
-                    'delete-success' => 'Campaign deleted successfully',
-                    'delete-failed'  => 'Warning: Campaign is not deleted',
+        'components' => [
+            'layouts' => [
+                'sidebar' => [
+                    'push-notification' => 'पुश सूचना',
                 ],
-
-                'templates' => [
-                    'delete-success' => 'Email Template deleted successfully',
-                    'delete-failed'  => 'Warning: Email Template is not deleted',
-                ],
-
-                'events' => [
-                    'delete-success' => 'Event deleted successfully',
-                    'delete-failed'  => 'Warning: Event is not deleted',
-                ],
-
-                'subscriptions' => [
-                    'no-subscriber-found'  => 'Subscriber not found',
-                    'already-subscriber'   => 'You are already subscribed to our subscription list.',
-                    'not-subscribed'       => 'You can not be subscribed to subscription emails, please try again later.',
-                    'already-unsubscribed' => 'You are already unsubscribed.',
-                    'delete-success'       => 'Subscription deleted successfully',
-                    'unsubscribe'          => 'Unsubscribe',
-                    'subscribe'            => 'Subscribe',
-                    'subscribed-success'   => 'You have successfully subscribed to our subscription list.',
-                    'unsubscribed'         => 'You have successfully unsubscribed from our subscription list.',
-                ],
-            ],
-
-            'promotions' => [
-                'cart-rules' => [
-                    'delete-success'       => 'Cart Rule deleted successfully',
-                    'delete-failed'        => 'Warning: Cart Rule is not deleted',
-                    'cart-rule-not-defind' => 'Cart rule is not defined',
-                ],
-
-                'catalog-rules' => [
-                    'delete-success' => 'Catalog Rule deleted successfully',
-                    'delete-failed'  => 'Warning: Catalog Rule is not deleted',
-                ],
-
-                'sitemaps' => [
-                    'delete-success' => 'Site Map deleted successfully',
-                    'delete-failed'  => 'Warning: Site Map is not deleted',
-                ],
-            ],
-
-            'sitemaps' => [
-                'delete-success' => 'Site Map deleted successfully',
-                'delete-failed'  => 'Warning: Site Map is not deleted',
             ],
         ],
 
@@ -156,311 +197,438 @@ return [
             'index' => [
                 'general' => [
                     'graphql-api' => [
+                        'notification-topic'              => 'सूचना विषय',
+                        'info'                            => 'सूचना संबंधित कॉन्फ़िगरेशन',
+                        'push-notification-configuration' => 'FCM पुश सूचना कॉन्फ़िगरेशन',
                         'title'                           => 'GraphQL API',
-                        'info'                            => 'Notification related configurations',
-                        'push-notification-configuration' => 'FCM Push Notification Configuration',
-                        'server-key'                      => 'Server Key',
-                        'info-get-server-key'             => 'Info: To get FCM API credentials: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'android-topic'                   => 'Android Topic',
-                        'ios-topic'                       => 'IOS Topic',
-                        'private-key'                     => 'Private Key JSON File Content',
-                        'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
-                        'notification-topic'              => 'Notification Topic',
+                        'private-key'                     => 'प्राइवेट की JSON फ़ाइल सामग्री',
+                        'info-get-private-key'            => 'जानकारी: FCM प्राइवेट की JSON फ़ाइल सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहाँ क्लिक करें</a>',
+                    ],
+
+                    'content' => [
+                        'custom-script' => [
+                            'update-success' => 'सफलता: कस्टम स्क्रिप्ट्स सफलतापूर्वक अपडेट किए गए।',
+                        ],
                     ],
                 ],
             ],
+        ],
 
-            'custom-scripts' => [
-                'channel-not-found' => 'Warning: Channel not found.',
-                'create-success'    => 'Custom Script added successfully.',
-                'update-success'    => 'Custom Script updated successfully.',
-                'delete-success'    => 'Custom Script removed successfully.',
+        'sales' => [
+            'orders' => [
+                'cancel-error'   => 'चेतावनी: आदेश रद्द नहीं किया जा सकता।',
+                'cancel-success' => 'सफलता: आदेश सफलतापूर्वक रद्द कर दिया गया।',
+                'not-found'      => 'चेतावनी: आदेश नहीं मिला।',
+            ],
+
+            'shipments' => [
+                'creation-error'   => 'चेतावनी: शिपमेंट नहीं बना।',
+                'not-found'        => 'चेतावनी: शिपमेंट नहीं मिला।',
+                'quantity-invalid' => 'चेतावनी: गलत मात्रा प्रदान की गई।',
+                'shipment-error'   => 'चेतावनी: शिपमेंट नहीं बना।',
+                'create-success'   => 'सफलता: शिपमेंट सफलतापूर्वक बनाया गया।',
+            ],
+
+            'invoices' => [
+                'creation-error' => 'चेतावनी: चालान नहीं बना।',
+                'not-found'      => 'चेतावनी: चालान नहीं मिला।',
+                'product-error'  => 'चेतावनी: गलत उत्पाद प्रदान किया गया।',
+                'create-success' => 'सफलता: चालान सफलतापूर्वक बनाया गया।',
+            ],
+
+            'refunds' => [
+                'creation-error'      => 'चेतावनी: रिफंड नहीं बना।',
+                'refund-amount-error' => 'चेतावनी: गलत रिफंड राशि प्रदान की गई।',
+                'refund-limit-error'  => 'चेतावनी: रिफंड राशि सीमा से अधिक है: :amount',
+                'not-found'           => 'चेतावनी: रिफंड नहीं मिला।',
+                'create-success'      => 'सफलता: रिफंड सफलतापूर्वक बनाया गया।',
+            ],
+
+            'transactions' => [
+                'already-paid'   => 'चेतावनी: चालान पहले ही भुगतान किया जा चुका है।',
+                'amount-exceed'  => 'चेतावनी: लेनदेन राशि सीमा से अधिक है।',
+                'zero-amount'    => 'चेतावनी: लेनदेन राशि शून्य से अधिक होनी चाहिए।',
+                'create-success' => 'सफलता: लेनदेन सफलतापूर्वक बनाया गया।',
+            ],
+
+            'reorder' => [
+                'cart-not-found'           => 'चेतावनी: कार्ट नहीं मिली।',
+                'cart-item-not-found'      => 'चेतावनी: कार्ट आइटम नहीं मिला।',
+                'cart-create-success'      => 'सफलता: कार्ट सफलतापूर्वक बनाई गई।',
+                'cart-item-add-success'    => 'सफलता: उत्पाद कार्ट में सफलतापूर्वक जोड़ा गया।',
+                'cart-item-remove-success' => 'सफलता: आइटम को कार्ट से सफलतापूर्वक हटा दिया गया।',
+                'cart-item-update-success' => 'सफलता: उत्पाद को कार्ट में सफलतापूर्वक अपडेट किया गया।',
+                'something-wrong'          => 'चेतावनी: कुछ गलत हो गया।',
+                'address-save-success'     => 'सफलता: पता सफलतापूर्वक सहेजा गया।',
+                'shipping-save-success'    => 'सफलता: शिपिंग विधि सफलतापूर्वक सहेजी गई।',
+                'payment-save-success'     => 'सफलता: भुगतान विधि सफलतापूर्वक सहेजी गई।',
+                'order-placed-success'     => 'सफलता: आदेश सफलतापूर्वक लगाया गया।',
+                'payment-method-not-found' => 'चेतावनी: भुगतान विधि नहीं मिली।',
+                'minimum-order-amount-err' => 'चेतावनी: न्यूनतम आदेश राशि :amount होनी चाहिए।',
+                'check-shipping-address'   => 'चेतावनी: कृपया शिपिंग पते की जांच करें।',
+                'check-billing-address'    => 'चेतावनी: कृपया बिलिंग पते की जांच करें।',
+                'specify-shipping-method'  => 'चेतावनी: कृपया शिपिंग विधि निर्दिष्ट करें।',
+                'specify-payment-method'   => 'चेतावनी: कृपया भुगतान विधि निर्दिष्ट करें।',
+                'coupon-not-valid'         => 'चेतावनी: कूपन कोड अमान्य है।',
+                'coupon-already-applied'   => 'चेतावनी: कूपन कोड पहले ही लागू किया गया है।',
+                'coupon-applied'           => 'सफलता: कूपन कोड सफलतापूर्वक लागू किया गया।',
+                'coupon-removed'           => 'सफलता: कूपन कोड सफलतापूर्वक हटा दिया गया।',
+            ],
+        ],
+
+        'catalog' => [
+            'products' => [
+                'create-success'            => 'उत्पाद सफलतापूर्वक बनाया गया।',
+                'delete-success'            => 'उत्पाद सफलतापूर्वक हटा दिया गया।',
+                'not-found'                 => 'चेतावनी: उत्पाद नहीं मिला।',
+                'update-success'            => 'उत्पाद सफलतापूर्वक अपडेट किया गया।',
+                'configurable-attr-missing' => 'चेतावनी: कॉन्फ़िगर करने योग्य विशेषता गायब है।',
+                'simple-products-error'     => 'चेतावनी: साधारण उत्पाद गायब हैं।',
+            ],
+
+            'categories' => [
+                'already-taken'  => 'चेतावनी: स्लग पहले ही लिया जा चुका है।',
+                'create-success' => 'श्रेणी सफलतापूर्वक बनाई गई।',
+                'delete-success' => 'श्रेणी सफलतापूर्वक हटा दी गई।',
+                'not-found'      => 'चेतावनी: श्रेणी नहीं मिली।',
+                'update-success' => 'श्रेणी सफलतापूर्वक अपडेट की गई।',
+                'root-delete'    => 'चेतावनी: रूट श्रेणी को नहीं हटाया जा सकता।',
+            ],
+
+            'attributes' => [
+                'create-success'    => 'विशेषता सफलतापूर्वक बनाई गई।',
+                'delete-success'    => 'विशेषता सफलतापूर्वक हटा दी गई।',
+                'not-found'         => 'चेतावनी: विशेषता नहीं मिली।',
+                'update-success'    => 'विशेषता सफलतापूर्वक अपडेट की गई।',
+                'user-define-error' => 'चेतावनी: आप सिस्टम द्वारा बनाई गई विशेषता को हटाने के लिए अधिकृत नहीं हैं।',
+            ],
+
+            'attribute-groups' => [
+                'create-success'    => 'विशेषता समूह सफलतापूर्वक बनाया गया।',
+                'delete-success'    => 'विशेषता समूह सफलतापूर्वक हटा दिया गया।',
+                'not-found'         => 'चेतावनी: विशेषता समूह नहीं मिला।',
+                'update-success'    => 'विशेषता समूह सफलतापूर्वक अपडेट किया गया।',
+                'user-define-error' => 'चेतावनी: आप सिस्टम द्वारा बनाए गए विशेषता समूह को हटाने के लिए अधिकृत नहीं हैं।',
+            ],
+
+            'attribute-families' => [
+                'create-success'          => 'विशेषता परिवार सफलतापूर्वक बनाया गया।',
+                'delete-success'          => 'विशेषता परिवार सफलतापूर्वक हटा दिया गया।',
+                'not-found'               => 'चेतावनी: विशेषता परिवार नहीं मिला।',
+                'update-success'          => 'विशेषता परिवार सफलतापूर्वक अपडेट किया गया।',
+                'last-delete-error'       => 'चेतावनी: विशेषता परिवार को नहीं हटाया जा सकता।',
+                'attribute-family-error'  => 'चेतावनी: विशेषता परिवार की ज़रूरतें पूरी नहीं हो रही हैं।',
+            ],
+        ],
+
+        'customers' => [
+            'customers' => [
+                'create-success'       => 'ग्राहक सफलतापूर्वक बनाया गया।',
+                'delete-order-pending' => 'ग्राहक खाता नहीं हटाया जा सकता क्योंकि कुछ आदेश लंबित या प्रक्रिया में हैं।',
+                'delete-success'       => 'ग्राहक सफलतापूर्वक हटा दिया गया।',
+                'not-found'            => 'चेतावनी: ग्राहक नहीं मिला।',
+                'note-created-success' => 'नोट सफलतापूर्वक बनाया गया।',
+                'update-success'       => 'ग्राहक सफलतापूर्वक अपडेट किया गया।',
+                'login-success'        => 'ग्राहक सफलतापूर्वक लॉगिन हुआ।',
+            ],
+
+            'addressess' => [
+                'create-success'         => 'ग्राहक का पता सफलतापूर्वक बनाया गया।',
+                'default-update-success' => 'पता डिफ़ॉल्ट के रूप में सेट किया गया।',
+                'delete-success'         => 'ग्राहक का पता सफलतापूर्वक हटा दिया गया।',
+                'not-found'              => 'चेतावनी: ग्राहक का पता नहीं मिला।',
+                'update-success'         => 'ग्राहक का पता सफलतापूर्वक अपडेट किया गया।',
+            ],
+
+            'groups' => [
+                'create-success'     => 'ग्राहक समूह सफलतापूर्वक बनाया गया।',
+                'customer-associate' => 'चेतावनी: समूह को नहीं हटाया जा सकता। ग्राहक इससे जुड़ा है।',
+                'delete-success'     => 'ग्राहक समूह सफलतापूर्वक हटा दिया गया।',
+                'not-found'          => 'चेतावनी: ग्राहक समूह नहीं मिला।',
+                'update-success'     => 'ग्राहक समूह सफलतापूर्वक अपडेट किया गया।',
+                'user-define-error'  => 'चेतावनी: आप सिस्टम द्वारा बनाए गए ग्राहक समूह को हटाने के लिए अधिकृत नहीं हैं।',
+            ],
+
+            'reviews' => [
+                'delete-success' => 'समीक्षा सफलतापूर्वक हटा दी गई।',
+                'not-found'      => 'चेतावनी: समीक्षा नहीं मिली।',
+                'update-success' => 'समीक्षा सफलतापूर्वक अपडेट की गई।',
+            ],
+        ],
+
+        'cms' => [
+            'create-success' => 'CMS सफलतापूर्वक बनाया गया।',
+            'delete-success' => 'CMS सफलतापूर्वक हटा दिया गया।',
+            'not-found'      => 'चेतावनी: CMS नहीं मिला।',
+            'update-success' => 'CMS सफलतापूर्वक अपडेट किया गया।',
+        ],
+
+        'marketing' => [
+            'promotions' => [
+                'catalog-rules' => [
+                    'create-success' => 'कैटलॉग नियम सफलतापूर्वक बनाया गया।',
+                    'delete-failed'  => 'चेतावनी: कैटलॉग नियम को हटाया नहीं जा सका।',
+                    'delete-success' => 'कैटलॉग नियम सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: कैटलॉग नियम नहीं मिला।',
+                    'update-success' => 'कैटलॉग नियम सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'cart-rules' => [
+                    'create-success' => 'कार्ट नियम सफलतापूर्वक बनाया गया।',
+                    'delete-failed'  => 'चेतावनी: कार्ट नियम को हटाया नहीं जा सका।',
+                    'delete-success' => 'कार्ट नियम सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: कार्ट नियम नहीं मिला।',
+                    'update-success' => 'कार्ट नियम सफलतापूर्वक अपडेट किया गया।',
+                ],
+            ],
+
+            'communications' => [
+                'email-templates' => [
+                    'create-success' => 'ईमेल टेम्पलेट सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'ईमेल टेम्पलेट सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: ईमेल टेम्पलेट नहीं मिला।',
+                    'update-success' => 'ईमेल टेम्पलेट सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'events' => [
+                    'create-success' => 'इवेंट सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'इवेंट सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: इवेंट नहीं मिला।',
+                    'update-success' => 'इवेंट सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'campaigns' => [
+                    'create-success' => 'कैम्पेन सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'कैम्पेन सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: कैम्पेन नहीं मिला।',
+                    'update-success' => 'कैम्पेन सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'subscriptions' => [
+                    'delete-success'      => 'सदस्यता सफलतापूर्वक हटा दी गई।',
+                    'not-found'           => 'चेतावनी: सदस्यता नहीं मिली।',
+                    'unsubscribe-success' => 'सफलता: सदस्यता सफलतापूर्वक रद्द की गई।',
+                ],
+            ],
+
+            'seo' => [
+                'url-rewrites' => [
+                    'create-success' => 'URL रीराइट सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'URL रीराइट सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: URL रीराइट नहीं मिला।',
+                    'update-success' => 'URL रीराइट सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'search-terms' => [
+                    'create-success' => 'सर्च टर्म सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'सर्च टर्म सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: सर्च टर्म नहीं मिला।',
+                    'update-success' => 'सर्च टर्म सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'search-synonyms' => [
+                    'create-success' => 'सर्च पर्यायवाची सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'सर्च पर्यायवाची सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: सर्च पर्यायवाची नहीं मिला।',
+                    'update-success' => 'सर्च पर्यायवाची सफलतापूर्वक अपडेट किया गया।',
+                ],
+
+                'sitemaps' => [
+                    'create-success' => 'साइटमैप सफलतापूर्वक बनाया गया।',
+                    'delete-success' => 'साइटमैप सफलतापूर्वक हटा दिया गया।',
+                    'not-found'      => 'चेतावनी: साइटमैप नहीं मिला।',
+                    'update-success' => 'साइटमैप सफलतापूर्वक अपडेट किया गया।',
+                ],
             ],
         ],
 
         'settings' => [
             'locales' => [
-                'last-delete-error' => 'Last Locale delete failed',
-                'delete-success'    => 'Locale deleted successfully.',
-                'delete-error'      => 'Locale deleted failed.',
-                'not-found'         => 'Warning: Locale not found.',
+                'create-success'       => 'स्थानीयता सफलतापूर्वक बनाई गई।',
+                'default-delete-error' => 'डिफ़ॉल्ट स्थानीयता को हटाया नहीं जा सकता।',
+                'delete-error'         => 'स्थानीयता हटाना विफल हुआ।',
+                'delete-success'       => 'स्थानीयता सफलतापूर्वक हटा दी गई।',
+                'last-delete-error'    => 'अंतिम स्थानीयता हटाना विफल हुआ।',
+                'not-found'            => 'चेतावनी: स्थानीयता नहीं मिली।',
+                'update-success'       => 'स्थानीयता सफलतापूर्वक अपडेट की गई।',
             ],
 
             'currencies' => [
-                'last-delete-error' => 'Last Currency delete failed',
-                'delete-success'    => 'Currency deleted successfully.',
-                'delete-error'      => 'Currency deleted failed.',
-                'not-found'         => 'Warning: Currency not found.',
+                'create-success'       => 'मुद्रा सफलतापूर्वक बनाई गई।',
+                'default-delete-error' => 'डिफ़ॉल्ट मुद्रा को हटाया नहीं जा सकता।',
+                'delete-error'         => 'मुद्रा हटाना विफल हुआ।',
+                'delete-success'       => 'मुद्रा सफलतापूर्वक हटा दी गई।',
+                'last-delete-error'    => 'अंतिम मुद्रा हटाना विफल हुआ।',
+                'not-found'            => 'चेतावनी: मुद्रा नहीं मिली।',
+                'update-success'       => 'मुद्रा सफलतापूर्वक अपडेट की गई।',
             ],
 
             'exchange-rates' => [
-                'invalid-target-currency' => 'Warning: Invalid target currency provided.',
-                'delete-success'          => 'Success: Exchange rate deleted successfully.',
-                'last-delete-error'       => 'Last Exchange rate delete failed',
-                'delete-error'            => 'Exchange rate deleted failed.',
-                'not-found'               => 'Warning: Exchange rate not found.',
+                'create-success'          => 'एक्सचेंज दर सफलतापूर्वक बनाई गई।',
+                'delete-error'            => 'एक्सचेंज दर हटाना विफल हुआ।',
+                'delete-success'          => 'सफलता: एक्सचेंज दर सफलतापूर्वक हटा दी गई।',
+                'invalid-target-currency' => 'चेतावनी: प्रदान की गई लक्ष्य मुद्रा अमान्य है।',
+                'last-delete-error'       => 'अंतिम एक्सचेंज दर हटाना विफल हुआ।',
+                'not-found'               => 'चेतावनी: एक्सचेंज दर नहीं मिली।',
+                'update-success'          => 'एक्सचेंज दर सफलतापूर्वक अपडेट की गई।',
             ],
 
             'inventory-sources' => [
-                'last-delete-error' => 'Last Inventory delete failed',
-                'delete-success'    => 'Inventory deleted successfully.',
-                'delete-error'      => 'Inventory deleted failed.',
-                'not-found'         => 'Warning: Inventory not found.',
+                'create-success'    => 'इन्वेंट्री सफलतापूर्वक बनाई गई।',
+                'delete-error'      => 'इन्वेंट्री हटाना विफल हुआ।',
+                'delete-success'    => 'इन्वेंट्री सफलतापूर्वक हटा दी गई।',
+                'last-delete-error' => 'अंतिम इन्वेंट्री हटाना विफल हुआ।',
+                'not-found'         => 'चेतावनी: इन्वेंट्री नहीं मिली।',
+                'update-success'    => 'इन्वेंट्री सफलतापूर्वक अपडेट की गई।',
             ],
 
             'channels' => [
-                'last-delete-error' => 'Last Channel delete failed',
-                'delete-success'    => 'Channel deleted successfully.',
-                'delete-error'      => 'Channel deleted failed.',
-                'not-found'         => 'Warning: Channel not found.',
+                'create-success'       => 'चैनल सफलतापूर्वक बनाया गया।',
+                'default-delete-error' => 'डिफ़ॉल्ट चैनल को हटाया नहीं जा सकता।',
+                'delete-error'         => 'चैनल हटाना विफल हुआ।',
+                'delete-success'       => 'चैनल सफलतापूर्वक हटा दिया गया।',
+                'last-delete-error'    => 'अंतिम चैनल हटाना विफल हुआ।',
+                'not-found'            => 'चेतावनी: चैनल नहीं मिला।',
+                'update-success'       => 'चैनल सफलतापूर्वक अपडेट किया गया।',
             ],
 
             'users' => [
-                'login-error'       => 'Please check your credentials and try again.',
-                'activate-warning'  => 'Your account is yet to be activated, please contact administrator.',
-                'success-login'     => 'Success: User login successfully.',
-                'success-logout'    => 'Success: User logout successfully.',
-                'last-delete-error' => 'Last User delete failed',
-                'delete-success'    => 'User deleted successfully.',
-                'delete-error'      => 'User deleted failed.',
-                'create-success'    => 'User created successfully.',
-                'not-found'         => 'Warning: User not found.',
+                'activate-warning'  => 'आपका खाता अभी सक्रिय नहीं है, कृपया व्यवस्थापक से संपर्क करें।',
+                'create-success'    => 'उपयोगकर्ता सफलतापूर्वक बनाया गया।',
+                'delete-error'      => 'उपयोगकर्ता हटाना विफल हुआ।',
+                'delete-success'    => 'उपयोगकर्ता सफलतापूर्वक हटा दिया गया।',
+                'last-delete-error' => 'अंतिम उपयोगकर्ता हटाना विफल हुआ।',
+                'login-error'       => 'कृपया अपने क्रेडेंशियल्स जांचें और पुनः प्रयास करें।',
+                'not-found'         => 'चेतावनी: उपयोगकर्ता नहीं मिला।',
+                'success-login'     => 'सफलता: उपयोगकर्ता सफलतापूर्वक लॉगिन हुआ।',
+                'success-logout'    => 'सफलता: उपयोगकर्ता सफलतापूर्वक लॉगआउट हुआ।',
+                'update-success'    => 'उपयोगकर्ता सफलतापूर्वक अपडेट किया गया।',
             ],
 
             'roles' => [
-                'last-delete-error' => 'Last Role delete failed',
-                'delete-success'    => 'Role deleted successfully.',
-                'delete-error'      => 'Role deleted failed.',
-                'not-found'         => 'Warning: Role not found.',
+                'create-success'    => 'भूमिका सफलतापूर्वक बनाई गई।',
+                'delete-error'      => 'भूमिका हटाना विफल हुआ।',
+                'delete-success'    => 'भूमिका सफलतापूर्वक हटा दी गई।',
+                'last-delete-error' => 'अंतिम भूमिका को हटाया नहीं जा सकता।',
+                'not-found'         => 'चेतावनी: भूमिका नहीं मिली।',
+                'update-success'    => 'भूमिका सफलतापूर्वक अपडेट की गई।',
             ],
 
             'themes' => [
-                'delete-success' => 'Theme deleted successfully.',
-                'not-found'      => 'Warning: User not found.',
+                'create-success' => 'थीम सफलतापूर्वक बनाई गई।',
+                'delete-success' => 'थीम सफलतापूर्वक हटा दी गई।',
+                'not-found'      => 'चेतावनी: थीम नहीं मिली।',
+                'update-success' => 'थीम सफलतापूर्वक अपडेट की गई।',
             ],
 
-            'tax-rate' => [
-                'delete-success' => 'Tax Rate deleted successfully.',
-                'delete-error'   => 'Tax Rate deleted failed.',
-                'not-found'      => 'Warning: Tax Rate not found.',
+            'tax-rates' => [
+                'create-success' => 'कर दर सफलतापूर्वक बनाई गई।',
+                'delete-error'   => 'कर दर हटाना विफल हुआ।',
+                'delete-success' => 'कर दर सफलतापूर्वक हटा दी गई।',
+                'not-found'      => 'चेतावनी: कर दर नहीं मिली।',
+                'update-success' => 'कर दर सफलतापूर्वक अपडेट की गई।',
             ],
 
             'tax-category' => [
-                'delete-success'     => 'Tax Category deleted successfully.',
-                'delete-error'       => 'Tax Category deleted failed.',
-                'not-found'          => 'Warning: Tax Category not found.',
-                'tax-rate-not-found' => 'The Given ids not found. Ids:- :ids',
+                'create-success'     => 'कर श्रेणी सफलतापूर्वक बनाई गई।',
+                'delete-error'       => 'कर श्रेणी हटाना विफल हुआ।',
+                'delete-success'     => 'कर श्रेणी सफलतापूर्वक हटा दी गई।',
+                'not-found'          => 'चेतावनी: कर श्रेणी नहीं मिली।',
+                'tax-rate-not-found' => 'दिए गए आईडी नहीं मिले। आईडी:- :ids',
+                'update-success'     => 'कर श्रेणी सफलतापूर्वक अपडेट की गई।',
             ],
 
             'notification' => [
                 'index' => [
-                    'title'     => 'Push Notification',
-                    'add-title' => 'Add Notification',
-                    'general'   => 'General',
+                    'add-title' => 'सूचना जोड़ें',
+                    'general'   => 'सामान्य',
+                    'title'     => 'पुश सूचना',
 
                     'datagrid' => [
-                        'id'                   => 'Id',
-                        'image'                => 'Image',
-                        'text-title'           => 'Title',
-                        'notification-content' => 'Notification Content',
-                        'notification-type'    => 'Notification Type',
-                        'notification-status'  => 'Notification Status',
-                        'created-at'           => 'Created Time',
-                        'updated-at'           => 'Updated Time',
-                        'delete'               => 'Delete',
-                        'update'               => 'Update',
-                        'store-view'           => 'Channels',
+                        'channel-name'         => 'चैनल का नाम',
+                        'created-at'           => 'निर्माण समय',
+                        'delete'               => 'हटाएं',
+                        'id'                   => 'आईडी',
+                        'image'                => 'छवि',
+                        'notification-content' => 'सूचना सामग्री',
+                        'notification-status'  => 'सूचना स्थिति',
+                        'notification-type'    => 'सूचना प्रकार',
+                        'text-title'           => 'शीर्षक',
+                        'update'               => 'अपडेट',
+                        'updated-at'           => 'अपडेट समय',
 
                         'status' => [
-                            'enabled'  => 'Enabled',
-                            'disabled' => 'Disabled',
+                            'disabled' => 'अक्षम',
+                            'enabled'  => 'सक्षम',
                         ],
                     ],
                 ],
 
                 'create' => [
-                    'new-notification'     => 'New Notification',
-                    'back-btn'             => 'Back',
-                    'create-btn-title'     => 'Save Notification',
-                    'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Setting',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
+                    'back-btn'             => 'वापस',
+                    'content-and-image'    => 'सूचना सामग्री और छवि',
+                    'create-btn-title'     => 'सूचना सहेजें',
+                    'general'              => 'सामान्य',
+                    'image'                => 'छवि',
+                    'new-notification'     => 'नई सूचना',
+                    'notification-content' => 'सूचना सामग्री',
+                    'notification-type'    => 'सूचना प्रकार',
+                    'product-cat-id'       => 'उत्पाद/श्रेणी आईडी',
+                    'settings'             => 'सेटिंग',
+                    'status'               => 'स्थिति',
+                    'store-view'           => 'चैनल',
+                    'title'                => 'पुश सूचना',
 
                     'option-type' => [
-                        'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category',
+                        'category' => 'श्रेणी',
+                        'others'   => 'साधारण',
+                        'product'  => 'उत्पाद',
                     ],
                 ],
 
                 'edit' => [
-                    'edit-notification'    => 'Edit Notification',
-                    'back-btn'             => 'Back',
-                    'send-title'           => 'Send Notification',
-                    'update-btn-title'     => 'Update',
-                    'general'              => 'General',
-                    'title'                => 'Push Notification',
-                    'content-and-image'    => 'Notification Content And Image',
-                    'notification-content' => 'Notification Content',
-                    'image'                => 'Image',
-                    'settings'             => 'Setting',
-                    'status'               => 'Status',
-                    'store-view'           => 'Channels',
-                    'notification-type'    => 'Notification Type',
-                    'product-cat-id'       => 'Product/Category Id',
+                    'back-btn'             => 'वापस',
+                    'content-and-image'    => 'सूचना सामग्री और छवि',
+                    'edit-notification'    => 'सूचना संपादित करें',
+                    'general'              => 'सामान्य',
+                    'image'                => 'छवि',
+                    'notification-content' => 'सूचना सामग्री',
+                    'notification-type'    => 'सूचना प्रकार',
+                    'product-cat-id'       => 'उत्पाद/श्रेणी आईडी',
+                    'send-title'           => 'सूचना भेजें',
+                    'settings'             => 'सेटिंग',
+                    'status'               => 'स्थिति',
+                    'store-view'           => 'चैनल',
+                    'title'                => 'पुश सूचना',
+                    'update-btn-title'     => 'अपडेट',
 
                     'option-type' => [
-                        'others'   => 'Simple',
-                        'product'  => 'Product',
-                        'category' => 'Category',
+                        'category' => 'श्रेणी',
+                        'others'   => 'साधारण',
+                        'product'  => 'उत्पाद',
                     ],
                 ],
+
+                'not-found'           => 'चेतावनी: सूचना नहीं मिली।',
+                'create-success'      => 'सूचना सफलतापूर्वक बनाई गई।',
+                'delete-failed'       => 'सूचना को हटाना विफल रहा।',
+                'delete-success'      => 'सूचना सफलतापूर्वक हटा दी गई।',
+                'mass-update-success' => 'चयनित सूचनाएँ सफलतापूर्वक अपडेट की गईं।',
+                'mass-delete-success' => 'चयनित सूचनाएँ सफलतापूर्वक हटा दी गईं।',
+                'no-value-selected'   => 'कोई मान मौजूद नहीं है।',
+                'send-success'        => 'सूचना सफलतापूर्वक भेजी गई।',
+                'update-success'      => 'सूचना सफलतापूर्वक अपडेट की गई।',
+                'configuration-error' => 'चेतावनी: FCM कॉन्फ़िगरेशन नहीं मिली।',
+                'product-not-found'   => 'चेतावनी: उत्पाद नहीं मिला।',
+                'category-not-found'  => 'चेतावनी: श्रेणी नहीं मिली।',
+
             ],
         ],
 
         'response' => [
             'error' => [
-                'invalid-parameter' => 'Warning: Invalid parameters provided.',
-                'no-login-user'     => 'Warning: No login user found.',
+                'invalid-parameter' => 'चेतावनी: अमान्य पैरामीटर प्रदान किए गए हैं।',
             ],
-        ],
-
-        'alerts' => [
-            'notifications' => [
-                'create-success'      => 'Notifications created successfully',
-                'update-success'      => 'Notifications updated successfully',
-                'delete-success'      => 'Notifications deleted successfully',
-                'delete-failed'       => 'Notifications deleted failed',
-                'sended-successfully' => 'Notifications pushed successfully for android and iOS.',
-                'no-value-selected'   => 'there are no existing value',
-            ],
-        ],
-    ],
-
-    'shop' => [
-        'checkout' => [
-            'save-cart-address'         => 'Success: Cart address saved successfully.',
-            'error-payment-selection'   => 'Warning: There is an error in fetching payment methods.',
-            'selected-shipment'         => 'Success: Shipment has been selected successfully.',
-            'warning-empty-cart'        => 'Warning: There are no products added to the cart.',
-            'billing-address-missing'   => 'Warning: Billing address is missing for checkout.',
-            'shipping-address-missing'  => 'Warning: Shipping address is missing for checkout.',
-            'invalid-guest-access'      => 'Warning: Guest customers are not allowed to get addresses with the help of billing/shipping address ID.',
-            'guest-address-warning'     => 'Warning: If you are trying as a guest, then try without an Authorization token.',
-            'wrong-error'               => 'Warning: There is an error with your cart, try again.',
-            'no-billing-address-found'  => 'Warning: No billing address record found with :address_id billing ID.',
-            'no-shipping-address-found' => 'Warning: No shipping address record found with :address_id shipping ID.',
-            'error-invalid-parameter'   => 'Warning: Invalid parameters provided.',
-            'already-applied'           => 'Coupon code already applied.',
-            'success-apply'             => 'Coupon code applied successfully.',
-            'coupon-removed'            => 'Success: coupon removed from the cart successfully.',
-            'coupon-remove-failed'      => 'Warning: there are some errors in removing the coupon from the cart or the coupon is not found.',
-            'error-placing-order'       => 'Warning: There is an error in placing the order.',
-            'selected-payment'          => 'Success: Payment method selected successfully.',
-            'error-payment-save'        => 'Warning: There is an error in saving the payment method.',
-
-            'cart' => [
-                'item' => [
-                    'success-all-remove'       => 'All items successfully removed from the cart.',
-                    'fail-all-remove'          => 'Error in removing items from the cart.',
-                    'error-invalid-parameter'  => 'Warning: Invalid parameters provided.',
-                    'success-moved-cart-item'  => 'Success: Cart item moved to the wishlist successfully.',
-                    'fail-moved-cart-item'     => 'Fail: Cart item is not moved to the wishlist.',
-                    'success-add-to-cart'      => 'Success: Product added to the cart successfully.',
-                    'fail-add-to-cart'         => 'Fail: Product is not added to the cart.',
-                    'success-update-to-cart'   => 'Success: Cart item has been updated successfully.',
-                    'fail-update-to-cart'      => 'Fail: Cart item has not been updated.',
-                    'success-delete-cart-item' => 'Success: Cart item has been removed successfully.',
-                    'fail-delete-cart-item'    => 'Fail: Cart item not found.',
-                ],
-            ],
-        ],
-
-        'customer' => [
-            'success-login'         => 'Success: Customer login successful.',
-            'success-logout'        => 'Success: Customer logout successful.',
-            'no-login-customer'     => 'Warning: No login customer found.',
-            'address-list'          => 'Success: Customer\'s address details fetched',
-            'not-authorized'        => 'Warning: You are not authorized to update this address.',
-            'no-address-list'       => 'Warning: No customer\'s address found.',
-            'text-password'         => 'Your Password is: :password',
-            'not-exists'            => 'Warning: No customer found for the provided data.',
-            'success-address-list'  => 'Success: Customer\'s addresses fetched successfully.',
-            'reset-link-sent'       => 'Success: Password reset email has been sent successfully.',
-            'password-reset-failed' => 'Warning: We already sent you a password reset email, try again after some time.',
-            'no-login-user'         => 'Warning: No login user found.',
-            'customer-details'      => 'Success: Customer details fetched successfully.',
-
-            'account' => [
-                'not-found' => 'Warning: No :name found.',
-
-                'profile' => [
-                    'edit-success'   => 'Profile Updated Successfully',
-                    'edit-fail'      => 'Profile not updated',
-                    'unmatch'        => 'The old password does not match.',
-                    'order-pending'  => 'Cannot delete the customer account because some Order(s) are pending or in a processing state.',
-                    'delete-success' => 'Customer deleted successfully',
-                    'wrong-password' => 'Wrong Password!',
-                ],
-
-                'order' => [
-                    'no-order-found' => 'Warning: No order found.',
-                    'cancel-success' => 'Order canceled successfully',
-                ],
-
-                'review' => [
-                    'success'        => 'Success: Review is submitted successfully, please wait for the approval.',
-                    'success-delete' => 'Review deleted successfully',
-                    'not-found'      => 'Review not found',
-                ],
-
-                'wishlist' => [
-                    'removed'            => 'Item Successfully Removed From Wishlist',
-                    'remove-fail'        => 'Item Cannot Be Removed From Wishlist',
-                    'remove-all-success' => 'All the items from your wishlist have been removed',
-                    'success'            => 'Item Successfully Added To Wishlist',
-                    'already-exist'      => 'Product already exists in the wishlist',
-                    'move-to-cart'       => 'Move To Cart',
-                    'moved-success'      => 'Item Successfully Moved to Cart',
-                    'error-move-to-cart' => 'Warning: This product might have some required options, not able to move to the cart.',
-                    'no-item-found'      => 'Warning: There is no product found.',
-                ],
-
-                'addressess' => [
-                    'delete-success' => 'Customer\'s Address deleted successfully',
-                ],
-            ],
-
-            'signup-form' => [
-                'error-registration'       => 'Warning: Customer registration failed.',
-                'warning-num-already-used' => 'Warning: This :phone number is registered using a different email address.',
-                'success-verify'           => 'Account created successfully, an email has been sent for verification.',
-                'invalid-creds'            => 'Please check your credentials and try again.',
-
-                'validation' => [
-                    'unique'   => 'This :field has already been taken.',
-                    'required' => 'The :field field is required.',
-                    'same'     => 'The :field and password must match.',
-                ],
-            ],
-
-            'login-form' => [
-                'not-activated' => 'Your activation requires admin approval',
-                'invalid-creds' => 'Please check your credentials and try again.',
-            ],
-        ],
-
-        'response' => [
-            'error-invalid-parameter' => 'Warning: Invalid parameters provided.',
-            'invalid-header'          => 'Warning: Invalid header token.',
-            'cancel-error'            => 'Order cannot be canceled.',
         ],
     ],
 ];
