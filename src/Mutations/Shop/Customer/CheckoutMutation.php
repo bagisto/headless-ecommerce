@@ -73,233 +73,96 @@ class CheckoutMutation extends Controller
      */
     public function saveCartAddresses(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        $rules = [
-            'type' => 'required',
-        ];
+        $rules = [];
 
-        if (! empty($args['billing_address_id'])) {
-            $rules = array_merge($rules, [
-                'billing_address_id' => 'numeric|required',
-            ]);
-        } else {
-            $rules = array_merge($rules, $this->mergeAddressRules('billing'));
-        }
+        $rules = array_merge($rules, $this->mergeAddressRules('billing'));
 
-        if (empty($args['billing']['use_for_shipping'])) {
-            if (! empty($args['shipping_address_id'])) {
-                $rules = array_merge($rules, [
-                    'shipping_address_id' => 'numeric|required',
-                ]);
-            } else {
-                $rules = array_merge($rules, $this->mergeAddressRules('shipping'));
-            }
+        if (
+            empty($args['billing']['use_for_shipping'])
+            && Cart::getCart()->haveStockableItems()
+        ) {
+            $rules = array_merge($rules, $this->mergeAddressRules('shipping'));
         }
 
         bagisto_graphql()->validate($args, $rules);
 
-        if (! $cart = Cart::getCart()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.fail.not-found'));
-        }
-
-        $billingAddressId = $args['billing_address_id'];
-
-        $shippingAddressId = $args['shipping_address_id'];
-
-        $token = request()->bearerToken();
-
         if (
-            $token
-            && ! auth()->check()
+            ! auth()->guard('api')->check()
+            && ! Cart::getCart()->hasGuestCheckoutItems()
         ) {
-            if (
-                $billingAddressId
-                || $shippingAddressId
-            ) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.invalid-guest-user'));
-            }
-
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.guest-address-warning'));
         }
 
-        if (
-            ! $token
-            || (
-                $token
-                && auth()->check()
-            )
-        ) {
+        if (Cart::hasError()) {
+            throw new CustomException(current(Cart::getErrors()));
+        }
+
+        if (auth()->guard('api')->check()) {
+            $args = array_merge($args, [
+                'billing' => array_merge($args['billing'], [
+                    'customer_id' => auth()->guard('api')->user()->id,
+                ]),
+            ]);
+    
             if (
-                ! auth()->check()
-                && ! Cart::getCart()->hasGuestCheckoutItems()
+                empty($args['billing']['use_for_shipping'])
+                && Cart::getCart()->haveStockableItems()
             ) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.guest-checkout-warning'));
+                $args = array_merge($args, [
+                    'shipping' => array_merge($args['shipping'], [
+                        'customer_id' => auth()->guard('api')->user()->id,
+                    ]),
+                ]);
+            }
+        }
+
+        Cart::saveAddresses($args);
+
+        $cart = Cart::getCart();
+
+        Cart::collectTotals();
+
+        if ($cart->haveStockableItems()) {
+            if (! $rates = Shipping::collectRates()) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
             }
 
-            try {
-                $data = [
-                    'billing'   => [
-                        'address'    => '',
-                        'first_name' => $cart->customer_first_name,
-                        'last_name'  => $cart->customer_last_name,
-                        'email'      => $cart->customer_email,
-                        'address_id' => $billingAddressId,
-                    ],
+            $shipping_methods = [];
 
-                    'shipping'   => [
-                        'address'    => '',
-                        'first_name' => $cart->customer_first_name,
-                        'last_name'  => $cart->customer_last_name,
-                        'email'      => $cart->customer_email,
-                        'address_id' => $shippingAddressId,
-                    ],
-                ];
+            foreach ($rates['shippingMethods'] as $shippingMethod) {
+                $methods = [];
 
-                $addressFlag = false;
-
-                if ($billingAddressId) {
-                    $billingAddress = $this->customerAddressRepository->findOneWhere([
-                        'id'           => $billingAddressId,
-                        'address_type' => 'customer',
-                    ]);
-
-                    if (isset($billingAddress->id)) {
-                        $data['billing'] = $this->getAddressData($billingAddress);
-
-                        if (
-                            isset($params['billing']['use_for_shipping'])
-                            && $params['billing']['use_for_shipping'] == true
-                        ) {
-                            unset($data['shipping']['address_id']);
-
-                            $data['billing']['use_for_shipping'] = true;
-                        } else {
-                            $data['billing']['use_for_shipping'] = false;
-                        }
-                    } else {
-                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.no-billing-address-found'));
-                    }
-                } else {
-                    $addressFlag = true;
-                }
-
-                if ($shippingAddressId) {
-                    $shippingAddress = $this->customerAddressRepository->findOneWhere([
-                        'id'           => $shippingAddressId,
-                        'address_type' => 'customer',
-                    ]);
-
-                    if (isset($shippingAddress->id)) {
-                        $data['shipping'] = $this->getAddressData($shippingAddress);
-                    } else {
-                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.no-shipping-address-found'));
-                    }
-                } else {
-                    $addressFlag = true;
-                }
-
-                if ($addressFlag == true) {
-                    if (
-                        ! $billingAddressId
-                        && isset($params['billing']['address'])
-                    ) {
-                        if (
-                            isset($params['billing']['isSaved'])
-                            && $params['billing']['isSaved'] == true
-                        ) {
-                            $this->customerAddressRepository->create(array_merge($params['billing'], [
-                                'address' => implode(PHP_EOL, array_filter($params['billing']['address'])),
-                            ]));
-                        }
-
-                        $data['billing'] = $params['billing'];
-
-                        if (
-                            isset($params['billing']['use_for_shipping'])
-                            && $params['billing']['use_for_shipping'] == true
-                        ) {
-                            unset($data['shipping']['address_id']);
-                        }
-                    }
-
-                    if (
-                        ! $shippingAddressId
-                        && isset($params['shipping']['address'])
-                    ) {
-                        if (
-                            isset($params['shipping']['isSaved'])
-                            && $params['shipping']['isSaved'] == true
-                        ) {
-                            $this->customerAddressRepository->create(array_merge($params['shipping'], [
-                                'address' => implode(PHP_EOL, array_filter($params['shipping']['address'])),
-                            ]));
-                        }
-
-                        if (empty($params['billing']['use_for_shipping'])) {
-                            $data['shipping'] = $params['shipping'];
-                        }
-                    }
-
-                    if (! empty($cart['is_guest'])) {
-                        $data['billing']['customer_id'] = $data['shipping']['customer_id'] = null;
-                    }
-                }
-
-                if (Cart::hasError()) {
-                    throw new CustomException(current(Cart::getErrors()));
-                }
-
-                Cart::saveAddresses($data);
-
-                Cart::collectTotals();
-
-                if (
-                    $cart->haveStockableItems()
-                    && $args['type'] == 'shipping'
-                ) {
-                    if (! $rates = Shipping::collectRates()) {
-                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
-                    }
-
-                    $shipping_methods = [];
-
-                    foreach ($rates['shippingMethods'] as $shippingMethod) {
-                        $methods = [];
-
-                        foreach ($shippingMethod['rates'] as $rate) {
-                            $methods = [
-                                'code'                 => $rate->method,
-                                'label'                => $rate->method_title,
-                                'price'                => $rate->price,
-                                'formatted_price'      => core()->formatPrice($rate->price),
-                                'base_price'           => $rate->base_price,
-                                'formatted_base_price' => core()->formatBasePrice($rate->base_price),
-                            ];
-                        }
-
-                        $shipping_methods[] = [
-                            'title'   => $shippingMethod['carrier_title'],
-                            'methods' => $methods,
-                        ];
-                    }
-
-                    return [
-                        'message'          => trans('bagisto_graphql::app.shop.checkout.addresses.address-save-success'),
-                        'cart'             => Cart::getCart(),
-                        'shipping_methods' => $shipping_methods,
-                        'jump_to_section'  => 'shipping',
+                foreach ($shippingMethod['rates'] as $rate) {
+                    $methods = [
+                        'code'                 => $rate->method,
+                        'label'                => $rate->method_title,
+                        'price'                => $rate->price,
+                        'formatted_price'      => core()->formatPrice($rate->price),
+                        'base_price'           => $rate->base_price,
+                        'formatted_base_price' => core()->formatBasePrice($rate->base_price),
                     ];
                 }
 
-                return [
-                    'message'         => trans('bagisto_graphql::app.shop.checkout.addresses.address-save-success'),
-                    'cart'            => Cart::getCart(),
-                    'payment_methods' => Payment::getPaymentMethods(),
-                    'jump_to_section' => 'payment',
+                $shipping_methods[] = [
+                    'title'   => $shippingMethod['carrier_title'],
+                    'methods' => $methods,
                 ];
-            } catch (\Exception $e) {
-                throw new CustomException($e->getMessage());
             }
+
+            return [
+                'message'          => trans('bagisto_graphql::app.shop.checkout.addresses.address-save-success'),
+                'cart'             => Cart::getCart(),
+                'shipping_methods' => $shipping_methods,
+                'jump_to_section'  => 'shipping',
+            ];
         }
+
+        return [
+            'message'         => trans('bagisto_graphql::app.shop.checkout.addresses.address-save-success'),
+            'cart'            => Cart::getCart(),
+            'payment_methods' => Payment::getPaymentMethods(),
+            'jump_to_section' => 'payment',
+        ];
     }
 
     /**
@@ -318,27 +181,6 @@ class CheckoutMutation extends Controller
             "{$addressType}.state"        => ['required'],
             "{$addressType}.postcode"     => ['required', 'numeric'],
             "{$addressType}.phone"        => ['required', new PhoneNumber],
-        ];
-    }
-
-    /**
-     * Get address data.
-     *
-     * @return array
-     */
-    private function getAddressData(object $address)
-    {
-        return [
-            'company_name' => $address->company_name,
-            'first_name'   => $address->first_name,
-            'last_name'    => $address->last_name,
-            'email'        => $address->email,
-            'address'      => explode(PHP_EOL, $address->address),
-            'city'         => $address->city,
-            'country'      => $address->country,
-            'state'        => $address->state,
-            'postcode'     => $address->postcode,
-            'phone'        => $address->phone,
         ];
     }
 
