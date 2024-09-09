@@ -1526,14 +1526,7 @@
 											]
 										},
 										"method": "POST",
-										"header": [
-											{
-												"key": "x-locale",
-												"value": "ar",
-												"type": "text",
-												"disabled": true
-											}
-										],
+										"header": [],
 										"body": {
 											"mode": "graphql",
 											"graphql": {
@@ -2029,14 +2022,7 @@
 											]
 										},
 										"method": "POST",
-										"header": [
-											{
-												"key": "x-locale",
-												"value": "ar",
-												"type": "text",
-												"disabled": true
-											}
-										],
+										"header": [],
 										"body": {
 											"mode": "graphql",
 											"graphql": {
@@ -9284,14 +9270,7 @@
 											]
 										},
 										"method": "POST",
-										"header": [
-											{
-												"key": "x-locale",
-												"value": "ar",
-												"type": "text",
-												"disabled": true
-											}
-										],
+										"header": [],
 										"body": {
 											"mode": "graphql",
 											"graphql": {
@@ -9907,19 +9886,12 @@
 									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "x-locale",
-										"value": "ar",
-										"type": "text",
-										"disabled": true
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation saveCheckoutAddresses ($input: SaveShippingAddressInput!) {\n    saveCheckoutAddresses (\n        input: $input\n    ) {\n        message\n        shippingMethods {\n            title\n            methods {\n                code\n                label\n                price\n                formattedPrice\n                basePrice\n                formattedBasePrice\n            }\n        }\n        paymentMethods {\n            method\n            methodTitle\n            description\n            sort\n        }\n        cart {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n            shippingMethod\n            couponCode\n            isGift\n            itemsCount\n            itemsQty\n        }\n        jumpToSection\n    }\n}",
-										"variables": "{\n    \"input\": {\n        \"billing\": {\n            \"companyName\": \"C. Trades\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"D Nelson\",\n            \"email\": \"doug@example.com\",\n            \"address\": [\"3180 Bluff Street\"],\n            \"country\": \"US\",\n            \"state\": \"Illinois\",\n            \"city\": \"Wheeling\",\n            \"postcode\": \"600901\",\n            \"phone\": \"0987654321\",\n            \"useForShipping\": true,\n            \"defaultAddress\": true\n        },\n        \"shipping\": {\n            \"companyName\": \"C. Trades\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"D Nelson\",\n            \"email\": \"doug@example.com\",\n            \"address\": [\"836 Hog Camp Road\"],\n            \"country\": \"US\",\n            \"state\": \"Illinois\",\n            \"city\": \"Wheeling\",\n            \"postcode\": \"600902\",\n            \"phone\": \"0987654321\"\n        }\n    }\n}"
+										"variables": "{\n    \"input\": {\n        \"billing\": {\n            \"companyName\": \"C. Trades\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"D Nelson\",\n            \"email\": \"doug@example.com\",\n            \"address\": [\"3180 Bluff Street\"],\n            \"country\": \"US\",\n            \"state\": \"Illinois\",\n            \"city\": \"Wheeling\",\n            \"postcode\": \"600901\",\n            \"phone\": \"0987654321\",\n            \"useForShipping\": true,\n            \"defaultAddress\": true,\n            \"saveAddress\": false\n        },\n        \"shipping\": {\n            \"companyName\": \"C. Trades\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"D Nelson\",\n            \"email\": \"doug@example.com\",\n            \"address\": [\"836 Hog Camp Road\"],\n            \"country\": \"US\",\n            \"state\": \"Illinois\",\n            \"city\": \"Wheeling\",\n            \"postcode\": \"600902\",\n            \"phone\": \"0987654321\"\n        }\n    }\n}"
 									}
 								},
 								"url": {

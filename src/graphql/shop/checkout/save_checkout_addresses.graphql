@@ -22,6 +22,7 @@ input CheckoutAddressInput {
     postcode: String!
     phone: String!
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
+    saveAddress: Boolean @rename(attribute: "save_address")
     defaultAddress: Boolean  @rename(attribute: "default_address")
 }
 

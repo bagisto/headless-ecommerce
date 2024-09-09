@@ -114,6 +114,12 @@ class CheckoutMutation extends Controller
                     ]),
                 ]);
             }
+
+            if (! empty($args['billing']['save_address'])) {
+                $this->customerAddressRepository->create(array_merge($args['billing'], [
+                    'address' => implode(PHP_EOL, $args['billing']['address']),
+                ]));
+            }
         }
 
         Cart::saveAddresses($args);
