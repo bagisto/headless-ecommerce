@@ -6,15 +6,11 @@ extend type Mutation {
 }
 
 input SaveShippingAddressInput {
-    billingAddressId: Int! @rename(attribute: "billing_address_id")
-    shippingAddressId: Int! @rename(attribute: "shipping_address_id")
-    type: String!
     billing: CheckoutAddressInput
     shipping: CheckoutAddressInput
 }
 
 input CheckoutAddressInput {
-    customerId: Int  @rename(attribute: "customer_id")
     companyName: String @rename(attribute: "company_name")
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
@@ -25,8 +21,8 @@ input CheckoutAddressInput {
     city: String!
     postcode: String!
     phone: String!
-    isSaved: Boolean
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
+    saveAddress: Boolean @rename(attribute: "save_address")
     defaultAddress: Boolean  @rename(attribute: "default_address")
 }
 
