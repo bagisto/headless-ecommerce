@@ -103,7 +103,7 @@ class CheckoutMutation extends Controller
                     'customer_id' => auth()->guard('api')->user()->id,
                 ]),
             ]);
-    
+
             if (
                 empty($args['billing']['use_for_shipping'])
                 && Cart::getCart()->haveStockableItems()

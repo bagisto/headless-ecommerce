@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class ShipmentQuery
 {
@@ -21,7 +21,7 @@ class ShipmentQuery
         });
 
         $query->when(Arr::has($input, 'carrier_title'), function ($query) use ($input) {
-            $query->where('carrier_title', 'like', '%' . $input['carrier_title'] . '%');
+            $query->where('carrier_title', 'like', '%'.$input['carrier_title'].'%');
         });
 
         $query->whereHas('order', function ($query) use ($customer) {

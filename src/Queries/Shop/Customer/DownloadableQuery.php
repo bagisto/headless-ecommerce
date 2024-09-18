@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class DownloadableQuery extends BaseFilter

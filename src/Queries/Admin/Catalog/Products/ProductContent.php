@@ -158,24 +158,18 @@ class ProductContent extends BaseFilter
     }
 
     /**
-     * Check wishlist
-     *
-     * @return bool
+     * Check product is in wishlist.
      */
-    public function checkIsInWishlist($product)
+    public function checkIsInWishlist($product): bool
     {
-        if (auth()->check()) {
-            $wishlist = $this->wishlistRepository->findOneWhere([
-                'customer_id' => auth()->user()->id,
-                'product_id'  => $product->id,
-            ]);
-
-            if ($wishlist) {
-                return true;
-            }
+        if (! auth()->guard('api')->check()) {
+            return false;
         }
 
-        return false;
+        return (bool) $this->wishlistRepository->where([
+            'customer_id' => auth()->guard('api')->user()->id,
+            'product_id'  => $product->id,
+        ])->count();
     }
 
     /**
