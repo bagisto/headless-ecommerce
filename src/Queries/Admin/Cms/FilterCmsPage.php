@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Cms;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterCmsPage extends BaseFilter

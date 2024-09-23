@@ -3,15 +3,15 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Illuminate\Support\Facades\DB;
-use Webkul\Product\Helpers\Toolbar;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Attribute\Repositories\AttributeRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Marketing\Repositories\SearchSynonymRepository;
+use Webkul\Product\Helpers\Toolbar;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
 class HomePageQuery extends BaseFilter
@@ -199,25 +199,25 @@ class HomePageQuery extends BaseFilter
             || ! empty($params['category_slug'])
         ) {
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id');
-            
+
             /**
              * Handle category_id filtering.
              */
             if (! empty($params['category_id'])) {
                 $qb->whereIn('product_categories.category_id', explode(',', $params['category_id']));
             }
-        
+
             /**
              * Handle category_slug filtering.
              */
             if (! empty($params['category_slug'])) {
                 $category = $this->categoryRepository->findBySlug($params['category_slug']);
-        
+
                 if ($category) {
                     $qb->where('product_categories.category_id', $category->id);
                 }
             }
-        }            
+        }
 
         if (! empty($params['channel_id'])) {
             $qb->leftJoin('product_channels', 'products.id', '=', 'product_channels.product_id')

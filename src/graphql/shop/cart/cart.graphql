@@ -118,7 +118,6 @@ type Cart {
     allItems: [CartItem!] @hasMany(relation: "all_items")
     billingAddress: Address @rename(attribute: "billing_address")
     shippingAddress: Address @rename(attribute: "shipping_address")
-    #shippingRates: ShippingRates @rename(attribute: "shipping_rates")
     selectedShippingRate: CartShippingRate @rename(attribute: "selected_shipping_rate")
     payment: CartPayment @hasOne
     status: Boolean
