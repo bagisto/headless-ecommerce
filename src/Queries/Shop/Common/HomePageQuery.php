@@ -3,14 +3,15 @@
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Illuminate\Support\Facades\DB;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Attribute\Repositories\AttributeRepository;
-use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Product\Helpers\Toolbar;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Helpers\Toolbar;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Attribute\Repositories\AttributeRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Marketing\Repositories\SearchSynonymRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
 class HomePageQuery extends BaseFilter
@@ -30,6 +31,7 @@ class HomePageQuery extends BaseFilter
         protected ProductRepository $productRepository,
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
+        protected SearchSynonymRepository $searchSynonymRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository,
         protected Toolbar $productHelperToolbar
     ) {}
@@ -156,20 +158,10 @@ class HomePageQuery extends BaseFilter
      */
     public function getAllProducts(object $query, array $input)
     {
-        return $this->searchFromDatabase($input);
-    }
-
-    /**
-     * Search product from database.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function searchFromDatabase($input)
-    {
         $params = [
             'status'               => 1,
             'visible_individually' => 1,
-            'url_key'              => null,
+            'channel_id'           => core()->getCurrentChannel()->id,
         ];
 
         $filters = array_filter($input);
@@ -178,13 +170,21 @@ class HomePageQuery extends BaseFilter
             $params[$input['key']] = $input['value'];
         }
 
-        if (! empty($params['search'])) {
-            $params['name'] = $params['search'];
-        }
+        return $this->searchFromDatabase($params);
+    }
+
+    /**
+     * Search product from database.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function searchFromDatabase($params)
+    {
+        $params['url_key'] ??= null;
 
         $prefix = DB::getTablePrefix();
 
-        $qb = app(ProductRepository::class)->distinct()
+        $qb = $this->productRepository->distinct()
             ->select('products.*')
             ->leftJoin('products as variants', DB::raw('COALESCE('.$prefix.'variants.parent_id, '.$prefix.'variants.id)'), '=', 'products.id')
             ->leftJoin('product_price_indices', function ($join) {
@@ -194,16 +194,34 @@ class HomePageQuery extends BaseFilter
                     ->where('product_price_indices.customer_group_id', $customerGroup->id);
             });
 
-        if (! empty($params['category_slug'])) {
-            $categoryIds = $this->categoryRepository->findBySlug($params['category_slug'])->id;
+        if (
+            ! empty($params['category_id'])
+            || ! empty($params['category_slug'])
+        ) {
+            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id');
+            
+            /**
+             * Handle category_id filtering.
+             */
+            if (! empty($params['category_id'])) {
+                $qb->whereIn('product_categories.category_id', explode(',', $params['category_id']));
+            }
+        
+            /**
+             * Handle category_slug filtering.
+             */
+            if (! empty($params['category_slug'])) {
+                $category = $this->categoryRepository->findBySlug($params['category_slug']);
+        
+                if ($category) {
+                    $qb->where('product_categories.category_id', $category->id);
+                }
+            }
+        }            
 
-            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
-                ->where('product_categories.category_id', $categoryIds);
-        }
-
-        if (! empty($params['category_id'])) {
-            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
-                ->whereIn('product_categories.category_id', explode(',', $params['category_id']));
+        if (! empty($params['channel_id'])) {
+            $qb->leftJoin('product_channels', 'products.id', '=', 'product_channels.product_id')
+                ->where('product_channels.channel_id', explode(',', $params['channel_id']));
         }
 
         if (! empty($params['type'])) {
@@ -247,7 +265,13 @@ class HomePageQuery extends BaseFilter
                 ->where($alias.'.attribute_id', $attribute->id);
 
             if ($attribute->code == 'name') {
-                $qb->where($alias.'.text_value', 'like', '%'.urldecode($params['name']).'%');
+                $synonyms = $this->searchSynonymRepository->getSynonymsByQuery(urldecode($params['name']));
+
+                $qb->where(function ($subQuery) use ($alias, $synonyms) {
+                    foreach ($synonyms as $synonym) {
+                        $subQuery->orWhere($alias.'.text_value', 'like', '%'.$synonym.'%');
+                    }
+                });
             } elseif ($attribute->code == 'url_key') {
                 if (empty($params['url_key'])) {
                     $qb->whereNotNull($alias.'.text_value');
@@ -278,35 +302,30 @@ class HomePageQuery extends BaseFilter
          * Filter query by attributes.
          */
         if ($attributes->isNotEmpty()) {
-            $qb->leftJoin('product_attribute_values', 'products.id', '=', 'product_attribute_values.product_id');
+            $qb->where(function ($filterQuery) use ($qb, $params, $attributes) {
+                $aliases = [
+                    'products' => 'product_attribute_values',
+                    'variants' => 'variant_attribute_values',
+                ];
 
-            $qb->where(function ($filterQuery) use ($params, $attributes) {
-                foreach ($attributes as $attribute) {
-                    $filterQuery->orWhere(function ($attributeQuery) use ($params, $attribute) {
-                        $attributeQuery = $attributeQuery->where('product_attribute_values.attribute_id', $attribute->id);
+                foreach ($aliases as $table => $tableAlias) {
+                    $filterQuery->orWhere(function ($subFilterQuery) use ($qb, $params, $attributes, $table, $tableAlias) {
+                        foreach ($attributes as $attribute) {
+                            $alias = $attribute->code.'_'.$tableAlias;
 
-                        $values = explode(',', $params[$attribute->code]);
+                            $qb->leftJoin('product_attribute_values as '.$alias, function ($join) use ($table, $alias, $attribute) {
+                                $join->on($table.'.id', '=', $alias.'.product_id');
 
-                        if ($attribute->type == 'price') {
-                            $attributeQuery->whereBetween('product_attribute_values.'.$attribute->column_name, [
-                                core()->convertToBasePrice(current($values)),
-                                core()->convertToBasePrice(end($values)),
-                            ]);
-                        } else {
-                            $attributeQuery->whereIn('product_attribute_values.'.$attribute->column_name, $values);
+                                $join->where($alias.'.attribute_id', $attribute->id);
+                            });
+
+                            $subFilterQuery->whereIn($alias.'.'.$attribute->column_name, explode(',', $params[$attribute->code]));
                         }
                     });
                 }
             });
 
-            /**
-             * This is key! if a product has been filtered down to the same number of attributes that we filtered on,
-             * we know that it has matched all of the requested filters.
-             *
-             * To Do (@devansh): Need to monitor this.
-             */
             $qb->groupBy('products.id');
-            $qb->havingRaw('COUNT(*) = '.count($attributes));
         }
 
         /**
@@ -325,9 +344,20 @@ class HomePageQuery extends BaseFilter
 
                     $qb->leftJoin('product_attribute_values as '.$alias, function ($join) use ($alias, $attribute) {
                         $join->on('products.id', '=', $alias.'.product_id')
-                            ->where($alias.'.attribute_id', $attribute->id)
-                            ->where($alias.'.channel', core()->getRequestedChannelCode())
-                            ->where($alias.'.locale', core()->getRequestedLocaleCode());
+                            ->where($alias.'.attribute_id', $attribute->id);
+
+                        if ($attribute->value_per_channel) {
+                            if ($attribute->value_per_locale) {
+                                $join->where($alias.'.channel', core()->getRequestedChannelCode())
+                                    ->where($alias.'.locale', core()->getRequestedLocaleCode());
+                            } else {
+                                $join->where($alias.'.channel', core()->getRequestedChannelCode());
+                            }
+                        } else {
+                            if ($attribute->value_per_locale) {
+                                $join->where($alias.'.locale', core()->getRequestedLocaleCode());
+                            }
+                        }
                     })
                         ->orderBy($alias.'.'.$attribute->column_name, $sortOptions['order']);
                 }
@@ -340,14 +370,6 @@ class HomePageQuery extends BaseFilter
         }
 
         return $qb->groupBy('products.id');
-    }
-
-    /**
-     * Fetch per page limit from toolbar helper. Adapter for this repository.
-     */
-    public function getPerPageLimit(array $params): int
-    {
-        return product_toolbar()->getLimit($params);
     }
 
     /**
