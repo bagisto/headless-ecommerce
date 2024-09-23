@@ -205,78 +205,59 @@ class CheckoutMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.empty-cart'));
         }
 
-        try {
-            $token = request()->bearerToken();
+        if (
+            ! auth()->guard('api')->check()
+            && ! Cart::getCart()->hasGuestCheckoutItems()
+        ) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.invalid-guest-user'));
+        }
 
-            if (
-                ! $token
-                || (
-                    $token
-                    && auth()->check()
-                )
-            ) {
-                if (
-                    ! auth()->check()
-                    && Cart::getCart()->hasGuestCheckoutItems()
-                ) {
-                    throw new CustomException(trans('bagisto_graphql::app.shop.checkout.invalid-guest-user'));
-                }
+        if (empty($cart->shipping_address->id)) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.no-address-found'));
+        }
 
-                if (empty($cart->shipping_address->id)) {
-                    throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.no-address-found'));
-                }
+        Cart::collectTotals();
 
-                Cart::collectTotals();
-
-                if ($cart->haveStockableItems()) {
-                    if (! $rates = Shipping::collectRates()) {
-                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.shipping.method-not-found'));
-                    }
-
-                    $shipping_methods = [];
-
-                    foreach ($rates['shippingMethods'] as $shippingMethod) {
-                        $methods = [];
-
-                        foreach ($shippingMethod['rates'] as $rate) {
-                            $methods = [
-                                'code'                 => $rate->method,
-                                'label'                => $rate->method_title,
-                                'price'                => $rate->price,
-                                'formatted_price'      => core()->formatPrice($rate->price),
-                                'base_price'           => $rate->base_price,
-                                'formatted_base_price' => core()->formatBasePrice($rate->base_price),
-                            ];
-                        }
-
-                        $shipping_methods[] = [
-                            'title'   => $shippingMethod['carrier_title'],
-                            'methods' => $methods,
-                        ];
-                    }
-
-                    return [
-                        'message'          => trans('bagisto_graphql::app.shop.checkout.shipping.method-fetched'),
-                        'cart'             => Cart::getCart(),
-                        'shipping_methods' => $shipping_methods,
-                        'jump_to_section'  => 'shipping',
-                    ];
-                } else {
-                    return [
-                        'message'         => trans('bagisto_graphql::app.shop.checkout.payment.method-fetched'),
-                        'cart'            => Cart::getCart(),
-                        'payment_methods' => Payment::getPaymentMethods(),
-                        'jump_to_section' => 'payment',
-                    ];
-                }
-            } elseif (
-                $token
-                && ! auth()->check()
-            ) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.addresses.guest-address-warning'));
+        if ($cart->haveStockableItems()) {
+            if (! $rates = Shipping::collectRates()) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.shipping.method-not-found'));
             }
-        } catch (\Exception $e) {
-            throw new CustomException($e->getMessage());
+
+            $shipping_methods = [];
+
+            foreach ($rates['shippingMethods'] as $shippingMethod) {
+                $methods = [];
+
+                foreach ($shippingMethod['rates'] as $rate) {
+                    $methods = [
+                        'code'                 => $rate->method,
+                        'label'                => $rate->method_title,
+                        'price'                => $rate->price,
+                        'formatted_price'      => core()->formatPrice($rate->price),
+                        'base_price'           => $rate->base_price,
+                        'formatted_base_price' => core()->formatBasePrice($rate->base_price),
+                    ];
+                }
+
+                $shipping_methods[] = [
+                    'title'   => $shippingMethod['carrier_title'],
+                    'methods' => $methods,
+                ];
+            }
+
+            return [
+                'message'          => trans('bagisto_graphql::app.shop.checkout.shipping.method-fetched'),
+                'cart'             => Cart::getCart(),
+                'shipping_methods' => $shipping_methods,
+                'jump_to_section'  => 'shipping',
+            ];
+        } else {
+            return [
+                'message'         => trans('bagisto_graphql::app.shop.checkout.payment.method-fetched'),
+                'cart'            => Cart::getCart(),
+                'payment_methods' => Payment::getPaymentMethods(),
+                'jump_to_section' => 'payment',
+            ];
         }
     }
 
