@@ -3667,7 +3667,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query cmsPages {\n    cmsPages (\n        first:11\n        page: 1\n        input: {\n            # id: 1\n            # pageTitle: \"test\"\n            # urlKey: \"test\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            layout\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            translations {\n                id\n                urlKey\n                metaDescription\n                metaTitle\n                pageTitle\n                metaKeywords\n                htmlContent\n                locale\n                cmsPageId\n            }\n        }\n    }\n}",
+										"query": "query cmsPages {\n    cmsPages (\n        first: 20\n        page: 1\n        input: {\n            # id: 1\n            # pageTitle: \"About Us\"\n            # urlKey: \"about-us\"\n        }\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            layout\n            createdAt\n            updatedAt\n            channels {\n                id\n                code\n                name\n            }\n            translations {\n                id\n                urlKey\n                metaDescription\n                metaTitle\n                pageTitle\n                metaKeywords\n                htmlContent\n                locale\n                cmsPageId\n            }\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -3784,7 +3784,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation deleteCmsPage {\n    deleteCmsPage(\n        id: 12\n    ) {\n        success\n        message\n    }\n}",
+										"query": "mutation deleteCmsPage {\n    deleteCmsPage(\n        id: 6\n    ) {\n        success\n        message\n    }\n}",
 										"variables": ""
 									}
 								},
