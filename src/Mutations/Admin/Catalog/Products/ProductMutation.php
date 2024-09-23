@@ -2,17 +2,18 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
+use Webkul\Core\Rules\Slug;
+use Webkul\Core\Rules\Decimal;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Validator;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Core\Rules\Decimal;
-use Webkul\Core\Rules\Slug;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Helpers\ProductType;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Product\Models\ProductAttributeValue;
-use Webkul\Product\Repositories\ProductAttributeValueRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Admin\Validations\ProductCategoryUniqueSlug;
+use Webkul\Product\Repositories\ProductAttributeValueRepository;
 
 class ProductMutation extends Controller
 {
@@ -267,6 +268,7 @@ class ProductMutation extends Controller
 
         $validateRules = array_merge($product->getTypeInstance()->getTypeValidationRules(), [
             'sku'                => ['required', 'unique:products,sku,'.$id, new Slug],
+            'url_key'            => ['required', new ProductCategoryUniqueSlug('products', $id)],
             'special_price_from' => 'nullable|date',
             'special_price_to'   => 'nullable|date|after_or_equal:special_price_from',
             'special_price'      => ['nullable', new Decimal, 'lt:price'],
