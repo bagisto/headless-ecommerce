@@ -34,10 +34,12 @@ class InventorySourceMutation extends Controller
             'contact_email'  => 'required|email',
             'contact_number' => 'required',
             'street'         => 'required',
-            'country'        => 'required',
+            'country'        => 'required|exists:countries,code',
             'state'          => 'required',
             'city'           => 'required',
             'postcode'       => 'required',
+            'latitude'       => 'nullable|numeric|between:-90,90',
+            'longitude'      => 'nullable|numeric|between:-180,180',
         ]);
 
         try {
@@ -75,10 +77,12 @@ class InventorySourceMutation extends Controller
             'contact_email'  => 'required|email',
             'contact_number' => 'required',
             'street'         => 'required',
-            'country'        => 'required',
+            'country'        => 'required|exists:countries,code',
             'state'          => 'required',
             'city'           => 'required',
             'postcode'       => 'required',
+            'latitude'       => 'nullable|numeric|between:-90,90',
+            'longitude'      => 'nullable|numeric|between:-180,180',
         ]);
 
         $inventorySource = $this->inventorySourceRepository->find($args['id']);
