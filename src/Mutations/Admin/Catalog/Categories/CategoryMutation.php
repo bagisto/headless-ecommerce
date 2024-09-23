@@ -119,6 +119,7 @@ class CategoryMutation extends Controller
                 }
             }],
             $locale.'.name' => 'required',
+            $locale.'.description' => 'required_if:display_mode,==,description_only,products_and_description',
             'image.*'       => 'mimes:jpeg,jpg,bmp,png',
             'parent_id'     => 'required|exists:categories,id',
         ]);
