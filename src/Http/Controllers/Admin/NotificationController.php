@@ -162,7 +162,7 @@ class NotificationController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-update-success'),
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.mass-update-success'),
         ], 200);
     }
 

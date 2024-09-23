@@ -154,7 +154,7 @@
                             <x-admin::form.control-group.control
                                 type="hidden"
                                 name="locale"
-                                value="{{ $notificationTranslation->locale }}"
+                                value="{{ $notificationTranslation?->locale }}"
                             />
 
                             <!-- Title -->
@@ -166,7 +166,7 @@
                                 <x-admin::form.control-group.control
                                     type="text"
                                     name="title"
-                                    :value="old('title') ?: $notificationTranslation->title"
+                                    :value="old('title') ?: $notificationTranslation?->title"
                                     rules="required"
                                     :label="trans('bagisto_graphql::app.admin.settings.notification.edit.title')"
                                     :placeholder="trans('bagisto_graphql::app.admin.settings.notification.edit.title')"
@@ -194,7 +194,7 @@
                                         name="content"
                                         id="content"
                                         class="content"
-                                        :value="old('content') ?: $notificationTranslation->content"
+                                        :value="old('content') ?: $notificationTranslation?->content"
                                         :label="trans('bagisto_graphql::app.admin.settings.notification.edit.notification-content')"
                                         rules="required"
                                         :tinymce="true"
@@ -253,40 +253,6 @@
                                     :checked="(bool) $selectedOption"
                                 />
                             </x-admin::form.control-group>
-
-                            <!-- Select Channels -->
-                            <p class="mb-2.5 flex items-center gap-1 text-xs font-medium text-gray-800 dark:text-white required">
-                                @lang('bagisto_graphql::app.admin.settings.notification.edit.store-view')
-                            </p>
-
-                            @foreach($channels as $channel)
-                                <x-admin::form.control-group class="mb-4 !mb-2 flex items-center gap-2.5 last:!mb-0">
-                                    @php
-                                        $selectedOption = $notificationTranslation->channel ? $notificationTranslation->channel == $channel->code : old('channels')
-                                    @endphp
-
-                                    <x-admin::form.control-group.control
-                                        type="checkbox"
-                                        name="channels[]"
-                                        :value="$channel->code"
-                                        :id="'channels_'.$channel->id"
-                                        :for="'channels_'.$channel->id"
-                                        rules="required"
-                                        :label="trans('bagisto_graphql::app.admin.settings.notification.edit.store-view')"
-                                        :checked="(boolean) $selectedOption"
-                                    >
-                                    </x-admin::form.control-group.control>
-
-                                    <x-admin::form.control-group.label
-                                        :for="'channels_'.$channel->id"
-                                        class="cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-300"
-                                    >
-                                        {{ core()->getChannelName($channel) }}
-                                    </x-admin::form.control-group.label>
-                                </x-admin::form.control-group>
-                            @endforeach
-
-                            <x-admin::form.control-group.error control-name="channels[]" />
 
                             <x-admin::form.control-group class="mb-2.5">
                                 <x-admin::form.control-group.label class="required">
@@ -358,6 +324,39 @@
                                 </span>
                             </x-admin::form.control-group>
                         </div>
+
+                        <x-admin::accordion>
+                            <x-slot:header>
+                                <p class="required p-2.5 text-base font-semibold text-gray-800 dark:text-white">
+                                    @lang('bagisto_graphql::app.admin.settings.notification.edit.store-view')
+                                </p>
+                            </x-slot>
+
+                            <x-slot:content>
+                                @foreach (core()->getAllChannels() as $channel)
+                                    <x-admin::form.control-group class="!mb-2 flex select-none items-center gap-2.5 last:!mb-0">
+                                        <x-admin::form.control-group.control
+                                            type="checkbox"
+                                            name="channels[]"
+                                            :value="$channel->code"
+                                            :id="'channels_'.$channel->id"
+                                            :for="'channels_'.$channel->id"
+                                            rules="required"
+                                            :label="trans('bagisto_graphql::app.admin.settings.notification.edit.store-view')"
+                                        />
+
+                                        <label
+                                            class="cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-300"
+                                            for="'channels_'.$channel->id"
+                                        >
+                                            {{ core()->getChannelName($channel) }}
+                                        </label>
+                                    </x-admin::form.control-group>
+                                @endforeach
+
+                                <x-admin::form.control-group.error control-name="channels[]" />
+                            </x-slot>
+                        </x-admin::accordion>
                     </div>
                 </div>
             </x-admin::form>
