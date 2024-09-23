@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Webkul\Payment\Payment;
-use Illuminate\Database\Eloquent\Builder;
 
 class OrderQuery
 {

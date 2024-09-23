@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Queries\Admin\Cms;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
@@ -12,22 +13,18 @@ class FilterCmsPage extends BaseFilter
      */
     public function __invoke(Builder $query, array $input): Builder
     {
-        if (isset($input['page_title'])) {
-            $query = $query->whereHas('page_title', function ($q) use ($input) {
+        $params = Arr::except($input, ['page_title', 'url_key']);
+
+        $query->whereHas('translations', function ($q) use ($input) {
+            if (isset($input['page_title'])) {
                 $q->where('page_title', $input['page_title']);
-            });
+            }
 
-            unset($input['page_title']);
-        }
-
-        if (isset($input['url_key'])) {
-            $query = $query->whereHas('url_key', function ($q) use ($input) {
+            if (isset($input['url_key'])) {
                 $q->where('url_key', $input['url_key']);
-            });
+            }
+        });
 
-            unset($input['url_key']);
-        }
-
-        return $query->where($input);
+        return $query->where($params);
     }
 }
