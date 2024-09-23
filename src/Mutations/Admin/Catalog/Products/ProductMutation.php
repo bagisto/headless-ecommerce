@@ -65,6 +65,12 @@ class ProductMutation extends Controller
 
         $args['super_attributes'] = $superAttributes;
 
+        bagisto_graphql()->validate($args, [
+            'super_attributes'     => 'required|array',
+            'super_attributes.*'   => 'required|array',
+            'super_attributes.*.*' => 'required|exists:attribute_options,id',
+        ]);
+
         try {
             Event::dispatch('catalog.product.create.before');
 
