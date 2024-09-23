@@ -71,6 +71,7 @@ class RoleMutation extends Controller
         bagisto_graphql()->validate($args, [
             'name'            => 'required',
             'permission_type' => 'required',
+            'description'     => 'required',
         ]);
 
         $role = $this->roleRepository->find($args['id']);
