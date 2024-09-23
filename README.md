@@ -1,59 +1,100 @@
 # Bagisto GraphQL API
 
 <p align="center">
-    <a href="https://packagist.org/packages/bagisto/graphql-api"><img src="https://poser.pugx.org/bagisto/graphql-api/d/total.svg" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/bagisto/graphql-api"><img src="https://poser.pugx.org/bagisto/graphql-api/v/stable.svg" alt="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/bagisto/graphql-api"><img src="https://poser.pugx.org/bagisto/graphql-api/license.svg" alt="License"></a>
+   <a href="https://packagist.org/packages/bagisto/graphql-api">
+      <img
+         src="https://poser.pugx.org/bagisto/graphql-api/d/total.svg"
+         alt="Total Downloads"
+      >
+   </a>
+
+   <a href="https://packagist.org/packages/bagisto/graphql-api">
+      <img
+         src="https://poser.pugx.org/bagisto/graphql-api/v/stable.svg"
+         alt="Latest Stable Version"
+      >
+   </a>
+
+   <a href="https://packagist.org/packages/bagisto/graphql-api">
+      <img
+         src="https://poser.pugx.org/bagisto/graphql-api/license.svg"
+         alt="License"
+      >
+   </a>
 </p>
 
-Laravel eCommerce headless APIs allow you to experience seamless and easily scalable storefront performance. The [open-source headless laravel](https://bagisto.com/en/headless-ecommerce/) platform built on GraphQL based Rest API delivers ultra-fast, dynamic, and personalized shopping experiences.
+Bagisto's GraphQL API enables a seamless, headless eCommerce experience built on Laravel. This API delivers ultra-fast, dynamic, and personalized shopping experiences through a scalable, open-source platform.
 
-**Read our documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/1.x/graphql-admin-api/)**
+**Read our full documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/1.x/graphql-admin-api/)**
 
-The Bagisto GraphQL API is made in collaboration with <a href="https://www.ucraft.com/">Ucraft Team</a>
+This API was developed in collaboration with the <a href="https://www.ucraft.com/">Ucraft Team</a>.
 
-### 1. Requirements:
+---
 
-* **Bagisto**: v2.2.2
+### Requirements:
 
-### 2. Installation:
+- **Bagisto**: v2.2.2 or higher
 
-#### To clone Bagisto GraphQL run the below command from terminal:
+---
 
-~~~
-composer require bagisto/graphql-api dev-main
-~~~
+### Installation:
 
-* Find a file **app/Http/Kernel.php** from root and add these two **middlewares** inside the **API** section of **$middlewareGroups** array:
+To install the Bagisto GraphQL API, follow these steps:
 
-~~~
-\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-\Illuminate\Session\Middleware\StartSession::class,
-~~~
+1. **Install via Composer**
 
-* Add the **JWT_TTL (JWT time to live)** & **JWT_SHOW_BLACKLIST_EXCEPTION** entries in the **.env** file:
+   Run the following command in your terminal to install the GraphQL API package:
 
-~~~
-JWT_TTL=525600
-JWT_SHOW_BLACKLIST_EXCEPTION=true
-~~~
+   ```bash
+   composer require bagisto/graphql-api dev-main
+   ```
 
-#### To install and publish the assests and configurations, run below command from the root in terminal:
+2. **Update Middleware Configuration**
 
-~~~
-php artisan bagisto-graphql:install
-~~~
+   In the `app/Http/Kernel.php` file, move the following middleware from the `web` section in the `middlewareGroups` array to the global `middleware` array:
 
-* Now to use the **graphql-playground** for testing the APIs:
+   ```php
+   \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+   \Illuminate\Session\Middleware\StartSession::class,
+   ```
 
-~~~
-http://your-domain.com/graphiql
-~~~
+3. **Update Environment Settings**
 
-* You can also use the **Postman** for testing the APIs:
+   Add the following entries to your `.env` file to configure JWT settings:
 
-~~~
-http://your-domain.com/graphql
-~~~
+   ```env
+   JWT_TTL=525600
+   JWT_SHOW_BLACKLIST_EXCEPTION=true
+   ```
 
-> That's it, now just execute the project on your specified domain.
+4. **Publish Assets and Configurations**
+
+   Run the command below to publish assets and configurations for Bagisto GraphQL:
+
+   ```bash
+   php artisan bagisto-graphql:install
+   ```
+
+---
+
+### Usage:
+
+1. **GraphQL Playground**
+
+   After installation, you can test your API through the GraphQL Playground. Visit:
+
+   ```
+   http://your-domain.com/graphiql
+   ```
+
+2. **Postman Integration**
+
+   Alternatively, you can test the API using Postman by accessing:
+
+   ```
+   http://your-domain.com/graphql
+   ```
+
+---
+
+That's it! Your Bagisto GraphQL API is now ready. Execute the project on your specified domain and start building your headless eCommerce solution.
