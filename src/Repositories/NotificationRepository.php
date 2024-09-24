@@ -129,7 +129,7 @@ class NotificationRepository extends Repository
                 }
 
                 $param['channel'] = $data['channel'];
-                $param['locale']  = $data['locale'];
+                $param['locale'] = $data['locale'];
                 $param['push_notification_id'] = $id;
 
                 $this->notificationTranslationRepository->create($param);

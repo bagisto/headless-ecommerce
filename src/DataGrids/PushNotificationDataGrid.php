@@ -4,8 +4,6 @@ namespace Webkul\GraphQLAPI\DataGrids;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Webkul\Core\Models\Channel;
-use Webkul\Core\Models\Locale;
 use Webkul\DataGrid\DataGrid;
 
 class PushNotificationDataGrid extends DataGrid

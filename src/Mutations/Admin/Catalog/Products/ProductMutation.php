@@ -2,18 +2,18 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Catalog\Products;
 
-use Webkul\Core\Rules\Slug;
-use Webkul\Core\Rules\Decimal;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Webkul\Product\Helpers\ProductType;
 use Illuminate\Support\Facades\Validator;
-use Webkul\Product\Models\ProductAttributeValue;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Validations\ProductCategoryUniqueSlug;
+use Webkul\Core\Rules\Decimal;
+use Webkul\Core\Rules\Slug;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Helpers\ProductType;
+use Webkul\Product\Models\ProductAttributeValue;
 use Webkul\Product\Repositories\ProductAttributeValueRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ProductMutation extends Controller
 {

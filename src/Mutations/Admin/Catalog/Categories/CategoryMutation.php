@@ -118,10 +118,10 @@ class CategoryMutation extends Controller
                     $fail(trans('bagisto_graphql::app.admin.catalog.categories.already-taken'));
                 }
             }],
-            $locale.'.name' => 'required',
+            $locale.'.name'        => 'required',
             $locale.'.description' => 'required_if:display_mode,==,description_only,products_and_description',
-            'image.*'       => 'mimes:jpeg,jpg,bmp,png',
-            'parent_id'     => 'required|exists:categories,id',
+            'image.*'              => 'mimes:jpeg,jpg,bmp,png',
+            'parent_id'            => 'required|exists:categories,id',
         ]);
 
         try {

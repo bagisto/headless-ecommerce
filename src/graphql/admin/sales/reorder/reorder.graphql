@@ -1,23 +1,23 @@
-# Sales\Order Related APIs
+# Sales\Re-Order Related APIs
 extend type Query @guard(with: ["admin-api"]) {
-    getCart(id: ID @eq): Cart @find(model: "Webkul\\Checkout\\Models\\Cart")
+    getCustomerCart(id: ID @eq): Cart @find(model: "Webkul\\Checkout\\Models\\Cart")
 }
 
 extend type Mutation @guard(with: ["admin-api"]) {
-    createCart(
+    createCustomerCart(
         customerId: ID! @rename(attribute: "customer_id")
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@createCart")
 
-    addCartItem(
+    addCartItem (
         id: ID! @rename(attribute: "cart_id")
         input: AddItemToCartInput! @spread
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@addCartItem")
 
-    deleteCartItem(
+    deleteCustomerCartItem (
         id: ID!
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@deleteCartItem")
 
-    updateCartItem(
+    updateCustomerCartItem (
         input: UpdateCartItemInput! @spread
     ): CartItemResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Sales\\Reorder\\ReorderMutation@updateCartItem")
 
