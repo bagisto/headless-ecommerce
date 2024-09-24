@@ -33,9 +33,9 @@ input FilterLocaleInput {
 }
 
 input CreateLocaleInput {
-    code: String! @rules(apply: ["required"])
-    name: String! @rules(apply: ["required"])
-    direction: Direction! @rules(apply: ["required"])
+    code: String!
+    name: String!
+    direction: Direction!
     image: String
 }
 

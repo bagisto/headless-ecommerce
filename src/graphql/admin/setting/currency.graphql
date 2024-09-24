@@ -32,10 +32,20 @@ input FilterCurrencyInput {
 }
 
 input CreateCurrencyInput {
-    name: String! @rules(apply: ["required"])
-    code: String! @rules(apply: ["min:3","max:3","required"])
+    code: String!
+    name: String!
     symbol: String
     decimal: Int
+    groupSeparator: String @rename(attribute: "group_separator")
+    decimalSeparator: String @rename(attribute: "decimal_separator")
+    currencyPosition: currencyPosition @rename(attribute: "currency_position")
+}
+
+enum currencyPosition {
+    LEFT @enum(value: "left")
+    LEFT_WITH_SPACE @enum(value: "left_with_space")
+    RIGHT @enum(value: "right")
+    RIGHT_WITH_SPACE @enum(value: "right_with_space")
 }
 
 type CurrencyResponse {
