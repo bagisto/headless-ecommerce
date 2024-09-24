@@ -19,7 +19,7 @@ class AddressesQuery extends BaseFilter
 
         $likeParams = Arr::only($input, ['first_name', 'last_name', 'company_name', 'address', 'city']);
 
-        $query->where('customer_id', $customer->id);
+        $params['customer_id'] = $customer->id;
 
         $query = $this->applyLikeFilter($query, $likeParams);
 

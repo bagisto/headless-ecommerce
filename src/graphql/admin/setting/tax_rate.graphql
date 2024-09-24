@@ -38,14 +38,14 @@ input FilterTaxRateInput {
 }
 
 input createTaxRateInput {
-    identifier: String! @rules(apply: ["required"])
+    identifier: String!
     isZip: String @rename(attribute: "is_zip")
     zipCode: String @rename(attribute: "zip_code")
     zipFrom: String @rename(attribute: "zip_from")
     zipTo: String @rename(attribute: "zip_to")
     state: String!
-    country: String! @rules(apply: ["required"])
-    taxRate: Float! @rename(attribute: "tax_rate") @rules(apply: ["required"])
+    country: String!
+    taxRate: Float! @rename(attribute: "tax_rate")
 }
 
 type TaxRateResponse {

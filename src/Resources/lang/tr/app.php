@@ -357,6 +357,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Uyarı: Bu slug zaten kullanılmış.',
             'create-success' => 'CMS başarıyla oluşturuldu.',
             'delete-success' => 'CMS başarıyla silindi',
             'not-found'      => 'Uyarı: CMS bulunamadı.',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Admin\Validations\ProductCategoryUniqueSlug;
 use Webkul\Core\Rules\Decimal;
 use Webkul\Core\Rules\Slug;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -63,6 +64,12 @@ class ProductMutation extends Controller
         }
 
         $args['super_attributes'] = $superAttributes;
+
+        bagisto_graphql()->validate($args, [
+            'super_attributes'     => 'required|array',
+            'super_attributes.*'   => 'required|array',
+            'super_attributes.*.*' => 'required|exists:attribute_options,id',
+        ]);
 
         try {
             Event::dispatch('catalog.product.create.before');
@@ -267,6 +274,7 @@ class ProductMutation extends Controller
 
         $validateRules = array_merge($product->getTypeInstance()->getTypeValidationRules(), [
             'sku'                => ['required', 'unique:products,sku,'.$id, new Slug],
+            'url_key'            => ['required', new ProductCategoryUniqueSlug('products', $id)],
             'special_price_from' => 'nullable|date',
             'special_price_to'   => 'nullable|date|after_or_equal:special_price_from',
             'special_price'      => ['nullable', new Decimal, 'lt:price'],

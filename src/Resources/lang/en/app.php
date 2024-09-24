@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Warning: The slug has already been taken.',
             'create-success' => 'CMS created successfully.',
             'delete-success' => 'CMS deleted successfully',
             'not-found'      => 'Warning: CMS not found.',
@@ -575,7 +576,7 @@ return [
                     'notification-content' => 'Notification Content',
                     'notification-type'    => 'Notification Type',
                     'product-cat-id'       => 'Product/Category Id',
-                    'settings'             => 'Setting',
+                    'settings'             => 'Settings',
                     'status'               => 'Status',
                     'store-view'           => 'Channels',
                     'title'                => 'Push Notification',
@@ -597,7 +598,7 @@ return [
                     'notification-type'    => 'Notification Type',
                     'product-cat-id'       => 'Product/Category Id',
                     'send-title'           => 'Send Notification',
-                    'settings'             => 'Setting',
+                    'settings'             => 'Settings',
                     'status'               => 'Status',
                     'store-view'           => 'Channels',
                     'title'                => 'Push Notification',

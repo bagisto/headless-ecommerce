@@ -74,6 +74,12 @@ class CmsPageMutation extends Controller
 
         $id = $args['id'];
 
+        $page = $this->pageRepository->find($id);
+
+        if (! $page) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.cms.not-found'));
+        }
+
         unset($data[$locale]['channels'], $data[$locale]['locale']);
 
         bagisto_graphql()->validate($data, [

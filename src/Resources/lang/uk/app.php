@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Попередження: Шлях (slug) вже використовується.',
             'create-success' => 'CMS успішно створено.',
             'delete-success' => 'CMS успішно видалено',
             'not-found'      => 'Попередження: CMS не знайдено.',

@@ -32,15 +32,15 @@ extend type Mutation @guard(with: ["api"]) {
 
 input AddressInput {
     companyName: String @rename(attribute: "company_name")
-    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
-    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
-    email: String! @rules(apply: ["email"])
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    email: String!
     vatId: String @rename(attribute: "vat_id")
-    address: [String]! @rules(apply: ["required"])
-    country: String! @rules(apply: ["required"])
-    state: String! @rules(apply: ["required"])
-    city: String! @rules(apply: ["required"])
-    postcode: String! @rules(apply: ["required"])
-    phone: String! @rules(apply: ["required"])
+    address: [String]!
+    country: String!
+    state: String!
+    city: String!
+    postcode: String!
+    phone: String!
     defaultAddress: Boolean @rename(attribute: "default_address")
 }

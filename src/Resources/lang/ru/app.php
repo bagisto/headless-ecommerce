@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Внимание: Этот слаг уже занят.',
             'create-success' => 'CMS успешно создан.',
             'delete-success' => 'CMS успешно удален',
             'not-found'      => 'Внимание: CMS не найден.',

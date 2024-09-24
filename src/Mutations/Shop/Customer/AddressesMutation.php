@@ -35,13 +35,14 @@ class AddressesMutation extends Controller
             'first_name'   => ['required'],
             'last_name'    => ['required'],
             'address'      => ['required', 'array', 'min:1'],
+            'address.*'    => ['required', 'string'],
             'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
             'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
             'city'         => ['required', 'string'],
             'postcode'     => core()->isPostCodeRequired() ? ['required', 'numeric'] : ['numeric'],
             'phone'        => ['required', new PhoneNumber],
             'vat_id'       => [new VatIdRule()],
-            'email'        => ['required'],
+            'email'        => ['required', 'email'],
         ]);
 
         try {

@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Attention : le slug est déjà utilisé.',
             'create-success' => 'CMS créé avec succès.',
             'delete-success' => 'CMS supprimé avec succès',
             'not-found'      => 'Attention : CMS introuvable.',

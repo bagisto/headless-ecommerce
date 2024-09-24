@@ -33,22 +33,22 @@ input FilterChannelInput {
 }
 
 input CreateChannelInput {
-    code: String! @rules(apply: ["required"])
-    name: String! @rules(apply: ["required"])
+    code: String!
+    name: String!
     description: String
     theme: String
     hostname: String
-    defaultLocaleId: Int! @rename(attribute: "default_locale_id") @rules(apply: ["required"])
-    baseCurrencyId: Int! @rename(attribute: "base_currency_id") @rules(apply: ["required"])
-    rootCategoryId: Int! @rename(attribute: "root_category_id") @rules(apply: ["required"])
-    locales: [String!]! @rules(apply: ["required"])
-    currencies: [String!]! @rules(apply: ["required"])
-    inventorySources: [String!] @rename(attribute: "inventory_sources") @rules(apply: ["required"])
+    defaultLocaleId: Int! @rename(attribute: "default_locale_id")
+    baseCurrencyId: Int! @rename(attribute: "base_currency_id")
+    rootCategoryId: Int! @rename(attribute: "root_category_id")
+    locales: [String!]!
+    currencies: [String!]!
+    inventorySources: [String!] @rename(attribute: "inventory_sources")
     logo: String
     favicon:String
-    seoTitle: String! @rename(attribute: "seo_title") @rules(apply: ["required"])
-    seoDescription: String! @rename(attribute: "seo_description") @rules(apply: ["required"])
-    seoKeywords: String! @rename(attribute: "seo_keywords") @rules(apply: ["required"])
+    seoTitle: String! @rename(attribute: "seo_title")
+    seoDescription: String! @rename(attribute: "seo_description")
+    seoKeywords: String! @rename(attribute: "seo_keywords")
     maintenanceModeText: String @rename(attribute: "maintenance_mode_text")
     allowedIps: String @rename(attribute: "allowed_ips")
     isMaintenanceOn: Boolean @rename(attribute: "is_maintenance_on")

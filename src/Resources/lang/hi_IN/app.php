@@ -357,6 +357,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'चेतावनी: स्लग पहले ही लिया गया है।',
             'create-success' => 'CMS सफलतापूर्वक बनाया गया।',
             'delete-success' => 'CMS सफलतापूर्वक हटा दिया गया।',
             'not-found'      => 'चेतावनी: CMS नहीं मिला।',

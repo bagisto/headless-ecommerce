@@ -32,10 +32,10 @@ input FilterTaxCategoryInput {
 }
 
 input createTaxCategoryInput {
-    code: String! @rules(apply: ["required"])
-    name: String! @rules(apply: ["required"])
-    description: String! @rules(apply: ["required"])
-    taxrates: [Int!]! @rules(apply: ["required"])
+    code: String!
+    name: String!
+    description: String!
+    taxrates: [Int!]!
 }
 
 type TaxCategoryResponse {

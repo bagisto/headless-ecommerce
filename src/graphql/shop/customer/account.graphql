@@ -9,16 +9,16 @@ extend type Mutation {
     ): CustomerResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@update")
 
     deleteAccount(
-        password: String! @rules(apply: ["required"])
+        password: String!
     ): StatusResponse @guard(with: ["api"]) @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\AccountMutation@delete")
 }
 
 input UpdateAccountInput {
-    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
-    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
-    email: String! @rules(apply: ["email"])
-    phone: String! @rules(apply: ["required"])
-    gender: Gender! @rules(apply: ["required"])
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    email: String!
+    phone: String!
+    gender: Gender!
     dateOfBirth: String @rename(attribute: "date_of_birth")
     currentPassword: String @rename(attribute: "current_password")
     newPassword: String @rename(attribute: "new_password")

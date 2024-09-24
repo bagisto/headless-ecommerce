@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => '注意: スラッグは既に使用されています。',
             'create-success' => 'CMSが正常に作成されました。',
             'delete-success' => 'CMSが正常に削除されました。',
             'not-found'      => '注意: CMSが見つかりません。',

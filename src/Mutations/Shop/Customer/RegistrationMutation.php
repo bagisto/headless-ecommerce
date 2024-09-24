@@ -37,11 +37,10 @@ class RegistrationMutation extends Controller
     public function signUp(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'email'                 => 'email|required|unique:customers,email',
-            'first_name'            => 'string|required',
-            'last_name'             => 'string|required',
-            'password'              => 'min:6|required',
-            'password_confirmation' => 'required|required_with:password|same:password',
+            'email'      => 'email|required|unique:customers,email',
+            'first_name' => 'string|required',
+            'last_name'  => 'string|required',
+            'password'   => 'min:6|required|confirmed',
         ]);
 
         $this->create($args);

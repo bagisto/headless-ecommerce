@@ -88,7 +88,7 @@ class NotificationController extends Controller
      */
     public function update(NotificationRequest $request, int $id)
     {
-        Event::dispatch('settings.notification.update.befor', $id);
+        Event::dispatch('settings.notification.update.before', $id);
 
         $notification = $this->notificationRepository->update($request->validated(), $id);
 
@@ -162,7 +162,7 @@ class NotificationController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('bagisto_graphql::app.admin.settings.notification.index.mass-update-success'),
+            'message' => trans('bagisto_graphql::app.admin.settings.notification.mass-update-success'),
         ], 200);
     }
 

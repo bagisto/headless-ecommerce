@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => '警告：该别名已被使用。',
             'create-success' => '成功：CMS创建成功。',
             'delete-success' => '成功：CMS删除成功。',
             'not-found'      => '警告：未找到CMS。',

@@ -32,8 +32,8 @@ input FilterCustomerGroupInput {
 }
 
 input CreateCustomerGroupInput {
-    name: String! @rules(apply: ["required"])
-    code: String! @rules(apply: ["required"])
+    name: String!
+    code: String!
 }
 
 type CustomerGroupResponse {

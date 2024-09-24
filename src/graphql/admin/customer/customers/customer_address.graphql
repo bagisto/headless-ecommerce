@@ -47,17 +47,17 @@ input FilterCustomerAddressInput {
 }
 
 input CreateCustomerAddressInput {
-    customerId: Int! @rename(attribute: "customer_id") @rules(apply: ["required"])
+    customerId: Int! @rename(attribute: "customer_id")
     companyName: String @rename(attribute: "company_name")
     vatId: String @rename(attribute: "vat_id")
-    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
-    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
-    address: String! @rules(apply: ["required"])
-    city: String! @rules(apply: ["required"])
-    postcode: String! @rules(apply: ["integer","required"])
-    country: String! @rules(apply: ["required"])
-    state: String! @rules(apply: ["required"])
-    phone: String! @rules(apply: ["integer"])
-    email: String! @rules(apply: ["required"])
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    address: String!
+    city: String!
+    postcode: String!
+    country: String!
+    state: String!
+    phone: String!
+    email: String!
     defaultAddress: Boolean @rename(attribute: "default_address")
 }

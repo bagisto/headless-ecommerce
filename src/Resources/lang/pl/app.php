@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Ostrzeżenie: Ten slug jest już zajęty.',
             'create-success' => 'CMS zostało pomyślnie utworzone.',
             'delete-success' => 'CMS zostało pomyślnie usunięte.',
             'not-found'      => 'Ostrzeżenie: CMS nie zostało znalezione.',

@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'هشدار: اسلاگ قبلاً استفاده شده است.',
             'create-success' => 'CMS با موفقیت ایجاد شد.',
             'delete-success' => 'CMS با موفقیت حذف شد.',
             'not-found'      => 'هشدار: CMS یافت نشد.',

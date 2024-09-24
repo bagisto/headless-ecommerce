@@ -33,11 +33,11 @@ input CreateCategoryInput {
     slug: String!
     description: String!
     status: Boolean!
-    position: String!
+    position: Int!
     displayMode: String! @rename(attribute: "display_mode")
     logoPath: [String] @rename(attribute: "logo_path")
     bannerPath: [String] @rename(attribute: "banner_path")
-    parentId: String @rename(attribute: "parent_id")
+    parentId: Int @rename(attribute: "parent_id")
     metaTitle: String! @rename(attribute: "meta_title")
     metaDescription: String! @rename(attribute: "meta_description")
     metaKeywords: String! @rename(attribute: "meta_keywords")

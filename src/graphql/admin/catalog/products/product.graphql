@@ -75,7 +75,7 @@ input UpdateProductInput {
     categories: [Int!]
     channels: [Int!]
     relatedProducts: [Int] @rename(attribute: "related_products")
-    upSell: [Int] @rename(attribute: "up_sell")
+    upSells: [Int] @rename(attribute: "up_sells")
     crossSells: [Int] @rename(attribute: "cross_sells")
     images: [String]
     videos: [String]

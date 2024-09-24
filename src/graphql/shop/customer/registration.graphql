@@ -13,15 +13,15 @@ input SignUpInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     email: String!
-    password: String! @rules(apply: ["min:6"])
-    passwordConfirmation: String! @rules(apply: ["min:6"]) @rename(attribute: "password_confirmation")
+    password: String!
+    passwordConfirmation: String! @rename(attribute: "password_confirmation")
     subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
 }
 
 input SocialSignInInput {
-    firstName: String @rename(attribute: "first_name") @rules(apply: ["required"])
-    lastName: String @rename(attribute: "last_name") @rules(apply: ["required"])
-    email: String! @rules(apply: ["email"])
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    email: String!
     phone: String
     signupType: SocialSignInType! @rename(attribute: "signup_type")
     password: String

@@ -79,13 +79,12 @@ class UserMutation extends Controller
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'name'                  => 'required',
-            'email'                 => 'required|email|unique:admins,email',
-            'password'              => 'nullable|min:6',
-            'password_confirmation' => 'nullable|required_with:password|same:password',
-            'role_id'               => 'required',
-            'status'                => 'sometimes',
-            'image'                 => 'sometimes',
+            'name'     => 'required',
+            'email'    => 'required|email|unique:admins,email',
+            'password' => 'nullable|min:6|confirmed',
+            'role_id'  => 'required',
+            'status'   => 'sometimes',
+            'image'    => 'sometimes',
         ]);
 
         if (! $this->roleRepository->find($args['role_id'])) {
@@ -133,13 +132,12 @@ class UserMutation extends Controller
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'name'                  => 'required',
-            'email'                 => 'required|email|unique:admins,email,'.$args['id'],
-            'password'              => 'nullable',
-            'password_confirmation' => 'nullable|required_with:password|same:password',
-            'status'                => 'sometimes',
-            'role_id'               => 'required',
-            'image'                 => 'sometimes',
+            'name'     => 'required',
+            'email'    => 'required|email|unique:admins,email,'.$args['id'],
+            'password' => 'nullable|min:6|confirmed',
+            'status'   => 'sometimes',
+            'role_id'  => 'required',
+            'image'    => 'sometimes',
         ]);
 
         $admin = $this->adminRepository->find($args['id']);
@@ -173,7 +171,7 @@ class UserMutation extends Controller
 
             bagisto_graphql()->uploadImage($admin, $imageUrl, 'admins/', 'image');
 
-            if ($isPasswordChanged) {
+            if ($isPasswordChanged ?? false) {
                 Event::dispatch('user.admin.update-password', $admin);
             }
 
