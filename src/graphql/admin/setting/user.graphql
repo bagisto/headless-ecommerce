@@ -41,11 +41,11 @@ input FilterUserInput {
 }
 
 input CreateUserInput {
-    name: String! @rules(apply: ["required"])
-    email: String! @rules(apply: ["email","required"])
-    password: String @rules(apply: ["min:6"])
+    name: String!
+    email: String!
+    password: String
     passwordConfirmation: String @rename(attribute: "password_confirmation")
-    roleId: Int! @rename(attribute: "role_id") @rules(apply: ["required"])
+    roleId: Int! @rename(attribute: "role_id")
     status: Boolean
     image: String
 }
