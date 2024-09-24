@@ -34,9 +34,9 @@ input FilterRoleInput {
 }
 
 input CreateRoleInput {
-    name: String! @rules(apply: ["required"])
-    description: String! @rules(apply: ["required"])
-    permissionType: PermissionType! @rename(attribute: "permission_type") @rules(apply: ["required"])   
+    name: String!
+    description: String!
+    permissionType: PermissionType! @rename(attribute: "permission_type")   
     permissions: [String!]
 }
 
