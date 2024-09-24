@@ -88,7 +88,7 @@ class NotificationController extends Controller
      */
     public function update(NotificationRequest $request, int $id)
     {
-        Event::dispatch('settings.notification.update.befor', $id);
+        Event::dispatch('settings.notification.update.before', $id);
 
         $notification = $this->notificationRepository->update($request->validated(), $id);
 

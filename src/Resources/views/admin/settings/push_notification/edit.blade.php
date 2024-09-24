@@ -46,9 +46,15 @@
                         </a>
 
                         <!-- Send Notification -->
-                        @if (core()->getConfigData('general.api.pushnotification.private_key'))
-                            <a href="{{ route('admin.settings.push_notification.send-notification', $notification['id']) }}"  class="primary-button">
-                                {{ __('bagisto_graphql::app.admin.settings.notification.edit.send-title') }}
+                        @if (
+                            core()->getConfigData('general.api.pushnotification.private_key')
+                            && $notification->status
+                        )
+                            <a
+                                href="{{ route('admin.settings.push_notification.send_notification', $notification['id']) }}"
+                                class="primary-button"
+                            >
+                                @lang('bagisto_graphql::app.admin.settings.notification.edit.send-title')
                             </a>
                         @endif
 
@@ -154,7 +160,7 @@
                             <x-admin::form.control-group.control
                                 type="hidden"
                                 name="locale"
-                                value="{{ $notificationTranslation?->locale }}"
+                                value="{{ $notificationTranslation?->locale ?? $currentLocale->code }}"
                             />
 
                             <!-- Title -->
@@ -325,38 +331,39 @@
                             </x-admin::form.control-group>
                         </div>
 
-                        <x-admin::accordion>
-                            <x-slot:header>
-                                <p class="required p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                    @lang('bagisto_graphql::app.admin.settings.notification.edit.store-view')
-                                </p>
-                            </x-slot>
+                        <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
+                            <p class="required pb-2.5 text-base font-semibold text-gray-800 dark:text-white">
+                                @lang('bagisto_graphql::app.admin.settings.notification.edit.store-view')
+                            </p>
 
-                            <x-slot:content>
-                                @foreach (core()->getAllChannels() as $channel)
-                                    <x-admin::form.control-group class="!mb-2 flex select-none items-center gap-2.5 last:!mb-0">
-                                        <x-admin::form.control-group.control
-                                            type="checkbox"
-                                            name="channels[]"
-                                            :value="$channel->code"
-                                            :id="'channels_'.$channel->id"
-                                            :for="'channels_'.$channel->id"
-                                            rules="required"
-                                            :label="trans('bagisto_graphql::app.admin.settings.notification.edit.store-view')"
-                                        />
+                            @php
+                                $selectedChannels = old('channels') ?: $notification->translations->pluck('channel')->toArray();
+                            @endphp
 
-                                        <label
-                                            class="cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-300"
-                                            for="'channels_'.$channel->id"
-                                        >
-                                            {{ core()->getChannelName($channel) }}
-                                        </label>
-                                    </x-admin::form.control-group>
-                                @endforeach
+                            @foreach (core()->getAllChannels() as $channel)
+                                <x-admin::form.control-group class="!mb-2 flex select-none items-center gap-2.5 last:!mb-0">
+                                    <x-admin::form.control-group.control
+                                        type="checkbox"
+                                        name="channels[]"
+                                        :value="$channel->code"
+                                        :id="'channels_'.$channel->id"
+                                        :for="'channels_'.$channel->id"
+                                        rules="required"
+                                        :label="trans('bagisto_graphql::app.admin.settings.notification.edit.store-view')"
+                                        :checked="in_array($channel->code, $selectedChannels)"
+                                    />
 
-                                <x-admin::form.control-group.error control-name="channels[]" />
-                            </x-slot>
-                        </x-admin::accordion>
+                                    <label
+                                        class="cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-300"
+                                        for="'channels_'.$channel->id"
+                                    >
+                                        {{ core()->getChannelName($channel) }}
+                                    </label>
+                                </x-admin::form.control-group>
+                            @endforeach
+
+                            <x-admin::form.control-group.error control-name="channels[]" />
+                        </div>
                     </div>
                 </div>
             </x-admin::form>

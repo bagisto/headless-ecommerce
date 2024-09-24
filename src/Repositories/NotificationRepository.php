@@ -119,8 +119,26 @@ class NotificationRepository extends Repository
                 }
 
                 $notificationTranslation->save();
+            } else {
+                $param = [];
+
+                foreach ($model->translatedAttributes as $attribute) {
+                    if (isset($data[$attribute])) {
+                        $param[$attribute] = $data[$attribute];
+                    }
+                }
+
+                $param['channel'] = $data['channel'];
+                $param['locale']  = $data['locale'];
+                $param['push_notification_id'] = $id;
+
+                $this->notificationTranslationRepository->create($param);
             }
         }
+
+        $this->notificationTranslationRepository->whereNotIn('channel', $data['channels'])
+            ->where('push_notification_id', $id)
+            ->delete();
 
         $this->uploadImages($data, $notification);
 

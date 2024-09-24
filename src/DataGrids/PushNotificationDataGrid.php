@@ -24,14 +24,6 @@ class PushNotificationDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
-        $whereInLocales = (core()->getRequestedLocaleCode() === 'all')
-            ? Locale::query()->pluck('code')->toArray()
-            : [core()->getRequestedLocaleCode()];
-
-        $whereInChannels = (core()->getRequestedChannelCode() === 'all')
-            ? Channel::query()->pluck('code')->toArray()
-            : [core()->getRequestedChannelCode()];
-
         $queryBuilder = DB::table('push_notifications as pn')
             ->select(
                 'pn.id as notification_id',
@@ -46,16 +38,8 @@ class PushNotificationDataGrid extends DataGrid
                 'pn_trans.channel',
                 'pn_trans.locale',
             )
-            ->leftJoin('push_notification_translations as pn_trans', function ($leftJoin) use ($whereInLocales, $whereInChannels) {
-                $leftJoin->on('pn.id', '=', 'pn_trans.push_notification_id')
-                    ->whereIn('pn_trans.locale', $whereInLocales)
-                    ->whereIn('pn_trans.channel', $whereInChannels);
-            })
-            ->groupBy(
-                'pn_trans.push_notification_id',
-                'pn_trans.channel',
-                'pn_trans.locale'
-            );
+            ->leftJoin('push_notification_translations as pn_trans', 'pn.id', '=', 'pn_trans.push_notification_id')
+            ->groupBy('pn.id');
 
         $this->addFilter('notification_id', 'pn.id');
 

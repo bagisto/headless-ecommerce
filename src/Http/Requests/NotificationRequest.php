@@ -29,10 +29,12 @@ class NotificationRequest extends FormRequest
             'image'               => 'array',
             'image.*'             => 'mimes:jpeg,jpg,bmp,png',
             'type'                => 'required',
+            'channel'             => 'nullable',
             'channels'            => 'required|array',
             'channels.*'          => 'required',
             'product_category_id' => 'nullable|integer',
             'locale'              => 'string',
+            'status'              => 'boolean',
         ];
     }
 }
