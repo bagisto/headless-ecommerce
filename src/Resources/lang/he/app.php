@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'אזהרה: הסלאג כבר תפוס.',
             'create-success' => 'CMS נוצר בהצלחה.',
             'delete-success' => 'CMS נמחק בהצלחה',
             'not-found'      => 'אזהרה: CMS לא נמצא.',

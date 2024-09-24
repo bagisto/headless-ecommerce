@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'Waarschuwing: De slug is al in gebruik.',
             'create-success' => 'CMS succesvol aangemaakt.',
             'delete-success' => 'CMS succesvol verwijderd.',
             'not-found'      => 'Waarschuwing: CMS niet gevonden.',

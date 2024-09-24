@@ -358,6 +358,7 @@ return [
         ],
 
         'cms' => [
+            'already-taken'  => 'تحذير: تم استخدام الاسم المستعار بالفعل.',
             'create-success' => 'تم إنشاء صفحة CMS بنجاح.',
             'delete-success' => 'تم حذف صفحة CMS بنجاح',
             'not-found'      => 'تحذير: صفحة CMS غير موجودة.',
