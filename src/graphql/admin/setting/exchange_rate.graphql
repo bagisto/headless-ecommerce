@@ -31,12 +31,12 @@ input FilterExchangeRateInput {
     id: Int
     targetCurrency: Int @rename(attribute: "target_currency")
     currency: String
-    rate: Float @rules(apply: ["numeric"])
+    rate: Float
 }
 
 input CreateExchangeRateInput {
-    targetCurrency: Int! @rename(attribute: "target_currency") @rules(apply: ["required"])
-    rate: Float! @rules(apply: ["numeric", "required"])
+    targetCurrency: Int! @rename(attribute: "target_currency")
+    rate: Float!
 }
 
 type ExchangeRateResponse {

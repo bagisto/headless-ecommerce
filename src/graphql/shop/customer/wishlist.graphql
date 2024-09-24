@@ -17,16 +17,16 @@ extend type Query @guard(with: ["api"]) {
 
 extend type Mutation @guard(with: ["api"]) {
     addToWishlist(
-        productId: ID! @rename(attribute: "product_id") @rules(apply: ["required"])
+        productId: ID! @rename(attribute: "product_id")
     ): WishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@store")
 
     removeFromWishlist(
-        productId: ID! @rename(attribute: "product_id") @rules(apply: ["required"])
+        productId: ID! @rename(attribute: "product_id")
     ): WishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@delete")
 
     moveToCart(
-        id: ID @eq @rules(apply: ["min:1", "required"])
-        quantity: Int! @rules(apply: ["min:1", "required"])
+        id: ID!
+        quantity: Int!
     ): WishlistResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@move")
 
     removeAllWishlists: StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\WishlistMutation@deleteAll")

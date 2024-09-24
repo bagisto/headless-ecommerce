@@ -46,10 +46,10 @@ input FilterCustomerInput {
 }
 
 input CreateCustomerInput {
-    firstName: String! @rename(attribute: "first_name") @rules(apply: ["required"])
-    lastName: String! @rename(attribute: "last_name") @rules(apply: ["required"])
-    gender: Gender! @rules(apply: ["required"])
-    email: String! @rules(apply: ["required","email"])
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    gender: Gender!
+    email: String!
     dateOfBirth: String @rename(attribute: "date_of_birth")
     customerGroupId: Int! @rename(attribute: "customer_group_id")
     phone: String
@@ -58,7 +58,7 @@ input CreateCustomerInput {
 }
 
 input CreateCustomerNoteInput {
-    note: String! @rules(apply: ["required"])
+    note: String!
     customerNotified: Boolean @rename(attribute: "customer_notified")
 }
 

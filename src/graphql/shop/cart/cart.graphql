@@ -66,8 +66,8 @@ input UpdateItemToCartInput {
 }
 
 input UpdateItemsQty {
-    cartItemId: ID! @rename(attribute: "cart_item_id") @rules(apply: ["required"])
-    quantity: Int! @rules(apply: ["min:1","required"])
+    cartItemId: ID! @rename(attribute: "cart_item_id")
+    quantity: Int!
 }
 
 type CartItemResponse {
