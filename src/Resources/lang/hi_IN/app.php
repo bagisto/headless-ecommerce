@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'चेतावनी: अमान्य पैरामीटर प्रदान किए गए।',
+                        'downloadable-links' => 'चेतावनी: डाउनलोड लिंक उपलब्ध नहीं हैं।',
+                        'invalid-parameter'  => 'चेतावनी: अमान्य पैरामीटर प्रदान किए गए।',
                     ],
 
                     'success' => [

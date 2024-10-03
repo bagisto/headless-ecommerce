@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Uyarı: Geçersiz parametreler sağlandı.',
+                        'downloadable-links' => 'Uyarı: İndirilebilir ürünler için indirme bağlantıları sağlanmadı.',
+                        'invalid-parameter'  => 'Uyarı: Geçersiz parametreler sağlandı.',
                     ],
 
                     'success' => [

@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'هشدار: پارامترهای نامعتبر ارائه شده است.',
+                        'downloadable-links' => 'هشدار: لینک های دانلود برای محصول :product_name منقضی شده است.',
+                        'invalid-parameter'  => 'هشدار: پارامترهای نامعتبر ارائه شده است.',
                     ],
 
                     'success' => [

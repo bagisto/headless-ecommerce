@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'අවවාදය: වැරදි පරාමිතීන් සපයා ඇත.',
+                        'downloadable-links' => 'අවවාදය: බාගත කිරීමේ සබැඳිය අවලංගු වී ඇත.',
+                        'invalid-parameter'  => 'අවවාදය: වැරදි පරාමිතීන් සපයා ඇත.',
                     ],
 
                     'success' => [

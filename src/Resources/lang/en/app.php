@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Warning: Invalid parameters provided.',
+                        'downloadable-links' => 'Warning: Invalid downloadable link provided.',
+                        'invalid-parameter'  => 'Warning: Invalid parameters provided.',
                     ],
 
                     'success' => [

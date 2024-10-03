@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Advertencia: Parámetros inválidos proporcionados.',
+                        'downloadable-links' => 'Advertencia: No se pueden generar enlaces de descarga para este producto.',
+                        'invalid-parameter'  => 'Advertencia: Parámetros inválidos proporcionados.',
                     ],
 
                     'success' => [

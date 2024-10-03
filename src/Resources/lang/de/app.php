@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Warnung: Ungültige Parameter angegeben.',
+                        'downloadable-links' => 'Warnung: Herunterladbare Links sind nicht verfügbar.',
+                        'invalid-parameter'  => 'Warnung: Ungültige Parameter angegeben.',
                     ],
 
                     'success' => [

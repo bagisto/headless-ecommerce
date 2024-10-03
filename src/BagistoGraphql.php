@@ -685,6 +685,17 @@ class BagistoGraphql
                     $data['bundle_options'] = $bundle_options;
                 }
                 break;
+            case 'downloadable':
+                if (! empty($data['links'])) {
+                    $downloadableLinks = $product->downloadable_links()->pluck('id')->toArray();
+
+                    $data['links'] = array_intersect(array_unique($data['links']), $downloadableLinks);
+
+                    if (empty($data['links'])) {
+                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.downloadable-links'));
+                    }
+                }
+                break;
 
             default:
                 break;

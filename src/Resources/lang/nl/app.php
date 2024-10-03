@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Let op: Ongeldige parameters verstrekt.',
+                        'downloadable-links' => 'Let op: Downloadbare links zijn niet beschikbaar.',
+                        'invalid-parameter'  => 'Let op: Ongeldige parameters verstrekt.',
                     ],
 
                     'success' => [

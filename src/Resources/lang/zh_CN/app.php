@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => '警告：提供了无效的参数。',
+                        'downloadable-links' => '警告：无法生成可下载链接。',
+                        'invalid-parameter'  => '警告：提供了无效的参数。',
                     ],
 
                     'success' => [

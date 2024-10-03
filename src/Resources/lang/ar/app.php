@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'تحذير: المعلمات غير صالحة المقدمة.',
+                        'downloadable-links' => 'تحذير: لا يمكنك تنزيل الروابط المنتهية.',
+                        'invalid-parameter'  => 'تحذير: المعلمات غير صالحة المقدمة.',
                     ],
 
                     'success' => [

@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Ostrzeżenie: Podano nieprawidłowe parametry.',
+                        'downloadable-links' => 'Ostrzeżenie: Nie można pobrać linków do produktów.',
+                        'invalid-parameter'  => 'Ostrzeżenie: Podano nieprawidłowe parametry.',
                     ],
 
                     'success' => [

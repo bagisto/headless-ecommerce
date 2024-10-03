@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => '注意: 無効なパラメータが提供されました。',
+                        'downloadable-links' => '注意: ダウンロード可能なリンクはカートに追加できません。',
+                        'invalid-parameter'  => '注意: 無効なパラメータが提供されました。',
                     ],
 
                     'success' => [

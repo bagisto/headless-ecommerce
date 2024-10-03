@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'אזהרה: פרמטרים לא תקינים.',
+                        'downloadable-links' => 'אזהרה: לא ניתן להוסיף מוצרים לעגלה עבור מוצרים הניתנים להורדה.',
+                        'invalid-parameter'  => 'אזהרה: פרמטרים לא תקינים.',
                     ],
 
                     'success' => [

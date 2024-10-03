@@ -110,7 +110,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Avertissement: Paramètres invalides fournis.',
+                        'downloadable-links' => 'Avertissement: Les liens de téléchargement ne sont pas disponibles.',
+                        'invalid-parameter'  => 'Avertissement: Paramètres invalides fournis.',
                     ],
 
                     'success' => [
