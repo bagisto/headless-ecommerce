@@ -139,7 +139,7 @@ class ThemeMutation extends Controller
         if (! $theme) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.themes.not-found'));
         }
-        
+
         Event::dispatch('theme_customization.delete.before', $args['id']);
 
         $theme->delete();
