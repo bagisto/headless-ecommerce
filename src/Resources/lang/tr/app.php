@@ -60,7 +60,7 @@ return [
                     'already-exist'   => 'Uyarı: Zaten favorilere eklenmiş.',
                     'remove-success'  => 'Başarılı: Ürün favorilerden başarıyla kaldırıldı.',
                     'not-found'       => 'Uyarı: Favorilerde ürün bulunamadı.',
-                    'moved-success'   => 'Başarılı: Seçilen ürünler başarıyla favorilere taşındı.',
+                    'moved-to-cart'   => 'Başarılı: Ürün başarıyla sepete taşındı.',
                 ],
 
                 'orders' => [

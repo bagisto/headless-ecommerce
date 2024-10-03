@@ -60,7 +60,7 @@ return [
                     'already-exist'   => 'Ostrzeżenie: Już dodano do listy życzeń.',
                     'remove-success'  => 'Sukces: Element został pomyślnie usunięty z listy życzeń.',
                     'not-found'       => 'Ostrzeżenie: Brak produktów w liście życzeń.',
-                    'moved-success'   => 'Sukces: Wybrane elementy zostały pomyślnie przeniesione do listy życzeń.',
+                    'moved-to-cart'   => 'Sukces: Wybrane elementy zostały pomyślnie przeniesione do koszyka.',
                 ],
 
                 'orders' => [

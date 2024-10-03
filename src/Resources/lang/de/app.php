@@ -60,7 +60,7 @@ return [
                     'already-exist'   => 'Warnung: Bereits zur Wunschliste hinzugefügt.',
                     'remove-success'  => 'Erfolg: Artikel erfolgreich von der Wunschliste entfernt.',
                     'not-found'       => 'Warnung: Keine Produkte in der Wunschliste gefunden.',
-                    'moved-success'   => 'Erfolg: Ausgewählte Artikel erfolgreich in die Wunschliste verschoben.',
+                    'moved-to-cart'   => 'Erfolg: Produkt erfolgreich in den Warenkorb verschoben.',
                 ],
 
                 'orders' => [

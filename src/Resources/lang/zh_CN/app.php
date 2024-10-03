@@ -60,7 +60,7 @@ return [
                     'already-exist'   => '警告：已添加到愿望清单。',
                     'remove-success'  => '成功：项目已成功从愿望清单中删除。',
                     'not-found'       => '警告：愿望清单中没有找到产品。',
-                    'moved-success'   => '成功：已成功将选定的项目移动到愿望清单。',
+                    'moved-to-cart'   => '成功：产品已成功移动到购物车。',
                 ],
 
                 'orders' => [

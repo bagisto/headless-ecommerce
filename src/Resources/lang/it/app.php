@@ -60,7 +60,7 @@ return [
                     'already-exist'   => 'Attenzione: Già aggiunto alla lista dei desideri.',
                     'remove-success'  => 'Successo: Elemento rimosso con successo dalla lista dei desideri.',
                     'not-found'       => 'Attenzione: Nessun prodotto trovato nella lista dei desideri.',
-                    'moved-success'   => 'Successo: Elementi selezionati spostati con successo nella lista dei desideri.',
+                    'moved-to-cart'   => 'Successo: Prodotto spostato con successo nel carrello.',
                 ],
 
                 'orders' => [

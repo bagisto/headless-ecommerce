@@ -60,7 +60,7 @@ return [
                     'already-exist'   => 'Let op: Al toegevoegd aan de verlanglijst.',
                     'remove-success'  => 'Succes: Item succesvol van de verlanglijst verwijderd.',
                     'not-found'       => 'Let op: Geen product gevonden op de verlanglijst.',
-                    'moved-success'   => 'Succes: Geselecteerde items succesvol verplaatst naar de verlanglijst.',
+                    'moved-to-cart'   => 'Succes: Product succesvol verplaatst naar de winkelwagen.',
                 ],
 
                 'orders' => [

@@ -60,7 +60,7 @@ return [
                     'already-exist'   => 'Warning: Already added to Wishlist.',
                     'remove-success'  => 'Success: Item is successfully removed from the wishlist.',
                     'not-found'       => 'Warning: No products found in Wishlist.',
-                    'moved-success'   => 'Success: Selected items successfully moved to wishlist.',
+                    'moved-to-cart'   => 'Success: Product moved to cart successfully.',
                 ],
 
                 'orders' => [

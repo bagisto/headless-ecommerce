@@ -156,7 +156,7 @@ class WishlistMutation extends Controller
             return [
                 'success'  => $result ? true : false,
                 'message'  => $result
-                    ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-success')
+                    ? trans('bagisto_graphql::app.shop.customers.account.wishlist.moved-to-cart')
                     : trans('shop::app.checkout.cart.missing-options'),
                 'wishlist' => $this->wishlistRepository->findWhere([
                     'customer_id' => auth()->user()->id,
