@@ -1,6 +1,6 @@
 input LoginInput {
-    email: String! @rules(apply: ["email"])
-    password: String! @rules(apply: ["min:6"])
+    email: String
+    password: String
     remember: Boolean
 }
 

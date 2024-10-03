@@ -21,7 +21,7 @@ input SignUpInput {
 input SocialSignInInput {
     firstName: String @rename(attribute: "first_name")
     lastName: String @rename(attribute: "last_name")
-    email: String!
+    email: String
     phone: String
     signupType: SocialSignInType! @rename(attribute: "signup_type")
     password: String
