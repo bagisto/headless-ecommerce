@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Waarschuwing: Klant niet gevonden.',
                 'cart-not-found'           => 'Waarschuwing: Winkelwagentje niet gevonden.',
                 'cart-item-not-found'      => 'Waarschuwing: Winkelwagentje-item niet gevonden.',
                 'cart-create-success'      => 'Succes: Winkelwagentje succesvol aangemaakt.',

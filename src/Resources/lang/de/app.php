@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Warnung: Kunde nicht gefunden.',
                 'cart-not-found'           => 'Warnung: Warenkorb nicht gefunden.',
                 'cart-item-not-found'      => 'Warnung: Warenkorb-Artikel nicht gefunden.',
                 'cart-create-success'      => 'Erfolg: Warenkorb erfolgreich erstellt.',

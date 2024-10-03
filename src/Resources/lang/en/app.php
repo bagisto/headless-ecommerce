@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Warning: Customer not found.',
                 'cart-not-found'           => 'Warning: Cart not found.',
                 'cart-item-not-found'      => 'Warning: Cart item not found.',
                 'cart-create-success'      => 'Success: Cart created successfully.',

@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Advertencia: Cliente no encontrado.',
                 'cart-not-found'           => 'Advertencia: Carrito no encontrado.',
                 'cart-item-not-found'      => 'Advertencia: Elemento del carrito no encontrado.',
                 'cart-create-success'      => 'Éxito: Carrito creado correctamente.',

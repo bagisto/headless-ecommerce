@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => '注意: 顧客が見つかりません。',
                 'cart-not-found'           => '注意: カートが見つかりません。',
                 'cart-item-not-found'      => '注意: カート内の商品が見つかりません。',
                 'cart-create-success'      => '成功: カートが正常に作成されました。',

@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'تحذير: العميل غير موجود.',
                 'cart-not-found'           => 'تحذير: السلة غير موجودة.',
                 'cart-item-not-found'      => 'تحذير: عنصر السلة غير موجود.',
                 'cart-create-success'      => 'تم إنشاء السلة بنجاح.',

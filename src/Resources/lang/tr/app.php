@@ -251,6 +251,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Uyarı: Müşteri bulunamadı.',
                 'cart-not-found'           => 'Uyarı: Sepet bulunamadı.',
                 'cart-item-not-found'      => 'Uyarı: Sepet öğesi bulunamadı.',
                 'cart-create-success'      => 'Başarılı: Sepet başarıyla oluşturuldu.',

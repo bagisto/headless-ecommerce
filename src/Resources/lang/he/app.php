@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'אזהרה: לקוח לא נמצא.',
                 'cart-not-found'           => 'אזהרה: עגלה לא נמצאה.',
                 'cart-item-not-found'      => 'אזהרה: פריט עגלה לא נמצא.',
                 'cart-create-success'      => 'הצלחה: עגלה נוצרה בהצלחה.',

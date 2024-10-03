@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Attention : client introuvable.',
                 'cart-not-found'           => 'Attention : panier introuvable.',
                 'cart-item-not-found'      => 'Attention : article du panier introuvable.',
                 'cart-create-success'      => 'Succès : panier créé avec succès.',

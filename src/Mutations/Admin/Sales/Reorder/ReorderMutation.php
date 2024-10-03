@@ -44,6 +44,10 @@ class ReorderMutation extends Controller
     {
         $customer = $this->customerRepository->find($args['customer_id']);
 
+        if (! $customer) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.sales.reorder.customer-not-found'));
+        }
+
         try {
             $cart = Cart::createCart([
                 'customer'  => $customer,

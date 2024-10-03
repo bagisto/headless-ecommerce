@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'هشدار: مشتری یافت نشد.',
                 'cart-not-found'           => 'هشدار: سبد خرید یافت نشد.',
                 'cart-item-not-found'      => 'هشدار: مورد سبد خرید یافت نشد.',
                 'cart-create-success'      => 'موفقیت: سبد خرید با موفقیت ایجاد شد.',

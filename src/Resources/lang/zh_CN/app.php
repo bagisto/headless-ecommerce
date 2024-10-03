@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => '警告：未找到客户。',
                 'cart-not-found'           => '警告：购物车未找到。',
                 'cart-item-not-found'      => '警告：购物车项未找到。',
                 'cart-create-success'      => '成功：购物车创建成功。',

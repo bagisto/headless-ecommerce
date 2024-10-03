@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'चेतावनी: ग्राहक नहीं मिला।',
                 'cart-not-found'           => 'चेतावनी: कार्ट नहीं मिली।',
                 'cart-item-not-found'      => 'चेतावनी: कार्ट आइटम नहीं मिला।',
                 'cart-create-success'      => 'सफलता: कार्ट सफलतापूर्वक बनाई गई।',

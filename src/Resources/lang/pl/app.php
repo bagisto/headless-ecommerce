@@ -252,6 +252,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Ostrzeżenie: Klient nie został znaleziony.',
                 'cart-not-found'           => 'Ostrzeżenie: Koszyk nie został znaleziony.',
                 'cart-item-not-found'      => 'Ostrzeżenie: Pozycja koszyka nie została znaleziona.',
                 'cart-create-success'      => 'Sukces: Koszyk został pomyślnie utworzony.',
