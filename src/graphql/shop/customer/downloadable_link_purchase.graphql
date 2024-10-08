@@ -28,6 +28,9 @@ input FilterDownloadablePurchaseInput {
     status: DownloadLinkStatusEnum
     downloadBought: Int @rename(attribute: "download_bought")
     downloadUsed: Int @rename(attribute: "download_used")
+    purchaseDate: String @rename(attribute: "purchase_date")
+    purchaseDateFrom: String @rename(attribute: "purchase_date_from")
+    purchaseDateTo: String @rename(attribute: "purchase_date_to")
 }
 
 type DownloadableLinkPurchased {
