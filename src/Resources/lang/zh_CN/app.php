@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => '您已成功订阅我们的新闻通讯。',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => '感谢您联系我们。我们会尽快回复您。',
+        ],
+
         'customers' => [
             'no-login-customer' => '警告：未找到登录的客户。',
             'success-login'     => '成功：客户登录成功。',
@@ -633,5 +637,9 @@ return [
                 'invalid-parameter' => '警告：提供了无效的参数。',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => '警告：未找到电子邮件配置。',
     ],
 ];

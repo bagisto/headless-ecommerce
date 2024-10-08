@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'U bent succesvol geabonneerd op onze nieuwsbrief.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Bedankt dat je contact met ons hebt opgenomen. We nemen snel contact met je op.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'Let op: Geen ingelogde klant gevonden.',
             'success-login'     => 'Succes: Klant succesvol ingelogd.',
@@ -633,5 +637,9 @@ return [
                 'invalid-parameter' => 'Waarschuwing: Gegeven parameters zijn niet geldig.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Waarschuwing: E-mailconfiguratie niet gevonden.',
     ],
 ];

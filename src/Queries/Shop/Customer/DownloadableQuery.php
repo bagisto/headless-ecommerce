@@ -22,7 +22,7 @@ class DownloadableQuery extends BaseFilter
             'name',
             'purchase_date',
             'purchase_date_from',
-            'purchase_date_to'
+            'purchase_date_to',
         ]);
 
         if (! empty($input['purchase_date'])) {

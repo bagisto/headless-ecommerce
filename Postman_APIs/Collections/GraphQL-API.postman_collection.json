@@ -8310,6 +8310,30 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Contact Us",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation contactUs {\n    contactUs (input: {\n        name: \"John Doe\"\n        email: \"john@doe.com\"\n        contact: \"8974563210\"\n        message: \"Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.\"\n    }) {\n        success\n        message\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"auth": {

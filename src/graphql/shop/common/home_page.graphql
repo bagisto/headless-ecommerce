@@ -1,4 +1,4 @@
-# Shop\Common\HopePage Related APIs
+# Shop\Common\HomePage Related APIs
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 

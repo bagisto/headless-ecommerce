@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'Você se inscreveu com sucesso em nosso boletim informativo.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Obrigado por nos contactar. Entraremos em contato em breve.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'Aviso: Nenhum cliente logado encontrado.',
             'success-login'     => 'Sucesso: Login do cliente realizado com sucesso.',
@@ -633,5 +637,9 @@ return [
                 'invalid-parameter' => 'Aviso: Parâmetros inválidos fornecidos.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Aviso: Configuração de e-mail não encontrada.',
     ],
 ];

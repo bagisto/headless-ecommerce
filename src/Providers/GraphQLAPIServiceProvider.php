@@ -2,15 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
-use Illuminate\Routing\Router;
-use Webkul\GraphQLAPI\BagistoGraphql;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
-use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
-use Webkul\GraphQLAPI\Http\Middleware\RateLimitMiddleware;
+use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
+use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
+use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
+use Webkul\GraphQLAPI\Http\Middleware\RateLimitMiddleware;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {

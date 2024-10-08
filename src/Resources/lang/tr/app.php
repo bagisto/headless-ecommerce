@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'Bültenimize başarıyla abone oldunuz.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Bizimle iletişime geçtiğiniz için teşekkür ederiz. Size en kısa sürede geri döneceğiz.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'Uyarı: Giriş yapmış müşteri bulunamadı.',
             'success-login'     => 'Başarılı: Müşteri girişi başarılı.',
@@ -632,5 +636,9 @@ return [
                 'invalid-parameter' => 'Предупреждение: Указаны неверные параметры.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Uyarı: E-posta yapılandırması bulunamadı.',
     ],
 ];

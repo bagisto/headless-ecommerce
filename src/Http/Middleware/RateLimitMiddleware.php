@@ -3,9 +3,9 @@
 namespace Webkul\GraphQLAPI\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class RateLimitMiddleware

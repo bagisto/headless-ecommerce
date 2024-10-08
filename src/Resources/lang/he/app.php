@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'נרשמת בהצלחה לניוזלטר שלנו.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'תודה שפנית אלינו. נחזור אליך בקרוב.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'אזהרה: לא נמצא לקוח מחובר.',
             'success-login'     => 'התחברות הלקוח בוצעה בהצלחה.',
@@ -633,5 +637,9 @@ return [
                 'invalid-parameter' => 'אזהרה: פרמטרים לא חוקיים הוזנו.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'אזהרה: הגדרת דוא"ל לא נמצאה.',
     ],
 ];

@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'ニュースレターに正常に登録されました。',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'お問い合わせいただきありがとうございます。 近日中にご連絡いたします。',
+        ],
+
         'customers' => [
             'no-login-customer' => '注意: ログインした顧客が見つかりません。',
             'success-login'     => '成功: 顧客が正常にログインしました。',
@@ -633,5 +637,9 @@ return [
                 'invalid-parameter' => '警告: 提供されたパラメータが無効です。',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => '警告: メール設定が見つかりません。',
     ],
 ];

@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'Sie haben sich erfolgreich für unseren Newsletter angemeldet.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Vielen Dank, dass Sie uns kontaktiert haben. Wir werden uns bald bei Ihnen melden.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'Warnung: Kein eingeloggter Kunde gefunden.',
             'success-login'     => 'Erfolg: Kundenlogin erfolgreich.',
@@ -633,5 +637,9 @@ return [
                 'invalid-parameter' => 'Warnung: Ungültige Parameter angegeben.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Warnung: E-Mail-Konfiguration nicht gefunden.',
     ],
 ];
