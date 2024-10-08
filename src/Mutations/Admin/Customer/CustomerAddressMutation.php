@@ -2,13 +2,15 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 
-use Illuminate\Support\Facades\Event;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Core\Rules\Code;
+use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Rules\VatIdRule;
+use Illuminate\Support\Facades\Event;
+use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class CustomerAddressMutation extends Controller
 {
@@ -36,17 +38,17 @@ class CustomerAddressMutation extends Controller
         ]);
 
         bagisto_graphql()->validate($args, [
-            'customer_id'  => 'numeric|required',
-            'company_name' => 'string',
-            'first_name'   => 'string|required',
-            'last_name'    => 'string|required',
-            'address'      => 'string|required',
-            'city'         => 'string|required',
-            'postcode'     => 'required',
-            'country'      => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
-            'state'        => 'required|in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray())),
-            'phone'        => 'required',
-            'email'        => 'required|email',
+            'customer_id'  => ['numeric', 'required'],
+            'company_name' => ['string'],
+            'first_name'   => ['string', 'required'],
+            'last_name'    => ['string', 'required'],
+            'address'      => ['string', 'required'],
+            'city'         => ['string', 'required'],
+            'postcode'     => ['required', 'numeric'],
+            'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
+            'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
+            'phone'        => ['required', new PhoneNumber()],
+            'email'        => ['required', 'email'],
             'vat_id'       => new VatIdRule(),
         ]);
 
@@ -87,17 +89,17 @@ class CustomerAddressMutation extends Controller
         ]);
 
         bagisto_graphql()->validate($args, [
-            'customer_id'  => 'numeric|required',
-            'company_name' => 'string',
-            'first_name'   => 'string|required',
-            'last_name'    => 'string|required',
-            'address'      => 'string|required',
-            'city'         => 'string|required',
-            'postcode'     => 'required',
-            'country'      => 'required|in:'.implode(',', (core()->countries()->pluck('code')->toArray())),
-            'state'        => 'required|in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray())),
-            'phone'        => 'required',
-            'email'        => 'required|email',
+            'customer_id'  => ['numeric', 'required'],
+            'company_name' => ['string'],
+            'first_name'   => ['string', 'required'],
+            'last_name'    => ['string', 'required'],
+            'address'      => ['string', 'required'],
+            'city'         => ['string', 'required'],
+            'postcode'     => ['required', 'numeric'],
+            'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
+            'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
+            'phone'        => ['required', new PhoneNumber()],
+            'email'        => ['required', 'email'],
             'vat_id'       => new VatIdRule(),
         ]);
 

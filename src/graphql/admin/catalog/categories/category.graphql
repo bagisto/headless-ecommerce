@@ -28,20 +28,20 @@ extend type Mutation @guard(with: ["admin-api"]) {
 }
 
 input CreateCategoryInput {
-    locale: String!
-    name: String!
-    slug: String!
-    description: String!
-    status: Boolean!
-    position: Int!
-    displayMode: String! @rename(attribute: "display_mode")
+    locale: String
+    name: String
+    slug: String
+    description: String
+    status: Boolean
+    position: Int
+    displayMode: String @rename(attribute: "display_mode")
     logoPath: [String] @rename(attribute: "logo_path")
     bannerPath: [String] @rename(attribute: "banner_path")
     parentId: Int @rename(attribute: "parent_id")
-    metaTitle: String! @rename(attribute: "meta_title")
-    metaDescription: String! @rename(attribute: "meta_description")
-    metaKeywords: String! @rename(attribute: "meta_keywords")
-    attributes: [String!]
+    metaTitle: String @rename(attribute: "meta_title")
+    metaDescription: String @rename(attribute: "meta_description")
+    metaKeywords: String @rename(attribute: "meta_keywords")
+    attributes: [String]
 }
 
 input FilterCategoryListInput {
