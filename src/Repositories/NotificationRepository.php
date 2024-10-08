@@ -54,6 +54,10 @@ class NotificationRepository extends Repository
         $translations = [];
 
         foreach (core()->getAllChannels() as $channel) {
+            if (! in_array($channel->code, $data['channels'])) {
+                continue;
+            }
+            
             foreach ($channel->locales as $locale) {
                 $translations[] = [
                     'title'                => $data['title'],
