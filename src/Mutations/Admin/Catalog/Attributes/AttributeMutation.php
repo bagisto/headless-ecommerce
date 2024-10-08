@@ -117,7 +117,7 @@ class AttributeMutation extends Controller
         if (! $attribute) {
             throw new CustomException(trans('bagisto_graphql::app.admin.catalog.attributes.not-found'));
         }
-        
+
         bagisto_graphql()->validate($args, [
             'code'       => ['required', 'unique:attributes,code,'.$args['id'], new Code],
             'admin_name' => 'required',

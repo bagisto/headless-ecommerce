@@ -2,26 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Webkul\Core\Eloquent\TranslatableModel;
 use Webkul\GraphQLAPI\Contracts\PushNotification as PushNotificationContract;
 
-class PushNotification extends TranslatableModel implements PushNotificationContract
+class PushNotification extends Model implements PushNotificationContract
 {
-    protected $guarded = ['_token'];
-
     /**
-     * Translated attributes.
-     *
-     * @var array
-     */
-    public $translatedAttributes = [
-        'title',
-        'content',
-    ];
-
-    /**
-     * Fillables.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
@@ -41,7 +29,7 @@ class PushNotification extends TranslatableModel implements PushNotificationCont
     /**
      * Get image url for the Banner image.
      */
-    public function image_url()
+    public function getImageUrlAttribute()
     {
         if (! $this->image) {
             return;
@@ -51,10 +39,10 @@ class PushNotification extends TranslatableModel implements PushNotificationCont
     }
 
     /**
-     * Get image url for the Banner image.
+     * Get the translations of the product.
      */
-    public function getImageUrlAttribute()
+    public function translations()
     {
-        return $this->image_url();
+        return $this->hasMany(PushNotificationTranslation::class);
     }
 }

@@ -4,7 +4,6 @@ namespace Webkul\GraphQLAPI\Repositories;
 
 use GuzzleHttp\Client;
 use Illuminate\Container\Container;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Category\Repositories\CategoryRepository;
@@ -50,39 +49,25 @@ class NotificationRepository extends Repository
      */
     public function create(array $data)
     {
-        Event::dispatch('api.notification.create.before');
-
         $notification = $this->model->create($data);
 
-        if (isset($data['channels'])) {
-            $model = app()->make($this->model());
+        $translations = [];
 
-            foreach (core()->getAllChannels() as $channel) {
-                if (! in_array($channel->code, $data['channels'])) {
-                    continue;
-                }
-
-                foreach ($channel->locales as $locale) {
-                    $param = [];
-
-                    foreach ($model->translatedAttributes as $attribute) {
-                        if (isset($data[$attribute])) {
-                            $param[$attribute] = $data[$attribute];
-                        }
-                    }
-
-                    $param['channel'] = $channel->code;
-                    $param['locale'] = $locale->code;
-                    $param['push_notification_id'] = $notification->id;
-
-                    $this->notificationTranslationRepository->create($param);
-                }
+        foreach (core()->getAllChannels() as $channel) {
+            foreach ($channel->locales as $locale) {
+                $translations[] = [
+                    'title'                => $data['title'],
+                    'content'              => $data['content'],
+                    'channel'              => $channel->code,
+                    'locale'               => $locale->code,
+                    'push_notification_id' => $notification->id,
+                ];
             }
         }
 
-        $this->uploadImages($data, $notification);
+        $this->notificationTranslationRepository->insert($translations);
 
-        Event::dispatch('api.notification.create.after', $notification);
+        $this->uploadImages($data, $notification);
 
         return $notification;
     }
@@ -96,53 +81,24 @@ class NotificationRepository extends Repository
      */
     public function update(array $data, $id, $attribute = 'id')
     {
-        Event::dispatch('api.notification.update.before', $id);
-
         $notification = $this->find($id);
 
         $notification->update($data);
 
-        if (! empty($data['channel'])) {
-            $model = app()->make($this->model());
-
-            $notificationTranslation = $this->notificationTranslationRepository->findOneWhere([
-                'channel'              => $data['channel'],
-                'locale'               => $data['locale'],
-                'push_notification_id' => $id,
-            ]);
-
-            if ($notificationTranslation) {
-                foreach ($model->translatedAttributes as $attribute) {
-                    if (isset($data[$attribute])) {
-                        $notificationTranslation->{$attribute} = $data[$attribute];
-                    }
-                }
-
-                $notificationTranslation->save();
-            } else {
-                $param = [];
-
-                foreach ($model->translatedAttributes as $attribute) {
-                    if (isset($data[$attribute])) {
-                        $param[$attribute] = $data[$attribute];
-                    }
-                }
-
-                $param['channel'] = $data['channel'];
-                $param['locale'] = $data['locale'];
-                $param['push_notification_id'] = $id;
-
-                $this->notificationTranslationRepository->create($param);
-            }
-        }
+        $this->notificationTranslationRepository->updateOrCreate([
+            'channel'              => $data['channel'],
+            'locale'               => $data['locale'],
+            'push_notification_id' => $id,
+        ], [
+            'title'   => $data['title'],
+            'content' => $data['content'],
+        ]);
 
         $this->notificationTranslationRepository->whereNotIn('channel', $data['channels'])
             ->where('push_notification_id', $id)
             ->delete();
 
         $this->uploadImages($data, $notification);
-
-        Event::dispatch('api.notification.update.after', $notification);
 
         return $notification;
     }
