@@ -859,4 +859,17 @@ class BagistoGraphql
 
         return $mimetype;
     }
+
+    /**
+     * To get the paginator info
+     */
+    public function getPaginatorInfo(object $collection): array
+    {
+        return [
+            'count'        => $collection->count(),
+            'current_page' => $collection->currentPage(),
+            'last_page'    => $collection->lastPage(),
+            'total'        => $collection->total(),
+        ];
+    }
 }

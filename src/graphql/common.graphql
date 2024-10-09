@@ -18,6 +18,13 @@ type StatusResponse {
     message: String
 }
 
+type PaginatorInfo {
+    count: Int
+    currentPage: Int @rename(attribute: "current_page")
+    lastPage: Int @rename(attribute: "last_page")
+    total: Int
+}
+
 type FilterOption {
     key: String
     value: String
