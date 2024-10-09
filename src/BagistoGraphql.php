@@ -685,6 +685,17 @@ class BagistoGraphql
                     $data['bundle_options'] = $bundle_options;
                 }
                 break;
+            case 'downloadable':
+                if (! empty($data['links'])) {
+                    $downloadableLinks = $product->downloadable_links()->pluck('id')->toArray();
+
+                    $data['links'] = array_intersect(array_unique($data['links']), $downloadableLinks);
+
+                    if (empty($data['links'])) {
+                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.downloadable-links'));
+                    }
+                }
+                break;
 
             default:
                 break;
@@ -847,5 +858,18 @@ class BagistoGraphql
         finfo_close($finfo);
 
         return $mimetype;
+    }
+
+    /**
+     * To get the paginator info
+     */
+    public function getPaginatorInfo(object $collection): array
+    {
+        return [
+            'count'        => $collection->count(),
+            'current_page' => $collection->currentPage(),
+            'last_page'    => $collection->lastPage(),
+            'total'        => $collection->total(),
+        ];
     }
 }

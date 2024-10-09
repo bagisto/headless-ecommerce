@@ -31,7 +31,7 @@ class CompareProductQuery extends BaseFilter
             $query->where('product_flat.name', 'like', '%'.$input['product_name'].'%');
         });
 
-        return $query;
+        return $query->groupBy('compare_items.id');
     }
 
     /**

@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'Te has suscrito con éxito a nuestro boletín.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Gracias por contactar con nosotros. Nos pondremos en contacto contigo pronto.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'Advertencia: No se encontró ningún cliente registrado.',
             'success-login'     => 'Éxito: Sesión de cliente iniciada correctamente.',
@@ -60,7 +64,7 @@ return [
                     'already-exist'   => 'Advertencia: Ya se ha agregado a la lista de deseos.',
                     'remove-success'  => 'Éxito: El artículo se ha eliminado correctamente de la lista de deseos.',
                     'not-found'       => 'Advertencia: No se encontraron productos en la lista de deseos.',
-                    'moved-success'   => 'Éxito: Los elementos seleccionados se han movido correctamente a la lista de deseos.',
+                    'moved-to-cart'   => 'Éxito: Producto movido al carrito correctamente.',
                 ],
 
                 'orders' => [
@@ -110,7 +114,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Advertencia: Parámetros inválidos proporcionados.',
+                        'downloadable-links' => 'Advertencia: No se pueden generar enlaces de descarga para este producto.',
+                        'invalid-parameter'  => 'Advertencia: Parámetros inválidos proporcionados.',
                     ],
 
                     'success' => [
@@ -252,6 +257,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Advertencia: Cliente no encontrado.',
                 'cart-not-found'           => 'Advertencia: Carrito no encontrado.',
                 'cart-item-not-found'      => 'Advertencia: Elemento del carrito no encontrado.',
                 'cart-create-success'      => 'Éxito: Carrito creado correctamente.',
@@ -631,5 +637,9 @@ return [
                 'invalid-parameter' => 'Advertencia: Parámetros inválidos proporcionados.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Advertencia: Configuración de correo electrónico no encontrada.',
     ],
 ];

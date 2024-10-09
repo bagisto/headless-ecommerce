@@ -4,8 +4,10 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Webkul\GraphQLAPI\Validators\CustomException;
 
 class ForgotPasswordMutation extends Controller
@@ -22,7 +24,7 @@ class ForgotPasswordMutation extends Controller
     public function forgot(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:customers,email',
         ]);
 
         try {
@@ -43,8 +45,10 @@ class ForgotPasswordMutation extends Controller
             }
 
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.forgot-password.email-not-exist'));
-        } catch (\Swift_RfcComplianceException $e) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.forgot-password.reset-link-sent'));
+        } catch (TransportException $e) {
+            DB::table('customer_password_resets')->where('email', $args['email'])->delete();
+
+            throw new CustomException(trans('bagisto_graphql::app.email.configuration-error'));
         } catch (\Exception $e) {
             report($e);
 

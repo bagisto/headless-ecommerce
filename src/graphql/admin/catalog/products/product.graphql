@@ -1,13 +1,8 @@
 #Catalog\Product Related API
 extend type Query {
     products(
-        input: FilterProductsInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\FilterProducts")
-    ): [Product!] @paginate(
-        type: "PAGINATOR",
-        defaultCount: 10,
-        model: "Webkul\\Product\\Models\\Product"
-    )
+        input: FilterProductsInput @spread
+    ): ProductPaginatorResponse! @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\FilterProducts")
 
     product(id: ID @eq): Product @find(model: "Webkul\\Product\\Models\\Product")
 }
@@ -112,12 +107,14 @@ input CustomAttributeInput {
 }
 
 input FilterProductsInput {
-    id: ID
+    page: Int!
+    limit: Int!
+    productId: Int @rename(attribute: "product_id")
     type: String
     sku: String
-    parentId: ID @rename(attribute: "parent_id")
-    attributeFamily: String @rename(attribute: "attribute_family")
-    qty: Int
+    name: String
+    attributeFamily: Int @rename(attribute: "attribute_family")
+    channel: String
 }
 
 type ProductResponse {

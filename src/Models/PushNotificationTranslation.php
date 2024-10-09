@@ -10,13 +10,25 @@ use Webkul\GraphQLAPI\Contracts\PushNotificationTranslation as PushNotificationT
  */
 class PushNotificationTranslation extends Model implements PushNotificationTranslationContract
 {
-    public $timestamps = false;
-
-    protected $guarded = [
-        'id',
-        'created_at',
-        'updated_at',
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'content',
+        'locale',
+        'channel',
+        'push_notification_id',
     ];
+
+    /**
+     * Disable the timestamp.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * Get the notification that owns the attribute value.

@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'ニュースレターに正常に登録されました。',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'お問い合わせいただきありがとうございます。 近日中にご連絡いたします。',
+        ],
+
         'customers' => [
             'no-login-customer' => '注意: ログインした顧客が見つかりません。',
             'success-login'     => '成功: 顧客が正常にログインしました。',
@@ -60,7 +64,7 @@ return [
                     'already-exist'   => '注意: 既にウィッシュリストに追加されています。',
                     'remove-success'  => '成功: 商品が正常にウィッシュリストから削除されました。',
                     'not-found'       => '注意: ウィッシュリストに商品が見つかりません。',
-                    'moved-success'   => '成功: 選択したアイテムがウィッシュリストに正常に移動されました。',
+                    'moved-to-cart'   => '成功: 商品が正常にカートに移動しました。',
                 ],
 
                 'orders' => [
@@ -110,7 +114,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => '注意: 無効なパラメータが提供されました。',
+                        'downloadable-links' => '注意: ダウンロード可能なリンクはカートに追加できません。',
+                        'invalid-parameter'  => '注意: 無効なパラメータが提供されました。',
                     ],
 
                     'success' => [
@@ -252,6 +257,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => '注意: 顧客が見つかりません。',
                 'cart-not-found'           => '注意: カートが見つかりません。',
                 'cart-item-not-found'      => '注意: カート内の商品が見つかりません。',
                 'cart-create-success'      => '成功: カートが正常に作成されました。',
@@ -631,5 +637,9 @@ return [
                 'invalid-parameter' => '警告: 提供されたパラメータが無効です。',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => '警告: メール設定が見つかりません。',
     ],
 ];

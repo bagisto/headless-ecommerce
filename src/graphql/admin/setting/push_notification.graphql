@@ -37,6 +37,7 @@ input CreatePushNotificationInput {
     title: String
     content: String
     locale: String
+    channel: String
     channels: [String]
     type: String
     productCategoryId: Int @rename(attribute: "product_category_id")

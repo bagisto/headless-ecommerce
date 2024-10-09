@@ -26,14 +26,15 @@ class PushNotificationMutation extends Controller
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $channels = core()->getAllChannels()->pluck('code')->toArray();
+
         bagisto_graphql()->validate($args, [
-            'title'               => 'required',
-            'content'             => 'required',
-            'type'                => 'required|in:product,category,others',
-            'channels'            => 'required|array',
-            'channels.*'          => 'required',
-            'product_category_id' => 'nullable|integer',
-            'locale'              => 'string',
+            'title'               => ['required'],
+            'content'             => ['required'],
+            'type'                => ['required'],
+            'channels'            => ['required', 'array', 'min:1', 'in:'.implode(',', $channels)],
+            'product_category_id' => ['required_if:type,product,category', 'integer'],
+            'status'              => ['boolean'],
         ]);
 
         try {
@@ -70,14 +71,17 @@ class PushNotificationMutation extends Controller
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $channels = core()->getAllChannels()->pluck('code')->toArray();
+
         bagisto_graphql()->validate($args, [
-            'title'               => 'required',
-            'content'             => 'required',
-            'type'                => 'required|in:product,category,others',
-            'channels'            => 'required|array',
-            'channels.*'          => 'required',
-            'product_category_id' => 'nullable|integer',
-            'locale'              => 'string',
+            'title'               => ['required'],
+            'content'             => ['required'],
+            'type'                => ['required'],
+            'channels'            => ['required', 'array', 'min:1', 'in:'.implode(',', $channels)],
+            'product_category_id' => ['required_if:type,product,category', 'integer'],
+            'status'              => ['boolean'],
+            'channel'             => ['required', 'in:'.implode(',', $channels)],
+            'locale'              => ['required'],
         ]);
 
         $notification = $this->notificationRepository->find($args['id']);

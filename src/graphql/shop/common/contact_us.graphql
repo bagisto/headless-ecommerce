@@ -1,0 +1,13 @@
+#Shop\Common\ContactUs Related APIs
+extend type Mutation {
+    contactUs (
+        input: ContactUsInput! @spread
+    ): StatusResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\ContactUsMutation@sendContactUsEmail")
+}
+
+input ContactUsInput {
+    name: String
+    email: String
+    contact: String
+    message: String
+}

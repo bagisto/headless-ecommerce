@@ -3,13 +3,10 @@
 namespace Webkul\GraphQLAPI\Providers;
 
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware;
-use Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -20,7 +17,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function boot(Router $router)
+    public function boot()
     {
         include __DIR__.'/../Http/helpers.php';
 
@@ -37,11 +34,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->publishesDefault();
 
         $this->app->register(ModuleServiceProvider::class);
-
-        /* aliases */
-        $router->aliasMiddleware('locale', LocaleMiddleware::class);
-
-        $router->aliasMiddleware('currency', CurrencyMiddleware::class);
     }
 
     /**

@@ -6,44 +6,45 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class FilterCart extends BaseFilter
 {
-    public function additional($data, $type)
+    /**
+     * Get the additional data for the cart.
+     */
+    public function additional(object $model)
     {
-        $param = (isset($type['directive']) && $type['directive'] == 'conditions') ? 'conditions' : 'conditions';
-
-        $addition = $data->{$param};
+        $data = $model->additional ?? $model->conditions;
 
         if (
-            ! isset($data->cart_id)
-            || isset($data->address_type)
+            ! isset($model->cart_id)
+            || isset($model->address_type)
         ) {
-            return json_encode($addition);
+            return json_encode($data);
         }
 
-        $additionalDate = [
-            'is_buy_now' => $addition['is_buy_now'] ?? false,
-            'product_id' => $addition['product_id'],
-            'quantity'   => $addition['quantity'],
+        $formattedData = [
+            'is_buy_now' => $data['is_buy_now'] ?? false,
+            'product_id' => $data['product_id'],
+            'quantity'   => $data['quantity'] ?? 1,
         ];
 
-        if ($data->type == 'configurable') {
-            $additionalDate['selected_configurable_option'] = $addition['selected_configurable_option'];
+        if ($model->type == 'configurable') {
+            $formattedData['selected_configurable_option'] = $data['selected_configurable_option'];
 
-            if (! empty($addition['super_attribute'])) {
-                foreach ($addition['super_attribute'] as $attributeId => $optionId) {
-                    $additionalDate['super_attribute'][] = [
+            if (! empty($data['super_attribute'])) {
+                foreach ($data['super_attribute'] as $attributeId => $optionId) {
+                    $formattedData['super_attribute'][] = [
                         'attribute_id' => $attributeId,
                         'option_id'    => (int) $optionId,
                     ];
                 }
             }
 
-            if (! empty($addition['attributes'])) {
-                foreach ($addition['attributes'] as $attributeCode => $option) {
-                    $additionalDate['attributes'][] = array_merge(['attribute_code' => $attributeCode], $option);
+            if (! empty($data['attributes'])) {
+                foreach ($data['attributes'] as $attributeCode => $option) {
+                    $formattedData['attributes'][] = array_merge(['attribute_code' => $attributeCode], $option);
                 }
             }
         }
 
-        return $additionalDate;
+        return $formattedData;
     }
 }

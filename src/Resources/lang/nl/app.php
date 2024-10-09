@@ -7,6 +7,10 @@ return [
             'subscribe-success'  => 'U bent succesvol geabonneerd op onze nieuwsbrief.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Bedankt dat je contact met ons hebt opgenomen. We nemen snel contact met je op.',
+        ],
+
         'customers' => [
             'no-login-customer' => 'Let op: Geen ingelogde klant gevonden.',
             'success-login'     => 'Succes: Klant succesvol ingelogd.',
@@ -60,7 +64,7 @@ return [
                     'already-exist'   => 'Let op: Al toegevoegd aan de verlanglijst.',
                     'remove-success'  => 'Succes: Item succesvol van de verlanglijst verwijderd.',
                     'not-found'       => 'Let op: Geen product gevonden op de verlanglijst.',
-                    'moved-success'   => 'Succes: Geselecteerde items succesvol verplaatst naar de verlanglijst.',
+                    'moved-to-cart'   => 'Succes: Product succesvol verplaatst naar de winkelwagen.',
                 ],
 
                 'orders' => [
@@ -110,7 +114,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Let op: Ongeldige parameters verstrekt.',
+                        'downloadable-links' => 'Let op: Downloadbare links zijn niet beschikbaar.',
+                        'invalid-parameter'  => 'Let op: Ongeldige parameters verstrekt.',
                     ],
 
                     'success' => [
@@ -252,6 +257,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Waarschuwing: Klant niet gevonden.',
                 'cart-not-found'           => 'Waarschuwing: Winkelwagentje niet gevonden.',
                 'cart-item-not-found'      => 'Waarschuwing: Winkelwagentje-item niet gevonden.',
                 'cart-create-success'      => 'Succes: Winkelwagentje succesvol aangemaakt.',
@@ -631,5 +637,9 @@ return [
                 'invalid-parameter' => 'Waarschuwing: Gegeven parameters zijn niet geldig.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Waarschuwing: E-mailconfiguratie niet gevonden.',
     ],
 ];

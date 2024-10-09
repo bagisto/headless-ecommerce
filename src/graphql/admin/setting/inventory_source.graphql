@@ -33,18 +33,18 @@ input FilterInventorySourceInput {
 }
 
 input createInventorySourceInput {
-    code: String!
-    name: String!
+    code: String
+    name: String
     description: String
-    contactName: String! @rename(attribute: "contact_name")
-    contactEmail: String! @rename(attribute: "contact_email")
-    contactNumber: String! @rename(attribute: "contact_number")
+    contactName: String @rename(attribute: "contact_name")
+    contactEmail: String @rename(attribute: "contact_email")
+    contactNumber: String @rename(attribute: "contact_number")
     contactFax: String @rename(attribute: "contact_fax")
-    country: String!
-    state: String!
-    city: String!
-    street: String!
-    postcode: String!
+    country: String
+    state: String
+    city: String
+    street: String
+    postcode: String
     priority: Int
     latitude: String
     longitude: String

@@ -17,11 +17,27 @@ class DownloadableQuery extends BaseFilter
 
         $query->where('customer_id', $customer->id);
 
-        $params = Arr::except($input, ['product_name', 'name']);
+        $params = Arr::except($input, [
+            'product_name',
+            'name',
+            'purchase_date',
+            'purchase_date_from',
+            'purchase_date_to',
+        ]);
+
+        if (! empty($input['purchase_date'])) {
+            $query->whereDate('created_at', $input['purchase_date']);
+        } elseif (
+            ! empty($input['purchase_date_from'])
+            && ! empty($input['purchase_date_to'])
+        ) {
+            $query->whereDate('created_at', '>=', $input['purchase_date_from'])
+                ->whereDate('created_at', '<=', $input['purchase_date_to']);
+        }
 
         $query = $this->applyLikeFilter($query, Arr::only($input, ['product_name', 'name']));
 
-        return $query->where($params);
+        return $query->where($params)->orderBy('created_at', 'desc');
     }
 
     /**

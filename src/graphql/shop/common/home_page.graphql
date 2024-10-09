@@ -1,4 +1,4 @@
-# Shop\Common\HopePage Related APIs
+# Shop\Common\HomePage Related APIs
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 
@@ -10,13 +10,8 @@ extend type Query {
     ): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
     allProducts(
-        input: [FilterAllProductsInput]
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
-    ): [Product!] @paginate(
-        type: "PAGINATOR"
-        defaultCount: 10
-        model: "Webkul\\Product\\Models\\Product"
-    )
+        input: FilterAllProductsInput @spread
+    ): ProductPaginatorResponse! @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
     getFilterAttribute(
         categorySlug: String! @rename (attribute: "category_slug")
@@ -29,8 +24,16 @@ input FilterHomeCategoriesInput {
 }
 
 input FilterAllProductsInput {
-    key: String
-    value: String
+    page: Int!
+    limit: Int!
+    urlKey: String @rename(attribute: "url_key")
+    name: String
+    categoryId: ID @rename(attribute: "category_id")
+    type: String
+    price: String
+    new: Boolean
+    featured: Boolean
+    sort: String
 }
 
 type FilterAttribute {

@@ -37,6 +37,7 @@ class PushNotificationDataGrid extends DataGrid
                 'pn_trans.locale',
             )
             ->leftJoin('push_notification_translations as pn_trans', 'pn.id', '=', 'pn_trans.push_notification_id')
+            ->where('pn_trans.locale', core()->getRequestedLocaleCode())
             ->groupBy('pn.id');
 
         $this->addFilter('notification_id', 'pn.id');
@@ -129,15 +130,28 @@ class PushNotificationDataGrid extends DataGrid
             },
         ]);
 
-        $this->addColumn([
-            'index'      => 'channel',
-            'label'      => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.channel-name'),
-            'type'       => 'string',
-            'searchable' => false,
-            'filterable' => false,
-            'filterable' => true,
-            'sortable'   => false,
-        ]);
+        $channels = core()->getAllChannels();
+
+        if ($channels->count() > 1) {
+            $this->addColumn([
+                'index'              => 'channel',
+                'label'              => trans('bagisto_graphql::app.admin.settings.notification.index.datagrid.channel-name'),
+                'type'               => 'string',
+                'filterable'         => true,
+                'filterable_type'    => 'dropdown',
+                'filterable_options' => $channels
+                    ->map(function ($channel) {
+                        return [
+                            'label' => $channel->name,
+                            'value' => $channel->code,
+                        ];
+                    })
+                    ->values()
+                    ->toArray(),
+                'sortable'           => true,
+                'visibility'         => false,
+            ]);
+        }
 
         $this->addColumn([
             'index'      => 'status',

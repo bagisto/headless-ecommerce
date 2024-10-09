@@ -1,6 +1,6 @@
 input LoginInput {
-    email: String! @rules(apply: ["email"])
-    password: String! @rules(apply: ["min:6"])
+    email: String
+    password: String
     remember: Boolean
 }
 
@@ -16,6 +16,18 @@ type CustomerLoginResponse {
 type StatusResponse {
     success: Boolean
     message: String
+}
+
+type ProductPaginatorResponse {
+    paginatorInfo: PaginatorInfo! @rename(attribute: "paginator_info")
+    data: [Product!] @rename(attribute: "data")
+}
+
+type PaginatorInfo {
+    count: Int
+    currentPage: Int @rename(attribute: "current_page")
+    lastPage: Int @rename(attribute: "last_page")
+    total: Int
 }
 
 type FilterOption {

@@ -42,10 +42,14 @@ class CategoryMutation extends Controller
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'slug'        => ['required', 'unique:category_translations,slug', new Slug],
-            'name'        => 'required',
-            'image.*'     => 'mimes:jpeg,jpg,bmp,png',
-            'description' => 'required_if:display_mode,==,description_only,products_and_description',
+            'slug'          => ['required', 'unique:category_translations,slug', new Slug],
+            'name'          => 'required',
+            'description'   => 'required_if:display_mode,==,description_only,products_and_description',
+            'position'      => 'required',
+            'logo_path'     => 'array',
+            'banner_path'   => 'array',
+            'attributes'    => 'required|array',
+            'attributes.*'  => 'required',
         ]);
 
         try {
@@ -94,6 +98,14 @@ class CategoryMutation extends Controller
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        bagisto_graphql()->validate($args, [
+            'position'      => 'required',
+            'logo_path'     => 'array',
+            'banner_path'   => 'array',
+            'attributes'    => 'required|array',
+            'attributes.*'  => 'required',
+        ]);
+
         $category = $this->categoryRepository->find($args['id']);
 
         if (! $category) {

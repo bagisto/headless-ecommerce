@@ -72,6 +72,8 @@ input FilterCustomerOrderInput {
     baseSubTotal: Float @rename(attribute: "base_sub_total")
     baseGrandTotal: Float @rename(attribute: "base_grand_total")
     orderDate: String @rename(attribute: "order_date")
+    orderDateFrom: String @rename(attribute: "order_date_from")
+    orderDateTo: String @rename(attribute: "order_date_to")
     channelName: String @rename(attribute: "channel_name")
     status: String
 }

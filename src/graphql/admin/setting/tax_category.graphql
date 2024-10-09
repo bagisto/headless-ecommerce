@@ -32,10 +32,10 @@ input FilterTaxCategoryInput {
 }
 
 input createTaxCategoryInput {
-    code: String!
-    name: String!
-    description: String!
-    taxrates: [Int!]!
+    code: String
+    name: String
+    description: String
+    taxrates: [Int]
 }
 
 type TaxCategoryResponse {
