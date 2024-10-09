@@ -31,11 +31,6 @@ input FilterAllProductsInput {
     sort: String
 }
 
-type ProductPaginatorResponse {
-    paginatorInfo: PaginatorInfo! @rename(attribute: "paginator_info")
-    data: [Product!] @rename(attribute: "data")
-}
-
 type FilterAttribute {
     minPrice: Float @rename(attribute: "min_price")
     maxPrice: Float @rename(attribute: "max_price")

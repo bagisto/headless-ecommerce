@@ -18,6 +18,11 @@ type StatusResponse {
     message: String
 }
 
+type ProductPaginatorResponse {
+    paginatorInfo: PaginatorInfo! @rename(attribute: "paginator_info")
+    data: [Product!] @rename(attribute: "data")
+}
+
 type PaginatorInfo {
     count: Int
     currentPage: Int @rename(attribute: "current_page")

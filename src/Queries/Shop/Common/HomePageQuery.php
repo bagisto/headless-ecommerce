@@ -2,19 +2,18 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
-use Illuminate\Support\Facades\DB;
-use Webkul\Product\Helpers\Toolbar;
-use Illuminate\Pagination\Paginator;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
+use Illuminate\Support\Facades\DB;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Attribute\Repositories\AttributeRepository;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Marketing\Repositories\SearchSynonymRepository;
+use Webkul\Product\Helpers\Toolbar;
 use Webkul\Product\Repositories\ElasticSearchRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
 class HomePageQuery extends BaseFilter
@@ -178,16 +177,16 @@ class HomePageQuery extends BaseFilter
 
         return [
             'paginator_info' => bagisto_graphql()->getPaginatorInfo($products),
-            'data'           => $products,
+            'data'           => $products->getCollection(),
         ];
     }
 
     /**
      * Search product from database.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Support\Collection
      */
-    public function searchFromDatabase($params)
+    public function searchFromDatabase(array $params = [])
     {
         $params['url_key'] ??= null;
 
@@ -389,12 +388,15 @@ class HomePageQuery extends BaseFilter
         ]);
 
         $query = $this->productRepository
-            ->whereIn('products.id', $indices['ids'])
+            ->whereIn('id', $indices['ids'])
             ->orderBy(DB::raw('FIELD(id, '.implode(',', $indices['ids']).')'));
 
-        $items = $indices['total'] ? $query->get() : [];
-
-        return new LengthAwarePaginator($items, $indices['total'], $limit, $currentPage);
+        return new LengthAwarePaginator(
+            $indices['total'] ? $query->get() : [],
+            $indices['total'],
+            $limit,
+            $currentPage
+        );
     }
 
     /**
