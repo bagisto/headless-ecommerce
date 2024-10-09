@@ -6,7 +6,7 @@ extend type Query {
 
     homeCategories(
         getCategoryTree: Boolean @rename (attribute: "get_category_tree")
-        input: [FilterOption]
+        input: [FilterHomeCategoriesInput]
     ): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
     allProducts(
@@ -16,6 +16,11 @@ extend type Query {
     getFilterAttribute(
         categorySlug: String! @rename (attribute: "category_slug")
     ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFilterAttributes")
+}
+
+input FilterHomeCategoriesInput {
+    key: String
+    value: String
 }
 
 input FilterAllProductsInput {
