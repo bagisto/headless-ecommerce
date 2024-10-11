@@ -31,6 +31,8 @@ input FilterAllProductsInput {
     categoryId: ID @rename(attribute: "category_id")
     type: String
     price: String
+    color: String
+    size: String
     new: Boolean
     featured: Boolean
     sort: String
