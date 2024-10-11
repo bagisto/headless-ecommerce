@@ -159,13 +159,19 @@ class HomePageQuery extends BaseFilter
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getAllProducts(mixed $rootValue, array $input)
+    public function getAllProducts(mixed $rootValue, array $args)
     {
         $searchEngine = core()->getConfigData('catalog.products.search.engine') === 'elastic'
             ? core()->getConfigData('catalog.products.search.storefront_mode')
             : 'database';
 
-        $params = array_merge($input, [
+        $filters = array_filter($args['input']);
+
+        foreach ($filters as $input) {
+            $params[$input['key']] = $input['value'];
+        }
+
+        $params = array_merge($params, [
             'channel_id'           => core()->getCurrentChannel()->id,
             'status'               => 1,
             'visible_individually' => 1,

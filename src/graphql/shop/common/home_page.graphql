@@ -10,7 +10,7 @@ extend type Query {
     ): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
     allProducts(
-        input: FilterAllProductsInput @spread
+        input: [FilterHomeCategoriesInput]
     ): ProductPaginatorResponse! @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
     getFilterAttribute(
@@ -21,21 +21,6 @@ extend type Query {
 input FilterHomeCategoriesInput {
     key: String
     value: String
-}
-
-input FilterAllProductsInput {
-    page: Int!
-    limit: Int!
-    urlKey: String @rename(attribute: "url_key")
-    name: String
-    categoryId: ID @rename(attribute: "category_id")
-    type: String
-    price: String
-    color: String
-    size: String
-    new: Boolean
-    featured: Boolean
-    sort: String
 }
 
 type FilterAttribute {
