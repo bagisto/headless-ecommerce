@@ -2,23 +2,25 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
+use Webkul\CartRule\Models\CartRule;
+use Webkul\CatalogRule\Models\CatalogRule;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 
-class FilterCart extends BaseFilter
+class FilterItem extends BaseFilter
 {
     /**
-     * Get the additional data for the cart.
+     * Get the additional data for the cart item.
      */
     public function additional(object $model)
     {
-        $data = $model->additional ?? $model->conditions;
-
         if (
-            ! isset($model->cart_id)
-            || isset($model->address_type)
+            $model instanceof CartRule
+            || $model instanceof CatalogRule
         ) {
-            return json_encode($data);
+            return json_encode($model->conditions);
         }
+
+        $data = $model->additional;
 
         $formattedData = [
             'is_buy_now' => $data['is_buy_now'] ?? false,
