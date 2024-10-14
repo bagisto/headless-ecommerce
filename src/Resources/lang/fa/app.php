@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'با تشکر از تماس شما. به زودی با شما تماس خواهیم گرفت.',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'هشدار: لینک دانلود یافت نشد.',
+                'sample-not-found' => 'هشدار: نمونه قابل دانلود یافت نشد.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'هشدار: هیچ مشتری وارد شده ای یافت نشد.',
             'success-login'     => 'موفقیت: ورود مشتری با موفقیت انجام شد.',

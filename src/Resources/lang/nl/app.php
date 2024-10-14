@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'Bedankt dat je contact met ons hebt opgenomen. We nemen snel contact met je op.',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Waarschuwing: Downloadlink niet gevonden.',
+                'sample-not-found' => 'Waarschuwing: Downloadbaar voorbeeld niet gevonden.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Let op: Geen ingelogde klant gevonden.',
             'success-login'     => 'Succes: Klant succesvol ingelogd.',

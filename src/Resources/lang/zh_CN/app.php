@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => '感谢您联系我们。我们会尽快回复您。',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => '警告: 找不到下载链接。',
+                'sample-not-found' => '警告: 找不到可下载的样本。',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => '警告：未找到登录的客户。',
             'success-login'     => '成功：客户登录成功。',

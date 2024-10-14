@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'شكراً لتواصلكم معنا. سنعاود الاتصال بكم قريباً.',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'تحذير: لم يتم العثور على رابط التنزيل.',
+                'sample-not-found' => 'تحذير: لم يتم العثور على العينة القابلة للتنزيل.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'تحذير: لا يوجد عميل مسجل الدخول.',
             'success-login'     => 'تم تسجيل الدخول بنجاح.',

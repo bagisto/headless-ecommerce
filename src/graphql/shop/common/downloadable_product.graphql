@@ -1,0 +1,16 @@
+#Shop\Common\Downloadable Product Related APIs
+extend type Mutation {
+    downloadSample (
+        input: DownloadSampleInput! @spread
+    ): DownloadSampleResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Common\\DownloadableProductMutation@downloadSample")
+}
+
+input DownloadSampleInput {
+    type: String!
+    id: ID!
+}
+
+type DownloadSampleResponse {
+    success: Boolean
+    string: String
+}

@@ -8233,6 +8233,37 @@
 							"response": []
 						},
 						{
+							"name": "Download Sample",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation downloadSample {\n    downloadSample (input: {\n        type: \"file\"\n        id: \"9\"\n    }) {\n        success\n        string\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "All Product List",
 							"request": {
 								"auth": {
@@ -8250,7 +8281,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query allProducts {\n\tallProducts (input: [\n        {\n            key: \"limit\",\n            value: \"12\"\n        }, {\n            key: \"url_key\",\n            value: \"simple-product\"\n        }, {\n            key: \"name\",\n            value: \"simple\"\n        }, {\n            # key: \"category_id\",\n            # value: \"4\"\n        }, {\n            key: \"type\",\n            value: \"simple\"\n        }, {\n            key: \"price\",\n            value: \"50,100\"\n        }, {\n            # key: \"color\",\n            # value: \"1,2\"\n        }, {\n            # key: \"size\",\n            # value: \"6,7\"\n        }, {\n            key: \"new\",\n            value: \"1\"\n        }, {\n            # key: \"featured\",\n            # value: \"1\"\n        }, {\n            # key: \"sort\",\n            # value: \"name-asc\"\n        }\n    ]) { \n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        } data {\n            id\n            sku\n            type\n            name\n            shortDescription\n            urlKey\n            shareURL\n            new\n            featured\n            status\n            guestCheckout\n            visibleIndividually\n            price\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            isInWishlist\n            isInSale\n            isSaleable\n            priceHtml {\n                id\n                type\n                minPrice\n                priceHtml\n                priceWithoutHtml\n                regularPrice\n                formattedRegularPrice\n                finalPrice\n                formattedFinalPrice\n                currencyCode\n            }\n            reviews {\n                id\n                name\n                title\n                rating\n                comment\n            }\n            averageRating\n            percentageRating\n            downloadableSamples {\n                id\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sortOrder\n                productId\n                createdAt\n                updatedAt\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableSampleId\n                }\n            }\n            downloadableLinks {\n                id\n                title\n                price\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sampleUrl\n                sampleFile\n                sampleFileName\n                sampleType\n                sortOrder\n                productId\n                downloads\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableLinkId\n                }\n            }\n        }\n    }\n}",
+										"query": "query allProducts {\n\tallProducts (input: [\n        {\n            key: \"limit\",\n            value: \"12\"\n        }, {\n            key: \"url_key\",\n            value: \"downloadable-product-file\"\n        }, {\n            key: \"name\",\n            value: \"downloadable\"\n        }, {\n            # key: \"category_id\",\n            # value: \"4\"\n        }, {\n            key: \"type\",\n            value: \"downloadable\"\n        }, {\n            # key: \"price\",\n            # value: \"50,100\"\n        }, {\n            # key: \"color\",\n            # value: \"1,2\"\n        }, {\n            # key: \"size\",\n            # value: \"6,7\"\n        }, {\n            key: \"new\",\n            value: \"1\"\n        }, {\n            # key: \"featured\",\n            # value: \"1\"\n        }, {\n            # key: \"sort\",\n            # value: \"name-asc\"\n        }\n    ]) { \n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        } data {\n            id\n            sku\n            type\n            name\n            shortDescription\n            urlKey\n            shareURL\n            new\n            featured\n            status\n            guestCheckout\n            visibleIndividually\n            price\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            isInWishlist\n            isInSale\n            isSaleable\n            priceHtml {\n                id\n                type\n                minPrice\n                priceHtml\n                priceWithoutHtml\n                regularPrice\n                formattedRegularPrice\n                finalPrice\n                formattedFinalPrice\n                currencyCode\n            }\n            reviews {\n                id\n                name\n                title\n                rating\n                comment\n            }\n            averageRating\n            percentageRating\n            downloadableSamples {\n                id\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sortOrder\n                productId\n                createdAt\n                updatedAt\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableSampleId\n                }\n            }\n            downloadableLinks {\n                id\n                title\n                price\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sampleUrl\n                sampleFile\n                sampleFileUrl\n                sampleFileName\n                sampleType\n                sortOrder\n                productId\n                downloads\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableLinkId\n                }\n            }\n        }\n    }\n}",
 										"variables": ""
 									}
 								},

@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'हमसे संपर्क करने के लिए धन्यवाद। हम जल्द ही आपसे संपर्क करेंगे।',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'चेतावनी: डाउनलोड लिंक नहीं मिला।',
+                'sample-not-found' => 'चेतावनी: डाउनलोड करने योग्य नमूना नहीं मिला।',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'चेतावनी: कोई लॉगिन ग्राहक नहीं मिला।',
             'success-login'     => 'सफलतापूर्वक ग्राहक लॉगिन।',

@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'תודה שפנית אלינו. נחזור אליך בקרוב.',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'אזהרה: קישור להורדה לא נמצא.',
+                'sample-not-found' => 'אזהרה: דוגמה להורדה לא נמצאה.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'אזהרה: לא נמצא לקוח מחובר.',
             'success-login'     => 'התחברות הלקוח בוצעה בהצלחה.',

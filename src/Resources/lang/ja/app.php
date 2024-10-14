@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'お問い合わせいただきありがとうございます。 近日中にご連絡いたします。',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => '警告: ダウンロードリンクが見つかりません。',
+                'sample-not-found' => '警告: ダウンロード可能なサンプルが見つかりません。',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => '注意: ログインした顧客が見つかりません。',
             'success-login'     => '成功: 顧客が正常にログインしました。',

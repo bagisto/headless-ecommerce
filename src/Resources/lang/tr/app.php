@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'Bizimle iletişime geçtiğiniz için teşekkür ederiz. Size en kısa sürede geri döneceğiz.',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Uyarı: İndirilebilir bağlantı bulunamadı.',
+                'sample-not-found' => 'Uyarı: İndirilebilir örnek bulunamadı.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Uyarı: Giriş yapmış müşteri bulunamadı.',
             'success-login'     => 'Başarılı: Müşteri girişi başarılı.',

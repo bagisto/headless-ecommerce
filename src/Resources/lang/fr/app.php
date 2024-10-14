@@ -11,6 +11,13 @@ return [
             'thanks-for-contact' => 'Merci de nous avoir contactés. Nous vous répondrons sous peu.',
         ],
 
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Attention : Lien de téléchargement non trouvé.',
+                'sample-not-found' => 'Attention : Échantillon téléchargeable non trouvé.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Avertissement: Aucun client connecté trouvé.',
             'success-login'     => 'Succès: Connexion du client réussie.',
