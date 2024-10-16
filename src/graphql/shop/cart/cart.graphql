@@ -113,6 +113,7 @@ type Cart {
     channelId: ID! @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
+    appliedTaxRates: [AppliedTaxRate] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\TaxQuery@appliedTaxRates")
     formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartPriceData")
     items: [CartItem!] @hasMany
     allItems: [CartItem!] @hasMany(relation: "all_items")
@@ -149,7 +150,7 @@ type CartItem {
     basePriceInclTax: Float @rename(attribute: "base_price_incl_tax")
     totalInclTax: Float @rename(attribute: "total_incl_tax")
     baseTotalInclTax: Float @rename(attribute: "base_total_incl_tax")
-    appliedTaxRate: Float @rename(attribute: "applied_tax_rate")
+    appliedTaxRate: String @rename(attribute: "applied_tax_rate")
     parentId: ID @rename(attribute: "parent_id")
     productId: ID! @rename(attribute: "product_id")
     cartId: ID! @rename(attribute: "cart_id")
@@ -163,6 +164,11 @@ type CartItem {
     cart: Cart @hasOne
     child: CartItem @belongsTo(relation: "child")
     parent: CartItem @belongsTo(relation: "parent")
+}
+
+type AppliedTaxRate {
+    taxName: String @rename(attribute: "tax_name")
+    totalAmount: String @rename(attribute: "total_amount")
 }
 
 type AdditionalSuperAttributes {
