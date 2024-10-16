@@ -671,18 +671,23 @@ class BagistoGraphql
                 break;
             case 'bundle':
                 if (! empty($data['bundle_options'])) {
-                    $bundle_options = [];
+                    $bundleOptions = [];
+                    $bundleOptionQty = [];
 
                     foreach ($data['bundle_options'] as $option) {
                         if (
                             ! empty($option['bundle_option_id'])
                             && ! empty($option['bundle_option_product_id'])
+                            && ! empty($option['qty'])
                         ) {
-                            $bundle_options[$option['bundle_option_id']] = $option['bundle_option_product_id'];
+                            $bundleOptions[$option['bundle_option_id']] = $option['bundle_option_product_id'];
+
+                            $bundleOptionQty[$option['bundle_option_id']] = $option['qty'];
                         }
                     }
 
-                    $data['bundle_options'] = $bundle_options;
+                    $data['bundle_options'] = $bundleOptions;
+                    $data['bundle_option_qty'] = $bundleOptionQty;
                 }
                 break;
             case 'downloadable':
