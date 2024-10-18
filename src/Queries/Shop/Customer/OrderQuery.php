@@ -17,11 +17,17 @@ class OrderQuery
 
         $query->where('customer_id', $customer->id);
 
-        $params = Arr::except($input, ['order_date']);
+        $params = Arr::except($input, ['order_date', 'order_date_from', 'order_date_to']);
 
-        $query->when(! empty($input['order_date']), function ($query) use ($input) {
+        if (! empty($input['order_date'])) {
             $query->whereDate('created_at', $input['order_date']);
-        });
+        } elseif (
+            ! empty($input['order_date_from'])
+            && ! empty($input['order_date_to'])
+        ) {
+            $query->whereDate('created_at', '>=', $input['order_date_from'])
+                ->whereDate('created_at', '<=', $input['order_date_to']);
+        }
 
         return $query->where($params)->orderBy('id', 'desc');
     }

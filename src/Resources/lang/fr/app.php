@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'Vous vous êtes abonné avec succès à notre newsletter.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Merci de nous avoir contactés. Nous vous répondrons sous peu.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Attention : Lien de téléchargement non trouvé.',
+                'sample-not-found' => 'Attention : Échantillon téléchargeable non trouvé.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Avertissement: Aucun client connecté trouvé.',
             'success-login'     => 'Succès: Connexion du client réussie.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'Avertissement: Déjà ajouté à la liste de souhaits.',
                     'remove-success'  => 'Succès: L\'élément est supprimé avec succès de la liste de souhaits.',
                     'not-found'       => 'Avertissement: Aucun produit trouvé dans la liste de souhaits.',
-                    'moved-success'   => 'Succès: Les éléments sélectionnés ont été déplacés avec succès vers la liste de souhaits.',
+                    'moved-to-cart'   => 'Succès: Les éléments sélectionnés ont été déplacés avec succès vers le panier.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Avertissement: Paramètres invalides fournis.',
+                        'downloadable-links' => 'Avertissement: Les liens de téléchargement ne sont pas disponibles.',
+                        'invalid-parameter'  => 'Avertissement: Paramètres invalides fournis.',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Attention : client introuvable.',
                 'cart-not-found'           => 'Attention : panier introuvable.',
                 'cart-item-not-found'      => 'Attention : article du panier introuvable.',
                 'cart-create-success'      => 'Succès : panier créé avec succès.',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => 'Avertissement : Paramètres invalides fournis.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Avertissement : Configuration de l\'e-mail introuvable.',
     ],
 ];

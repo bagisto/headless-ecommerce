@@ -338,7 +338,7 @@ class CheckoutMutation extends Controller
     public function savePayment(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'method' => 'required',
+            'method' => 'required|in:'.implode(',', collect(Payment::getPaymentMethods())->pluck('method')->toArray()),
         ]);
 
         try {

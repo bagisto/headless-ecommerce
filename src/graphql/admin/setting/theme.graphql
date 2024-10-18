@@ -30,10 +30,10 @@ input FilterThemesInput {
 }
 
 input CreateThemeInput {
-    name: String!
-    sortOrder: Int! @rename(attribute: "sort_order")
-    type: ThemeType!
-    channelId: ID! @rename(attribute: "channel_id")
+    name: String
+    sortOrder: Int @rename(attribute: "sort_order")
+    type: ThemeType
+    channelId: ID @rename(attribute: "channel_id")
     themeCode: String @rename(attribute: "theme_code")
 }
 
@@ -47,16 +47,16 @@ enum ThemeType {
 }
 
 input UpdateThemeInput {
-    name: String!
-    sortOrder: Int! @rename(attribute: "sort_order")
-    channelId: ID! @rename(attribute: "channel_id")
+    name: String
+    sortOrder: Int @rename(attribute: "sort_order")
+    channelId: ID @rename(attribute: "channel_id")
     status: Boolean
     themeCode: String @rename(attribute: "theme_code")
     options: OptionInputTheme!
 }
 
 input OptionInputTheme {
-    title: String!
+    title: String
     filtersInput: [FilterInput]
 }
 

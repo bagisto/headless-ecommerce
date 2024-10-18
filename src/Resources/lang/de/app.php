@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'Sie haben sich erfolgreich für unseren Newsletter angemeldet.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Vielen Dank, dass Sie uns kontaktiert haben. Wir werden uns bald bei Ihnen melden.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Warnung: Download-Link nicht gefunden.',
+                'sample-not-found' => 'Warnung: Downloadbare Probe nicht gefunden.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Warnung: Kein eingeloggter Kunde gefunden.',
             'success-login'     => 'Erfolg: Kundenlogin erfolgreich.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'Warnung: Bereits zur Wunschliste hinzugefügt.',
                     'remove-success'  => 'Erfolg: Artikel erfolgreich von der Wunschliste entfernt.',
                     'not-found'       => 'Warnung: Keine Produkte in der Wunschliste gefunden.',
-                    'moved-success'   => 'Erfolg: Ausgewählte Artikel erfolgreich in die Wunschliste verschoben.',
+                    'moved-to-cart'   => 'Erfolg: Produkt erfolgreich in den Warenkorb verschoben.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Warnung: Ungültige Parameter angegeben.',
+                        'downloadable-links' => 'Warnung: Herunterladbare Links sind nicht verfügbar.',
+                        'invalid-parameter'  => 'Warnung: Ungültige Parameter angegeben.',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Warnung: Kunde nicht gefunden.',
                 'cart-not-found'           => 'Warnung: Warenkorb nicht gefunden.',
                 'cart-item-not-found'      => 'Warnung: Warenkorb-Artikel nicht gefunden.',
                 'cart-create-success'      => 'Erfolg: Warenkorb erfolgreich erstellt.',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => 'Warnung: Ungültige Parameter angegeben.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Warnung: E-Mail-Konfiguration nicht gefunden.',
     ],
 ];

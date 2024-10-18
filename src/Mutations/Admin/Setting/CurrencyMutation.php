@@ -28,8 +28,8 @@ class CurrencyMutation extends Controller
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'code' => 'required|min:3|max:3|unique:currencies,code',
-            'name' => 'required',
+            'code' => ['required', 'min:3', 'max:3', 'unique:currencies,code', new Code],
+            'name' => ['required'],
         ]);
 
         try {
@@ -59,7 +59,7 @@ class CurrencyMutation extends Controller
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         bagisto_graphql()->validate($args, [
-            'code' => ['required', 'unique:currencies,code,'.$args['id'], new Code],
+            'code' => ['required', 'min:3', 'max:3', 'unique:currencies,code,'.$args['id'], new Code],
             'name' => 'required',
         ]);
 

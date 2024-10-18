@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'Pomyślnie zapisałeś się do naszego newslettera.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Dziękujemy za skontaktowanie się z nami. Skontaktujemy się z Tobą wkrótce.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Ostrzeżenie: Link do pobrania nie znaleziony.',
+                'sample-not-found' => 'Ostrzeżenie: Próbka do pobrania nie znaleziona.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Ostrzeżenie: Nie znaleziono zalogowanego klienta.',
             'success-login'     => 'Sukces: Pomyślnie zalogowano klienta.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'Ostrzeżenie: Już dodano do listy życzeń.',
                     'remove-success'  => 'Sukces: Element został pomyślnie usunięty z listy życzeń.',
                     'not-found'       => 'Ostrzeżenie: Brak produktów w liście życzeń.',
-                    'moved-success'   => 'Sukces: Wybrane elementy zostały pomyślnie przeniesione do listy życzeń.',
+                    'moved-to-cart'   => 'Sukces: Wybrane elementy zostały pomyślnie przeniesione do koszyka.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Ostrzeżenie: Podano nieprawidłowe parametry.',
+                        'downloadable-links' => 'Ostrzeżenie: Nie można pobrać linków do produktów.',
+                        'invalid-parameter'  => 'Ostrzeżenie: Podano nieprawidłowe parametry.',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Ostrzeżenie: Klient nie został znaleziony.',
                 'cart-not-found'           => 'Ostrzeżenie: Koszyk nie został znaleziony.',
                 'cart-item-not-found'      => 'Ostrzeżenie: Pozycja koszyka nie została znaleziona.',
                 'cart-create-success'      => 'Sukces: Koszyk został pomyślnie utworzony.',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => 'Ostrzeżenie: Podano nieprawidłowe parametry.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Ostrzeżenie: Nie znaleziono konfiguracji e-maila.',
     ],
 ];

@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'נרשמת בהצלחה לניוזלטר שלנו.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'תודה שפנית אלינו. נחזור אליך בקרוב.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'אזהרה: קישור להורדה לא נמצא.',
+                'sample-not-found' => 'אזהרה: דוגמה להורדה לא נמצאה.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'אזהרה: לא נמצא לקוח מחובר.',
             'success-login'     => 'התחברות הלקוח בוצעה בהצלחה.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'אזהרה: כבר נוסף לרשימת המשאלות.',
                     'remove-success'  => 'הצלחה: הפריט הוסר בהצלחה מרשימת המשאלות.',
                     'not-found'       => 'אזהרה: לא נמצאו מוצרים ברשימת המשאלות.',
-                    'moved-success'   => 'הצלחה: הפריטים שנבחרו הועברו בהצלחה לרשימת המשאלות.',
+                    'moved-to-cart'   => 'הצלחה: הפריט הועבר בהצלחה לעגלה.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'אזהרה: פרמטרים לא תקינים.',
+                        'downloadable-links' => 'אזהרה: לא ניתן להוסיף מוצרים לעגלה עבור מוצרים הניתנים להורדה.',
+                        'invalid-parameter'  => 'אזהרה: פרמטרים לא תקינים.',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'אזהרה: לקוח לא נמצא.',
                 'cart-not-found'           => 'אזהרה: עגלה לא נמצאה.',
                 'cart-item-not-found'      => 'אזהרה: פריט עגלה לא נמצא.',
                 'cart-create-success'      => 'הצלחה: עגלה נוצרה בהצלחה.',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => 'אזהרה: פרמטרים לא חוקיים הוזנו.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'אזהרה: הגדרת דוא"ל לא נמצאה.',
     ],
 ];

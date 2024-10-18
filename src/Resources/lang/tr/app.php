@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'Bültenimize başarıyla abone oldunuz.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Bizimle iletişime geçtiğiniz için teşekkür ederiz. Size en kısa sürede geri döneceğiz.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Uyarı: İndirilebilir bağlantı bulunamadı.',
+                'sample-not-found' => 'Uyarı: İndirilebilir örnek bulunamadı.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Uyarı: Giriş yapmış müşteri bulunamadı.',
             'success-login'     => 'Başarılı: Müşteri girişi başarılı.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'Uyarı: Zaten favorilere eklenmiş.',
                     'remove-success'  => 'Başarılı: Ürün favorilerden başarıyla kaldırıldı.',
                     'not-found'       => 'Uyarı: Favorilerde ürün bulunamadı.',
-                    'moved-success'   => 'Başarılı: Seçilen ürünler başarıyla favorilere taşındı.',
+                    'moved-to-cart'   => 'Başarılı: Ürün başarıyla sepete taşındı.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Uyarı: Geçersiz parametreler sağlandı.',
+                        'downloadable-links' => 'Uyarı: İndirilebilir ürünler için indirme bağlantıları sağlanmadı.',
+                        'invalid-parameter'  => 'Uyarı: Geçersiz parametreler sağlandı.',
                     ],
 
                     'success' => [
@@ -251,6 +263,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Uyarı: Müşteri bulunamadı.',
                 'cart-not-found'           => 'Uyarı: Sepet bulunamadı.',
                 'cart-item-not-found'      => 'Uyarı: Sepet öğesi bulunamadı.',
                 'cart-create-success'      => 'Başarılı: Sepet başarıyla oluşturuldu.',
@@ -630,5 +643,9 @@ return [
                 'invalid-parameter' => 'Предупреждение: Указаны неверные параметры.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Uyarı: E-posta yapılandırması bulunamadı.',
     ],
 ];

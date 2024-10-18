@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'Você se inscreveu com sucesso em nosso boletim informativo.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Obrigado por nos contactar. Entraremos em contato em breve.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Aviso: Link de download não encontrado.',
+                'sample-not-found' => 'Aviso: Amostra para download não encontrada.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Aviso: Nenhum cliente logado encontrado.',
             'success-login'     => 'Sucesso: Login do cliente realizado com sucesso.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'Aviso: Já adicionado à lista de desejos.',
                     'remove-success'  => 'Sucesso: Item removido com sucesso da lista de desejos.',
                     'not-found'       => 'Aviso: Nenhum produto encontrado na lista de desejos.',
-                    'moved-success'   => 'Sucesso: Itens selecionados movidos com sucesso para a lista de desejos.',
+                    'moved-to-cart'   => 'Sucesso: Produto movido com sucesso para o carrinho.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Aviso: Parâmetros inválidos fornecidos.',
+                        'downloadable-links' => 'Aviso: Os links de download não estão disponíveis.',
+                        'invalid-parameter'  => 'Aviso: Parâmetros inválidos fornecidos.',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Aviso: Cliente não encontrado.',
                 'cart-not-found'           => 'Aviso: Carrinho não encontrado.',
                 'cart-item-not-found'      => 'Aviso: Item do carrinho não encontrado.',
                 'cart-create-success'      => 'Sucesso: Carrinho criado com sucesso.',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => 'Aviso: Parâmetros inválidos fornecidos.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Aviso: Configuração de e-mail não encontrada.',
     ],
 ];

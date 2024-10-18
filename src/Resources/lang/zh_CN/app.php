@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => '您已成功订阅我们的新闻通讯。',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => '感谢您联系我们。我们会尽快回复您。',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => '警告: 找不到下载链接。',
+                'sample-not-found' => '警告: 找不到可下载的样本。',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => '警告：未找到登录的客户。',
             'success-login'     => '成功：客户登录成功。',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => '警告：已添加到愿望清单。',
                     'remove-success'  => '成功：项目已成功从愿望清单中删除。',
                     'not-found'       => '警告：愿望清单中没有找到产品。',
-                    'moved-success'   => '成功：已成功将选定的项目移动到愿望清单。',
+                    'moved-to-cart'   => '成功：产品已成功移动到购物车。',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => '警告：提供了无效的参数。',
+                        'downloadable-links' => '警告：无法生成可下载链接。',
+                        'invalid-parameter'  => '警告：提供了无效的参数。',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => '警告：未找到客户。',
                 'cart-not-found'           => '警告：购物车未找到。',
                 'cart-item-not-found'      => '警告：购物车项未找到。',
                 'cart-create-success'      => '成功：购物车创建成功。',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => '警告：提供了无效的参数。',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => '警告：未找到电子邮件配置。',
     ],
 ];

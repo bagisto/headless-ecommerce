@@ -9,6 +9,7 @@ use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Payment\Facades\Payment;
@@ -28,6 +29,7 @@ class ReorderMutation extends Controller
         protected CartRepository $cartRepository,
         protected CartItemRepository $cartItemRepository,
         protected CustomerRepository $customerRepository,
+        protected CustomerAddressRepository $customerAddressRepository,
         protected ProductRepository $productRepository,
         protected OrderRepository $orderRepository,
         protected CartRuleCouponRepository $cartRuleCouponRepository
@@ -43,6 +45,10 @@ class ReorderMutation extends Controller
     public function createCart(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = $this->customerRepository->find($args['customer_id']);
+
+        if (! $customer) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.sales.reorder.customer-not-found'));
+        }
 
         try {
             $cart = Cart::createCart([
@@ -197,6 +203,8 @@ class ReorderMutation extends Controller
         }
 
         Cart::saveAddresses($args);
+
+        $this->saveAddresses($args, $cart);
 
         Cart::collectTotals();
 
@@ -473,6 +481,42 @@ class ReorderMutation extends Controller
             "{$addressType}.postcode"     => ['required', 'numeric'],
             "{$addressType}.phone"        => ['required', new PhoneNumber],
         ];
+    }
+
+    /**
+     * Save address.
+     */
+    private function saveAddresses(array $args, mixed $cart): void
+    {
+        $addresses = [
+            'billing'  => true,
+            'shipping' => $cart->haveStockableItems() && empty($args['billing']['use_for_shipping']),
+        ];
+
+        foreach ($addresses as $type => $condition) {
+            if (
+                ! empty($args[$type]['save_address'])
+                && $condition
+            ) {
+                $address = $this->customerAddressRepository->create(array_merge($args[$type], [
+                    'customer_id'  => $cart->customer_id,
+                    'address_type' => 'customer',
+                    'address'      => implode(PHP_EOL, $args[$type]['address']),
+                ]));
+
+                if (! empty($args[$type]['default_address'])) {
+                    $this->customerAddressRepository->where([
+                        'customer_id'     => $cart->customer_id,
+                        'default_address' => 1,
+                    ])->update(['default_address' => 0]);
+
+                    $this->customerAddressRepository->where([
+                        'customer_id' => $cart->customer_id,
+                        'id'          => $address->id,
+                    ])->update(['default_address' => 1]);
+                }
+            }
+        }
     }
 
     /**

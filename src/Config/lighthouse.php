@@ -41,6 +41,9 @@ return [
 
             // Validate Currency in request
             \Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware::class,
+
+            // Rate Limit the request
+            \Webkul\GraphQLAPI\Http\Middleware\RateLimitMiddleware::class,
         ],
 
         /*

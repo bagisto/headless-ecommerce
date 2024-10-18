@@ -1,6 +1,6 @@
 input LoginInput {
-    email: String! @rules(apply: ["email"])
-    password: String! @rules(apply: ["min:6"])
+    email: String
+    password: String
     remember: Boolean
 }
 
@@ -18,6 +18,18 @@ type StatusResponse {
     message: String
 }
 
+type ProductPaginatorResponse {
+    paginatorInfo: PaginatorInfo! @rename(attribute: "paginator_info")
+    data: [Product!] @rename(attribute: "data")
+}
+
+type PaginatorInfo {
+    count: Int
+    currentPage: Int @rename(attribute: "current_page")
+    lastPage: Int @rename(attribute: "last_page")
+    total: Int
+}
+
 type FilterOption {
     key: String
     value: String
@@ -27,6 +39,15 @@ type AddressResponse {
     success: Boolean
     message: String
     address: Address
+}
+
+type ItemAdditional {
+    isBuyNow: Boolean @rename(attribute: "is_buy_now")
+    productId: ID @rename(attribute: "product_id")
+    quantity: Int
+    selectedConfigurableOption: ID @rename(attribute: "selected_configurable_option")
+    superAttribute: [AdditionalSuperAttributes] @rename(attribute: "super_attribute")
+    attributes: [AdditionalAttributes]
 }
 
 input FilterCustomerAddressInput {

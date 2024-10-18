@@ -671,18 +671,34 @@ class BagistoGraphql
                 break;
             case 'bundle':
                 if (! empty($data['bundle_options'])) {
-                    $bundle_options = [];
+                    $bundleOptions = [];
+                    $bundleOptionQty = [];
 
                     foreach ($data['bundle_options'] as $option) {
                         if (
                             ! empty($option['bundle_option_id'])
                             && ! empty($option['bundle_option_product_id'])
+                            && ! empty($option['qty'])
                         ) {
-                            $bundle_options[$option['bundle_option_id']] = $option['bundle_option_product_id'];
+                            $bundleOptions[$option['bundle_option_id']] = $option['bundle_option_product_id'];
+
+                            $bundleOptionQty[$option['bundle_option_id']] = $option['qty'];
                         }
                     }
 
-                    $data['bundle_options'] = $bundle_options;
+                    $data['bundle_options'] = $bundleOptions;
+                    $data['bundle_option_qty'] = $bundleOptionQty;
+                }
+                break;
+            case 'downloadable':
+                if (! empty($data['links'])) {
+                    $downloadableLinks = $product->downloadable_links()->pluck('id')->toArray();
+
+                    $data['links'] = array_intersect(array_unique($data['links']), $downloadableLinks);
+
+                    if (empty($data['links'])) {
+                        throw new CustomException(trans('bagisto_graphql::app.shop.checkout.cart.item.error.downloadable-links'));
+                    }
                 }
                 break;
 
@@ -847,5 +863,18 @@ class BagistoGraphql
         finfo_close($finfo);
 
         return $mimetype;
+    }
+
+    /**
+     * To get the paginator info
+     */
+    public function getPaginatorInfo(object $collection): array
+    {
+        return [
+            'count'        => $collection->count(),
+            'current_page' => $collection->currentPage(),
+            'last_page'    => $collection->lastPage(),
+            'total'        => $collection->total(),
+        ];
     }
 }

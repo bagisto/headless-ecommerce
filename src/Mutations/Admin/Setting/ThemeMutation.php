@@ -29,12 +29,14 @@ class ThemeMutation extends Controller
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $channels = core()->getAllChannels();
+
         bagisto_graphql()->validate($args, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links,services_content',
-            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
-            'theme_code' => 'required',
+            'channel_id' => 'required|in:'.implode(',', ($channels->pluck('id')->toArray())),
+            'theme_code' => 'required|in:'.implode(',', ($channels->pluck('theme')->toArray())),
         ]);
 
         Event::dispatch('theme_customization.create.before');
@@ -63,12 +65,14 @@ class ThemeMutation extends Controller
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $channels = core()->getAllChannels();
+
         bagisto_graphql()->validate($args, [
             'name'       => 'required',
             'sort_order' => 'required|numeric',
             'type'       => 'in:product_carousel,category_carousel,static_content,image_carousel,footer_links',
-            'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
-            'theme_code' => 'required',
+            'channel_id' => 'required|in:'.implode(',', ($channels->pluck('id')->toArray())),
+            'theme_code' => 'required|in:'.implode(',', ($channels->pluck('theme')->toArray())),
         ]);
 
         $args['locale'] = $locale = core()->getRequestedLocaleCode();
@@ -130,13 +134,13 @@ class ThemeMutation extends Controller
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        Event::dispatch('theme_customization.delete.before', $args['id']);
-
         $theme = $this->themeCustomizationRepository->find($args['id']);
 
         if (! $theme) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.themes.not-found'));
         }
+
+        Event::dispatch('theme_customization.delete.before', $args['id']);
 
         $theme->delete();
 

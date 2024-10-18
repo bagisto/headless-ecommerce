@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -11,6 +12,7 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Marketing\Repositories\SearchSynonymRepository;
 use Webkul\Product\Helpers\Toolbar;
+use Webkul\Product\Repositories\ElasticSearchRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
@@ -29,6 +31,7 @@ class HomePageQuery extends BaseFilter
     public function __construct(
         protected AttributeRepository $attributeRepository,
         protected ProductRepository $productRepository,
+        protected ElasticSearchRepository $elasticSearchRepository,
         protected CategoryRepository $categoryRepository,
         protected CustomerRepository $customerRepository,
         protected SearchSynonymRepository $searchSynonymRepository,
@@ -156,29 +159,40 @@ class HomePageQuery extends BaseFilter
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getAllProducts(object $query, array $input)
+    public function getAllProducts(mixed $rootValue, array $args)
     {
-        $params = [
-            'status'               => 1,
-            'visible_individually' => 1,
-            'channel_id'           => core()->getCurrentChannel()->id,
-        ];
+        $searchEngine = core()->getConfigData('catalog.products.search.engine') === 'elastic'
+            ? core()->getConfigData('catalog.products.search.storefront_mode')
+            : 'database';
 
-        $filters = array_filter($input);
+        $filters = array_filter($args['input']);
 
         foreach ($filters as $input) {
             $params[$input['key']] = $input['value'];
         }
 
-        return $this->searchFromDatabase($params);
+        $params = array_merge($params, [
+            'channel_id'           => core()->getCurrentChannel()->id,
+            'status'               => 1,
+            'visible_individually' => 1,
+        ]);
+
+        $products = $searchEngine === 'elastic'
+            ? $this->searchFromElastic($params)
+            : $this->searchFromDatabase($params);
+
+        return [
+            'paginator_info' => bagisto_graphql()->getPaginatorInfo($products),
+            'data'           => $products->getCollection(),
+        ];
     }
 
     /**
      * Search product from database.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Support\Collection
      */
-    public function searchFromDatabase($params)
+    public function searchFromDatabase(array $params = [])
     {
         $params['url_key'] ??= null;
 
@@ -194,29 +208,12 @@ class HomePageQuery extends BaseFilter
                     ->where('product_price_indices.customer_group_id', $customerGroup->id);
             });
 
-        if (
-            ! empty($params['category_id'])
-            || ! empty($params['category_slug'])
-        ) {
-            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id');
-
-            /**
-             * Handle category_id filtering.
-             */
-            if (! empty($params['category_id'])) {
-                $qb->whereIn('product_categories.category_id', explode(',', $params['category_id']));
-            }
-
-            /**
-             * Handle category_slug filtering.
-             */
-            if (! empty($params['category_slug'])) {
-                $category = $this->categoryRepository->findBySlug($params['category_slug']);
-
-                if ($category) {
-                    $qb->where('product_categories.category_id', $category->id);
-                }
-            }
+        /**
+         * Handle category_id filtering.
+         */
+        if (! empty($params['category_id'])) {
+            $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
+                ->whereIn('product_categories.category_id', explode(',', $params['category_id']));
         }
 
         if (! empty($params['channel_id'])) {
@@ -369,7 +366,51 @@ class HomePageQuery extends BaseFilter
             return $qb->inRandomOrder();
         }
 
-        return $qb->groupBy('products.id');
+        $qb = $qb->groupBy('products.id');
+
+        $limit = $this->getPerPageLimit($params);
+
+        return $qb->paginate($limit, ['*'], 'page', $params['page'] ?? 1);
+    }
+
+    /**
+     * Search product from elastic search.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function searchFromElastic(array $params = [])
+    {
+        $currentPage = $params['page'] ?? 1;
+
+        $limit = $this->getPerPageLimit($params);
+
+        $sortOptions = $this->getSortOptions($params);
+
+        $indices = $this->elasticSearchRepository->search($params, [
+            'from'  => ($currentPage * $limit) - $limit,
+            'limit' => $limit,
+            'sort'  => $sortOptions['sort'],
+            'order' => $sortOptions['order'],
+        ]);
+
+        $query = $this->productRepository
+            ->whereIn('id', $indices['ids'])
+            ->orderBy(DB::raw('FIELD(id, '.implode(',', $indices['ids']).')'));
+
+        return new LengthAwarePaginator(
+            $indices['total'] ? $query->get() : [],
+            $indices['total'],
+            $limit,
+            $currentPage
+        );
+    }
+
+    /**
+     * Fetch per page limit from toolbar helper. Adapter for this repository.
+     */
+    public function getPerPageLimit(array $params): int
+    {
+        return product_toolbar()->getLimit($params);
     }
 
     /**

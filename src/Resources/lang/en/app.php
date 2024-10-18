@@ -7,6 +7,17 @@ return [
             'subscribe-success'  => 'You have successfully subscribed to our newsletter.',
         ],
 
+        'contact-us' => [
+            'thanks-for-contact' => 'Thank you for contacting us. We will get back to you soon.',
+        ],
+
+        'downloadable-products' => [
+            'download-sample' => [
+                'link-not-found'   => 'Warning: Downloadable link not found.',
+                'sample-not-found' => 'Warning: Downloadable sample not found.',
+            ],
+        ],
+
         'customers' => [
             'no-login-customer' => 'Warning: No login customer found.',
             'success-login'     => 'Success: Customer login successful.',
@@ -60,7 +71,7 @@ return [
                     'already-exist'   => 'Warning: Already added to Wishlist.',
                     'remove-success'  => 'Success: Item is successfully removed from the wishlist.',
                     'not-found'       => 'Warning: No products found in Wishlist.',
-                    'moved-success'   => 'Success: Selected items successfully moved to wishlist.',
+                    'moved-to-cart'   => 'Success: Product moved to cart successfully.',
                 ],
 
                 'orders' => [
@@ -110,7 +121,8 @@ return [
             'cart' => [
                 'item' => [
                     'error' => [
-                        'invalid-parameter' => 'Warning: Invalid parameters provided.',
+                        'downloadable-links' => 'Warning: Invalid downloadable link provided.',
+                        'invalid-parameter'  => 'Warning: Invalid parameters provided.',
                     ],
 
                     'success' => [
@@ -252,6 +264,7 @@ return [
             ],
 
             'reorder' => [
+                'customer-not-found'       => 'Warning: Customer not found.',
                 'cart-not-found'           => 'Warning: Cart not found.',
                 'cart-item-not-found'      => 'Warning: Cart item not found.',
                 'cart-create-success'      => 'Success: Cart created successfully.',
@@ -631,5 +644,9 @@ return [
                 'invalid-parameter' => 'Warning: Invalid parameters provided.',
             ],
         ],
+    ],
+
+    'email' => [
+        'configuration-error' => 'Warning: Email configuration not found.',
     ],
 ];
