@@ -297,7 +297,10 @@ return [
     */
     'field_middleware' => [
         \Nuwave\Lighthouse\Schema\Directives\TrimDirective::class,
-        \Nuwave\Lighthouse\Schema\Directives\ConvertEmptyStringsToNullDirective::class,
+        /**
+         * We don't want to convert empty strings to null as it will break the validation
+         */
+        // \Nuwave\Lighthouse\Schema\Directives\ConvertEmptyStringsToNullDirective::class,
         \Nuwave\Lighthouse\Schema\Directives\SanitizeDirective::class,
         \Nuwave\Lighthouse\Validation\ValidateDirective::class,
         \Nuwave\Lighthouse\Schema\Directives\TransformArgsDirective::class,
