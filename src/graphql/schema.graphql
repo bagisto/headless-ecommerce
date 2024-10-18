@@ -41,6 +41,3 @@ scalar Upload
 
 #import common.graphql
 #import /shop/customer/*.graphql
-
-
-#import /../../../../../packages/Webkul/Pos/src/graphql/schema.graphql
