@@ -182,6 +182,69 @@ type Product {
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
     upSells: [Product] @belongsToMany(relation: "up_sells")
     crossSells: [Product] @belongsToMany(relation: "cross_sells")
+    bookingProduct: BookingProduct @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getBookingProduct")
+}
+
+type BookingProduct {
+    id: ID!
+    type: String!
+    qty: Int
+    location: String
+    show_location: Boolean
+    available_every_week: Boolean
+    available_from: DateTime
+    available_to: DateTime
+    default_slot: BookingProductDefaultSlot @hasOne(relation: "default_slot")
+    appointment_slot: BookingProductAppointmentSlot @hasOne(relation: "appointment_slot")
+    rental_slot: BookingProductRentalSlot @hasOne(relation: "rental_slot")
+    table_slot: BookingProductTableSlot @hasOne(relation: "table_slot")
+    event_tickets: [BookingProductEventTicket] @hasMany(relation: "event_tickets")
+    product: Product! @belongsTo(relation: "product")
+}
+
+type BookingProductDefaultSlot {
+    id: ID!
+    booking_type: String!
+    duration: Int
+    break_time: Int
+    slots: JSON
+}
+
+type BookingProductAppointmentSlot {
+    id: ID!
+    duration: Int
+    break_time: Int
+    same_slot_all_days: Boolean
+    slots: JSON
+}
+
+type BookingProductRentalSlot {
+    id: ID!
+    renting_type: String!
+    daily_price: Float
+    hourly_price: Float
+    same_slot_all_days: Boolean
+    slots: JSON
+}
+
+type BookingProductTableSlot {
+    id: ID!
+    price_type: String!
+    guest_limit: Int
+    duration: Int!
+    break_time: Int!
+    prevent_scheduling_before: Int!
+    same_slot_all_days: Boolean
+    slots: JSON
+}
+
+type BookingProductEventTicket {
+    id: ID!
+    price: Float
+    qty: Int
+    special_price: Float
+    special_price_from: DateTime
+    special_price_to: DateTime
 }
 
 type ProductAttributeValue {
