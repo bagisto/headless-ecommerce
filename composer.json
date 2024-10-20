@@ -11,7 +11,8 @@
     "require": {
         "php-open-source-saver/jwt-auth": "^2.1",
         "nuwave/lighthouse": "^6.23",
-        "mll-lab/laravel-graphiql": "^3.1"
+        "mll-lab/laravel-graphiql": "^3.1",
+        "mll-lab/graphql-php-scalars": "^6.3"
     },
     "autoload": {
         "psr-4": {
