@@ -343,4 +343,18 @@ class ProductContent extends BaseFilter
     {
         return route('shop.product_or_category.index', $product->url_key);
     }
+
+    /**
+     * Get product booking product.
+     *
+     * @return mixed
+     */
+    public function getBookingProduct($product): mixed
+    {
+        if (method_exists($product, 'booking_product')) {
+            return $product->booking_product;
+        }
+
+        return null;
+    }
 }
