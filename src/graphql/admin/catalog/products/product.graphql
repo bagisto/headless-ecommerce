@@ -182,6 +182,69 @@ type Product {
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
     upSells: [Product] @belongsToMany(relation: "up_sells")
     crossSells: [Product] @belongsToMany(relation: "cross_sells")
+    bookingProduct: BookingProduct @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getBookingProduct")
+}
+
+type BookingProduct {
+    id: ID!
+    type: String!
+    qty: Int
+    location: String
+    showLocation: Boolean @rename(attribute: "show_location")
+    availableEveryWeek: Boolean @rename(attribute: "available_every_week")
+    availableFrom: DateTime @rename(attribute: "available_from")
+    availableTo: DateTime @rename(attribute: "available_to")
+    defaultSlot: BookingProductDefaultSlot @hasOne(relation: "default_slot")
+    appointmentSlot: BookingProductAppointmentSlot @hasOne(relation: "appointment_slot")
+    rentalSlot: BookingProductRentalSlot @hasOne(relation: "rental_slot")
+    tableSlot: BookingProductTableSlot @hasOne(relation: "table_slot")
+    eventTickets: [BookingProductEventTicket] @hasMany(relation: "event_tickets")
+    product: Product! @belongsTo(relation: "product")
+}
+
+type BookingProductDefaultSlot {
+    id: ID!
+    bookingType: String! @rename(attribute: "booking_type")
+    duration: Int
+    breakTime: Int @rename(attribute: "break_time")
+    slots: JSON
+}
+
+type BookingProductAppointmentSlot {
+    id: ID!
+    duration: Int
+    breakTime: Int @rename(attribute: "break_time")
+    sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
+    slots: JSON
+}
+
+type BookingProductRentalSlot {
+    id: ID!
+    rentingType: String! @rename(attribute: "renting_type")
+    dailyPrice: Float @rename(attribute: "daily_price")
+    hourlyPrice: Float @rename(attribute: "hourly_price")
+    sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
+    slots: JSON
+}
+
+type BookingProductTableSlot {
+    id: ID!
+    priceType: String! @rename(attribute: "price_type")
+    guestLimit: Int @rename(attribute: "guest_limit")
+    duration: Int!
+    breakTime: Int! @rename(attribute: "break_time")
+    preventSchedulingBefore: Int! @rename(attribute: "prevent_scheduling_before")
+    sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
+    slots: JSON
+}
+
+type BookingProductEventTicket {
+    id: ID!
+    price: Float
+    qty: Int
+    specialPrice: Float @rename(attribute: "special_price")
+    specialPriceFrom: DateTime @rename(attribute: "special_price_from")
+    specialPriceTo: DateTime @rename(attribute: "special_price_to")
 }
 
 type ProductAttributeValue {
