@@ -60,10 +60,12 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         );
 
         // Product Models
-        $this->app->concord->registerModel(
-            \Webkul\Product\Models\Product::class,
-            \Webkul\GraphQLAPI\Models\Product\Product::class
-        );
+        if (class_exists(\Webkul\BookingProduct\Models\BookingProductProxy::class)) {
+            $this->app->concord->registerModel(
+                \Webkul\Product\Models\Product::class,
+                \Webkul\GraphQLAPI\Models\Product\Product::class
+            );
+        }
     }
 
     /**
