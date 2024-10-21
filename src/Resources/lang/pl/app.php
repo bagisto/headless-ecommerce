@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'Sukces: Pomyślnie pobrano dane klienta.',
+                    'customer-details' => 'Sukces: Szczegóły klienta zostały pomyślnie pobrane.',
                     'delete-success'   => 'Sukces: Konto zostało pomyślnie usunięte.',
                     'password-unmatch' => 'Hasło nie pasuje.',
-                    'update-fail'      => 'Ostrzeżenie: Nie udało się zaktualizować profilu.',
+                    'update-fail'      => 'Ostrzeżenie: Profil nie został zaktualizowany.',
                     'update-success'   => 'Sukces: Profil został pomyślnie zaktualizowany.',
-                    'wrong-password'   => 'Hasło jest nieprawidłowe.',
+                    'wrong-password'   => 'Ostrzeżenie: Podano błędne hasło.',
+                    'order-pending'    => 'Nie można usunąć konta, ponieważ masz niektóre zamówienia w toku.',
                 ],
 
                 'addresses' => [

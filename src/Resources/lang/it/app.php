@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'Successo: Dettagli cliente recuperati con successo.',
+                    'customer-details' => 'Successo: Dettagli del cliente recuperati con successo.',
                     'delete-success'   => 'Successo: Account eliminato con successo.',
                     'password-unmatch' => 'La password non corrisponde.',
-                    'update-fail'      => 'Attenzione: Profilo non aggiornato',
+                    'update-fail'      => 'Avviso: Profilo non aggiornato.',
                     'update-success'   => 'Successo: Profilo aggiornato con successo.',
-                    'wrong-password'   => 'La password è errata.',
+                    'wrong-password'   => 'Avviso: Password errata fornita.',
+                    'order-pending'    => 'Non puoi eliminare l\'account perché hai alcuni ordini in sospeso.',
                 ],
 
                 'addresses' => [

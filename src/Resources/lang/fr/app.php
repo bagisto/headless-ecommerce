@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'Succès: Détails du client récupérés avec succès.',
-                    'delete-success'   => 'Succès: Compte supprimé avec succès.',
+                    'customer-details' => 'Succès : Les détails du client ont été récupérés avec succès.',
+                    'delete-success'   => 'Succès : Compte supprimé avec succès.',
                     'password-unmatch' => 'Le mot de passe ne correspond pas.',
-                    'update-fail'      => 'Avertissement: Profil non mis à jour',
-                    'update-success'   => 'Succès: Profil mis à jour avec succès.',
-                    'wrong-password'   => 'Le mot de passe est incorrect.',
+                    'update-fail'      => 'Avertissement : Profil non mis à jour.',
+                    'update-success'   => 'Succès : Profil mis à jour avec succès.',
+                    'wrong-password'   => 'Avertissement : Mauvais mot de passe fourni.',
+                    'order-pending'    => 'Vous ne pouvez pas supprimer le compte car vous avez des commandes en attente.',
                 ],
 
                 'addresses' => [

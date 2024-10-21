@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => '成功: 顧客情報が正常に取得されました。',
+                    'customer-details' => '成功: 顧客の詳細が正常に取得されました。',
                     'delete-success'   => '成功: アカウントが正常に削除されました。',
                     'password-unmatch' => 'パスワードが一致しません。',
-                    'update-fail'      => '注意: プロフィールが更新されませんでした。',
-                    'update-success'   => '成功: プロフィールが正常に更新されました。',
-                    'wrong-password'   => 'パスワードが間違っています。',
+                    'update-fail'      => '警告: プロファイルが更新されませんでした。',
+                    'update-success'   => '成功: プロファイルが正常に更新されました。',
+                    'wrong-password'   => '警告: 間違ったパスワードが入力されました。',
+                    'order-pending'    => '保留中の注文があるため、アカウントを削除できません。',
                 ],
 
                 'addresses' => [

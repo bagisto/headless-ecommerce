@@ -51,10 +51,11 @@ return [
                 'profile' => [
                     'customer-details' => 'Succes: Klantgegevens succesvol opgehaald.',
                     'delete-success'   => 'Succes: Account succesvol verwijderd.',
-                    'password-unmatch' => 'Het wachtwoord komt niet overeen.',
-                    'update-fail'      => 'Let op: Profiel niet bijgewerkt.',
+                    'password-unmatch' => 'Wachtwoord komt niet overeen.',
+                    'update-fail'      => 'Waarschuwing: Profiel is niet bijgewerkt.',
                     'update-success'   => 'Succes: Profiel succesvol bijgewerkt.',
-                    'wrong-password'   => 'Het wachtwoord is onjuist.',
+                    'wrong-password'   => 'Waarschuwing: Onjuist wachtwoord opgegeven.',
+                    'order-pending'    => 'U kunt het account niet verwijderen omdat u nog enkele openstaande bestellingen heeft.',
                 ],
 
                 'addresses' => [

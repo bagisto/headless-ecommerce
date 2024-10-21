@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'Erfolg: Kundendetails erfolgreich abgerufen.',
+                    'customer-details' => 'Erfolg: Kundendaten erfolgreich abgerufen.',
                     'delete-success'   => 'Erfolg: Konto erfolgreich gelöscht.',
                     'password-unmatch' => 'Passwort stimmt nicht überein.',
-                    'update-fail'      => 'Warnung: Profil nicht aktualisiert.',
+                    'update-fail'      => 'Warnung: Profil wurde nicht aktualisiert.',
                     'update-success'   => 'Erfolg: Profil erfolgreich aktualisiert.',
-                    'wrong-password'   => 'Falsches Passwort.',
+                    'wrong-password'   => 'Warnung: Falsches Passwort angegeben.',
+                    'order-pending'    => 'Sie können das Konto nicht löschen, da Sie einige ausstehende Bestellungen haben.',
                 ],
 
                 'addresses' => [

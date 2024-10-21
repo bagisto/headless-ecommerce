@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'Éxito: Detalles del cliente obtenidos correctamente.',
-                    'delete-success'   => 'Éxito: Cuenta eliminada correctamente.',
+                    'customer-details' => 'Éxito: Detalles del cliente obtenidos con éxito.',
+                    'delete-success'   => 'Éxito: Cuenta eliminada con éxito.',
                     'password-unmatch' => 'La contraseña no coincide.',
-                    'update-fail'      => 'Advertencia: No se pudo actualizar el perfil',
-                    'update-success'   => 'Éxito: Perfil actualizado correctamente.',
-                    'wrong-password'   => 'La contraseña es incorrecta.',
+                    'update-fail'      => 'Advertencia: Perfil no actualizado.',
+                    'update-success'   => 'Éxito: Perfil actualizado con éxito.',
+                    'wrong-password'   => 'Advertencia: Contraseña incorrecta proporcionada.',
+                    'order-pending'    => 'No puede eliminar la cuenta porque tiene algunos pedidos pendientes.',
                 ],
 
                 'addresses' => [
