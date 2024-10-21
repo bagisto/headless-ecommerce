@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'Başarılı: Müşteri detayları başarıyla alındı.',
-                    'delete-success'   => 'Başarılı: Hesap başarıyla silindi.',
+                    'customer-details' => 'Başarı: Müşteri detayları başarıyla getirildi.',
+                    'delete-success'   => 'Başarı: Hesap başarıyla silindi.',
                     'password-unmatch' => 'Şifre eşleşmiyor.',
-                    'update-fail'      => 'Uyarı: Profil güncellenemedi',
-                    'update-success'   => 'Başarılı: Profil başarıyla güncellendi.',
-                    'wrong-password'   => 'Şifre yanlış.',
+                    'update-fail'      => 'Uyarı: Profil güncellenmedi.',
+                    'update-success'   => 'Başarı: Profil başarıyla güncellendi.',
+                    'wrong-password'   => 'Uyarı: Yanlış şifre girildi.',
+                    'order-pending'    => 'Bekleyen siparişleriniz olduğu için hesabı silemezsiniz.',
                 ],
 
                 'addresses' => [

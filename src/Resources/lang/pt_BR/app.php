@@ -52,9 +52,10 @@ return [
                     'customer-details' => 'Sucesso: Detalhes do cliente obtidos com sucesso.',
                     'delete-success'   => 'Sucesso: Conta excluída com sucesso.',
                     'password-unmatch' => 'A senha não corresponde.',
-                    'update-fail'      => 'Aviso: Perfil não atualizado',
+                    'update-fail'      => 'Aviso: Perfil não atualizado.',
                     'update-success'   => 'Sucesso: Perfil atualizado com sucesso.',
-                    'wrong-password'   => 'A senha está incorreta.',
+                    'wrong-password'   => 'Aviso: Senha incorreta fornecida.',
+                    'order-pending'    => 'Você não pode excluir a conta porque tem alguns pedidos pendentes.',
                 ],
 
                 'addresses' => [

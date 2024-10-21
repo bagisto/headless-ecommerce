@@ -54,7 +54,8 @@ return [
                     'password-unmatch' => 'Password does not match.',
                     'update-fail'      => 'Warning: Profile not updated',
                     'update-success'   => 'Success: Profile updated successfully.',
-                    'wrong-password'   => 'Password is wrong.',
+                    'wrong-password'   => 'Warning: Wrong password provided.',
+                    'order-pending'    => 'You cannot delete the account because you have some pending orders.',
                 ],
 
                 'addresses' => [

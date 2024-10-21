@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => '成功：成功获取客户详细信息。',
-                    'delete-success'   => '成功：帐户已成功删除。',
+                    'customer-details' => '成功：客户详细信息获取成功。',
+                    'delete-success'   => '成功：帐户删除成功。',
                     'password-unmatch' => '密码不匹配。',
-                    'update-fail'      => '警告：未更新个人资料',
-                    'update-success'   => '成功：个人资料已成功更新。',
-                    'wrong-password'   => '密码错误。',
+                    'update-fail'      => '警告：个人资料未更新。',
+                    'update-success'   => '成功：个人资料更新成功。',
+                    'wrong-password'   => '警告：提供了错误的密码。',
+                    'order-pending'    => '您无法删除账户，因为您有一些未完成的订单。',
                 ],
 
                 'addresses' => [

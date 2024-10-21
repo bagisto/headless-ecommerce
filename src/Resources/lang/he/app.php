@@ -49,12 +49,13 @@ return [
 
             'account' => [
                 'profile' => [
-                    'customer-details' => 'הצלחה: פרטי הלקוח נטענו בהצלחה.',
+                    'customer-details' => 'הצלחה: פרטי הלקוח נמשכו בהצלחה.',
                     'delete-success'   => 'הצלחה: החשבון נמחק בהצלחה.',
                     'password-unmatch' => 'הסיסמה אינה תואמת.',
-                    'update-fail'      => 'אזהרה: פרופיל לא עודכן',
+                    'update-fail'      => 'אזהרה: הפרופיל לא עודכן.',
                     'update-success'   => 'הצלחה: הפרופיל עודכן בהצלחה.',
-                    'wrong-password'   => 'הסיסמה שגויה.',
+                    'wrong-password'   => 'אזהרה: ניתנה סיסמה שגויה.',
+                    'order-pending'    => 'לא ניתן למחוק את החשבון מכיוון שיש לך הזמנות ממתינות.',
                 ],
 
                 'addresses' => [
