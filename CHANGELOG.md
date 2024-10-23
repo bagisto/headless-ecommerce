@@ -1,6 +1,76 @@
-# CHANGELOG for v2.0.x
+# CHANGELOG for v2.x
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
+
+v2.2.2 (23rd of October, 2024) - Release
+
+#  Enhancements
+
+* [Enhancement] - Compatibility with v2.2.2
+
+#  Bug Fixes
+
+* [Fixed] - Create and Update API ||Need to pass the validation message as per the required field for the customer create address api.
+
+* [Fixed] - Create and Update API ||Need to improve the validation message for the phone number and postcode field if enter invalid data while create new address.
+
+* [Fixed] - Need to improve the validation message if enter invalid id for the update cms api.
+
+* [Fixed] - Need to improve the validation message if enter already used url key for the update cms api.
+
+* [Fixed] - Need to improve the validation message if create campaign without enter name and subject.
+
+* [Fixed] - Campaign section api's not working.
+
+* [Fixed] - Need to improve the validation message if create or update locales without enter name and code.
+
+* [Fixed] - Need to improve the validation message if create or update currencies without enter name and code.
+
+* [Fixed] - Group and decimal separator, currency position data is not available in the currency create or update api body.
+
+* [Fixed] - Getting validation message when create or update the currency.
+
+* [Fixed] - Need to improve the validation message if create or update users without enter name and email.
+
+* [Fixed] - Validations are not working for the password field while create or update users at admin end.
+
+* [Fixed] - Need to improve the validation message if create or update roles without enter name and description.
+
+* [Fixed] - Need to improve the validation message if create or update tax category without enter code, name, description and tax rates.
+
+* [Fixed] - Need to improve the validation message if create or update inventory source without enter code, name, contactName, contactNumber, contactEmail, street, country, city and postcode.
+
+* [Fixed] - Need to improve the validation message if create or update theme without enter name.
+
+* [Fixed] - Push Notification content is not updating on the push notification page at admin end.
+
+* [Fixed] - Admin is not able to create the invoice
+
+* [Fixed] - Able to create cart with invalid customer id.
+
+* [Fixed] - Need to change the "isSaved" parameter to "SaveAddress" for billing and shipping address parameter while save address.
+
+* [Fixed] - Need to improve the validation message if user enter invalid password while login.
+
+* [Fixed] - Need to improve the error message if user trying to social sign up with unfilled data.
+
+* [Fixed] - Need to improve the response message for the forget password api if smtp is not configured.
+
+* [Fixed] - Customer address delete api is not working.
+
+* [Fixed] - Need to improve the success message when add product to cart from the wishlist.
+
+* [Fixed] - Customer not able to create the review.
+
+* [Fixed] - Customer is not able to delete the review.
+
+* [Fixed] - "Save Payment Method" api is working after enter invalid payment method.
+
+* [Fixed] - Not able to create the the Simple, grouped, downloadable, bundle and virtual product from the admin end.
+
+* [Fixed] - Getting "Internal Server Error" after hit update Attributes Details Api with invalid id.
+
+* [Fixed] - Getting "Int cannot represent non-integer value" error message when update the category details.
 
 ## **v2.0.2 (31st of July, 2024)** - *Release*
 

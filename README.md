@@ -25,7 +25,7 @@
 
 Bagisto's GraphQL API enables a seamless, headless eCommerce experience built on Laravel. This API delivers ultra-fast, dynamic, and personalized shopping experiences through a scalable, open-source platform.
 
-**Read our full documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/1.x/graphql-admin-api/)**
+**Read our full documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/2.2/api/)**
 
 This API was developed in collaboration with the <a href="https://www.ucraft.com/">Ucraft Team</a>.
 
@@ -46,7 +46,7 @@ To install the Bagisto GraphQL API, follow these steps:
    Run the following command in your terminal to install the GraphQL API package:
 
    ```bash
-   composer require bagisto/graphql-api dev-main
+   composer require bagisto/graphql-api ^v2.0.2
    ```
 
 2. **Update Middleware Configuration**
