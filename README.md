@@ -46,7 +46,7 @@ To install the Bagisto GraphQL API, follow these steps:
    Run the following command in your terminal to install the GraphQL API package:
 
    ```bash
-   composer require bagisto/graphql-api ^v2.2.2
+   composer require bagisto/graphql-api dev-main
    ```
 
 2. **Update Middleware Configuration**
