@@ -25,7 +25,7 @@
 
 Bagisto's GraphQL API enables a seamless, headless eCommerce experience built on Laravel. This API delivers ultra-fast, dynamic, and personalized shopping experiences through a scalable, open-source platform.
 
-**Read our full documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/2.2/api/)**
+**Read our full documentation: [Bagisto GraphQL API Docs](https://devdocs.bagisto.com/2.2/api/graphql-api.html)**
 
 This API was developed in collaboration with the <a href="https://www.ucraft.com/">Ucraft Team</a>.
 
