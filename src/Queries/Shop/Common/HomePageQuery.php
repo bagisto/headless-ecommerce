@@ -97,12 +97,14 @@ class HomePageQuery extends BaseFilter
 
                 $i = 0;
 
-                foreach ($item->options['filters'] as $key => $value) {
-                    $options['filters'][$i]['key'] = $key;
+                if (isset($item->options['filters'])) {
+                    foreach ($item->options['filters'] as $key => $value) {
+                        $options['filters'][$i]['key'] = $key;
 
-                    $options['filters'][$i]['value'] = $value;
+                        $options['filters'][$i]['value'] = $value;
 
-                    $i++;
+                        $i++;
+                    }
                 }
 
                 $item->options = $options;
