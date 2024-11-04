@@ -93,7 +93,6 @@ type AttributeFamily {
     status: Boolean
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     attributeGroups: [AttributeGroup!] @hasMany(relation: "attribute_groups")
-    products: [Product!] @hasMany
 }
 
 type AttributeGroupResponse {
