@@ -8286,18 +8286,9 @@
 									}
 								},
 								"url": {
-									"raw": "http://192.168.15.61/bookingPR/public/graphql",
-									"protocol": "http",
+									"raw": "{{url}}",
 									"host": [
-										"192",
-										"168",
-										"15",
-										"61"
-									],
-									"path": [
-										"bookingPR",
-										"public",
-										"graphql"
+										"{{url}}"
 									]
 								}
 							},
