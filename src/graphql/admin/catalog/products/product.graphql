@@ -40,7 +40,7 @@ input UpdateProductInput {
     sku: String!
     name: String!
     productNumber: String @rename(attribute: "product_number")
-    urlKey: String! @rename(attribute: "url_key")
+    urlKey: String @rename(attribute: "url_key")
     taxCategoryId: ID @rename(attribute: "tax_category_id")
     new: Boolean
     featured: Boolean

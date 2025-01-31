@@ -341,6 +341,6 @@ class ProductContent extends BaseFilter
      */
     public function getProductShareUrl($product)
     {
-        return route('shop.product_or_category.index', $product->url_key);
+        return route('shop.product_or_category.index', $product?->url_key ?? '');
     }
 }
