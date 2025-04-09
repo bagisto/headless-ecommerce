@@ -2,7 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
+use Webkul\GraphQLAPI\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
