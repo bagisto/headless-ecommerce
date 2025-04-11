@@ -17,6 +17,7 @@ use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\Core\Rules\PostCode;
 
 class ReorderMutation extends Controller
 {
@@ -478,7 +479,7 @@ class ReorderMutation extends Controller
             "{$addressType}.city"         => ['required'],
             "{$addressType}.country"      => ['required'],
             "{$addressType}.state"        => ['required'],
-            "{$addressType}.postcode"     => ['required', 'numeric'],
+            "{$addressType}.postcode"     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             "{$addressType}.phone"        => ['required', new PhoneNumber],
         ];
     }

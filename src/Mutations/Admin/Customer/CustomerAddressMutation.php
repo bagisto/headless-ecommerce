@@ -10,6 +10,7 @@ use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Rules\VatIdRule;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Core\Rules\PostCode;
 
 class CustomerAddressMutation extends Controller
 {
@@ -43,7 +44,7 @@ class CustomerAddressMutation extends Controller
             'last_name'    => ['string', 'required'],
             'address'      => ['string', 'required'],
             'city'         => ['string', 'required'],
-            'postcode'     => ['required', 'numeric'],
+            'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
             'phone'        => ['required', new PhoneNumber()],
@@ -94,7 +95,7 @@ class CustomerAddressMutation extends Controller
             'last_name'    => ['string', 'required'],
             'address'      => ['string', 'required'],
             'city'         => ['string', 'required'],
-            'postcode'     => ['required', 'numeric'],
+            'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
             'phone'        => ['required', new PhoneNumber()],
