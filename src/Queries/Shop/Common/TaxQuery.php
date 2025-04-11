@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
-use Webkul\Tax\Facades\Tax;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\Tax\Facades\Tax;
 
 class TaxQuery extends BaseFilter
 {

@@ -9,6 +9,7 @@ use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -17,7 +18,6 @@ use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Shipping\Facades\Shipping;
-use Webkul\Core\Rules\PostCode;
 
 class ReorderMutation extends Controller
 {

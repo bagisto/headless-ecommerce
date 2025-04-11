@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Rules\VatIdRule;
 use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Core\Rules\PostCode;
 
 class CustomerAddressMutation extends Controller
 {
