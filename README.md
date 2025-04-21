@@ -33,7 +33,7 @@ This API was developed in collaboration with the <a href="https://www.ucraft.com
 
 ### Requirements:
 
-- **Bagisto**: v2.2.2 or higher
+- **Bagisto**: v2.3.0
 
 ---
 
@@ -51,12 +51,24 @@ To install the Bagisto GraphQL API, follow these steps:
 
 2. **Update Middleware Configuration**
 
-   In the `app/Http/Kernel.php` file, move the following middleware from the `web` section in the `middlewareGroups` array to the global `middleware` array:
+   In your `bootstrap/app.php` file, update the middleware configuration as shown below:
 
    ```php
-   \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-   \Illuminate\Session\Middleware\StartSession::class,
+   use Illuminate\Session\Middleware\StartSession;
+   use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+
+   $middleware->removeFromGroup('web', [
+      StartSession::class,
+      AddQueuedCookiesToResponse::class,
+   ]);
+
+   $middleware->append([
+      StartSession::class,
+      AddQueuedCookiesToResponse::class,
+   ]);
    ```
+
+   This ensures that session and cookie middleware are applied globally across all routes, including API and GraphQL endpoints.
 
 3. **Update Environment Settings**
 
