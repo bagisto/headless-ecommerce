@@ -25,8 +25,6 @@ class CartMutation extends Controller
         protected ProductRepository $productRepository
     ) {
         Auth::setDefaultDriver('api');
-
-        $this->middleware('auth:api');
     }
 
     /**

@@ -336,11 +336,11 @@ class ProductContent extends BaseFilter
 
     /**
      * Get product share URL.
-     *
-     * @return string|null
      */
-    public function getProductShareUrl($product)
+    public function getProductShareUrl($product): ?string
     {
-        return route('shop.product_or_category.index', $product?->url_key ?? '');
+        return $product->url_key
+            ? route('shop.product_or_category.index', $product->url_key)
+            : null;
     }
 }
