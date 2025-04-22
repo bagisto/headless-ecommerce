@@ -38,7 +38,7 @@ class CustomerMutation extends Controller
             'first_name'        => 'string|required',
             'last_name'         => 'string|required',
             'gender'            => 'required',
-            'email'             => 'required|unique:customers,email',
+            'email'             => 'email|required|unique:customers,email',
             'phone'             => 'unique:customers,phone',
             'date_of_birth'     => 'string|before:today',
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
