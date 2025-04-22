@@ -8,6 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
@@ -183,9 +184,9 @@ class CheckoutMutation extends Controller
             "{$addressType}.email"        => ['required'],
             "{$addressType}.address"      => ['required', 'array', 'min:1'],
             "{$addressType}.city"         => ['required'],
-            "{$addressType}.country"      => ['required'],
-            "{$addressType}.state"        => ['required'],
-            "{$addressType}.postcode"     => ['required', 'numeric'],
+            "{$addressType}.country"      => core()->isCountryRequired() ? ['required'] : ['nullable'],
+            "{$addressType}.state"        => core()->isStateRequired() ? ['required'] : ['nullable'],
+            "{$addressType}.postcode"     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             "{$addressType}.phone"        => ['required', new PhoneNumber],
         ];
     }

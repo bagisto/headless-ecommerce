@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Customer\Rules\VatIdRule;
@@ -43,7 +44,7 @@ class CustomerAddressMutation extends Controller
             'last_name'    => ['string', 'required'],
             'address'      => ['string', 'required'],
             'city'         => ['string', 'required'],
-            'postcode'     => ['required', 'numeric'],
+            'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
             'phone'        => ['required', new PhoneNumber()],
@@ -94,7 +95,7 @@ class CustomerAddressMutation extends Controller
             'last_name'    => ['string', 'required'],
             'address'      => ['string', 'required'],
             'city'         => ['string', 'required'],
-            'postcode'     => ['required', 'numeric'],
+            'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
             'phone'        => ['required', new PhoneNumber()],
