@@ -11,9 +11,8 @@ use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductRepository;
-use Illuminate\Routing\Controllers\HasMiddleware;
 
-class CartMutation extends Controller implements HasMiddleware
+class CartMutation extends Controller
 {
     /**
      * Create a new controller instance.
@@ -26,14 +25,6 @@ class CartMutation extends Controller implements HasMiddleware
         protected ProductRepository $productRepository
     ) {
         Auth::setDefaultDriver('api');
-    }
-
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
-    public static function middleware(): array
-    {
-        return ['auth:api'];
     }
 
     /**

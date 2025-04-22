@@ -64,18 +64,12 @@ To install the Bagisto GraphQL API, follow these steps:
          /**
           * Remove session and cookie middleware from the 'web' middleware group.
           */
-         $middleware->removeFromGroup('web', [
-            StartSession::class,
-            AddQueuedCookiesToResponse::class,
-         ]);
+         $middleware->removeFromGroup('web', [StartSession::class, AddQueuedCookiesToResponse::class]);
 
          /**
           * Adding session and cookie middleware globally to apply across non-web routes (e.g. GraphQL)
           */
-         $middleware->appendToGroup('global', [
-            StartSession::class,
-            AddQueuedCookiesToResponse::class,
-         ]);
+         $middleware->append([StartSession::class, AddQueuedCookiesToResponse::class]);
       })
       // ... rest of configuration
    ```
