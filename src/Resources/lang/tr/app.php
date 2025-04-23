@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => 'Başarılı: İnceleme başarıyla oluşturuldu.',
                 'delete-success'      => 'Başarılı: İnceleme başarıyla silindi.',
-                'not-found'           => 'Uyarı: İnceleme bulunamadı.',
                 'mass-delete-success' => 'Başarılı: Seçilen incelemeler başarıyla silindi.',
+                'not-found'           => 'Uyarı: İnceleme bulunamadı.',
+                'product-not-found'   => 'Uyarı: Ürün bulunamadı.',
             ],
         ],
 

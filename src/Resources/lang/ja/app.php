@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => '成功: レビューが正常に作成されました。',
                 'delete-success'      => '成功: レビューが正常に削除されました。',
-                'not-found'           => '注意: レビューが見つかりません。',
                 'mass-delete-success' => '成功: 選択したレビューが正常に削除されました。',
+                'not-found'           => '注意: レビューが見つかりません。',
+                'product-not-found'   => '警告: 商品が見つかりません。',
             ],
         ],
 

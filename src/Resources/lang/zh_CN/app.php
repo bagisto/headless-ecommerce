@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => '成功：评论已成功创建。',
                 'delete-success'      => '成功：评论已成功删除。',
-                'not-found'           => '警告：未找到评论。',
                 'mass-delete-success' => '成功：已成功删除选定的评论。',
+                'not-found'           => '警告：未找到评论。',
+                'product-not-found'   => '警告: 产品未找到。',
             ],
         ],
 
