@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'No se ha realizado el pago de esta descarga.',
                     'download-error' => 'El enlace de descarga ha caducado.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Éxito: Solicitud de GDPR creada con éxito.',
+                ],
             ],
 
             'compare-product' => [

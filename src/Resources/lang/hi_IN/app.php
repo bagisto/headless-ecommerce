@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'इस डाउनलोड के लिए भुगतान नहीं किया गया है।',
                     'download-error' => 'डाउनलोड लिंक समाप्त हो गया है।',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'सफलता: GDPR अनुरोध सफलतापूर्वक बनाया गया।',
+                ],
             ],
 
             'compare-product' => [

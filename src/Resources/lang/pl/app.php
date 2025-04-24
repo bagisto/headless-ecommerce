@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'Płatność nie została dokonana za ten plik do pobrania.',
                     'download-error' => 'Link do pobrania wygasł.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Sukces: Żądanie GDPR zostało pomyślnie utworzone.',
+                ],
             ],
 
             'compare-product' => [

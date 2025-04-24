@@ -48,7 +48,7 @@ class GdprMutation extends Controller
 
             return [
                 'status'       => true,
-                'message'      => trans('bagisto_graphql::app.admin.customers.gdpr.create-success'),
+                'message'      => trans('bagisto_graphql::app.shop.customers.account.gdpr.create-success'),
                 'gdprRequest'  => $gdprRequest,
             ];
         } catch (\Exception $e) {

@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'මුදල් ගෙවීම මඟින් මෙම බාගතය සඳහා ගෙවීම නොකර ඇත.',
                     'download-error' => 'බාගත සබැඳිය අවලංගු වී ඇත.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'සාර්ථකයි: GDPR ඉල්ලීම සාර්ථකව සාදන ලදි.',
+                ],
             ],
 
             'compare-product' => [

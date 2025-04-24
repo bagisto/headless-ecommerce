@@ -99,6 +99,10 @@ return [
                     'payment-error'  => '未为此下载进行付款。',
                     'download-error' => '下载链接已过期。',
                 ],
+
+                'gdpr' => [
+                    'create-success' => '成功：GDPR请求已成功创建。',
+                ],
             ],
 
             'compare-product' => [

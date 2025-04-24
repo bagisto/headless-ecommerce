@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'De betaling is niet voltooid voor deze download.',
                     'download-error' => 'De downloadlink is verlopen.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Succes: GDPR-verzoek is succesvol aangemaakt.',
+                ],
             ],
 
             'compare-product' => [

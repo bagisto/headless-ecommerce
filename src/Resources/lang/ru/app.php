@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'Оплата не была произведена за эту загрузку.',
                     'download-error' => 'Ссылка для загрузки истекла.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Успех: запрос GDPR успешно создан.',
+                ],
             ],
 
             'compare-product' => [

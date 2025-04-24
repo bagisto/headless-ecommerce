@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'לא בוצע תשלום עבור ההורדה הזו.',
                     'download-error' => 'פג תוקף קישור ההורדה.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'הצלחה: בקשת GDPR נוצרה בהצלחה.',
+                ],
             ],
 
             'compare-product' => [

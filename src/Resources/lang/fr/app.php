@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'Le paiement n\'a pas été effectué pour ce téléchargement.',
                     'download-error' => 'Le lien de téléchargement a expiré.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Succès : La demande GDPR a été créée avec succès.',
+                ],
             ],
 
             'compare-product' => [

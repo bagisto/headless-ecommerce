@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'Bu indirme için ödeme yapılmadı.',
                     'download-error' => 'İndirme bağlantısı süresi dolmuş.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Başarılı: GDPR isteği başarıyla oluşturuldu.',
+                ],
             ],
 
             'compare-product' => [

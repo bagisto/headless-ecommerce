@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'Die Zahlung für diesen Download wurde nicht durchgeführt.',
                     'download-error' => 'Der Download-Link ist abgelaufen.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Erfolg: GDPR-Anfrage wurde erfolgreich erstellt.',
+                ],
             ],
 
             'compare-product' => [

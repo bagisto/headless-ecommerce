@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'پرداخت برای این دانلود انجام نشده است.',
                     'download-error' => 'لینک دانلود منقضی شده است.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'موفقیت: درخواست GDPR با موفقیت ایجاد شد.',
+                ],
             ],
 
             'compare-product' => [

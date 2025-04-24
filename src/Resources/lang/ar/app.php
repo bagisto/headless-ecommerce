@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'لم يتم الدفع لهذا التنزيل.',
                     'download-error' => 'انتهت صلاحية رابط التنزيل.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'تم إنشاء طلب GDPR بنجاح.',
+                ],
             ],
 
             'compare-product' => [

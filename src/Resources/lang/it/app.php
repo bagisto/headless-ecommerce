@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'Il pagamento non è stato effettuato per questo download.',
                     'download-error' => 'Il link di download è scaduto.',
                 ],
+
+                'gdpr' => [
+                    'create-success' => 'Successo: richiesta GDPR creata con successo.',
+                ],
             ],
 
             'compare-product' => [

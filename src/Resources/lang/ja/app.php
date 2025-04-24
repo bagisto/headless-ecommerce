@@ -99,6 +99,10 @@ return [
                     'payment-error'  => 'このダウンロードに対して支払いが行われていません。',
                     'download-error' => 'ダウンロードリンクが期限切れです。',
                 ],
+
+                'gdpr' => [
+                    'create-success' => '成功：GDPRリクエストが正常に作成されました。',
+                ],
             ],
 
             'compare-product' => [
