@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => 'Succes: Recensie succesvol aangemaakt.',
                 'delete-success'      => 'Succes: Recensie succesvol verwijderd.',
-                'not-found'           => 'Let op: Recensie niet gevonden.',
                 'mass-delete-success' => 'Succes: Geselecteerde recensies succesvol verwijderd.',
+                'not-found'           => 'Let op: Recensie niet gevonden.',
+                'product-not-found'   => 'Waarschuwing: Product niet gevonden.',
             ],
         ],
 

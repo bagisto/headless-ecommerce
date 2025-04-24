@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => 'Erfolg: Bewertung erfolgreich erstellt.',
                 'delete-success'      => 'Erfolg: Bewertung erfolgreich gelöscht.',
-                'not-found'           => 'Warnung: Bewertung nicht gefunden.',
                 'mass-delete-success' => 'Erfolg: Ausgewählte Bewertungen erfolgreich gelöscht.',
+                'not-found'           => 'Warnung: Bewertung nicht gefunden.',
+                'product-not-found'   => 'Warnung: Produkt nicht gefunden.',
             ],
         ],
 

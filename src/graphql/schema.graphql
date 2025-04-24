@@ -5,8 +5,9 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 "Can be used as an argument to upload files using https://github.com/jaydenseric/graphql-multipart-request-spec"
-scalar Upload
-  @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+
+scalar JSON @scalar(class: "Webkul\\GraphQLAPI\\Scalars\\Json")
 
 #import /admin/sales/orders/*.graphql
 #import /admin/sales/invoices/*.graphql

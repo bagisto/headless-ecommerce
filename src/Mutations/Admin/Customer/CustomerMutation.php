@@ -11,6 +11,7 @@ use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Customer\Repositories\CustomerNoteRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Core\Rules\PhoneNumber;
 
 class CustomerMutation extends Controller
 {
@@ -39,7 +40,7 @@ class CustomerMutation extends Controller
             'last_name'         => 'string|required',
             'gender'            => 'required',
             'email'             => 'email|required|unique:customers,email',
-            'phone'             => 'unique:customers,phone',
+            'phone'             => ['unique:customers,phone', new PhoneNumber],
             'date_of_birth'     => 'string|before:today',
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
         ]);
@@ -81,7 +82,7 @@ class CustomerMutation extends Controller
             'last_name'         => 'string|required',
             'gender'            => 'required',
             'email'             => 'email|required|unique:customers,email,'.$args['id'],
-            'phone'             => 'unique:customers,phone,'.$args['id'],
+            'phone'             => ['unique:customers,phone,'.$args['id'], new PhoneNumber],
             'date_of_birth'     => 'date|before:today',
             'customer_group_id' => 'required|in:'.implode(',', $this->customerGroupRepository->pluck('id')->toArray()),
         ]);

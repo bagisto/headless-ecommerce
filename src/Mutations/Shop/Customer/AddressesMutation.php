@@ -94,7 +94,7 @@ class AddressesMutation extends Controller
             'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'phone'        => ['required', new PhoneNumber],
             'vat_id'       => [new VatIdRule()],
-            'email'        => ['required'],
+            'email'        => ['required', 'email'],
         ]);
 
         try {
