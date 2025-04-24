@@ -130,7 +130,7 @@ type InvoiceItem {
     productType: String @rename(attribute: "product_type")
     orderItemId: ID! @rename(attribute: "order_item_id")
     invoiceId: ID! @rename(attribute: "invoice_id")
-    additional: ItemAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterItem@additional")
+    additional: JSON
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt:DateTime @rename(attribute: "updated_at")
     formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Sales\\FormattedPrice@getInvoiceItemPriceData")

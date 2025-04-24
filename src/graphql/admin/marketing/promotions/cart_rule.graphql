@@ -136,7 +136,7 @@ type CartRule {
     usesPerCoupon: Int! @rename(attribute: "uses_per_coupon")
     timesUsed: Int @rename(attribute: "times_used")
     conditionType: String! @rename(attribute: "condition_type")
-    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterItem@additional")
+    conditions: JSON
     endOtherRules: Boolean! @rename(attribute: "end_other_rules")
     usesAttributeConditions: Boolean @rename(attribute: "uses_attribute_conditions")
     actionType: ActionType! @rename(attribute: "action_type")
