@@ -191,14 +191,9 @@ type OrderPayment {
     orderId: ID @rename(attribute: "order_id")
     method: String!
     methodTitle: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getOrderPaymentTitle")
-    additional: OrderPaymentAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getOrderPaymentAdditional")
+    additional: JSON @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getOrderPaymentAdditional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
-}
-
-type OrderPaymentAdditional {
-    title: String
-    value: String
 }
 
 type CancelOrderResponse {

@@ -155,7 +155,7 @@ type CartItem {
     cartId: ID! @rename(attribute: "cart_id")
     taxCategoryId: ID @rename(attribute: "tax_category_id")
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
-    additional: JSON
+    additional: JSON @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterItem@additional")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")    
     formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
