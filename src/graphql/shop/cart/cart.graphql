@@ -155,7 +155,7 @@ type CartItem {
     cartId: ID! @rename(attribute: "cart_id")
     taxCategoryId: ID @rename(attribute: "tax_category_id")
     appliedCartRuleIds: String @rename(attribute: "applied_cart_rule_ids")
-    additional: ItemAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterItem@additional")
+    additional: JSON
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")    
     formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartItemPriceData")
@@ -168,18 +168,6 @@ type CartItem {
 type AppliedTaxRate {
     taxName: String @rename(attribute: "tax_name")
     totalAmount: String @rename(attribute: "total_amount")
-}
-
-type AdditionalSuperAttributes {
-    attributeId: ID @rename(attribute: "attribute_id")
-    optionId: ID @rename(attribute: "option_id")
-}
-
-type AdditionalAttributes {
-    optionId: ID @rename(attribute: "option_id")
-    optionLabel: String @rename(attribute: "option_label")
-    attributeCode: String @rename(attribute: "attribute_code")
-    attributeName: String @rename(attribute: "attribute_name")
 }
 
 type CartShippingRate {

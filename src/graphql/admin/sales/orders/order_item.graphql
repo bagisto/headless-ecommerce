@@ -77,7 +77,7 @@ type OrderItem {
     orderId: ID! @rename(attribute: "order_id")
     taxCategoryId: ID @rename(attribute: "tax_category_id")
     parentId: ID @rename(attribute: "parent_id")
-    additional: ItemAdditional @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterItem@additional")
+    additional: JSON
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     order: Order! @belongsTo(relation: "order")

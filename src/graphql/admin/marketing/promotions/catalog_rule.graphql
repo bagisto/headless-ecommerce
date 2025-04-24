@@ -71,7 +71,7 @@ type CatalogRule {
     endsTill: Date @rename(attribute: "ends_till")
     status: Boolean!
     conditionType: Boolean! @rename(attribute: "condition_type")
-    conditions: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FilterItem@additional")
+    conditions: JSON
     endOtherRules: Boolean! @rename(attribute: "end_other_rules")
     actionType: String @rename(attribute: "action_type")
     discountAmount: Float! @rename(attribute: "discount_amount")

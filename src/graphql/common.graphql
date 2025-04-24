@@ -34,15 +34,6 @@ type AddressResponse {
     address: Address
 }
 
-type ItemAdditional {
-    isBuyNow: Boolean @rename(attribute: "is_buy_now")
-    productId: ID @rename(attribute: "product_id")
-    quantity: Int
-    selectedConfigurableOption: ID @rename(attribute: "selected_configurable_option")
-    superAttribute: [AdditionalSuperAttributes] @rename(attribute: "super_attribute")
-    attributes: [AdditionalAttributes]
-}
-
 input FilterCustomerAddressInput {
     id: Int
     customerId: Int @rename(attribute: "customer_id")
