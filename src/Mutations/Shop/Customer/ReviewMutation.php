@@ -9,6 +9,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
 use Webkul\Product\Repositories\ProductReviewRepository;
+use Webkul\Product\Repositories\ProductRepository;
 
 class ReviewMutation extends Controller
 {
@@ -18,6 +19,7 @@ class ReviewMutation extends Controller
      * @return void
      */
     public function __construct(
+        protected ProductRepository $productRepository,
         protected ProductReviewRepository $productReviewRepository,
         protected ProductReviewAttachmentRepository $productReviewAttachmentRepository
     ) {
@@ -49,6 +51,12 @@ class ReviewMutation extends Controller
                     'customer_id' => $customer->id,
                     'name'        => $customer->name,
                 ]);
+            }
+
+            $product = $this->productRepository->find($args['product_id']);
+
+            if (! $product) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.reviews.product-not-found'));
             }
 
             $args['status'] = 'pending';

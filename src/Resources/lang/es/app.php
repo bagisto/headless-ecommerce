@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => 'Éxito: Reseña creada correctamente.',
                 'delete-success'      => 'Éxito: Reseña eliminada correctamente.',
-                'not-found'           => 'Advertencia: No se encontró la reseña.',
                 'mass-delete-success' => 'Éxito: Reseñas seleccionadas eliminadas correctamente.',
+                'not-found'           => 'Advertencia: No se encontró la reseña.',
+                'product-not-found'   => 'Advertencia: Producto no encontrado.',
             ],
         ],
 

@@ -113,8 +113,9 @@ return [
             'reviews' => [
                 'create-success'      => 'Success: Review created successfully.',
                 'delete-success'      => 'Success: Review deleted successfully.',
-                'not-found'           => 'Warning: Review not found.',
                 'mass-delete-success' => 'Success: Selected reviews deleted successfully.',
+                'not-found'           => 'Warning: Review not found.',
+                'product-not-found'   => 'Warning: Product not found.',
             ],
         ],
 
