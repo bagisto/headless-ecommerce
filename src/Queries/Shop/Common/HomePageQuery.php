@@ -430,14 +430,8 @@ class HomePageQuery extends BaseFilter
      */
     public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        $slug = $args['category_slug'];
-
-        $filterData = [];
-
-        $availableSortOrders = [];
-
-        $category = $this->categoryRepository->whereHas('translation', function ($q) use ($slug) {
-            $q->where('slug', urldecode($slug));
+        $category = $this->categoryRepository->whereHas('translation', function ($query) use ($args) {
+            $query->where('slug', urldecode($args['category_slug']));
         })->first();
 
         if (empty($filterableAttributes = $category?->filterableAttributes)) {
@@ -446,36 +440,11 @@ class HomePageQuery extends BaseFilter
 
         $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
 
-        foreach ($filterableAttributes as $key => $filterAttribute) {
-            if ($filterAttribute->code == 'price') {
-                continue;
-            }
-
-            $optionIds = $filterAttribute->options->pluck('id')->toArray();
-
-            $filterData[$filterAttribute->code] = [
-                'key'    => $filterAttribute->code,
-                'value'  => $optionIds,
-            ];
-        }
-
-        foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
-            $availableSortOrders[$key] = [
-                'key'      => $key,
-                'title'    => $label['title'],
-                'value'    => $label['value'],
-                'sort'     => $label['sort'],
-                'order'    => $label['order'],
-                'position' => $label['position'],
-            ];
-        }
-
         return [
             'min_price'         => 0,
             'max_price'         => $maxPrice,
             'filter_attributes' => $filterableAttributes,
-            'filter_data'       => $filterData,
-            'sort_orders'       => $availableSortOrders,
+            'sort_orders'       => $this->productHelperToolbar->getAvailableOrders(),
         ];
     }
 }
