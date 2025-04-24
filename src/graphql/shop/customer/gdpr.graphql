@@ -1,0 +1,61 @@
+# ── shop/graphql/schema.graphql ──
+
+extend type Query @guard(with: ["api"]) {
+  gdprRequests(
+    input: FilterCustomerGdprRequestInput
+      @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\GdprQuary")
+    ): [GDPRDataRequest!] @paginate(
+        type: "PAGINATOR"
+        model: "Webkul\\GDPR\\Models\\GDPRDataRequest"
+        defaultCount: 10
+    )
+
+  gdprRequest(
+    id: ID! @eq
+      @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\GdprQuary@getGdprRequest")
+  ): GDPRDataRequest
+    @find(model: "Webkul\\GDPR\\Models\\GDPRDataRequest")
+}
+
+extend type Mutation @guard(with: ["api"]) {
+  createGdprRequest(
+    input: GdprRequestInput! @spread
+  ): GdprRequestResponse
+    @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\GdprMutation@store")
+}
+
+input GdprRequestInput {
+  type: String!
+  message: String!
+}
+
+type GdprRequestResponse {
+  status: Boolean!
+  message: String
+  gdprRequest: GDPRDataRequest
+}
+
+type GDPRDataRequest {
+  id: ID!
+  customerId: ID             @rename(attribute: "customer_id")
+  email: String
+  status: String
+  type: String
+  message: String
+  revokedAt: DateTime        @rename(attribute: "revoked_at")
+  createdAt: DateTime        @rename(attribute: "created_at")
+  updatedAt: DateTime        @rename(attribute: "updated_at")
+}
+
+input FilterCustomerGdprRequestInput {
+  id: ID
+  customerId: ID             @rename(attribute: "customer_id")
+  email: String
+  type: String
+  status: String
+  revokedAt: DateTime        @rename(attribute: "revoked_at")
+  createdAt: DateTime        @rename(attribute: "created_at")
+  updatedAt: DateTime        @rename(attribute: "updated_at")
+}
+
+
