@@ -50,7 +50,7 @@ type Wishlist {
     channelId: ID! @rename(attribute: "channel_id")
     productId: ID! @rename(attribute: "product_id")
     customerId: ID @rename(attribute: "customer_id")
-    additional: [FilterOption] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\WishlistQuery@getAdditionData")
+    additional: JSON
     movedToCart: Boolean @rename(attribute: "moved_to_cart")
     shared: Boolean
     createdAt: DateTime @rename(attribute: "created_at")

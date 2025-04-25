@@ -63,26 +63,4 @@ class WishlistQuery extends BaseFilter
             'customer_id' => auth()->user()->id,
         ]);
     }
-
-    /**
-     * This function retrieves additional data for each item in the wishlist.
-     *
-     * @param  object  $query
-     * @return \Illuminate\Support\Collection
-     */
-    public function getAdditionData($query)
-    {
-        // The get() method retrieves all records from the database.
-        // The map() method iterates through each item in the collection,
-        // allowing us to transform the item's value and key.
-        // The flatten() method is used to flatten a multi-dimensional collection into a single dimension.
-        return $query->get()->map(function ($wishlistItem) {
-            return collect($wishlistItem->additional)->transform(function ($additional, $key) {
-                return [
-                    'key'   => $key,
-                    'value' => $additional,
-                ];
-            })->all();
-        })->flatten(1);
-    }
 }
