@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b6eae680-7834-4007-abb1-a3d06e471559",
+		"_postman_id": "28b54cd0-c7b5-428d-9307-ae8849e07bed",
 		"name": "GraphQL-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36950150"
+		"_exporter_id": "31579646"
 	},
 	"item": [
 		{
@@ -8991,6 +8991,104 @@
 													""
 												]
 											}
+										}
+									]
+								},
+								{
+									"name": "Gdpr Request",
+									"item": [
+										{
+											"name": "Get",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query gdprRequest {\n  gdprRequest(id: 3) {\n    id\n    customerId\n    email\n    status\n    type\n    message\n    revokedAt\n    createdAt\n    updatedAt\n  }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query gdprRequests {\n  gdprRequests(\n    input: {\n    #   id: 2\n    #   customerId: 1\n    #   email: \"customer1@example.com\"\n    #   type: \"update\"\n    #   status: \"pending\"\n    #   revokedAt: null\n    #   createdAt: \"2025-04-24 18:11:36\"\n    #   updatedAt: \"2025-04-24 18:11:36\"\n    }\n  ) {\n    paginatorInfo {\n      count\n      currentPage\n      lastPage\n      total\n    }\n    data {\n      id\n      customerId\n      email\n      status\n      type\n      message\n      revokedAt\n      createdAt\n      updatedAt\n    }\n  }\n}\n",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createGdprRequest(\n  $input: GdprRequestInput!\n) {\n  createGdprRequest(\n    input: $input\n  ) {\n    status\n    message\n    gdprRequest {\n      id\n      customerId\n      email\n      status\n      type\n      message\n      revokedAt\n      createdAt\n      updatedAt\n    }\n  }\n}\n",
+														"variables": "{\n  \"input\": {\n    \"type\": \"delete\",\n    \"message\": \"Please delete my data under GDPR.\"\n  }\n}\n"
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
 										}
 									]
 								}
