@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => '成功：GDPR请求已成功创建。',
+                    'create-success'       => '成功：GDPR请求创建成功。',
+                    'revoke-failed'        => '警告：未能撤销GDPR请求。',
+                    'revoked-successfully' => '成功：GDPR请求撤销成功。',
                 ],
             ],
 

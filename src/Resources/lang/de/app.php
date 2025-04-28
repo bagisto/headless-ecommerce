@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => 'Erfolg: GDPR-Anfrage wurde erfolgreich erstellt.',
+                    'create-success'       => 'Erfolg: GDPR-Anfrage erfolgreich erstellt.',
+                    'revoke-failed'        => 'Warnung: GDPR-Anfrage konnte nicht widerrufen werden.',
+                    'revoked-successfully' => 'Erfolg: GDPR-Anfrage erfolgreich widerrufen.',
                 ],
             ],
 

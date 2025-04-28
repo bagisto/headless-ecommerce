@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => 'Succès : La demande GDPR a été créée avec succès.',
+                    'create-success'       => 'Succès : Demande GDPR créée avec succès.',
+                    'revoke-failed'        => 'Attention : La demande GDPR n’a pas été révoquée.',
+                    'revoked-successfully' => 'Succès : Demande GDPR révoquée avec succès.',
                 ],
             ],
 

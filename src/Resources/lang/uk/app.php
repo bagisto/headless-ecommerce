@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => 'Успіх: запит GDPR успішно створено.',
+                    'create-success'       => 'Успіх: Запит GDPR успішно створено.',
+                    'revoke-failed'        => 'Попередження: Запит GDPR не скасовано.',
+                    'revoked-successfully' => 'Успіх: Запит GDPR успішно скасовано.',
                 ],
             ],
 

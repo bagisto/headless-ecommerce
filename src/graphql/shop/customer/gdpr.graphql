@@ -22,6 +22,14 @@ extend type Mutation @guard(with: ["api"]) {
     input: GdprRequestInput! @spread
   ): GdprRequestResponse
     @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\GdprMutation@store")
+
+  revokeGdprRequest(
+      id: ID!
+  ): GdprRequestResponse
+  @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\GdprMutation@revoke")
+
+  downloadGdprData: GdprDownloadResponse
+    @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\GdprMutation@downloadGdprData")
 }
 
 input GdprRequestInput {
@@ -35,27 +43,38 @@ type GdprRequestResponse {
   gdprRequest: GDPRDataRequest
 }
 
+type GdprDownloadResponse {
+  success: Boolean!
+  string: String!
+  download: DownloadInfo!
+}
+
+type DownloadInfo {
+  file_name: String!
+  extension: String!
+}
+
 type GDPRDataRequest {
   id: ID!
-  customerId: ID             @rename(attribute: "customer_id")
+  customerId: ID @rename(attribute: "customer_id")
   email: String
   status: String
   type: String
   message: String
-  revokedAt: DateTime        @rename(attribute: "revoked_at")
-  createdAt: DateTime        @rename(attribute: "created_at")
-  updatedAt: DateTime        @rename(attribute: "updated_at")
+  revokedAt: DateTime @rename(attribute: "revoked_at")
+  createdAt: DateTime @rename(attribute: "created_at")
+  updatedAt: DateTime @rename(attribute: "updated_at")
 }
 
 input FilterCustomerGdprRequestInput {
   id: ID
-  customerId: ID             @rename(attribute: "customer_id")
+  customerId: ID @rename(attribute: "customer_id")
   email: String
   type: String
   status: String
-  revokedAt: DateTime        @rename(attribute: "revoked_at")
-  createdAt: DateTime        @rename(attribute: "created_at")
-  updatedAt: DateTime        @rename(attribute: "updated_at")
+  revokedAt: DateTime @rename(attribute: "revoked_at")
+  createdAt: DateTime @rename(attribute: "created_at")
+  updatedAt: DateTime @rename(attribute: "updated_at")
 }
 
 

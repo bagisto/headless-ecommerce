@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => 'Başarılı: GDPR isteği başarıyla oluşturuldu.',
+                    'create-success'       => 'Başarılı: GDPR isteği başarıyla oluşturuldu.',
+                    'revoke-failed'        => 'Uyarı: GDPR isteği iptal edilemedi.',
+                    'revoked-successfully' => 'Başarılı: GDPR isteği başarıyla iptal edildi.',
                 ],
             ],
 

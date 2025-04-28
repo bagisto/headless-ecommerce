@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => 'সাফল্য: GDPR অনুরোধ সফলভাবে তৈরি হয়েছে।',
+                    'create-success'       => 'সফলতা: GDPR অনুরোধ সফলভাবে তৈরি হয়েছে।',
+                    'revoke-failed'        => 'সতর্কতা: GDPR অনুরোধ বাতিল করা যায়নি।',
+                    'revoked-successfully' => 'সফলতা: GDPR অনুরোধ সফলভাবে বাতিল হয়েছে।',
                 ],
             ],
 

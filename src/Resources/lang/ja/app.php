@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => '成功：GDPRリクエストが正常に作成されました。',
+                    'create-success'       => '成功：GDPRリクエストが正常に作成されました。',
+                    'revoke-failed'        => '警告：GDPRリクエストの取り消しに失敗しました。',
+                    'revoked-successfully' => '成功：GDPRリクエストが正常に取り消されました。',
                 ],
             ],
 

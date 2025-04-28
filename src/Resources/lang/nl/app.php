@@ -101,7 +101,9 @@ return [
                 ],
 
                 'gdpr' => [
-                    'create-success' => 'Succes: GDPR-verzoek is succesvol aangemaakt.',
+                    'create-success'       => 'Succes: GDPR-verzoek succesvol aangemaakt.',
+                    'revoke-failed'        => 'Waarschuwing: GDPR-verzoek niet ingetrokken.',
+                    'revoked-successfully' => 'Succes: GDPR-verzoek succesvol ingetrokken.',
                 ],
             ],
 
