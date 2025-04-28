@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'Waarschuwing: Beoordeling niet gevonden.',
                 'update-success' => 'Beoordeling succesvol bijgewerkt.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'Succes: GDPR-verzoek succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: GDPR-verzoek niet gevonden.',
+                'update-success' => 'GDPR-verzoek succesvol bijgewerkt.',
+            ],
         ],
 
         'cms' => [

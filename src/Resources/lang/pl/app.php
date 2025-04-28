@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'Ostrzeżenie: Recenzja nie została znaleziona.',
                 'update-success' => 'Recenzja została pomyślnie zaktualizowana.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'Succes: GDPR-verzoek succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: GDPR-verzoek niet gevonden.',
+                'update-success' => 'GDPR-verzoek succesvol bijgewerkt.',
+            ],
         ],
 
         'cms' => [

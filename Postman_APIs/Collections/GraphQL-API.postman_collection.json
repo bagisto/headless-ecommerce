@@ -3650,6 +3650,148 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Gdpr Request",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query gdprList {\n    gdprList (\n        first: 11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            status\n            message\n            type\n            customerId\n            customer {\n                name\n            }\n            createdAt\n            updatedAt\n        }\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query gdpr {\n    gdpr (\n        id: 1\n    ) {\n        id\n        status\n        message\n        type\n        customerId\n        customer {\n            name\n        }\n        createdAt\n        updatedAt\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateGdprRequest{\n  updateGdprRequest(\n    id: 2\n    input: {\n      status: \"completed\"\n      type: \"update\"\n      message: \"Your Name Update request has been approved.\"\n    }\n  ) {\n    success\n    status\n    message\n  }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update CustomerGroup Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteGdprRequest {\n    deleteGdprRequest (\n        id: 1\n    ) {\n        success\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove CustomerGroup"
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},

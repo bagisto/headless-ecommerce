@@ -376,6 +376,12 @@ return [
                 'not-found'      => '注意: レビューが見つかりません。',
                 'update-success' => 'レビューが正常に更新されました。',
             ],
+
+            'gdpr' => [
+                'delete-success' => '成功：GDPRリクエストが正常に削除されました。',
+                'not-found'      => '警告：GDPRリクエストが見つかりません。',
+                'update-success' => 'GDPRリクエストが正常に更新されました。',
+            ],
         ],
 
         'cms' => [

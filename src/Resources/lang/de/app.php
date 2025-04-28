@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'Warnung: Bewertung nicht gefunden.',
                 'update-success' => 'Bewertung erfolgreich aktualisiert.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'Erfolg: GDPR-Anfrage erfolgreich gelöscht.',
+                'not-found'      => 'Warnung: GDPR-Anfrage nicht gefunden.',
+                'update-success' => 'GDPR-Anfrage erfolgreich aktualisiert.',
+            ],
         ],
 
         'cms' => [

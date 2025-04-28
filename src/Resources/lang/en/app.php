@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'Warning: Review not found.',
                 'update-success' => 'Review updated successfully.',
             ],
+
+            'gdpr' => [
+                'delete-success'       => 'Success: GDPR request deleted successfully.',
+                'not-found'            => 'Warning: GDPR request not found.',
+                'update-success'       => 'GDPR request updated successfully.',
+            ],
         ],
 
         'cms' => [

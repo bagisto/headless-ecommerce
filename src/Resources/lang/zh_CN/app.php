@@ -376,6 +376,12 @@ return [
                 'not-found'      => '警告：未找到评论。',
                 'update-success' => '评论更新成功。',
             ],
+
+            'gdpr' => [
+                'delete-success' => '成功：GDPR请求已成功删除。',
+                'not-found'      => '警告：未找到GDPR请求。',
+                'update-success' => 'GDPR请求已成功更新。',
+            ],
         ],
 
         'cms' => [

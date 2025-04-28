@@ -375,6 +375,12 @@ return [
                 'not-found'      => 'Uyarı: İnceleme bulunamadı.',
                 'update-success' => 'İnceleme başarıyla güncellendi.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'Başarılı: GDPR isteği başarıyla silindi.',
+                'not-found'      => 'Uyarı: GDPR isteği bulunamadı.',
+                'update-success' => 'GDPR isteği başarıyla güncellendi.',
+            ],
         ],
 
         'cms' => [

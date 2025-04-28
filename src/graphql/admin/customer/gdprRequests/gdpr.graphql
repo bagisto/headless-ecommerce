@@ -1,0 +1,56 @@
+# GDPR Related Admin APIs
+extend type Query {
+    gdprList(
+        input: FilterGDPRRequestInput
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
+    ): [GDPRRequest!] @paginate(
+        type: "PAGINATOR"
+        defaultCount: 10
+        model: "Webkul\\GDPR\\Models\\GDPRDataRequest"
+    )
+
+    gdpr(id: ID @eq): GDPRRequest @find(model: "Webkul\\GDPR\\Models\\GDPRDataRequest")
+}
+
+extend type Mutation @guard(with: ["admin-api"]) {
+    updateGdprRequest(
+        id: ID!
+        input: GdprRequestInputs! @spread
+    ): GDPRRequestResponse
+        @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\GdprMutation@update")
+
+    deleteGdprRequest(id: ID!): StatusResponse
+        @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Customer\\GdprMutation@delete")
+}
+
+input FilterGDPRRequestInput {
+    id: ID
+    customerId: ID
+    status: String
+    message: String!
+}
+
+input GdprRequestInputs {
+    status: String!
+    type: String!
+    message: String!
+}
+
+type GDPRRequestResponse {
+    success: Boolean
+    message: String
+    status: String
+}
+
+type GDPRRequest {
+    id: ID!
+    type: String
+    customerId: ID! @rename(attribute: "customer_id")
+    name: String
+    email: String
+    status: String
+    message: String
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    customer: Customer
+}

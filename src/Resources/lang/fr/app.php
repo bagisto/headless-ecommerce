@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'Attention : avis introuvable.',
                 'update-success' => 'Avis mis à jour avec succès.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'Succès : Demande de GDPR supprimée avec succès.',
+                'not-found'      => 'Avertissement : Demande de GDPR introuvable.',
+                'update-success' => 'Demande de GDPR mise à jour avec succès.',
+            ],
         ],
 
         'cms' => [

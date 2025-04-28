@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'Avviso: Recensione non trovata.',
                 'update-success' => 'Recensione aggiornata con successo.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'Successo: Richiesta GDPR eliminata con successo.',
+                'not-found'      => 'Avviso: Richiesta GDPR non trovata.',
+                'update-success' => 'Richiesta GDPR aggiornata con successo.',
+            ],
         ],
 
         'cms' => [

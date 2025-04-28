@@ -24,6 +24,7 @@ scalar JSON @scalar(class: "Webkul\\GraphQLAPI\\Scalars\\Json")
 #import /admin/customer/customers/*.graphql
 #import /admin/customer/groups/*.graphql
 #import /admin/customer/reviews/*.graphql
+#import /admin/customer/gdprRequests/*.graphql
 
 #import /admin/cms/*.graphql
 

@@ -376,6 +376,12 @@ return [
                 'not-found'      => 'אזהרה: ביקורת לא נמצאה.',
                 'update-success' => 'ביקורת עודכנה בהצלחה.',
             ],
+
+            'gdpr' => [
+                'delete-success' => 'הצלחה: בקשת GDPR נמחקה בהצלחה.',
+                'not-found'      => 'אזהרה: בקשת GDPR לא נמצאה.',
+                'update-success' => 'בקשת GDPR עודכנה בהצלחה.',
+            ],
         ],
 
         'cms' => [
