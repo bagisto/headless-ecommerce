@@ -27,7 +27,6 @@ type FilterAttribute {
     minPrice: Float @rename(attribute: "min_price")
     maxPrice: Float @rename(attribute: "max_price")
     filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
-    filterData: [FilterAttributeDataList] @rename(attribute: "filter_data")
     sortOrders: [CatalogSortOrder!] @rename(attribute: "sort_orders")
 }
 
@@ -42,11 +41,6 @@ type ShopTheme {
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     translations: [ThemeTranslation!]
-}
-
-type FilterAttributeDataList {
-    key: String
-    value: [String]
 }
 
 type CatalogSortOrder {
