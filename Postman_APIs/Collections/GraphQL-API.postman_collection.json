@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "28b54cd0-c7b5-428d-9307-ae8849e07bed",
+		"_postman_id": "91fd26b0-67c1-4b2e-8a44-b3ca4f24bc10",
 		"name": "GraphQL-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "31579646"
@@ -9109,6 +9109,45 @@
 														"{{url}}"
 													]
 												}
+											},
+											"response": []
+										},
+										{
+											"name": "Revoke Request",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation {\n  revokeGdprRequest(id: 6) {\n    status\n    message\n    gdprRequest {\n      id\n      status\n      revokedAt\n    }\n  }\n}\n",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "DownloadPDF",
+											"request": {
+												"method": "POST",
+												"header": []
 											},
 											"response": []
 										}
