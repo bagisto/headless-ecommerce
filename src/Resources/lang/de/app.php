@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'Die Zahlung für diesen Download wurde nicht durchgeführt.',
                     'download-error' => 'Der Download-Link ist abgelaufen.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Erfolg: GDPR-Anfrage erfolgreich erstellt.',
+                    'revoke-failed'        => 'Warnung: GDPR-Anfrage konnte nicht widerrufen werden.',
+                    'revoked-successfully' => 'Erfolg: GDPR-Anfrage erfolgreich widerrufen.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Bewertung erfolgreich gelöscht.',
                 'not-found'      => 'Warnung: Bewertung nicht gefunden.',
                 'update-success' => 'Bewertung erfolgreich aktualisiert.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Erfolg: GDPR-Anfrage erfolgreich gelöscht.',
+                'not-found'      => 'Warnung: GDPR-Anfrage nicht gefunden.',
+                'update-success' => 'GDPR-Anfrage erfolgreich aktualisiert.',
             ],
         ],
 

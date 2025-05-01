@@ -99,6 +99,12 @@ return [
                     'payment-error'  => '未为此下载进行付款。',
                     'download-error' => '下载链接已过期。',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => '成功：GDPR请求创建成功。',
+                    'revoke-failed'        => '警告：未能撤销GDPR请求。',
+                    'revoked-successfully' => '成功：GDPR请求撤销成功。',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => '评论删除成功。',
                 'not-found'      => '警告：未找到评论。',
                 'update-success' => '评论更新成功。',
+            ],
+
+            'gdpr' => [
+                'delete-success' => '成功：GDPR请求已成功删除。',
+                'not-found'      => '警告：未找到GDPR请求。',
+                'update-success' => 'GDPR请求已成功更新。',
             ],
         ],
 

@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'Płatność nie została dokonana za ten plik do pobrania.',
                     'download-error' => 'Link do pobrania wygasł.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Sukces: Żądanie GDPR zostało pomyślnie utworzone.',
+                    'revoke-failed'        => 'Ostrzeżenie: Nie udało się odwołać żądania GDPR.',
+                    'revoked-successfully' => 'Sukces: Żądanie GDPR zostało pomyślnie odwołane.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Recenzja została pomyślnie usunięta.',
                 'not-found'      => 'Ostrzeżenie: Recenzja nie została znaleziona.',
                 'update-success' => 'Recenzja została pomyślnie zaktualizowana.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Succes: GDPR-verzoek succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: GDPR-verzoek niet gevonden.',
+                'update-success' => 'GDPR-verzoek succesvol bijgewerkt.',
             ],
         ],
 

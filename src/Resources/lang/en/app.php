@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'Payment has not been done for this download.',
                     'download-error' => 'Download link has been expired.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Success: GDPR request created successfully.',
+                    'revoke-failed'        => 'Warning: GDPR request not revoked.',
+                    'revoked-successfully' => 'Success: GDPR request revoked successfully.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Review deleted successfully',
                 'not-found'      => 'Warning: Review not found.',
                 'update-success' => 'Review updated successfully.',
+            ],
+
+            'gdpr' => [
+                'delete-success'       => 'Success: GDPR request deleted successfully.',
+                'not-found'            => 'Warning: GDPR request not found.',
+                'update-success'       => 'GDPR request updated successfully.',
             ],
         ],
 

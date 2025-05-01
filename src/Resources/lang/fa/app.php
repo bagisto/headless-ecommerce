@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'پرداخت برای این دانلود انجام نشده است.',
                     'download-error' => 'لینک دانلود منقضی شده است.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'موفقیت: درخواست GDPR با موفقیت ایجاد شد.',
+                    'revoke-failed'        => 'هشدار: درخواست GDPR لغو نشد.',
+                    'revoked-successfully' => 'موفقیت: درخواست GDPR با موفقیت لغو شد.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'نقد و بررسی با موفقیت حذف شد.',
                 'not-found'      => 'هشدار: نقد و بررسی یافت نشد.',
                 'update-success' => 'نقد و بررسی با موفقیت به روز شد.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'موفقیت: درخواست GDPR با موفقیت حذف شد.',
+                'not-found'      => 'هشدار: درخواست GDPR پیدا نشد.',
+                'update-success' => 'درخواست GDPR با موفقیت به‌روزرسانی شد.',
             ],
         ],
 

@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'Bu indirme için ödeme yapılmadı.',
                     'download-error' => 'İndirme bağlantısı süresi dolmuş.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Başarılı: GDPR isteği başarıyla oluşturuldu.',
+                    'revoke-failed'        => 'Uyarı: GDPR isteği iptal edilemedi.',
+                    'revoked-successfully' => 'Başarılı: GDPR isteği başarıyla iptal edildi.',
+                ],
             ],
 
             'compare-product' => [
@@ -368,6 +374,12 @@ return [
                 'delete-success' => 'İnceleme başarıyla silindi',
                 'not-found'      => 'Uyarı: İnceleme bulunamadı.',
                 'update-success' => 'İnceleme başarıyla güncellendi.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Başarılı: GDPR isteği başarıyla silindi.',
+                'not-found'      => 'Uyarı: GDPR isteği bulunamadı.',
+                'update-success' => 'GDPR isteği başarıyla güncellendi.',
             ],
         ],
 

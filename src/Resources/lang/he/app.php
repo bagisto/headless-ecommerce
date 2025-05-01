@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'לא בוצע תשלום עבור ההורדה הזו.',
                     'download-error' => 'פג תוקף קישור ההורדה.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'הצלחה: בקשת GDPR נוצרה בהצלחה.',
+                    'revoke-failed'        => 'אזהרה: בקשת GDPR לא בוטלה.',
+                    'revoked-successfully' => 'הצלחה: בקשת GDPR בוטלה בהצלחה.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'ביקורת נמחקה בהצלחה',
                 'not-found'      => 'אזהרה: ביקורת לא נמצאה.',
                 'update-success' => 'ביקורת עודכנה בהצלחה.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'הצלחה: בקשת GDPR נמחקה בהצלחה.',
+                'not-found'      => 'אזהרה: בקשת GDPR לא נמצאה.',
+                'update-success' => 'בקשת GDPR עודכנה בהצלחה.',
             ],
         ],
 

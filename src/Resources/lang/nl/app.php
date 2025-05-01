@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'De betaling is niet voltooid voor deze download.',
                     'download-error' => 'De downloadlink is verlopen.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Succes: GDPR-verzoek succesvol aangemaakt.',
+                    'revoke-failed'        => 'Waarschuwing: GDPR-verzoek niet ingetrokken.',
+                    'revoked-successfully' => 'Succes: GDPR-verzoek succesvol ingetrokken.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Beoordeling succesvol verwijderd.',
                 'not-found'      => 'Waarschuwing: Beoordeling niet gevonden.',
                 'update-success' => 'Beoordeling succesvol bijgewerkt.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Succes: GDPR-verzoek succesvol verwijderd.',
+                'not-found'      => 'Waarschuwing: GDPR-verzoek niet gevonden.',
+                'update-success' => 'GDPR-verzoek succesvol bijgewerkt.',
             ],
         ],
 

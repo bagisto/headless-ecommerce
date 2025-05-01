@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'Le paiement n\'a pas été effectué pour ce téléchargement.',
                     'download-error' => 'Le lien de téléchargement a expiré.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Succès : Demande GDPR créée avec succès.',
+                    'revoke-failed'        => 'Attention : La demande GDPR n’a pas été révoquée.',
+                    'revoked-successfully' => 'Succès : Demande GDPR révoquée avec succès.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Avis supprimé avec succès',
                 'not-found'      => 'Attention : avis introuvable.',
                 'update-success' => 'Avis mis à jour avec succès.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Succès : Demande de GDPR supprimée avec succès.',
+                'not-found'      => 'Avertissement : Demande de GDPR introuvable.',
+                'update-success' => 'Demande de GDPR mise à jour avec succès.',
             ],
         ],
 

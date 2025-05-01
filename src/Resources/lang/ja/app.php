@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'このダウンロードに対して支払いが行われていません。',
                     'download-error' => 'ダウンロードリンクが期限切れです。',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => '成功：GDPRリクエストが正常に作成されました。',
+                    'revoke-failed'        => '警告：GDPRリクエストの取り消しに失敗しました。',
+                    'revoked-successfully' => '成功：GDPRリクエストが正常に取り消されました。',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'レビューが正常に削除されました。',
                 'not-found'      => '注意: レビューが見つかりません。',
                 'update-success' => 'レビューが正常に更新されました。',
+            ],
+
+            'gdpr' => [
+                'delete-success' => '成功：GDPRリクエストが正常に削除されました。',
+                'not-found'      => '警告：GDPRリクエストが見つかりません。',
+                'update-success' => 'GDPRリクエストが正常に更新されました。',
             ],
         ],
 

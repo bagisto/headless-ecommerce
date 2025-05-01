@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'No se ha realizado el pago de esta descarga.',
                     'download-error' => 'El enlace de descarga ha caducado.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Éxito: Solicitud de GDPR creada exitosamente.',
+                    'revoke-failed'        => 'Advertencia: No se revocó la solicitud de GDPR.',
+                    'revoked-successfully' => 'Éxito: Solicitud de GDPR revocada exitosamente.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Reseña eliminada exitosamente',
                 'not-found'      => 'Advertencia: Reseña no encontrada.',
                 'update-success' => 'Reseña actualizada exitosamente.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Éxito: Solicitud de GDPR eliminada con éxito.',
+                'not-found'      => 'Advertencia: Solicitud de GDPR no encontrada.',
+                'update-success' => 'Solicitud de GDPR actualizada con éxito.',
             ],
         ],
 

@@ -99,6 +99,12 @@ return [
                     'payment-error'  => 'Оплата не была произведена за эту загрузку.',
                     'download-error' => 'Ссылка для загрузки истекла.',
                 ],
+
+                'gdpr' => [
+                    'create-success'       => 'Успех: Запрос GDPR успешно создан.',
+                    'revoke-failed'        => 'Предупреждение: Запрос GDPR не был отозван.',
+                    'revoked-successfully' => 'Успех: Запрос GDPR успешно отозван.',
+                ],
             ],
 
             'compare-product' => [
@@ -369,6 +375,12 @@ return [
                 'delete-success' => 'Отзыв успешно удален',
                 'not-found'      => 'Внимание: Отзыв не найден.',
                 'update-success' => 'Отзыв успешно обновлен.',
+            ],
+
+            'gdpr' => [
+                'delete-success' => 'Успех: Запрос GDPR успешно удалён.',
+                'not-found'      => 'Предупреждение: Запрос GDPR не найден.',
+                'update-success' => 'Запрос GDPR успешно обновлён.',
             ],
         ],
 

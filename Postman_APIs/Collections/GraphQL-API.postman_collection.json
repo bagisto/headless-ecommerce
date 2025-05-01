@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b3ac1296-e98a-4513-9549-890ab2bd746b",
+		"_postman_id": "91fd26b0-67c1-4b2e-8a44-b3ca4f24bc10",
 		"name": "GraphQL-API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31579646"
 	},
 	"item": [
 		{
@@ -3635,6 +3636,148 @@
 											"mode": "graphql",
 											"graphql": {
 												"query": "mutation adminDeleteReview {\n    adminDeleteReview (\n        id: 1\n    ) {\n        success\n        message\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Remove CustomerGroup"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Gdpr Request",
+							"item": [
+								{
+									"name": "Get All",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query gdprList {\n    gdprList (\n        first: 11\n        page: 1\n    ) {\n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        }\n        data {\n            id\n            status\n            message\n            type\n            customerId\n            customer {\n                name\n            }\n            createdAt\n            updatedAt\n        }\n    }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "query gdpr {\n    gdpr (\n        id: 1\n    ) {\n        id\n        status\n        message\n        type\n        customerId\n        customer {\n            name\n        }\n        createdAt\n        updatedAt\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateGdprRequest{\n  updateGdprRequest(\n    id: 2\n    input: {\n      status: \"completed\"\n      type: \"update\"\n      message: \"Your Name Update request has been approved.\"\n    }\n  ) {\n    success\n    status\n    message\n  }\n}\n",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										},
+										"description": "Update CustomerGroup Details"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation deleteGdprRequest {\n    deleteGdprRequest (\n        id: 1\n    ) {\n        success\n        message\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -9012,6 +9155,143 @@
 													""
 												]
 											}
+										}
+									]
+								},
+								{
+									"name": "Gdpr Request",
+									"item": [
+										{
+											"name": "Get",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query gdprRequest {\n  gdprRequest(id: 3) {\n    id\n    customerId\n    email\n    status\n    type\n    message\n    revokedAt\n    createdAt\n    updatedAt\n  }\n}",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get All",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "query gdprRequests {\n  gdprRequests(\n    input: {\n    #   id: 2\n    #   customerId: 1\n    #   email: \"customer1@example.com\"\n    #   type: \"update\"\n    #   status: \"pending\"\n    #   revokedAt: null\n    #   createdAt: \"2025-04-24 18:11:36\"\n    #   updatedAt: \"2025-04-24 18:11:36\"\n    }\n  ) {\n    paginatorInfo {\n      count\n      currentPage\n      lastPage\n      total\n    }\n    data {\n      id\n      customerId\n      email\n      status\n      type\n      message\n      revokedAt\n      createdAt\n      updatedAt\n    }\n  }\n}\n",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation createGdprRequest(\n  $input: GdprRequestInput!\n) {\n  createGdprRequest(\n    input: $input\n  ) {\n    status\n    message\n    gdprRequest {\n      id\n      customerId\n      email\n      status\n      type\n      message\n      revokedAt\n      createdAt\n      updatedAt\n    }\n  }\n}\n",
+														"variables": "{\n  \"input\": {\n    \"type\": \"delete\",\n    \"message\": \"Please delete my data under GDPR.\"\n  }\n}\n"
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Revoke Request",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{customerToken}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "graphql",
+													"graphql": {
+														"query": "mutation {\n  revokeGdprRequest(id: 6) {\n    status\n    message\n    gdprRequest {\n      id\n      status\n      revokedAt\n    }\n  }\n}\n",
+														"variables": ""
+													}
+												},
+												"url": {
+													"raw": "{{url}}",
+													"host": [
+														"{{url}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "DownloadPDF",
+											"request": {
+												"method": "POST",
+												"header": []
+											},
+											"response": []
 										}
 									]
 								}
