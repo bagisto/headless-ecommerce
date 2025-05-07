@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "91fd26b0-67c1-4b2e-8a44-b3ca4f24bc10",
+		"_postman_id": "9fc426ce-9110-4421-aa3d-243590efb8c5",
 		"name": "GraphQL-API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31579646"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -1592,7 +1591,7 @@
 										"body": {
 											"mode": "graphql",
 											"graphql": {
-												"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"simple\"\n        attributeFamilyId: 1\n        sku: \"product-111\"\n    }) {\n        success\n        message\n        product {\n            id\n            sku\n            type\n            parentId\n            attributeFamilyId\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"simple\"\n        attributeFamilyId: 1\n        sku: \"simple-2\"\n    }) {\n        success\n        message\n        product {\n            id\n            sku\n            type\n            parentId\n            attributeFamilyId\n            createdAt\n            updatedAt\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -1937,6 +1936,68 @@
 											"mode": "graphql",
 											"graphql": {
 												"query": "mutation updateProduct {\n    updateProduct(id: 83, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"bundle-demo\"\n        name: \"bundle-demo\"\n        urlKey: \"bundle-demo\"\n        productNumber:\"4\"\n        taxCategoryId: 1\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        guestCheckout: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 0\n        weight:0\n        bundleOptions: [{\n            locales: {\n                code: \"en\"\n                label: \"Link 3\"\n            }\n            type: \"radio\"\n            isRequired: true\n            sortOrder:1\n            products: {\n                productId: 75\n                qty: 3\n            }\n        }]\n        categories: [1]\n        channels: [1]\n        upSells: [1,2]\n        crossSells: [67,68]\n        relatedProducts: [2]\n        images: [\n          \t\"https://cdn.pixabay.com/photo/2016/12/19/08/39/mobile-phone-1917737_960_720.jpg\",\n          \t\"https://cdn.pixabay.com/photo/2014/08/05/10/27/iphone-410311_960_720.jpg\"\n        ]\n    }) {\n        success\n        message\n        product {\n            id\n            sku\n            type\n            parentId\n            attributeFamilyId\n            productNumber\n            name\n            shortDescription\n            description\n            urlKey\n            shareURL\n            new\n            featured\n            status\n            guestCheckout\n            visibleIndividually\n            metaTitle\n            metaKeywords\n            metaDescription\n            price\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            parentId\n            attributeFamilyId\n            createdAt\n            updatedAt\n            parent {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n            attributeFamily {\n                id\n                code\n                name\n                status\n                isUserDefined\n            }\n            attributeValues {\n                id\n                locale\n                channel\n                textValue\n                booleanValue\n                integerValue\n                floatValue\n                dateTimeValue\n                dateValue\n                jsonValue\n                productId\n                attributeId\n                attribute {\n                    id\n                    code\n                    adminName\n                    type\n                }\n            }\n            superAttributes {\n                id\n                code\n                adminName\n                type\n                position\n            }\n            categories {\n                id\n                position\n                logoPath\n                logoUrl\n                status\n                displayMode\n                lft\n                rgt\n                parentId\n                additional\n                bannerPath\n                bannerUrl\n                name\n                slug\n                urlPath\n                description\n                metaTitle\n                metaDescription\n                metaKeywords\n                localeId\n                createdAt\n                updatedAt\n                filterableAttributes {\n                    id\n                    code\n                    adminName\n                    type\n                    position\n                }\n            }\n            inventories {\n                id\n                qty\n                productId\n                inventorySourceId\n                vendorId\n                inventorySource {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n            }\n            cacheBaseImage {\n                smallImageUrl\n                mediumImageUrl\n                largeImageUrl\n                originalImageUrl\n            }\n            cacheGalleryImages {\n                smallImageUrl\n                mediumImageUrl\n                largeImageUrl\n                originalImageUrl\n            }\n            images {\n                id\n                type\n                path\n                productId\n            }\n            orderedInventories {\n                id\n                qty\n                productId\n                channelId\n            }\n            bundleOptions {\n                id\n                type\n                isRequired\n                sortOrder\n                productId\n                bundleOptionProducts {\n                    id\n                    qty\n                    isUserDefined\n                    sortOrder\n                    isDefault\n                    productBundleOptionId\n                    productId\n                }\n                translations {\n                    id\n                    locale\n                    label\n                    productBundleOptionId\n                }\n            }\n            customerGroupPrices {\n                id\n                qty\n                valueType\n                value\n                productId\n                customerGroupId\n                createdAt\n                updatedAt\n            }\n            relatedProducts {\n                id\n            }\n            upSells {\n                id\n            }\n            crossSells {\n                id\n            }\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Booking Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation createProduct {\n    createProduct(input: {\n        type: \"booking\"\n        attributeFamilyId: 1\n        sku: \"booking-2\"\n    }) {\n        success\n        message\n        product {\n            id\n            sku\n            type\n            parentId\n            attributeFamilyId\n            createdAt\n            updatedAt\n        }\n    }\n}",
+												"variables": ""
+											}
+										},
+										"url": {
+											"raw": "{{url}}",
+											"host": [
+												"{{url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Booking Product Details",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "graphql",
+											"graphql": {
+												"query": "mutation updateProduct {\n    updateProduct(id: 502, input: {\n        channel: \"default\"\n        locale: \"en\"\n        sku: \"booking-2\"\n        name: \"Booking 2\"\n        urlKey: \"booking-2\"\n        taxCategoryId: \"\"\n        new: true\n        featured: true\n        visibleIndividually: true\n        status: true\n        color: 3\n        size: 9\n        shortDescription: \"<p>Home Decor Short Description</p>\"\n        description: \"<p>Home Decor Description</p>\"\n        metaTitle: \"Home Decor Meta Title\"\n        metaKeywords: \"Home Decor Meta Keywords\"\n        metaDescription: \"Home Decor Meta Description\"\n        price: 12.55\n        cost: 11.50\n        specialPrice: 11.30\n        specialPriceFrom: \"2021-02-08\"\n        specialPriceTo: \"2023-02-28\"\n        width: 30\n        height: 24\n        weight: 5.20\n        customerGroupPrices: [{\n            customerGroupId: 2\n            qty: 2\n            valueType: \"fixed\"\n            value: 10\n        }, {\n            customerGroupId: 3\n            qty: 3\n            valueType: \"discount\"\n            value: 2\n        }]\n        categories: [1]\n        channels: [1]\n        upSells: [1]\n        crossSells: [1]\n        relatedProducts: [1]\n        images: [\n            \"https://cdn.pixabay.com/photo/2017/05/23/10/53/t-shirt-design-2336850_960_720.jpg\",\n          \t\"https://cdn.pixabay.com/photo/2017/05/28/18/38/t-shirt-2351761_960_720.jpg\",\n          \t\"https://cdn.pixabay.com/photo/2019/07/27/21/42/t-shirt-4367577_960_720.jpg\"\n        ]\n        videos: [\n          \t\"http://techslides.com/demos/sample-videos/small.webm\"\n        ]\n        # Type of Booking:-\n        # DEFAULT, APPOINTMENT, EVENT, RENTAL, TABLE\n        # Available Days:-\n        # SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY\n\n        # DEFAULT\n        # booking: {\n        #     type: DEFAULT\n        #     location: \"Delhi\"\n        #     qty: 1\n        #     availableFrom: \"2025-05-07 12:00:00\"\n        #     availableTo: \"2025-05-20 12:00:00\"\n        #     # ONE, MANY\n        #     # ONE\n        #     # bookingType: ONE\n        #     # slots: [{\n        #     #     id: 0\n        #     #     fromDay: SUNDAY\n        #     #     from: \"12:00\"\n        #     #     toDay: 1\n        #     #     to: \"12:00\"\n        #     # }, {\n        #     #     id: 1\n        #     #     fromDay: FRIDAY\n        #     #     from: \"12:00\"\n        #     #     toDay: 6\n        #     #     to: \"12:00\"\n        #     # }]\n        #     # MANY\n        #     bookingType: MANY\n        #     slots: [{\n        #         id: 0\n        #         day: TUESDAY\n        #         from: \"12:00\"\n        #         to: \"12:00\"\n        #         status: \"0\"\n        #     }, {\n        #         id: 1\n        #         day: SATURDAY\n        #         from: \"12:00\"\n        #         to: \"12:00\"\n        #         status: \"1\"\n        #     }]\n        #     duration: 45\n        #     breakTime: 15\n        # }\n        # APPOINTMENT\n        booking: {\n            type: APPOINTMENT\n            location: \"Delhi\"\n            qty: 1\n            availableEveryWeek: \"1\"\n            duration: 45\n            breakTime: 15\n            sameSlotAllDays: \"1\"\n            slots: [{\n                from: \"12:00\"\n                to: \"05:00\"\n            }, {\n                from: \"01:00\"\n                to: \"06:00\"\n            },{\n                from: \"01:00\"\n                to: \"04:00\"\n            }, {\n                from: \"05:00\"\n                to: \"08:00\"\n            }]\n        }\n        # EVENT\n        # booking: {\n        #     type: DEFAULT # DEFAULT, APPOINTMENT, EVENT, RENTAL, TABLE\n        #     location: \"Delhi\"\n        #     qty: 1\n        #     availableFrom: \"2025-05-07 12:00:00\"\n        #     availableTo: \"2025-05-20 12:00:00\"\n        #     bookingType: ONE # ONE, MANY\n        #     slots: [{\n        #         id: 0\n        #         fromDay: 0\n        #         from: \"12:00\"\n        #         toDay: 1\n        #         to: \"12:00\"\n        #     }, {\n        #         id: 1\n        #         fromDay: 5\n        #         from: \"12:00\"\n        #         toDay: 6\n        #         to: \"12:00\"\n        #     }]\n        # }\n        # RENTAL\n        # booking: {\n        #     type: DEFAULT # DEFAULT, APPOINTMENT, EVENT, RENTAL, TABLE\n        #     location: \"Delhi\"\n        #     qty: 1\n        #     availableFrom: \"2025-05-07 12:00:00\"\n        #     availableTo: \"2025-05-20 12:00:00\"\n        #     bookingType: ONE # ONE, MANY\n        #     slots: [{\n        #         id: 0\n        #         fromDay: 0\n        #         from: \"12:00\"\n        #         toDay: 1\n        #         to: \"12:00\"\n        #     }, {\n        #         id: 1\n        #         fromDay: 5\n        #         from: \"12:00\"\n        #         toDay: 6\n        #         to: \"12:00\"\n        #     }]\n        # }\n        # TABLE\n        # booking: {\n        #     type: DEFAULT # DEFAULT, APPOINTMENT, EVENT, RENTAL, TABLE\n        #     location: \"Delhi\"\n        #     qty: 1\n        #     availableFrom: \"2025-05-07 12:00:00\"\n        #     availableTo: \"2025-05-20 12:00:00\"\n        #     bookingType: ONE # ONE, MANY\n        #     slots: [{\n        #         id: 0\n        #         fromDay: 0\n        #         from: \"12:00\"\n        #         toDay: 1\n        #         to: \"12:00\"\n        #     }, {\n        #         id: 1\n        #         fromDay: 5\n        #         from: \"12:00\"\n        #         toDay: 6\n        #         to: \"12:00\"\n        #     }]\n        # }\n    }) {\n        success\n        message\n        product {\n            id\n            sku\n            type\n            parentId\n            attributeFamilyId\n            productNumber\n            name\n            shortDescription\n            description\n            urlKey\n            shareURL\n            new\n            featured\n            status\n            guestCheckout\n            visibleIndividually\n            metaTitle\n            metaKeywords\n            metaDescription\n            price\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            weight\n            parentId\n            attributeFamilyId\n            createdAt\n            updatedAt\n            parent {\n                id\n                type\n                attributeFamilyId\n                sku\n                parentId\n            }\n            attributeFamily {\n                id\n                code\n                name\n                status\n                isUserDefined\n            }\n            attributeValues {\n                id\n                locale\n                channel\n                textValue\n                booleanValue\n                integerValue\n                floatValue\n                dateTimeValue\n                dateValue\n                jsonValue\n                productId\n                attributeId\n                attribute {\n                    id\n                    code\n                    adminName\n                    type\n                }\n            }\n            superAttributes {\n                id\n                code\n                adminName\n                type\n                position\n            }\n            categories {\n                id\n                position\n                logoPath\n                logoUrl\n                status\n                displayMode\n                lft\n                rgt\n                parentId\n                additional\n                bannerPath\n                bannerUrl\n                name\n                slug\n                urlPath\n                description\n                metaTitle\n                metaDescription\n                metaKeywords\n                localeId\n                createdAt\n                updatedAt\n                filterableAttributes {\n                    id\n                    code\n                    adminName\n                    type\n                    position\n                }\n            }\n            inventories {\n                id\n                qty\n                productId\n                inventorySourceId\n                vendorId\n                inventorySource {\n                    id\n                    code\n                    name\n                    description\n                    contactName\n                    contactEmail\n                    contactNumber\n                    contactFax\n                    country\n                    state\n                    city\n                    street\n                    postcode\n                    priority\n                    latitude\n                    longitude\n                    status\n                }\n            }\n            cacheBaseImage {\n                smallImageUrl\n                mediumImageUrl\n                largeImageUrl\n                originalImageUrl\n            }\n            cacheGalleryImages {\n                smallImageUrl\n                mediumImageUrl\n                largeImageUrl\n                originalImageUrl\n            }\n            images {\n                id\n                type\n                path\n                productId\n            }\n            orderedInventories {\n                id\n                qty\n                productId\n                channelId\n            }\n            customerGroupPrices {\n                id\n                qty\n                valueType\n                value\n                productId\n                customerGroupId\n                createdAt\n                updatedAt\n            }\n            relatedProducts {\n                id\n            }\n            upSells {\n                id\n            }\n            crossSells {\n                id\n            }\n        }\n    }\n}",
 												"variables": ""
 											}
 										},
@@ -8059,20 +8120,13 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation customerSignUp (\n    $input: SignUpInput!\n) {\n    customerSignUp(\n        input: $input\n    ) {\n        success\n        message\n        accessToken\n        tokenType\n        expiresIn\n        customer {\n            id\n            firstName\n            lastName\n            name\n            gender\n            dateOfBirth\n            email\n            phone\n            image\n            imageUrl\n            status\n            password\n            apiToken\n            customerGroupId\n            subscribedToNewsLetter\n            isVerified\n            isSuspended\n            token\n            rememberToken\n            createdAt\n            updatedAt\n        }\n    }\n}",
-										"variables": "{\n    \"input\": {\n        \"firstName\": \"Customer\",\n        \"lastName\": \"1\",\n        \"email\": \"customer1@example.com\",\n    \t\"password\": \"admin123\",\n    \t\"passwordConfirmation\": \"admin123\",\n        \"subscribedToNewsLetter\": true        \n    }\n}"
+										"variables": "{\n    \"input\": {\n        \"firstName\": \"Customer\",\n        \"lastName\": \"1\",\n        \"email\": \"customer2@example.com\",\n    \t\"password\": \"admin123\",\n    \t\"passwordConfirmation\": \"admin123\",\n        \"subscribedToNewsLetter\": true,\n        \"agreement\": true\n    }\n}"
 									}
 								},
 								"url": {
-									"raw": "http://localhost/2.3.0/bagisto/public/graphql",
-									"protocol": "http",
+									"raw": "{{url}}",
 									"host": [
-										"localhost"
-									],
-									"path": [
-										"2.3.0",
-										"bagisto",
-										"public",
-										"graphql"
+										"{{url}}"
 									]
 								}
 							},
@@ -8112,7 +8166,13 @@
 									"type": "noauth"
 								},
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Is-Cookie-Exist",
+										"value": "false",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
@@ -8435,24 +8495,14 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query allProducts {\n\tallProducts (input: [\n        {\n            key: \"limit\",\n            value: \"12\"\n        }, {\n            #key: \"url_key\",\n            #value: \"downloadable-product-file\"\n        }, {\n            #key: \"name\",\n            #value: \"downloadable\"\n        }, {\n            # key: \"category_id\",\n            # value: \"4\"\n        }, {\n            #key: \"type\",\n            #value: \"downloadable\"\n        }, {\n            # key: \"price\",\n            # value: \"50,100\"\n        }, {\n            # key: \"color\",\n            # value: \"1,2\"\n        }, {\n            # key: \"size\",\n            # value: \"6,7\"\n        }, {\n            #key: \"new\",\n            #value: \"1\"\n        }, {\n            # key: \"featured\",\n            # value: \"1\"\n        }, {\n            # key: \"sort\",\n            # value: \"name-asc\"\n        }\n    ]) { \n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        } data {\n            id\n            sku\n            type\n            name\n            shortDescription\n            urlKey\n            shareURL\n            new\n            featured\n            status\n            guestCheckout\n            visibleIndividually\n            price\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            isInWishlist\n            isInSale\n            isSaleable\n            priceHtml {\n                id\n                type\n                minPrice\n                priceHtml\n                priceWithoutHtml\n                regularPrice\n                formattedRegularPrice\n                finalPrice\n                formattedFinalPrice\n                currencyCode\n            }\n            reviews {\n                id\n                name\n                title\n                rating\n                comment\n            }\n            averageRating\n            percentageRating\n            downloadableSamples {\n                id\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sortOrder\n                productId\n                createdAt\n                updatedAt\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableSampleId\n                }\n            }\n            downloadableLinks {\n                id\n                title\n                price\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sampleUrl\n                sampleFile\n                sampleFileUrl\n                sampleFileName\n                sampleType\n                sortOrder\n                productId\n                downloads\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableLinkId\n                }\n            }\n        }\n    }\n}",
+										"query": "query allProducts {\n\tallProducts (\n        input: [{\n            key: \"page\"\n            value: \"1\"\n        }, {\n            key: \"limit\"\n            value: \"200\"\n        }, {\n            # key: \"name\"\n            # value: \"name\"\n        }, {\n            key: \"new\"\n            value: \"1\"\n        }, {\n            # key: \"featured\"\n            # value: \"1\"\n        }, {\n            # key: \"type\"\n            # value: \"simple\"\n        }, {\n            # key: \"limit\"\n            # value: \"2\"\n        }, {\n            # key: \"sort\"\n            # value: \"name-asc\"\n        }, {\n            # key: \"category_id\"\n            # value: \"2\"\n        }, {\n            # key: \"category_slug\"\n            # value: \"configutable-1\"\n        }, {\n            # key: \"price\"\n            # value: \"5,10\"\n        }, {\n            # key: \"url_key\"\n            # value: \"simple-1\"\n        }, {\n            # key: \"limit\"\n            # value: \"10\"\n        }, {\n            # key: \"sort\"\n            # value: \"desc\"\n        }, {\n            # key: \"attribute_id\"\n            # value: \"23\"\n        }\n    ]) { \n        paginatorInfo {\n            count\n            currentPage\n            lastPage\n            total\n        } data {\n            id\n            sku\n            type\n            name\n            shortDescription\n            urlKey\n            shareURL\n            new\n            featured\n            status\n            guestCheckout\n            visibleIndividually\n            price\n            specialPrice\n            specialPriceFrom\n            specialPriceTo\n            isInWishlist\n            isInSale\n            isSaleable\n            priceHtml {\n                id\n                type\n                minPrice\n                priceHtml\n                priceWithoutHtml\n                regularPrice\n                formattedRegularPrice\n                finalPrice\n                formattedFinalPrice\n                currencyCode\n            }\n            reviews {\n                id\n                name\n                title\n                rating\n                comment\n            }\n            averageRating\n            percentageRating\n            downloadableSamples {\n                id\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sortOrder\n                productId\n                createdAt\n                updatedAt\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableSampleId\n                }\n            }\n            downloadableLinks {\n                id\n                title\n                price\n                url\n                file\n                fileName\n                fileUrl\n                type\n                sampleUrl\n                sampleFile\n                sampleFileUrl\n                sampleFileName\n                sampleType\n                sortOrder\n                productId\n                downloads\n                translations {\n                    id\n                    locale\n                    title\n                    productDownloadableLinkId\n                }\n            }\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
 								"url": {
-									"raw": "http://192.168.15.84/2.2.3/bagisto/public/graphql",
-									"protocol": "http",
+									"raw": "{{url}}",
 									"host": [
-										"192",
-										"168",
-										"15",
-										"84"
-									],
-									"path": [
-										"2.2.3",
-										"bagisto",
-										"public",
-										"graphql"
+										"{{url}}"
 									]
 								}
 							},
@@ -8518,6 +8568,37 @@
 									"mode": "graphql",
 									"graphql": {
 										"query": "mutation contactUs {\n    contactUs (input: {\n        name: \"John Doe\"\n        email: \"john@doe.com\"\n        contact: \"8974563210\"\n        message: \"Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.\"\n    }) {\n        success\n        message\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Learn More And Customize",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{customerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query learnMoreAndCustomize {\n    learnMoreAndCustomize {\n        title\n        content\n        isRequired\n    }\n}",
 										"variables": ""
 									}
 								},
@@ -9289,7 +9370,10 @@
 											"name": "DownloadPDF",
 											"request": {
 												"method": "POST",
-												"header": []
+												"header": [],
+												"url": {
+													"raw": ""
+												}
 											},
 											"response": []
 										}

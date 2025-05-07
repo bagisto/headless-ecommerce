@@ -631,6 +631,32 @@ class BagistoGraphql
         return $bundleOptions;
     }
 
+    public function manageBookingRequest($product, $data)
+    {        
+        if (
+            $data['type'] == 'default'
+            && $data['booking_type'] == 'many'
+            && isset($data['slots'])
+        ) {
+            $slots = [];
+
+            foreach ($data['slots'] as $slot) {
+                if (
+                    isset($slot['from'])
+                    && isset($slot['to'])
+                ) {
+                    $day = $slot['day'];
+                    unset($slot['day']);
+                    $slots[$day][] = $slot;
+                }
+            }
+
+            $data['slots'] = $slots;
+        }
+        
+        return $data;
+    }
+
     /**
      *to manage the request data for Cart
      *

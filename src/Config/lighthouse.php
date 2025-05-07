@@ -44,6 +44,9 @@ return [
 
             // Rate Limit the request
             \Webkul\GraphQLAPI\Http\Middleware\RateLimitMiddleware::class,
+
+            // Validate request Cache
+            Webkul\GraphQLAPI\Http\Middleware\GraphQLCacheMiddleware::class,
         ],
 
         /*
