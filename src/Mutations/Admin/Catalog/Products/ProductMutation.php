@@ -239,7 +239,7 @@ class ProductMutation extends Controller
 
         try {
             Event::dispatch('catalog.product.update.before', $product->id);
-
+            
             $product = $this->productRepository->update($args, $product->id);
 
             Event::dispatch('catalog.product.update.after', $product);

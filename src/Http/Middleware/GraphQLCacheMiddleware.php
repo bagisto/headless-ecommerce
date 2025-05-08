@@ -17,8 +17,8 @@ class GraphQLCacheMiddleware
             
             if (Cache::has($cacheKey)) {
                 $result = response()->json(Cache::get($cacheKey));
-
-                return response()->json($result->getData()->result);
+                
+                return response()->json($result->getData());
             }
 
             // Store key to be used after response

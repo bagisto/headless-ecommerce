@@ -19,7 +19,7 @@ class SetCacheQuery
             if (Str::startsWith(ltrim($request), 'query')) {
                 $cacheKey = 'cache_query_' . md5(json_encode($request));
                 
-                Cache::put($cacheKey, $event, now()->addMinutes(30));
+                Cache::put($cacheKey, $event->result);
                 Log::info("Cache set for query: {$cacheKey}");
             } elseif (! Str::startsWith(ltrim($request), 'mutation')) {
                 Log::info("It's neither a query nor a mutation");
