@@ -631,6 +631,83 @@ class BagistoGraphql
         return $bundleOptions;
     }
 
+    public function manageBookingRequest($product, $data)
+    {        
+        if ($this->checkSlotFormattedRequired($data)) {
+            $slots = [];
+
+            foreach ($data['slots'] as $slot) {
+                if (
+                    isset($slot['from'])
+                    && isset($slot['to'])
+                ) {
+                    $day = $slot['day'];
+                    unset($slot['day']);
+                    $slots[$day][] = $slot;
+                }
+            }
+
+            $data['slots'] = $slots;
+        }
+
+        if (
+            $data['type'] == 'event'
+            && ! empty($data['tickets'])
+        ) {
+            $tickets = [];
+
+            foreach ($data['tickets'] as $key => $ticket) {
+                $tickets['ticket_'.$key] = [
+                    $ticket['locales'][0]['locale'] => [
+                        'name'        => $ticket['locales'][0]['name'],
+                        'description' => $ticket['locales'][0]['description'],
+                    ],
+                    'qty'                => $ticket['qty'],
+                    'price'              => $ticket['price'],
+                    'special_price'      => $ticket['special_price'],
+                    'special_price_from' => $ticket['special_price_from'],
+                    'special_price_to'   => $ticket['special_price_to'],
+                ];
+            }
+
+            $data['tickets'] = $tickets;
+        }
+
+        if (
+            $data['type'] == 'rental'
+            && ! empty($data['rental_slot'])
+        ) {
+            $data = array_merge($data, $data['rental_slot']);
+            unset($data['rental_slot']);
+        }
+
+        if (
+            $data['type'] == 'table'
+            && ! empty($data['table_slot'])
+        ) {
+            $data = array_merge($data, $data['table_slot']);
+            unset($data['table_slot']);
+        }
+        
+        return $data;
+    }
+
+    /**
+     * To check the slot formatted required
+     *
+     * @param  array  $data
+     * @return bool
+     */
+    public function checkSlotFormattedRequired($data)
+    {
+        return (
+            ($data['type'] == 'default' && $data['booking_type'] == 'many' && isset($data['slots']))
+            || ($data['type'] == 'appointment' && $data['same_slot_all_days'] == '0')
+            || ($data['type'] == 'RENTAL' && $data['same_slot_all_days'] == '0')
+        );
+    }
+
+
     /**
      *to manage the request data for Cart
      *
@@ -702,6 +779,39 @@ class BagistoGraphql
                 }
                 break;
 
+            case 'booking':
+                //Case: In case of booking product added
+                if ( isset($data['booking']) && $data['booking']) {
+                    $booking = $product->booking_products->first();
+                    
+                    if (! empty($booking->type)) {
+                        switch ($booking->type) {
+                            case 'default':
+                            case 'appointment':
+                            case 'table':
+                                if (
+                                    ! empty($data['booking']['slot'])
+                                    && is_array($data['booking']['slot'])
+                                ) {
+                                    $data['booking']['slot'] = implode("-", $data['booking']['slot']);
+                                }
+                                break;
+
+                            case 'event':
+                                if (
+                                    ! empty($data['booking']['qty'])
+                                    && is_array($data['booking']['qty'])
+                                ) {
+                                    $data['booking']['qty'] = collect($data['booking']['qty'])
+                                        ->filter(fn($ticket) => isset($ticket['ticket_id'], $ticket['quantity']))
+                                        ->pluck('quantity', 'ticket_id')
+                                        ->toArray();
+                                }
+                                break;
+                        }
+                    }
+                }
+                break;
             default:
                 break;
         }

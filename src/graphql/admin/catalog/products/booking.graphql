@@ -1,0 +1,212 @@
+input UpdateBookingInput {
+    type: AvailableBootkingType!
+    location: String!
+    qty: Int
+    availableEveryWeek: String @rename(attribute: "available_every_week")
+    duration: Int
+    breakTime: Int @rename(attribute: "break_time")
+    sameSlotAllDays: String @rename(attribute: "same_slot_all_days")
+    slots: [BookingSlotsInput!]
+    availableFrom: String @rename(attribute: "available_from")
+    availableTo: String @rename(attribute: "available_to")
+    bookingType: BootkingType @rename(attribute: "booking_type")
+    tickets: [BookingTicketsInput!]
+    rentalSlot: BookingRentalInput @rename(attribute: "rental_slot")
+    tableSlot: BookingTableInput @rename(attribute: "table_slot")
+}
+
+input BookingSlotsInput {
+    id: Int
+    fromDay: DaysEnum @rename(attribute: "from_day")
+    from: String!
+    toDay: DaysEnum @rename(attribute: "to_day")
+    to: String!
+    day: DaysEnum
+    status: String
+}
+
+input BookingTicketsInput {
+    locales: [BookingTicketsTranslationsInput!]
+    qty: Int!
+    price: Float!
+    specialPrice: Float @rename(attribute: "special_price")
+    specialPriceFrom: String @rename(attribute: "special_price_from")
+    specialPriceTo: String @rename(attribute: "special_price_to")
+}
+
+input BookingTicketsTranslationsInput {
+    locale: String!
+    name: String!
+    description: String
+}
+
+input BookingRentalInput {
+    rentingType: RentingTypeEnum! @rename(attribute: "renting_type")
+    dailyPrice: Float @rename(attribute: "daily_price")
+    hourlyPrice: Float @rename(attribute: "hourly_price")
+}
+
+input BookingTableInput {
+    priceType: PriceTypeEnum! @rename(attribute: "price_type")
+    guestLimit: Int @rename(attribute: "guest_limit")
+    preventSchedulingBefore: Int! @rename(attribute: "prevent_scheduling_before")
+}
+
+enum AvailableBootkingType {
+    DEFAULT @enum(value: "default")
+    APPOINTMENT @enum(value: "appointment")
+    EVENT @enum(value: "event")
+    RENTAL @enum(value: "rental")
+    TABLE @enum(value: "table")
+}
+
+enum BootkingType {
+    ONE @enum(value: "one")
+    MANY @enum(value: "many")
+}
+
+enum DaysEnum {
+    SUNDAY @enum(value: 0)
+    MONDAY @enum(value: 1)
+    TUESDAY @enum(value: 2)
+    WEDNESDAY @enum(value: 3)
+    THURSDAY @enum(value: 4)
+    FRIDAY @enum(value: 5)
+    SATURDAY @enum(value: 6)
+}
+
+enum RentingTypeEnum {
+    DAILY_BASIS @enum(value: "daily")
+    HOURLY_BASIS @enum(value: "hourly")
+    BOTH_DAILY_HOURLY_BASIS @enum(value: "daily_hourly")
+}
+
+enum PriceTypeEnum {
+    GUEST @enum(value: "guest")
+    TABLE @enum(value: "table")
+}
+
+type BookingProduct {
+    id: ID!
+    type: String!
+    qty: Int
+    location: String
+    showLocation: Boolean @rename(attribute: "show_location")
+    availableEveryWeek: Boolean @rename(attribute: "available_every_week")
+    availableFrom: DateTime @rename(attribute: "available_from")
+    availableTo: DateTime @rename(attribute: "available_to")
+    productId: ID! @rename(attribute: "product_id")
+    defaultSlot: DefaultBookingProductSlots @belongsTo(relation: "default_slot")
+    appointmentSlot: AppointmentBookingProductSlots @belongsTo(relation: "appointment_slot")
+    eventTickets: [TicketBookingProductSlots!] @belongsToMany(relation: "event_tickets")
+    rentalSlot: RentalBookingProductSlots @belongsTo(relation: "rental_slot")
+    tableSlot: TableBookingProductSlots @belongsTo(relation: "table_slot")
+    product: Product! @belongsTo(relation: "product")
+}
+
+type DefaultBookingProductSlots {
+    id: ID!
+    bookingType: String! @rename(attribute: "booking_type")
+    duration: Int
+    breakTime: Int @rename(attribute: "break_time")
+    slots: [DefaultSlots!]
+    bookingProductId: ID! @rename(attribute: "booking_product_id")
+}
+
+type DefaultSlots {
+    to: String!
+    toDay: Int! @rename(attribute: "to_day")
+    from: String!
+    fromDay: Int! @rename(attribute: "from_day")
+}
+
+type AppointmentBookingProductSlots {
+    id: ID!
+    duration: Int
+    breakTime: Int @rename(attribute: "break_time")
+    sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
+    slots: [[BookingDaySlots!]]
+    bookingProductId: ID! @rename(attribute: "booking_product_id")
+}
+
+type BookingDaySlots {
+    id: String
+    day: Int
+    from: String
+    to: String
+}
+
+type TicketBookingProductSlots {
+    id: ID!
+    price: Float!
+    qty: Int!
+    specialPrice: Float @rename(attribute: "special_price")
+    specialPriceFrom: DateTime @rename(attribute: "special_price_from")
+    specialPriceTo: DateTime @rename(attribute: "special_price_to")
+    translations: [BookingTicketsTranslations!] @hasMany
+    bookingProductId: ID! @rename(attribute: "booking_product_id")
+}
+
+type BookingTicketsTranslations {
+    locale: String!
+    name: String!
+    description: String
+}
+
+type RentalBookingProductSlots {
+    id: ID!
+    rentingType: String! @rename(attribute: "renting_type")
+    dailyPrice: Float @rename(attribute: "daily_price")
+    hourlyPrice: Float @rename(attribute: "hourly_price")
+    sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
+    slots: [[BookingDaySlots!]]
+    bookingProductId: ID! @rename(attribute: "booking_product_id")
+}
+
+type TableBookingProductSlots {
+    id: ID!
+    priceType: String! @rename(attribute: "price_type")
+    guestLimit: Int @rename(attribute: "guest_limit")
+    duration: Int
+    breakTime: Int @rename(attribute: "break_time")
+    preventSchedulingBefore: Boolean! @rename(attribute: "prevent_scheduling_before")
+    sameSlotAllDays: Boolean! @rename(attribute: "same_slot_all_days")
+    slots: [BookingDaySlots!]
+    bookingProductId: ID! @rename(attribute: "booking_product_id")
+}
+
+
+
+
+# #Catalog\Bookings Related API
+# extend type Query {
+#     bookingProducts: [BookingProduct!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
+#     bookingProduct(id: ID @eq): BookingProduct @find(model: "Webkul\\GraphQLAPI\\Models\\BookingProduct\\BookingProduct")
+
+#     bookings: [Booking!] @paginate(type: "paginator" defaultCount: 10 model:"Webkul\\BookingProduct\\Models\\Booking")
+#     booking(id: ID @eq): Booking @find(model: "Webkul\\BookingProduct\\Models\\Booking")
+# }
+
+
+
+# type Booking {
+#     id: ID!
+#     qty: Int
+#     availableFrom: Int @rename(attribute: "available_from")
+#     availableTo: Int @rename(attribute: "available_to")
+#     orderItemId: ID @rename(attribute: "order_item_id")
+#     bookingProductEventTicketId: ID @rename(attribute: "booking_product_event_ticket_id")
+#     productId: ID! @rename(attribute: "product_id")
+#     orderId: ID! @rename(attribute: "order_id")
+#     order: Order! @belongsTo(relation: "order")
+# }
+
+
+
+
+
+
+
+
+
+

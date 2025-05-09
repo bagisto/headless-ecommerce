@@ -41,8 +41,17 @@ class RegistrationMutation extends Controller
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
             'password'   => 'min:6|required|confirmed',
+            'remember'   => 'boolean',
         ]);
 
+        if (
+            core()->getConfigData('general.gdpr.settings.enabled')
+            && core()->getConfigData('general.gdpr.agreement.enabled')
+            && empty($args['agreement'])
+        ) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.signup.agreement-required'));
+        }
+        
         $this->create($args);
 
         if (core()->getConfigData('customer.settings.email.verification')) {

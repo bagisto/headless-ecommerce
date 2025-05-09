@@ -447,4 +447,27 @@ class HomePageQuery extends BaseFilter
             'sort_orders'       => $this->productHelperToolbar->getAvailableOrders(),
         ];
     }
+
+    public function learnMoreAndCustomize()
+    {
+        $cookieConsentKeys = [
+            'strictly_necessary'     => 'strictly-necessary',
+            'basic_interaction'      => 'basic-interactions',
+            'experience_enhancement' => 'experience-enhancement',
+            'measurements'           => 'measurements',
+            'targeting_advertising'  => 'targeting-and-advertising'
+        ];
+
+        $cookieConsentData = [];
+
+        foreach ($cookieConsentKeys as $key => $value) {
+            $cookieConsentData[] = [
+                'title'       => trans('shop::app.components.layouts.cookie.consent.' . $value),
+                'content'     => core()->getConfigData('general.gdpr.cookie_consent.' . $key),
+                'is_required' => $key == 'strictly_necessary',
+            ];
+        }
+        
+        return $cookieConsentData;
+    }
 }

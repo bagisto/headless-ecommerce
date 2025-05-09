@@ -16,6 +16,7 @@ input SignUpInput {
     password: String!
     passwordConfirmation: String! @rename(attribute: "password_confirmation")
     subscribedToNewsLetter: Boolean @rename(attribute: "subscribed_to_news_letter")
+    agreement: Boolean
 }
 
 input SocialSignInInput {

@@ -1,0 +1,10 @@
+# Shop\Common\HomePage Related APIs
+extend type Query @guard(with: ["api"]) {
+    learnMoreAndCustomize: [LearnMoreAndCustomizeCookie] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@learnMoreAndCustomize")
+}
+
+type LearnMoreAndCustomizeCookie {
+    title: String
+    content: String
+    isRequired: Boolean @rename(attribute: "is_required")
+}

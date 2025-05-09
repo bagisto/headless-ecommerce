@@ -81,6 +81,7 @@ input UpdateProductInput {
     downloadableLinks: [UpdateDownloadableLinksInput!] @rename(attribute: "downloadable_links")
     downloadableSamples: [UpdateDownloadableSamplesInput!] @rename(attribute: "downloadable_samples")
     bundleOptions: [UpdateBundleOptionsInput!] @rename(attribute: "bundle_options")
+    booking: UpdateBookingInput
 }
 
 input UpdateVariantInput {
@@ -182,6 +183,9 @@ type Product {
     relatedProducts: [Product!] @belongsToMany(relation: "related_products")
     upSells: [Product] @belongsToMany(relation: "up_sells")
     crossSells: [Product] @belongsToMany(relation: "cross_sells")
+    booking: [BookingProduct] @hasMany(relation: "booking_products")
+    sameDaySlots: [BookingDaySlots!] @rename(attribute: "same_day_slots")
+    differentDaySlots: [BookingDaySlots!] @rename(attribute: "different_day_slots")
 }
 
 type ProductAttributeValue {

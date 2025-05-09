@@ -120,6 +120,12 @@ class ProductMutation extends Controller
             $args['variants'] = bagisto_graphql()->manageConfigurableRequest($args);
         }
 
+        if ($product->type == 'booking') {
+            if (! empty($args['booking'])) {
+                $args['booking'] = bagisto_graphql()->manageBookingRequest($product, $args['booking']);
+            }
+        }
+        
         if (
             $product->type == 'grouped'
             && ! empty($args['links'])
@@ -233,7 +239,7 @@ class ProductMutation extends Controller
 
         try {
             Event::dispatch('catalog.product.update.before', $product->id);
-
+            
             $product = $this->productRepository->update($args, $product->id);
 
             Event::dispatch('catalog.product.update.after', $product);
