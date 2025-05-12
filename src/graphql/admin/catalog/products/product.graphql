@@ -175,6 +175,7 @@ type Product {
     reviews: [Review] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getReviews")
     averageRating: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getAverageRating")
     percentageRating: [Int] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getPercentageRating")
+    customizableOptions: [ProductCustomizableOption] @hasMany(relation: "customizable_options")
     customerGroupPrices: [CustomerGroupPrice] @belongsToMany(relation: "customer_group_prices")
     downloadableSamples: [ProductDownloadableSample] @hasMany(relation: "downloadable_samples")
     downloadableLinks: [ProductDownloadableLink] @hasMany(relation: "downloadable_links")
@@ -186,6 +187,29 @@ type Product {
     booking: [BookingProduct] @hasMany(relation: "booking_products")
     sameDaySlots: [BookingDaySlots!] @rename(attribute: "same_day_slots")
     differentDaySlots: [BookingDaySlots!] @rename(attribute: "different_day_slots")
+}
+
+type ProductCustomizableOption {
+    id: ID!
+    productId: ID! @rename(attribute: "product_id")
+    type: String
+    isRequired: Boolean @rename(attribute: "is_required")
+    maxCharacters: Int @rename(attribute: "max_characters")
+    supportedFileExtensions: String @rename(attribute: "supported_file_extensions")
+    sortOrder: Int @rename(attribute: "sort_order")
+    product: Product @belongsTo(relation: "product")
+    customizableOptionPrices: [ProductCustomizableOptionPrice] @hasMany(relation: "customizable_option_prices")
+}
+
+type ProductCustomizableOptionPrice {
+    id: ID!
+    isDefault: Boolean @rename(attribute: "is_default")
+    isUserDefined: Boolean @rename(attribute: "is_user_defined")
+    label: String
+    price: Float
+    productCustomizableOptionId: ID! @rename(attribute: "product_customizable_option_id")
+    qty: Int
+    sortOrder: Int @rename(attribute: "sort_order")
 }
 
 type ProductAttributeValue {
