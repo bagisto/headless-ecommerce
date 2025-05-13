@@ -190,7 +190,8 @@ type Product {
 }
 
 type ProductCustomizableOption {
-    id: ID!
+    id: Int!
+    label: String
     productId: ID! @rename(attribute: "product_id")
     type: String
     isRequired: Boolean @rename(attribute: "is_required")
@@ -198,11 +199,19 @@ type ProductCustomizableOption {
     supportedFileExtensions: String @rename(attribute: "supported_file_extensions")
     sortOrder: Int @rename(attribute: "sort_order")
     product: Product @belongsTo(relation: "product")
+    translations: ProductCustomizableOptionTranslation @hasMany(relation: "translation")
     customizableOptionPrices: [ProductCustomizableOptionPrice] @hasMany(relation: "customizable_option_prices")
 }
 
+type ProductCustomizableOptionTranslation {
+    id: Int!
+    locale: String
+    label: String
+    productCustomizableOptionId: ID! @rename(attribute: "product_customizable_option_id")
+}
+
 type ProductCustomizableOptionPrice {
-    id: ID!
+    id: Int!
     isDefault: Boolean @rename(attribute: "is_default")
     isUserDefined: Boolean @rename(attribute: "is_user_defined")
     label: String
