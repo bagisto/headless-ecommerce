@@ -440,7 +440,7 @@ class CheckoutMutation extends Controller
 
             return [
                 'success' => false,
-                'message' => trans('bagisto_graphql::app.shop.checkout.couponremove-failed'),
+                'message' => trans('bagisto_graphql::app.shop.checkout.coupon.remove-failed'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (\Exception $e) {

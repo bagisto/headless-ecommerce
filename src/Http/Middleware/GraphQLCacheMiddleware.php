@@ -10,20 +10,20 @@ class GraphQLCacheMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->is('graphql') && $request->isMethod('POST')) {
-            $query = $request->input('query');
+        // if ($request->is('graphql') && $request->isMethod('POST')) {
+        //     $query = $request->input('query');
             
-            $cacheKey = 'cache_query_' . md5(json_encode($query));
+        //     $cacheKey = 'cache_query_' . md5(json_encode($query));
             
-            if (Cache::has($cacheKey)) {
-                $result = response()->json(Cache::get($cacheKey));
+        //     if (Cache::has($cacheKey)) {
+        //         $result = response()->json(Cache::get($cacheKey));
                 
-                return response()->json($result->getData());
-            }
+        //         return response()->json($result->getData());
+        //     }
 
-            // Store key to be used after response
-            $request->attributes->set('graphql_cache_key', $cacheKey);
-        }
+        //     // Store key to be used after response
+        //     $request->attributes->set('graphql_cache_key', $cacheKey);
+        // }
 
         return $next($request);
     }
