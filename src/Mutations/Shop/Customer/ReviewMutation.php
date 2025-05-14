@@ -79,7 +79,10 @@ class ReviewMutation extends Controller
             $review = $this->productReviewRepository->create($args);
 
             foreach ($attachments as $attachment) {
-                if (! empty($attachment['upload_type'])) {
+                if (
+                    ! empty($attachment['upload_type'])
+                    && ! empty($attachment['image_url'])
+                ) {
                     if ($attachment['upload_type'] == 'base64') {
                         $attachment['save_path'] = "review/{$review->id}";
 
