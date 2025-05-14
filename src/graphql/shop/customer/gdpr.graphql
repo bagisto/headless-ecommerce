@@ -50,7 +50,7 @@ type GdprDownloadResponse {
 }
 
 type DownloadInfo {
-  file_name: String!
+  fileName: String! @rename(attribute: "file_name")
   extension: String!
 }
 

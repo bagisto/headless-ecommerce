@@ -2,12 +2,23 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class GdprQuary extends BaseFilter
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+    }
+
     /**
      * Filter GDPR data requests for the authenticated customer.
      */

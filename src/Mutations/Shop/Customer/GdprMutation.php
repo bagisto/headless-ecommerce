@@ -22,7 +22,11 @@ class GdprMutation extends Controller
         protected GDPRDataRequestRepository $gdprDataRequestRepository,
         protected OrderRepository $orderRepository,
         protected CustomerAddressRepository $customerAddressRepository
-    ) {}
+    ) {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+    }
 
     /**
      * Store a GDPR data request.
@@ -136,6 +140,7 @@ class GdprMutation extends Controller
         } catch (\Exception $e) {
             $param = ['customerInformation' => $customer];
         }
+
         $pdf = Pdf::loadView('shop::customers.account.gdpr.pdf', compact('param'));
 
         $pdf->setPaper('a4', 'portrait');
@@ -152,7 +157,7 @@ class GdprMutation extends Controller
 
         return [
             'success'  => true,
-            'string'   => $base64,
+            'string'   => Storage::url($path),
             'download' => [
                 'file_name' => $fileName,
                 'extension' => 'pdf',

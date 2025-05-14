@@ -9,7 +9,7 @@ extend type Query @guard(with: ["api"]){
         defaultCount: 10
     )
 
-    downloadableLinkPurchase(
+    downloadableLinkPurchase (
         id: ID @eq
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\DownloadableQuery@getDetails")
     ): DownloadableLinkPurchased @find(model: "Webkul\\Sales\\Models\\DownloadableLinkPurchased")

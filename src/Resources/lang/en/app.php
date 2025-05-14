@@ -105,6 +105,7 @@ return [
                     'create-success'       => 'Success: GDPR request created successfully.',
                     'revoke-failed'        => 'Warning: GDPR request not revoked.',
                     'revoked-successfully' => 'Success: GDPR request revoked successfully.',
+                    'not-enabled'          => 'Warning: GDPR is not enabled.',
                 ],
             ],
 

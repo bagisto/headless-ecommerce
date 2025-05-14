@@ -76,7 +76,11 @@ class CartMutation extends Controller
         ]);
 
         try {
-            $product = $this->productRepository->findOrFail($args['product_id']);
+            $product = $this->productRepository->with('parent')->findOrFail($args['product_id']);
+
+            if (! $product->status) {
+                throw new \Exception(trans('shop::app.checkout.cart.inactive-add'));
+            }
 
             $data = bagisto_graphql()->manageInputForCart($product, $args);
             
