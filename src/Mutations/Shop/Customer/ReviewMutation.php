@@ -35,6 +35,19 @@ class ReviewMutation extends Controller
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        if (
+            ! core()->getConfigData('catalog.products.review.customer_review')
+            || (
+                ! core()->getConfigData('catalog.products.review.guest_review')
+                && ! auth()->guard('api')->user()
+            )
+        ) {
+            return [
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.shop.customers.reviews.not-auth'),
+            ];
+        }
+
         bagisto_graphql()->validate($args, [
             'comment'     => 'required',
             'rating'      => 'required|numeric|min:1|max:5',
@@ -66,7 +79,10 @@ class ReviewMutation extends Controller
             $review = $this->productReviewRepository->create($args);
 
             foreach ($attachments as $attachment) {
-                if (! empty($attachment['upload_type'])) {
+                if (
+                    ! empty($attachment['upload_type'])
+                    && ! empty($attachment['image_url'])
+                ) {
                     if ($attachment['upload_type'] == 'base64') {
                         $attachment['save_path'] = "review/{$review->id}";
 

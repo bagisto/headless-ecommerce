@@ -30,10 +30,10 @@ class CampaignMutation extends Controller
             'name'                  => 'required',
             'subject'               => 'required',
             'status'                => 'required',
-            'channel_id'            => 'required',
-            'customer_group_id'     => 'required',
-            'marketing_template_id' => 'required',
-            'marketing_event_id'    => 'required',
+            'channel_id'            => 'required|exists:channels,id',
+            'customer_group_id'     => 'required|exists:customer_groups,id',
+            'marketing_template_id' => 'required|exists:marketing_templates,id',
+            'marketing_event_id'    => 'required|exists:marketing_events,id',
         ]);
 
         try {
@@ -66,10 +66,10 @@ class CampaignMutation extends Controller
             'name'                  => 'required',
             'subject'               => 'required',
             'status'                => 'required',
-            'channel_id'            => 'required',
-            'customer_group_id'     => 'required',
-            'marketing_template_id' => 'required',
-            'marketing_event_id'    => 'required',
+            'channel_id'            => 'required|exists:channels,id',
+            'customer_group_id'     => 'required|exists:customer_groups,id',
+            'marketing_template_id' => 'required|exists:marketing_templates,id',
+            'marketing_event_id'    => 'required|exists:marketing_events,id',
         ]);
 
         $campaign = $this->campaignRepository->find($args['id']);

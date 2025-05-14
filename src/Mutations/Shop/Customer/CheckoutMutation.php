@@ -181,7 +181,7 @@ class CheckoutMutation extends Controller
             "{$addressType}.company_name" => ['nullable'],
             "{$addressType}.first_name"   => ['required'],
             "{$addressType}.last_name"    => ['required'],
-            "{$addressType}.email"        => ['required'],
+            "{$addressType}.email"        => ['required', 'email'],
             "{$addressType}.address"      => ['required', 'array', 'min:1'],
             "{$addressType}.city"         => ['required'],
             "{$addressType}.country"      => core()->isCountryRequired() ? ['required'] : ['nullable'],
@@ -440,7 +440,7 @@ class CheckoutMutation extends Controller
 
             return [
                 'success' => false,
-                'message' => trans('bagisto_graphql::app.shop.checkout.couponremove-failed'),
+                'message' => trans('bagisto_graphql::app.shop.checkout.coupon.remove-failed'),
                 'cart'    => Cart::getCart(),
             ];
         } catch (\Exception $e) {
@@ -459,7 +459,7 @@ class CheckoutMutation extends Controller
     {
         try {
             if (Cart::hasError()) {
-                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.error-placing-order'));
+                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
             }
 
             Cart::collectTotals();

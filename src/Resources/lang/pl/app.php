@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Ostrzeżenie: Rejestracja klienta nie powiodła się.',
                 'success-verify'     => 'Konto zostało pomyślnie utworzone, e-mail z instrukcjami weryfikacyjnymi został wysłany.',
+                'success'            => 'Sukces: Klient został pomyślnie zarejestrowany i zalogowany.',
             ],
 
             'login' => [
@@ -104,16 +105,18 @@ return [
                     'create-success'       => 'Sukces: Żądanie GDPR zostało pomyślnie utworzone.',
                     'revoke-failed'        => 'Ostrzeżenie: Nie udało się odwołać żądania GDPR.',
                     'revoked-successfully' => 'Sukces: Żądanie GDPR zostało pomyślnie odwołane.',
+                    'not-enabled'          => 'Ostrzeżenie: GDPR nie jest włączone.',
                 ],
             ],
 
             'compare-product' => [
-                'not-found'           => 'Ostrzeżenie: Produkt do porównania nie znaleziony.',
-                'product-not-found'   => 'Ostrzeżenie: Produkt nie znaleziony.',
+                'not-found'           => 'Ostrzeżenie: Produkt do porównania nie został znaleziony.',
+                'product-not-found'   => 'Ostrzeżenie: Produkt nie został znaleziony.',
                 'already-added'       => 'Ostrzeżenie: Produkt został już dodany do listy porównawczej.',
                 'item-add-success'    => 'Sukces: Produkt został pomyślnie dodany do listy porównawczej.',
                 'remove-success'      => 'Sukces: Przedmiot został pomyślnie usunięty z listy porównawczej.',
                 'mass-remove-success' => 'Sukces: Wybrane przedmioty zostały pomyślnie usunięte.',
+                'not-auth'            => 'Ostrzeżenie: Nie masz uprawnień do wykonania tej operacji.',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => 'Ostrzeżenie: Faktura nie została znaleziona.',
                 'product-error'  => 'Ostrzeżenie: Podano nieprawidłowy produkt.',
                 'create-success' => 'Sukces: Faktura została pomyślnie utworzona.',
+                'invalid-qty'    => 'Ostrzeżenie: Znaleziono nieprawidłową ilość do fakturowania pozycji.',
             ],
 
             'refunds' => [

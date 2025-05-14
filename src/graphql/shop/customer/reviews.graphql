@@ -16,7 +16,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createReview(
+    createReview (
         input: CreateReviewInput! @spread
     ): CreateReviewResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\ReviewMutation@store")
 
