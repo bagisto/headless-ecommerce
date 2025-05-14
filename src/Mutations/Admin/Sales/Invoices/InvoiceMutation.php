@@ -70,6 +70,10 @@ class InvoiceMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.admin.sales.invoices.product-error'));
             }
 
+            if (! $this->invoiceRepository->isValidQuantity($invoice)) {
+                throw new CustomException(trans('bagisto_graphql::app.admin.sales.invoices.invalid-qty'));
+            }
+            
             $invoice = $this->invoiceRepository->create(array_merge($invoice, [
                 'order_id' => $args['order_id'],
             ]));

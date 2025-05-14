@@ -256,6 +256,7 @@ return [
                 'not-found'      => 'Warning: Invoice not found.',
                 'product-error'  => 'Warning: Invalid product provided.',
                 'create-success' => 'Success: Invoice created successfully.',
+                'invalid-qty'  => 'Warning: We found an invalid quantity to invoice items.',
             ],
 
             'refunds' => [

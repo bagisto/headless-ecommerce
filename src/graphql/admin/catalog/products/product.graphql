@@ -1,5 +1,5 @@
 #Catalog\Product Related API
-extend type Query {
+extend type Query @guard(with: ["admin-api"]) {
     products(
         input: FilterProductsInput @spread
     ): ProductPaginatorResponse! @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\FilterProducts")
