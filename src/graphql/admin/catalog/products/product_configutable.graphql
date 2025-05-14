@@ -27,13 +27,13 @@ type ConfigutableSimpleProducts {
 
 type VariantRegularFinalPrice {
     price: Float
-    formatedPrice: String @rename(attribute: "formated_price")
+    formattedPrice: String @rename(attribute: "formatted_price")
 }
 
 type ConfigutableVariantPrices {
     id: ID!
-    regularPrice: VariantRegularFinalPrice @rename(attribute: "regular_price")
-    finalPrice: VariantRegularFinalPrice @rename(attribute: "final_price")
+    regularPrice: VariantRegularFinalPrice @rename(attribute: "regular")
+    finalPrice: VariantRegularFinalPrice @rename(attribute: "final")
 }
 
 type ConfigutableVariantImageUrls {
@@ -54,7 +54,7 @@ type ConfigutableVariantVideos {
 }
 
 type ConfigutableRegularPrice {
-    formatedPrice: String @rename(attribute: "formated_price")
+    formattedPrice: String @rename(attribute: "formatted_price")
     price: Float
 }
 
@@ -65,5 +65,5 @@ type ConfigutableProductData {
     variantImages: [ConfigutableVariantImages] @rename(attribute: "variant_images")
     variantVideos: [ConfigutableVariantVideos] @rename(attribute: "variant_videos")
     chooseText: String
-    regularPrice: ConfigutableRegularPrice @rename(attribute: "regular_price")
+    regularPrice: ConfigutableRegularPrice @rename(attribute: "regular")
 }
