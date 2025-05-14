@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Warning: Customer registration failed.',
                 'success-verify'     => 'Account created successfully, an e-mail has been sent for verification.',
+                'success'         => 'Success: Customer registered and login successfully.',
             ],
 
             'login' => [

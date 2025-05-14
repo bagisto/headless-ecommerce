@@ -59,7 +59,7 @@ class UserMutation extends Controller
             return [
                 'success'      => true,
                 'message'      => trans('bagisto_graphql::app.admin.settings.users.success-login'),
-                'access_token' => "Bearer $jwtToken",
+                'access_token' => $jwtToken,
                 'token_type'   => 'Bearer',
                 'expires_in'   => Auth::factory()->getTTL() * 60,
                 'user'         => $admin,
