@@ -123,6 +123,7 @@ return [
                 'mass-delete-success' => 'Success: Selected reviews deleted successfully.',
                 'not-found'           => 'Warning: Review not found.',
                 'product-not-found'   => 'Warning: Product not found.',
+                'not-auth'            => 'Warning: You are not authorized to perform this action.',
             ],
         ],
 
