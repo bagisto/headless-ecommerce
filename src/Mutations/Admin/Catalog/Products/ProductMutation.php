@@ -332,7 +332,7 @@ class ProductMutation extends Controller
 
             $validateRules[$attribute->code] = $validations;
         }
-
+        
         return Validator::make($data, $validateRules);
     }
 

@@ -87,6 +87,12 @@ class ChannelMutation extends Controller
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $channel = $this->channelRepository->find($args['id']);
+
+        if (! $channel) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.not-found'));
+        }
+        
         bagisto_graphql()->validate($args, [
             'code'                  => ['required', 'unique:channels,code,'.$args['id'], new Code],
             'name'                  => 'required',
@@ -108,12 +114,6 @@ class ChannelMutation extends Controller
             'maintenance_mode_text' => 'nullable',
             'allowed_ips'           => 'nullable',
         ]);
-
-        $channel = $this->channelRepository->find($args['id']);
-
-        if (! $channel) {
-            throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.not-found'));
-        }
 
         try {
             $args = $this->setSEOContent($args);
