@@ -14,6 +14,8 @@ class SetCacheQuery
      */
     public function handle(EndExecution $event): void
     {
+        return;
+        
         // Get the request
         $request = request(); // Or inject via constructor if preferred
         

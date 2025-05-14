@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Uyarı: Müşteri kaydı başarısız oldu.',
                 'success-verify'     => 'Hesap başarıyla oluşturuldu, doğrulama için bir e-posta gönderildi.',
+                'success'            => 'Başarılı: Müşteri başarıyla kaydedildi ve giriş yaptı.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Başarılı: GDPR isteği başarıyla oluşturuldu.',
                     'revoke-failed'        => 'Uyarı: GDPR isteği iptal edilemedi.',
                     'revoked-successfully' => 'Başarılı: GDPR isteği başarıyla iptal edildi.',
+                    'not-enabled'          => 'Uyarı: GDPR etkin değil.',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => 'Başarı: Ürün başarıyla karşılaştırma listesine eklendi.',
                 'remove-success'      => 'Başarı: Öğe başarıyla karşılaştırma listesinden çıkarıldı.',
                 'mass-remove-success' => 'Başarı: Seçilen öğeler başarıyla silindi.',
+                'not-auth'            => 'Uyarı: Bu işlemi gerçekleştirmek için yetkili değilsiniz.',
             ],
 
             'reviews' => [
@@ -253,6 +256,7 @@ return [
                 'not-found'      => 'Uyarı: Fatura bulunamadı.',
                 'product-error'  => 'Uyarı: Geçersiz ürün sağlandı.',
                 'create-success' => 'Başarılı: Fatura başarıyla oluşturuldu.',
+                'invalid-qty'    => 'Uyarı: Fatura öğeleri için geçersiz bir miktar bulundu.',
             ],
 
             'refunds' => [

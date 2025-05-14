@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => '警告：客户注册失败。',
                 'success-verify'     => '账户创建成功，已发送电子邮件进行验证。',
+                'success'            => '成功：客户注册并成功登录。',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => '成功：GDPR请求创建成功。',
                     'revoke-failed'        => '警告：未能撤销GDPR请求。',
                     'revoked-successfully' => '成功：GDPR请求撤销成功。',
+                    'not-enabled'          => '警告：GDPR未启用。',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => '成功: 产品已成功添加到比较列表。',
                 'remove-success'      => '成功: 项目已成功从比较列表中删除。',
                 'mass-remove-success' => '成功: 已成功删除所选项目。',
+                'not-auth'            => '警告: 您无权执行此操作。',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => '警告：发票未找到。',
                 'product-error'  => '警告：提供的产品无效。',
                 'create-success' => '成功：发票创建成功。',
+                'invalid-qty'    => '警告：我们发现了无效的发票项目数量。',
             ],
 
             'refunds' => [

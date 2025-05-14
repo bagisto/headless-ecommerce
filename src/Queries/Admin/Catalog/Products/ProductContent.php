@@ -206,7 +206,7 @@ class ProductContent extends BaseFilter
         $data = $this->productConfigurableHelper->getConfigurationConfig($product);
 
         $index = [];
-
+        
         foreach ($data['index'] as $key => $attributeOptionsIds) {
             if (! isset($index[$key])) {
                 $index[$key] = [
@@ -278,7 +278,7 @@ class ProductContent extends BaseFilter
         }
 
         $data['variant_videos'] = $variantVideos;
-
+        
         return $data;
     }
 

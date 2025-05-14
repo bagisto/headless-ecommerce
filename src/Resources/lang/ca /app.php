@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Advertència: El registre del client ha fallat.',
                 'success-verify'     => 'Compte creat amb èxit, s\'ha enviat un correu electrònic per a la verificació.',
+                'success'            => 'Èxit: Client registrat i connectat amb èxit.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Èxit: Sol·licitud GDPR creada amb èxit.',
                     'revoke-failed'        => 'Advertència: La sol·licitud GDPR no s\'ha revocat.',
                     'revoked-successfully' => 'Èxit: Sol·licitud GDPR revocada amb èxit.',
+                    'not-enabled'          => 'Advertència: El GDPR no està habilitat.',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => 'Èxit: Producte afegit a la llista de comparació amb èxit.',
                 'remove-success'      => 'Èxit: L\'element s\'ha eliminat amb èxit de la llista de comparació.',
                 'mass-remove-success' => 'Èxit: Els elements seleccionats s\'han eliminat amb èxit.',
+                'not-auth'            => 'Advertència: No estàs autoritzat a realitzar aquesta acció.',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => 'Advertència: Factura no trobada.',
                 'product-error'  => 'Advertència: Producte no vàlid proporcionat.',
                 'create-success' => 'Èxit: Factura creada amb èxit.',
+                'invalid-qty'    => 'Advertència: Hem trobat una quantitat no vàlida per facturar els articles.',
             ],
 
             'refunds' => [

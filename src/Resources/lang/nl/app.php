@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Let op: Klantregistratie mislukt.',
                 'success-verify'     => 'Account succesvol aangemaakt, een verificatie-e-mail is verzonden.',
+                'success'            => 'Succes: Klant succesvol geregistreerd en ingelogd.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Succes: GDPR-verzoek succesvol aangemaakt.',
                     'revoke-failed'        => 'Waarschuwing: GDPR-verzoek niet ingetrokken.',
                     'revoked-successfully' => 'Succes: GDPR-verzoek succesvol ingetrokken.',
+                    'not-enabled'          => 'Waarschuwing: GDPR is niet ingeschakeld.',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => 'Succes: Product succesvol toegevoegd aan de vergelijkingslijst.',
                 'remove-success'      => 'Succes: Item is succesvol verwijderd uit de vergelijkingslijst.',
                 'mass-remove-success' => 'Succes: Geselecteerde items succesvol verwijderd.',
+                'not-auth'            => 'Waarschuwing: U bent niet gemachtigd om deze actie uit te voeren.',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => 'Waarschuwing: Factuur niet gevonden.',
                 'product-error'  => 'Waarschuwing: Ongeldig product opgegeven.',
                 'create-success' => 'Succes: Factuur succesvol aangemaakt.',
+                'invalid-qty'    => 'Waarschuwing: We hebben een ongeldige hoeveelheid gevonden om factuuritems te factureren.',
             ],
 
             'refunds' => [

@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Attenzione: Registrazione cliente fallita.',
                 'success-verify'     => 'Account creato con successo, è stata inviata una e-mail per la verifica.',
+                'success'            => 'Successo: Cliente registrato e accesso effettuato con successo.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Successo: Richiesta GDPR creata con successo.',
                     'revoke-failed'        => 'Avviso: La richiesta GDPR non è stata revocata.',
                     'revoked-successfully' => 'Successo: Richiesta GDPR revocata con successo.',
+                    'not-enabled'          => 'Avviso: Il GDPR non è abilitato.',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => 'Successo: Prodotto aggiunto con successo alla lista di confronto.',
                 'remove-success'      => 'Successo: Articolo rimosso con successo dalla lista di confronto.',
                 'mass-remove-success' => 'Successo: Elementi selezionati eliminati con successo.',
+                'not-auth'            => 'Avviso: Non sei autorizzato a eseguire questa azione.',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => 'Attenzione: Fattura non trovata.',
                 'product-error'  => 'Attenzione: Prodotto non valido fornito.',
                 'create-success' => 'Successo: Fattura creata con successo.',
+                'invalid-qty'    => 'Avviso: Abbiamo trovato una quantità non valida per gli articoli da fatturare.',
             ],
 
             'refunds' => [
