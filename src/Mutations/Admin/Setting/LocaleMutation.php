@@ -67,17 +67,17 @@ class LocaleMutation extends Controller
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        bagisto_graphql()->validate($args, [
-            'code'      => ['required', 'unique:locales,code,'.$args['id'], new Code],
-            'name'      => 'required',
-            'direction' => 'in:ltr,rtl,LTR,RTL',
-        ]);
-
         $locale = $this->localeRepository->find($args['id']);
 
         if (! $locale) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.not-found'));
         }
+        
+        bagisto_graphql()->validate($args, [
+            'code'      => ['required', 'unique:locales,code,'.$args['id'], new Code],
+            'name'      => 'required',
+            'direction' => 'in:ltr,rtl,LTR,RTL',
+        ]);
 
         try {
             $imageUrl = '';
