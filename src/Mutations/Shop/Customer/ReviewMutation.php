@@ -49,11 +49,12 @@ class ReviewMutation extends Controller
         }
 
         bagisto_graphql()->validate($args, [
-            'comment'     => 'required',
-            'rating'      => 'required|numeric|min:1|max:5',
-            'title'       => 'required',
-            'product_id'  => 'required',
-            'attachments' => 'array',
+            'comment'       => 'required',
+            'rating'        => 'required|numeric|min:1|max:5',
+            'title'         => 'required',
+            'product_id'    => 'required',
+            'attachments'   => 'array',
+            'attachments.*' => 'nullable|file|mimetypes:image/*,video/*',
         ]);
 
         try {
@@ -73,30 +74,10 @@ class ReviewMutation extends Controller
             }
 
             $args['status'] = 'pending';
-
-            $attachments = $args['attachments'];
-
+            
             $review = $this->productReviewRepository->create($args);
 
-            foreach ($attachments as $attachment) {
-                if (
-                    ! empty($attachment['upload_type'])
-                    && ! empty($attachment['image_url'])
-                ) {
-                    if ($attachment['upload_type'] == 'base64') {
-                        $attachment['save_path'] = "review/{$review->id}";
-
-                        $records = bagisto_graphql()->storeReviewAttachment($attachment);
-
-                        $this->productReviewAttachmentRepository->create([
-                            'path'      => $records['path'],
-                            'review_id' => $review->id,
-                            'type'      => $records['img_details'][0],
-                            'mime_type' => $records['img_details'][1],
-                        ]);
-                    }
-                }
-            }
+            $this->productReviewAttachmentRepository->upload($args['attachments'] ?? [], $review);
 
             return [
                 'success' => true,

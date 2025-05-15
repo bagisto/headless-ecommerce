@@ -24,7 +24,5 @@ input UpdateAccountInput {
     newPassword: String @rename(attribute: "new_password")
     newPasswordConfirmation: String @rename(attribute: "new_password_confirmation")
     newsletterSubscriber: Boolean @rename(attribute: "subscribed_to_news_letter")
-    uploadType: UploadType @rename(attribute: "upload_type")
-    imageUrl: String @rename(attribute: "image_url")
     image: Upload
 }

@@ -177,7 +177,7 @@ class WishlistMutation extends Controller
     public function deleteAll(mixed $rootValue, array $args, GraphQLContext $context)
     {
         try {
-            if (count(auth()->user()->wishlist_items)) {
+            if (! count(auth()->user()->wishlist_items)) {
                 return [
                     'success' => false,
                     'message' => trans('bagisto_graphql::app.shop.customers.account.wishlist.not-found'),

@@ -59,7 +59,6 @@ class AccountMutation extends Controller
             'new_password_confirmation' => 'required_with:new_password',
             'current_password'          => 'required_with:new_password',
             'image.*'                   => 'mimes:bmp,jpeg,jpg,png,webp',
-            'upload_type'               => 'nullable|in:path,base64,file',
             'phone'                     => ['required', 'unique:customers,phone,'.$customer->id, new PhoneNumber],
             'subscribed_to_news_letter' => 'nullable',
         ]);
@@ -84,7 +83,7 @@ class AccountMutation extends Controller
             }
 
             Event::dispatch('customer.update.before');
-
+            
             if ($customer = $this->customerRepository->update($args, $customer->id)) {
                 if ($isPasswordChanged) {
                     Event::dispatch('user.admin.update-password', $customer);
@@ -102,42 +101,19 @@ class AccountMutation extends Controller
                     ]
                 );
 
-                if (
-                    ! empty($args['upload_type'])
-                    && $args['upload_type'] == 'file'
+                if (! empty($args['image'])) {
+                    $this->customerRepository->uploadImages($args, $customer);
+                } else if (
+                    isset($args['image'])
+                    && $args['image'] == null
                 ) {
-                    if (! empty($args['image'])) {
-                        $customer->image = $args['image']->storePublicly('customer/'.$customer->id);
-
-                        $customer->save();
-                    } else {
-                        if ($customer->image) {
-                            Storage::delete($customer->image);
-                        }
-
-                        $customer->image = null;
-
-                        $customer->save();
+                    if ($customer->image) {
+                        Storage::delete($customer->image);
                     }
-                }
 
-                if (
-                    ! empty($args['upload_type'])
-                    && in_array($args['upload_type'], ['path', 'base64'])
-                ) {
-                    if (! empty($args['image_url'])) {
-                        $args['save_path'] = 'customer/'.$customer->id;
+                    $customer->image = null;
 
-                        bagisto_graphql()->saveImageByURL($customer, $args, 'image_url');
-                    } else {
-                        if ($customer->image) {
-                            Storage::delete($customer->image);
-                        }
-
-                        $customer->image = null;
-
-                        $customer->save();
-                    }
+                    $customer->save();
                 }
 
                 return [
