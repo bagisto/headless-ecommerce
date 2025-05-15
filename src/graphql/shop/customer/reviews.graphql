@@ -31,12 +31,7 @@ input CreateReviewInput {
     rating: Int!
     comment: String!
     productId: ID! @rename(attribute: "product_id")
-    attachments: [Attachments]!
-}
-
-input Attachments {
-    uploadType: String! @rename(attribute: "upload_type")
-    imageUrl: String! @rename(attribute: "image_url")
+    attachments: [Upload]
 }
 
 type CreateReviewResponse {

@@ -33,8 +33,13 @@ extend type Mutation @guard(with: ["api"]) {
 }
 
 input GdprRequestInput {
-  type: String!
+  type: GdprRequestInputType!
   message: String!
+}
+
+enum GdprRequestInputType {
+  UPDATE @enum (value: "update")
+  DELETE @enum (value: "delete")
 }
 
 type GdprRequestResponse {

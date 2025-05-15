@@ -227,6 +227,10 @@ class HomePageQuery extends BaseFilter
             $qb->where('products.type', $params['type']);
         }
 
+        if (! empty($params['id'])) {
+            $qb->where('products.id', $params['id']);
+        }
+
         /**
          * Filter query by price.
          */
