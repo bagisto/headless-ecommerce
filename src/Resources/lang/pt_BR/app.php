@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Aviso: Falha no registro do cliente.',
                 'success-verify'     => 'Conta criada com sucesso, um e-mail foi enviado para verificação.',
+                'success'            => 'Sucesso: Cliente registrado e logado com sucesso.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Sucesso: Pedido de GDPR criado com sucesso.',
                     'revoke-failed'        => 'Aviso: Falha ao revogar o pedido de GDPR.',
                     'revoked-successfully' => 'Sucesso: Pedido de GDPR revogado com sucesso.',
+                    'not-enabled'          => 'Aviso: GDPR não está ativado.',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => 'Sucesso: Produto adicionado com sucesso à lista de comparação.',
                 'remove-success'      => 'Sucesso: Item removido com sucesso da lista de comparação.',
                 'mass-remove-success' => 'Sucesso: Itens selecionados excluídos com sucesso.',
+                'not-auth'            => 'Aviso: Você não está autorizado a realizar esta ação.',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => 'Aviso: Fatura não encontrada.',
                 'product-error'  => 'Aviso: Produto inválido fornecido.',
                 'create-success' => 'Sucesso: Fatura criada com sucesso.',
+                'invalid-qty'    => 'Aviso: Encontramos uma quantidade inválida para itens da fatura.',
             ],
 
             'refunds' => [

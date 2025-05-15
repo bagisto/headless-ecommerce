@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => '注意: 顧客の登録に失敗しました。',
                 'success-verify'     => 'アカウントが正常に作成され、確認のためのメールが送信されました。',
+                'success'            => '成功: 顧客が正常に登録され、ログインしました。',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => '成功：GDPRリクエストが正常に作成されました。',
                     'revoke-failed'        => '警告：GDPRリクエストの取り消しに失敗しました。',
                     'revoked-successfully' => '成功：GDPRリクエストが正常に取り消されました。',
+                    'not-enabled'          => '警告：GDPRは有効になっていません。',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => '成功: 商品が正常に比較リストに追加されました。',
                 'remove-success'      => '成功: アイテムが正常に比較リストから削除されました。',
                 'mass-remove-success' => '成功: 選択されたアイテムが正常に削除されました。',
+                'not-auth'            => '警告: この操作を実行する権限がありません。',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => '注意: 請求書が見つかりません。',
                 'product-error'  => '注意: 無効な製品が指定されました。',
                 'create-success' => '成功: 請求書が正常に作成されました。',
+                'invalid-qty'    => '警告: 請求書アイテムに無効な数量が見つかりました。',
             ],
 
             'refunds' => [

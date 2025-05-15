@@ -211,8 +211,10 @@ class RegistrationMutation extends Controller
 
         return [
             'success'      => true,
-            'message'      => trans('bagisto_graphql::app.shop.customers.success-login'),
-            'access_token' => "Bearer $jwtToken",
+            'message'      => isset($data['signup_type']) 
+            ? trans('bagisto_graphql::app.shop.customers.success-login')
+            : trans('bagisto_graphql::app.shop.customers.signup.success'),
+            'access_token' => $jwtToken,
             'token_type'   => 'Bearer',
             'expires_in'   => Auth::factory()->getTTL() * 60,
             'customer'     => $this->customerRepository->find($loginCustomer->id),

@@ -140,6 +140,8 @@ type TicketBookingProductSlots {
     id: ID!
     price: Float!
     qty: Int!
+    name: String!
+    description: String
     specialPrice: Float @rename(attribute: "special_price")
     specialPriceFrom: DateTime @rename(attribute: "special_price_from")
     specialPriceTo: DateTime @rename(attribute: "special_price_to")

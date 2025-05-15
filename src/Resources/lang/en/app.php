@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Warning: Customer registration failed.',
                 'success-verify'     => 'Account created successfully, an e-mail has been sent for verification.',
+                'success'            => 'Success: Customer registered and login successfully.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Success: GDPR request created successfully.',
                     'revoke-failed'        => 'Warning: GDPR request not revoked.',
                     'revoked-successfully' => 'Success: GDPR request revoked successfully.',
+                    'not-enabled'          => 'Warning: GDPR is not enabled.',
                 ],
             ],
 
@@ -114,6 +116,7 @@ return [
                 'item-add-success'    => 'Success: Product added to compare list successfully.',
                 'remove-success'      => 'Success: Item is successfully removed from the compare list.',
                 'mass-remove-success' => 'Success: Selected items deleted successfully.',
+                'not-auth'            => 'Warning: You are not authorized to perform this action.',
             ],
 
             'reviews' => [
@@ -122,6 +125,7 @@ return [
                 'mass-delete-success' => 'Success: Selected reviews deleted successfully.',
                 'not-found'           => 'Warning: Review not found.',
                 'product-not-found'   => 'Warning: Product not found.',
+                'not-auth'            => 'Warning: You are not authorized to perform this action.',
             ],
         ],
 
@@ -254,6 +258,7 @@ return [
                 'not-found'      => 'Warning: Invoice not found.',
                 'product-error'  => 'Warning: Invalid product provided.',
                 'create-success' => 'Success: Invoice created successfully.',
+                'invalid-qty'    => 'Warning: We found an invalid quantity to invoice items.',
             ],
 
             'refunds' => [

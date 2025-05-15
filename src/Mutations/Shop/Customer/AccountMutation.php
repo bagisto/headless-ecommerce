@@ -2,16 +2,17 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Event;
+use Webkul\Sales\Models\Order;
+use Webkul\Core\Rules\PhoneNumber;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\SubscribersListRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Sales\Models\Order;
 
 class AccountMutation extends Controller
 {
@@ -123,11 +124,20 @@ class AccountMutation extends Controller
                 if (
                     ! empty($args['upload_type'])
                     && in_array($args['upload_type'], ['path', 'base64'])
-                    && ! empty($args['image_url'])
                 ) {
-                    $args['save_path'] = 'customer/'.$customer->id;
+                    if (! empty($args['image_url'])) {
+                        $args['save_path'] = 'customer/'.$customer->id;
 
-                    bagisto_graphql()->saveImageByURL($customer, $args, 'image_url');
+                        bagisto_graphql()->saveImageByURL($customer, $args, 'image_url');
+                    } else {
+                        if ($customer->image) {
+                            Storage::delete($customer->image);
+                        }
+
+                        $customer->image = null;
+
+                        $customer->save();
+                    }
                 }
 
                 return [

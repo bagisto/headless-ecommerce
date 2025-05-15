@@ -371,7 +371,7 @@ class HomePageQuery extends BaseFilter
         $qb = $qb->groupBy('products.id');
 
         $limit = $this->getPerPageLimit($params);
-
+        
         return $qb->paginate($limit, ['*'], 'page', $params['page'] ?? 1);
     }
 

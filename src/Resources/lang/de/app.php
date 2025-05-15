@@ -26,6 +26,7 @@ return [
             'signup' => [
                 'error-registration' => 'Warnung: Kundenregistrierung fehlgeschlagen.',
                 'success-verify'     => 'Konto erfolgreich erstellt, eine E-Mail zur Verifizierung wurde gesendet.',
+                'success'            => 'Erfolg: Kunde erfolgreich registriert und eingeloggt.',
             ],
 
             'login' => [
@@ -104,6 +105,7 @@ return [
                     'create-success'       => 'Erfolg: GDPR-Anfrage erfolgreich erstellt.',
                     'revoke-failed'        => 'Warnung: GDPR-Anfrage konnte nicht widerrufen werden.',
                     'revoked-successfully' => 'Erfolg: GDPR-Anfrage erfolgreich widerrufen.',
+                    'not-enabled'          => 'Warnung: GDPR ist nicht aktiviert.',
                 ],
             ],
 
@@ -112,8 +114,9 @@ return [
                 'product-not-found'   => 'Warnung: Produkt nicht gefunden.',
                 'already-added'       => 'Warnung: Produkt bereits zur Vergleichsliste hinzugefügt.',
                 'item-add-success'    => 'Erfolg: Produkt erfolgreich zur Vergleichsliste hinzugefügt.',
-                'remove-success'      => 'Erfolg: Artikel wurde erfolgreich aus der Vergleichsliste entfernt.',
-                'mass-remove-success' => 'Erfolg: Ausgewählte Artikel wurden erfolgreich gelöscht.',
+                'remove-success'      => 'Erfolg: Artikel erfolgreich aus der Vergleichsliste entfernt.',
+                'mass-remove-success' => 'Erfolg: Ausgewählte Artikel erfolgreich gelöscht.',
+                'not-auth'            => 'Warnung: Sie sind nicht berechtigt, diese Aktion durchzuführen.',
             ],
 
             'reviews' => [
@@ -254,6 +257,7 @@ return [
                 'not-found'      => 'Warnung: Rechnung nicht gefunden.',
                 'product-error'  => 'Warnung: Ungültiges Produkt angegeben.',
                 'create-success' => 'Erfolg: Rechnung erfolgreich erstellt.',
+                'invalid-qty'    => 'Warnung: Es wurde eine ungültige Menge für Rechnungsartikel gefunden.',
             ],
 
             'refunds' => [
