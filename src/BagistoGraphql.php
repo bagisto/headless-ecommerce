@@ -815,6 +815,22 @@ class BagistoGraphql
             default:
                 break;
         }
+        
+        if (! empty($data['customizable_options'])) {
+            $customizableOptions = [];
+
+            foreach($data['customizable_options'] as $customizableOption) {
+                if (isset($customizableOption['id'])) {
+                    $optionId = $customizableOption['id'];
+
+                    unset($customizableOption['id']);
+
+                    $customizableOptions[$optionId] = $customizableOption['value'] ?? ($customizableOption['file'] ?? null);
+                }
+            }
+
+            $data['customizable_options'] = $customizableOptions;
+        }
 
         return $data;
     }

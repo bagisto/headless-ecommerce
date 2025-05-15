@@ -30,6 +30,9 @@ input AddItemToCartInput {
     productId: ID! @rename(attribute: "product_id")
     quantity: Int!
 
+    # Used in case of Customizable Option adding Simple & Virtual Product to Cart
+    customizableOptions: [CustomizableOptionInput!] @rename(attribute: "customizable_options")
+
     # Used in case of adding Grouped Product to Cart
     selectedConfigurableOption: Int @rename(attribute: "selected_configurable_option")
     superAttribute: [ConfigurableProductInput!] @rename(attribute: "super_attribute")
@@ -45,6 +48,12 @@ input AddItemToCartInput {
 
     # Used in case of adding booking Product to Cart
     booking: BookingProductInput
+}
+
+input CustomizableOptionInput {
+    id: ID!
+    value: [String]
+    file: [Upload]
 }
 
 input ConfigurableProductInput {

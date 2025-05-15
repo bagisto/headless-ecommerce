@@ -74,7 +74,7 @@ class CartMutation extends Controller
             'quantity'   => 'required|min:1',
             'product_id' => 'required|integer|exists:products,id',
         ]);
-
+        
         try {
             $product = $this->productRepository->with('parent')->findOrFail($args['product_id']);
 
