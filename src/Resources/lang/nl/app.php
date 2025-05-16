@@ -29,6 +29,10 @@ return [
                 'success'            => 'Succes: Klant succesvol geregistreerd en ingelogd.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Waarschuwing: Sociale login is uitgeschakeld.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Controleer je gegevens en probeer opnieuw.',
                 'not-activated' => 'Je activatie vereist goedkeuring van de beheerder.',

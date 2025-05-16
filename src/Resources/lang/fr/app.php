@@ -29,6 +29,10 @@ return [
                 'success'            => 'Succès: Client enregistré et connecté avec succès.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Avertissement : La connexion sociale est désactivée.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Veuillez vérifier vos informations d\'identification et réessayer.',
                 'not-activated' => 'Votre activation nécessite l\'approbation de l\'administrateur',

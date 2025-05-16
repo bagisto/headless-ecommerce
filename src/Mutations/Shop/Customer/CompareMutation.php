@@ -118,6 +118,14 @@ class CompareMutation extends Controller
         $customer = bagisto_graphql()->authorize();
 
         try {
+            $compareProducts = $this->compareItemRepository->findWhere([
+                'customer_id' => $customer->id,
+            ]);
+            
+            if (! count($compareProducts)) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.compare-product.not-found'));
+            }
+
             $this->compareItemRepository->deleteWhere([
                 'customer_id' => $customer->id,
             ]);

@@ -29,6 +29,10 @@ return [
                 'success'            => 'Sukces: Klient został pomyślnie zarejestrowany i zalogowany.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Ostrzeżenie: Logowanie społecznościowe jest wyłączone.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Sprawdź swoje dane logowania i spróbuj ponownie.',
                 'not-activated' => 'Twoje konto wymaga zatwierdzenia przez administratora.',

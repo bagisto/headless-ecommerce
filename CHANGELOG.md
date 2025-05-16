@@ -80,6 +80,10 @@ v2.3.0 (16th of May, 2025) - Release
 
 * #430 [Fixed] - GDPR Create API accepts numeric value for type and allows incorrect spellings for "update" / "delete".
 
+* #435 [Fixed] - show warning message when Compare product is vacant/empty.
+
+* #437 [Fixed] - Google Login via API works even when Google Login is disabled in Admin Configuration.
+
 
 v2.2.2 (23rd of October, 2024) - Release
 

@@ -29,6 +29,10 @@ return [
                 'success'            => 'Başarılı: Müşteri başarıyla kaydedildi ve giriş yaptı.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Uyarı: Sosyal giriş devre dışı bırakıldı.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Lütfen kimlik bilgilerinizi kontrol edin ve tekrar deneyin.',
                 'not-activated' => 'Aktivasyonunuz yönetici onayı gerektirir',

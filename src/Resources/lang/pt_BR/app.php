@@ -29,6 +29,10 @@ return [
                 'success'            => 'Sucesso: Cliente registrado e logado com sucesso.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Aviso: Login social está desativado.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Verifique suas credenciais e tente novamente.',
                 'not-activated' => 'Sua ativação requer aprovação do administrador',
