@@ -73,12 +73,28 @@ class RegistrationMutation extends Controller
      */
     public function socialSignIn(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $socialLoginTypeStatus = [
+            'facebook' => 'enable_facebook',
+            'twitter'  => 'enable_twitter',
+            'google'   => 'enable_google',
+            'linkedin' => 'enable_linkedin-openid',
+            'github'   => 'enable_github',
+        ];
+
         bagisto_graphql()->validate($args, [
             'email'       => 'email|required',
             'first_name'  => 'string|required',
             'last_name'   => 'string|required',
             'signup_type' => 'string|required',
         ]);
+
+        if (
+            $args['signup_type'] != 'truecaller'
+            && in_array($args['signup_type'], array_keys($socialLoginTypeStatus))
+            && core()->getConfigData('customer.settings.social_login.' . $socialLoginTypeStatus[$args['signup_type']]) != "1"
+        ) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.social-login.disabled'));
+        }
 
         if ($args['signup_type'] == 'truecaller') {
             bagisto_graphql()->validate($args, [

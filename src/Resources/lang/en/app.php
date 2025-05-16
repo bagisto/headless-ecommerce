@@ -29,6 +29,10 @@ return [
                 'success'            => 'Success: Customer registered and login successfully.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Warning: Social login is disabled.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Please check your credentials and try again.',
                 'not-activated' => 'Your activation requires admin approval',

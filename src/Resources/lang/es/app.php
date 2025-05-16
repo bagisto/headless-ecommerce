@@ -29,6 +29,10 @@ return [
                 'success'            => 'Éxito: Cliente registrado e iniciado sesión correctamente.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Advertencia: El inicio de sesión social está deshabilitado.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Por favor verifica tus credenciales e intenta nuevamente.',
                 'not-activated' => 'Tu activación requiere la aprobación del administrador',

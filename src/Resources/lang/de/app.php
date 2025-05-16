@@ -29,6 +29,10 @@ return [
                 'success'            => 'Erfolg: Kunde erfolgreich registriert und eingeloggt.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Warnung: Social Login ist deaktiviert.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Bitte überprüfen Sie Ihre Zugangsdaten und versuchen Sie es erneut.',
                 'not-activated' => 'Ihre Aktivierung erfordert die Genehmigung durch den Administrator.',
