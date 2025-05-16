@@ -157,7 +157,7 @@ class GdprMutation extends Controller
 
         return [
             'success'  => true,
-            'string'   => Storage::url($path),
+            'string'   => $base64,
             'download' => [
                 'file_name' => $fileName,
                 'extension' => 'pdf',
