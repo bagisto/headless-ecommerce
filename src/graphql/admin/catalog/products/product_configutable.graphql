@@ -33,7 +33,7 @@ type VariantRegularFinalPrice {
 type ConfigutableVariantPrices {
     id: ID!
     regularPrice: VariantRegularFinalPrice @rename(attribute: "regular")
-    finalPrice: VariantRegularFinalPrice @rename(attribute: "price")
+    finalPrice: VariantRegularFinalPrice @rename(attribute: "final")
 }
 
 type ConfigutableVariantImageUrls {
