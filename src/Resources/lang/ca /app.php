@@ -29,6 +29,10 @@ return [
                 'success'            => 'Èxit: Client registrat i connectat amb èxit.',
             ],
 
+            'social-login' => [
+                'disabled' => 'Advertència: L\'inici de sessió social està desactivat.',
+            ],
+
             'login' => [
                 'invalid-creds' => 'Si us plau, comprova les teves credencials i torna-ho a intentar.',
                 'not-activated' => 'La teva activació requereix l\'aprovació de l\'administrador.',

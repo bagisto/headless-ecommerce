@@ -29,6 +29,10 @@ return [
                 'success'            => '成功：客户注册并成功登录。',
             ],
 
+            'social-login' => [
+                'disabled' => '警告：社交登录已禁用。',
+            ],
+
             'login' => [
                 'invalid-creds' => '请检查您的凭据并重试。',
                 'not-activated' => '您的激活需要管理员批准',

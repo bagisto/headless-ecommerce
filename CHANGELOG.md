@@ -2,6 +2,89 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+v2.3.0 (16th of May, 2025) - Release
+
+#  Enhancements
+
+* [Enhancement] - Compatibility with v2.3.0
+
+* [Enhancement] - Compatibility with Laravel 11
+
+* [Enhancement] - Booking product feature added
+
+* [Enhancement] - Customizable Options feature added
+
+* [Enhancement] - GDPR feature added
+
+#  Bug Fixes
+
+* #363 [Fixed] - Email validation not working in create customer.
+
+* #364 [Fixed] - Phone no. validation is not working in Customer create in admin side.
+
+* #366 [Fixed] - wrong message when customer sign up in Shop End.
+
+* #368 [Fixed] - Phone no. validation is not working in customer update(Shop End).
+
+* #369 [Fixed] - Image updation is not working properly in Customer update.
+
+* #370 [Fixed] - Email Validation is not working in create Address in Shop End.
+
+* #371 [Fixed] - SQL Error show when enter wrong input product id in Review(Shop End).
+
+* #376 [Fixed] - Should not create guest review by hit Review API when allow guest review Option is Disable.
+
+* #379 [Fixed] - Booking Product API is missing in AdminEnd.
+
+* #385 [Fixed] - Should show proper message when hit Place order API.
+
+* #386 [Fixed] - Should show proper message when hit Remove Coupon API.
+
+* #387 [Fixed] - E-mail validation is not working in checkout save address API.
+
+* #388 [Fixed] - Should show correct message in Review create API.
+
+* #391 [Fixed] - Show proper Aprropriate or meaingful error message in campaign Create Api.
+
+* #392 [Fixed] - Show proper Aprropriate or meaingful error message in campaign Delete Api.
+
+* #393 [Fixed] - Wrong Message show When Updating Locale with Existing Code and Wrong ID.
+
+* #394 [Fixed] - Wrong Message show When Updating channel with Existing Code and Wrong ID.
+
+* #400 [Fixed] - Products & product API is not working properly.
+
+* #405 [Fixed] - Apply quantities validation in Create Invoice GraphQl API.
+
+* #408 [Fixed] - Show wrong message in Download Sample API in Common Shop END.
+
+* #411 [Fixed] - Should be show a proper understanding error message in remove coupon API in Shop End.
+
+* #412 [Fixed] - API Returns Cookies Despite Is-Cookie-Exist: true or 1 in All Shop APi.
+
+* #414 [Fixed] - Guest Can Submit Review Even When Guest Review Configuration Is Disabled.
+
+* #418 [Fixed] - Able to Add Disabled Product to Cart.
+
+* #419 [Fixed] - Show warning Message when wishlist is vacant.
+
+* #420 [Fixed] - GDPR Request Created Even When GDPR Configuration is Disabled from Admin Panel.
+
+* #421 [Fixed] - GDPR configuration is disabled but customer are able to fetch GDPR data
+
+* #422 [Fixed] - GDPR revoke Request hit whereas GDPR configuration is DIsabled.
+
+* #423 [Fixed] - GDPR Download PDF API Fails with GraphQL Error: Missing query or queryId.
+
+* #429 [Fixed] - GraphQL Error: Cannot query field "name" on type "DownloadSampleResponse".
+
+* #430 [Fixed] - GDPR Create API accepts numeric value for type and allows incorrect spellings for "update" / "delete".
+
+* #435 [Fixed] - show warning message when Compare product is vacant/empty.
+
+* #437 [Fixed] - Google Login via API works even when Google Login is disabled in Admin Configuration.
+
+
 v2.2.2 (23rd of October, 2024) - Release
 
 #  Enhancements
