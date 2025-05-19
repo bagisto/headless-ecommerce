@@ -19,6 +19,14 @@ class CommonFilter extends BaseFilter
 
         $query->when(! empty($input['updated_at']), fn ($query) => $query->whereDate('updated_at', $input['updated_at']));
 
+        if ($query->getModel() instanceof \Webkul\Core\Models\CoreConfig) {
+            if (! empty($input['code'])) {
+                $query->where('code', 'like', '%' . $input['code'] . '%');
+            }
+
+            unset($params['code']);
+        }
+
         return $query->where($params);
     }
 }

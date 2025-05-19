@@ -93,6 +93,8 @@ class CustomerMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.customers.not-found'));
         }
 
+        $args['date_of_birth'] = ! empty($args['date_of_birth']) ? Carbon::createFromTimeString(str_replace('/', '-', $args['date_of_birth']).'00:00:01')->format('Y-m-d') : '';
+
         try {
             $args['status'] = $args['status'] ?? 0;
 
