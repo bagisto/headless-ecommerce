@@ -62,9 +62,8 @@ class HomePageQuery extends BaseFilter
             'status'     => self::STATUS,
             'channel_id' => core()->getCurrentChannel()->id,
         ]);
-
+        
         $result = $customizations->map(function ($item) {
-
             if ($item->type == 'image_carousel') {
                 $images['images'] = [];
 
@@ -80,8 +79,63 @@ class HomePageQuery extends BaseFilter
 
                 $staticContent['html'] = [];
 
-                $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
+                $html = $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
 
+                $dom = new \DOMDocument();
+
+                // Suppress warnings due to malformed HTML
+                libxml_use_internal_errors(true);
+                $dom->loadHTML($html);
+                libxml_clear_errors();
+
+                $links = [];
+                $anchorTags = $dom->getElementsByTagName('a');
+
+                // Get your base app URL to check internal links
+                $baseUrl = parse_url(config('app.url'));
+                
+                foreach ($anchorTags as $key => $tag) {
+                    $href = $tag->getAttribute('href');
+
+                    $links[$key] = [
+                        'url' => $href,
+                        'slug' => '',
+                        'type' => ''
+                    ];
+                    
+                    if ($href) {
+                        $parsedUrl = parse_url($href);
+                        
+                        // Default values
+                        $type = 'external';
+                        $slug = '';
+
+                        // Check if it's an internal link
+                        if (
+                            isset($parsedUrl['host'])
+                            && $parsedUrl['host'] === $baseUrl['host']
+                        ) {
+                            $type = 'internal';
+
+                            $fullPath = $parsedUrl['path'] ?? '';
+                            
+                            if (str_starts_with($parsedUrl['path'], $baseUrl['path'])) {
+                                $fullPath = substr($parsedUrl['path'], strlen($baseUrl['path']));
+                            }
+                            
+                            $slug = ltrim(explode('?', $fullPath)[0], '/');
+                        }
+                        
+                        $links[$key] = [
+                            'url' => $href,
+                            'slug' => $slug,
+                            'type' => $type
+                        ];
+                    }
+                }
+
+                $staticContent['links'] = $links;
+                
                 $item->options = $staticContent;
             }
 
@@ -149,7 +203,7 @@ class HomePageQuery extends BaseFilter
             if (! isset($params['locale'])) {
                 $params = array_merge(['locale' => app()->getLocale()], $params);
             }
-
+            
             return $this->categoryRepository->getAll($params);
         }
 

@@ -95,11 +95,13 @@ type Options {
     title: String
     css: String
     html: String
+    links: [Link]
     images: [Link]
     filters: [FilterOption]
     column_1: [ColumOption]
     column_2: [ColumOption]
     column_3: [ColumOption]
+    services: [ServiceContent]
 }
 
 type Link {
@@ -107,10 +109,19 @@ type Link {
     link: String
     image: String
     imageUrl: String @rename(attribute: "image_url")
+    url: String
+    slug: String
+    type: String
 }
 
 type ColumOption {
     url: String
     title: String
     sortOrder: String @rename(attribute: "sort_order")
+}
+
+type ServiceContent {
+    title: String
+    description: String
+    serviceIcon: String @rename(attribute: "service_icon")
 }
