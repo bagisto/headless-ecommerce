@@ -36,6 +36,23 @@ This document summarizes the changes made in the Headless GraphQL API upgrade.
 
 - **Reference:** [GitHub PR #397](https://github.com/bagisto/headless-ecommerce/pull/397/files#diff-dbafbad932d1a11b9f18292270feecb0f996e13f485821fd323fceef890d467cR19)
 
+### 6. `services` key added to `Options -> themeCustomization`
+
+- **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/456/files#diff-6c6a44775cb7ca44bdf94f4ae93db32860b12bbdcbd738d9e16436e275ca04f2R104)
+
+### 7. `links` key added to `Options -> themeCustomization`
+
+- **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/456/files#diff-6c6a44775cb7ca44bdf94f4ae93db32860b12bbdcbd738d9e16436e275ca04f2R98)
+
+### 8. `dateFrom, dateTo` key added to `booking -> AddItemToCartInput`
+
+- **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/456/files#diff-aeeb99e17e824717b6e45db2f06908c3ee0559b79a230fad7b3f7afe8050407eR78)
+
+### 9. `statusLabel` key added to `orders`
+
+- **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/453/files#diff-e8cd8441459d8eb2d12401516b78ae688b8df8867e15c21e603d30a906b6df31R100)
+
+
 ---
 
 ## 🛠️ Updated
