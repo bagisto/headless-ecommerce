@@ -75,6 +75,8 @@ input BundledOptionsInput {
 input BookingProductInput {
     date: String
     slot: BookingSlotInput
+    dateFrom: String @rename(attribute: "date_from")
+    dateTo: String @rename(attribute: "date_to")
     qty: [EventBookingInput!]
     note: String
 }
