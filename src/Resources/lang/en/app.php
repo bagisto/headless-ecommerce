@@ -231,6 +231,11 @@ return [
                         'title'                           => 'GraphQL API',
                         'private-key'                     => 'Private Key JSON File Content',
                         'info-get-private-key'            => 'Info: To Get FCM Private Key JSON File Content: <a href="https://console.firebase.google.com/" target="_blank">Click here</a>',
+                        'credentials'                     => 'Credentials',
+                        'credentials-info'                => 'Info: Used to get essential or curious data like payment method keys, client id, secret key, etc.',
+                        'username'                        => 'Username',
+                        'username-info'                   => 'Info: Used to get essential or curious data like payment method keys, client id, secret key, etc.',
+                        'password'                        => 'Password',
                     ],
 
                     'content' => [

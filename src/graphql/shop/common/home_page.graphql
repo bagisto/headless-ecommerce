@@ -24,6 +24,7 @@ input FilterHomeCategoriesInput {
 }
 
 type FilterAttribute {
+    id: ID
     minPrice: Float @rename(attribute: "min_price")
     maxPrice: Float @rename(attribute: "max_price")
     filterAttributes: [Attribute!] @rename(attribute: "filter_attributes")
