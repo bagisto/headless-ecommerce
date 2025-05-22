@@ -92,7 +92,7 @@ type Shipment {
     updatedAt: String @rename(attribute: "updated_at")
     order: Order! @belongsTo
     items: [ShipmentItem!] @hasMany
-    inventorySource: InventorySource! @belongsTo(relation: "inventory_source")
+    inventorySource: InventorySource @belongsTo(relation: "inventory_source")
     customer: Customer @belongsTo(relation: "customer")
     address: Address @belongsTo(relation: "address")
 }
