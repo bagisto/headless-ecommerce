@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Illuminate\Support\Carbon;
 use Webkul\Sales\Models\Order;
+use Illuminate\Http\UploadedFile;
 use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -48,7 +49,7 @@ class AccountMutation extends Controller
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
-
+        
         bagisto_graphql()->validate($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
@@ -100,9 +101,20 @@ class AccountMutation extends Controller
                         'token'         => uniqid(),
                     ]
                 );
-
+                
                 if (! empty($args['image'])) {
-                    $this->customerRepository->uploadImages($args, $customer);
+                    // $this->customerRepository->uploadImages($args, $customer);
+                    $file = $args['image'] ?? null;
+        
+                    if ($file instanceof UploadedFile) {
+                        if ($customer->image) {
+                            Storage::delete($customer->image);
+                        }
+                        
+                        $customer->image = $file->store("customer/{$customer->id}");
+
+                        $customer->save();
+                    }
                 } else if (
                     isset($args['image'])
                     && $args['image'] == null
@@ -128,6 +140,7 @@ class AccountMutation extends Controller
             throw new CustomException($e->getMessage());
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

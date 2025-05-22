@@ -499,6 +499,7 @@ class HomePageQuery extends BaseFilter
         $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
 
         return [
+            'id'                => $category?->id,
             'min_price'         => 0,
             'max_price'         => $maxPrice,
             'filter_attributes' => $filterableAttributes,
