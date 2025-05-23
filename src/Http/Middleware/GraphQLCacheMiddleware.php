@@ -4,27 +4,88 @@ namespace Webkul\GraphQLAPI\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Webkul\GraphQLAPI\Services\GraphQLCacheService;
 
+/**
+ * Middleware to serve cached GraphQL responses
+ */
 class GraphQLCacheMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    /**
+     * Handle an incoming request
+     */
+    public function handle(Request $request, Closure $next): mixed
     {
-        // if ($request->is('graphql') && $request->isMethod('POST')) {
-        //     $query = $request->input('query');
-            
-        //     $cacheKey = 'cache_query_' . md5(json_encode($query));
-            
-        //     if (Cache::has($cacheKey)) {
-        //         $result = response()->json(Cache::get($cacheKey));
-                
-        //         return response()->json($result->getData());
-        //     }
+        if (! $this->shouldProcessRequest($request)) {
+            return $next($request);
+        }
 
-        //     // Store key to be used after response
-        //     $request->attributes->set('graphql_cache_key', $cacheKey);
-        // }
+        $query = $request->input('query');
+        $queryName = $this->extractQueryName($query);
+        
+        if (! $queryName) {
+            return $next($request);
+        }
+
+        $cachedResponse = $this->getCachedResponse($request, $queryName);
+        
+        if ($cachedResponse) {
+            return $cachedResponse;
+        }
 
         return $next($request);
+    }
+
+    /**
+     * Check if request should be processed for caching
+     */
+    protected function shouldProcessRequest(Request $request): bool
+    {
+        return $request->is('graphql') 
+            && $request->isMethod('POST') 
+            && $request->input('query')
+            && Str::startsWith(ltrim($request->input('query')), 'query');
+    }
+
+    /**
+     * Extract query name from GraphQL query
+     */
+    protected function extractQueryName(string $query): ?string
+    {
+        if (preg_match('/query\s+(\w+)/', $query, $matches)) {
+            return $matches[1];
+        }
+        
+        return null;
+    }
+
+    /**
+     * Get cached response if available
+     */
+    protected function getCachedResponse(Request $request, string $queryName): ?JsonResponse
+    {
+        $variables = $request->input('variables', []);
+        $headers = $request->headers->all();
+        $customerId = GraphQLCacheService::getCurrentCustomerId();
+        
+        $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
+        $cacheKey = GraphQLCacheService::generateCacheKey($queryName, $variables, $relevantHeaders, $customerId);
+        
+        if (! Cache::has($cacheKey)) {
+            return null;
+        }
+        
+        $record = Cache::get($cacheKey);
+        GraphQLCacheService::logCacheOperation('hit', $cacheKey, $queryName);
+        
+        // Apply GDPR data if needed
+        if (GraphQLCacheService::shouldApplyGdpr($headers)) {
+            $record->data['gdpr'] = GraphQLCacheService::getGdprData();
+        }
+
+        return response()->json($record);
     }
 }
