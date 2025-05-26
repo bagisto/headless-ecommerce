@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Console\Commands;
 
 use Illuminate\Console\Command;
 use Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider;
+use Illuminate\Encryption\Encrypter;
 
 class Install extends Command
 {
@@ -39,6 +40,14 @@ class Install extends Command
             '--provider' => GraphQLAPIServiceProvider::class,
             '--force'    => true,
         ]));
+
+        $key = 'base64:' . base64_encode(
+            Encrypter::generateKey($this->laravel['config']['app.cipher'])
+        );
+
+        file_put_contents(base_path('.env'), PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
+
+        $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
 
         $this->warn('Step: Publishing Lighthouse Provider File...');
         $this->info(shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config'));

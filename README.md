@@ -112,6 +112,31 @@ To install the Bagisto GraphQL API, follow these steps:
    ```
    http://your-domain.com/graphql
    ```
+3. **Authorization**
+
+   To authorize requests for certain APIs, you may need to provide the `MOBIKUL_API_KEY`. 
+
+   1. **Locate the API Key**
+
+      Find the `MOBIKUL_API_KEY` in your `.env` file:
+
+      ```env
+      MOBIKUL_API_KEY=your-mobikul-api-key
+      ```
+
+   2. **Share with App Development Team**
+
+      Copy this key and securely share it with the Development team as required for API authorization.
+
+   3. **Using the API Key**
+
+      When making requests to protected admin endpoints, include the API key in the request headers:
+
+      ```
+      MOBIKUL_API_KEY: your-mobikul-api-key
+      ```
+
+      Replace `your-mobikul-api-key` with the actual value from your `.env` file.
 
 ---
 

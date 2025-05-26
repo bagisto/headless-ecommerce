@@ -30,28 +30,6 @@ return [
             ],
         ],
     ], [
-        'key'  => 'general.api.credentials',
-        'name' => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.credentials',
-        'info' => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.credentials-info',
-        'sort' => 1,
-
-        'fields' => [
-            [
-                'name'          => 'username',
-                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.username',
-                'type'          => 'text',
-                'validation'    => 'required',
-                'info'          => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.username-info',
-                'channel_based' => false,
-            ], [
-                'name'          => 'password',
-                'title'         => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.password',
-                'type'          => 'text',
-                'validation'    => 'required',
-                'channel_based' => false,
-            ],
-        ],
-    ], [
         'key'    => 'sales.payment_methods.paypal_standard',
         'name'   => 'admin::app.configuration.index.sales.payment-methods.paypal-standard',
         'info'   => 'admin::app.configuration.index.sales.payment-methods.paypal-standard-info',
