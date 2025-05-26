@@ -67,12 +67,14 @@ class GraphQLCacheMiddleware
      */
     protected function getCachedResponse(Request $request, string $queryName): ?JsonResponse
     {
+        $query = $request->input('query', []);
+
         $variables = $request->input('variables', []);
         $headers = $request->headers->all();
         $customerId = GraphQLCacheService::getCurrentCustomerId();
         
         $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
-        $cacheKey = GraphQLCacheService::generateCacheKey($queryName, $variables, $relevantHeaders, $customerId);
+        $cacheKey = GraphQLCacheService::generateCacheKey($query, $queryName, $variables, $relevantHeaders, $customerId);
         
         if (! Cache::has($cacheKey)) {
             return null;

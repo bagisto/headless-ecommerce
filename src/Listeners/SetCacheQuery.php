@@ -68,13 +68,14 @@ class SetCacheQuery
      */
     protected function cacheQueryResult(EndExecution $event, $request, string $queryName): void
     {
+        $query = $request->input('query', []);
         $variables = $request->input('variables', []);
         $headers = $request->headers->all();
         $customerId = GraphQLCacheService::getCurrentCustomerId();
         
         $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
         
-        $cacheKey = GraphQLCacheService::generateCacheKey($queryName, $variables, $relevantHeaders, $customerId);
+        $cacheKey = GraphQLCacheService::generateCacheKey($query, $queryName, $variables, $relevantHeaders, $customerId);
         $trackingKey = GraphQLCacheService::generateTrackingKey($queryName, $this->extractEntityId($event, $queryName));
         
         // Cache the result

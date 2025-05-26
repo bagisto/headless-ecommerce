@@ -106,7 +106,7 @@ class ClearCache
         $this->clearCacheForEntity('attribute');
     }
 
-    public function afterConfigurationSave($configuration): void
+    public function afterConfigurationSave(): void
     {
         $this->clearCacheForEntity('core-config-data');
         
@@ -140,5 +140,29 @@ class ClearCache
         }
 
         $this->clearCacheForEntity('cart', null, $cart->customer_id);
+    }
+
+    public function afterOrderSave($order): void
+    {
+        if ($order->is_guest) {
+            return;
+        }
+
+        $this->clearCacheForEntity('order', null, $order->customer_id);
+    }
+    
+    public function afterInvoiceSave($invoice): void
+    {
+        $this->clearCacheForEntity('order', null, $invoice->order->customer_id);
+    }
+
+    public function afterRefundSave($refund): void
+    {
+        $this->clearCacheForEntity('order', null, $refund->customer->customer_id);
+    }
+    
+    public function afterShipmentSave($shipment): void
+    {
+        $this->clearCacheForEntity('order', null, $shipment->customer->customer_id);
     }
 }

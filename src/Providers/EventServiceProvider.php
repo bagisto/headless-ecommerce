@@ -78,6 +78,20 @@ class EventServiceProvider extends ServiceProvider
         'customer.account.gdpr-request.update.after' => [
             ClearCache::class . '@afterGdprRequestCreateOrUpdate',
         ],
+
+        // Order events
+        'checkout.order.save.after' => [
+            ClearCache::class . '@afterOrderSave',
+        ],
+        'sales.invoice.save.after' => [
+            ClearCache::class . '@afterInvoiceSave',
+        ],
+        'sales.refund.save.after' => [
+            ClearCache::class . '@afterRefundSave',
+        ],
+        'sales.shipment.save.after' => [
+            ClearCache::class . '@afterShipmentSave',
+        ],
     ];
 
     /**

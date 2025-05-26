@@ -20,58 +20,68 @@ class GraphQLCacheService
      * Cache key patterns mapping entity types to their related cache keys
      */
     protected static array $cacheKeyPatterns = [
-        'channel' => [
+        'channel'          => [
             'getDefaultChannel',
             'homeCategories',
         ],
-        'theme' => [
+        'theme'            => [
             'themeCustomization',
         ],
-        'category' => [
+        'category'         => [
             'homeCategories',
             'themeCustomization',
         ],
-        'product' => [
+        'product'          => [
             'allProducts',
-            'themeCustomization',
-            'compareProducts',
             'compareProduct',
-            'wishlists',
+            'compareProducts',
+            'themeCustomization',
             'wishlist',
+            'wishlists',
         ],
-        'attribute' => [
+        'attribute'        => [
             'getFilterAttribute',
         ],
         'core-config-data' => [
             'learnMoreAndCustomize',
         ],
-        'compare-product' => [
-            'compareProducts',
+        'compare-product'  => [
             'compareProduct',
+            'compareProducts',
         ],
-        'customer' => [
+        'customer'         => [
             'accountInfo',
         ],
-        'address' => [
-            'addresses',
+        'address'          => [
             'address',
+            'addresses',
             'checkoutAddresses',
         ],
-        'wishlist' => [
-            'wishlists',
+        'wishlist'         => [
             'wishlist',
+            'wishlists',
         ],
-        'gdpr-request' => [
-            'gdprRequests',
+        'gdpr-request'     => [
             'gdprRequest',
+            'gdprRequests',
         ],
-        'review' => [
+        'review'           => [
+            'reviewDetail',
             'reviewsList',
-            'reviewDetail'
         ],
-        'cart' => [
+        'cart'             => [
             'cartDetail',
             'cartItems',
+        ],
+        'order'            => [
+            'orderDetail',
+            'ordersList',
+            'viewInvoice',
+            'viewInvoices',
+            'viewRefund',
+            'viewRefunds',
+            'viewShipment',
+            'viewShipments',
         ],
     ];
 
@@ -87,36 +97,46 @@ class GraphQLCacheService
      * Queries that require customer ID in cache key
      */
     protected static array $cacheWithCustomerId = [
-        'compareProducts',
-        'compareProduct',
         'accountInfo',
-        'addresses',
         'address',
-        'wishlists',
-        'wishlist',
-        'gdprRequests',
-        'gdprRequest',
-        'reviewsList',
-        'reviewDetail',
+        'addresses',
         'cartDetail',
         'cartItems',
         'checkoutAddresses',
+        'compareProduct',
+        'compareProducts',
+        'gdprRequest',
+        'gdprRequests',
+        'orderDetail',
+        'ordersList',
+        'reviewDetail',
+        'reviewsList',
+        'viewInvoice',
+        'viewInvoices',
+        'viewRefund',
+        'viewRefunds',
+        'viewShipment',
+        'viewShipments',
+        'wishlist',
+        'wishlists',
     ];
 
     /**
      * Queries to skip from caching
      */
     protected static array $skipQueries = [
-        'compareProducts',
-        'compareProduct',
-        'wishlists',
-        'wishlist',
-        'downloadableLinkPurchases',
-        'downloadableLinkPurchase',
-        'reviewsList',
-        'reviewDetail',
         'cartDetail',
         'cartItems',
+        'compareProduct',
+        'compareProducts',
+        'downloadableLinkPurchase',
+        'downloadableLinkPurchases',
+        'reviewDetail',
+        'reviewsList',
+        'wishlist',
+        'wishlists',
+        'shippingMethods',
+        'paymentMethods',
     ];
 
     /**
@@ -131,7 +151,7 @@ class GraphQLCacheService
     /**
      * Generate cache key for a GraphQL query
      */
-    public static function generateCacheKey(string $queryName, array $variables = [], array $headers = [], ?int $customerId = null): string
+    public static function generateCacheKey($query, string $queryName, array $variables = [], array $headers = [], ?int $customerId = null): string
     {
         $queryCacheKey = "query_cache_{$queryName}";
         
@@ -143,6 +163,7 @@ class GraphQLCacheService
         }
         
         $cacheKey = "{$queryCacheKey}-" . md5(json_encode([
+            'query'     => $query,
             'headers'   => $headers,
             'variables' => $variables,
         ]));
@@ -237,13 +258,13 @@ class GraphQLCacheService
     public static function getGdprData(): array
     {
         return [
-            'cookieTitle'           => core()->getConfigData('general.gdpr.cookie.static_block_identifier'),
-            'cookieDescription'     => core()->getConfigData('general.gdpr.cookie.description'),
-            'privacyPolicyUrlKey'   => 'page/privacy-policy',
-            'privacyPolicyText'     => trans('shop::app.components.layouts.cookie.index.privacy-policy'),
             'cookieAccept'          => trans('shop::app.components.layouts.cookie.index.accept'),
+            'cookieDescription'     => core()->getConfigData('general.gdpr.cookie.description'),
             'cookieReject'          => trans('shop::app.components.layouts.cookie.index.reject'),
+            'cookieTitle'           => core()->getConfigData('general.gdpr.cookie.static_block_identifier'),
             'learnMoreAndCustomize' => 'learnMoreAndCustomize',
+            'privacyPolicyText'     => trans('shop::app.components.layouts.cookie.index.privacy-policy'),
+            'privacyPolicyUrlKey'   => 'page/privacy-policy',
         ];
     }
 
