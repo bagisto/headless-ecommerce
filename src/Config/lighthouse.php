@@ -101,7 +101,7 @@ return [
          * - 1: uses the store, key and ttl config values to store the schema as a string in the given cache store.
          * - 2: uses the path config value to store the schema in a PHP file allowing OPcache to pick it up.
          */
-        'version' => env('LIGHTHOUSE_CACHE_VERSION', 1),
+        'version' => env('LIGHTHOUSE_CACHE_VERSION', 2),
 
         /*
          * Allows using a specific cache store, uses the app's default if set to null.
@@ -130,7 +130,7 @@ return [
         /*
          * Should the `@cache` directive use a tagged cache?
          */
-        'tags' => false,
+        'tags' => true,
     ],
 
     /*
@@ -446,7 +446,7 @@ return [
          * Setting this to `null` means the subscriptions are stored forever. This may cause
          * stale subscriptions to linger indefinitely in case cleanup fails for any reason.
          */
-        'storage_ttl' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE_TTL', null),
+        'storage_ttl' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE_TTL', 60*60*24*7), // 1 week in seconds
 
         /*
          * Default subscription broadcaster.
