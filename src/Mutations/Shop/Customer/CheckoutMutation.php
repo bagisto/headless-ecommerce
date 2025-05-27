@@ -2,20 +2,21 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\CartRule\Repositories\CartRuleCouponRepository;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Core\Rules\PostCode;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Webkul\GraphQLAPI\Repositories\NotificationRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Payment\Facades\Payment;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Transformers\OrderResource;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\Sales\Transformers\OrderResource;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\InvoiceRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\CartRule\Repositories\CartRuleCouponRepository;
+use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class CheckoutMutation extends Controller
 {
@@ -28,7 +29,8 @@ class CheckoutMutation extends Controller
         protected CartRuleCouponRepository $cartRuleCouponRepository,
         protected CustomerAddressRepository $customerAddressRepository,
         protected OrderRepository $orderRepository,
-        protected NotificationRepository $notificationRepository
+        protected NotificationRepository $notificationRepository,
+        protected InvoiceRepository $invoiceRepository
     ) {
         Auth::setDefaultDriver('api');
     }
@@ -552,5 +554,55 @@ class CheckoutMutation extends Controller
         ];
 
         $this->notificationRepository->sendNotification($data, $notification);
+    }
+    
+    /**
+     * Create charge
+     *
+     * @return array
+     *
+     * @throws CustomException
+     */
+    public function createCharge()
+    {
+        if (! Cart::getCart()) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
+        }
+
+        $order = $this->orderRepository->create((new OrderResource(Cart::getCart()))->jsonSerialize());
+
+        $order = $this->orderRepository->findOneByField('cart_id', Cart::getCart()->id);
+
+        $this->orderRepository->update(['status' => 'processing'], $order->id);
+
+        if ($order->canInvoice()) {
+            $this->invoiceRepository->create($this->prepareInvoiceData($order));
+        }
+
+        Cart::deActivateCart();
+
+        return [
+            'success' => true,
+            'order'   => $order,
+        ];
+    }
+
+    /**
+     * Prepares order's invoice data for creation
+     *
+     * @param  \Webkul\Sales\Contracts\Order  $order
+     * @return array
+     */
+    public function prepareInvoiceData($order)
+    {
+        $invoiceData = [
+            'order_id' => $order->id,
+        ];
+
+        foreach ($order->items as $item) {
+            $invoiceData['invoice']['items'][$item->id] = $item->qty_to_invoice;
+        }
+
+        return $invoiceData;
     }
 }
