@@ -99,11 +99,10 @@ class AccountMutation extends Controller
                         'channel_id'    => core()->getCurrentChannel()->id,
                         'is_subscribed' => $args['subscribed_to_news_letter'],
                         'token'         => uniqid(),
-                    ]
+                    ],
                 );
                 
                 if (! empty($args['image'])) {
-                    // $this->customerRepository->uploadImages($args, $customer);
                     $file = $args['image'] ?? null;
         
                     if ($file instanceof UploadedFile) {
@@ -116,8 +115,8 @@ class AccountMutation extends Controller
                         $customer->save();
                     }
                 } else if (
-                    isset($args['image'])
-                    && $args['image'] == null
+                    array_key_exists('image', $args)
+                    && is_null($args['image'])
                 ) {
                     if ($customer->image) {
                         Storage::delete($customer->image);
