@@ -53,6 +53,10 @@ This document summarizes the changes made in the Headless GraphQL API upgrade.
 - **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/453/files#diff-e8cd8441459d8eb2d12401516b78ae688b8df8867e15c21e603d30a906b6df31R100)
 
 
+### 10. `isPaymentRequired` key added to `placeOrder` mutation as input field, default value is false and this is boolean type
+
+- **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/476/files#diff-76e858e4fb54c649c61fd09d1943d2e790e9be48f6b5ff8c16ab109b3d38fd7eR4)
+
 ---
 
 ## 🛠️ Updated
