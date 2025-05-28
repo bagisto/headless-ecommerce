@@ -100,9 +100,10 @@ class HomePageQuery extends BaseFilter
                     $href = $tag->getAttribute('href');
 
                     $links[$key] = [
-                        'url' => $href,
+                        'url'  => $href,
                         'slug' => '',
-                        'type' => ''
+                        'type' => '',
+                        'id'   => '',
                     ];
                     
                     if ($href) {
@@ -129,12 +130,16 @@ class HomePageQuery extends BaseFilter
 
                             $isTypeFetch = false;
 
-                            if ($this->categoryRepository->findBySlug($slug)) {
+                            if ($category = $this->categoryRepository->findBySlug($slug)) {
                                 $type = 'category';
 
+                                $id = $category->id;
+
                                 $isTypeFetch = true;
-                            } else if ($this->productRepository->setSearchEngine('database')->findBySlug($slug)) {
+                            } else if ($product = $this->productRepository->setSearchEngine('database')->findBySlug($slug)) {
                                 $type = 'product';
+
+                                $id = $product->id;
 
                                 $isTypeFetch = true;
                             }
@@ -142,12 +147,16 @@ class HomePageQuery extends BaseFilter
                             if (! $isTypeFetch) {
                                 $slug = last(explode('/', $slug));
 
-                                if ($this->categoryRepository->findBySlug($slug)) {
+                                if ($category = $this->categoryRepository->findBySlug($slug)) {
                                     $type = 'category';
 
+                                    $id = $category->id;
+
                                     $isTypeFetch = true;
-                                } else if ($this->PageRepository->findByUrlKey($slug)) {
+                                } else if ($cms = $this->PageRepository->findByUrlKey($slug)) {
                                     $type = 'cms';
+
+                                    $id = $cms->id;
 
                                     $isTypeFetch = true;
                                 }
@@ -155,9 +164,10 @@ class HomePageQuery extends BaseFilter
                         }
                         
                         $links[$key] = [
-                            'url' => $href,
+                            'url'  => $href,
                             'slug' => $slug,
-                            'type' => $type
+                            'type' => $type,
+                            'id'   => $id ?? '',
                         ];
                     }
                 }

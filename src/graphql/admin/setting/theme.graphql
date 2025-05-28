@@ -112,6 +112,7 @@ type Link {
     url: String
     slug: String
     type: String
+    id: ID
 }
 
 type ColumOption {
