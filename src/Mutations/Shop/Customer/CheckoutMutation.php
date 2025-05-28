@@ -470,7 +470,10 @@ class CheckoutMutation extends Controller
 
             $cart = Cart::getCart();
 
-            if ($redirectUrl = Payment::getRedirectUrl($cart)) {
+            if (
+                ! $args['is_payment_required']
+                && $redirectUrl = Payment::getRedirectUrl($cart)
+            ) {
                 return [
                     'success'         => true,
                     'redirect_url'    => $redirectUrl,
@@ -565,13 +568,13 @@ class CheckoutMutation extends Controller
      */
     public function createCharge()
     {
-        if (! Cart::getCart()) {
+        if (! $cart = Cart::getCart()) {
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
         }
 
-        $order = $this->orderRepository->create((new OrderResource(Cart::getCart()))->jsonSerialize());
+        $order = $this->orderRepository->create((new OrderResource($cart))->jsonSerialize());
 
-        $order = $this->orderRepository->findOneByField('cart_id', Cart::getCart()->id);
+        $order = $this->orderRepository->findOneByField('cart_id', $cart->id);
 
         $this->orderRepository->update(['status' => 'processing'], $order->id);
 

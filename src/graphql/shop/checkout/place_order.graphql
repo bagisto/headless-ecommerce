@@ -1,6 +1,8 @@
 # Shop\Checkout\PlaceOrder Related API
 extend type Mutation {
-    placeOrder: PlacedOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@saveOrder")
+    placeOrder(
+        isPaymentRequired: Boolean = true, @rename(attribute: "is_payment_required")
+    ): PlacedOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@saveOrder")
 
     createCharge: PlacedOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@createCharge")
 }
