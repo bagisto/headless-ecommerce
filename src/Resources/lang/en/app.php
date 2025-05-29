@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'Address deleted successfully',
                     'not-found'              => 'Warning: Address not found.',
                     'update-success'         => 'Address updated successfully.',
+                    'already-default'        => 'Warning: This address is already set as default.',
                 ],
 
                 'wishlist' => [
