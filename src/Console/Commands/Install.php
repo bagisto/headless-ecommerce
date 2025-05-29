@@ -45,7 +45,21 @@ class Install extends Command
             Encrypter::generateKey($this->laravel['config']['app.cipher'])
         );
 
-        file_put_contents(base_path('.env'), PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
+        $envPath = base_path('.env');
+        $envContent = file_get_contents($envPath);
+
+        if (preg_match('/^MOBIKUL_API_KEY=.*$/m', $envContent)) {
+            // Replace existing key
+            $envContent = preg_replace(
+            '/^MOBIKUL_API_KEY=.*$/m',
+            "MOBIKUL_API_KEY={$key}",
+            $envContent
+            );
+            file_put_contents($envPath, $envContent);
+        } else {
+            // Append new key
+            file_put_contents($envPath, PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
+        }
 
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
 
