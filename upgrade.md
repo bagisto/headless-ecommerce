@@ -57,6 +57,10 @@ This document summarizes the changes made in the Headless GraphQL API upgrade.
 
 - **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/476/files#diff-76e858e4fb54c649c61fd09d1943d2e790e9be48f6b5ff8c16ab109b3d38fd7eR4)
 
+### 10. `viewGdprData` API is Created
+
+- **Reference:** [GitHub (Anmol-Chauhan)](https://github.com/bagisto/headless-ecommerce/pull/483/files#diff-6aac7235ac90a8a1cbf8365cb47f65143e5b968b4f8ae2bc5a5d0efd8e248ccdR19)
+
 ---
 
 ## 🛠️ Updated
