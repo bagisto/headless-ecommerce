@@ -16,6 +16,7 @@ use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\GraphQLAPI\Helper\PaymentHelper;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class CheckoutMutation extends Controller
@@ -30,7 +31,8 @@ class CheckoutMutation extends Controller
         protected CustomerAddressRepository $customerAddressRepository,
         protected OrderRepository $orderRepository,
         protected NotificationRepository $notificationRepository,
-        protected InvoiceRepository $invoiceRepository
+        protected InvoiceRepository $invoiceRepository,
+        protected PaymentHelper $paymentHelper
     ) {
         Auth::setDefaultDriver('api');
     }
@@ -459,6 +461,34 @@ class CheckoutMutation extends Controller
      */
     public function saveOrder(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        $mode = core()->getConfigData('sales.payment_methods.paypal_standard.sandbox') ? 'sandbox' : 'live';
+        
+        $clientId = core()->getConfigData('sales.payment_methods.paypal_standard.client_id');
+        $secret = core()->getConfigData('sales.payment_methods.paypal_standard.client_secret');
+
+    // Step 1: Get Access Token
+    $client = new \GuzzleHttp\Client();
+
+    $authResponse = $client->post('https://api.sandbox.paypal.com/v1/oauth2/token', [
+        'auth' => [$clientId, $secret],
+        'form_params' => [
+            'grant_type' => 'client_credentials',
+        ],
+    ]);
+
+    $authData = json_decode($authResponse->getBody(), true);
+    $accessToken = $authData['access_token'];
+
+    // Step 2: Get Sale Info
+    $saleResponse = $client->get("https://api.sandbox.paypal.com/v1/payments/sale/3HV05507FK9784747", [
+        'headers' => [
+            'Authorization' => "Bearer {$accessToken}",
+            'Content-Type'  => 'application/json',
+        ]
+    ]);
+
+    $saleData = json_decode($saleResponse->getBody(), true);
+dd($saleData);
         try {
             if (Cart::hasError()) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
@@ -470,23 +500,16 @@ class CheckoutMutation extends Controller
 
             $cart = Cart::getCart();
 
-            if (
-                ! $args['is_payment_required']
-                && $redirectUrl = Payment::getRedirectUrl($cart)
-            ) {
-                return [
-                    'success'         => true,
-                    'redirect_url'    => $redirectUrl,
-                    'selected_method' => $cart->payment->method,
-                ];
-            }
-
             $data = (new OrderResource($cart))->jsonSerialize();
 
             $order = $this->orderRepository->create($data);
 
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
+            }
+            
+            if ($args['is_payment_completed']) {
+                $this->paymentHelper->createInvoice($cart, $args, $order);
             }
 
             Cart::deActivateCart();
@@ -557,37 +580,6 @@ class CheckoutMutation extends Controller
         ];
 
         $this->notificationRepository->sendNotification($data, $notification);
-    }
-    
-    /**
-     * Create charge
-     *
-     * @return array
-     *
-     * @throws CustomException
-     */
-    public function createCharge()
-    {
-        if (! $cart = Cart::getCart()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
-        }
-
-        $order = $this->orderRepository->create((new OrderResource($cart))->jsonSerialize());
-
-        $order = $this->orderRepository->findOneByField('cart_id', $cart->id);
-
-        $this->orderRepository->update(['status' => 'processing'], $order->id);
-
-        if ($order->canInvoice()) {
-            $this->invoiceRepository->create($this->prepareInvoiceData($order));
-        }
-
-        Cart::deActivateCart();
-
-        return [
-            'success' => true,
-            'order'   => $order,
-        ];
     }
 
     /**

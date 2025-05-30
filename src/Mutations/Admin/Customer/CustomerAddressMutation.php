@@ -148,16 +148,15 @@ class CustomerAddressMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.addressess.not-found'));
         }
 
+        if ($address->default_address) {
+            throw new CustomException(trans('bagisto_graphql::app.admin.customers.addressess.already-default'));
+        }
+
         try {
             $this->customerAddressRepository->where([
                 'customer_id'     => $args['customer_id'],
                 'default_address' => 1,
             ])->update(['default_address' => 0]);
-
-            $address = $this->customerAddressRepository->findOnewhere([
-                'id'          => $args['id'],
-                'customer_id' => $args['customer_id'],
-            ]);
 
             $address->update(['default_address' => 1]);
 
