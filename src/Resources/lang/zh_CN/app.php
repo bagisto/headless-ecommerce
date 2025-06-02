@@ -65,10 +65,11 @@ return [
 
                 'addresses' => [
                     'create-success'         => '地址创建成功。',
-                    'default-update-success' => '地址已设置为默认',
-                    'delete-success'         => '地址已成功删除',
+                    'default-update-success' => '地址已设置为默认。',
+                    'delete-success'         => '地址已成功删除。',
                     'not-found'              => '警告：未找到地址。',
                     'update-success'         => '地址已成功更新。',
+                    'already-default'        => '警告：此地址已设置为默认。',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,13 @@ return [
                 'login-success'        => '客户登录成功。',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => '客户地址创建成功。',
                 'default-update-success' => '地址已设置为默认。',
                 'delete-success'         => '客户地址删除成功。',
                 'not-found'              => '警告：未找到客户地址。',
                 'update-success'         => '客户地址更新成功。',
+                'already-default'        => '警告：此地址已设置为默认。',
             ],
 
             'groups' => [

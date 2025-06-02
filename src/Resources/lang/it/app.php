@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'Indirizzo eliminato con successo',
                     'not-found'              => 'Attenzione: Indirizzo non trovato.',
                     'update-success'         => 'Indirizzo aggiornato con successo.',
+                    'already-default'        => 'Avviso: Questo indirizzo è già impostato come predefinito.',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,13 @@ return [
                 'login-success'        => 'Cliente accesso effettuato con successo.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'Indirizzo del cliente creato con successo.',
-                'default-update-success' => 'L\'indirizzo è impostato come predefinito',
-                'delete-success'         => 'Indirizzo del cliente eliminato con successo',
+                'default-update-success' => 'L\'indirizzo è impostato come predefinito.',
+                'delete-success'         => 'Indirizzo del cliente eliminato con successo.',
                 'not-found'              => 'Avviso: Indirizzo del cliente non trovato.',
                 'update-success'         => 'Indirizzo del cliente aggiornato con successo.',
+                'already-default'        => 'Avviso: Questo indirizzo è già impostato come predefinito.',
             ],
 
             'groups' => [

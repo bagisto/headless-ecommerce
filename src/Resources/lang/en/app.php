@@ -369,7 +369,7 @@ return [
                 'login-success'        => 'Customer logged in successfully.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'Customer\'s address created successfully.',
                 'default-update-success' => 'Address is setted as default',
                 'delete-success'         => 'Customer\'s Address deleted successfully',
