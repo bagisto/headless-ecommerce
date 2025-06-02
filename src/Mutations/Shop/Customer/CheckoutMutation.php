@@ -4,11 +4,13 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Webkul\Core\Rules\PostCode;
 use Webkul\Checkout\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Payment\Facades\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\GraphQLAPI\Helper\PaymentHelper;
 use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
@@ -16,7 +18,6 @@ use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
-use Webkul\GraphQLAPI\Helper\PaymentHelper;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
 
 class CheckoutMutation extends Controller
@@ -461,34 +462,6 @@ class CheckoutMutation extends Controller
      */
     public function saveOrder(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        $mode = core()->getConfigData('sales.payment_methods.paypal_standard.sandbox') ? 'sandbox' : 'live';
-        
-        $clientId = core()->getConfigData('sales.payment_methods.paypal_standard.client_id');
-        $secret = core()->getConfigData('sales.payment_methods.paypal_standard.client_secret');
-
-    // Step 1: Get Access Token
-    $client = new \GuzzleHttp\Client();
-
-    $authResponse = $client->post('https://api.sandbox.paypal.com/v1/oauth2/token', [
-        'auth' => [$clientId, $secret],
-        'form_params' => [
-            'grant_type' => 'client_credentials',
-        ],
-    ]);
-
-    $authData = json_decode($authResponse->getBody(), true);
-    $accessToken = $authData['access_token'];
-
-    // Step 2: Get Sale Info
-    $saleResponse = $client->get("https://api.sandbox.paypal.com/v1/payments/sale/3HV05507FK9784747", [
-        'headers' => [
-            'Authorization' => "Bearer {$accessToken}",
-            'Content-Type'  => 'application/json',
-        ]
-    ]);
-
-    $saleData = json_decode($saleResponse->getBody(), true);
-dd($saleData);
         try {
             if (Cart::hasError()) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
@@ -500,15 +473,14 @@ dd($saleData);
 
             $cart = Cart::getCart();
 
-            $data = (new OrderResource($cart))->jsonSerialize();
-
-            $order = $this->orderRepository->create($data);
+            $orderData = (new OrderResource($cart))->jsonSerialize();
+            $order = $this->orderRepository->create($orderData);
 
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
             }
             
-            if ($args['is_payment_completed']) {
+            if (! empty($args['is_payment_completed'])) {
                 $this->paymentHelper->createInvoice($cart, $args, $order);
             }
 
@@ -580,24 +552,5 @@ dd($saleData);
         ];
 
         $this->notificationRepository->sendNotification($data, $notification);
-    }
-
-    /**
-     * Prepares order's invoice data for creation
-     *
-     * @param  \Webkul\Sales\Contracts\Order  $order
-     * @return array
-     */
-    public function prepareInvoiceData($order)
-    {
-        $invoiceData = [
-            'order_id' => $order->id,
-        ];
-
-        foreach ($order->items as $item) {
-            $invoiceData['invoice']['items'][$item->id] = $item->qty_to_invoice;
-        }
-
-        return $invoiceData;
     }
 }

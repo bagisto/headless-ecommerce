@@ -2,6 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Helper;
 
+use Illuminate\Support\Facades\DB;
+use Webkul\Paypal\Payment\SmartButton;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
 
@@ -14,7 +16,8 @@ class PaymentHelper
      */
     public function __construct(
         protected OrderRepository $orderRepository,
-        protected InvoiceRepository $invoiceRepository
+        protected InvoiceRepository $invoiceRepository,
+        protected SmartButton $smartButton,
     ) {}
 
     public function createInvoice($cart, $paymentDetail, $order)
@@ -26,24 +29,25 @@ class PaymentHelper
         ) {
             return;
         }
-
+        
         $paymentMethod = $cart->payment->method;
-
         $paymentIsCompleted = false;
 
-        if (
-            $paymentMethod == 'paypal_standard'
-            || $paymentMethod == 'paypal_smart_button'
-        ) {
-            $paymentIsCompleted = $this->checkPaypalPaymentStatus($paymentDetail['transaction_id']);
-        }
+        match ($paymentMethod) {
+            'paypal_standard' => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['txn_id']) && $this->checkPaypalPaymentStatus($paymentDetail['txn_id']),
+            'paypal_smart_button' => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['orderID']) && $this->checkSmartButtonPaymentStatus($paymentDetail['orderID']),
+            default => null,
+        };
         
-        if ($paymentIsCompleted) {
-            $this->orderRepository->update(['status' => 'processing'], $order->id);
+        if (
+            $paymentIsCompleted
+            && $order->canInvoice()
+        ) {
+            request()->merge($paymentDetail);
+            
+            $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
-            if ($order->canInvoice()) {
-                $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
-            }
+            $this->orderRepository->update(['status' => 'processing'], $order->id);
         }
     }
 
@@ -63,37 +67,46 @@ class PaymentHelper
         return $invoiceData;
     }
 
-    private function checkPaypalPaymentStatus($paymentId)
+    protected function isNewTransaction(string $transactionId): bool
+    {
+        return ! DB::table('order_transactions')->where('transaction_id', $transactionId)->exists();
+    }
+
+    protected function checkPaypalPaymentStatus($paymentId)
     {
         $clientId = core()->getConfigData('sales.payment_methods.paypal_standard.client_id');
         $secretKey = core()->getConfigData('sales.payment_methods.paypal_standard.client_secret');
+        $sandbox = core()->getConfigData('sales.payment_methods.paypal_standard.sandbox');
 
-        if (core()->getConfigData('sales.payment_methods.paypal_standard.sandbox')) {
-            $url = "https://api-m.sandbox.paypal.com/v1/payments/payment/{$paymentId}";
-        } else {
-            $url = "https://api-m.paypal.com/v1/payments/payment/{$paymentId}";
-        }
+        $url = $sandbox
+            ? "https://api-m.sandbox.paypal.com/v1/payments/payment/{$paymentId}"
+            : "https://api-m.paypal.com/v1/payments/payment/{$paymentId}";
 
         $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode("{$clientId}:{$secretKey}"),
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR    => true,
+            CURLOPT_HTTPHEADER     => [
+                'Content-Type: application/json',
+                'Authorization: Basic ' . base64_encode("{$clientId}:{$secretKey}"),
+            ],
         ]);
 
         $response = curl_exec($curl);
-
-        if (curl_errno($curl)) {
-            throw new \Exception('Curl error: ' . curl_error($curl));
-        }
         curl_close($curl);
 
-        $responseData = json_decode($response, true);
-        
-        if (isset($responseData['state']) && $responseData['state'] == 'approved') {
-            return true;
+        if ($response) {
+            $responseData = json_decode($response, true);
+            return $responseData['state'] ?? '' === 'approved';
         }
-
+        
         return false;
+    }
+
+    public function checkSmartButtonPaymentStatus(string $orderId): bool
+    {
+        $transactionDetails = json_decode(json_encode($this->smartButton->getOrder($orderId)), true);
+        
+        return $transactionDetails['statusCode'] ?? 0 === 200;
     }
 }

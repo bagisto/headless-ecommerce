@@ -10654,7 +10654,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation placeOrder {\n    placeOrder (\n        isPaymentCompleted: true\n        error: false\n        message: \"Success\"\n        transactionId: \"PAYID-NA3LUPI8RM83901H3162294C\"\n        paymentStatus: \"Completed\"\n        paymentMethod: \"paypal_standard\"\n\n    ) {\n        success\n        redirectUrl\n        selectedMethod\n        order {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n        }\n    }\n}",
+										"query": "mutation placeOrder {\n    placeOrder (\n        isPaymentCompleted: true\n        # Paypal Standard\n        error: false\n        message: \"Success\"\n        transactionId: \"PAYID-NA3LUPI8RM83901H3162294C\"\n        paymentStatus: \"Completed\"\n        paymentType: \"instant\"\n        paymentMethod: \"paypal_standard\"\n        # Paypal Smart Button\n        orderID: \"xyz\"\n    ) {\n        success\n        redirectUrl\n        selectedMethod\n        order {\n            id\n            customerEmail\n            customerFirstName\n            customerLastName\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
