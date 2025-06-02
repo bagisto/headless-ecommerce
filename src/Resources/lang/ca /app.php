@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'Adreça eliminada amb èxit.',
                     'not-found'              => 'Advertència: Adreça no trobada.',
                     'update-success'         => 'Adreça actualitzada amb èxit.',
+                    'already-default'        => 'Advertència: Aquesta adreça ja està establerta com a predeterminada.',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,13 @@ return [
                 'login-success'        => 'Client connecté avec succès.',
             ],
 
-            'addressess' => [
-                'create-success'         => 'Adresse du client créée avec succès.',
-                'default-update-success' => 'Adresse définie comme par défaut.',
-                'delete-success'         => 'Adresse du client supprimée avec succès.',
-                'not-found'              => 'Avertissement : Adresse du client non trouvée.',
-                'update-success'         => 'Adresse du client mise à jour avec succès.',
+            'addresses' => [
+                'create-success'         => 'Adreça del client creada amb èxit.',
+                'default-update-success' => 'Adreça establerta com a predeterminada.',
+                'delete-success'         => 'Adreça del client eliminada amb èxit.',
+                'not-found'              => 'Advertència: Adreça del client no trobada.',
+                'update-success'         => 'Adreça del client actualitzada amb èxit.',
+                'already-default'        => 'Advertència: Aquesta adreça ja està establerta com a predeterminada.',
             ],
 
             'groups' => [

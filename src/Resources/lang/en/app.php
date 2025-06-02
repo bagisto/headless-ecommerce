@@ -369,12 +369,13 @@ return [
                 'login-success'        => 'Customer logged in successfully.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'Customer\'s address created successfully.',
                 'default-update-success' => 'Address is setted as default',
                 'delete-success'         => 'Customer\'s Address deleted successfully',
                 'not-found'              => 'Warning: Customer\'s address not found.',
                 'update-success'         => 'Customer\'s address updated successfully.',
+                'already-default'        => 'Warning: This address is already set as default.',
             ],
 
             'groups' => [

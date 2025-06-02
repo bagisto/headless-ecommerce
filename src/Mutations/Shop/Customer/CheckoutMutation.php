@@ -4,11 +4,13 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use Webkul\Core\Rules\PostCode;
 use Webkul\Checkout\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Payment\Facades\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\GraphQLAPI\Helper\PaymentHelper;
 use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
@@ -30,7 +32,8 @@ class CheckoutMutation extends Controller
         protected CustomerAddressRepository $customerAddressRepository,
         protected OrderRepository $orderRepository,
         protected NotificationRepository $notificationRepository,
-        protected InvoiceRepository $invoiceRepository
+        protected InvoiceRepository $invoiceRepository,
+        protected PaymentHelper $paymentHelper
     ) {
         Auth::setDefaultDriver('api');
     }
@@ -470,23 +473,15 @@ class CheckoutMutation extends Controller
 
             $cart = Cart::getCart();
 
-            if (
-                ! $args['is_payment_required']
-                && $redirectUrl = Payment::getRedirectUrl($cart)
-            ) {
-                return [
-                    'success'         => true,
-                    'redirect_url'    => $redirectUrl,
-                    'selected_method' => $cart->payment->method,
-                ];
-            }
-
-            $data = (new OrderResource($cart))->jsonSerialize();
-
-            $order = $this->orderRepository->create($data);
+            $orderData = (new OrderResource($cart))->jsonSerialize();
+            $order = $this->orderRepository->create($orderData);
 
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
+            }
+            
+            if (! empty($args['is_payment_completed'])) {
+                $this->paymentHelper->createInvoice($cart, $args, $order);
             }
 
             Cart::deActivateCart();
@@ -557,55 +552,5 @@ class CheckoutMutation extends Controller
         ];
 
         $this->notificationRepository->sendNotification($data, $notification);
-    }
-    
-    /**
-     * Create charge
-     *
-     * @return array
-     *
-     * @throws CustomException
-     */
-    public function createCharge()
-    {
-        if (! $cart = Cart::getCart()) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.checkout.something-wrong'));
-        }
-
-        $order = $this->orderRepository->create((new OrderResource($cart))->jsonSerialize());
-
-        $order = $this->orderRepository->findOneByField('cart_id', $cart->id);
-
-        $this->orderRepository->update(['status' => 'processing'], $order->id);
-
-        if ($order->canInvoice()) {
-            $this->invoiceRepository->create($this->prepareInvoiceData($order));
-        }
-
-        Cart::deActivateCart();
-
-        return [
-            'success' => true,
-            'order'   => $order,
-        ];
-    }
-
-    /**
-     * Prepares order's invoice data for creation
-     *
-     * @param  \Webkul\Sales\Contracts\Order  $order
-     * @return array
-     */
-    public function prepareInvoiceData($order)
-    {
-        $invoiceData = [
-            'order_id' => $order->id,
-        ];
-
-        foreach ($order->items as $item) {
-            $invoiceData['invoice']['items'][$item->id] = $item->qty_to_invoice;
-        }
-
-        return $invoiceData;
     }
 }

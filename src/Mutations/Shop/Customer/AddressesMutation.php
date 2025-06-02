@@ -175,7 +175,7 @@ class AddressesMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.customers.addressess.default-update-success'),
+                'message' => trans('bagisto_graphql::app.admin.customers.addresses.default-update-success'),
                 'address' => $address,
             ];
         } catch (\Exception $e) {
