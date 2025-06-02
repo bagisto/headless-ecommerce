@@ -221,10 +221,10 @@ class NotificationRepository extends Repository
         }
 
         $fields['message'] = [
-            'data'         => json_decode(strip_tags(json_encode($fieldData)), true),
+            'data'         => $fieldData,
             'notification' => [
-                'body'  => strip_tags($data['content']),
-                'title' => strip_tags($data['title']),
+                'body'  => $data['content'],
+                'title' => $data['title'],
             ],
         ];
 
