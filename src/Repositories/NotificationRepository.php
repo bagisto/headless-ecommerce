@@ -220,17 +220,23 @@ class NotificationRepository extends Repository
             return;
         }
 
-        $topic = core()->getConfigData('general.api.pushnotification.notification_topic');
-
         $fields['message'] = [
-            'topic'        => $topic,
-            'data'         => $fieldData,
+            'data'         => json_decode(strip_tags(json_encode($fieldData)), true),
             'notification' => [
-                'body'  => $data['content'],
-                'title' => $data['title'],
+                'body'  => strip_tags($data['content']),
+                'title' => strip_tags($data['title']),
             ],
         ];
 
+        if (
+            isset($fieldData['type']) 
+            && $fieldData['type'] == 'order'
+        ) {
+            $fields['message']['token'] = bagisto_graphql()->authorize()?->device_token;
+        } else {
+            $fields['message']['topic'] = core()->getConfigData('general.api.pushnotification.notification_topic');
+        }
+        
         $headers = [
             'Content-Type:application/json',
             "Authorization: Bearer {$this->getAccessToken()}",
