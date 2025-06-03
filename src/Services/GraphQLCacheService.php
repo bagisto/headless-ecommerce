@@ -44,6 +44,8 @@ class GraphQLCacheService
         ],
         'core-config-data' => [
             'learnMoreAndCustomize',
+            'gdprRequest',
+            'gdprRequests',
         ],
         'compare-product'  => [
             'compareProduct',
