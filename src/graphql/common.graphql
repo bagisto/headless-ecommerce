@@ -2,6 +2,7 @@ input LoginInput {
     email: String
     password: String
     remember: Boolean
+    deviceToken: String @rename(attribute: "device_token")
 }
 
 type CustomerLoginResponse {
