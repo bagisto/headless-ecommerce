@@ -110,7 +110,7 @@ input CustomAttributeInput {
 input FilterProductsInput {
     page: Int!
     limit: Int!
-    productId: Int @rename(attribute: "product_id")
+    productId: Int @rename(attribute: "id")
     type: String
     sku: String
     name: String
