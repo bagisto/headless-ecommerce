@@ -69,6 +69,8 @@ class CurrencyMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.currencies.not-found'));
         }
 
+        unset($args['code']);
+
         try {
             Event::dispatch('core.currency.update.before', $currency->id);
 
