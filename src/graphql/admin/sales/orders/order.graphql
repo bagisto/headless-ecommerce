@@ -96,7 +96,8 @@ input FilterOrderRefundInput {
 type Order {
     id: Int!
     incrementId: String @rename(attribute: "increment_id")
-    status: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getTranslatedOrderStatus")
+    status: String
+    statusLabel: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\OrderQuery@getTranslatedOrderStatus")
     channelName: String @rename(attribute: "channel_name")
     isGuest: Int @rename(attribute: "is_guest")
     customerEmail: String @rename(attribute: "customer_email")
