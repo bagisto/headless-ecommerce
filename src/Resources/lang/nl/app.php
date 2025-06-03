@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'Adres succesvol verwijderd.',
                     'not-found'              => 'Let op: Adres niet gevonden.',
                     'update-success'         => 'Adres succesvol bijgewerkt.',
+                    'already-default'        => 'Waarschuwing: Dit adres is al ingesteld als standaard.',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,14 @@ return [
                 'login-success'        => 'Klant succesvol ingelogd.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'Klantadres succesvol aangemaakt.',
                 'default-update-success' => 'Adres is ingesteld als standaard.',
                 'delete-success'         => 'Klantadres succesvol verwijderd.',
                 'not-found'              => 'Waarschuwing: Klantadres niet gevonden.',
                 'update-success'         => 'Klantadres succesvol bijgewerkt.',
+                'already-default'        => 'Waarschuwing: Dit adres is al ingesteld als standaard.',
+            ],
             ],
 
             'groups' => [

@@ -69,6 +69,7 @@ return [
                     'delete-success'         => '住所が正常に削除されました。',
                     'not-found'              => '注意: 住所が見つかりません。',
                     'update-success'         => '住所が正常に更新されました。',
+                    'already-default'        => '注意: この住所はすでにデフォルトに設定されています。',
                 ],
 
                 'wishlist' => [
@@ -368,6 +369,7 @@ return [
                 'delete-success'         => '顧客の住所が正常に削除されました。',
                 'not-found'              => '注意: 顧客の住所が見つかりません。',
                 'update-success'         => '顧客の住所が正常に更新されました。',
+                'already-default'        => '注意: この住所はすでにデフォルトに設定されています。',
             ],
 
             'groups' => [

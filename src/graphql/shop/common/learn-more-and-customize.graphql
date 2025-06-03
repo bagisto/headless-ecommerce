@@ -6,5 +6,4 @@ extend type Query @guard(with: ["api"]) {
 type LearnMoreAndCustomizeCookie {
     title: String
     content: String
-    isRequired: Boolean @rename(attribute: "is_required")
 }

@@ -15,6 +15,7 @@ use Webkul\Product\Helpers\Toolbar;
 use Webkul\Product\Repositories\ElasticSearchRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Webkul\CMS\Repositories\PageRepository;
 
 class HomePageQuery extends BaseFilter
 {
@@ -36,7 +37,8 @@ class HomePageQuery extends BaseFilter
         protected CustomerRepository $customerRepository,
         protected SearchSynonymRepository $searchSynonymRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository,
-        protected Toolbar $productHelperToolbar
+        protected Toolbar $productHelperToolbar,
+        protected PageRepository $PageRepository
     ) {}
 
     /**
@@ -98,24 +100,25 @@ class HomePageQuery extends BaseFilter
                     $href = $tag->getAttribute('href');
 
                     $links[$key] = [
-                        'url' => $href,
+                        'url'  => $href,
                         'slug' => '',
-                        'type' => ''
+                        'type' => '',
+                        'id'   => '',
                     ];
                     
                     if ($href) {
                         $parsedUrl = parse_url($href);
                         
                         // Default values
-                        $type = 'external';
                         $slug = '';
+                        $type = 'external';
 
                         // Check if it's an internal link
                         if (
                             isset($parsedUrl['host'])
                             && $parsedUrl['host'] === $baseUrl['host']
                         ) {
-                            $type = 'internal';
+                            $type = 'unknown';
 
                             $fullPath = $parsedUrl['path'] ?? '';
                             
@@ -124,12 +127,47 @@ class HomePageQuery extends BaseFilter
                             }
                             
                             $slug = ltrim(explode('?', $fullPath)[0], '/');
+
+                            $isTypeFetch = false;
+
+                            if ($category = $this->categoryRepository->findBySlug($slug)) {
+                                $type = 'category';
+
+                                $id = $category->id;
+
+                                $isTypeFetch = true;
+                            } else if ($product = $this->productRepository->setSearchEngine('database')->findBySlug($slug)) {
+                                $type = 'product';
+
+                                $id = $product->id;
+
+                                $isTypeFetch = true;
+                            }
+
+                            if (! $isTypeFetch) {
+                                $slug = last(explode('/', $slug));
+
+                                if ($category = $this->categoryRepository->findBySlug($slug)) {
+                                    $type = 'category';
+
+                                    $id = $category->id;
+
+                                    $isTypeFetch = true;
+                                } else if ($cms = $this->PageRepository->findByUrlKey($slug)) {
+                                    $type = 'cms';
+
+                                    $id = $cms->id;
+
+                                    $isTypeFetch = true;
+                                }
+                            }
                         }
                         
                         $links[$key] = [
-                            'url' => $href,
+                            'url'  => $href,
                             'slug' => $slug,
-                            'type' => $type
+                            'type' => $type,
+                            'id'   => $id ?? '',
                         ];
                     }
                 }
@@ -521,9 +559,8 @@ class HomePageQuery extends BaseFilter
 
         foreach ($cookieConsentKeys as $key => $value) {
             $cookieConsentData[] = [
-                'title'       => trans('shop::app.components.layouts.cookie.consent.' . $value),
-                'content'     => core()->getConfigData('general.gdpr.cookie_consent.' . $key),
-                'is_required' => $key == 'strictly_necessary',
+                'title'   => trans('shop::app.components.layouts.cookie.consent.' . $value),
+                'content' => core()->getConfigData('general.gdpr.cookie_consent.' . $key),
             ];
         }
         

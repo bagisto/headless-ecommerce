@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'Dirección eliminada correctamente',
                     'not-found'              => 'Advertencia: No se encontró la dirección.',
                     'update-success'         => 'Dirección actualizada correctamente.',
+                    'already-default'        => 'Advertencia: Esta dirección ya está establecida como predeterminada.',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,13 @@ return [
                 'login-success'        => 'Cliente ha iniciado sesión exitosamente.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'Dirección del cliente creada exitosamente.',
-                'default-update-success' => 'La dirección se ha establecido como predeterminada',
-                'delete-success'         => 'Dirección del cliente eliminada exitosamente',
+                'default-update-success' => 'La dirección se ha establecido como predeterminada.',
+                'delete-success'         => 'Dirección del cliente eliminada exitosamente.',
                 'not-found'              => 'Advertencia: Dirección del cliente no encontrada.',
                 'update-success'         => 'Dirección del cliente actualizada exitosamente.',
+                'already-default'        => 'Advertencia: Esta dirección ya está establecida como predeterminada.',
             ],
 
             'groups' => [

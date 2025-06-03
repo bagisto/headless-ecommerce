@@ -31,7 +31,6 @@ return [
             | as GraphiQL, but can be set to any URL.
             |
             */
-
             'endpoint' => '/graphql',
 
             /*
@@ -45,7 +44,6 @@ return [
             | Example: `ws://your-endpoint` or `wss://your-endpoint`
             |
             */
-
             'subscription-endpoint' => env('GRAPHIQL_SUBSCRIPTION_ENDPOINT', null),
         ],
     ],
@@ -60,6 +58,5 @@ return [
     | for example you might not want it active in production.
     |
     */
-
     'enabled' => env('GRAPHIQL_ENABLED', true),
 ];

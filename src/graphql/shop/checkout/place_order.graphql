@@ -1,6 +1,15 @@
 # Shop\Checkout\PlaceOrder Related API
 extend type Mutation {
-    placeOrder: PlacedOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@saveOrder")
+    placeOrder(
+        isPaymentCompleted: Boolean = false @rename(attribute: "is_payment_completed")
+        error: Boolean = true
+        message: String
+        transactionId: String @rename(attribute: "txn_id")
+        paymentStatus: String @rename(attribute: "payment_status")
+        paymentMethod: String @rename(attribute: "payment_method")
+        paymentType: String @rename(attribute: "payment_type")
+        orderID: String @rename(attribute: "order_id")
+    ): PlacedOrderResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@saveOrder")
 }
 
 type PlacedOrderResponse {

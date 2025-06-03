@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'הצלחה: הכתובת נמחקה בהצלחה',
                     'not-found'              => 'אזהרה: הכתובת לא נמצאה.',
                     'update-success'         => 'הצלחה: הכתובת עודכנה בהצלחה.',
+                    'already-default'        => 'אזהרה: כתובת זו כבר מוגדרת כברירת מחדל.',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,14 @@ return [
                 'login-success'        => 'הצלחה: הלקוח נכנס למערכת בהצלחה.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'כתובת הלקוח נוצרה בהצלחה.',
-                'default-update-success' => 'הכתובת הוגדרה כברירת מחדל',
-                'delete-success'         => 'כתובת הלקוח נמחקה בהצלחה',
+                'default-update-success' => 'הכתובת הוגדרה כברירת מחדל.',
+                'delete-success'         => 'כתובת הלקוח נמחקה בהצלחה.',
                 'not-found'              => 'אזהרה: כתובת הלקוח לא נמצאה.',
                 'update-success'         => 'כתובת הלקוח עודכנה בהצלחה.',
+                'already-default'        => 'אזהרה: כתובת זו כבר מוגדרת כברירת מחדל.',
+            ],
             ],
 
             'groups' => [

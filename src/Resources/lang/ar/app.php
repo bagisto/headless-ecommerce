@@ -69,6 +69,7 @@ return [
                     'delete-success'         => 'تم حذف عنوان العميل بنجاح',
                     'not-found'              => 'تحذير: لم يتم العثور على العنوان.',
                     'update-success'         => 'تم تحديث العنوان بنجاح.',
+                    'already-default'        => 'تحذير: هذا العنوان تم تعيينه كافتراضي بالفعل.',
                 ],
 
                 'wishlist' => [
@@ -362,12 +363,14 @@ return [
                 'login-success'        => 'تم تسجيل الدخول بنجاح.',
             ],
 
-            'addressess' => [
+            'addresses' => [
                 'create-success'         => 'تم إنشاء عنوان العميل بنجاح.',
-                'default-update-success' => 'تم تعيين العنوان كافتراضي',
-                'delete-success'         => 'تم حذف عنوان العميل بنجاح',
+                'default-update-success' => 'تم تعيين العنوان كافتراضي.',
+                'delete-success'         => 'تم حذف عنوان العميل بنجاح.',
                 'not-found'              => 'تحذير: عنوان العميل غير موجود.',
                 'update-success'         => 'تم تحديث عنوان العميل بنجاح.',
+                'already-default'        => 'تحذير: هذا العنوان تم تعيينه كافتراضي بالفعل.',
+            ],
             ],
 
             'groups' => [
