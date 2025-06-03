@@ -2,11 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
+use Webkul\Core\Rules\Code;
+use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Core\Rules\Code;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Inventory\Repositories\InventorySourceRepository;
 
 class InventorySourceMutation extends Controller
@@ -32,7 +33,7 @@ class InventorySourceMutation extends Controller
             'name'           => 'required',
             'contact_name'   => 'required',
             'contact_email'  => 'required|email',
-            'contact_number' => 'required',
+            'contact_number' => ['required', new PhoneNumber],
             'street'         => 'required',
             'country'        => 'required|exists:countries,code',
             'state'          => 'required',
@@ -75,7 +76,7 @@ class InventorySourceMutation extends Controller
             'name'           => 'required',
             'contact_name'   => 'required',
             'contact_email'  => 'required|email',
-            'contact_number' => 'required',
+            'contact_number' => ['required', new PhoneNumber],
             'street'         => 'required',
             'country'        => 'required|exists:countries,code',
             'state'          => 'required',
