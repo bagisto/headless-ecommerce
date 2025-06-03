@@ -3,6 +3,7 @@ input LoginInput {
     password: String
     remember: Boolean
     deviceToken: String @rename(attribute: "device_token")
+    deviceName: String @rename(attribute: "device_name")
 }
 
 type CustomerLoginResponse {
