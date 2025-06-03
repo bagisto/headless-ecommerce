@@ -287,7 +287,7 @@ class HomePageQuery extends BaseFilter
             $params[$input['key']] = $input['value'];
         }
 
-        $params = array_merge($params, [
+        $params = array_merge($params ?? [], [
             'channel_id'           => core()->getCurrentChannel()->id,
             'status'               => 1,
             'visible_individually' => 1,
