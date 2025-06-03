@@ -1,5 +1,5 @@
 # Setting\Theme Related APIs
-extend type Query{
+extend type Query @guard(with: ["admin-api"]){
     themes(
         input: FilterThemesInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Setting\\FilterTheme")
