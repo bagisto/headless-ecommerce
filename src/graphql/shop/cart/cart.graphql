@@ -3,6 +3,11 @@ extend type Query {
     cartDetail: Cart @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cart")
 
     cartItems: [CartItem!] @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CartMutation@cartItems")
+
+    getSlots(
+        id: ID!
+        date: String!
+    ): [AvailableBootkingSlot] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getBookingProductSlots")
 }
 
 extend type Mutation {
@@ -79,6 +84,7 @@ input BookingProductInput {
     dateTo: String @rename(attribute: "date_to")
     qty: [EventBookingInput!]
     note: String
+    rentingType: RentingTypeEnum @rename(attribute: "renting_type")
 }
 
 input BookingSlotInput {
@@ -224,4 +230,20 @@ type CartShippingRate {
     updatedAt: DateTime @rename(attribute: "updated_at")
     shippingAddress: Address @belongsTo(relation: "shipping_address")
     formattedPrice: FormattedPrice @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\FormattedPrice@getCartShippingRatePriceData")
+}
+
+type AvailableBootkingSlot {
+    from: String
+    to: String
+    timestamp: String
+    qty: Boolean
+    time: String
+    slots: [AvailableBootkingSlot]
+    fromTimestamp: String @rename(attribute: "from_timestamp")
+    toTimestamp: String @rename(attribute: "to_timestamp")
+}
+
+enum RentingTypeEnum {
+    HOURLY @enum(value: "hourly")
+    DAILY @enum(value: "daily")
 }
