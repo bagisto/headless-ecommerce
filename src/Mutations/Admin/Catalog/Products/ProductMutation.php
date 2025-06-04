@@ -224,7 +224,10 @@ class ProductMutation extends Controller
 
         $inventories = [];
 
-        if (isset($args['inventories'])) {
+        if (
+            isset($args['inventories'])
+            && $product->type != 'downloadable'
+        ) {
             foreach ($args['inventories'] as $inventory) {
                 if (
                     isset($inventory['inventory_source_id'])
