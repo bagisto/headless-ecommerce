@@ -61,8 +61,8 @@ class EventServiceProvider extends ServiceProvider
         'customer.addresses.update.after' => [
             ClearCache::class . '@afterAddressCreateOrUpdate',
         ],
-        'customer.addresses.delete.after' => [
-            ClearCache::class . '@afterAddressCreateOrUpdate',
+        'customer.addresses.delete.before' => [
+            ClearCache::class . '@afterAddressDeleteBefore',
         ],
         'customer.review.update.after' => [
             ClearCache::class . '@afterReviewCreateOrUpdate',

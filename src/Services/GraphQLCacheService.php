@@ -38,6 +38,7 @@ class GraphQLCacheService
             'themeCustomization',
             'wishlist',
             'wishlists',
+            'getFilterAttribute',
         ],
         'attribute'        => [
             'getFilterAttribute',

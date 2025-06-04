@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Listeners;
 
 use Illuminate\Support\Facades\Cache;
+use Webkul\Customer\Models\CustomerAddress;
 use Webkul\GraphQLAPI\Services\GraphQLCacheService;
 
 /**
@@ -120,6 +121,13 @@ class ClearCache
 
     public function afterAddressCreateOrUpdate($address): void
     {
+        $this->clearCacheForEntity('address', null, $address->customer_id);
+    }
+
+    public function afterAddressDeleteBefore($id): void
+    {
+        $address = CustomerAddress::find($id);
+
         $this->clearCacheForEntity('address', null, $address->customer_id);
     }
 
