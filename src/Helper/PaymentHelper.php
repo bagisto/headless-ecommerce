@@ -35,7 +35,7 @@ class PaymentHelper
 
         match ($paymentMethod) {
             'paypal_standard' => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['txn_id']) && $this->checkPaypalPaymentStatus($paymentDetail['txn_id']),
-            'paypal_smart_button' => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['orderID']) && $this->checkSmartButtonPaymentStatus($paymentDetail['orderID']),
+            'paypal_smart_button' => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['order_id']) && $this->checkSmartButtonPaymentStatus($paymentDetail['order_id']),
             default => null,
         };
         
@@ -43,7 +43,13 @@ class PaymentHelper
             $paymentIsCompleted
             && $order->canInvoice()
         ) {
-            request()->merge($paymentDetail);
+            if ($paymentMethod == 'paypal_smart_button') {
+                request()->merge(['orderData' => [
+                   'orderID' => $paymentDetail['order_id'],
+                ]]);
+            } else {
+                request()->merge($paymentDetail);
+            }
             
             $this->invoiceRepository->create($this->prepareInvoiceData($order));
 

@@ -31,8 +31,8 @@ class ChannelMutation extends Controller
             'code'                  => ['required', 'unique:channels,code', new Code],
             'name'                  => 'required',
             'description'           => 'nullable',
-            'inventory_sources'     => 'required|array|min:1',
-            'root_category_id'      => 'required',
+            'inventory_sources'     => 'required|array|min:1|exists:inventory_sources,id',
+            'root_category_id'      => 'required|exists:categories,id',
             'hostname'              => 'unique:channels,hostname',
             'locales'               => 'required|array|min:1',
             'default_locale_id'     => 'required|in_array:locales.*',
@@ -97,8 +97,8 @@ class ChannelMutation extends Controller
             'code'                  => ['required', 'unique:channels,code,'.$args['id'], new Code],
             'name'                  => 'required',
             'description'           => 'nullable',
-            'inventory_sources'     => 'required|array|min:1',
-            'root_category_id'      => 'required',
+            'inventory_sources'     => 'required|array|min:1|exists:inventory_sources,id',
+            'root_category_id'      => 'required|exists:categories,id',
             'hostname'              => 'unique:channels,hostname,'.$args['id'],
             'locales'               => 'required|array|min:1',
             'default_locale_id'     => 'required|in_array:locales.*',
@@ -122,7 +122,7 @@ class ChannelMutation extends Controller
 
             $favicon = $args['favicon'] ?? '';
 
-            unset($args['logo'], $args['favicon']);
+            unset($args['logo'], $args['favicon'], $args['code']);
 
             Event::dispatch('core.channel.update.before', $channel->id);
 

@@ -1,5 +1,5 @@
 # Customer\Review Related APIs
-extend type Query {
+extend type Query @guard(with: ["admin-api"]){
     reviews(
         input: FilterReviewInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")

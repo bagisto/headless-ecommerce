@@ -1,5 +1,5 @@
 # Setting\Custom Script Related APIs
-extend type Mutation {
+extend type Mutation @guard(with: ["admin-api"]){
     updateCustomScript(
         input: CustomScriptInput! @spread
     ): CustomScriptResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Admin\\Configuration\\CustomScriptMutation@updateCustomScript")

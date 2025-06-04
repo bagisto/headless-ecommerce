@@ -91,4 +91,3 @@ type GdprViewResponse {
   order: [Order]
 }
 
-

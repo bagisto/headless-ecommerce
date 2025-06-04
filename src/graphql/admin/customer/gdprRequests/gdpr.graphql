@@ -1,5 +1,5 @@
 # GDPR Related Admin APIs
-extend type Query {
+extend type Query @guard(with: ["admin-api"]){
     gdprList(
         input: FilterGDPRRequestInput
         @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")

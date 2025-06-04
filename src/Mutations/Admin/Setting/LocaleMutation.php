@@ -88,6 +88,8 @@ class LocaleMutation extends Controller
                 unset($args['image']);
             }
 
+            unset($args['code']);
+
             Event::dispatch('core.locale.update.before', $locale->id);
 
             $locale = $this->localeRepository->update($args, $locale->id);
