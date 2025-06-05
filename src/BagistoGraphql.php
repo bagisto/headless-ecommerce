@@ -286,6 +286,54 @@ class BagistoGraphql
         return ! preg_match('/^[a-zA-Z0-9\/+]+={0,2}$/', $string) || base64_encode(base64_decode($string)) !== $string;
     }
 
+    public function manageCustomizableOptions($product, $data)
+    {
+        if (
+            $product->type != 'simple'
+            && $product->type != 'virtual'
+        ) {
+            return [];
+        }
+
+        $customizableOptions = [];
+
+        foreach ($data['customizable_options'] as $key => $option) {
+            // Set option key
+            $optionKey = "option_{$key}";
+
+            // Prepare option array
+            $customizableOption = [
+                // Locales
+                'en' => ['label' => $option['label'] ?? ''],
+                'type' => $option['type'] ?? '',
+                'is_required' => $option['is_required'] ?? '',
+                'sort_order' => $option['sort_order'] ?? '',
+            ];
+
+            // Optional fields
+            if (isset($option['max_characters'])) {
+                $customizableOption['max_characters'] = $option['max_characters'];
+            }
+            if (isset($option['supported_file_extensions'])) {
+                $customizableOption['supported_file_extensions'] = $option['supported_file_extensions'];
+            }
+
+            // Prices/options
+            $prices = [];
+            if (! empty($option['prices'])) {
+                foreach ($option['prices'] as $priceKey => $price) {
+                    $prices["price_{$priceKey}"] = $price;
+                }
+            }
+            
+            $customizableOption['prices'] = $prices;
+
+            $customizableOptions[$optionKey] = $customizableOption;
+        }
+        
+        return $customizableOptions;
+    }
+
     /**
      * format customer group prices
      *
