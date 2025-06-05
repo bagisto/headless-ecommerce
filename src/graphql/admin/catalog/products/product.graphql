@@ -82,6 +82,7 @@ input UpdateProductInput {
     downloadableSamples: [UpdateDownloadableSamplesInput!] @rename(attribute: "downloadable_samples")
     bundleOptions: [UpdateBundleOptionsInput!] @rename(attribute: "bundle_options")
     booking: UpdateBookingInput
+    customizableOptions: [UpdateCustomizableOptionInput!] @rename(attribute: "customizable_options")
 }
 
 input UpdateVariantInput {
@@ -116,6 +117,35 @@ input FilterProductsInput {
     name: String
     attributeFamily: Int @rename(attribute: "attribute_family")
     channel: String
+}
+
+input UpdateCustomizableOptionInput {
+    label: String!
+    type: UpdateCustomizableOptionInputTypeEnum!
+    isRequired: Boolean! @rename(attribute: "is_required")
+    sortOrder: Int! @rename(attribute: "sort_order")
+    maxCharacters: Int! @rename(attribute: "max_characters")
+    supportedFileExtensions: String! @rename(attribute: "supported_file_extensions")
+    prices: [UpdateCustomizableOptionPriceInput]!
+}
+
+input UpdateCustomizableOptionPriceInput {
+    label: String
+    price: Float!
+    sortOrder: Int @rename(attribute: "sort_order")
+}
+
+enum UpdateCustomizableOptionInputTypeEnum {
+    TEXT @enum(value: "text")
+    TEXTAREA @enum(value: "textarea")
+    CHECKBOX @enum(value: "checkbox")
+    RADIO @enum(value: "radio")
+    SELECT @enum(value: "select")
+    MULTISELECT @enum(value: "multiselect")
+    DATE @enum(value: "date")
+    DATETIME @enum(value: "datetime")
+    TIME @enum(value: "time")
+    FILE @enum(value: "file")
 }
 
 type ProductResponse {

@@ -178,6 +178,10 @@ class ProductMutation extends Controller
             $args['customer_group_prices'] = bagisto_graphql()->manageCustomerGroupPrices($product, $args);
         }
 
+        if (! empty($args['customizable_options'])) {
+            $args['customizable_options'] = bagisto_graphql()->manageCustomizableOptions($product, $args);
+        }
+        
         $validator = $this->validateFormData($args['id'], $args);
 
         if ($validator->fails()) {
