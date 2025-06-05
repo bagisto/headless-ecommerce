@@ -48,7 +48,7 @@ class GraphQLCacheService
             'gdprRequest',
             'gdprRequests',
         ],
-        'compare-product'  => [
+        'compare'  => [
             'compareProduct',
             'compareProducts',
         ],
@@ -130,14 +130,8 @@ class GraphQLCacheService
     protected static array $skipQueries = [
         'cartDetail',
         'cartItems',
-        'compareProduct',
-        'compareProducts',
         'downloadableLinkPurchase',
         'downloadableLinkPurchases',
-        'reviewDetail',
-        'reviewsList',
-        'wishlist',
-        'wishlists',
         'shippingMethods',
         'paymentMethods',
     ];

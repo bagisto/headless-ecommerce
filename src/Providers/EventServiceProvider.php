@@ -62,14 +62,46 @@ class EventServiceProvider extends ServiceProvider
             ClearCache::class . '@afterAddressCreateOrUpdate',
         ],
         'customer.addresses.delete.before' => [
-            ClearCache::class . '@afterAddressDeleteBefore',
+            ClearCache::class . '@beforeAddressDelete',
         ],
         'customer.review.update.after' => [
             ClearCache::class . '@afterReviewCreateOrUpdate',
         ],
-        'customer.review.delete.after' => [
+        'customer.review.create.after' => [
             ClearCache::class . '@afterReviewCreateOrUpdate',
         ],
+        'customer.review.delete.before' => [
+            ClearCache::class . '@beforeReviewDelete',
+        ],
+        'customer.wishlist.delete.before' => [
+            ClearCache::class . '@beforeWishlistDelete',
+        ],
+        'customer.wishlist.move-to-cart.after' => [
+            ClearCache::class . '@beforeWishlistDelete',
+        ],
+        'customer.wishlist.create.after' => [
+            ClearCache::class . '@afterWishlistCreateOrUpdate',
+        ],
+        'customer.wishlist.delete-all.after' => [
+            ClearCache::class . '@afterWishlistDeleteAll',
+        ],
+
+        'customer.compare.delete.before' => [
+            ClearCache::class . '@beforeCompareDelete',
+        ],
+        'customer.compare.create.after' => [
+            ClearCache::class . '@afterCompareCreateOrUpdate',
+        ],
+        'customer.compare.delete-all.after' => [
+            ClearCache::class . '@afterCompareDeleteAll',
+        ],
+        
+        
+        
+
+        
+        
+        
         
         // GDPR events
         'customer.account.gdpr-request.create.after' => [

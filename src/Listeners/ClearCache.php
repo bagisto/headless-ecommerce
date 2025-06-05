@@ -3,6 +3,8 @@
 namespace Webkul\GraphQLAPI\Listeners;
 
 use Illuminate\Support\Facades\Cache;
+use Webkul\Customer\Models\CompareItem;
+use Webkul\Product\Models\ProductReview;
 use Webkul\Customer\Models\CustomerAddress;
 use Webkul\GraphQLAPI\Services\GraphQLCacheService;
 
@@ -36,6 +38,7 @@ class ClearCache
         
         if (! Cache::has($trackingKey)) {
             GraphQLCacheService::logCacheOperation('miss', $trackingKey, "No tracking key found for {$context}");
+
             return;
         }
         
@@ -85,6 +88,13 @@ class ClearCache
         $this->clearCacheForEntity('channel', $channel);
     }
 
+    public function afterConfigurationSave(): void
+    {
+        $this->clearCacheForEntity('core-config-data');
+        
+        $this->clearCacheForEntity('product');
+    }
+
     public function afterThemeCustomizationCreateOrUpdate($themeCustomization): void
     {
         $this->clearCacheForEntity('theme');
@@ -107,13 +117,6 @@ class ClearCache
         $this->clearCacheForEntity('attribute');
     }
 
-    public function afterConfigurationSave(): void
-    {
-        $this->clearCacheForEntity('core-config-data');
-        
-        $this->clearCacheForEntity('product');
-    }
-
     public function afterCustomerUpdate($customer): void
     {
         $this->clearCacheForEntity('customer', null, $customer->id);
@@ -124,7 +127,7 @@ class ClearCache
         $this->clearCacheForEntity('address', null, $address->customer_id);
     }
 
-    public function afterAddressDeleteBefore($id): void
+    public function beforeAddressDelete($id): void
     {
         $address = CustomerAddress::find($id);
 
@@ -138,6 +141,13 @@ class ClearCache
 
     public function afterReviewCreateOrUpdate($review): void
     {
+        $this->clearCacheForEntity('review', null, $review->customer_id);
+    }
+
+    public function beforeReviewDelete($id): void
+    {
+        $review = ProductReview::find($id);
+
         $this->clearCacheForEntity('review', null, $review->customer_id);
     }
 
@@ -172,5 +182,39 @@ class ClearCache
     public function afterShipmentSave($shipment): void
     {
         $this->clearCacheForEntity('order', null, $shipment->customer->customer_id);
+    }
+
+    public function beforeWishlistDelete($id): void
+    {
+        $wishlist = \Webkul\Customer\Models\Wishlist::find($id);
+
+        $this->clearCacheForEntity('wishlist', null, $wishlist?->customer_id);
+    }
+
+    public function afterWishlistCreateOrUpdate($wishlist): void
+    {
+        $this->clearCacheForEntity('wishlist', null, $wishlist->customer_id);
+    }
+
+    public function afterWishlistDeleteAll(): void
+    {
+        $this->clearCacheForEntity('wishlist');
+    }
+
+    public function beforeCompareDelete($id): void
+    {
+        $compare = CompareItem::find($id);
+
+        $this->clearCacheForEntity('compare', null, $compare?->customer_id);
+    }
+
+    public function afterCompareCreateOrUpdate($compare): void
+    {
+        $this->clearCacheForEntity('compare', null, $compare?->customer_id);
+    }
+
+    public function afterCompareDeleteAll(): void
+    {
+        $this->clearCacheForEntity('compare');
     }
 }
