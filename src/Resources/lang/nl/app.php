@@ -371,7 +371,6 @@ return [
                 'update-success'         => 'Klantadres succesvol bijgewerkt.',
                 'already-default'        => 'Waarschuwing: Dit adres is al ingesteld als standaard.',
             ],
-            ],
 
             'groups' => [
                 'create-success'     => 'Klantgroep succesvol aangemaakt.',

@@ -84,7 +84,7 @@ input BookingProductInput {
     dateTo: String @rename(attribute: "date_to")
     qty: [EventBookingInput!]
     note: String
-    rentingType: RentingTypeEnum @rename(attribute: "renting_type")
+    rentingType: RentingTypeEnumForCart @rename(attribute: "renting_type")
 }
 
 input BookingSlotInput {
@@ -243,7 +243,7 @@ type AvailableBootkingSlot {
     toTimestamp: String @rename(attribute: "to_timestamp")
 }
 
-enum RentingTypeEnum {
+enum RentingTypeEnumForCart {
     HOURLY @enum(value: "hourly")
     DAILY @enum(value: "daily")
 }
