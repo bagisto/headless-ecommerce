@@ -42,7 +42,7 @@ input CreatePushNotificationInput {
     type: String
     productCategoryId: Int @rename(attribute: "product_category_id")
     status: Int
-    image: Upload
+    image: String
 }
 
 type PushNotification {
