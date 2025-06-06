@@ -176,12 +176,12 @@ class ClearCache
 
     public function afterRefundSave($refund): void
     {
-        $this->clearCacheForEntity('order', null, $refund->customer->customer_id);
+        $this->clearCacheForEntity('order', null, $refund->order->customer_id);
     }
     
     public function afterShipmentSave($shipment): void
     {
-        $this->clearCacheForEntity('order', null, $shipment->customer->customer_id);
+        $this->clearCacheForEntity('order', null, $shipment->order->customer_id);
     }
 
     public function beforeWishlistDelete($id): void
