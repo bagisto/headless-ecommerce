@@ -146,14 +146,14 @@ class BagistoGraphql
         $modelPath = "$path{$model->id}/";
 
         $imageDirPath = storage_path("app/public/$modelPath");
-
+        
         if (! file_exists($imageDirPath)) {
             mkdir(storage_path("app/public/$modelPath"), 0777, true);
         }
-
+        
         if (! empty($imageUrl)) {
             $validatedImg = $this->validatePath($imageUrl, 'images');
-
+            
             if ($validatedImg) {
                 $imgName = basename($imageUrl);
 
@@ -994,7 +994,7 @@ class BagistoGraphql
         curl_setopt($chkURL, CURLOPT_NOBODY, 1);
         curl_setopt($chkURL, CURLOPT_FAILONERROR, 1);
         curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
-
+        
         if (
             curl_exec($chkURL) !== false
             && $this->getImageMIMEType($imageURL, $type)
