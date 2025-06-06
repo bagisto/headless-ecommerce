@@ -38,7 +38,7 @@ class PushNotificationMutation extends Controller
         ]);
 
         try {
-            $imageUrl = $data['image'] ?? '';
+            $imageUrl = $args['image'] ?? '';
 
             if (isset($args['image'])) {
                 unset($args['image']);

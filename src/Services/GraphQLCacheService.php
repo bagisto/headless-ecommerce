@@ -134,6 +134,7 @@ class GraphQLCacheService
         'downloadableLinkPurchases',
         'shippingMethods',
         'paymentMethods',
+        'checkoutAddresses',
     ];
 
     /**
