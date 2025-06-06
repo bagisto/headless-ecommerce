@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Illuminate\Support\Facades\Validator;
-use Webkul\GraphQLAPI\Rules\ValidateAgreement;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -147,6 +145,11 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/auth/providers.php',
             'auth.providers'
+        );
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/logging.php',
+            'logging.channels'
         );
     }
 }
