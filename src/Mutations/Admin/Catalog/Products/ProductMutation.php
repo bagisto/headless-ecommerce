@@ -226,12 +226,16 @@ class ProductMutation extends Controller
             unset($args['videos']);
         }
 
+        if (
+            $product->type != 'downloadable'
+            && isset($args['inventories'])
+        ) {
+            unset($args['inventories']);
+        }
+
         $inventories = [];
 
-        if (
-            isset($args['inventories'])
-            && $product->type != 'downloadable'
-        ) {
+        if (isset($args['inventories'])) {
             foreach ($args['inventories'] as $inventory) {
                 if (
                     isset($inventory['inventory_source_id'])

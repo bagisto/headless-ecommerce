@@ -14,7 +14,7 @@ class CommonFilter extends BaseFilter
     public function __invoke(Builder $query, array $input): Builder
     {
         $params = Arr::except($input, ['created_at', 'updated_at']);
-
+        
         $query->when(! empty($input['created_at']), fn ($query) => $query->whereDate('created_at', $input['created_at']));
 
         $query->when(! empty($input['updated_at']), fn ($query) => $query->whereDate('updated_at', $input['updated_at']));
@@ -28,5 +28,18 @@ class CommonFilter extends BaseFilter
         }
 
         return $query->where($params);
+    }
+
+    /**
+     * Get the filter name.
+     */
+    public function getData(mixed $rootValue, array $args)
+    {
+        $configRepository = app('Webkul\Core\Repositories\CoreConfigRepository');
+        
+        return $configRepository->findWhere([
+            'code' => $args['code'],
+            'locale_code' => core()->getCurrentLocale()->code,
+        ])->first();
     }
 }
