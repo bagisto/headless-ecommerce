@@ -82,8 +82,13 @@ class DownloadableMutation extends Controller
         if ($downloadableLinkPurchased->type == 'url') {
             $type = pathinfo($downloadableLinkPurchased->url, PATHINFO_EXTENSION);
 
-            $base64Code = base64_encode(file_get_contents($downloadableLinkPurchased->url));
-
+            
+            try {
+                $base64Code = base64_encode(file_get_contents($downloadableLinkPurchased->url));
+            } catch (\Exception $e) {
+                throw new CustomException($e->getMessage());
+            }
+            
             $base64Str = "data:image/{$type};base64,{$base64Code}";
 
             return [

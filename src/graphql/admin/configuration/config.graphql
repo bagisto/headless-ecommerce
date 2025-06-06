@@ -9,7 +9,7 @@ extend type Query {
         model: "Webkul\\Core\\Models\\CoreConfig"
     )
 
-    coreConfig(code: String! @eq): CoreConfig @find(model: "Webkul\\Core\\Models\\CoreConfig")
+    coreConfig(code: String!): CoreConfig @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter@getData")
 }
 
 input FilterCoreConfigInput {
