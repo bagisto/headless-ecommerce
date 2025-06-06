@@ -37,9 +37,18 @@ class CommonFilter extends BaseFilter
     {
         $configRepository = app('Webkul\Core\Repositories\CoreConfigRepository');
         
-        return $configRepository->findWhere([
+        $result = $configRepository->findWhere([
             'code' => $args['code'],
             'locale_code' => core()->getCurrentLocale()->code,
         ])->first();
+
+        if (! $result) {
+            $result = $configRepository->findWhere([
+            'code' => $args['code'],
+            'locale_code' => null,
+            ])->first();
+        }
+
+        return $result;
     }
 }
