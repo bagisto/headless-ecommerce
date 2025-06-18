@@ -109,15 +109,18 @@ type DefaultBookingProductSlots {
     bookingType: String! @rename(attribute: "booking_type")
     duration: Int
     breakTime: Int @rename(attribute: "break_time")
-    slots: [DefaultSlots]
+    slotManyDays: [DefaultSlots] @rename(attribute: "slots")
+    slotOneDay: [[DefaultSlots]] @rename(attribute: "slots")
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }
 
 type DefaultSlots {
+    id: String
     to: String
     toDay: Int @rename(attribute: "to_day")
     from: String
     fromDay: Int @rename(attribute: "from_day")
+    status: String
 }
 
 type AppointmentBookingProductSlots {
@@ -125,7 +128,8 @@ type AppointmentBookingProductSlots {
     duration: Int
     breakTime: Int @rename(attribute: "break_time")
     sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
-    slots: [BookingDaySlots!]
+    slotManyDays: [BookingDaySlots] @rename(attribute: "slots")
+    slotOneDay: [[BookingDaySlots]] @rename(attribute: "slots")
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }
 
@@ -161,7 +165,8 @@ type RentalBookingProductSlots {
     dailyPrice: Float @rename(attribute: "daily_price")
     hourlyPrice: Float @rename(attribute: "hourly_price")
     sameSlotAllDays: Boolean @rename(attribute: "same_slot_all_days")
-    slots: [BookingDaySlots!]
+    slotManyDays: [BookingDaySlots] @rename(attribute: "slots")
+    slotOneDay: [[BookingDaySlots]] @rename(attribute: "slots")
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }
 
@@ -173,6 +178,7 @@ type TableBookingProductSlots {
     breakTime: Int @rename(attribute: "break_time")
     preventSchedulingBefore: Boolean! @rename(attribute: "prevent_scheduling_before")
     sameSlotAllDays: Boolean! @rename(attribute: "same_slot_all_days")
-    slots: [BookingDaySlots!]
+    slotManyDays: [BookingDaySlots] @rename(attribute: "slots")
+    slotOneDay: [[BookingDaySlots]] @rename(attribute: "slots")
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }
