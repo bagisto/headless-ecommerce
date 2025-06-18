@@ -114,10 +114,10 @@ type DefaultBookingProductSlots {
 }
 
 type DefaultSlots {
-    to: String!
-    toDay: Int! @rename(attribute: "to_day")
-    from: String!
-    fromDay: Int! @rename(attribute: "from_day")
+    to: String
+    toDay: Int @rename(attribute: "to_day")
+    from: String
+    fromDay: Int @rename(attribute: "from_day")
 }
 
 type AppointmentBookingProductSlots {
