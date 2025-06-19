@@ -94,7 +94,6 @@ To install the Bagisto GraphQL API, follow these steps:
    ```
    http://your-domain.com/graphql
    ```
-
 ---
 
-That's it! Your Bagisto GraphQL API is now ready. Execute the project on your specified domain and start building your headless eCommerce solution.
+That's it Your Bagisto GraphQL API is now ready. Execute the project on your specified domain and start building your headless eCommerce solution.
