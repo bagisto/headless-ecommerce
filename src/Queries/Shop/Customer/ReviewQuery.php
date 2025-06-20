@@ -16,10 +16,16 @@ class ReviewQuery extends BaseFilter
             $customer = auth()->guard('api')->user();
         }
 
-        $query->distinct()
+        $query = $query->distinct()
             ->select('product_reviews.*')
-            ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
-            ->where('product_reviews.customer_id', $customer->id ?? null);
+            ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id');
+
+        // Get the customer all reviews based on the type for show product reviews.
+        if (isset($input['type'])) {
+            $query->where('product_reviews.status', 'approved');
+        } else {
+            $query->where('product_reviews.customer_id', $customer->id ?? null);
+        } 
 
         $filters = [
             'product_reviews.id'         => $input['id'] ?? null,

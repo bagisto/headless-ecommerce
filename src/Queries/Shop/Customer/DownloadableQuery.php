@@ -23,6 +23,7 @@ class DownloadableQuery extends BaseFilter
             'purchase_date',
             'purchase_date_from',
             'purchase_date_to',
+            'all',
         ]);
 
         if (! empty($input['purchase_date'])) {
@@ -33,6 +34,16 @@ class DownloadableQuery extends BaseFilter
         ) {
             $query->whereDate('created_at', '>=', $input['purchase_date_from'])
                 ->whereDate('created_at', '<=', $input['purchase_date_to']);
+        }
+
+        if (!empty($input['all'])) {
+            $all = $input['all'];
+            $query->where(function ($q) use ($all) {
+                $q->where('id', 'like', "%$all%")
+                  ->orWhereDate('created_at', 'like', "%$all%")
+                  ->orWhere('status', 'like', "%$all%")
+                  ->orWhere('name', 'like', "%$all%");
+            });
         }
 
         $query = $this->applyLikeFilter($query, Arr::only($input, ['product_name', 'name']));

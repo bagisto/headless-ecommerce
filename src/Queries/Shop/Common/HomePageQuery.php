@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Category\Repositories\CategoryRepository;
@@ -69,7 +70,7 @@ class HomePageQuery extends BaseFilter
                 $images['images'] = [];
 
                 foreach ($item->options['images'] as $i => $element) {
-                    $images['images'][$i] = array_merge($element, ['image_url' => asset('/').$element['image']]);
+                    $images['images'][$i] = array_merge($element, ['image_url' => Storage::url(str_replace('storage/', '', $element['image']))]);
                 }
 
                 $item->options = $images;
@@ -80,7 +81,7 @@ class HomePageQuery extends BaseFilter
 
                 $staticContent['html'] = [];
 
-                $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
+                $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.Storage::url(''), $item->options['html']);
 
                 $item->options = $staticContent;
             }
@@ -97,12 +98,14 @@ class HomePageQuery extends BaseFilter
 
                 $i = 0;
 
-                foreach ($item->options['filters'] as $key => $value) {
-                    $options['filters'][$i]['key'] = $key;
+                if (isset($item->options['filters'])) {
+                    foreach ($item->options['filters'] as $key => $value) {
+                        $options['filters'][$i]['key'] = $key;
 
-                    $options['filters'][$i]['value'] = $value;
+                        $options['filters'][$i]['value'] = $value;
 
-                    $i++;
+                        $i++;
+                    }
                 }
 
                 $item->options = $options;
@@ -177,6 +180,18 @@ class HomePageQuery extends BaseFilter
             'visible_individually' => 1,
         ]);
 
+        /**
+         * Handle category_slug filtering.
+         */
+        if (! empty($params['category_slug'])) {
+            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($params) {
+                $q->where('slug', urldecode($params['category_slug']));
+            })->first();
+            
+            unset($params['category_slug']);
+            $params['category_id'] = $category?->id ?? random_int(1000000000, 9999999999);
+        }
+
         $products = $searchEngine === 'elastic'
             ? $this->searchFromElastic($params)
             : $this->searchFromDatabase($params);
@@ -206,7 +221,8 @@ class HomePageQuery extends BaseFilter
 
                 $join->on('products.id', '=', 'product_price_indices.product_id')
                     ->where('product_price_indices.customer_group_id', $customerGroup->id);
-            });
+            })
+            ->leftJoin('product_images', 'products.id', '=', 'product_images.product_id');
 
         /**
          * Handle category_id filtering.

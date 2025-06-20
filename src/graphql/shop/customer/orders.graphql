@@ -76,6 +76,7 @@ input FilterCustomerOrderInput {
     orderDateTo: String @rename(attribute: "order_date_to")
     channelName: String @rename(attribute: "channel_name")
     status: String
+    all: String
 }
 
 input OrderShipmentInput {
