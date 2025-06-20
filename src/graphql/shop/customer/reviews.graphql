@@ -53,6 +53,7 @@ input FilterReviewInput {
     productName: String @rename(attribute: "product_name")
     productId: Int @rename(attribute: "product_id")
     status: String
+    type: String
 }
 
 type DeleteReviewResponse {

@@ -17,7 +17,7 @@ class OrderQuery
 
         $query->where('customer_id', $customer->id);
 
-        $params = Arr::except($input, ['order_date', 'order_date_from', 'order_date_to']);
+        $params = Arr::except($input, ['order_date', 'order_date_from', 'order_date_to', 'all']);
 
         if (! empty($input['order_date'])) {
             $query->whereDate('created_at', $input['order_date']);
@@ -27,6 +27,17 @@ class OrderQuery
         ) {
             $query->whereDate('created_at', '>=', $input['order_date_from'])
                 ->whereDate('created_at', '<=', $input['order_date_to']);
+        }
+
+        if (!empty($input['all'])) {
+            $all = $input['all'];
+            $query->where(function ($q) use ($all) {
+                $q->where('id', 'like', "%$all%")
+                  ->orWhere('sub_total', 'like', "%$all%")
+                  ->orWhere('grand_total', 'like', "%$all%")
+                  ->orWhereDate('created_at', 'like', "%$all%")
+                  ->orWhere('status', 'like', "%$all%");
+            });
         }
 
         return $query->where($params)->orderBy('id', 'desc');

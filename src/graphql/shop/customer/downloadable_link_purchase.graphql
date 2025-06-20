@@ -31,6 +31,7 @@ input FilterDownloadablePurchaseInput {
     purchaseDate: String @rename(attribute: "purchase_date")
     purchaseDateFrom: String @rename(attribute: "purchase_date_from")
     purchaseDateTo: String @rename(attribute: "purchase_date_to")
+    all: String
 }
 
 type DownloadableLinkPurchased {
