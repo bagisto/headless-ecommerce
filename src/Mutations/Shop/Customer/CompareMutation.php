@@ -3,10 +3,11 @@
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Customer\Repositories\CompareItemRepository;
+use Illuminate\Support\Facades\Event;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Customer\Repositories\CompareItemRepository;
 
 class CompareMutation extends Controller
 {
@@ -54,10 +55,14 @@ class CompareMutation extends Controller
                     'compareProduct' => $compareProduct,
                 ];
             } else {
+                Event::dispatch('customer.compare.create.before');
+
                 $compareProduct = $this->compareItemRepository->create([
                     'customer_id' => $customer->id,
                     'product_id'  => $product->id,
                 ]);
+
+                Event::dispatch('customer.compare.create.after', $compareProduct);
 
                 return [
                     'success'        => true,
@@ -95,7 +100,11 @@ class CompareMutation extends Controller
         }
 
         try {
+            Event::dispatch('customer.compare.delete.before', $args['product_id']);
+
             $compareProduct->delete();
+
+            Event::dispatch('customer.compare.delete.after', $args['product_id']);
 
             return [
                 'success' => true,
@@ -126,9 +135,13 @@ class CompareMutation extends Controller
                 throw new CustomException(trans('bagisto_graphql::app.shop.customers.compare-product.not-found'));
             }
 
+            Event::dispatch('customer.compare.delete-all.before');
+
             $this->compareItemRepository->deleteWhere([
                 'customer_id' => $customer->id,
             ]);
+
+            Event::dispatch('customer.compare.delete-all.after');
 
             return [
                 'success' => true,

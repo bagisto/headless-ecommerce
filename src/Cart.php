@@ -70,14 +70,16 @@ class Cart extends BaseCart
      */
     public function moveToWishlist(int $itemId, int $quantity = 1): bool
     {
-        $cartItem = $this->cart->items()->find($itemId);
+        $cart = $this->getCart();
+
+        $cartItem = $cart->items->find($itemId);
 
         if (! $cartItem) {
             return false;
         }
 
         $wishlistItems = $this->wishlistRepository->findWhere([
-            'customer_id' => $this->cart->customer_id,
+            'customer_id' => $cart->customer_id,
             'product_id'  => $cartItem->product_id,
         ]);
 
@@ -99,8 +101,8 @@ class Cart extends BaseCart
             Event::dispatch('customer.wishlist.create.before', $cartItem->product_id);
 
             $wishlist = $this->wishlistRepository->create([
-                'channel_id'  => $this->cart->channel_id,
-                'customer_id' => $this->cart->customer_id,
+                'channel_id'  => $cart->channel_id,
+                'customer_id' => $cart->customer_id,
                 'product_id'  => $cartItem->product_id,
                 'additional'  => [
                     ...$cartItem->additional,
@@ -111,8 +113,8 @@ class Cart extends BaseCart
             Event::dispatch('customer.wishlist.create.after', $wishlist);
         }
 
-        if (! $this->cart->items->count()) {
-            $this->cartRepository->delete($this->cart->id);
+        if (! $cart->items->count()) {
+            $this->cartRepository->delete($cart->id);
 
             $this->refreshCart();
         } else {

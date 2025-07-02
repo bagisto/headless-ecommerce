@@ -225,7 +225,7 @@ type ProductCustomizableOption {
     productId: ID! @rename(attribute: "product_id")
     type: String
     isRequired: Boolean @rename(attribute: "is_required")
-    maxCharacters: Int @rename(attribute: "max_characters")
+    maxCharacters: String @rename(attribute: "max_characters")
     supportedFileExtensions: String @rename(attribute: "supported_file_extensions")
     sortOrder: Int @rename(attribute: "sort_order")
     product: Product @belongsTo(relation: "product")

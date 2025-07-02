@@ -48,7 +48,7 @@ class WishlistController extends WishlistControllerBase
             'customer_id' => auth()->guard()->user()->id,
         ];
 
-        if (! $this->wishlistRepository->findOneWhere($data)) {
+        if (! $wishlist = $this->wishlistRepository->findOneWhere($data)) {
             Event::dispatch('customer.wishlist.create.before', $productId);
 
             $wishlist = $this->wishlistRepository->create($data);
@@ -60,10 +60,14 @@ class WishlistController extends WishlistControllerBase
             ]);
         }
 
+        Event::dispatch('customer.wishlist.delete.before', $wishlist->id);
+        
         $this->wishlistRepository->deleteWhere([
             'product_id'  => $product->id,
             'customer_id' => auth()->guard()->user()->id,
         ]);
+
+        Event::dispatch('customer.wishlist.delete.after', $wishlist->id);
 
         return new JsonResource([
             'message' => trans('shop::app.customers.account.wishlist.removed'),

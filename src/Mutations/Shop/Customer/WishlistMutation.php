@@ -2,12 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use App\Http\Controllers\Controller;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Customer\Repositories\WishlistRepository;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Event;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Customer\Repositories\WishlistRepository;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class WishlistMutation extends Controller
 {
@@ -57,7 +58,11 @@ class WishlistMutation extends Controller
                 ];
             }
 
-            $this->wishlistRepository->create($data);
+            Event::dispatch('customer.wishlist.create.before', $product->id);
+
+            $wishlist = $this->wishlistRepository->create($data);
+
+            Event::dispatch('customer.wishlist.create.after', $wishlist);
 
             return [
                 'success'  => true,
@@ -98,8 +103,14 @@ class WishlistMutation extends Controller
 
         try {
             if ($wishlist = $this->wishlistRepository->findOneWhere($data)) {
-                $this->wishlistRepository->delete($wishlist->id);
+                $wishlistId = $wishlist->id;
 
+                Event::dispatch('customer.wishlist.delete.before', $wishlistId);
+                
+                $this->wishlistRepository->delete($wishlistId);
+
+                Event::dispatch('customer.wishlist.delete.after', $wishlistId);
+                
                 return [
                     'success'  => true,
                     'message'  => trans('bagisto_graphql::app.shop.customers.account.wishlist.remove-success'),
@@ -151,7 +162,11 @@ class WishlistMutation extends Controller
         }
 
         try {
+            Event::dispatch('customer.wishlist.move-to-cart.before', $args['id']);
+            
             $result = Cart::moveToCart($wishlistItem, $args['quantity']);
+
+            Event::dispatch('customer.wishlist.move-to-cart.after', $args['id']);
 
             return [
                 'success'  => $result ? true : false,
@@ -184,7 +199,11 @@ class WishlistMutation extends Controller
                 ];
             }
 
+            Event::dispatch('customer.wishlist.delete-all.before');
+
             $this->wishlistRepository->deleteWhere(['customer_id' => auth()->user()->id]);
+
+            Event::dispatch('customer.wishlist.delete-all.after');
 
             return [
                 'success' => true,
