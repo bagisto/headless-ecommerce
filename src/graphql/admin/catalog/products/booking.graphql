@@ -134,10 +134,18 @@ type AppointmentBookingProductSlots {
 }
 
 type BookingDaySlots {
+    # id: String
+    # day: Int
+    # from: String
+    # to: String
+
     id: String
-    day: Int
-    from: String
     to: String
+    toDay: Int @rename(attribute: "to_day")
+    from: String
+    fromDay: Int @rename(attribute: "from_day")
+    status: String
+    day: Int
 }
 
 type TicketBookingProductSlots {

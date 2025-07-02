@@ -82,10 +82,15 @@ class HomePageQuery extends BaseFilter
     {
         visitor()->visit();
 
-        $customizations = $this->themeCustomizationRepository->orderBy('sort_order')->findWhere([
-            'status'     => self::STATUS,
-            'channel_id' => core()->getCurrentChannel()->id,
-        ]);
+        $customizations = $this->themeCustomizationRepository
+            ->with(['translations' => function ($query) {
+                $query->where('locale', core()->getCurrentLocale()->code);
+            }])
+            ->orderBy('sort_order')
+            ->findWhere([
+                'status'     => self::STATUS,
+                'channel_id' => core()->getCurrentChannel()->id,
+            ]);
         
         $result = $customizations->map(function ($item) {
             if ($item->type == 'image_carousel') {

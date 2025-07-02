@@ -74,10 +74,14 @@ class ReviewMutation extends Controller
             }
 
             $args['status'] = 'pending';
+
+            Event::dispatch('customer.review.create.before', $args['product_id']);
             
             $review = $this->productReviewRepository->create($args);
 
             $this->productReviewAttachmentRepository->upload($args['attachments'] ?? [], $review);
+
+            Event::dispatch('customer.review.create.after', $review);
 
             return [
                 'success' => true,
