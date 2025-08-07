@@ -138,13 +138,13 @@ To install the Bagisto GraphQL API, follow these steps:
 
       Replace `your-mobikul-api-key` with the actual value from your `.env` file.
 
-      4. **GraphQL Playground Endpoint Configuration**
+4. **GraphQL Playground Endpoint Configuration**
 
-         Ensure that the `GRAPHIQL_ENDPOINT` in your `.env` file is set to your application's URL followed by `/graphiql`. For example:
+   Ensure that the `GRAPHIQL_ENDPOINT` in your `.env` file is set to your application's URL followed by `/graphiql`. For example:
 
-         ```env
-         GRAPHIQL_ENDPOINT=https://your-domain.com/graphiql
-         ```
+   ```env
+   GRAPHIQL_ENDPOINT=https://your-domain.com/graphiql
+   ```
 ---
 
 That's it! Your Bagisto GraphQL API is now ready. Execute the project on your specified domain and start building your headless eCommerce solution.
