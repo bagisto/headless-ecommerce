@@ -31,7 +31,7 @@ return [
             | as GraphiQL, but can be set to any URL.
             |
             */
-            'endpoint' => '/graphql',
+            'endpoint' => env('GRAPHIQL_ENDPOINT', '/graphql'),
 
             /*
             |--------------------------------------------------------------------------

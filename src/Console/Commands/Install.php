@@ -61,6 +61,21 @@ class Install extends Command
             file_put_contents($envPath, PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
         }
 
+        $graphiqlEndpoint = rtrim(env('APP_URL'), '/') . '/graphiql';
+
+        if (preg_match('/^GRAPHIQL_ENDPOINT=.*$/m', $envContent)) {
+            // Replace existing endpoint
+            $envContent = preg_replace(
+                '/^GRAPHIQL_ENDPOINT=.*$/m',
+                "GRAPHIQL_ENDPOINT={$graphiqlEndpoint}",
+                $envContent
+            );
+            file_put_contents($envPath, $envContent);
+        } else {
+            // Append new endpoint
+            file_put_contents($envPath, PHP_EOL . "GRAPHIQL_ENDPOINT={$graphiqlEndpoint}" . PHP_EOL, FILE_APPEND);
+        }
+
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
 
         $this->warn('Step: Publishing Lighthouse Provider File...');
