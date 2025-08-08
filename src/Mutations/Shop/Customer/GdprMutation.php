@@ -22,11 +22,7 @@ class GdprMutation extends Controller
         protected GDPRDataRequestRepository $gdprDataRequestRepository,
         protected OrderRepository $orderRepository,
         protected CustomerAddressRepository $customerAddressRepository
-    ) {
-        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
-        }
-    }
+    ) {}
 
     /**
      * Store a GDPR data request.
@@ -37,6 +33,10 @@ class GdprMutation extends Controller
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         bagisto_graphql()->validate($args, [
@@ -74,6 +74,10 @@ class GdprMutation extends Controller
      */
     public function revoke($rootValue, array $args, GraphQLContext $context)
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         $data = $this->gdprDataRequestRepository->findWhere([
@@ -114,6 +118,10 @@ class GdprMutation extends Controller
      */
     public function downloadGdprData(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+        
         $customer = bagisto_graphql()->authorize();
 
         try {
