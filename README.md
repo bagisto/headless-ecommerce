@@ -46,7 +46,7 @@ To install the Bagisto GraphQL API, follow these steps:
    Run the following command in your terminal to install the GraphQL API package:
 
    ```bash
-   composer require bagisto/graphql-api ^v2.3.1
+   composer require bagisto/graphql-api:v2.3.2
    ```
 
 2. **Update Middleware Configuration**
@@ -140,10 +140,10 @@ To install the Bagisto GraphQL API, follow these steps:
 
 4. **GraphQL Playground Endpoint Configuration**
 
-   Ensure that the `GRAPHIQL_ENDPOINT` in your `.env` file is set to your application's URL followed by `/graphiql`. For example:
+   Ensure that the `GRAPHQL_ENDPOINT` in your `.env` file is set to your application's URL followed by `/graphiql`. For example:
 
    ```env
-   GRAPHIQL_ENDPOINT=https://your-domain.com/graphiql
+   GRAPHQL_ENDPOINT=https://your-domain.com/graphiql
    ```
 ---
 
