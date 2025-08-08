@@ -61,19 +61,19 @@ class Install extends Command
             file_put_contents($envPath, PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
         }
 
-        $graphiqlEndpoint = rtrim(env('APP_URL'), '/') . '/graphiql';
+        $graphqlEndpoint = rtrim(env('APP_URL'), '/') . '/graphql';
 
-        if (preg_match('/^GRAPHIQL_ENDPOINT=.*$/m', $envContent)) {
+        if (preg_match('/^GRAPHQL_ENDPOINT=.*$/m', $envContent)) {
             // Replace existing endpoint
             $envContent = preg_replace(
-                '/^GRAPHIQL_ENDPOINT=.*$/m',
-                "GRAPHIQL_ENDPOINT={$graphiqlEndpoint}",
+                '/^GRAPHQL_ENDPOINT=.*$/m',
+                "GRAPHQL_ENDPOINT={$graphqlEndpoint}",
                 $envContent
             );
             file_put_contents($envPath, $envContent);
         } else {
             // Append new endpoint
-            file_put_contents($envPath, PHP_EOL . "GRAPHIQL_ENDPOINT={$graphiqlEndpoint}" . PHP_EOL, FILE_APPEND);
+            file_put_contents($envPath, PHP_EOL . "GRAPHQL_ENDPOINT={$graphqlEndpoint}" . PHP_EOL, FILE_APPEND);
         }
 
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
