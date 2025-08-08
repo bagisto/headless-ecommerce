@@ -78,15 +78,6 @@ class Install extends Command
 
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
 
-        $this->warn('Step: Publishing Lighthouse Provider File...');
-        $this->info(shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config'));
-
-        $this->warn('Step: Publishing GraphiQL Provider File...');
-        $this->info(shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config'));
-
-        $this->warn('Step: Publishing GraphiQL Configuration File...');
-        $this->info(shell_exec('php artisan vendor:publish --tag=graphiql-config'));
-
         $this->warn('Step: Clearing the cache...');
         $this->call('optimize:clear');
 
