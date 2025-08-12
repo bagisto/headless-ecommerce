@@ -189,7 +189,7 @@ class HomePageQuery extends BaseFilter
             })->first();
             
             unset($params['category_slug']);
-            $params['category_id'] = $category?->id ?? random_int(1000000000, 9999999999);
+            $params['category_id'] = $category?->id ?? -1;
         }
 
         $products = $searchEngine === 'elastic'

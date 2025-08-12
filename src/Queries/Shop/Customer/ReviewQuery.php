@@ -7,6 +7,8 @@ use Webkul\GraphQLAPI\Queries\BaseFilter;
 
 class ReviewQuery extends BaseFilter
 {
+    protected const APPROVED = 'approved';
+
     /**
      * Filter query for the product review.
      */
@@ -22,7 +24,7 @@ class ReviewQuery extends BaseFilter
 
         // Get the customer all reviews based on the type for show product reviews.
         if (isset($input['type'])) {
-            $query->where('product_reviews.status', 'approved');
+            $query->where('product_reviews.status', self::APPROVED);
         } else {
             $query->where('product_reviews.customer_id', $customer->id ?? null);
         } 
