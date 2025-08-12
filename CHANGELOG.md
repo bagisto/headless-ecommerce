@@ -2,6 +2,22 @@
 
 This changelog consists of the bug & security fixes and new features included in the releases listed below.
 
+v2.3.2 (07th of August, 2025) - Release
+
+* Fixed graphiql endpoint issue
+
+v2.3.1 (17th of July, 2025) - Release
+
+# Enhancements
+
+* [Enhancement] - Remove CA locale and update readme #534
+
+* [Enhancement] - add CA locale #535
+
+# Bug Fixes
+
+* Fixed issues #521, #523, #526, #530 #532
+
 v2.3.0 (16th of May, 2025) - Release
 
 #  Enhancements

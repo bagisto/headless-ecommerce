@@ -2,18 +2,18 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Illuminate\Support\Carbon;
-use Webkul\Sales\Models\Order;
-use Illuminate\Http\UploadedFile;
-use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Customer\Repositories\CustomerRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Core\Repositories\SubscribersListRepository;
+use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Sales\Models\Order;
 
 class AccountMutation extends Controller
 {
@@ -49,7 +49,7 @@ class AccountMutation extends Controller
     public function update(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $customer = bagisto_graphql()->authorize();
-        
+
         bagisto_graphql()->validate($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
@@ -84,7 +84,7 @@ class AccountMutation extends Controller
             }
 
             Event::dispatch('customer.update.before');
-            
+
             if ($customer = $this->customerRepository->update($args, $customer->id)) {
                 if ($isPasswordChanged) {
                     Event::dispatch('user.admin.update-password', $customer);
@@ -101,20 +101,20 @@ class AccountMutation extends Controller
                         'token'         => uniqid(),
                     ],
                 );
-                
+
                 if (! empty($args['image'])) {
                     $file = $args['image'] ?? null;
-        
+
                     if ($file instanceof UploadedFile) {
                         if ($customer->image) {
                             Storage::delete($customer->image);
                         }
-                        
+
                         $customer->image = $file->store("customer/{$customer->id}");
 
                         $customer->save();
                     }
-                } else if (
+                } elseif (
                     array_key_exists('image', $args)
                     && is_null($args['image'])
                 ) {
@@ -139,7 +139,6 @@ class AccountMutation extends Controller
             throw new CustomException($e->getMessage());
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

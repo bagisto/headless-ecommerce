@@ -2,16 +2,16 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
+use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\GDPR\Repositories\GDPRDataRequestRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
-use App\Http\Controllers\Controller;
-use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Sales\Repositories\OrderRepository;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class GdprMutation extends Controller
 {
@@ -22,11 +22,7 @@ class GdprMutation extends Controller
         protected GDPRDataRequestRepository $gdprDataRequestRepository,
         protected OrderRepository $orderRepository,
         protected CustomerAddressRepository $customerAddressRepository
-    ) {
-        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
-        }
-    }
+    ) {}
 
     /**
      * Store a GDPR data request.
@@ -37,6 +33,10 @@ class GdprMutation extends Controller
      */
     public function store(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         bagisto_graphql()->validate($args, [
@@ -50,7 +50,7 @@ class GdprMutation extends Controller
             $params = array_merge($args, [
                 'status'        => 'pending',
                 'customer_id'   => $customer->id,
-                'customer_name' => $customer->first_name . ' ' . $customer->last_name,
+                'customer_name' => $customer->first_name.' '.$customer->last_name,
                 'email'         => $customer->email,
             ]);
 
@@ -74,6 +74,10 @@ class GdprMutation extends Controller
      */
     public function revoke($rootValue, array $args, GraphQLContext $context)
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         $data = $this->gdprDataRequestRepository->findWhere([
@@ -114,6 +118,10 @@ class GdprMutation extends Controller
      */
     public function downloadGdprData(mixed $rootValue, array $args, GraphQLContext $context)
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         try {
@@ -148,7 +156,7 @@ class GdprMutation extends Controller
         $fileName = 'customer-info-'.now()->format('Y-m-d-His').'.pdf';
 
         $path = "gdpr/{$customer->id}/{$fileName}";
-        
+
         Storage::put($path, $pdf->output(), 'public');
 
         $base64 = base64_encode(file_get_contents(Storage::url($path)));

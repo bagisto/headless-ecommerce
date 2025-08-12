@@ -4,9 +4,9 @@ namespace Webkul\GraphQLAPI\Listeners;
 
 use Illuminate\Support\Facades\Cache;
 use Webkul\Customer\Models\CompareItem;
-use Webkul\Product\Models\ProductReview;
 use Webkul\Customer\Models\CustomerAddress;
 use Webkul\GraphQLAPI\Services\GraphQLCacheService;
+use Webkul\Product\Models\ProductReview;
 
 /**
  * Listener to clear GraphQL cache when entities are modified
@@ -19,7 +19,7 @@ class ClearCache
     public function clearCacheForEntity(string $entityType, $record = null, ?int $customerId = null): void
     {
         $cachePatterns = GraphQLCacheService::getCacheKeyPatterns($entityType);
-        
+
         if (empty($cachePatterns)) {
             return;
         }
@@ -35,17 +35,17 @@ class ClearCache
     protected function clearQueryCache(string $queryName, $record = null, ?int $customerId = null, string $context = ''): void
     {
         $trackingKey = GraphQLCacheService::generateTrackingKey($queryName, $record?->id);
-        
+
         if (! Cache::has($trackingKey)) {
             GraphQLCacheService::logCacheOperation('miss', $trackingKey, "No tracking key found for {$context}");
 
             return;
         }
-        
+
         $cachedKeys = Cache::get($trackingKey, []);
 
         $clearedCount = 0;
-        
+
         foreach ($cachedKeys as $cacheKey) {
             if ($this->shouldClearCacheKey($queryName, $cacheKey, $customerId)) {
                 Cache::forget($cacheKey);
@@ -55,7 +55,7 @@ class ClearCache
                 GraphQLCacheService::logCacheOperation('cleared', $cacheKey, $context);
             }
         }
-        
+
         if ($clearedCount > 0) {
             // Clear the tracking key as well
             Cache::forget($trackingKey);
@@ -75,7 +75,7 @@ class ClearCache
         ) {
             return true;
         }
-        
+
         $expectedPrefix = "query_cache_{$queryName}_{$customerId}";
 
         return str_starts_with(explode('-', $cacheKey)[0], $expectedPrefix);
@@ -91,7 +91,7 @@ class ClearCache
     public function afterConfigurationSave(): void
     {
         $this->clearCacheForEntity('core-config-data');
-        
+
         $this->clearCacheForEntity('product');
     }
 
@@ -168,7 +168,7 @@ class ClearCache
 
         $this->clearCacheForEntity('order', null, $order->customer_id);
     }
-    
+
     public function afterInvoiceSave($invoice): void
     {
         $this->clearCacheForEntity('order', null, $invoice->order->customer_id);
@@ -178,7 +178,7 @@ class ClearCache
     {
         $this->clearCacheForEntity('order', null, $refund->order->customer_id);
     }
-    
+
     public function afterShipmentSave($shipment): void
     {
         $this->clearCacheForEntity('order', null, $shipment->order->customer_id);

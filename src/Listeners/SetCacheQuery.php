@@ -2,8 +2,8 @@
 
 namespace Webkul\GraphQLAPI\Listeners;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Events\EndExecution;
 use Webkul\GraphQLAPI\Services\GraphQLCacheService;
 
@@ -20,7 +20,7 @@ class SetCacheQuery
         $request = request();
 
         $query = $request->input('query');
-        
+
         if (! $this->shouldProcessQuery($query)) {
             $this->handleGdprInjection($event, $request->headers->all());
 
@@ -28,7 +28,7 @@ class SetCacheQuery
         }
 
         $queryName = $this->extractQueryName($query);
-        
+
         if (
             ! $queryName
             || ! GraphQLCacheService::shouldCache($queryName, auth()->guard('api')->check())
@@ -59,7 +59,7 @@ class SetCacheQuery
         if (preg_match('/query\s+(\w+)/', $query, $matches)) {
             return $matches[1];
         }
-        
+
         return null;
     }
 
@@ -72,21 +72,21 @@ class SetCacheQuery
         $variables = $request->input('variables', []);
         $headers = $request->headers->all();
         $customerId = GraphQLCacheService::getCurrentCustomerId();
-        
+
         $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
-        
+
         $cacheKey = GraphQLCacheService::generateCacheKey($query, $queryName, $variables, $relevantHeaders, $customerId);
         $trackingKey = GraphQLCacheService::generateTrackingKey($queryName, $this->extractEntityId($event, $queryName));
-        
+
         // Cache the result
         Cache::put($cacheKey, $event->result, GraphQLCacheService::CACHE_TTL);
         GraphQLCacheService::logCacheOperation('set', $cacheKey, $queryName);
-        
+
         // Update tracking cache
         $existingKeys = Cache::get($trackingKey, []);
         $existingKeys[] = $cacheKey;
         Cache::put($trackingKey, array_unique($existingKeys), GraphQLCacheService::CACHE_TTL);
-        
+
         GraphQLCacheService::logCacheOperation('tracked', $trackingKey, "Added {$cacheKey}");
     }
 
@@ -98,7 +98,7 @@ class SetCacheQuery
         if (! in_array($queryName, GraphQLCacheService::getCacheWithId())) {
             return null;
         }
-        
+
         return data_get($event->result->data, "{$queryName}.id");
     }
 

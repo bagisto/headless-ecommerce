@@ -2,14 +2,14 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Shop\API;
 
-use Webkul\Checkout\Facades\Cart;
-use Illuminate\Support\Facades\Event;
-use Webkul\Shop\Http\Resources\CartResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Webkul\Shop\Http\Resources\WishlistResource;
-use Webkul\Product\Repositories\ProductRepository;
+use Illuminate\Support\Facades\Event;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\WishlistRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shop\Http\Controllers\API\WishlistController as WishlistControllerBase;
+use Webkul\Shop\Http\Resources\CartResource;
+use Webkul\Shop\Http\Resources\WishlistResource;
 
 class WishlistController extends WishlistControllerBase
 {
@@ -31,7 +31,7 @@ class WishlistController extends WishlistControllerBase
         $this->validate(request(), [
             'product_id' => 'required|integer|exists:products,id',
         ]);
-        
+
         $productId = request()->input('product_id');
 
         $product = $this->productRepository->find($productId);
@@ -61,7 +61,7 @@ class WishlistController extends WishlistControllerBase
         }
 
         Event::dispatch('customer.wishlist.delete.before', $wishlist->id);
-        
+
         $this->wishlistRepository->deleteWhere([
             'product_id'  => $product->id,
             'customer_id' => auth()->guard()->user()->id,

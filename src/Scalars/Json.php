@@ -8,11 +8,9 @@ class JSON extends ScalarType
 {
     /**
      * Name of the scalar type.
-     * 
-     * @var string
      */
     public string $name = 'JSON';
-    
+
     /**
      * Serialize the value for sending to the client.
      * Here we return the value as-is, assuming it's already a valid JSON-serializable PHP value.

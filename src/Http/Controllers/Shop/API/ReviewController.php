@@ -2,11 +2,11 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Shop\API;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Event;
 use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
+use Webkul\Product\Repositories\ProductReviewRepository;
 use Webkul\Shop\Http\Controllers\API\ReviewController as ReviewControllerBase;
 
 class ReviewController extends ReviewControllerBase
@@ -25,7 +25,6 @@ class ReviewController extends ReviewControllerBase
     /**
      * Pending review status.
      */
-
     const STATUS_PENDING = 'pending';
 
     /**

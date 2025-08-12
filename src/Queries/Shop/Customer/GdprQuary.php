@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
+use Illuminate\Support\Arr;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Sales\Repositories\OrderRepository;
 
 class GdprQuary extends BaseFilter
 {
@@ -17,24 +17,24 @@ class GdprQuary extends BaseFilter
     public function __construct(
         protected OrderRepository $orderRepository,
         protected CustomerAddressRepository $customerAddressRepository
-    ) {
-        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
-        }
-    }
+    ) {}
 
     /**
      * Filter GDPR data requests for the authenticated customer.
      */
     public function __invoke(Builder $query, array $input): Builder
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         $query->where('customer_id', $customer->id);
 
         $exactFilters = Arr::only($input, ['id', 'status', 'type', 'revoked_at']);
 
-        $likeFilters  = Arr::only($input, ['email', 'message']);
+        $likeFilters = Arr::only($input, ['email', 'message']);
 
         $query = $this->applyLikeFilter($query, $likeFilters);
 
@@ -46,6 +46,10 @@ class GdprQuary extends BaseFilter
      */
     public function getGdprRequest(Builder $query): Builder
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         return $query->where('customer_id', $customer->id);
@@ -56,6 +60,10 @@ class GdprQuary extends BaseFilter
      */
     public function viewGdprData()
     {
+        if (core()->getConfigData('general.gdpr.settings.enabled') != '1') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.gdpr.not-enabled'));
+        }
+
         $customer = bagisto_graphql()->authorize();
 
         try {
@@ -68,7 +76,7 @@ class GdprQuary extends BaseFilter
                 'order'    => ! empty($orders) ? $orders : null,
                 'address'  => ! empty($address) ? $address : null,
             ];
-            
+
             if (is_null($param['order'])) {
                 unset($param['order']);
             }
@@ -80,7 +88,7 @@ class GdprQuary extends BaseFilter
         } catch (\Exception $e) {
             $param = ['customer' => $customer];
         }
-        
+
         return $param;
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Admin\Setting;
 
-use Webkul\Core\Rules\Code;
-use Webkul\Core\Rules\PhoneNumber;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Core\Rules\Code;
+use Webkul\Core\Rules\PhoneNumber;
+use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Inventory\Repositories\InventorySourceRepository;
 
 class InventorySourceMutation extends Controller

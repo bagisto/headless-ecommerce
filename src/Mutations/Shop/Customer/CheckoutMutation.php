@@ -2,23 +2,22 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Webkul\Core\Rules\PostCode;
-use Webkul\Checkout\Facades\Cart;
-use Illuminate\Support\Facades\DB;
-use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Payment\Facades\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\GraphQLAPI\Helper\PaymentHelper;
-use Webkul\Sales\Transformers\OrderResource;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\GraphQLAPI\Helper\PaymentHelper;
+use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Sales\Repositories\InvoiceRepository;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Transformers\OrderResource;
+use Webkul\Shipping\Facades\Shipping;
 
 class CheckoutMutation extends Controller
 {
@@ -479,7 +478,7 @@ class CheckoutMutation extends Controller
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
             }
-            
+
             if (! empty($args['is_payment_completed'])) {
                 $this->paymentHelper->createInvoice($cart, $args, $order);
             }

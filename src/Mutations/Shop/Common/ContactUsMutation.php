@@ -23,7 +23,7 @@ class ContactUsMutation extends Controller
         bagisto_graphql()->validate($args, [
             'name'    => ['required', 'string', 'max:50'],
             'email'   => ['required', 'email'],
-            'contact' => ['required', new PhoneNumber()],
+            'contact' => ['required', new PhoneNumber],
             'message' => ['required', 'string', 'max:500'],
         ]);
 

@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI;
 
 use Illuminate\Support\Facades\Event;
+use Webkul\Checkout\Cart as BaseCart;
 use Webkul\Checkout\Repositories\CartAddressRepository;
 use Webkul\Checkout\Repositories\CartItemRepository;
 use Webkul\Checkout\Repositories\CartRepository;
@@ -11,7 +12,6 @@ use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\Customer\Repositories\WishlistRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Tax\Repositories\TaxCategoryRepository;
-use Webkul\Checkout\Cart as BaseCart;
 
 class Cart extends BaseCart
 {

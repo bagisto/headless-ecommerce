@@ -2,21 +2,21 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
-use Webkul\GraphQLAPI\Cart;
-use Webkul\Checkout\Cart as BaseCart;
-use Webkul\GraphQLAPI\BagistoGraphql;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\ReviewController;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\CompareController;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController;
-use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\Shop\Http\Controllers\API\ReviewController as ReviewControllerBase;
-use Webkul\Shop\Http\Controllers\API\CompareController as CompareControllerBase;
-use Webkul\Shop\Http\Controllers\API\WishlistController as WishlistControllerBase;
 use Webkul\Admin\Http\Controllers\Customers\Customer\WishlistController as WishlistControllerAdminBase;
+use Webkul\Checkout\Cart as BaseCart;
+use Webkul\GraphQLAPI\BagistoGraphql;
+use Webkul\GraphQLAPI\Cart;
+use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
+use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 use Webkul\GraphQLAPI\Http\Controllers\Admin\Customers\Customer\WishlistController as WishlistControllerAdmin;
+use Webkul\GraphQLAPI\Http\Controllers\Shop\API\CompareController;
+use Webkul\GraphQLAPI\Http\Controllers\Shop\API\ReviewController;
+use Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController;
+use Webkul\Shop\Http\Controllers\API\CompareController as CompareControllerBase;
+use Webkul\Shop\Http\Controllers\API\ReviewController as ReviewControllerBase;
+use Webkul\Shop\Http\Controllers\API\WishlistController as WishlistControllerBase;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
@@ -91,6 +91,10 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/lighthouse.php' => config_path('lighthouse.php'),
         ], ['graphql-api-lighthouse']);
+
+        $this->publishes([
+            __DIR__.'/../Config/graphiql.php' => config_path('graphiql.php'),
+        ], ['graphql-api-graphiql']);
     }
 
     /**

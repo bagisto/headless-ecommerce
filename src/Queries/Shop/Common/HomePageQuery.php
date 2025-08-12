@@ -2,26 +2,26 @@
 
 namespace Webkul\GraphQLAPI\Queries\Shop\Common;
 
-use Illuminate\Support\Facades\DB;
-use Webkul\Product\Helpers\Toolbar;
-use Webkul\GraphQLAPI\Queries\BaseFilter;
-use Webkul\CMS\Repositories\PageRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Category\Repositories\CategoryRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
-use Webkul\Attribute\Repositories\AttributeRepository;
+use Illuminate\Support\Facades\DB;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Webkul\Product\Repositories\ElasticSearchRepository;
-use Webkul\Marketing\Repositories\SearchSynonymRepository;
-use Webkul\Theme\Repositories\ThemeCustomizationRepository;
-use Webkul\BookingProduct\Repositories\BookingProductRepository;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\BookingProduct\Helpers\AppointmentSlot as AppointmentSlotHelper;
 use Webkul\BookingProduct\Helpers\DefaultSlot as DefaultSlotHelper;
 use Webkul\BookingProduct\Helpers\EventTicket as EventTicketHelper;
 use Webkul\BookingProduct\Helpers\RentalSlot as RentalSlotHelper;
 use Webkul\BookingProduct\Helpers\TableSlot as TableSlotHelper;
+use Webkul\BookingProduct\Repositories\BookingProductRepository;
+use Webkul\Category\Repositories\CategoryRepository;
+use Webkul\CMS\Repositories\PageRepository;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\GraphQLAPI\Queries\BaseFilter;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Marketing\Repositories\SearchSynonymRepository;
+use Webkul\Product\Helpers\Toolbar;
+use Webkul\Product\Repositories\ElasticSearchRepository;
+use Webkul\Product\Repositories\ProductRepository;
+use Webkul\Theme\Repositories\ThemeCustomizationRepository;
 
 class HomePageQuery extends BaseFilter
 {
@@ -91,7 +91,7 @@ class HomePageQuery extends BaseFilter
                 'status'     => self::STATUS,
                 'channel_id' => core()->getCurrentChannel()->id,
             ]);
-        
+
         $result = $customizations->map(function ($item) {
             if ($item->type == 'image_carousel') {
                 $images['images'] = [];
@@ -110,7 +110,7 @@ class HomePageQuery extends BaseFilter
 
                 $html = $staticContent['html'] = str_replace('src="" data-src="storage', 'src="'.asset('/storage'), $item->options['html']);
 
-                $dom = new \DOMDocument();
+                $dom = new \DOMDocument;
 
                 // Suppress warnings due to malformed HTML
                 libxml_use_internal_errors(true);
@@ -122,7 +122,7 @@ class HomePageQuery extends BaseFilter
 
                 // Get your base app URL to check internal links
                 $baseUrl = parse_url(config('app.url'));
-                
+
                 foreach ($anchorTags as $key => $tag) {
                     $href = $tag->getAttribute('href');
 
@@ -132,10 +132,10 @@ class HomePageQuery extends BaseFilter
                         'type' => '',
                         'id'   => '',
                     ];
-                    
+
                     if ($href) {
                         $parsedUrl = parse_url($href);
-                        
+
                         // Default values
                         $slug = '';
                         $type = 'external';
@@ -148,11 +148,11 @@ class HomePageQuery extends BaseFilter
                             $type = 'unknown';
 
                             $fullPath = $parsedUrl['path'] ?? '';
-                            
+
                             if (str_starts_with($parsedUrl['path'], $baseUrl['path'])) {
                                 $fullPath = substr($parsedUrl['path'], strlen($baseUrl['path']));
                             }
-                            
+
                             $slug = ltrim(explode('?', $fullPath)[0], '/');
 
                             $isTypeFetch = false;
@@ -163,7 +163,7 @@ class HomePageQuery extends BaseFilter
                                 $id = $category->id;
 
                                 $isTypeFetch = true;
-                            } else if ($product = $this->productRepository->setSearchEngine('database')->findBySlug($slug)) {
+                            } elseif ($product = $this->productRepository->setSearchEngine('database')->findBySlug($slug)) {
                                 $type = 'product';
 
                                 $id = $product->id;
@@ -180,7 +180,7 @@ class HomePageQuery extends BaseFilter
                                     $id = $category->id;
 
                                     $isTypeFetch = true;
-                                } else if ($cms = $this->PageRepository->findByUrlKey($slug)) {
+                                } elseif ($cms = $this->PageRepository->findByUrlKey($slug)) {
                                     $type = 'cms';
 
                                     $id = $cms->id;
@@ -189,7 +189,7 @@ class HomePageQuery extends BaseFilter
                                 }
                             }
                         }
-                        
+
                         $links[$key] = [
                             'url'  => $href,
                             'slug' => $slug,
@@ -200,7 +200,7 @@ class HomePageQuery extends BaseFilter
                 }
 
                 $staticContent['links'] = $links;
-                
+
                 $item->options = $staticContent;
             }
 
@@ -268,7 +268,7 @@ class HomePageQuery extends BaseFilter
             if (! isset($params['locale'])) {
                 $params = array_merge(['locale' => app()->getLocale()], $params);
             }
-            
+
             return $this->categoryRepository->getAll($params);
         }
 
@@ -494,7 +494,7 @@ class HomePageQuery extends BaseFilter
         $qb = $qb->groupBy('products.id');
 
         $limit = $this->getPerPageLimit($params);
-        
+
         return $qb->paginate($limit, ['*'], 'page', $params['page'] ?? 1);
     }
 
@@ -579,25 +579,25 @@ class HomePageQuery extends BaseFilter
             'basic_interaction'      => 'basic-interactions',
             'experience_enhancement' => 'experience-enhancement',
             'measurements'           => 'measurements',
-            'targeting_advertising'  => 'targeting-and-advertising'
+            'targeting_advertising'  => 'targeting-and-advertising',
         ];
 
         $cookieConsentData = [];
 
         foreach ($cookieConsentKeys as $key => $value) {
             $cookieConsentData[] = [
-                'title'   => trans('shop::app.components.layouts.cookie.consent.' . $value),
-                'content' => core()->getConfigData('general.gdpr.cookie_consent.' . $key),
+                'title'   => trans('shop::app.components.layouts.cookie.consent.'.$value),
+                'content' => core()->getConfigData('general.gdpr.cookie_consent.'.$key),
             ];
         }
-        
+
         return $cookieConsentData;
     }
 
     public function getBookingProductSlots(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $bookingProduct = $this->bookingProductRepository->find($args['id']);
-        
+
         $date = isset($args['date']) ? date('Y-m-d', strtotime($args['date'])) : now()->format('Y-m-d');
 
         return $this->bookingHelpers[$bookingProduct->type]->getSlotsByDate($bookingProduct, $date);

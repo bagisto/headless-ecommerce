@@ -36,22 +36,23 @@ class RegistrationMutation extends Controller
      */
     public function signUp(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        bagisto_graphql()->validate($args, [
+        $rules = [
             'email'      => 'email|required|unique:customers,email',
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
             'password'   => 'min:6|required|confirmed',
             'remember'   => 'boolean',
-        ]);
+        ];
 
         if (
             core()->getConfigData('general.gdpr.settings.enabled')
             && core()->getConfigData('general.gdpr.agreement.enabled')
-            && empty($args['agreement'])
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.signup.agreement-required'));
+            $rules['agreement'] = 'required|boolean|in:1';
         }
-        
+
+        bagisto_graphql()->validate($args, $rules);
+
         $this->create($args);
 
         if (core()->getConfigData('customer.settings.email.verification')) {
@@ -91,7 +92,7 @@ class RegistrationMutation extends Controller
         if (
             $args['signup_type'] != 'truecaller'
             && in_array($args['signup_type'], array_keys($socialLoginTypeStatus))
-            && core()->getConfigData('customer.settings.social_login.' . $socialLoginTypeStatus[$args['signup_type']]) != "1"
+            && core()->getConfigData('customer.settings.social_login.'.$socialLoginTypeStatus[$args['signup_type']]) != '1'
         ) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.social-login.disabled'));
         }
@@ -227,7 +228,7 @@ class RegistrationMutation extends Controller
 
         return [
             'success'      => true,
-            'message'      => isset($data['signup_type']) 
+            'message'      => isset($data['signup_type'])
             ? trans('bagisto_graphql::app.shop.customers.success-login')
             : trans('bagisto_graphql::app.shop.customers.signup.success'),
             'access_token' => $jwtToken,

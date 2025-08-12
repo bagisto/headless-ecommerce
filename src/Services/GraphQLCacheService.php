@@ -2,9 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Services;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Cache configuration and utility service for GraphQL operations
@@ -14,7 +14,7 @@ class GraphQLCacheService
     /**
      * Cache TTL in seconds (24 hours)
      */
-    public const CACHE_TTL = 60*60*24*30;
+    public const CACHE_TTL = 60 * 60 * 24 * 30;
 
     /**
      * Cache key patterns mapping entity types to their related cache keys
@@ -152,20 +152,20 @@ class GraphQLCacheService
     public static function generateCacheKey($query, string $queryName, array $variables = [], array $headers = [], ?int $customerId = null): string
     {
         $queryCacheKey = "query_cache_{$queryName}";
-        
+
         if (
             in_array($queryName, self::$cacheWithCustomerId)
             && $customerId
         ) {
             $queryCacheKey = "{$queryCacheKey}_{$customerId}";
         }
-        
-        $cacheKey = "{$queryCacheKey}-" . md5(json_encode([
+
+        $cacheKey = "{$queryCacheKey}-".md5(json_encode([
             'query'     => $query,
             'headers'   => $headers,
             'variables' => $variables,
         ]));
-        
+
         return $cacheKey;
     }
 
@@ -175,14 +175,14 @@ class GraphQLCacheService
     public static function generateTrackingKey(string $queryName, ?int $entityId = null): string
     {
         $trackingKey = "query_cache_{$queryName}";
-        
+
         if (
             in_array($queryName, self::$cacheWithId)
             && $entityId
         ) {
             $trackingKey = "{$trackingKey}_{$entityId}";
         }
-        
+
         return $trackingKey;
     }
 
@@ -194,14 +194,14 @@ class GraphQLCacheService
         if (in_array($queryName, self::$skipQueries)) {
             return false;
         }
-        
+
         if (
             in_array($queryName, self::$skipForGuest)
             && ! $isAuthenticated
         ) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -246,7 +246,7 @@ class GraphQLCacheService
         if ($context) {
             $message .= " | Context: {$context}";
         }
-        
+
         Log::channel('graphql-cache')->info($message);
     }
 

@@ -146,14 +146,14 @@ class BagistoGraphql
         $modelPath = "$path{$model->id}/";
 
         $imageDirPath = storage_path("app/public/$modelPath");
-        
+
         if (! file_exists($imageDirPath)) {
             mkdir(storage_path("app/public/$modelPath"), 0777, true);
         }
-        
+
         if (! empty($imageUrl)) {
             $validatedImg = $this->validatePath($imageUrl, 'images');
-            
+
             if ($validatedImg) {
                 $imgName = basename($imageUrl);
 
@@ -304,10 +304,10 @@ class BagistoGraphql
             // Prepare option array
             $customizableOption = [
                 // Locales
-                'en' => ['label' => $option['label'] ?? ''],
-                'type' => $option['type'] ?? '',
+                'en'          => ['label' => $option['label'] ?? ''],
+                'type'        => $option['type'] ?? '',
                 'is_required' => $option['is_required'] ?? '',
-                'sort_order' => $option['sort_order'] ?? '',
+                'sort_order'  => $option['sort_order'] ?? '',
             ];
 
             // Optional fields
@@ -325,12 +325,12 @@ class BagistoGraphql
                     $prices["price_{$priceKey}"] = $price;
                 }
             }
-            
+
             $customizableOption['prices'] = $prices;
 
             $customizableOptions[$optionKey] = $customizableOption;
         }
-        
+
         return $customizableOptions;
     }
 
@@ -680,7 +680,7 @@ class BagistoGraphql
     }
 
     public function manageBookingRequest($product, $data)
-    {        
+    {
         if ($this->checkSlotFormattedRequired($data)) {
             $slots = [];
 
@@ -736,7 +736,7 @@ class BagistoGraphql
             $data = array_merge($data, $data['table_slot']);
             unset($data['table_slot']);
         }
-        
+
         return $data;
     }
 
@@ -748,13 +748,11 @@ class BagistoGraphql
      */
     public function checkSlotFormattedRequired($data)
     {
-        return (
+        return
             ($data['type'] == 'default' && $data['booking_type'] == 'many' && isset($data['slots']))
             || ($data['type'] == 'appointment' && $data['same_slot_all_days'] == '0')
-            || ($data['type'] == 'RENTAL' && $data['same_slot_all_days'] == '0')
-        );
+            || ($data['type'] == 'RENTAL' && $data['same_slot_all_days'] == '0');
     }
-
 
     /**
      *to manage the request data for Cart
@@ -828,10 +826,10 @@ class BagistoGraphql
                 break;
 
             case 'booking':
-                //Case: In case of booking product added
-                if ( isset($data['booking']) && $data['booking']) {
+                // Case: In case of booking product added
+                if (isset($data['booking']) && $data['booking']) {
                     $booking = $product->booking_products->first();
-                    
+
                     if (! empty($booking->type)) {
                         switch ($booking->type) {
                             case 'default':
@@ -841,7 +839,7 @@ class BagistoGraphql
                                     ! empty($data['booking']['slot'])
                                     && is_array($data['booking']['slot'])
                                 ) {
-                                    $data['booking']['slot'] = implode("-", $data['booking']['slot']);
+                                    $data['booking']['slot'] = implode('-', $data['booking']['slot']);
                                 }
                                 break;
 
@@ -851,7 +849,7 @@ class BagistoGraphql
                                     && is_array($data['booking']['qty'])
                                 ) {
                                     $data['booking']['qty'] = collect($data['booking']['qty'])
-                                        ->filter(fn($ticket) => isset($ticket['ticket_id'], $ticket['quantity']))
+                                        ->filter(fn ($ticket) => isset($ticket['ticket_id'], $ticket['quantity']))
                                         ->pluck('quantity', 'ticket_id')
                                         ->toArray();
                                 }
@@ -863,11 +861,11 @@ class BagistoGraphql
             default:
                 break;
         }
-        
+
         if (! empty($data['customizable_options'])) {
             $customizableOptions = [];
 
-            foreach($data['customizable_options'] as $customizableOption) {
+            foreach ($data['customizable_options'] as $customizableOption) {
                 if (isset($customizableOption['id'])) {
                     $optionId = $customizableOption['id'];
 
@@ -994,7 +992,7 @@ class BagistoGraphql
         curl_setopt($chkURL, CURLOPT_NOBODY, 1);
         curl_setopt($chkURL, CURLOPT_FAILONERROR, 1);
         curl_setopt($chkURL, CURLOPT_RETURNTRANSFER, 1);
-        
+
         if (
             curl_exec($chkURL) !== false
             && $this->getImageMIMEType($imageURL, $type)

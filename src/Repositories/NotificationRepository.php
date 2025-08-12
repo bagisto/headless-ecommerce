@@ -229,14 +229,14 @@ class NotificationRepository extends Repository
         ];
 
         if (
-            isset($fieldData['type']) 
+            isset($fieldData['type'])
             && $fieldData['type'] == 'order'
         ) {
             $fields['message']['token'] = bagisto_graphql()->authorize()?->device_token;
         } else {
             $fields['message']['topic'] = core()->getConfigData('general.api.pushnotification.notification_topic');
         }
-        
+
         $headers = [
             'Content-Type:application/json',
             "Authorization: Bearer {$this->getAccessToken()}",
@@ -302,7 +302,7 @@ class NotificationRepository extends Repository
 
         $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
 
-        $client = new Client();
+        $client = new Client;
 
         try {
             $response = $client->post($privateKeyContent->token_uri, [
