@@ -36,21 +36,22 @@ class RegistrationMutation extends Controller
      */
     public function signUp(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        bagisto_graphql()->validate($args, [
+        $rules = [
             'email'      => 'email|required|unique:customers,email',
             'first_name' => 'string|required',
             'last_name'  => 'string|required',
             'password'   => 'min:6|required|confirmed',
             'remember'   => 'boolean',
-        ]);
+        ];
 
         if (
             core()->getConfigData('general.gdpr.settings.enabled')
             && core()->getConfigData('general.gdpr.agreement.enabled')
-            && empty($args['agreement'])
         ) {
-            throw new CustomException(trans('bagisto_graphql::app.shop.customers.signup.agreement-required'));
+            $rules['agreement'] = 'required|boolean|in:1';
         }
+
+        bagisto_graphql()->validate($args, $rules);
         
         $this->create($args);
 
