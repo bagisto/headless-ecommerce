@@ -61,16 +61,22 @@ class Install extends Command
             file_put_contents($envPath, PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
         }
 
+        $graphqlEndpoint = rtrim(env('APP_URL'), '/') . '/graphql';
+
+        if (preg_match('/^GRAPHQL_ENDPOINT=.*$/m', $envContent)) {
+            // Replace existing endpoint
+            $envContent = preg_replace(
+                '/^GRAPHQL_ENDPOINT=.*$/m',
+                "GRAPHQL_ENDPOINT={$graphqlEndpoint}",
+                $envContent
+            );
+            file_put_contents($envPath, $envContent);
+        } else {
+            // Append new endpoint
+            file_put_contents($envPath, PHP_EOL . "GRAPHQL_ENDPOINT={$graphqlEndpoint}" . PHP_EOL, FILE_APPEND);
+        }
+
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
-
-        $this->warn('Step: Publishing Lighthouse Provider File...');
-        $this->info(shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config'));
-
-        $this->warn('Step: Publishing GraphiQL Provider File...');
-        $this->info(shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config'));
-
-        $this->warn('Step: Publishing GraphiQL Configuration File...');
-        $this->info(shell_exec('php artisan vendor:publish --tag=graphiql-config'));
 
         $this->warn('Step: Clearing the cache...');
         $this->call('optimize:clear');

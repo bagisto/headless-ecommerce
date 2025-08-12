@@ -91,6 +91,10 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/lighthouse.php' => config_path('lighthouse.php'),
         ], ['graphql-api-lighthouse']);
+
+        $this->publishes([
+            __DIR__.'/../Config/graphiql.php' => config_path('graphiql.php'),
+        ], ['graphql-api-graphiql']);
     }
 
     /**
