@@ -42,7 +42,7 @@ class TaxCategoryMutation extends Controller
 
             $taxCategory = $this->taxCategoryRepository->create($args);
 
-            //attach the categories in the tax map table
+            // attach the categories in the tax map table
             $taxCategory->tax_rates()->sync($args['taxrates']);
 
             Event::dispatch('tax.tax_category.create.after', $taxCategory);
@@ -84,7 +84,7 @@ class TaxCategoryMutation extends Controller
 
             $taxCategory = $this->taxCategoryRepository->update($args, $taxCategory->id);
 
-            //attach the categories in the tax map table
+            // attach the categories in the tax map table
             $taxCategory->tax_rates()->sync($args['taxrates']);
 
             Event::dispatch('tax.tax_category.update.after', $taxCategory);

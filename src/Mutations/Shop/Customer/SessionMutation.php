@@ -46,7 +46,7 @@ class SessionMutation extends Controller
             $customer = bagisto_graphql()->authorize(token: $jwtToken);
 
             $customer->device_token = $args['device_token'] ?? null;
-            
+
             $customer->save();
             /**
              * Event passed to prepare cart after login.

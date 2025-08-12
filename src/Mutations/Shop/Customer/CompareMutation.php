@@ -4,10 +4,10 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
-use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Product\Repositories\ProductRepository;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Customer\Repositories\CompareItemRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
 
 class CompareMutation extends Controller
 {
@@ -130,7 +130,7 @@ class CompareMutation extends Controller
             $compareProducts = $this->compareItemRepository->findWhere([
                 'customer_id' => $customer->id,
             ]);
-            
+
             if (! count($compareProducts)) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.customers.compare-product.not-found'));
             }

@@ -107,7 +107,7 @@ class FilterProducts extends BaseFilter
                 'size'          => $params['limit'],
                 'stored_fields' => [],
                 'query'         => [
-                    'bool' => $this->getElasticFilters($params ?? []) ?: new \stdClass(),
+                    'bool' => $this->getElasticFilters($params ?? []) ?: new \stdClass,
                 ],
                 'sort'          => [
                     'id' => [

@@ -2,10 +2,10 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Admin\Customers\Customer;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Webkul\Customer\Repositories\WishlistRepository;
+use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Controllers\Customers\Customer\WishlistController as WishlistControllerBase;
+use Webkul\Customer\Repositories\WishlistRepository;
 
 class WishlistController extends WishlistControllerBase
 {
@@ -22,7 +22,7 @@ class WishlistController extends WishlistControllerBase
         $this->validate(request(), [
             'item_id' => 'required|exists:wishlist_items,id',
         ]);
-        
+
         $itemId = request()->input('item_id');
 
         Event::dispatch('customer.wishlist.delete.before', $itemId);

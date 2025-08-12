@@ -5,8 +5,8 @@ namespace Webkul\GraphQLAPI\Mutations\Admin\Customer;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\GDPR\Repositories\GDPRDataRequestRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
 
 class GdprMutation extends Controller
 {
@@ -29,38 +29,37 @@ class GdprMutation extends Controller
         bagisto_graphql()->validate($args, [
             'id'      => 'required|integer',
             'status'  => 'required|string',
-            'message' => 'required|string',  
-            'type'    => 'required|string', 
+            'message' => 'required|string',
+            'type'    => 'required|string',
         ]);
-    
+
         $gdprRequest = $this->gdprDataRequestRepository->find($args['id']);
-    
+
         if (! $gdprRequest) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.gdpr.not-found'));
         }
-    
+
         try {
             Event::dispatch('customer.gdpr-request.update.before', $gdprRequest->id);
-    
+
             $gdprRequest = $this->gdprDataRequestRepository->update([
                 'status'  => $args['status'],
-                'message' => $args['message'], 
-                'type'    => $args['type'],  
+                'message' => $args['message'],
+                'type'    => $args['type'],
             ], $gdprRequest->id);
-    
+
             Event::dispatch('customer.gdpr-request.update.after', $gdprRequest);
-    
+
             return [
                 'success' => true,
                 'status'  => $gdprRequest->status,
-                'message' => $gdprRequest->message,            
+                'message' => $gdprRequest->message,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
     }
-    
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -87,5 +86,4 @@ class GdprMutation extends Controller
             throw new CustomException($e->getMessage());
         }
     }
-
 }

@@ -52,7 +52,7 @@ class RegistrationMutation extends Controller
         }
 
         bagisto_graphql()->validate($args, $rules);
-        
+
         $this->create($args);
 
         if (core()->getConfigData('customer.settings.email.verification')) {
@@ -92,7 +92,7 @@ class RegistrationMutation extends Controller
         if (
             $args['signup_type'] != 'truecaller'
             && in_array($args['signup_type'], array_keys($socialLoginTypeStatus))
-            && core()->getConfigData('customer.settings.social_login.' . $socialLoginTypeStatus[$args['signup_type']]) != "1"
+            && core()->getConfigData('customer.settings.social_login.'.$socialLoginTypeStatus[$args['signup_type']]) != '1'
         ) {
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.social-login.disabled'));
         }
@@ -228,7 +228,7 @@ class RegistrationMutation extends Controller
 
         return [
             'success'      => true,
-            'message'      => isset($data['signup_type']) 
+            'message'      => isset($data['signup_type'])
             ? trans('bagisto_graphql::app.shop.customers.success-login')
             : trans('bagisto_graphql::app.shop.customers.signup.success'),
             'access_token' => $jwtToken,

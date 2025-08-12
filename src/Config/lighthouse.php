@@ -446,7 +446,7 @@ return [
          * Setting this to `null` means the subscriptions are stored forever. This may cause
          * stale subscriptions to linger indefinitely in case cleanup fails for any reason.
          */
-        'storage_ttl' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE_TTL', 60*60*24*7), // 1 week in seconds
+        'storage_ttl' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE_TTL', 60 * 60 * 24 * 7), // 1 week in seconds
 
         /*
          * Default subscription broadcaster.

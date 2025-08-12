@@ -47,17 +47,17 @@ class CustomerAddressMutation extends Controller
             'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
-            'phone'        => ['required', new PhoneNumber()],
+            'phone'        => ['required', new PhoneNumber],
             'email'        => ['required', 'email'],
-            'vat_id'       => new VatIdRule(),
+            'vat_id'       => new VatIdRule,
         ]);
 
         $customer = $this->customerRepository->find($args['customer_id']);
-        
+
         if (! $customer) {
             throw new CustomException(trans('bagisto_graphql::app.admin.customers.customers.not-found'));
         }
-        
+
         try {
             Event::dispatch('customer.addresses.create.before');
 
@@ -98,9 +98,9 @@ class CustomerAddressMutation extends Controller
             'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
-            'phone'        => ['required', new PhoneNumber()],
+            'phone'        => ['required', new PhoneNumber],
             'email'        => ['required', 'email'],
-            'vat_id'       => new VatIdRule(),
+            'vat_id'       => new VatIdRule,
         ]);
 
         $customer = $this->customerRepository->find($args['customer_id']);

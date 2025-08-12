@@ -3,10 +3,10 @@
 namespace Webkul\GraphQLAPI\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Webkul\GraphQLAPI\Services\GraphQLCacheService;
 
 /**
@@ -25,13 +25,13 @@ class GraphQLCacheMiddleware
 
         $query = $request->input('query');
         $queryName = $this->extractQueryName($query);
-        
+
         if (! $queryName) {
             return $next($request);
         }
 
         $cachedResponse = $this->getCachedResponse($request, $queryName);
-        
+
         if ($cachedResponse) {
             return $cachedResponse;
         }
@@ -44,8 +44,8 @@ class GraphQLCacheMiddleware
      */
     protected function shouldProcessRequest(Request $request): bool
     {
-        return $request->is('graphql') 
-            && $request->isMethod('POST') 
+        return $request->is('graphql')
+            && $request->isMethod('POST')
             && $request->input('query')
             && Str::startsWith(ltrim($request->input('query')), 'query');
     }
@@ -58,7 +58,7 @@ class GraphQLCacheMiddleware
         if (preg_match('/query\s+(\w+)/', $query, $matches)) {
             return $matches[1];
         }
-        
+
         return null;
     }
 
@@ -72,17 +72,17 @@ class GraphQLCacheMiddleware
         $variables = $request->input('variables', []);
         $headers = $request->headers->all();
         $customerId = GraphQLCacheService::getCurrentCustomerId();
-        
+
         $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
         $cacheKey = GraphQLCacheService::generateCacheKey($query, $queryName, $variables, $relevantHeaders, $customerId);
-        
+
         if (! Cache::has($cacheKey)) {
             return null;
         }
-        
+
         $record = Cache::get($cacheKey);
         GraphQLCacheService::logCacheOperation('hit', $cacheKey, $queryName);
-        
+
         // Apply GDPR data if needed
         if (GraphQLCacheService::shouldApplyGdpr($headers)) {
             $record->data['gdpr'] = GraphQLCacheService::getGdprData();

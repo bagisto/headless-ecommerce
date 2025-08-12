@@ -72,7 +72,7 @@ class LocaleMutation extends Controller
         if (! $locale) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.locales.not-found'));
         }
-        
+
         bagisto_graphql()->validate($args, [
             'code'      => ['required', 'unique:locales,code,'.$args['id'], new Code],
             'name'      => 'required',

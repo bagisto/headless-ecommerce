@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Product\Repositories\ProductReviewAttachmentRepository;
 use Webkul\Product\Repositories\ProductReviewRepository;
-use Webkul\Product\Repositories\ProductRepository;
 
 class ReviewMutation extends Controller
 {
@@ -76,7 +76,7 @@ class ReviewMutation extends Controller
             $args['status'] = 'pending';
 
             Event::dispatch('customer.review.create.before', $args['product_id']);
-            
+
             $review = $this->productReviewRepository->create($args);
 
             $this->productReviewAttachmentRepository->upload($args['attachments'] ?? [], $review);

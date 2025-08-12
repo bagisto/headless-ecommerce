@@ -92,7 +92,7 @@ class ChannelMutation extends Controller
         if (! $channel) {
             throw new CustomException(trans('bagisto_graphql::app.admin.settings.channels.not-found'));
         }
-        
+
         bagisto_graphql()->validate($args, [
             'code'                  => ['required', 'unique:channels,code,'.$args['id'], new Code],
             'name'                  => 'required',

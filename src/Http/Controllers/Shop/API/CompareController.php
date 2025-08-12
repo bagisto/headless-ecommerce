@@ -2,13 +2,13 @@
 
 namespace Webkul\GraphQLAPI\Http\Controllers\Shop\API;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Webkul\Product\Repositories\ProductRepository;
-use Webkul\Shop\Http\Resources\CompareItemResource;
 use Webkul\Customer\Repositories\CompareItemRepository;
+use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shop\Http\Controllers\API\CompareController as CompareControllerBase;
+use Webkul\Shop\Http\Resources\CompareItemResource;
 
 class CompareController extends CompareControllerBase
 {

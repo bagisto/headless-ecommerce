@@ -3,8 +3,8 @@
 namespace Webkul\GraphQLAPI\Console\Commands;
 
 use Illuminate\Console\Command;
-use Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider;
 use Illuminate\Encryption\Encrypter;
+use Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider;
 
 class Install extends Command
 {
@@ -41,7 +41,7 @@ class Install extends Command
             '--force'    => true,
         ]));
 
-        $key = 'base64:' . base64_encode(
+        $key = 'base64:'.base64_encode(
             Encrypter::generateKey($this->laravel['config']['app.cipher'])
         );
 
@@ -51,17 +51,17 @@ class Install extends Command
         if (preg_match('/^MOBIKUL_API_KEY=.*$/m', $envContent)) {
             // Replace existing key
             $envContent = preg_replace(
-            '/^MOBIKUL_API_KEY=.*$/m',
-            "MOBIKUL_API_KEY={$key}",
-            $envContent
+                '/^MOBIKUL_API_KEY=.*$/m',
+                "MOBIKUL_API_KEY={$key}",
+                $envContent
             );
             file_put_contents($envPath, $envContent);
         } else {
             // Append new key
-            file_put_contents($envPath, PHP_EOL . "MOBIKUL_API_KEY={$key}" . PHP_EOL, FILE_APPEND);
+            file_put_contents($envPath, PHP_EOL."MOBIKUL_API_KEY={$key}".PHP_EOL, FILE_APPEND);
         }
 
-        $graphqlEndpoint = rtrim(env('APP_URL'), '/') . '/graphql';
+        $graphqlEndpoint = rtrim(env('APP_URL'), '/').'/graphql';
 
         if (preg_match('/^GRAPHQL_ENDPOINT=.*$/m', $envContent)) {
             // Replace existing endpoint
@@ -73,7 +73,7 @@ class Install extends Command
             file_put_contents($envPath, $envContent);
         } else {
             // Append new endpoint
-            file_put_contents($envPath, PHP_EOL . "GRAPHQL_ENDPOINT={$graphqlEndpoint}" . PHP_EOL, FILE_APPEND);
+            file_put_contents($envPath, PHP_EOL."GRAPHQL_ENDPOINT={$graphqlEndpoint}".PHP_EOL, FILE_APPEND);
         }
 
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');

@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
+use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Customer\Repositories\CustomerNoteRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
-use Webkul\Core\Rules\PhoneNumber;
 
 class CustomerMutation extends Controller
 {
