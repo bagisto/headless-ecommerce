@@ -46,7 +46,7 @@ To install the Bagisto GraphQL API, follow these steps:
    Run the following command in your terminal to install the GraphQL API package:
 
    ```bash
-   composer require bagisto/graphql-api:dev-main
+   composer require bagisto/graphql-api:v2.3.2
    ```
 
 2. **Update Middleware Configuration**
@@ -144,6 +144,34 @@ To install the Bagisto GraphQL API, follow these steps:
 
    ```env
    GRAPHQL_ENDPOINT=https://your-domain.com/graphiql
+   ```
+
+Here’s how you could add the point about caching your GraphQL schema for better performance right after your step 4:
+
+---
+
+4. **GraphQL Playground Endpoint Configuration**
+
+   Ensure that the `GRAPHQL_ENDPOINT` in your `.env` file is set to your application's URL followed by `/graphiql`. For example:
+
+   ```env
+   GRAPHQL_ENDPOINT=https://your-domain.com/graphiql
+   ```
+
+5. **Cache Your GraphQL Schema for Better Performance**
+
+   To avoid rebuilding the schema on every request, you can cache it. This improves performance significantly in production environments.
+
+   Run the following Artisan command to cache the schema:
+
+   ```bash
+   php artisan lighthouse:cache
+   ```
+
+   If you make changes to your schema, remember to clear the cache:
+
+   ```bash
+   php artisan lighthouse:clear-cache
    ```
 ---
 
