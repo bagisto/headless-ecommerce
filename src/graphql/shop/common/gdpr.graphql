@@ -1,0 +1,29 @@
+# Shop\Common\HomePage Related APIs
+extend type Query {
+    getGdprConfiguration: GdprConfiguration @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getGdprConfiguration")
+}
+
+type GdprConfiguration {
+    enabled: Boolean
+    agreement: CookieConsentAgreement
+    cookieNotice: CookieNotice @rename(attribute: "cookie_notice")
+    cookieConsent: [CookieConsent] @rename(attribute: "cookie_consent")
+}
+
+type CookieConsentAgreement {
+    enabled: Boolean
+    label: String
+    content: String
+}
+
+type CookieNotice {
+    enabled: Boolean
+    position: String
+    staticBlockIdentifier: String @rename(attribute: "static_block_identifier")
+    description: String
+}
+
+type CookieConsent {
+    title: String
+    description: String
+}

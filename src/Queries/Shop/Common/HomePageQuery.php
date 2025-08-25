@@ -572,8 +572,28 @@ class HomePageQuery extends BaseFilter
         ];
     }
 
-    public function learnMoreAndCustomize()
+    /**
+     * Get the GDPR configuration.
+     */
+    public function getGdprConfiguration()
     {
+        $configuration = [
+            'enabled' => core()->getConfigData('general.gdpr.settings.enabled'),
+
+            'agreement' => [
+                'enabled' => core()->getConfigData('general.gdpr.agreement.enabled'),
+                'label'   => core()->getConfigData('general.gdpr.agreement.agreement_label'),
+                'content' => core()->getConfigData('general.gdpr.agreement.agreement_content'),
+            ],
+
+            'cookie_notice' => [
+                'enabled'                 => core()->getConfigData('general.gdpr.cookie.enabled'),
+                'position'                => core()->getConfigData('general.gdpr.cookie.position'),
+                'static_block_identifier' => core()->getConfigData('general.gdpr.cookie.static_block_identifier'),
+                'description'             => core()->getConfigData('general.gdpr.cookie.description'),
+            ],
+        ];
+
         $cookieConsentKeys = [
             'strictly_necessary'     => 'strictly-necessary',
             'basic_interaction'      => 'basic-interactions',
@@ -582,16 +602,14 @@ class HomePageQuery extends BaseFilter
             'targeting_advertising'  => 'targeting-and-advertising',
         ];
 
-        $cookieConsentData = [];
-
         foreach ($cookieConsentKeys as $key => $value) {
-            $cookieConsentData[] = [
-                'title'   => trans('shop::app.components.layouts.cookie.consent.'.$value),
-                'content' => core()->getConfigData('general.gdpr.cookie_consent.'.$key),
+            $configuration['cookie_consent'][] = [
+                'title'       => trans("shop::app.components.layouts.cookie.consent.$value"),
+                'description' => core()->getConfigData("general.gdpr.cookie_consent.$key"),
             ];
         }
 
-        return $cookieConsentData;
+        return $configuration;
     }
 
     public function getBookingProductSlots(mixed $rootValue, array $args, GraphQLContext $context)
