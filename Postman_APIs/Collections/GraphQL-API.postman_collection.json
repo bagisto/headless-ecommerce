@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9fc426ce-9110-4421-aa3d-243590efb8c5",
+		"_postman_id": "e30fb8fb-66bf-4e47-950c-75f98adbb08f",
 		"name": "GraphQL-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8324,7 +8324,7 @@
 							"response": []
 						},
 						{
-							"name": "Learn More And Customize",
+							"name": "Gdpr Configuration",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -8341,7 +8341,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query learnMoreAndCustomize {\n    learnMoreAndCustomize {\n        title\n        content\n    }\n}",
+										"query": "query getGdprConfiguration {\n    getGdprConfiguration {\n        enabled\n        agreement {\n            label\n            content\n        }\n        cookieNotice {\n            enabled\n            position\n            staticBlockIdentifier\n            description\n        }\n        cookieConsent {\n            title\n            description\n        }\n    }\n}",
 										"variables": ""
 									}
 								},
