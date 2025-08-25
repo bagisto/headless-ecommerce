@@ -145,6 +145,22 @@ To install the Bagisto GraphQL API, follow these steps:
    ```env
    GRAPHQL_ENDPOINT=https://your-domain.com/graphiql
    ```
+
+5. **Cache Your GraphQL Schema for Better Performance**
+
+   To avoid rebuilding the schema on every request, you can cache it. This improves performance significantly in production environments.
+
+   Run the following Artisan command to cache the schema:
+
+   ```bash
+   php artisan lighthouse:cache
+   ```
+
+   If you make changes to your schema, remember to clear the cache:
+
+   ```bash
+   php artisan lighthouse:clear-cache
+   ```
 ---
 
 That's it! Your Bagisto GraphQL API is now ready. Execute the project on your specified domain and start building your headless eCommerce solution.
