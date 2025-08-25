@@ -249,34 +249,4 @@ class GraphQLCacheService
 
         Log::channel('graphql-cache')->info($message);
     }
-
-    /**
-     * Get GDPR data for response
-     */
-    public static function getGdprData(): array
-    {
-        return [
-            'cookieAccept'          => trans('shop::app.components.layouts.cookie.index.accept'),
-            'cookieDescription'     => core()->getConfigData('general.gdpr.cookie.description'),
-            'cookieReject'          => trans('shop::app.components.layouts.cookie.index.reject'),
-            'cookieTitle'           => core()->getConfigData('general.gdpr.cookie.static_block_identifier'),
-            'learnMoreAndCustomize' => 'learnMoreAndCustomize',
-            'privacyPolicyText'     => trans('shop::app.components.layouts.cookie.index.privacy-policy'),
-            'privacyPolicyUrlKey'   => 'page/privacy-policy',
-        ];
-    }
-
-    /**
-     * Check if GDPR should be applied
-     */
-    public static function shouldApplyGdpr(array $headers): bool
-    {
-        return ! Auth::guard('admin-api')->check()
-            && core()->getConfigData('general.gdpr.settings.enabled')
-            && core()->getConfigData('general.gdpr.cookie.enabled')
-            && (
-                empty($headers['is-cookie-exist'][0])
-                || $headers['is-cookie-exist'][0] === 'false'
-            );
-    }
 }

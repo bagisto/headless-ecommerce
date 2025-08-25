@@ -22,8 +22,6 @@ class SetCacheQuery
         $query = $request->input('query');
 
         if (! $this->shouldProcessQuery($query)) {
-            $this->handleGdprInjection($event, $request->headers->all());
-
             return;
         }
 
@@ -33,14 +31,10 @@ class SetCacheQuery
             ! $queryName
             || ! GraphQLCacheService::shouldCache($queryName, auth()->guard('api')->check())
         ) {
-            $this->handleGdprInjection($event, $request->headers->all());
-
             return;
         }
 
         $this->cacheQueryResult($event, $request, $queryName);
-
-        $this->handleGdprInjection($event, $request->headers->all());
     }
 
     /**
@@ -100,24 +94,5 @@ class SetCacheQuery
         }
 
         return data_get($event->result->data, "{$queryName}.id");
-    }
-
-    /**
-     * Handle GDPR data injection
-     */
-    protected function handleGdprInjection(EndExecution $event, array $headers): void
-    {
-        if (! GraphQLCacheService::shouldApplyGdpr($headers)) {
-            return;
-        }
-
-        if (
-            ! isset($event->result->data)
-            || ! is_array($event->result->data)
-        ) {
-            return;
-        }
-
-        $event->result->data['gdpr'] = GraphQLCacheService::getGdprData();
     }
 }
