@@ -24,6 +24,7 @@ class GraphQLCacheMiddleware
         }
 
         $query = $request->input('query');
+        
         $queryName = $this->extractQueryName($query);
 
         if (! $queryName) {
@@ -70,23 +71,28 @@ class GraphQLCacheMiddleware
         $query = $request->input('query', []);
 
         $variables = $request->input('variables', []);
+
         $headers = $request->headers->all();
+
         $customerId = GraphQLCacheService::getCurrentCustomerId();
 
         $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
-        $cacheKey = GraphQLCacheService::generateCacheKey($query, $queryName, $variables, $relevantHeaders, $customerId);
+
+        $cacheKey = GraphQLCacheService::generateCacheKey(
+            $query,
+            $queryName,
+            $variables,
+            $relevantHeaders,
+            $customerId
+        );
 
         if (! Cache::has($cacheKey)) {
             return null;
         }
 
         $record = Cache::get($cacheKey);
-        GraphQLCacheService::logCacheOperation('hit', $cacheKey, $queryName);
 
-        // Apply GDPR data if needed
-        if (GraphQLCacheService::shouldApplyGdpr($headers)) {
-            $record->data['gdpr'] = GraphQLCacheService::getGdprData();
-        }
+        GraphQLCacheService::logCacheOperation('hit', $cacheKey, $queryName);
 
         return response()->json($record);
     }
