@@ -24,7 +24,7 @@ class GraphQLCacheMiddleware
         }
 
         $query = $request->input('query');
-        
+
         $queryName = $this->extractQueryName($query);
 
         if (! $queryName) {
