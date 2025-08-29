@@ -95,7 +95,7 @@ class ClearCache
         $this->clearCacheForEntity('product');
     }
 
-    public function afterThemeCustomizationCreateOrUpdate($themeCustomization): void
+    public function afterThemeCustomizationCreateOrUpdateOrDelete($themeCustomization): void
     {
         $this->clearCacheForEntity('theme');
     }
@@ -107,7 +107,7 @@ class ClearCache
         $this->clearCacheForEntity('attribute', $category);
     }
 
-    public function afterProductUpdate($product): void
+    public function afterProductUpdateOrDelete($product): void
     {
         $this->clearCacheForEntity('product');
     }
