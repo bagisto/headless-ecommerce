@@ -2,107 +2,21 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
+use Webkul\GraphQLAPI\BagistoGraphql;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Webkul\Admin\Http\Controllers\Customers\Customer\WishlistController as WishlistControllerAdminBase;
-use Webkul\Checkout\Cart as BaseCart;
-use Webkul\GraphQLAPI\BagistoGraphql;
-use Webkul\GraphQLAPI\Cart;
-use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Http\Controllers\Admin\Customers\Customer\WishlistController as WishlistControllerAdmin;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\CompareController;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\ReviewController;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController;
-use Webkul\Shop\Http\Controllers\API\CompareController as CompareControllerBase;
-use Webkul\Shop\Http\Controllers\API\ReviewController as ReviewControllerBase;
-use Webkul\Shop\Http\Controllers\API\WishlistController as WishlistControllerBase;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap services.
-     *
-     * @return void
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     */
-    public function boot()
-    {
-        include __DIR__.'/../Http/helpers.php';
-
-        $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
-
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
-
-        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'bagisto_graphql');
-
-        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'bagisto_graphql');
-
-        $this->overrideModels();
-
-        $this->publishesDefault();
-
-        $this->app->register(ModuleServiceProvider::class);
-        $this->app->register(EventServiceProvider::class);
-
-        $this->app->bind(CompareControllerBase::class, CompareController::class);
-
-        $this->app->bind(WishlistControllerBase::class, WishlistController::class);
-
-        $this->app->bind(ReviewControllerBase::class, ReviewController::class);
-
-        $this->app->bind(WishlistControllerAdminBase::class, WishlistControllerAdmin::class);
-
-        $this->app->bind(BaseCart::class, Cart::class);
-    }
-
-    /**
-     * Override the existing models
-     */
-    public function overrideModels()
-    {
-        // Admin Models
-        $this->app->concord->registerModel(
-            \Webkul\User\Contracts\Admin::class,
-            \Webkul\GraphQLAPI\Models\Admin\Admin::class
-        );
-
-        // Customer Models
-        $this->app->concord->registerModel(
-            \Webkul\Customer\Contracts\Customer::class,
-            \Webkul\GraphQLAPI\Models\Customer\Customer::class
-        );
-
-        // Customer Models
-        $this->app->concord->registerModel(
-            \Webkul\CartRule\Contracts\CartRule::class,
-            \Webkul\GraphQLAPI\Models\CartRule\CartRule::class
-        );
-    }
-
-    /**
-     * Publish all Default theme page.
-     *
-     * @return void
-     */
-    protected function publishesDefault()
-    {
-        $this->publishes([
-            __DIR__.'/../Config/lighthouse.php' => config_path('lighthouse.php'),
-        ], ['graphql-api-lighthouse']);
-
-        $this->publishes([
-            __DIR__.'/../Config/graphiql.php' => config_path('graphiql.php'),
-        ], ['graphql-api-graphiql']);
-    }
-
-    /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerCommands();
 
@@ -117,18 +31,14 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     protected function registerCommands(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallGraphQL::class,
-            ]);
+            $this->commands(Install::class);
         }
     }
 
     /**
-     * Register Bouncer as a singleton.
-     *
-     * @return void
+     * Register facades.
      */
-    protected function registerFacades()
+    protected function registerFacades(): void
     {
         $loader = AliasLoader::getInstance();
 
@@ -141,10 +51,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
     /**
      * Register package config.
-     *
-     * @return void
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/menu.php',
@@ -175,5 +83,73 @@ class GraphQLAPIServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/logging.php',
             'logging.channels'
         );
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        include __DIR__.'/../Http/helpers.php';
+
+        $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
+
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'bagisto_graphql');
+
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'bagisto_graphql');
+
+        $this->app->register(ModuleServiceProvider::class);
+
+        $this->app->register(EventServiceProvider::class);
+
+        $this->overrideCoreClasses();
+
+        $this->publishesDefault();
+    }
+
+    /**
+     * Override the core classes
+     */
+    protected function overrideCoreClasses(): void
+    {
+        $this->app->concord->registerModel(
+            \Webkul\User\Contracts\Admin::class,
+            \Webkul\GraphQLAPI\Models\Admin\Admin::class
+        );
+
+        $this->app->concord->registerModel(
+            \Webkul\Customer\Contracts\Customer::class,
+            \Webkul\GraphQLAPI\Models\Customer\Customer::class
+        );
+
+        $this->app->concord->registerModel(
+            \Webkul\CartRule\Contracts\CartRule::class,
+            \Webkul\GraphQLAPI\Models\CartRule\CartRule::class
+        );
+
+        $this->app->bind(
+            \Webkul\Shop\Http\Controllers\API\WishlistController::class, \Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController::class
+        );
+
+        $this->app->bind(
+            \Webkul\Checkout\Cart::class,
+            \Webkul\GraphQLAPI\Cart::class
+        );
+    }
+
+    /**
+     * Publish the default configuration files.
+     */
+    protected function publishesDefault(): void
+    {
+        $this->publishes([
+            __DIR__.'/../Config/lighthouse.php' => config_path('lighthouse.php'),
+        ], ['graphql-api-lighthouse']);
+
+        $this->publishes([
+            __DIR__.'/../Config/graphiql.php' => config_path('graphiql.php'),
+        ], ['graphql-api-graphiql']);
     }
 }
