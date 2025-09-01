@@ -4,13 +4,11 @@ namespace Webkul\GraphQLAPI\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Webkul\Admin\Http\Controllers\Customers\Customer\WishlistController as WishlistControllerAdminBase;
 use Webkul\Checkout\Cart as BaseCart;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Cart;
 use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
-use Webkul\GraphQLAPI\Http\Controllers\Admin\Customers\Customer\WishlistController as WishlistControllerAdmin;
 use Webkul\GraphQLAPI\Http\Controllers\Shop\API\CompareController;
 use Webkul\GraphQLAPI\Http\Controllers\Shop\API\ReviewController;
 use Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController;
@@ -22,12 +20,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
-     *
-     * @return void
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function boot()
+    public function boot(): void
     {
         include __DIR__.'/../Http/helpers.php';
 
@@ -44,6 +38,7 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->publishesDefault();
 
         $this->app->register(ModuleServiceProvider::class);
+
         $this->app->register(EventServiceProvider::class);
 
         $this->app->bind(CompareControllerBase::class, CompareController::class);
@@ -52,15 +47,13 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
         $this->app->bind(ReviewControllerBase::class, ReviewController::class);
 
-        $this->app->bind(WishlistControllerAdminBase::class, WishlistControllerAdmin::class);
-
         $this->app->bind(BaseCart::class, Cart::class);
     }
 
     /**
      * Override the existing models
      */
-    public function overrideModels()
+    public function overrideModels(): void
     {
         // Admin Models
         $this->app->concord->registerModel(
@@ -82,11 +75,9 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish all Default theme page.
-     *
-     * @return void
+     * Publish the default configuration files.
      */
-    protected function publishesDefault()
+    protected function publishesDefault(): void
     {
         $this->publishes([
             __DIR__.'/../Config/lighthouse.php' => config_path('lighthouse.php'),
@@ -99,10 +90,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerCommands();
 
@@ -124,11 +113,9 @@ class GraphQLAPIServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register Bouncer as a singleton.
-     *
-     * @return void
+     * Register facades.
      */
-    protected function registerFacades()
+    protected function registerFacades(): void
     {
         $loader = AliasLoader::getInstance();
 
@@ -141,10 +128,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
 
     /**
      * Register package config.
-     *
-     * @return void
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/menu.php',
