@@ -10,10 +10,8 @@ use Webkul\GraphQLAPI\Cart;
 use Webkul\GraphQLAPI\Console\Commands\Install as InstallGraphQL;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 use Webkul\GraphQLAPI\Http\Controllers\Shop\API\CompareController;
-use Webkul\GraphQLAPI\Http\Controllers\Shop\API\ReviewController;
 use Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController;
 use Webkul\Shop\Http\Controllers\API\CompareController as CompareControllerBase;
-use Webkul\Shop\Http\Controllers\API\ReviewController as ReviewControllerBase;
 use Webkul\Shop\Http\Controllers\API\WishlistController as WishlistControllerBase;
 
 class GraphQLAPIServiceProvider extends ServiceProvider
@@ -44,8 +42,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->app->bind(CompareControllerBase::class, CompareController::class);
 
         $this->app->bind(WishlistControllerBase::class, WishlistController::class);
-
-        $this->app->bind(ReviewControllerBase::class, ReviewController::class);
 
         $this->app->bind(BaseCart::class, Cart::class);
     }
