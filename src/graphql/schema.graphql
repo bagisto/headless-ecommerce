@@ -8,7 +8,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
 "A JSON object or value (string, number, boolean, array, or null)."
-scalar JSON @scalar(class: "Webkul\\GraphQLAPI\\Scalars\\Json")
+scalar JSON @scalar(class: "Webkul\\GraphQLAPI\\Scalars\\JSON")
 
 #import /admin/sales/orders/*.graphql
 #import /admin/sales/invoices/*.graphql
