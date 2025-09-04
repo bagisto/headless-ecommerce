@@ -8,11 +8,10 @@ return [
         'icon' => 'settings/settings.svg',
         'sort' => 3,
     ], [
-        'key'  => 'general.api.pushnotification',
-        'name' => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.push-notification-configuration',
-        'info' => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.info',
-        'sort' => 1,
-
+        'key'    => 'general.api.pushnotification',
+        'name'   => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.push-notification-configuration',
+        'info'   => 'bagisto_graphql::app.admin.configuration.index.general.graphql-api.info',
+        'sort'   => 1,
         'fields' => [
             [
                 'name'          => 'private_key',

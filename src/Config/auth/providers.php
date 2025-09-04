@@ -6,7 +6,7 @@ return [
         'model'  => Webkul\GraphQLAPI\Models\Customer\Customer::class,
     ],
 
-    'admin'    => [
+    'admin' => [
         'driver' => 'eloquent',
         'model'  => Webkul\GraphQLAPI\Models\Admin\Admin::class,
     ],

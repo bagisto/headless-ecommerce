@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'api'       => [
+    'api' => [
         'driver'   => 'jwt',
         'provider' => 'customer',
     ],
