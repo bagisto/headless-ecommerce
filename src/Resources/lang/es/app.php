@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Advertencia: El artículo no se ha eliminado del carrito.',
                         'not-found'        => 'Advertencia: No se encontró el carrito.',
                         'item-not-found'   => 'Advertencia: No se encontró el artículo.',
-                        'all-remove'       => 'Advertencia: No se eliminaron todos los artículos del carrito.',
                         'move-to-wishlist' => 'Advertencia: No se movieron los elementos seleccionados a la lista de deseos.',
                     ],
                 ],

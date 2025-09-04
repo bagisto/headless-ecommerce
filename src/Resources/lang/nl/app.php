@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Let op: Item niet uit de winkelwagen verwijderd.',
                         'not-found'        => 'Let op: Winkelwagen niet gevonden.',
                         'item-not-found'   => 'Let op: Item niet gevonden.',
-                        'all-remove'       => 'Let op: Alle items niet uit de winkelwagen verwijderd.',
                         'move-to-wishlist' => 'Let op: Geselecteerde items niet verplaatst naar de verlanglijst.',
                     ],
                 ],

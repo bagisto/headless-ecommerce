@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Ostrzeżenie: Element nie został usunięty z koszyka.',
                         'not-found'        => 'Ostrzeżenie: Nie znaleziono koszyka.',
                         'item-not-found'   => 'Ostrzeżenie: Nie znaleziono elementu.',
-                        'all-remove'       => 'Ostrzeżenie: Wszystkie elementy nie zostały usunięte z koszyka.',
                         'move-to-wishlist' => 'Ostrzeżenie: Wybrane elementy nie zostały przeniesione do listy życzeń.',
                     ],
                 ],

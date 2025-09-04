@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Warnung: Artikel wurde nicht aus dem Warenkorb entfernt.',
                         'not-found'        => 'Warnung: Warenkorb nicht gefunden.',
                         'item-not-found'   => 'Warnung: Artikel nicht gefunden.',
-                        'all-remove'       => 'Warnung: Nicht alle Artikel wurden aus dem Warenkorb entfernt.',
                         'move-to-wishlist' => 'Warnung: Ausgewählte Artikel wurden nicht in die Wunschliste verschoben.',
                     ],
                 ],

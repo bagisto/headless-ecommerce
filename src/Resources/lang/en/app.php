@@ -156,7 +156,6 @@ return [
                         'delete-cart-item' => 'Warning: Item is not removed from the cart.',
                         'not-found'        => 'Warning: Cart not found.',
                         'item-not-found'   => 'Warning: Item not found.',
-                        'all-remove'       => 'Warning: All items not removed from the cart.',
                         'move-to-wishlist' => 'Warning: Selected items not moved to wishlist.',
                     ],
                 ],
