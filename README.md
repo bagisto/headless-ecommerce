@@ -76,18 +76,7 @@ To install the Bagisto GraphQL API, follow these steps:
 
    This ensures that session and cookie middleware are applied globally across all routes, including API and GraphQL endpoints.
 
-3. **Update Environment Settings**
-
-   Add the following entries to your `.env` file to configure JWT settings:
-
-   ```env
-   JWT_TTL=525600
-   JWT_SHOW_BLACKLIST_EXCEPTION=true
-   ```
-
-4. **Publish Assets and Configurations**
-
-   Run the command below to publish assets and configurations for Bagisto GraphQL:
+3. **Run the following commands to complete the setup**
 
    ```bash
    php artisan bagisto-graphql:install
