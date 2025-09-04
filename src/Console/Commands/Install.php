@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Encryption\Encrypter;
+use Webkul\GraphQLAPI\Events\ComposerEvents;
 use Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider;
 
 class Install extends Command
@@ -47,6 +48,8 @@ class Install extends Command
         ]);
 
         $this->call('optimize:clear');
+
+        ComposerEvents::postCreateProject();
 
         $this->components->info('🎉 Bagisto GraphQL API package installed successfully!');
     }
