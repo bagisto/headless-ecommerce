@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Advertència: L\'element no s\'ha eliminat del carret.',
                         'not-found'        => 'Advertència: Carret no trobat.',
                         'item-not-found'   => 'Advertència: Element no trobat.',
-                        'all-remove'       => 'Advertència: No s\'han eliminat tots els elements del carret.',
                         'move-to-wishlist' => 'Advertència: Els elements seleccionats no s\'han mogut a la llista de desitjos.',
                     ],
                 ],

@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Attenzione: Elemento non rimosso dal carrello.',
                         'not-found'        => 'Attenzione: Carrello non trovato.',
                         'item-not-found'   => 'Attenzione: Elemento non trovato.',
-                        'all-remove'       => 'Attenzione: Tutti gli elementi non rimossi dal carrello.',
                         'move-to-wishlist' => 'Attenzione: Elementi selezionati non spostati nella lista dei desideri.',
                     ],
                 ],

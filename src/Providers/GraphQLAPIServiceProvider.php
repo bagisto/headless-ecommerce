@@ -2,12 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
-use Webkul\GraphQLAPI\BagistoGraphql;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
 use Webkul\GraphQLAPI\Facades\BagistoGraphql as BagistoGraphqlFacade;
 

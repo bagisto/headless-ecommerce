@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Avertissement: L\'élément n\'est pas supprimé du panier.',
                         'not-found'        => 'Avertissement: Panier introuvable.',
                         'item-not-found'   => 'Avertissement: Article introuvable.',
-                        'all-remove'       => 'Avertissement: Tous les articles ne sont pas supprimés du panier.',
                         'move-to-wishlist' => 'Avertissement: Les éléments sélectionnés ne sont pas déplacés vers la liste de souhaits.',
                     ],
                 ],

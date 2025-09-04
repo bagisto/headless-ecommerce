@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Uyarı: Ürün sepetten kaldırılamadı.',
                         'not-found'        => 'Uyarı: Sepet bulunamadı.',
                         'item-not-found'   => 'Uyarı: Ürün bulunamadı.',
-                        'all-remove'       => 'Uyarı: Tüm ürünler sepetten kaldırılamadı.',
                         'move-to-wishlist' => 'Uyarı: Seçilen ürünler favorilere taşınamadı.',
                     ],
                 ],

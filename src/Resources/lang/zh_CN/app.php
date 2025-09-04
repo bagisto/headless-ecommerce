@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => '警告：未能从购物车中删除项目。',
                         'not-found'        => '警告：未找到购物车。',
                         'item-not-found'   => '警告：未找到项目。',
-                        'all-remove'       => '警告：未能从购物车中删除所有项目。',
                         'move-to-wishlist' => '警告：未能将选定的项目移动到愿望清单。',
                     ],
                 ],

@@ -155,7 +155,6 @@ return [
                         'delete-cart-item' => 'Aviso: Item não removido do carrinho.',
                         'not-found'        => 'Aviso: Carrinho não encontrado.',
                         'item-not-found'   => 'Aviso: Item não encontrado.',
-                        'all-remove'       => 'Aviso: Todos os itens não foram removidos do carrinho.',
                         'move-to-wishlist' => 'Aviso: Itens selecionados não foram movidos para a lista de desejos.',
                     ],
                 ],
