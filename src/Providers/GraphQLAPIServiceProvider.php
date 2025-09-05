@@ -2,7 +2,9 @@
 
 namespace Webkul\GraphQLAPI\Providers;
 
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\ServiceProvider;
 use Webkul\GraphQLAPI\BagistoGraphql;
 use Webkul\GraphQLAPI\Console\Commands\Install;
@@ -20,6 +22,8 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->registerFacades();
 
         $this->registerConfig();
+
+        $this->configureMiddleware();
     }
 
     /**
@@ -80,6 +84,18 @@ class GraphQLAPIServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/logging.php',
             'logging.channels'
         );
+    }
+
+    /**
+     * Configure middleware.
+     */
+    public function configureMiddleware(): void
+    {
+        $router = $this->app['router'];
+
+        $router->pushMiddlewareToGroup('api', StartSession::class);
+
+        $router->pushMiddlewareToGroup('api', AddQueuedCookiesToResponse::class);
     }
 
     /**
