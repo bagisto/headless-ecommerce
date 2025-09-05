@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\DataGrids;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Webkul\DataGrid\DataGrid;
@@ -9,7 +10,7 @@ use Webkul\DataGrid\DataGrid;
 class PushNotificationDataGrid extends DataGrid
 {
     /**
-     * Set index columns, ex: id.
+     * Primary column.
      *
      * @var string
      */
@@ -17,10 +18,8 @@ class PushNotificationDataGrid extends DataGrid
 
     /**
      * Prepare query builder.
-     *
-     * @return \Illuminate\Database\Query\Builder
      */
-    public function prepareQueryBuilder()
+    public function prepareQueryBuilder(): Builder
     {
         $queryBuilder = DB::table('push_notifications as pn')
             ->select(
@@ -37,7 +36,7 @@ class PushNotificationDataGrid extends DataGrid
                 'pn_trans.locale',
             )
             ->leftJoin('push_notification_translations as pn_trans', 'pn.id', '=', 'pn_trans.push_notification_id')
-            ->where('pn_trans.locale', core()->getRequestedLocaleCode())
+            ->where('pn_trans.locale', app()->getLocale())
             ->groupBy('pn.id');
 
         $this->addFilter('notification_id', 'pn.id');
@@ -47,10 +46,8 @@ class PushNotificationDataGrid extends DataGrid
 
     /**
      * Prepare columns.
-     *
-     * @return void
      */
-    public function prepareColumns()
+    public function prepareColumns(): void
     {
         $this->addColumn([
             'index'      => 'notification_id',
@@ -190,10 +187,8 @@ class PushNotificationDataGrid extends DataGrid
 
     /**
      * Prepare actions.
-     *
-     * @return void
      */
-    public function prepareActions()
+    public function prepareActions(): void
     {
         if (bouncer()->hasPermission('settings.push_notification.edit')) {
             $this->addAction([
@@ -220,10 +215,8 @@ class PushNotificationDataGrid extends DataGrid
 
     /**
      * Prepare mass actions.
-     *
-     * @return void
      */
-    public function prepareMassActions()
+    public function prepareMassActions(): void
     {
         if (bouncer()->hasPermission('settings.push_notification.massdelete')) {
             $this->addMassAction([

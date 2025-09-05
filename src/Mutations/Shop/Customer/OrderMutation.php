@@ -67,13 +67,16 @@ class OrderMutation extends Controller
         $customer = bagisto_graphql()->authorize();
 
         try {
-            $order = $customer->orders()->find($args['id']);
+            $order = $this->orderRepository->findOneWhere([
+                'id'          => $args['id'],
+                'customer_id' => $customer->id,
+            ]);
 
             if (! $order) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.orders.cancel-error'));
             }
 
-            $result = $this->orderRepository->cancel($args['id']);
+            $result = $this->orderRepository->cancel($order);
 
             return [
                 'success' => $result,
