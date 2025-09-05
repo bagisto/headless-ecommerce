@@ -129,11 +129,6 @@ class GraphQLAPIServiceProvider extends ServiceProvider
         $this->app->bind(
             \Webkul\Shop\Http\Controllers\API\WishlistController::class, \Webkul\GraphQLAPI\Http\Controllers\Shop\API\WishlistController::class
         );
-
-        $this->app->bind(
-            \Webkul\Checkout\Cart::class,
-            \Webkul\GraphQLAPI\Cart::class
-        );
     }
 
     /**
