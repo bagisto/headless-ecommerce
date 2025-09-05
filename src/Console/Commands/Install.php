@@ -61,11 +61,9 @@ class Install extends Command
      */
     protected function generateEnvironmentKeys()
     {
-        $key = Encrypter::generateKey(config('app.cipher'));
+        $key = base64_encode(Encrypter::generateKey(config('app.cipher')));
 
-        $key = base64_encode($key);
-
-        $graphqlEndpoint = rtrim(config('app.url'), '/').'/graphql';
+        $graphqlEndpoint = rtrim(env('APP_URL'), '/').'/graphql';
 
         $envPath = base_path('.env');
 
@@ -88,6 +86,12 @@ class Install extends Command
             }
         }
 
-        file_put_contents($envPath, trim($envContent).PHP_EOL);
+        $result = file_put_contents($envPath, trim($envContent).PHP_EOL);
+
+        if ($result === false) {
+            $this->components->error("Failed to write to .env file at {$envPath}. Please check file permissions.");
+
+            return;
+        }
     }
 }
