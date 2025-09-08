@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeRepository;
+use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
@@ -19,7 +21,9 @@ class ThemeMutation extends Controller
      */
     public function __construct(
         protected ThemeCustomizationRepository $themeCustomizationRepository,
-        protected ChannelRepository $channelRepository
+        protected ChannelRepository $channelRepository,
+        protected AttributeRepository $attributeRepository,
+        protected CategoryRepository $categoryRepository,
     ) {}
 
     /**
@@ -86,6 +90,94 @@ class ThemeMutation extends Controller
         $args['type'] = $themeCustomization->type;
 
         if ($args['type'] == 'product_carousel') {
+            $allowedSortOptions = product_toolbar()
+                ->getAvailableOrders()
+                ->pluck('value')
+                ->toArray();
+
+            $allowedLimitOptions = product_toolbar()
+                ->getAvailableLimits()
+                ->toArray();
+
+            bagisto_graphql()->validate($args, [
+                'options.filtersInput' => [
+                    function ($attribute, $value, $fail) use ($allowedSortOptions, $allowedLimitOptions) {
+                        $keys = collect($value)->pluck('key')->toArray();
+
+                        $valuesByKey = collect($value)->pluck('value', 'key')->toArray();
+
+                        $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+
+                        $allowedFilterKeys = $filterableAttributes->pluck('code')->toArray();
+
+                        $allowedFilterKeys = array_merge($allowedFilterKeys, [
+                            'category_id',
+                            'new',
+                            'featured',
+                        ]);
+
+                        if (! in_array('sort', $keys)) {
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.missing-sort-key'));
+                        } elseif (! in_array($valuesByKey['sort'], $allowedSortOptions)) {
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-sort-value', ['options' => implode(', ', $allowedSortOptions)]));
+                        }
+
+                        if (! in_array('limit', $keys)) {
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.missing-limit-key'));
+                        } elseif (! in_array($valuesByKey['limit'], $allowedLimitOptions)) {
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-limit-value', ['options' => implode(', ', $allowedLimitOptions)]));
+                        }
+
+                        foreach ($keys as $key) {
+                            if (
+                                $key !== 'sort'
+                                && $key !== 'limit'
+                            ) {
+                                if (! in_array($key, $allowedFilterKeys)) {
+                                    $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-filter-key', ['key' => $key]));
+                                }
+
+                                if ($key === 'category_id') {
+                                    if (! $this->categoryRepository->find($valuesByKey[$key])) {
+                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.category-not-exist'));
+                                    }
+                                }
+
+                                if (
+                                    $key === 'new'
+                                    || $key === 'featured'
+                                ) {
+                                    if (! in_array($valuesByKey[$key], [0, 1])) {
+                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value', ['key' => $key]));
+                                    }
+                                }
+
+                                $attribute = $filterableAttributes->firstWhere('code', $key);
+
+                                if ($attribute) {
+                                    switch ($attribute->type) {
+                                        case 'select':
+                                        case 'multiselect':
+                                            $validOptions = $attribute->options->pluck('id')->toArray();
+
+                                            if (! in_array($valuesByKey[$key], $validOptions)) {
+                                                $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-select-option', ['key' => $key, 'options' => implode(', ', $validOptions)]));
+                                            }
+                                            break;
+
+                                        case 'boolean':
+                                            if (! in_array($valuesByKey[$key], [0, 1])) {
+                                                $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value', ['key' => $key]));
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                ],
+            ]);
+
             $args[$locale]['options']['title'] = $args['options']['title'];
 
             $args[$locale]['options']['filters'] = [];

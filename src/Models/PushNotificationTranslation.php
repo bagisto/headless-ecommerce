@@ -3,11 +3,9 @@
 namespace Webkul\GraphQLAPI\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\GraphQLAPI\Contracts\PushNotificationTranslation as PushNotificationTranslationContract;
 
-/**
- * Class NotificationTranslation
- */
 class PushNotificationTranslation extends Model implements PushNotificationTranslationContract
 {
     /**
@@ -33,7 +31,7 @@ class PushNotificationTranslation extends Model implements PushNotificationTrans
     /**
      * Get the notification that owns the attribute value.
      */
-    public function notification()
+    public function notification(): BelongsTo
     {
         return $this->belongsTo(PushNotificationProxy::modelClass());
     }

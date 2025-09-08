@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'قالب با موفقیت حذف شد.',
                 'not-found'      => 'هشدار: قالب یافت نشد.',
                 'update-success' => 'قالب با موفقیت به روز شد.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'فیلد filtersInput باید شامل کلید "sort" باشد.',
+                        'invalid-sort-value'    => 'مقدار sort باید یکی از موارد زیر باشد: :options.',
+                        'missing-limit-key'     => 'فیلد filtersInput باید شامل کلید "limit" باشد.',
+                        'invalid-limit-value'   => 'مقدار limit باید یکی از موارد زیر باشد: :options.',
+                        'invalid-filter-key'    => 'کلید فیلتر ":key" مجاز نیست.',
+                        'category-not-exist'    => 'category_id مشخص‌شده وجود ندارد.',
+                        'invalid-boolean-value' => 'مقدار :key باید 0 یا 1 باشد.',
+                        'invalid-select-option' => 'مقدار :key نامعتبر است. گزینه‌های معتبر عبارتند از: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

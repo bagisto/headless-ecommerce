@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'Motyw został pomyślnie usunięty.',
                 'not-found'      => 'Ostrzeżenie: Motyw nie został znaleziony.',
                 'update-success' => 'Motyw został pomyślnie zaktualizowany.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput musi zawierać klucz "sort".',
+                        'invalid-sort-value'    => 'Wartość sortowania powinna być jedną z następujących: :options.',
+                        'missing-limit-key'     => 'filtersInput musi zawierać klucz "limit".',
+                        'invalid-limit-value'   => 'Wartość limitu powinna być jedną z następujących: :options.',
+                        'invalid-filter-key'    => 'Klucz filtra ":key" jest niedozwolony.',
+                        'category-not-exist'    => 'Podany category_id nie istnieje.',
+                        'invalid-boolean-value' => 'Wartość :key musi być 0 lub 1.',
+                        'invalid-select-option' => 'Wartość :key jest nieprawidłowa. Dozwolone opcje to: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

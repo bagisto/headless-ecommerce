@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'থিম সফলভাবে মুছে ফেলা হয়েছে।',
                 'not-found'      => 'সতর্কবার্তা: থিম পাওয়া যায়নি।',
                 'update-success' => 'থিম সফলভাবে আপডেট হয়েছে।',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput-এ একটি "sort" কী থাকতে হবে।',
+                        'invalid-sort-value'    => 'sort মান নিম্নলিখিতগুলির মধ্যে একটি হওয়া উচিত: :options।',
+                        'missing-limit-key'     => 'filtersInput-এ একটি "limit" কী থাকতে হবে।',
+                        'invalid-limit-value'   => 'limit মান নিম্নলিখিতগুলির মধ্যে একটি হওয়া উচিত: :options।',
+                        'invalid-filter-key'    => 'ফিল্টার কী ":key" অনুমোদিত নয়।',
+                        'category-not-exist'    => 'নির্দিষ্ট category_id বিদ্যমান নেই।',
+                        'invalid-boolean-value' => ':key মান অবশ্যই 0 বা 1 হতে হবে।',
+                        'invalid-select-option' => ':key মান অবৈধ। বৈধ অপশন: :options।',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

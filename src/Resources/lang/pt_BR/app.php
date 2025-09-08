@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'Tema excluído com sucesso.',
                 'not-found'      => 'Aviso: Tema não encontrado.',
                 'update-success' => 'Tema atualizado com sucesso.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput deve conter uma chave "sort".',
+                        'invalid-sort-value'    => 'O valor de sort deve ser um dos seguintes: :options.',
+                        'missing-limit-key'     => 'filtersInput deve conter uma chave "limit".',
+                        'invalid-limit-value'   => 'O valor de limit deve ser um dos seguintes: :options.',
+                        'invalid-filter-key'    => 'A chave do filtro ":key" não é permitida.',
+                        'category-not-exist'    => 'O category_id especificado não existe.',
+                        'invalid-boolean-value' => 'O valor :key deve ser 0 ou 1.',
+                        'invalid-select-option' => 'O valor :key é inválido. As opções válidas são: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [
