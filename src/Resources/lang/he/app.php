@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'הערכת נושא נמחקה בהצלחה.',
                 'not-found'      => 'אזהרה: הערכת הנושא לא נמצאה.',
                 'update-success' => 'הערכת נושא עודכנה בהצלחה.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput חייב לכלול מפתח "sort".',
+                        'invalid-sort-value'    => 'ערך המיון צריך להיות אחד מהבאים: :options.',
+                        'missing-limit-key'     => 'filtersInput חייב לכלול מפתח "limit".',
+                        'invalid-limit-value'   => 'ערך המגבלה צריך להיות אחד מהבאים: :options.',
+                        'invalid-filter-key'    => 'מפתח הפילטר ":key" אינו מותר.',
+                        'category-not-exist'    => 'ה-category_id שצויין לא קיים.',
+                        'invalid-boolean-value' => 'הערך :key חייב להיות 0 או 1.',
+                        'invalid-select-option' => 'הערך :key אינו תקין. האפשרויות התקינות הן: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

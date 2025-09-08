@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'テーマが正常に削除されました。',
                 'not-found'      => '注意: テーマが見つかりません。',
                 'update-success' => 'テーマが正常に更新されました。',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput に "sort" キーが含まれている必要があります。',
+                        'invalid-sort-value'    => 'sort の値は以下のいずれかでなければなりません: :options。',
+                        'missing-limit-key'     => 'filtersInput に "limit" キーが含まれている必要があります。',
+                        'invalid-limit-value'   => 'limit の値は以下のいずれかでなければなりません: :options。',
+                        'invalid-filter-key'    => 'フィルターキー ":key" は許可されていません。',
+                        'category-not-exist'    => '指定された category_id は存在しません。',
+                        'invalid-boolean-value' => ':key の値は 0 または 1 でなければなりません。',
+                        'invalid-select-option' => ':key の値が無効です。有効なオプションは次のとおりです: :options。',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

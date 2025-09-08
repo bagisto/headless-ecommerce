@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'تم حذف السمة بنجاح.',
                 'not-found'      => 'تحذير: السمة غير موجودة.',
                 'update-success' => 'تم تحديث السمة بنجاح.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'يجب أن يحتوي filtersInput على مفتاح "sort".',
+                        'invalid-sort-value'    => 'يجب أن تكون قيمة الفرز واحدة من الخيارات التالية: :options.',
+                        'missing-limit-key'     => 'يجب أن يحتوي filtersInput على مفتاح "limit".',
+                        'invalid-limit-value'   => 'يجب أن تكون قيمة الحد واحدة من الخيارات التالية: :options.',
+                        'invalid-filter-key'    => 'المفتاح ":key" غير مسموح به.',
+                        'category-not-exist'    => 'معرف الفئة المحدد غير موجود.',
+                        'invalid-boolean-value' => 'يجب أن تكون قيمة :key إما 0 أو 1.',
+                        'invalid-select-option' => 'قيمة :key غير صالحة. الخيارات الصحيحة هي: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

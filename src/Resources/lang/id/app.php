@@ -563,6 +563,19 @@ return [
                 'delete-success' => 'Tema berhasil dihapus.',
                 'not-found'      => 'Peringatan: Tema tidak ditemukan.',
                 'update-success' => 'Tema berhasil diperbarui.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput harus berisi kunci "sort".',
+                        'invalid-sort-value'    => 'Nilai sort harus salah satu dari berikut: :options.',
+                        'missing-limit-key'     => 'filtersInput harus berisi kunci "limit".',
+                        'invalid-limit-value'   => 'Nilai limit harus salah satu dari berikut: :options.',
+                        'invalid-filter-key'    => 'Kunci filter ":key" tidak diizinkan.',
+                        'category-not-exist'    => 'category_id yang ditentukan tidak ada.',
+                        'invalid-boolean-value' => 'Nilai :key harus 0 atau 1.',
+                        'invalid-select-option' => 'Nilai :key tidak valid. Pilihan yang valid adalah: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [

@@ -110,19 +110,22 @@ class ThemeMutation extends Controller
 
                         $allowedFilterKeys = $filterableAttributes->pluck('code')->toArray();
 
-                        $allowedFilterKeys = array_merge([
-                            'category_id', 'new', 'featured']);
+                        $allowedFilterKeys = array_merge($allowedFilterKeys, [
+                            'category_id',
+                            'new',
+                            'featured',
+                        ]);
 
                         if (! in_array('sort', $keys)) {
-                            $fail('The filtersInput must contain a "sort" key.');
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.missing-sort-key'));
                         } elseif (! in_array($valuesByKey['sort'], $allowedSortOptions)) {
-                            $fail('The sort value is invalid.');
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-sort-value', ['options' => implode(', ', $allowedSortOptions)]));
                         }
 
                         if (! in_array('limit', $keys)) {
-                            $fail('The filtersInput must contain a "limit" key.');
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.missing-limit-key'));
                         } elseif (! in_array($valuesByKey['limit'], $allowedLimitOptions)) {
-                            $fail('The limit value is invalid.');
+                            $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-limit-value', ['options' => implode(', ', $allowedLimitOptions)]));
                         }
 
                         foreach ($keys as $key) {
@@ -131,12 +134,12 @@ class ThemeMutation extends Controller
                                 && $key !== 'limit'
                             ) {
                                 if (! in_array($key, $allowedFilterKeys)) {
-                                    $fail("The filter key '{$key}' is not allowed.");
+                                    $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-filter-key', ['key' => $key]));
                                 }
 
                                 if ($key === 'category_id') {
                                     if (! $this->categoryRepository->find($valuesByKey[$key])) {
-                                        $fail('The specified category_id does not exist.');
+                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.category-not-found'));
                                     }
                                 }
 
@@ -145,7 +148,7 @@ class ThemeMutation extends Controller
                                     || $key === 'featured'
                                 ) {
                                     if (! in_array($valuesByKey[$key], [0, 1])) {
-                                        $fail("The {$key} value must be 0 or 1.");
+                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value'));
                                     }
                                 }
 
@@ -158,13 +161,13 @@ class ThemeMutation extends Controller
                                             $validOptions = $attribute->options->pluck('id')->toArray();
 
                                             if (! in_array($valuesByKey[$key], $validOptions)) {
-                                                $fail("The {$key} value is invalid.");
+                                                $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-select-option', ['key' => $key, 'options' => implode(', ', $validOptions)]));
                                             }
                                             break;
 
                                         case 'boolean':
                                             if (! in_array($valuesByKey[$key], [0, 1])) {
-                                                $fail("The {$key} value must be 0 or 1.");
+                                                $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value'));
                                             }
                                             break;
                                     }

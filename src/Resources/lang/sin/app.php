@@ -557,6 +557,19 @@ return [
                 'delete-success' => 'තේමාව සාර්ථකව මකා දමන ලදි',
                 'not-found'      => 'විස්තරය: ୀතේමාව හමු නොවීය.',
                 'update-success' => 'තේමාව සාර්ථකව යාවත්කාලීන කරන ලදි.',
+
+                'validation' => [
+                    'filter-input' => [
+                        'missing-sort-key'      => 'filtersInput හි "sort" යතුර අඩංගු විය යුතුය.',
+                        'invalid-sort-value'    => 'sort අගය පහතව ඇති අතරින් එකක් විය යුතුය: :options.',
+                        'missing-limit-key'     => 'filtersInput හි "limit" යතුර අඩංගු විය යුතුය.',
+                        'invalid-limit-value'   => 'limit අගය පහතව ඇති අතරින් එකක් විය යුතුය: :options.',
+                        'invalid-filter-key'    => '":key" යතුරට ඉඩදීමක් නැත.',
+                        'category-not-exist'    => 'දක්වා ඇති category_id එක නොපවතියි.',
+                        'invalid-boolean-value' => ':key අගය 0 හෝ 1 විය යුතුය.',
+                        'invalid-select-option' => ':key අගය වලංගු නොවේ. වලංගු විකල්ප: :options.',
+                    ],
+                ],
             ],
 
             'tax-rates' => [
