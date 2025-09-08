@@ -2,6 +2,7 @@
 
 namespace Webkul\GraphQLAPI\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Webkul\GraphQLAPI\Contracts\PushNotification as PushNotificationContract;
@@ -29,13 +30,11 @@ class PushNotification extends Model implements PushNotificationContract
     /**
      * Get image url for the Banner image.
      */
-    public function getImageUrlAttribute()
+    public function imageUrl(): Attribute
     {
-        if (! $this->image) {
-            return;
-        }
-
-        return Storage::url($this->image);
+        return new Attribute(
+            get: fn () => $this->image ? Storage::url($this->image) : null
+        );
     }
 
     /**
