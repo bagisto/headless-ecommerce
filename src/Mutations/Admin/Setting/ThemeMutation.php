@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\Attribute\Repositories\AttributeRepository;
+use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Repositories\ChannelRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
@@ -19,7 +21,9 @@ class ThemeMutation extends Controller
      */
     public function __construct(
         protected ThemeCustomizationRepository $themeCustomizationRepository,
-        protected ChannelRepository $channelRepository
+        protected ChannelRepository $channelRepository,
+        protected AttributeRepository $attributeRepository,
+        protected CategoryRepository $categoryRepository,
     ) {}
 
     /**
@@ -86,6 +90,91 @@ class ThemeMutation extends Controller
         $args['type'] = $themeCustomization->type;
 
         if ($args['type'] == 'product_carousel') {
+            $allowedSortOptions = product_toolbar()
+                ->getAvailableOrders()
+                ->pluck('value')
+                ->toArray();
+
+            $allowedLimitOptions = product_toolbar()
+                ->getAvailableLimits()
+                ->toArray();
+
+            bagisto_graphql()->validate($args, [
+                'options.filtersInput' => [
+                    function ($attribute, $value, $fail) use ($allowedSortOptions, $allowedLimitOptions) {
+                        $keys = collect($value)->pluck('key')->toArray();
+
+                        $valuesByKey = collect($value)->pluck('value', 'key')->toArray();
+
+                        $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+
+                        $allowedFilterKeys = $filterableAttributes->pluck('code')->toArray();
+
+                        $allowedFilterKeys = array_merge([
+                            'category_id', 'new', 'featured']);
+
+                        if (! in_array('sort', $keys)) {
+                            $fail('The filtersInput must contain a "sort" key.');
+                        } elseif (! in_array($valuesByKey['sort'], $allowedSortOptions)) {
+                            $fail('The sort value is invalid.');
+                        }
+
+                        if (! in_array('limit', $keys)) {
+                            $fail('The filtersInput must contain a "limit" key.');
+                        } elseif (! in_array($valuesByKey['limit'], $allowedLimitOptions)) {
+                            $fail('The limit value is invalid.');
+                        }
+
+                        foreach ($keys as $key) {
+                            if (
+                                $key !== 'sort'
+                                && $key !== 'limit'
+                            ) {
+                                if (! in_array($key, $allowedFilterKeys)) {
+                                    $fail("The filter key '{$key}' is not allowed.");
+                                }
+
+                                if ($key === 'category_id') {
+                                    if (! $this->categoryRepository->find($valuesByKey[$key])) {
+                                        $fail('The specified category_id does not exist.');
+                                    }
+                                }
+
+                                if (
+                                    $key === 'new'
+                                    || $key === 'featured'
+                                ) {
+                                    if (! in_array($valuesByKey[$key], [0, 1])) {
+                                        $fail("The {$key} value must be 0 or 1.");
+                                    }
+                                }
+
+                                $attribute = $filterableAttributes->firstWhere('code', $key);
+
+                                if ($attribute) {
+                                    switch ($attribute->type) {
+                                        case 'select':
+                                        case 'multiselect':
+                                            $validOptions = $attribute->options->pluck('id')->toArray();
+
+                                            if (! in_array($valuesByKey[$key], $validOptions)) {
+                                                $fail("The {$key} value is invalid.");
+                                            }
+                                            break;
+
+                                        case 'boolean':
+                                            if (! in_array($valuesByKey[$key], [0, 1])) {
+                                                $fail("The {$key} value must be 0 or 1.");
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                ],
+            ]);
+
             $args[$locale]['options']['title'] = $args['options']['title'];
 
             $args[$locale]['options']['filters'] = [];
