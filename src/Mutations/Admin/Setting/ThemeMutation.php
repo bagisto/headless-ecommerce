@@ -139,7 +139,7 @@ class ThemeMutation extends Controller
 
                                 if ($key === 'category_id') {
                                     if (! $this->categoryRepository->find($valuesByKey[$key])) {
-                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.category-not-found'));
+                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.category-not-exist'));
                                     }
                                 }
 
@@ -148,7 +148,7 @@ class ThemeMutation extends Controller
                                     || $key === 'featured'
                                 ) {
                                     if (! in_array($valuesByKey[$key], [0, 1])) {
-                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value'));
+                                        $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value', ['key' => $key]));
                                     }
                                 }
 
@@ -167,7 +167,7 @@ class ThemeMutation extends Controller
 
                                         case 'boolean':
                                             if (! in_array($valuesByKey[$key], [0, 1])) {
-                                                $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value'));
+                                                $fail(trans('bagisto_graphql::app.admin.settings.themes.validation.filter-input.invalid-boolean-value', ['key' => $key]));
                                             }
                                             break;
                                     }
