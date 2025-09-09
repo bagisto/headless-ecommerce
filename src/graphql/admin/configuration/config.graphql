@@ -2,20 +2,18 @@
 extend type Query {
     coreConfigs(
         input: FilterCoreConfigInput
-        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter")
+        @builder(method: "Webkul\\GraphQLAPI\\Queries\\Admin\\Configuration\\FilterConfiguration" )
     ): [CoreConfig!] @paginate(
         type: "PAGINATOR"
         defaultCount: 10
         model: "Webkul\\Core\\Models\\CoreConfig"
     )
 
-    coreConfig(code: String!): CoreConfig @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\CommonFilter@getData")
+    coreConfig(code: String!): String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Configuration\\FilterConfiguration@get")
 }
 
 input FilterCoreConfigInput {
-    id: ID
     code: String
-    value: String
     channelCode: String @rename(attribute: "channel_code")
     localeCode: String @rename(attribute: "locale_code")
 }

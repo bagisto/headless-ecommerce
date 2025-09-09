@@ -19,36 +19,6 @@ class CommonFilter extends BaseFilter
 
         $query->when(! empty($input['updated_at']), fn ($query) => $query->whereDate('updated_at', $input['updated_at']));
 
-        if ($query->getModel() instanceof \Webkul\Core\Models\CoreConfig) {
-            if (! empty($input['code'])) {
-                $query->where('code', 'like', '%'.$input['code'].'%');
-            }
-
-            unset($params['code']);
-        }
-
         return $query->where($params);
-    }
-
-    /**
-     * Get the filter name.
-     */
-    public function getData(mixed $rootValue, array $args)
-    {
-        $configRepository = app('Webkul\Core\Repositories\CoreConfigRepository');
-
-        $result = $configRepository->findWhere([
-            'code'        => $args['code'],
-            'locale_code' => core()->getCurrentLocale()->code,
-        ])->first();
-
-        if (! $result) {
-            $result = $configRepository->findWhere([
-                'code'        => $args['code'],
-                'locale_code' => null,
-            ])->first();
-        }
-
-        return $result;
     }
 }
