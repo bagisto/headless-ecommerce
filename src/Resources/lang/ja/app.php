@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput に "sort" キーが含まれている必要があります。',
-                        'invalid-sort-value'    => 'sort の値は以下のいずれかでなければなりません: :options。',
-                        'missing-limit-key'     => 'filtersInput に "limit" キーが含まれている必要があります。',
-                        'invalid-limit-value'   => 'limit の値は以下のいずれかでなければなりません: :options。',
-                        'invalid-filter-key'    => 'フィルターキー ":key" は許可されていません。',
                         'category-not-exist'    => '指定された category_id は存在しません。',
                         'invalid-boolean-value' => ':key の値は 0 または 1 でなければなりません。',
-                        'invalid-select-option' => ':key の値が無効です。有効なオプションは次のとおりです: :options。',
+                        'invalid-filter-key'    => 'フィルターキー ":key" は許可されていません。',
+                        'invalid-limit-value'   => 'limit の値は次のいずれかでなければなりません: :options。',
+                        'invalid-select-option' => ':key の値が無効です。有効なオプションは次の通りです: :options。',
+                        'invalid-sort-value'    => 'sort の値は次のいずれかでなければなりません: :options。',
+                        'missing-limit-key'     => 'filtersInput に "limit" キーを含める必要があります。',
+                        'missing-sort-key'      => 'filtersInput に "sort" キーを含める必要があります。',
                     ],
                 ],
             ],

@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput 必须包含 "sort" 键。',
-                        'invalid-sort-value'    => '排序值应为以下之一：:options。',
-                        'missing-limit-key'     => 'filtersInput 必须包含 "limit" 键。',
-                        'invalid-limit-value'   => '限制值应为以下之一：:options。',
-                        'invalid-filter-key'    => '过滤键 ":key" 不被允许。',
                         'category-not-exist'    => '指定的 category_id 不存在。',
                         'invalid-boolean-value' => ':key 的值必须是 0 或 1。',
+                        'invalid-filter-key'    => '过滤键 ":key" 不被允许。',
+                        'invalid-limit-value'   => '限制值必须是以下之一：:options。',
                         'invalid-select-option' => ':key 的值无效。有效选项为：:options。',
+                        'invalid-sort-value'    => '排序值必须是以下之一：:options。',
+                        'missing-limit-key'     => 'filtersInput 必须包含 "limit" 键。',
+                        'missing-sort-key'      => 'filtersInput 必须包含 "sort" 键。',
                     ],
                 ],
             ],

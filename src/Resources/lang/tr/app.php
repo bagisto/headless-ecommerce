@@ -559,14 +559,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput, bir "sort" anahtarı içermelidir.',
-                        'invalid-sort-value'    => 'Sıralama değeri şu seçeneklerden biri olmalıdır: :options.',
-                        'missing-limit-key'     => 'filtersInput, bir "limit" anahtarı içermelidir.',
-                        'invalid-limit-value'   => 'Limit değeri şu seçeneklerden biri olmalıdır: :options.',
-                        'invalid-filter-key'    => '":key" filtre anahtarı izin verilen bir anahtar değildir.',
                         'category-not-exist'    => 'Belirtilen category_id mevcut değil.',
-                        'invalid-boolean-value' => ':key değeri 0 veya 1 olmalıdır.',
-                        'invalid-select-option' => ':key değeri geçersiz. Geçerli seçenekler: :options.',
+                        'invalid-boolean-value' => ':key değeri ya 0 ya da 1 olmalıdır.',
+                        'invalid-filter-key'    => '":key" filtre anahtarı izin verilmiyor.',
+                        'invalid-limit-value'   => 'limit değeri aşağıdakilerden biri olmalıdır: :options.',
+                        'invalid-select-option' => ':key değeri geçersizdir. Geçerli seçenekler: :options.',
+                        'invalid-sort-value'    => 'Sıralama değeri aşağıdakilerden biri olmalıdır: :options.',
+                        'missing-limit-key'     => 'filtersInput "limit" anahtarını içermelidir.',
+                        'missing-sort-key'      => 'filtersInput "sort" anahtarını içermelidir.',
                     ],
                 ],
             ],

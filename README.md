@@ -33,7 +33,7 @@ This API was developed in collaboration with the <a href="https://www.ucraft.com
 
 ### Requirements:
 
-- **Bagisto**: v2.3.x
+- **Bagisto**: ^2.3.x
 
 ---
 

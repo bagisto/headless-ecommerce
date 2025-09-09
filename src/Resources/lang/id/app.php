@@ -566,14 +566,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput harus berisi kunci "sort".',
-                        'invalid-sort-value'    => 'Nilai sort harus salah satu dari berikut: :options.',
-                        'missing-limit-key'     => 'filtersInput harus berisi kunci "limit".',
-                        'invalid-limit-value'   => 'Nilai limit harus salah satu dari berikut: :options.',
-                        'invalid-filter-key'    => 'Kunci filter ":key" tidak diizinkan.',
                         'category-not-exist'    => 'category_id yang ditentukan tidak ada.',
                         'invalid-boolean-value' => 'Nilai :key harus 0 atau 1.',
-                        'invalid-select-option' => 'Nilai :key tidak valid. Pilihan yang valid adalah: :options.',
+                        'invalid-filter-key'    => 'Kunci filter ":key" tidak diizinkan.',
+                        'invalid-limit-value'   => 'Nilai batas harus salah satu dari berikut: :options.',
+                        'invalid-select-option' => 'Nilai :key tidak valid. Opsi yang valid adalah: :options.',
+                        'invalid-sort-value'    => 'Nilai sortir harus salah satu dari berikut: :options.',
+                        'missing-limit-key'     => 'filtersInput harus menyertakan kunci "limit".',
+                        'missing-sort-key'      => 'filtersInput harus menyertakan kunci "sort".',
                     ],
                 ],
             ],

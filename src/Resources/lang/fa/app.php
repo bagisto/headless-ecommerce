@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'فیلد filtersInput باید شامل کلید "sort" باشد.',
-                        'invalid-sort-value'    => 'مقدار sort باید یکی از موارد زیر باشد: :options.',
-                        'missing-limit-key'     => 'فیلد filtersInput باید شامل کلید "limit" باشد.',
-                        'invalid-limit-value'   => 'مقدار limit باید یکی از موارد زیر باشد: :options.',
-                        'invalid-filter-key'    => 'کلید فیلتر ":key" مجاز نیست.',
-                        'category-not-exist'    => 'category_id مشخص‌شده وجود ندارد.',
+                        'category-not-exist'    => 'شناسه category_id مشخص شده وجود ندارد.',
                         'invalid-boolean-value' => 'مقدار :key باید 0 یا 1 باشد.',
+                        'invalid-filter-key'    => 'کلید فیلتر ":key" مجاز نیست.',
+                        'invalid-limit-value'   => 'مقدار limit باید یکی از گزینه‌های زیر باشد: :options.',
                         'invalid-select-option' => 'مقدار :key نامعتبر است. گزینه‌های معتبر عبارتند از: :options.',
+                        'invalid-sort-value'    => 'مقدار مرتب‌سازی باید یکی از گزینه‌های زیر باشد: :options.',
+                        'missing-limit-key'     => 'فیلترهای ورودی باید کلید "limit" را شامل باشند.',
+                        'missing-sort-key'      => 'فیلترهای ورودی باید کلید "sort" را شامل باشند.',
                     ],
                 ],
             ],

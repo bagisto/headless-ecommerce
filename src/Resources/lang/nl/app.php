@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput moet een "sort"-sleutel bevatten.',
-                        'invalid-sort-value'    => 'De sorteerwaarde moet een van de volgende zijn: :options.',
-                        'missing-limit-key'     => 'filtersInput moet een "limit"-sleutel bevatten.',
-                        'invalid-limit-value'   => 'De limietwaarde moet een van de volgende zijn: :options.',
-                        'invalid-filter-key'    => 'De filter sleutel ":key" is niet toegestaan.',
                         'category-not-exist'    => 'De opgegeven category_id bestaat niet.',
                         'invalid-boolean-value' => 'De waarde van :key moet 0 of 1 zijn.',
-                        'invalid-select-option' => 'De waarde van :key is ongeldig. Geldige opties zijn: :options.',
+                        'invalid-filter-key'    => 'De filter sleutel ":key" is niet toegestaan.',
+                        'invalid-limit-value'   => 'De limietwaarde moet een van de volgende zijn: :options.',
+                        'invalid-select-option' => 'De waarde :key is ongeldig. Geldige opties zijn: :options.',
+                        'invalid-sort-value'    => 'De sorteervolgorde moet een van de volgende zijn: :options.',
+                        'missing-limit-key'     => 'filtersInput moet een "limit"-sleutel bevatten.',
+                        'missing-sort-key'      => 'filtersInput moet een "sort"-sleutel bevatten.',
                     ],
                 ],
             ],
