@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput හි "sort" යතුර අඩංගු විය යුතුය.',
-                        'invalid-sort-value'    => 'sort අගය පහතව ඇති අතරින් එකක් විය යුතුය: :options.',
-                        'missing-limit-key'     => 'filtersInput හි "limit" යතුර අඩංගු විය යුතුය.',
-                        'invalid-limit-value'   => 'limit අගය පහතව ඇති අතරින් එකක් විය යුතුය: :options.',
-                        'invalid-filter-key'    => '":key" යතුරට ඉඩදීමක් නැත.',
-                        'category-not-exist'    => 'දක්වා ඇති category_id එක නොපවතියි.',
+                        'category-not-exist'    => 'දක්වා ඇති category_id පවතින නැත.',
                         'invalid-boolean-value' => ':key අගය 0 හෝ 1 විය යුතුය.',
+                        'invalid-filter-key'    => 'ෆිල්ටර් යතුර ":key" ඉඩ නොදේ.',
+                        'invalid-limit-value'   => 'සීමා අගය පහත ඇතිව තිබිය යුතුය: :options.',
                         'invalid-select-option' => ':key අගය වලංගු නොවේ. වලංගු විකල්ප: :options.',
+                        'invalid-sort-value'    => 'වරිගත අගය පහත තිබිය යුතුය: :options.',
+                        'missing-limit-key'     => 'filtersInput තුළ "limit" යතුර අඩංගු විය යුතුය.',
+                        'missing-sort-key'      => 'filtersInput තුළ "sort" යතුර අඩංගු විය යුතුය.',
                     ],
                 ],
             ],

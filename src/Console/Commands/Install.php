@@ -70,7 +70,7 @@ class Install extends Command
         $envContent = file_get_contents($envPath);
 
         $updates = [
-            'MOBIKUL_API_KEY'              => "base64:{$key}",
+            'APP_SECRET_KEY'               => "base64:{$key}",
             'GRAPHQL_ENDPOINT'             => $graphqlEndpoint,
             'JWT_TTL'                      => 525600,
             'JWT_SHOW_BLACKLIST_EXCEPTION' => 'true',

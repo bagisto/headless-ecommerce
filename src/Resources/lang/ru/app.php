@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput должен содержать ключ "sort".',
+                        'category-not-exist'    => 'Указанный category_id не существует.',
+                        'invalid-boolean-value' => 'Значение :key должно быть либо 0, либо 1.',
+                        'invalid-filter-key'    => 'Ключ фильтра ":key" не разрешен.',
+                        'invalid-limit-value'   => 'Значение лимита должно быть одним из следующих: :options.',
+                        'invalid-select-option' => 'Значение :key недействительно. Допустимые варианты: :options.',
                         'invalid-sort-value'    => 'Значение сортировки должно быть одним из следующих: :options.',
                         'missing-limit-key'     => 'filtersInput должен содержать ключ "limit".',
-                        'invalid-limit-value'   => 'Значение лимита должно быть одним из следующих: :options.',
-                        'invalid-filter-key'    => 'Ключ фильтра ":key" не разрешен.',
-                        'category-not-exist'    => 'Указанный category_id не существует.',
-                        'invalid-boolean-value' => 'Значение :key должно быть 0 или 1.',
-                        'invalid-select-option' => 'Значение :key недействительно. Доступные опции: :options.',
+                        'missing-sort-key'      => 'filtersInput должен содержать ключ "sort".',
                     ],
                 ],
             ],

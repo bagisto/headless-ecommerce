@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'El filtersInput ha de contenir una clau "sort".',
-                        'invalid-sort-value'    => 'El valor de sort hauria de ser un dels següents: :options.',
-                        'missing-limit-key'     => 'El filtersInput ha de contenir una clau "limit".',
-                        'invalid-limit-value'   => 'El valor de limit hauria de ser un dels següents: :options.',
-                        'invalid-filter-key'    => 'La clau de filtre ":key" no està permesa.',
                         'category-not-exist'    => 'El category_id especificat no existeix.',
-                        'invalid-boolean-value' => 'El valor :key ha de ser 0 o 1.',
+                        'invalid-boolean-value' => 'El valor de :key ha de ser 0 o 1.',
+                        'invalid-filter-key'    => 'La clau del filtre ":key" no està permesa.',
+                        'invalid-limit-value'   => 'El valor del límit ha de ser una de les següents opcions: :options.',
                         'invalid-select-option' => 'El valor :key no és vàlid. Les opcions vàlides són: :options.',
+                        'invalid-sort-value'    => 'El valor d\'ordenació ha de ser una de les següents opcions: :options.',
+                        'missing-limit-key'     => 'El filtersInput ha d\'incloure una clau "limit".',
+                        'missing-sort-key'      => 'El filtersInput ha d\'incloure una clau "sort".',
                     ],
                 ],
             ],

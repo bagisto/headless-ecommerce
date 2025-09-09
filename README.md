@@ -33,7 +33,7 @@ This API was developed in collaboration with the <a href="https://www.ucraft.com
 
 ### Requirements:
 
-- **Bagisto**: v2.3.0
+- **Bagisto**: ^2.3.0
 
 ---
 
@@ -49,34 +49,7 @@ To install the Bagisto GraphQL API, follow these steps:
    composer require bagisto/graphql-api:dev-main
    ```
 
-2. **Update Middleware Configuration**
-
-   In your `bootstrap/app.php` file, add the following session middleware changes:
-
-   ```php
-   use Illuminate\Session\Middleware\StartSession;
-   use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-
-   return Application::configure(basePath: dirname(__DIR__))
-      ->withMiddleware(function (Middleware $middleware) {
-         // ... rest of middleware setup
-
-         /**
-          * Remove session and cookie middleware from the 'web' middleware group.
-          */
-         $middleware->removeFromGroup('web', [StartSession::class, AddQueuedCookiesToResponse::class]);
-
-         /**
-          * Adding session and cookie middleware globally to apply across non-web routes (e.g. GraphQL)
-          */
-         $middleware->append([StartSession::class, AddQueuedCookiesToResponse::class]);
-      })
-      // ... rest of configuration
-   ```
-
-   This ensures that session and cookie middleware are applied globally across all routes, including API and GraphQL endpoints.
-
-3. **Run the following commands to complete the setup**
+2. **Run the following commands to complete the setup**
 
    ```bash
    php artisan bagisto-graphql:install
@@ -101,32 +74,35 @@ To install the Bagisto GraphQL API, follow these steps:
    ```
    http://your-domain.com/graphql
    ```
-3. **Authorization**
 
-   To authorize requests for certain APIs, you may need to provide the `MOBIKUL_API_KEY`. 
+---
 
-   1. **Locate the API Key**
+### 3. Authorization
 
-      Find the `MOBIKUL_API_KEY` in your `.env` file:
+To call certain APIs, you need to include `x-app-secret-key` in the request header.
 
-      ```env
-      MOBIKUL_API_KEY=your-mobikul-api-key
-      ```
+1. **Set the Key**
 
-   2. **Share with App Development Team**
+   The `APP_SECRET_KEY` is generated automatically during installation and stored in your `.env` file:
 
-      Copy this key and securely share it with the Development team as required for API authorization.
+   ```env
+   APP_SECRET_KEY=generated-secret-key
+   ```
 
-   3. **Using the API Key**
+2. **Share Securely**
 
-      When making requests to protected admin endpoints, include the API key in the request headers:
+   Provide this key to the frontend or mobile team as needed.
 
-      ```
-      MOBIKUL_API_KEY: your-mobikul-api-key
-      ```
+3. **Include in Requests**
 
-      Replace `your-mobikul-api-key` with the actual value from your `.env` file.
+   Add the header to your API calls:
 
+   ```
+   x-app-secret-key: generated-secret-key
+   ```
+
+---
+      
 4. **GraphQL Playground Endpoint Configuration**
 
    Ensure that the `GRAPHQL_ENDPOINT` in your `.env` file is set to your application's URL followed by `/graphiql`. For example:

@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput חייב לכלול מפתח "sort".',
-                        'invalid-sort-value'    => 'ערך המיון צריך להיות אחד מהבאים: :options.',
-                        'missing-limit-key'     => 'filtersInput חייב לכלול מפתח "limit".',
-                        'invalid-limit-value'   => 'ערך המגבלה צריך להיות אחד מהבאים: :options.',
-                        'invalid-filter-key'    => 'מפתח הפילטר ":key" אינו מותר.',
-                        'category-not-exist'    => 'ה-category_id שצויין לא קיים.',
-                        'invalid-boolean-value' => 'הערך :key חייב להיות 0 או 1.',
-                        'invalid-select-option' => 'הערך :key אינו תקין. האפשרויות התקינות הן: :options.',
+                        'category-not-exist'    => 'מזהה category_id שצוין אינו קיים.',
+                        'invalid-boolean-value' => 'הערך של :key חייב להיות 0 או 1.',
+                        'invalid-filter-key'    => 'מפתח הסינון ":key" אינו מותר.',
+                        'invalid-limit-value'   => 'ערך המגבלה חייב להיות אחד מהבאים: :options.',
+                        'invalid-select-option' => 'הערך :key אינו חוקי. אפשרויות חוקיות הן: :options.',
+                        'invalid-sort-value'    => 'ערך המיון חייב להיות אחד מהבאים: :options.',
+                        'missing-limit-key'     => 'filtersInput חייב לכלול את המפתח "limit".',
+                        'missing-sort-key'      => 'filtersInput חייב לכלול את המפתח "sort".',
                     ],
                 ],
             ],

@@ -559,14 +559,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput में "sort" कुंजी होनी चाहिए।',
-                        'invalid-sort-value'    => 'sort मान निम्नलिखित में से एक होना चाहिए: :options।',
-                        'missing-limit-key'     => 'filtersInput में "limit" कुंजी होनी चाहिए।',
-                        'invalid-limit-value'   => 'limit मान निम्नलिखित में से एक होना चाहिए: :options।',
-                        'invalid-filter-key'    => 'फ़िल्टर कुंजी ":key" अनुमत नहीं है।',
                         'category-not-exist'    => 'निर्दिष्ट category_id मौजूद नहीं है।',
-                        'invalid-boolean-value' => ':key मान 0 या 1 होना चाहिए।',
-                        'invalid-select-option' => ':key मान अमान्य है। वैध विकल्प: :options।',
+                        'invalid-boolean-value' => ':key मान केवल 0 या 1 होना चाहिए।',
+                        'invalid-filter-key'    => 'फ़िल्टर कुंजी ":key" अनुमत नहीं है।',
+                        'invalid-limit-value'   => 'लिमिट मान निम्नलिखित में से एक होना चाहिए: :options।',
+                        'invalid-select-option' => ':key मान अमान्य है। मान्य विकल्प हैं: :options।',
+                        'invalid-sort-value'    => 'सॉर्ट मान निम्नलिखित में से एक होना चाहिए: :options।',
+                        'missing-limit-key'     => 'filtersInput में "limit" कुंजी शामिल होनी चाहिए।',
+                        'missing-sort-key'      => 'filtersInput में "sort" कुंजी शामिल होनी चाहिए।',
                     ],
                 ],
             ],

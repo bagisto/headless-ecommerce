@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'filtersInput-এ একটি "sort" কী থাকতে হবে।',
-                        'invalid-sort-value'    => 'sort মান নিম্নলিখিতগুলির মধ্যে একটি হওয়া উচিত: :options।',
-                        'missing-limit-key'     => 'filtersInput-এ একটি "limit" কী থাকতে হবে।',
-                        'invalid-limit-value'   => 'limit মান নিম্নলিখিতগুলির মধ্যে একটি হওয়া উচিত: :options।',
-                        'invalid-filter-key'    => 'ফিল্টার কী ":key" অনুমোদিত নয়।',
                         'category-not-exist'    => 'নির্দিষ্ট category_id বিদ্যমান নেই।',
-                        'invalid-boolean-value' => ':key মান অবশ্যই 0 বা 1 হতে হবে।',
-                        'invalid-select-option' => ':key মান অবৈধ। বৈধ অপশন: :options।',
+                        'invalid-boolean-value' => ':key এর মান অবশ্যই 0 অথবা 1 হতে হবে।',
+                        'invalid-filter-key'    => 'ফিল্টার কী ":key" অনুমোদিত নয়।',
+                        'invalid-limit-value'   => 'limit এর মান অবশ্যই নিম্নলিখিতগুলির মধ্যে একটি হতে হবে: :options।',
+                        'invalid-select-option' => ':key এর মান অবৈধ। বৈধ বিকল্পগুলি হল: :options।',
+                        'invalid-sort-value'    => 'sort এর মান অবশ্যই নিম্নলিখিতগুলির মধ্যে একটি হতে হবে: :options।',
+                        'missing-limit-key'     => 'filtersInput-এ "limit" কী থাকা আবশ্যক।',
+                        'missing-sort-key'      => 'filtersInput-এ "sort" কী থাকা আবশ্যক।',
                     ],
                 ],
             ],

@@ -44,16 +44,25 @@ return [
             // Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
 
             // Validate Locale in request
-            \Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
+            Webkul\GraphQLAPI\Http\Middleware\LocaleMiddleware::class,
 
             // Validate Currency in request
-            \Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware::class,
+            Webkul\GraphQLAPI\Http\Middleware\CurrencyMiddleware::class,
 
             // Rate Limit the request
-            \Webkul\GraphQLAPI\Http\Middleware\RateLimitMiddleware::class,
+            Webkul\GraphQLAPI\Http\Middleware\RateLimitMiddleware::class,
 
             // Validate request Cache
             Webkul\GraphQLAPI\Http\Middleware\GraphQLCacheMiddleware::class,
+
+            // Encrypt cookies
+            App\Http\Middleware\EncryptCookies::class,
+
+            // Add Queued Cookies to response
+            Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+
+            // Start session for request
+            Illuminate\Session\Middleware\StartSession::class,
         ],
 
         /*

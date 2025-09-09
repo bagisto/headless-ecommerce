@@ -560,14 +560,14 @@ return [
 
                 'validation' => [
                     'filter-input' => [
-                        'missing-sort-key'      => 'يجب أن يحتوي filtersInput على مفتاح "sort".',
-                        'invalid-sort-value'    => 'يجب أن تكون قيمة الفرز واحدة من الخيارات التالية: :options.',
-                        'missing-limit-key'     => 'يجب أن يحتوي filtersInput على مفتاح "limit".',
-                        'invalid-limit-value'   => 'يجب أن تكون قيمة الحد واحدة من الخيارات التالية: :options.',
-                        'invalid-filter-key'    => 'المفتاح ":key" غير مسموح به.',
-                        'category-not-exist'    => 'معرف الفئة المحدد غير موجود.',
+                        'category-not-exist'    => 'معرف التصنيف المحدد غير موجود.',
                         'invalid-boolean-value' => 'يجب أن تكون قيمة :key إما 0 أو 1.',
-                        'invalid-select-option' => 'قيمة :key غير صالحة. الخيارات الصحيحة هي: :options.',
+                        'invalid-filter-key'    => 'مفتاح الفلتر ":key" غير مسموح به.',
+                        'invalid-limit-value'   => 'يجب أن تكون قيمة الحد واحدة من الخيارات التالية: :options.',
+                        'invalid-select-option' => 'قيمة :key غير صالحة. الخيارات الصالحة هي: :options.',
+                        'invalid-sort-value'    => 'يجب أن تكون قيمة الترتيب واحدة من الخيارات التالية: :options.',
+                        'missing-limit-key'     => 'يجب أن يحتوي filtersInput على مفتاح "limit".',
+                        'missing-sort-key'      => 'يجب أن يحتوي filtersInput على مفتاح "sort".',
                     ],
                 ],
             ],
