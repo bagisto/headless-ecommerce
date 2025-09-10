@@ -16,7 +16,7 @@ class SetCacheQuery
      * Handle the GraphQL execution end event
      */
     public function handle(EndExecution $event): void
-    {        
+    {
         if (isset($event->result->errors)) {
             return;
         }
