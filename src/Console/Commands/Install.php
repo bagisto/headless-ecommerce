@@ -3,7 +3,6 @@
 namespace Webkul\GraphQLAPI\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Encryption\Encrypter;
 use Webkul\GraphQLAPI\Events\ComposerEvents;
 use Webkul\GraphQLAPI\Providers\GraphQLAPIServiceProvider;
 
@@ -30,7 +29,7 @@ class Install extends Command
      */
     public function handle()
     {
-        $this->generateEnvironmentKeys();
+        ComposerEvents::generateEnvironmentKeys($this->components);
 
         $this->callSilently('jwt:secret', [
             '--force' => true,
@@ -52,46 +51,5 @@ class Install extends Command
         ComposerEvents::postCreateProject();
 
         $this->components->info('🎉 Bagisto GraphQL API package installed successfully!');
-    }
-
-    /**
-     * Generate the environment keys.
-     *
-     * @return void
-     */
-    protected function generateEnvironmentKeys()
-    {
-        $key = base64_encode(Encrypter::generateKey(config('app.cipher')));
-
-        $graphqlEndpoint = rtrim(env('APP_URL'), '/').'/graphql';
-
-        $envPath = base_path('.env');
-
-        $envContent = file_get_contents($envPath);
-
-        $updates = [
-            'APP_SECRET_KEY'               => "base64:{$key}",
-            'GRAPHQL_ENDPOINT'             => $graphqlEndpoint,
-            'JWT_TTL'                      => 525600,
-            'JWT_SHOW_BLACKLIST_EXCEPTION' => 'true',
-        ];
-
-        foreach ($updates as $envKey => $envValue) {
-            $pattern = "/^{$envKey}=.*$/m";
-
-            if (preg_match($pattern, $envContent)) {
-                $envContent = preg_replace($pattern, "{$envKey}={$envValue}", $envContent);
-            } else {
-                $envContent .= PHP_EOL."{$envKey}={$envValue}";
-            }
-        }
-
-        $result = file_put_contents($envPath, trim($envContent).PHP_EOL);
-
-        if ($result === false) {
-            $this->components->error("Failed to write to .env file at {$envPath}. Please check file permissions.");
-
-            return;
-        }
     }
 }
