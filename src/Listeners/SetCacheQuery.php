@@ -16,7 +16,11 @@ class SetCacheQuery
      * Handle the GraphQL execution end event
      */
     public function handle(EndExecution $event): void
-    {
+    {        
+        if (isset($event->result->errors)) {
+            return;
+        }
+
         $request = request();
 
         $query = $request->input('query');
@@ -63,22 +67,36 @@ class SetCacheQuery
     protected function cacheQueryResult(EndExecution $event, $request, string $queryName): void
     {
         $query = $request->input('query', []);
+
         $variables = $request->input('variables', []);
+
         $headers = $request->headers->all();
+
         $customerId = GraphQLCacheService::getCurrentCustomerId();
 
         $relevantHeaders = collect($headers)->only(['x-currency', 'x-locale'])->toArray();
 
-        $cacheKey = GraphQLCacheService::generateCacheKey($query, $queryName, $variables, $relevantHeaders, $customerId);
-        $trackingKey = GraphQLCacheService::generateTrackingKey($queryName, $this->extractEntityId($event, $queryName));
+        $cacheKey = GraphQLCacheService::generateCacheKey(
+            $query,
+            $queryName,
+            $variables,
+            $relevantHeaders,
+            $customerId
+        );
 
-        // Cache the result
+        $trackingKey = GraphQLCacheService::generateTrackingKey(
+            $queryName,
+            $this->extractEntityId($event, $queryName)
+        );
+
         Cache::put($cacheKey, $event->result, GraphQLCacheService::CACHE_TTL);
+
         GraphQLCacheService::logCacheOperation('set', $cacheKey, $queryName);
 
-        // Update tracking cache
         $existingKeys = Cache::get($trackingKey, []);
+
         $existingKeys[] = $cacheKey;
+
         Cache::put($trackingKey, array_unique($existingKeys), GraphQLCacheService::CACHE_TTL);
 
         GraphQLCacheService::logCacheOperation('tracked', $trackingKey, "Added {$cacheKey}");

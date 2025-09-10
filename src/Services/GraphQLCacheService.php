@@ -3,12 +3,8 @@
 namespace Webkul\GraphQLAPI\Services;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Cache configuration and utility service for GraphQL operations
- */
 class GraphQLCacheService
 {
     /**
@@ -20,18 +16,21 @@ class GraphQLCacheService
      * Cache key patterns mapping entity types to their related cache keys
      */
     protected static array $cacheKeyPatterns = [
-        'channel'          => [
+        'channel' => [
             'getDefaultChannel',
             'homeCategories',
         ],
-        'theme'            => [
+
+        'theme' => [
             'themeCustomization',
         ],
-        'category'         => [
+
+        'category' => [
             'homeCategories',
             'themeCustomization',
         ],
-        'product'          => [
+
+        'product' => [
             'allProducts',
             'compareProduct',
             'compareProducts',
@@ -40,43 +39,53 @@ class GraphQLCacheService
             'wishlists',
             'getFilterAttribute',
         ],
-        'attribute'        => [
+
+        'attribute' => [
             'getFilterAttribute',
         ],
+
         'core-config-data' => [
             'learnMoreAndCustomize',
             'gdprRequest',
             'gdprRequests',
         ],
-        'compare'  => [
+
+        'compare' => [
             'compareProduct',
             'compareProducts',
         ],
-        'customer'         => [
+
+        'customer' => [
             'accountInfo',
         ],
-        'address'          => [
+
+        'address' => [
             'address',
             'addresses',
             'checkoutAddresses',
         ],
-        'wishlist'         => [
+
+        'wishlist' => [
             'wishlist',
             'wishlists',
         ],
-        'gdpr-request'     => [
+
+        'gdpr-request' => [
             'gdprRequest',
             'gdprRequests',
         ],
-        'review'           => [
+
+        'review' => [
             'reviewDetail',
             'reviewsList',
         ],
-        'cart'             => [
+
+        'cart' => [
             'cartDetail',
             'cartItems',
         ],
-        'order'            => [
+
+        'order' => [
             'orderDetail',
             'ordersList',
             'viewInvoice',
@@ -149,8 +158,13 @@ class GraphQLCacheService
     /**
      * Generate cache key for a GraphQL query
      */
-    public static function generateCacheKey($query, string $queryName, array $variables = [], array $headers = [], ?int $customerId = null): string
-    {
+    public static function generateCacheKey(
+        $query,
+        string $queryName,
+        array $variables = [],
+        array $headers = [],
+        ?int $customerId = null
+    ): string {
         $queryCacheKey = "query_cache_{$queryName}";
 
         if (
@@ -240,9 +254,13 @@ class GraphQLCacheService
     /**
      * Log cache operation
      */
-    public static function logCacheOperation(string $operation, string $key, ?string $context = null): void
-    {
+    public static function logCacheOperation(
+        string $operation,
+        string $key,
+        ?string $context = null
+    ): void {
         $message = "Cache {$operation}: {$key}";
+
         if ($context) {
             $message .= " | Context: {$context}";
         }
