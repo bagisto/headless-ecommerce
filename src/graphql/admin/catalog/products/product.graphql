@@ -67,6 +67,7 @@ input UpdateProductInput {
     weight: Float!
     customerGroupPrices: [CustomerGroupPriceInput] @rename(attribute: "customer_group_prices")
     inventories: [InventoriesInput!]
+    manageStock: Boolean @rename(attribute: "manage_stock")
     categories: [Int!]
     channels: [Int!]
     relatedProducts: [Int] @rename(attribute: "related_products")

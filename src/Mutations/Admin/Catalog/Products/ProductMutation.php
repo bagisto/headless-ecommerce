@@ -227,7 +227,14 @@ class ProductMutation extends Controller
         }
 
         if (
-            $product->type != 'downloadable'
+            $product->type == 'downloadable'
+            && isset($args['inventories'])
+        ) {
+            unset($args['inventories']);
+        }
+
+        if (
+            ($args['manage_stock'] ?? null) === false
             && isset($args['inventories'])
         ) {
             unset($args['inventories']);
