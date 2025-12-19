@@ -85,6 +85,7 @@ return [
                     'not-found'      => '注意: 注文が見つかりません。',
                     'cancel-error'   => '注意: 注文がキャンセルされませんでした。',
                     'cancel-success' => '成功: 注文が正常にキャンセルされました。',
+                    'already-cancel' => '警告：注文はすでにキャンセルされています',
 
                     'shipment' => [
                         'not-found' => '注意: 配送が見つかりません。',

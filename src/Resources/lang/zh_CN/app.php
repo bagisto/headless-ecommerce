@@ -85,6 +85,7 @@ return [
                     'not-found'      => '警告：未找到订单。',
                     'cancel-error'   => '警告：订单无法取消。',
                     'cancel-success' => '成功：订单已成功取消。',
+                    'already-cancel' => '警告：订单已被取消',
 
                     'shipment' => [
                         'not-found' => '警告：未找到发货。',

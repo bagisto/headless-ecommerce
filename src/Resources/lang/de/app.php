@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Warnung: Keine Bestellungen gefunden.',
                     'cancel-error'   => 'Warnung: Bestellung nicht storniert.',
                     'cancel-success' => 'Erfolg: Bestellung erfolgreich storniert.',
+                    'already-cancel' => 'Warnung: Bestellung wurde bereits storniert',
 
                     'shipment' => [
                         'not-found' => 'Warnung: Versand nicht gefunden.',

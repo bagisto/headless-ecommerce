@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Aviso: Nenhum pedido encontrado.',
                     'cancel-error'   => 'Aviso: Pedido não cancelado.',
                     'cancel-success' => 'Sucesso: Pedido cancelado com sucesso.',
+                    'already-cancel' => 'Aviso: o pedido já foi cancelado',
 
                     'shipment' => [
                         'not-found' => 'Aviso: Remessa não encontrada.',

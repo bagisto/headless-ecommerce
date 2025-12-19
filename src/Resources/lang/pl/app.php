@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Ostrzeżenie: Nie znaleziono zamówień.',
                     'cancel-error'   => 'Ostrzeżenie: Nie można anulować zamówienia.',
                     'cancel-success' => 'Sukces: Zamówienie zostało pomyślnie anulowane.',
+                    'already-cancel' => 'Ostrzeżenie: zamówienie zostało już anulowane',
 
                     'shipment' => [
                         'not-found' => 'Ostrzeżenie: Nie znaleziono przesyłki.',

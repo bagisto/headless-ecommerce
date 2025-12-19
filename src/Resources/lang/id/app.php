@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Peringatan: Tidak ada pesanan ditemukan.',
                     'cancel-error'   => 'Peringatan: Pesanan tidak dibatalkan.',
                     'cancel-success' => 'Sukses: Pesanan berhasil dibatalkan.',
+                    'already-cancel' => 'Peringatan: Pesanan sudah dibatalkan',
 
                     'shipment' => [
                         'not-found' => 'Peringatan: Pengiriman tidak ditemukan.',

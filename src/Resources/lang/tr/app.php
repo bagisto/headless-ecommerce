@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Uyarı: Sipariş bulunamadı.',
                     'cancel-error'   => 'Uyarı: Sipariş iptal edilemedi.',
                     'cancel-success' => 'Başarılı: Sipariş başarıyla iptal edildi.',
+                    'already-cancel' => 'Uyarı: Sipariş zaten iptal edildi',
 
                     'shipment' => [
                         'not-found' => 'Uyarı: Sevkiyat bulunamadı.',

@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Advertència: No s\'han trobat comandes.',
                     'cancel-error'   => 'Advertència: La comanda no s\'ha cancel·lat.',
                     'cancel-success' => 'Èxit: Comanda cancel·lada amb èxit.',
+                    'already-cancel' => 'Avís: la comanda ja està cancel·lada',
 
                     'shipment' => [
                         'not-found' => 'Advertència: Enviament no trobat.',
