@@ -109,8 +109,8 @@ type DefaultBookingProductSlots {
     bookingType: String! @rename(attribute: "booking_type")
     duration: Int
     breakTime: Int @rename(attribute: "break_time")
-    slotManyDays: [DefaultSlots] @rename(attribute: "slots")
-    slotOneDay: [[DefaultSlots]] @rename(attribute: "slots")
+    slotManyDays: [[DefaultSlots]] @rename(attribute: "slots")
+    slotOneDay: [DefaultSlots] @rename(attribute: "slots")
     bookingProductId: ID! @rename(attribute: "booking_product_id")
 }
 
