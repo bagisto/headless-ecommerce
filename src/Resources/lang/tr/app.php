@@ -180,6 +180,8 @@ return [
                 'method-fetched'   => 'Başarılı: Ödeme yöntemi başarıyla alındı.',
                 'save-failed'      => 'Uyarı: Ödeme yöntemi kaydedilemedi.',
                 'save-success'     => 'Başarılı: Ödeme yöntemi başarıyla kaydedildi.',
+                'method-mismatch'  => 'Ödeme yöntemi uyuşmuyor.',
+                'payment-failed'   => 'Ödeme başarısız oldu. Sipariş oluşturulmadı',
             ],
 
             'coupon' => [

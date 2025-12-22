@@ -180,6 +180,8 @@ return [
                 'method-fetched'   => 'Éxito: Método de pago obtenido correctamente.',
                 'save-failed'      => 'Advertencia: No se pudo guardar el método de pago.',
                 'save-success'     => 'Éxito: Método de pago guardado correctamente.',
+                'method-mismatch'  => 'Incompatibilidad en el método de pago.',
+                'payment-failed'   => 'El pago falló. El pedido no fue creado',
             ],
 
             'coupon' => [

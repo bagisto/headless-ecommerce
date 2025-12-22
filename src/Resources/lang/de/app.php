@@ -180,6 +180,8 @@ return [
                 'method-fetched'   => 'Erfolg: Zahlungsmethode erfolgreich abgerufen.',
                 'save-failed'      => 'Warnung: Zahlungsmethode nicht gespeichert.',
                 'save-success'     => 'Erfolg: Zahlungsmethode erfolgreich gespeichert.',
+                'method-mismatch'  => 'Zahlungsmethode stimmt nicht überein.',
+                'payment-failed'   => 'Zahlung fehlgeschlagen. Bestellung wurde nicht erstellt',
             ],
 
             'coupon' => [

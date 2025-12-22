@@ -180,6 +180,8 @@ return [
                 'method-fetched'   => '成功：成功获取付款方式。',
                 'save-failed'      => '警告：未保存付款方式。',
                 'save-success'     => '成功：付款方式已成功保存。',
+                'method-mismatch'  => '支付方式不匹配。',
+                'payment-failed'   => '支付失败。订单未创建',
             ],
 
             'coupon' => [
