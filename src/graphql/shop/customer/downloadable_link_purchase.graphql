@@ -43,7 +43,7 @@ type DownloadableLinkPurchased {
     type: String!
     downloadBought: Int! @rename(attribute: "download_bought")
     downloadUsed: Int! @rename(attribute: "download_used")
-    status: Boolean
+    status: DownloadLinkStatusEnum
     customerId: ID! @rename(attribute: "customer_id")
     orderId: ID! @rename(attribute: "order_id")
     orderItemId: ID! @rename(attribute: "order_item_id")

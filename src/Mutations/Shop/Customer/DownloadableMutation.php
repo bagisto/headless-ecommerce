@@ -40,6 +40,10 @@ class DownloadableMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.not-auth'));
         }
 
+        if ($downloadableLinkPurchased->status == 'expired') {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.downloadable-products.download-error'));
+        }
+
         $totalInvoiceQty = 0;
 
         if (isset($downloadableLinkPurchased->order->invoices)) {
