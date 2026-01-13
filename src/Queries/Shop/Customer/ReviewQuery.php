@@ -16,10 +16,7 @@ class ReviewQuery extends BaseFilter
             $customer = auth()->guard('api')->user();
         }
 
-        $query->distinct()
-            ->select('product_reviews.*')
-            ->leftJoin('product_flat', 'product_reviews.product_id', '=', 'product_flat.product_id')
-            ->where('product_reviews.customer_id', $customer->id ?? null);
+        $query->where('product_reviews.customer_id', $customer->id);
 
         $filters = [
             'product_reviews.id'         => $input['id'] ?? null,
@@ -33,10 +30,15 @@ class ReviewQuery extends BaseFilter
         $likeFilters = [
             'product_reviews.name'  => $input['customer_name'] ?? null,
             'product_reviews.title' => $input['title'] ?? null,
-            'product_flat.name'     => $input['product_name'] ?? null,
         ];
 
         $query = $this->applyLikeFilter($query, $likeFilters);
+
+        $query->when(! empty($input['product_name']), function ($query) use ($input) {
+            $query->whereHas('product.product_flats', function ($q) use ($input) {
+                $q->where('name', 'like', '%'.$input['product_name'].'%');
+            });
+        });
 
         return $query;
     }
