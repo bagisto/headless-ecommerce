@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Attenzione: Nessun ordine trovato.',
                     'cancel-error'   => 'Attenzione: Ordine non annullato.',
                     'cancel-success' => 'Successo: Ordine annullato con successo.',
+                    'already-cancel' => 'Avviso: l’ordine è già stato annullato',
 
                     'shipment' => [
                         'not-found' => 'Attenzione: Spedizione non trovata.',

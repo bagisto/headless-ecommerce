@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Let op: Geen bestelling gevonden.',
                     'cancel-error'   => 'Let op: Bestelling niet geannuleerd.',
                     'cancel-success' => 'Succes: Bestelling succesvol geannuleerd.',
+                    'already-cancel' => 'Waarschuwing: bestelling is al geannuleerd',
 
                     'shipment' => [
                         'not-found' => 'Let op: Verzending niet gevonden.',

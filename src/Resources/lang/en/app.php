@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Warning: No orders found.',
                     'cancel-error'   => 'Warning: Order not canceled.',
                     'cancel-success' => 'Success: Order canceled successfully.',
+                    'already-cancel' => 'Warning: Order already canceled',
 
                     'shipment' => [
                         'not-found' => 'Warning: Shipment not found.',

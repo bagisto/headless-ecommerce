@@ -85,6 +85,7 @@ return [
                     'not-found'      => 'Avertissement: Aucune commande trouvée.',
                     'cancel-error'   => 'Avertissement: Commande non annulée.',
                     'cancel-success' => 'Succès: Commande annulée avec succès.',
+                    'already-cancel' => 'Avertissement : la commande a déjà été annulée',
 
                     'shipment' => [
                         'not-found' => 'Avertissement: Envoi introuvable.',

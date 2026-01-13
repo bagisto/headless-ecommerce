@@ -7,6 +7,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Models\Order;
 
 class OrderMutation extends Controller
 {
@@ -74,6 +75,14 @@ class OrderMutation extends Controller
 
             if (! $order) {
                 throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.orders.cancel-error'));
+            }
+
+            if ($order->status == Order::STATUS_CANCELED) {
+                 return [
+                    'success' => false,
+                    'message' => trans('bagisto_graphql::app.shop.customers.account.orders.already-cancel'),
+                    'order'   => $order->refresh(),
+                ];
             }
 
             $result = $this->orderRepository->cancel($order);
