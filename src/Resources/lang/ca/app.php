@@ -181,6 +181,8 @@ return [
                 'method-fetched'   => 'Èxit: Mètode de pagament obtingut amb èxit.',
                 'save-failed'      => 'Advertència: El mètode de pagament no s\'ha desat.',
                 'save-success'     => 'Èxit: Mètode de pagament desat amb èxit.',
+                'method-mismatch'  => 'Zahlungsmethode stimmt nicht überein.',
+                'payment-failed'   => 'Zahlung fehlgeschlagen. Bestellung wurde nicht erstellt',
             ],
 
             'coupon' => [

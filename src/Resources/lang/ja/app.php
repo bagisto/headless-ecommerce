@@ -181,6 +181,8 @@ return [
                 'method-fetched'   => '成功: 支払い方法が正常に取得されました。',
                 'save-failed'      => '注意: 支払い方法が保存されませんでした。',
                 'save-success'     => '成功: 支払い方法が正常に保存されました。',
+                'method-mismatch'  => '支払い方法が一致しません。',
+                'payment-failed'   => '支払いに失敗しました。注文は作成されませんでした',
             ],
 
             'coupon' => [

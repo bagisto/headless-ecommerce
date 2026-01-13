@@ -182,6 +182,8 @@ return [
                 'method-fetched'   => 'Sukses: Metode pembayaran berhasil diambil.',
                 'save-failed'      => 'Peringatan: Metode pembayaran tidak berhasil disimpan.',
                 'save-success'     => 'Sukses: Metode pembayaran berhasil disimpan.',
+                'method-mismatch'  => 'Metode pembayaran tidak sesuai.',
+                'payment-failed'   => 'Pembayaran gagal. Pesanan tidak dibuat',
             ],
 
             'coupon' => [

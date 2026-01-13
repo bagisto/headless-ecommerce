@@ -181,6 +181,8 @@ return [
                 'method-fetched'   => 'Successo: Metodo di pagamento recuperato con successo.',
                 'save-failed'      => 'Attenzione: Metodo di pagamento non salvato.',
                 'save-success'     => 'Successo: Metodo di pagamento salvato con successo.',
+                'method-mismatch'  => 'Metodo di pagamento non corrispondente.',
+                'payment-failed'   => 'Pagamento non riuscito. Ordine non creato',
             ],
 
             'coupon' => [

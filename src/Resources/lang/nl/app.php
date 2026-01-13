@@ -181,6 +181,8 @@ return [
                 'method-fetched'   => 'Succes: Betalingsmethode succesvol opgehaald.',
                 'save-failed'      => 'Let op: Betalingsmethode niet opgeslagen.',
                 'save-success'     => 'Succes: Betalingsmethode succesvol opgeslagen.',
+                'method-mismatch'  => 'Betalingsmethode komt niet overeen.',
+                'payment-failed'   => 'Betaling mislukt. Bestelling is niet aangemaakt',
             ],
 
             'coupon' => [

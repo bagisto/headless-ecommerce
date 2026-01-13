@@ -182,6 +182,8 @@ return [
                 'method-fetched'   => 'Success: Payment method fetched successfully.',
                 'save-failed'      => 'Warning: Payment method not saved.',
                 'save-success'     => 'Success: Payment method saved successfully.',
+                'method-mismatch'  => 'Payment method mismatch.',
+                'payment-failed'   => 'Payment failed. Order not created',
             ],
 
             'coupon' => [
