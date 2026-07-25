@@ -14,6 +14,7 @@ use Webkul\Product\Repositories\ProductDownloadableSampleRepository;
 use Webkul\Product\Repositories\ProductGroupedProductRepository;
 use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
+use Webkul\Product\Helpers\ConfigurableOption;
 
 class BagistoGraphql
 {
@@ -52,7 +53,8 @@ class BagistoGraphql
         protected ProductDownloadableSampleRepository $productDownloadableSampleRepository,
         protected ProductGroupedProductRepository $productGroupedProductRepository,
         protected ProductImageRepository $productImageRepository,
-        protected ProductVideoRepository $productVideoRepository
+        protected ProductVideoRepository $productVideoRepository,
+        protected ConfigurableOption $configurableOption,
     ) {}
 
     /**
@@ -776,8 +778,18 @@ class BagistoGraphql
                             $superAttribute[$attribute['attribute_id']] = $attribute['attribute_option_id'];
                         }
                     }
+
                     $data['super_attribute'] = $superAttribute;
+
+                    if (! isset($data['selected_configurable_option'])) {
+                        $selectedConfigurableOption = $this->getConfigurableOption($product, $superAttribute);
+
+                        if($selectedConfigurableOption){
+                            $data['selected_configurable_option'] = $selectedConfigurableOption;
+                        }
+                    }
                 }
+
                 break;
             case 'grouped':
                 if (! empty($data['qty'])) {
@@ -879,6 +891,39 @@ class BagistoGraphql
         }
 
         return $data;
+    }
+
+    /**
+     * Get product variant by attribute.
+     */
+    protected function getConfigurableOption($product, $superAttribute){
+
+        $configurableIndexes = $this->configurableOption->getConfigurationConfig($product)['index'];
+
+        $matchedKey = null;
+
+        foreach ($configurableIndexes as $parentKey => $values) {
+
+            // Check if ALL selected attributes match
+            $isMatch = true;
+
+            foreach ($superAttribute as $attrId => $optionId) {
+                if (
+                    ! isset($values[$attrId]) ||
+                    $values[$attrId] != $optionId
+                ) {
+                    $isMatch = false;
+                    break;
+                }
+            }
+
+            if ($isMatch) {
+                $matchedKey = $parentKey;
+                break;
+            }
+        }
+
+        return $matchedKey;
     }
 
     /**
