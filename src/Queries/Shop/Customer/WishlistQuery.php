@@ -22,10 +22,7 @@ class WishlistQuery extends BaseFilter
     {
         $customer = bagisto_graphql()->authorize();
 
-        $query->distinct()
-            ->select('wishlist_items.*')
-            ->leftJoin('product_flat', 'wishlist_items.product_id', '=', 'product_flat.product_id')
-            ->where('wishlist_items.customer_id', $customer->id);
+        $query->where('wishlist_items.customer_id', $customer->id);
 
         $filters = [
             'wishlist_items.id'         => $input['id'] ?? null,
@@ -36,7 +33,9 @@ class WishlistQuery extends BaseFilter
         $query = $this->applyFilter($query, $filters);
 
         $query->when(! empty($input['product_name']), function ($query) use ($input) {
-            $query->where('product_flat.name', 'like', '%'.$input['product_name'].'%');
+            $query->whereHas('product.product_flats', function ($q) use ($input) {
+                $q->where('name', 'like', '%'.$input['product_name'].'%');
+            });
         });
 
         return $query;
