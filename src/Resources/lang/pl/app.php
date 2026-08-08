@@ -181,6 +181,8 @@ return [
                 'method-fetched'   => 'Sukces: Metoda płatności została pomyślnie pobrana.',
                 'save-failed'      => 'Ostrzeżenie: Metoda płatności nie została zapisana.',
                 'save-success'     => 'Sukces: Metoda płatności została pomyślnie zapisana.',
+                'method-mismatch'  => 'Niezgodność metody płatności.',
+                'payment-failed'   => 'Płatność nie powiodła się. Zamówienie nie zostało utworzone',
             ],
 
             'coupon' => [

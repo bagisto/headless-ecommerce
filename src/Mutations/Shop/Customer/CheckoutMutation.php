@@ -4,6 +4,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\Checkout\Facades\Cart;
@@ -472,26 +473,57 @@ class CheckoutMutation extends Controller
 
             $cart = Cart::getCart();
 
+            if (
+                isset($args['payment_method']) &&
+                $cart->payment->method !== $args['payment_method']
+            ) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.payment.method-mismatch'));
+            }
+
+            $isPaymentSuccess = $this->paymentHelper->isPaymentSuccessful($args, $cart);
+
+            if (! $isPaymentSuccess) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.checkout.payment.payment-failed'));
+            }
+
             $orderData = (new OrderResource($cart))->jsonSerialize();
+
             $order = $this->orderRepository->create($orderData);
 
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
             }
 
-            if (! empty($args['is_payment_completed'])) {
-                $this->paymentHelper->createInvoice($cart, $args, $order);
-            }
+            $this->createInvoice($cart, $args, $order);
 
             Cart::deActivateCart();
 
             return [
-                'success'      => true,
-                'redirect_url' => null,
-                'order'        => $order,
+                'success'         => true,
+                'redirect_url'    => null,
+                'selected_method' => $cart->payment->method ?? null,
+                'order'           => $order,
             ];
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
+        }
+    }
+
+    /**
+     * Create order invoice
+     */
+    protected function createInvoice($cart, $args, $order):void
+    {
+        $eventData = new \stdClass();
+        $eventData->restricted_payment_methods = [
+            'paypal_standard',
+            'paypal_smart_button',
+        ];
+
+        Event::dispatch('checkout.order.payment.restricted_payment_methods', $eventData);
+
+        if (in_array($args['payment_method'], $eventData->restricted_payment_methods)) {
+            $this->paymentHelper->createInvoice($cart, $args, $order);
         }
     }
 

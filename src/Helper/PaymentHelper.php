@@ -3,6 +3,7 @@
 namespace Webkul\GraphQLAPI\Helper;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Webkul\Paypal\Payment\SmartButton;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -22,28 +23,8 @@ class PaymentHelper
 
     public function createInvoice($cart, $paymentDetail, $order)
     {
-        if (
-            ! empty($paymentDetail['error'])
-            || $paymentDetail['message'] != 'Success'
-            || $cart->payment->method != $paymentDetail['payment_method']
-        ) {
-            return;
-        }
-
-        $paymentMethod = $cart->payment->method;
-        $paymentIsCompleted = false;
-
-        match ($paymentMethod) {
-            'paypal_standard'     => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['txn_id']) && $this->checkPaypalPaymentStatus($paymentDetail['txn_id']),
-            'paypal_smart_button' => $paymentIsCompleted = $this->isNewTransaction($paymentDetail['order_id']) && $this->checkSmartButtonPaymentStatus($paymentDetail['order_id']),
-            default               => null,
-        };
-
-        if (
-            $paymentIsCompleted
-            && $order->canInvoice()
-        ) {
-            if ($paymentMethod == 'paypal_smart_button') {
+        if ( $order->canInvoice() ) {
+            if ( $cart?->payment?->method && $cart->payment->method == 'paypal_smart_button') {
                 request()->merge(['orderData' => [
                     'orderID' => $paymentDetail['order_id'],
                 ]]);
@@ -115,5 +96,44 @@ class PaymentHelper
         $transactionDetails = json_decode(json_encode($this->smartButton->getOrder($orderId)), true);
 
         return $transactionDetails['statusCode'] ?? 0 === 200;
+    }
+
+    /**
+     * Verify payment.
+     */
+    public function isPaymentSuccessful(array $args, $cart): bool
+    {
+        $isPaymentComplete =  match ($args['payment_method']) {
+            'paypal_standard' =>
+                ! empty($args['txn_id'])
+                && $this->isNewTransaction($args['txn_id'])
+                && $this->checkPaypalPaymentStatus($args['txn_id']),
+
+            'paypal_smart_button' =>
+                ! empty($args['order_id'])
+                && $this->isNewTransaction($args['order_id'])
+                && $this->checkSmartButtonPaymentStatus($args['order_id']),
+
+            'cashondelivery' => true,
+
+            'moneytransfer'  => true,
+
+            default => null,
+        };
+
+        if ($isPaymentComplete !== null) {
+            return $isPaymentComplete;
+        }
+
+        $eventData = [
+            'payment_method' => $args['payment_method'],
+            'args'           => $args,
+            'cart'           => $cart,
+            'status'         => false, // 👈 listener will update this
+        ];
+
+        Event::dispatch('checkout.order.payment.verify', $eventData);
+
+        return (bool) $eventData['status'];
     }
 }
